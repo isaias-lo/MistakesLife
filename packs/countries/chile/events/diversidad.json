@@ -1,0 +1,259 @@
+[
+  {
+    "id": "evento.identidad_ninez",
+    "condiciones": "jugador.identidad != jugador.genero && jugador.edad >= 4 && jugador.edad <= 12 && !jugador.tiene('siente_identidad')",
+    "probabilidad_anual": 0.25,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.identidad_ninez.contar",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "jugador.marcar('siente_identidad')",
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.identidad_ninez.guardar",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.marcar('siente_identidad')",
+          "jugador.felicidad -= 5"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.identidad_adolescencia",
+    "condiciones": "jugador.identidad != jugador.genero && jugador.edad >= 13 && jugador.edad <= 30 && !jugador.tiene('siente_identidad')",
+    "probabilidad_anual": 0.3,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.identidad_adolescencia.informarse",
+        "tendencia": "jugador.apertura",
+        "efectos": [
+          "jugador.marcar('siente_identidad')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.identidad_adolescencia.reprimir",
+        "tendencia": "100 - jugador.apertura",
+        "efectos": [
+          "jugador.marcar('siente_identidad')",
+          "jugador.felicidad -= 8"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vivir_identidad",
+    "condiciones": "jugador.tiene('siente_identidad') && !jugador.tiene('vive_identidad') && jugador.edad >= 12",
+    "probabilidad_anual": 0.2,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.vivir_identidad.empezar",
+        "tendencia": "jugador.apertura",
+        "efectos": [
+          "jugador.marcar('vive_identidad')",
+          "jugador.felicidad += 10"
+        ]
+      },
+      {
+        "texto": "opcion.vivir_identidad.todavia_no",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.felicidad -= 4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.cambio_registral",
+    "condiciones": "jugador.tiene('vive_identidad') && jugador.genero != jugador.identidad && jugador.edad >= ley('ley.identidad_genero_edad_min') && (jugador.identidad != 'no_binario' || ley('ley.genero_registral_no_binario'))",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.cambio_registral.hacer_tramite",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.cambiar_genero(jugador.identidad)",
+          "jugador.cambiar_nombre()",
+          "jugador.felicidad += 12",
+          "diario('diario.cambio_registral')"
+        ]
+      },
+      {
+        "texto": "opcion.cambio_registral.esperar",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.descubrir_atraccion",
+    "condiciones": "(jugador.orientacion == 'homosexual' || jugador.orientacion == 'bisexual') && jugador.edad >= 12 && jugador.edad <= 25 && !jugador.tiene('sabe_orientacion')",
+    "probabilidad_anual": 0.35,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.descubrir_atraccion.aceptar",
+        "tendencia": "jugador.apertura",
+        "efectos": [
+          "jugador.marcar('sabe_orientacion')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.descubrir_atraccion.negar",
+        "tendencia": "100 - jugador.apertura",
+        "efectos": [
+          "jugador.marcar('sabe_orientacion')",
+          "jugador.marcar('niega_orientacion')",
+          "jugador.felicidad -= 6"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.sin_atraccion",
+    "condiciones": "jugador.orientacion == 'asexual' && jugador.edad >= 15 && jugador.edad <= 25 && !jugador.tiene('sabe_orientacion')",
+    "probabilidad_anual": 0.3,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.sin_atraccion.investigar",
+        "tendencia": "jugador.apertura",
+        "efectos": [
+          "jugador.marcar('sabe_orientacion')",
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.sin_atraccion.algo_anda_mal",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.marcar('sabe_orientacion')",
+          "jugador.felicidad -= 4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.salir_del_closet",
+    "condiciones": "(jugador.tiene('sabe_orientacion') && jugador.orientacion != 'asexual' || jugador.tiene('vive_identidad')) && !jugador.tiene('fuera_del_closet') && jugador.edad >= 13",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.salir_del_closet.familia",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "jugador.marcar('fuera_del_closet')",
+          "jugador.marcar('conto_familia')",
+          "jugador.desmarcar('niega_orientacion')"
+        ]
+      },
+      {
+        "texto": "opcion.salir_del_closet.amistades",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.marcar('fuera_con_amigos')",
+          "jugador.desmarcar('niega_orientacion')",
+          "jugador.felicidad += 4"
+        ]
+      },
+      {
+        "texto": "opcion.salir_del_closet.todavia_no",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.familia_apoya",
+    "condiciones": "jugador.tiene('conto_familia') && !jugador.tiene('reaccion_familia') && ((jugador.madre != nada && jugador.madre.vivo && jugador.madre.apertura + jugador.madre.amabilidad >= 90) || ((jugador.madre == nada || !jugador.madre.vivo) && jugador.padre != nada && jugador.padre.vivo && jugador.padre.apertura + jugador.padre.amabilidad >= 90))",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.marcar('reaccion_familia')",
+      "jugador.felicidad += 12"
+    ]
+  },
+  {
+    "id": "evento.familia_le_cuesta",
+    "condiciones": "jugador.tiene('conto_familia') && !jugador.tiene('reaccion_familia') && ((jugador.madre != nada && jugador.madre.vivo && jugador.madre.apertura + jugador.madre.amabilidad < 90) || ((jugador.madre == nada || !jugador.madre.vivo) && jugador.padre != nada && jugador.padre.vivo && jugador.padre.apertura + jugador.padre.amabilidad < 90))",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.marcar('reaccion_familia')",
+      "jugador.marcar('familia_le_cuesta')",
+      "jugador.felicidad -= 10"
+    ]
+  },
+  {
+    "id": "evento.familia_acepta_con_el_tiempo",
+    "condiciones": "jugador.tiene('familia_le_cuesta')",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "efectos": [
+      "jugador.desmarcar('familia_le_cuesta')",
+      "jugador.felicidad += 10"
+    ]
+  },
+  {
+    "id": "evento.marcha_orgullo",
+    "condiciones": "jugador.ciudad == 'ciudad.santiago' && jugador.edad >= 15 && mundo.semana >= 24 && mundo.semana <= 28 && (jugador.tiene('fuera_del_closet') || jugador.tiene('fuera_con_amigos') || jugador.apertura >= 75)",
+    "probabilidad_anual": 0.95,
+    "enfriamiento_semanas": 40,
+    "opciones": [
+      {
+        "texto": "opcion.marcha_orgullo.ir",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "jugador.marcar('fue_marcha_orgullo')",
+          "jugador.felicidad += 6"
+        ]
+      },
+      {
+        "texto": "opcion.marcha_orgullo.no_ir",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.discriminacion",
+    "condiciones": "jugador.edad >= 13 && (jugador.tiene('fuera_del_closet') || jugador.tiene('vive_identidad'))",
+    "probabilidad_anual": 0.1,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.discriminacion.denunciar",
+        "condiciones": "jugador.edad >= 18 && ley('ley.antidiscriminacion')",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.marcar('denuncio_discriminacion')",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.discriminacion.responder",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "jugador.felicidad -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.discriminacion.dejarlo_pasar",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.felicidad -= 6"
+        ]
+      }
+    ]
+  }
+]

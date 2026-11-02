@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Randomness;
@@ -103,6 +105,21 @@ namespace MistakesLife.Core.Life
             Diversity.AssignAtBirth(child, country, random);
             world.AddCharacter(child);
             return child;
+        }
+
+        /// <summary>
+        /// Elige un nombre de pila nuevo del país, acorde al género con que vive
+        /// (para no binario, de cualquiera de las dos listas). Se usa, por
+        /// ejemplo, al cambiar el nombre registral.
+        /// </summary>
+        public static void ChangeFirstName(World world, ContentDatabase content, Character person)
+        {
+            Check(world, content, person);
+            CountryDefinition country = content.GetCountry(person.Residence!.CountryId);
+            GameRandom random = RandomFor(world, person, "nombre");
+            bool female = person.Gender == Gender.Female || (person.Gender == Gender.NonBinary && random.Chance(0.5));
+            IReadOnlyList<string> names = (female ? country.Names.Female : country.Names.Male).Where(n => n != person.FirstName).ToList();
+            person.ChangeFirstName(random.Pick(names));
         }
 
         private static string ChildSurnames(CountryDefinition country, Character? father, Character? mother, Character parent)

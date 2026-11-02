@@ -76,7 +76,9 @@
     "ley.identidad_genero_edad_min": 14,
     "ley.aborto": "tres_causales",
     "ley.edad_jubilacion_hombres": 65,
-    "ley.edad_jubilacion_mujeres": 60
+    "ley.edad_jubilacion_mujeres": 60,
+    "ley.antidiscriminacion": true,
+    "ley.genero_registral_no_binario": false
   },
   "familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03, "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 },
   "diversidad": {
