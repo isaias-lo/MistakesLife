@@ -106,6 +106,7 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `peso` | Probabilidad frente a otros eventos posibles | 10 |
 | `dia_clave` | Detiene el tiempo | false |
 | `unico` | Solo una vez en la vida | false |
+| `enfriamiento_semanas` | Semanas mínimas antes de que el mismo evento se repita | 0 |
 | `efectos` | Se aplican apenas ocurre | — |
 | `opciones` | Lo que puede elegir el jugador; cada una con `texto`, `condiciones` y `efectos` | — |
 

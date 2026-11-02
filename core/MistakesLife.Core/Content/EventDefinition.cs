@@ -35,6 +35,13 @@ namespace MistakesLife.Core.Content
         public bool Unique { get; set; }
 
         /// <summary>
+        /// Semanas que deben pasar antes de que el mismo evento pueda repetirse
+        /// (0 = sin espera). Evita que un evento común aparezca seguido.
+        /// </summary>
+        [JsonProperty("enfriamiento_semanas")]
+        public int CooldownWeeks { get; set; }
+
+        /// <summary>
         /// Si se indica, el evento no pasa al azar: es la escena que aparece
         /// cuando despierta una semilla de ese tipo.
         /// </summary>

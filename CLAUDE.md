@@ -50,6 +50,8 @@ dotnet test MistakesLife.sln
 ```
 
 - Todo JSON en `packs/` debe ser válido (la integración continua lo revisa).
+- Para armar una partida usa siempre `LifeSession` (núcleo): registra los sistemas en el orden correcto. No armes el `WeekCycle` a mano en herramientas ni en Unity.
+- Para probar el juego a mano: `dotnet run --project tools/MistakesLife.Console -- <número de partida>`.
 
 ## Cómo entregar el trabajo
 

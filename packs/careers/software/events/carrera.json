@@ -31,6 +31,7 @@
     "id": "evento.software.ramo_reprobado",
     "condiciones": "jugador.tiene('estudia_software') && jugador.inteligencia < 50",
     "peso": 6,
+    "enfriamiento_semanas": 26,
     "efectos": [
       "jugador.felicidad -= 4",
       "diario('diario.software.ramo_reprobado')"

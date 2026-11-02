@@ -27,6 +27,14 @@ dotnet test MistakesLife.sln
 
 Si todo está bien verás `Passed!`. GitHub corre esas mismas pruebas solo en cada pull request.
 
+## Jugar una vida en texto
+
+```bash
+dotnet run --project tools/MistakesLife.Console
+```
+
+Naces en Puente Alto y vives semana a semana hasta los 25 años. Enter avanza hasta que pase algo, `a` avanza un año, `e` muestra tu estado, `d` tu diario y `q` sale. Al empezar verás un **número de partida**: con `dotnet run --project tools/MistakesLife.Console -- 2026` repites exactamente la misma vida.
+
 ## Documentos
 
 - [Documento de diseño](https://claude.ai/artifact/TLyFxfHXuytpZFXHUHY3B9)

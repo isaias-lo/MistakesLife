@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../MistakesLife.Core/MistakesLife.Core.csproj" />
+    <ProjectReference Include="../../tools/MistakesLife.Console/MistakesLife.Console.csproj" />
   </ItemGroup>
 
 </Project>

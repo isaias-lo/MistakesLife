@@ -69,7 +69,7 @@ namespace MistakesLife.Core.Events
 
             var randomScope = new EventScope(world, Content, player, null, readOnly: true);
             List<EventDefinition> pool = Content.Events
-                .Where(e => e.SeedType == null && !(e.Unique && HasHappened(world, e.Id, player.Id)) && Passes(e, randomScope))
+                .Where(e => e.SeedType == null && !(e.Unique && HasHappened(world, e.Id, player.Id)) && !InCooldown(world, e, player.Id) && Passes(e, randomScope))
                 .ToList();
             if (pool.Count > 0)
             {
@@ -154,6 +154,25 @@ namespace MistakesLife.Core.Events
 
         private static bool HasHappened(World world, string eventId, int characterId) =>
             world.EventHistory.Any(r => r.EventId == eventId && r.CharacterId == characterId);
+
+        private static bool InCooldown(World world, EventDefinition definition, int characterId)
+        {
+            if (definition.CooldownWeeks <= 0)
+            {
+                return false;
+            }
+
+            for (int i = world.EventHistory.Count - 1; i >= 0; i--)
+            {
+                EventRecord record = world.EventHistory[i];
+                if (record.EventId == definition.Id && record.CharacterId == characterId)
+                {
+                    return world.Date.WeeksSince(record.Date) < definition.CooldownWeeks;
+                }
+            }
+
+            return false;
+        }
 
         private static EventDefinition PickWeighted(List<EventDefinition> candidates, GameRandom random)
         {
