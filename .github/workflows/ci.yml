@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  core-tests:
+    name: Pruebas del núcleo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Compilar
+        run: dotnet build MistakesLife.sln --configuration Release
+
+      - name: Correr pruebas
+        run: dotnet test MistakesLife.sln --configuration Release --no-build --verbosity normal
+
+  packs-json:
+    name: Paquetes JSON válidos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Revisar que todo JSON de packs/ sea válido
+        run: |
+          status=0
+          while IFS= read -r -d '' f; do
+            if ! python3 -m json.tool "$f" > /dev/null; then
+              echo "::error file=$f::JSON inválido"
+              status=1
+            fi
+          done < <(find packs -name '*.json' -print0)
+          exit $status
