@@ -5,6 +5,6 @@ Programas de apoyo que **no** van dentro del juego. Todos usan el núcleo (`core
 | Herramienta | Para qué | Cuándo llega |
 |---|---|---|
 | Consola de juego (`MistakesLife.Console`) | Jugar una vida completa en texto: `dotnet run --project tools/MistakesLife.Console` | Lista |
-| Simulador de vidas | Correr miles de vidas automáticas y ver estadísticas | Fase 1, tarea 7 |
+| Simulador de vidas (`MistakesLife.Simulator`) | Correr miles de vidas automáticas y ver estadísticas: `dotnet run --project tools/MistakesLife.Simulator -- 1000 25 --out informe.md` (vidas, edad final) | Lista |
 | Validador de paquetes | Revisar que cada paquete esté completo antes de publicarlo | Más adelante |
 | Conversor de planillas | Pasar planillas (Sheets/Excel) a JSON | Más adelante |

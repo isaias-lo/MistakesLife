@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Scripting;
@@ -76,7 +77,7 @@ namespace MistakesLife.Core.Events
                 case PlantFunction:
                     RequireWritable(name);
                     SeedTypeDefinition type = Content.GetSeedType(SingleText(name, args));
-                    World.Seeds.Plant(type.ToSeedDefinition(Content), Subject.Id, World.Date, Subject.AgeInYears(World.Date));
+                    PlantOrStrengthen(type);
                     return Value.Null;
                 case JournalFunction:
                     RequireWritable(name);
@@ -85,6 +86,23 @@ namespace MistakesLife.Core.Events
                 default:
                     throw new ScriptException($"La función '{name}' no existe.");
             }
+        }
+
+        /// <summary>
+        /// Si el personaje ya tiene abierta una semilla del mismo tipo, repetir el acto
+        /// la hace más fuerte en vez de plantar otra (copiar diez veces no trae diez
+        /// profesores distintos, pero sí uno que se acuerda mejor).
+        /// </summary>
+        private void PlantOrStrengthen(SeedTypeDefinition type)
+        {
+            Seed? existing = World.Seeds.OpenFor(Subject.Id).FirstOrDefault(s => s.TypeId == type.Id);
+            if (existing != null)
+            {
+                existing.Strengthen(type.Strength);
+                return;
+            }
+
+            World.Seeds.Plant(type.ToSeedDefinition(Content), Subject.Id, World.Date, Subject.AgeInYears(World.Date));
         }
 
         internal void RequireWritable(string what)
