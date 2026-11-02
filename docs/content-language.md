@@ -74,6 +74,24 @@ La probabilidad de morir de causas naturales sale de la **tabla de vida oficial*
 - La salud se acerca sola a la "salud esperada" de la edad (85 hasta los 40, 40 a los 90), unos 4 puntos al año: el cuerpo se recupera de lo que restan los eventos y envejece aunque no pase nada.
 - Al morir el jugador se escribe `diario.muerte`; al morir su madre, padre, pareja o un hijo, `diario.muerte_madre`, `diario.muerte_padre`, `diario.muerte_pareja`, `diario.muerte_hija` o `diario.muerte_hijo`. En todos los casos el tiempo se detiene. Quien muere deja de tener pareja.
 
+### Leyes (campo `leyes` de country.json)
+
+Cada país trae sus propias leyes. Los eventos preguntan por la ley, nunca por el país, así un mismo evento sirve para todos los países:
+
+```json
+"leyes": {
+  "ley.edad_voto": 18,
+  "ley.matrimonio_igualitario": true,
+  "ley.aborto": "tres_causales"
+}
+```
+
+- El id empieza con `ley.`; el valor es sí/no (`true`/`false`), un número (una edad, un monto) o un texto (una modalidad).
+- En condiciones y efectos: `ley('ley.edad_voto')` da el valor en el país donde vive el jugador.
+- `cambiar_ley('ley.matrimonio_igualitario', true)` cambia la ley del país del jugador durante la partida (solo efectos): por ejemplo, un evento histórico que la aprueba.
+- **Todo país debe definir las leyes que usan los eventos.** Si un evento usa `ley('ley.x')` y algún país no la tiene, el validador lo avisa.
+- Cada valor se anota con su fuente en el `SOURCES.md` del país.
+
 ### Vida previa (campo `vida_previa` de country.json)
 
 En el legado, el jugador puede seguir con un hijo que ya es adulto y que nadie jugó. Para que no le aparezcan los eventos del colegio a los 40 años, el país dice qué marcas se dan por hechas desde cada edad:
@@ -242,5 +260,7 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `semilla('id').cerrar` | Cierra la semilla (solo efectos) |
 | `plantar('id')` | Planta una semilla nueva (solo efectos). Si el personaje ya tiene abierta una del mismo tipo, no planta otra: la existente gana la `fuerza` del tipo (máximo 100) |
 | `diario('clave')` | Escribe en el diario (solo efectos) |
+| `ley('ley.x')` | Valor de una ley en el país del jugador (ver Leyes) |
+| `cambiar_ley('ley.x', valor)` | Cambia una ley del país del jugador durante la partida (solo efectos) |
 
 Se irán sumando datos (dinero, colegio, relaciones, empresas) a medida que lleguen esos sistemas.

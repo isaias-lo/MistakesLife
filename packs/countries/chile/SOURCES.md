@@ -20,6 +20,8 @@
 
 ## Estimaciones por revisar
 
+- **Leyes (`leyes` en `country.json`), anotadas de memoria y por verificar en [Ley Chile (BCN)](https://www.bcn.cl/leychile):** mayoría de edad 18; voto obligatorio desde los 18 (reforma de 2022); divorcio (Ley 19.947, 2004); matrimonio igualitario con adopción para parejas del mismo sexo (Ley 21.400, 2022); identidad de género desde los 14 años (Ley 21.120, 2018); aborto por tres causales (Ley 21.030, 2017); edad legal de jubilación 65 hombres y 60 mujeres (DL 3.500).
+
 - **Familia no jugada (`familia_no_jugada` en `country.json`):** pareja 0,15 al año, hijo 0,07 al año y separación 0,03 al año, ajustadas con el simulador para que los hijos no jugados lleguen a los 50 años con ~1,2 hijos en promedio, como la fecundidad del INE.
 - **Familia (`events/familia.json`):** las probabilidades de conocer pareja (0,3 al año), de conversar sobre hijos (0,4), de lograr el embarazo al buscarlo (0,6), de embarazo no planificado (0,03) y de crisis de pareja (0,06) son estimaciones ajustadas para acercarse a la fecundidad del INE. Falta calibrar con CASEN cuántas personas viven en pareja a cada edad (hoy ~78 % a los 45, probablemente alto).
 

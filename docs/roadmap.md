@@ -31,9 +31,11 @@
 |---|---|---|
 | B1 | Envejecer y morir: tabla de mortalidad real por país, salud que se recupera y envejece, muerte del jugador y de sus padres | Hecha |
 | B2 | Pareja e hijos: personajes nuevos que nacen en el mundo, con eventos de familia en Chile | Hecha |
-| B3 | Legado: al morir, seguir jugando con un hijo (semillas heredables, mismo mundo, vida previa) y consola hasta la muerte | En revisión |
-| B4a | Los hijos y nietos que nadie juega forman su propia familia (pareja, hijos, separación), y el jugador tiene nietos | En revisión |
+| B3 | Legado: al morir, seguir jugando con un hijo (semillas heredables, mismo mundo, vida previa) y consola hasta la muerte | Hecha |
+| B4a | Los hijos y nietos que nadie juega forman su propia familia (pareja, hijos, separación), y el jugador tiene nietos | Hecha |
 | B4b | Eventos de adultez y vejez en Chile (trabajo, jubilación por AFP, enfermedades) | Pendiente |
+| B5 | Diversidad sexual y de género: orientación e identidad, eventos y familias del mismo sexo | Pendiente |
+| B6 | Leyes de cada país (`leyes` en country.json, `ley()` y `cambiar_ley()`), con las primeras leyes de Chile | En revisión |
 
 ## Decisiones según la personalidad
 

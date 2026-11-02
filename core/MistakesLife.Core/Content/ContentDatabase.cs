@@ -429,6 +429,16 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            foreach (KeyValuePair<string, Newtonsoft.Json.Linq.JToken> law in country.LawsJson)
+            {
+                string lawWhere = $"{where}, {law.Key}";
+                CheckId(lawWhere, law.Key, "ley.");
+                if (CountryDefinition.LawValue(law.Value) == null)
+                {
+                    _errors.Add(new ContentError(lawWhere, "el valor de una ley debe ser sí/no (true/false), un número o un texto."));
+                }
+            }
+
             FamilyRatesDefinition? family = country.NonPlayedFamily;
             if (family != null)
             {
@@ -637,6 +647,14 @@ namespace MistakesLife.Core.Content
                 if ((reference.Function == EventScope.SeedFunction || reference.Function == EventScope.PlantFunction) && !_seedTypes.ContainsKey(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): esa semilla no existe."));
+                }
+
+                if (reference.Function == EventScope.LawFunction || reference.Function == EventScope.ChangeLawFunction)
+                {
+                    foreach (CountryDefinition country in _countries.Values.Where(c => !c.LawsJson.ContainsKey(reference.Argument)))
+                    {
+                        _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): el país {country.Id} no define esa ley. Todo país debe definir las leyes que usan los eventos."));
+                    }
                 }
 
                 if (reference.Function == EventScope.StudyFunction && !_careerLevels.ContainsKey(reference.Argument))

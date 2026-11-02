@@ -72,6 +72,13 @@
           "jugador.tener_hijo()",
           "jugador.felicidad -= 5"
         ]
+      },
+      {
+        "texto": "opcion.embarazo_no_planificado.interrumpir",
+        "condiciones": "ley('ley.aborto') == 'a_peticion'",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
       }
     ]
   },

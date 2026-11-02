@@ -10,6 +10,7 @@
   "evento.embarazo_no_planificado": "Un test de embarazo da positivo. No lo tenían planeado.",
   "opcion.embarazo_no_planificado.alegria": "Después del susto, lo reciben con alegría.",
   "opcion.embarazo_no_planificado.cuesta": "Les cuesta, el momento no es el mejor, pero siguen adelante.",
+  "opcion.embarazo_no_planificado.interrumpir": "Lo conversan con calma y deciden interrumpir el embarazo, como permite la ley.",
   "evento.crisis_pareja": "Las discusiones con tu pareja ya son de todos los días. Una noche, uno de los dos dice: \"Así no podemos seguir\".",
   "opcion.crisis_pareja.conversar": "Se sientan a conversar y deciden intentarlo de nuevo.",
   "opcion.crisis_pareja.terminar": "Terminan. Cada uno sigue su camino."

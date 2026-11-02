@@ -66,6 +66,18 @@
     { "edad": 105, "femenino": 0.5, "masculino": 0.58 },
     { "edad": 110, "femenino": 1, "masculino": 1 }
   ],
+  "leyes": {
+    "ley.mayoria_edad": 18,
+    "ley.edad_voto": 18,
+    "ley.voto_obligatorio": true,
+    "ley.divorcio": true,
+    "ley.matrimonio_igualitario": true,
+    "ley.adopcion_parejas_mismo_sexo": true,
+    "ley.identidad_genero_edad_min": 14,
+    "ley.aborto": "tres_causales",
+    "ley.edad_jubilacion_hombres": 65,
+    "ley.edad_jubilacion_mujeres": 60
+  },
   "familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03, "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 },
   "vida_previa": [
     { "edad": 18, "marcas": ["egresado_media", "decidio_futuro"] }
