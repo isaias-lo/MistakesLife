@@ -1,0 +1,230 @@
+[
+  {
+    "id": "evento.contabilidad.primer_balance",
+    "condiciones": "jugador.estudia == 'carrera.contabilidad'",
+    "peso": 100,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.balance.cuadrar",
+        "efectos": [
+          "jugador.inteligencia += 3",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.balance.ayuda",
+        "efectos": [
+          "jugador.inteligencia += 2",
+          "jugador.marcar('tiene_contacto')"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.balance.dejar",
+        "efectos": [
+          "jugador.inteligencia -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.ramo_reprobado",
+    "condiciones": "jugador.estudia == 'carrera.contabilidad' && jugador.inteligencia < 50",
+    "peso": 6,
+    "enfriamiento_semanas": 52,
+    "efectos": [
+      "jugador.felicidad -= 4",
+      "jugador.semestres_aprobados -= 1",
+      "jugador.inteligencia += 2",
+      "diario('diario.contabilidad.ramo_reprobado')"
+    ]
+  },
+  {
+    "id": "evento.contabilidad.operacion_renta",
+    "condiciones": "jugador.estudia == 'carrera.contabilidad' && jugador.semestres_aprobados >= 2",
+    "peso": 8,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.renta.ayudar",
+        "efectos": [
+          "jugador.inteligencia += 1",
+          "plantar('semilla.contabilidad.cliente_recomendado')"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.renta.cobrar",
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.renta.no",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.practica",
+    "condiciones": "jugador.estudia == 'carrera.contabilidad' && jugador.semestres_aprobados >= jugador.semestres_carrera - 2 && !jugador.tiene('hizo_practica')",
+    "peso": 40,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.practica.auditora",
+        "efectos": [
+          "jugador.marcar('hizo_practica')",
+          "jugador.marcar('practica_auditora')",
+          "jugador.inteligencia += 2",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.practica.estudio",
+        "efectos": [
+          "jugador.marcar('hizo_practica')",
+          "jugador.inteligencia += 1"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.practica.municipalidad",
+        "efectos": [
+          "jugador.marcar('hizo_practica')",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.boleta_asado",
+    "condiciones": "jugador.estudia == 'carrera.contabilidad' && jugador.tiene('hizo_practica')",
+    "peso": 30,
+    "unico": true,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.boleta.registrar",
+        "efectos": [
+          "plantar('semilla.contabilidad.gasto_falso')"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.boleta.negarse",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "jugador.marcar('se_nego_gasto_falso')"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.boleta.preguntar",
+        "efectos": [
+          "jugador.inteligencia += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.titulacion",
+    "condiciones": "jugador.estudia == 'carrera.contabilidad' && jugador.tiene('hizo_practica') && jugador.semestres_aprobados >= jugador.semestres_carrera",
+    "peso": 100,
+    "dia_clave": true,
+    "unico": true,
+    "efectos": [
+      "jugador.titularse()",
+      "jugador.desmarcar('hizo_practica')",
+      "jugador.marcar('buscando_trabajo')",
+      "jugador.felicidad += 8",
+      "diario('diario.contabilidad.titulacion')"
+    ]
+  },
+  {
+    "id": "evento.contabilidad.primer_trabajo",
+    "condiciones": "jugador.titulado_en('carrera.contabilidad') && jugador.tiene('buscando_trabajo')",
+    "peso": 30,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.trabajo.auditor",
+        "condiciones": "jugador.tiene('practica_auditora')",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('trabaja_contabilidad')",
+          "jugador.marcar('trabaja_auditoria')",
+          "jugador.felicidad += 4",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.trabajo.asistente",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('trabaja_contabilidad')",
+          "jugador.felicidad += 4"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.trabajo.esperar"
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.cierre_anual",
+    "condiciones": "jugador.tiene('trabaja_contabilidad')",
+    "peso": 8,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.cierre.quedarse",
+        "efectos": [
+          "jugador.salud -= 3",
+          "jugador.inteligencia += 1"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.cierre.irse",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.fiscalizacion",
+    "semilla": "semilla.contabilidad.gasto_falso",
+    "peso": 10,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.fiscalizacion.reconocer",
+        "efectos": [
+          "jugador.felicidad -= 4"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.fiscalizacion.culpar",
+        "efectos": [
+          "jugador.felicidad -= 1",
+          "plantar('semilla.mentira_entrevista')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.cliente_recomendado",
+    "semilla": "semilla.contabilidad.cliente_recomendado",
+    "peso": 10,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.cliente.aceptar",
+        "efectos": [
+          "jugador.felicidad += 4",
+          "jugador.marcar('tiene_clientes_propios')"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.cliente.rechazar"
+      }
+    ]
+  }
+]
