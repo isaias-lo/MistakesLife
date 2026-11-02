@@ -12,4 +12,10 @@
     <RootNamespace>MistakesLife.Core</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Newtonsoft.Json: el lector de JSON que Unity incluye oficialmente
+         (paquete com.unity.nuget.newtonsoft-json), así el núcleo funciona igual dentro del juego. -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
 </Project>

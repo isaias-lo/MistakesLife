@@ -10,13 +10,11 @@ Todo lo que hace distinto a un país, una carrera o un evento vive aquí como **
 | `overrides/<carrera>.<país>/` | Lo que una carrera cambia en un país (ajuste local) | Contabilidad en Argentina |
 | `extras/<nombre>/` | Apps del teléfono, eventos de temporada, logros | La app Flechazo |
 
-Cada paquete tiene un `pack.json` con su `id`, `type`, `version` y `dependencies`.
+Cada paquete tiene un `pack.json` con su `id`, `type`, `version` y `dependencies`, y puede tener las carpetas `seeds/` y `events/`. Cómo escribirlas: [`docs/content-language.md`](../docs/content-language.md).
 
 ## Reglas
 
 - **Identificadores estables:** cada cosa tiene un id único (`carrera.software.area.ciberseguridad`) que nunca cambia, aunque cambie el texto que ve el jugador.
 - **Sin textos para el jugador dentro del JSON:** los paquetes usan claves de texto (`opcion.reconocer_error`); las frases van en las tablas de idioma.
 - **Los paquetes se combinan:** una carrera no repite datos del país, solo declara lo que ajusta.
-- **Todo JSON debe ser válido:** la integración continua lo revisa en cada cambio.
-
-> El formato completo de eventos, semillas y carreras se define en las tareas 4 y 5 de la fase 1. Por ahora solo existen los manifiestos.
+- **Todo JSON debe ser válido:** la integración continua carga todos los paquetes en cada cambio y falla si hay errores.
