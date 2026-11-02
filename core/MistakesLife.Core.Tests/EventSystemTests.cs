@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
@@ -207,14 +206,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void PaquetesDelRepositorio_CarganSinErrores()
         {
-            string dir = AppContext.BaseDirectory;
-            while (dir != null && !Directory.Exists(Path.Combine(dir, "packs")))
-            {
-                dir = Path.GetDirectoryName(dir)!;
-            }
-
-            Assert.NotNull(dir);
-            PackLoader.LoadAll(Path.Combine(dir!, "packs"));
+            Assert.NotEmpty(RepoPacks.Content.Events);
         }
     }
 }

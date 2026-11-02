@@ -17,6 +17,7 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, EventDefinition> _events = new SortedDictionary<string, EventDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, Dictionary<string, string>> _texts = new SortedDictionary<string, Dictionary<string, string>>(StringComparer.Ordinal);
         private readonly List<ContentError> _errors = new List<ContentError>();
         private bool _built;
 
@@ -25,6 +26,75 @@ namespace MistakesLife.Core.Content
         public IEnumerable<SeedTypeDefinition> SeedTypes => _seedTypes.Values;
 
         public IEnumerable<CountryDefinition> Countries => _countries.Values;
+
+        /// <summary>Idioma base: todo texto debe existir en este idioma.</summary>
+        public const string BaseLanguage = "es";
+
+        /// <summary>Claves de texto que usa el núcleo directamente.</summary>
+        public static readonly IReadOnlyList<string> CoreTextKeys = new[] { "diario.nacimiento", "diario.cumpleanos" };
+
+        /// <summary>Idiomas con textos cargados.</summary>
+        public IEnumerable<string> Languages => _texts.Keys;
+
+        /// <summary>
+        /// El texto para el jugador. Si no existe en ese idioma, usa el idioma base;
+        /// si tampoco, devuelve la clave (así se nota el texto faltante sin romper el juego).
+        /// </summary>
+        public string Text(string key, string language = BaseLanguage)
+        {
+            if (_texts.TryGetValue(language, out Dictionary<string, string>? table) && table.TryGetValue(key, out string? text))
+            {
+                return text;
+            }
+
+            if (language != BaseLanguage && _texts.TryGetValue(BaseLanguage, out table) && table.TryGetValue(key, out text))
+            {
+                return text;
+            }
+
+            return key;
+        }
+
+        /// <summary>
+        /// Agrega textos de un idioma desde un archivo lang/&lt;idioma&gt;.json
+        /// (un objeto clave → texto).
+        /// </summary>
+        public void AddTextsJson(string packId, string sourceName, string language, string json)
+        {
+            Dictionary<string, string>? entries;
+            try
+            {
+                entries = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            }
+            catch (JsonException ex)
+            {
+                _errors.Add(new ContentError(sourceName, "JSON no válido: " + ex.Message));
+                return;
+            }
+
+            if (!_texts.TryGetValue(language, out Dictionary<string, string>? table))
+            {
+                table = new Dictionary<string, string>(StringComparer.Ordinal);
+                _texts.Add(language, table);
+            }
+
+            foreach (KeyValuePair<string, string> entry in entries ?? new Dictionary<string, string>())
+            {
+                if (table.ContainsKey(entry.Key))
+                {
+                    _errors.Add(new ContentError(sourceName, $"el texto '{entry.Key}' ya existe en '{language}'."));
+                    continue;
+                }
+
+                if (string.IsNullOrWhiteSpace(entry.Value))
+                {
+                    _errors.Add(new ContentError(sourceName, $"el texto '{entry.Key}' está vacío."));
+                    continue;
+                }
+
+                table.Add(entry.Key, entry.Value);
+            }
+        }
 
         public CountryDefinition GetCountry(string id) =>
             _countries.TryGetValue(id, out CountryDefinition? definition) ? definition : throw new KeyNotFoundException($"No existe el país '{id}'.");
@@ -175,6 +245,11 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            if (_texts.ContainsKey(BaseLanguage))
+            {
+                ValidateTexts();
+            }
+
             foreach (SeedTypeDefinition seed in _seedTypes.Values.Where(s => s.PossibleEvents.Count == 0))
             {
                 _errors.Add(new ContentError($"semilla {seed.Id}", "ningún evento la usa: al despertar no pasaría nada."));
@@ -263,6 +338,66 @@ namespace MistakesLife.Core.Content
                 }
 
                 previousEnd = stage.ToAge;
+            }
+        }
+
+        /// <summary>Todas las claves de texto que el contenido usa, con dónde se usan.</summary>
+        public IEnumerable<KeyValuePair<string, string>> UsedTextKeys()
+        {
+            foreach (string key in CoreTextKeys)
+            {
+                yield return new KeyValuePair<string, string>(key, "núcleo");
+            }
+
+            foreach (CountryDefinition country in _countries.Values)
+            {
+                foreach (EducationStageDefinition stage in country.EducationStages)
+                {
+                    yield return new KeyValuePair<string, string>("diario." + stage.Id, $"país {country.Id}");
+                    yield return new KeyValuePair<string, string>(stage.Id, $"país {country.Id}");
+                }
+
+                foreach (CityDefinition city in country.Cities)
+                {
+                    yield return new KeyValuePair<string, string>(city.Id, $"país {country.Id}");
+                    foreach (CommuneDefinition commune in city.Communes)
+                    {
+                        yield return new KeyValuePair<string, string>(commune.Id, $"país {country.Id}");
+                    }
+                }
+
+                yield return new KeyValuePair<string, string>(country.Id, $"país {country.Id}");
+            }
+
+            foreach (EventDefinition ev in _events.Values)
+            {
+                string where = $"evento {ev.Id}";
+                yield return new KeyValuePair<string, string>(ev.ResolvedTextKey, where);
+                foreach (EventOptionDefinition option in ev.Options)
+                {
+                    yield return new KeyValuePair<string, string>(option.TextKey, where);
+                }
+
+                IEnumerable<Effect> effects = ev.CompiledEffects.Concat(ev.Options.SelectMany(o => o.CompiledEffects));
+                foreach (ScriptReference reference in effects.SelectMany(e => e.References()))
+                {
+                    if (reference.Function == EventScope.JournalFunction)
+                    {
+                        yield return new KeyValuePair<string, string>(reference.Argument, where);
+                    }
+                }
+            }
+        }
+
+        private void ValidateTexts()
+        {
+            Dictionary<string, string> table = _texts[BaseLanguage];
+            foreach (var used in UsedTextKeys().GroupBy(k => k.Key))
+            {
+                if (!table.ContainsKey(used.Key))
+                {
+                    _errors.Add(new ContentError(used.First().Value, $"falta el texto '{used.Key}' en el idioma '{BaseLanguage}'."));
+                }
             }
         }
 

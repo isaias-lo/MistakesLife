@@ -10,7 +10,7 @@ Todo lo que hace distinto a un país, una carrera o un evento vive aquí como **
 | `overrides/<carrera>.<país>/` | Lo que una carrera cambia en un país (ajuste local) | Contabilidad en Argentina |
 | `extras/<nombre>/` | Apps del teléfono, eventos de temporada, logros | La app Flechazo |
 
-Cada paquete tiene un `pack.json` con su `id`, `type`, `version` y `dependencies`, y puede tener las carpetas `seeds/` y `events/`. Cómo escribirlas: [`docs/content-language.md`](../docs/content-language.md).
+Cada paquete tiene un `pack.json` con su `id`, `type`, `version` y `dependencies`, y puede tener `country.json` y las carpetas `seeds/`, `events/` y `lang/`. Cómo escribirlas: [`docs/content-language.md`](../docs/content-language.md).
 
 ## Reglas
 

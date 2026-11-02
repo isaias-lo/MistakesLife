@@ -61,7 +61,8 @@ namespace MistakesLife.Core.Simulation
 
         /// <summary>
         /// Avanza hasta <paramref name="maxWeeks"/> semanas, o menos si una semana
-        /// pide detener el tiempo o el jugador muere. Devuelve las semanas simuladas.
+        /// pide detener el tiempo, si hay un evento esperando la decisión del jugador
+        /// o si el jugador muere. Devuelve las semanas simuladas.
         /// </summary>
         public int AdvanceWeeks(World world, int maxWeeks)
         {
@@ -70,7 +71,7 @@ namespace MistakesLife.Core.Simulation
             {
                 WeekContext context = AdvanceWeek(world);
                 simulated++;
-                if (context.StopRequested)
+                if (context.StopRequested || world.PendingEvents.Count > 0)
                 {
                     break;
                 }

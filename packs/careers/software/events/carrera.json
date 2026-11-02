@@ -1,0 +1,165 @@
+[
+  {
+    "id": "evento.software.primer_ramo",
+    "condiciones": "jugador.tiene('estudia_software')",
+    "peso": 100,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.ramo.estudiar",
+        "efectos": [
+          "jugador.inteligencia += 3",
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.software.ramo.ayudante",
+        "efectos": [
+          "jugador.inteligencia += 2",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.software.ramo.copiar",
+        "efectos": [
+          "plantar('semilla.copio_tarea_programacion')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.ramo_reprobado",
+    "condiciones": "jugador.tiene('estudia_software') && jugador.inteligencia < 50",
+    "peso": 6,
+    "efectos": [
+      "jugador.felicidad -= 4",
+      "diario('diario.software.ramo_reprobado')"
+    ]
+  },
+  {
+    "id": "evento.software.proyecto_personal",
+    "condiciones": "jugador.tiene('estudia_software')",
+    "peso": 6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.proyecto.publicar",
+        "efectos": [
+          "jugador.inteligencia += 2",
+          "plantar('semilla.proyecto_publico')"
+        ]
+      },
+      {
+        "texto": "opcion.software.proyecto.guardar"
+      }
+    ]
+  },
+  {
+    "id": "evento.software.hackathon",
+    "condiciones": "jugador.tiene('estudia_software')",
+    "peso": 5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.hackathon.ir",
+        "efectos": [
+          "jugador.felicidad += 3",
+          "jugador.inteligencia += 2",
+          "jugador.salud -= 2",
+          "jugador.marcar('tiene_contacto')"
+        ]
+      },
+      {
+        "texto": "opcion.software.hackathon.no",
+        "efectos": [
+          "jugador.salud += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.practica",
+    "condiciones": "jugador.tiene('estudia_software') && jugador.edad >= 20 && !jugador.tiene('hizo_practica')",
+    "peso": 40,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.practica.empresa",
+        "efectos": [
+          "jugador.marcar('hizo_practica')",
+          "jugador.inteligencia += 1"
+        ]
+      },
+      {
+        "texto": "opcion.software.practica.startup",
+        "efectos": [
+          "jugador.marcar('hizo_practica')",
+          "jugador.inteligencia += 2",
+          "jugador.salud -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.titulacion",
+    "condiciones": "jugador.tiene('estudia_software') && jugador.tiene('hizo_practica') && ((jugador.tiene('instituto') && jugador.edad >= 21) || (jugador.tiene('universidad') && jugador.edad >= 23))",
+    "peso": 100,
+    "dia_clave": true,
+    "unico": true,
+    "efectos": [
+      "jugador.desmarcar('estudia_software')",
+      "jugador.marcar('titulado')",
+      "jugador.marcar('buscando_trabajo')",
+      "jugador.felicidad += 8",
+      "diario('diario.software.titulacion')"
+    ]
+  },
+  {
+    "id": "evento.software.primer_trabajo",
+    "condiciones": "jugador.tiene('titulado') && jugador.tiene('buscando_trabajo')",
+    "peso": 25,
+    "opciones": [
+      {
+        "texto": "opcion.software.trabajo.aceptar",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('trabaja_software')",
+          "jugador.felicidad += 5"
+        ]
+      },
+      {
+        "texto": "opcion.software.trabajo.esperar"
+      }
+    ]
+  },
+  {
+    "id": "evento.software.entrevista_tecnica",
+    "semilla": "semilla.copio_tarea_programacion",
+    "peso": 10,
+    "opciones": [
+      {
+        "texto": "opcion.software.entrevista.honesto",
+        "efectos": [
+          "jugador.inteligencia += 1"
+        ]
+      },
+      {
+        "texto": "opcion.software.entrevista.inventar",
+        "efectos": [
+          "jugador.felicidad -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.reclutador",
+    "semilla": "semilla.proyecto_publico",
+    "peso": 10,
+    "efectos": [
+      "jugador.felicidad += 5",
+      "jugador.marcar('tiene_contacto')",
+      "diario('diario.software.reclutador')"
+    ]
+  }
+]
