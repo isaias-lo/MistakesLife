@@ -36,6 +36,10 @@
 | Cuenta en la AFP: el 10 % del sueldo va al fondo; el resto del descuento (cerca de 1,15 %) es comisión y seguro de invalidez | DL 3.500, [Superintendencia de Pensiones](https://www.spensiones.cl) | `parte_a_la_cuenta` 0.897 (10 / 11,15). Honorarios cotizan 10 % para la pensión sobre el 80 % de lo boleteado (Ley 21.133) |
 | Rentabilidad real de los fondos: entre 3 % y 5 % al año en promedio desde 2000, según el fondo | Superintendencia de Pensiones, de memoria | `rentabilidad_real_anual` 0.035. Por verificar |
 | Pensión Garantizada Universal: $224.004 al mes (febrero 2025), completa con pensión base hasta $789.139 y nada desde $1.252.602 | Ley 21.419, [ChileAtiende](https://www.chileatiende.gob.cl), de memoria | `pension_universal`. La reforma de 2025 (Ley 21.735) la sube a $250.275, primero para mayores de 82. Falta el requisito de no estar en el 10 % más rico. Por verificar |
+| CAE: interés de 2 % al año en UF, se paga en 10, 15 o 20 años desde 18 meses después de egresar; la cuota no puede pasar del 10 % del sueldo | Ley 20.027 y Ley 20.634 (2012), [Comisión Ingresa](https://www.ingresa.cl) | `deuda.chile.cae`: 180 cuotas, se cobra al dejar de estudiar (sin los 18 meses de gracia ni el tope del 10 %). El monto por semestre (1.100.000) es una estimación del arancel de referencia. El proyecto FES lo reemplazaría |
+| Crédito de consumo: tasas entre 20 % y 40 % al año; la tasa máxima convencional para créditos pequeños es cerca de 40 % | [CMF](https://www.cmfchile.cl), de memoria | `deuda.chile.consumo`: 30 % al año en 36 cuotas. Por verificar |
+| DICOM: una deuda impaga se informa después de unos 90 días de mora; al pagarla se borra (Ley 20.575) | Ley 19.628 y Ley 20.575 | `meses_para_moroso` 3 |
+| Prescripción: la acción para cobrar una deuda prescribe en general a los 5 años sin cobro judicial, y DICOM no puede informar deudas de más de 5 años | Código Civil art. 2515, Ley 19.628 art. 18 | `meses_prescripcion` 60, simplificado: en el juego prescribe siempre (en la realidad el cobro judicial la interrumpe) |
 
 ## Estimaciones por revisar
 

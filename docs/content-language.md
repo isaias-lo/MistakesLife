@@ -197,6 +197,27 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - `pension_universal` (como la PGU): quien la pidió (`jugador.recibir_pension_universal()`) recibe el `monto` completo si su pensión propia llega hasta `completa_hasta`; desde ahí baja en línea recta hasta 0 en `sin_pension_desde`. Montos mensuales en dinero del inicio del mundo.
 - El descuento de `cuenta_individual` debe estar en `liquidacion.dependiente`.
 
+#### Deudas (`economia.deudas`)
+
+```json
+"deudas": {
+  "meses_para_moroso": 3,
+  "tipos": [
+    { "id": "deuda.chile.cae", "tasa_anual": 0.02, "cuotas": 180, "reajustable": true, "entrega_dinero": false,
+      "condicion_pago": "jugador.estudia == nada" },
+    { "id": "deuda.chile.consumo", "tasa_anual": 0.3, "cuotas": 36 }
+  ]
+}
+```
+
+- Un evento endeuda con `jugador.endeudarse('tipo', monto)` (monto en dinero del inicio del mundo). Si ya tiene una deuda de ese tipo, se suma a ella y vuelve a tener todas las `cuotas`.
+- `entrega_dinero` (por defecto `true`): el monto llega a su saldo. El crédito universitario paga directo a la institución (`false`).
+- Al empezar cada mes, después de los gastos: si es `reajustable`, la deuda sube con la inflación (como lo que está en UF); si no, la inflación la achica. Luego suma su interés (`tasa_anual`; si es reajustable, es por sobre la inflación).
+- Si se cumple `condicion_pago` (o si no la tiene), se cobra la cuota fija que paga la deuda en las cuotas que quedan. Sin dinero suficiente, la cuota queda impaga.
+- Con `meses_para_moroso` meses seguidos sin pagar alguna cuota, queda en el registro de morosos (`jugador.moroso`); sale al ponerse al día con todas. Con `meses_prescripcion` (opcional) meses seguidos sin pagar, la deuda prescribe y se borra (diario `diario.deudas.prescrita`).
+- El `id` empieza con `deuda.` y es la clave de su nombre en `lang/`. Todo país debe tener los tipos que usan los eventos.
+- Textos obligatorios del diario: `diario.deudas.pagada`, `diario.deudas.moroso`, `diario.deudas.fuera_registro` y `diario.deudas.prescrita`.
+
 ### Vida previa (campo `vida_previa` de country.json)
 
 En el legado, el jugador puede seguir con un hijo que ya es adulto y que nadie jugó. Para que no le aparezcan los eventos del colegio a los 40 años, el país dice qué marcas se dan por hechas desde cada edad:
@@ -403,6 +424,9 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `jugador.pension_universal` | Si pidió la pensión del Estado (PGU) |
 | `jugador.jubilarse()` | Convierte su fondo en una pensión mensual para siempre; solo una vez (solo efectos) |
 | `jugador.recibir_pension_universal()` | Empieza a recibir la pensión del Estado de su país (solo efectos) |
+| `jugador.endeudarse('tipo', monto)` | Pide prestado ese monto (en dinero del inicio del mundo) con un tipo de deuda de su país (solo efectos) |
+| `jugador.deuda`, `jugador.deuda_de('tipo')` | Lo que debe hoy en total, o de un tipo de deuda |
+| `jugador.cuotas_deudas`, `jugador.moroso` | Lo que pagó en cuotas el último mes, y si está en el registro de morosos |
 | `jugador.dejar_trabajo()` | Deja de trabajar y de recibir sueldo (solo efectos) |
 | `jugador.trabaja`, `jugador.tipo_trabajo` | Si tiene trabajo; `'dependiente'`, `'honorarios'` o `nada` |
 | `jugador.sueldo`, `jugador.sueldo_liquido` | Sueldo bruto de hoy y líquido de la última liquidación (0 si no trabaja) |

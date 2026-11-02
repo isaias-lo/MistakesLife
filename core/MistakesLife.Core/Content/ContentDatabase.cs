@@ -545,6 +545,33 @@ namespace MistakesLife.Core.Content
                 _errors.Add(new ContentError($"{where}.jubilacion.pension_universal", "monto no negativo; completa_hasta y sin_pension_desde van juntos y el segundo es mayor."));
             }
 
+            DebtsDefinition? debts = economy.Debts;
+            if (debts != null)
+            {
+                if (debts.MonthsToDelinquent < 1 || debts.MonthsToPrescription < debts.MonthsToDelinquent)
+                {
+                    _errors.Add(new ContentError($"{where}.deudas", "meses_para_moroso desde 1 y meses_prescripcion no menor que meses_para_moroso."));
+                }
+
+                var seenDebts = new HashSet<string>(StringComparer.Ordinal);
+                foreach (DebtTypeDefinition type in debts.Types)
+                {
+                    string debtWhere = $"{where}.deudas, {type.Id}";
+                    CheckId(debtWhere, type.Id, "deuda.");
+                    if (!seenDebts.Add(type.Id))
+                    {
+                        _errors.Add(new ContentError(debtWhere, "deuda repetida."));
+                    }
+
+                    if (type.AnnualRate < 0 || type.Installments < 1)
+                    {
+                        _errors.Add(new ContentError(debtWhere, "tasa_anual no negativa y cuotas desde 1."));
+                    }
+
+                    type.CompiledPaymentCondition = CompileCondition(debtWhere + " (condicion_pago)", type.PaymentCondition);
+                }
+            }
+
             AnnualTaxDefinition? annual = economy.AnnualTax;
             if (annual != null)
             {
@@ -729,6 +756,19 @@ namespace MistakesLife.Core.Content
                     yield return new KeyValuePair<string, string>(expense.Id, $"país {country.Id}");
                 }
 
+                foreach (DebtTypeDefinition debt in country.Economy?.Debts?.Types ?? new List<DebtTypeDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>(debt.Id, $"país {country.Id}");
+                }
+
+                if (country.Economy?.Debts != null)
+                {
+                    foreach (string key in new[] { Economy.DebtSystem.PaidOffJournal, Economy.DebtSystem.DelinquentJournal, Economy.DebtSystem.ClearedJournal, Economy.DebtSystem.PrescribedJournal })
+                    {
+                        yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
+                    }
+                }
+
                 if (country.Economy?.AnnualTax != null)
                 {
                     foreach (string key in new[] { Economy.TaxSystem.RefundJournal, Economy.TaxSystem.PaymentJournal, Economy.TaxSystem.PenaltyJournal, Economy.TaxSystem.LostRefundJournal })
@@ -880,6 +920,14 @@ namespace MistakesLife.Core.Content
                     foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Inflation.Regime(reference.Argument) == null))
                     {
                         _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): el país {country.Id} no tiene ese régimen de inflación. Todo país debe definir los regímenes que usan los eventos."));
+                    }
+                }
+
+                if (reference.Function == "." + CharacterObject.BorrowMethod || reference.Function == "." + CharacterObject.DebtOfMethod)
+                {
+                    foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Debts?.Type(reference.Argument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): el país {country.Id} no tiene esa deuda. Todo país debe definir las deudas que usan los eventos."));
                     }
                 }
 

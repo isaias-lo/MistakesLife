@@ -31,5 +31,13 @@
   "evento.fin_de_mes_en_rojo": "Otra vez no llegas a fin de mes. La cuenta está en rojo y las cuentas siguen llegando.",
   "opcion.rojo.pedir_familia": "Le pides plata a tu mamá. Te la presta, pero te da vergüenza.",
   "opcion.rojo.volver_casa": "Dejas el arriendo y vuelves a la casa de tus papás mientras te ordenas.",
-  "opcion.rojo.apretarse": "Te aprietas el cinturón: arroz, fideos y nada de salidas."
+  "opcion.rojo.apretarse": "Te aprietas el cinturón: arroz, fideos y nada de salidas.",
+  "opcion.rojo.credito": "Pides un crédito de consumo en el banco. La plata llega al otro día; las cuotas, todos los meses.",
+  "evento.cobranza": "Te llaman de una empresa de cobranza, otra vez. Estás en DICOM y nadie te quiere dar crédito.",
+  "deuda.chile.cae": "Crédito con Aval del Estado (CAE)",
+  "deuda.chile.consumo": "Crédito de consumo",
+  "diario.deudas.pagada": "Pagaste la última cuota de una deuda. Te sacaste un peso de encima.",
+  "diario.deudas.moroso": "Llevas meses sin pagar tus cuotas: quedaste en DICOM.",
+  "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de DICOM.",
+  "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de DICOM, pero ningún banco lo olvida."
 }

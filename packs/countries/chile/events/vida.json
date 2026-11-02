@@ -460,6 +460,7 @@
         "tendencia": "50",
         "efectos": [
           "jugador.marcar('financiamiento')",
+          "jugador.endeudarse('deuda.chile.cae', 1100000 * (jugador.semestres_carrera - jugador.semestres_aprobados))",
           "plantar('semilla.deuda_cae')"
         ]
       },

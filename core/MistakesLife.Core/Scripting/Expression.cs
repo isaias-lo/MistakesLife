@@ -62,6 +62,11 @@ namespace MistakesLife.Core.Scripting
                 {
                     yield return new ScriptReference(fn.Name, lit.Value.AsText(fn.Name));
                 }
+                else if (node is MethodNode method && method.Args.Count > 0 && method.Args[0] is LiteralNode methodLit && methodLit.Value.Kind == ValueKind.Text)
+                {
+                    // Los métodos se distinguen de las funciones con un punto: ".endeudarse".
+                    yield return new ScriptReference("." + method.Name, methodLit.Value.AsText(method.Name));
+                }
             }
         }
 

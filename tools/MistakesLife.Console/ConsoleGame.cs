@@ -217,6 +217,16 @@ namespace MistakesLife.ConsoleGame
                     }
                 }
 
+                foreach (var debt in player.Debts)
+                {
+                    _output.WriteLine($"Deuda: {_session.Text(debt.TypeId)}, ${debt.Balance.ToString("N0", culture)} ({debt.RemainingInstallments} cuotas){(debt.MonthsLate > 0 ? $", {debt.MonthsLate} meses sin pagar" : string.Empty)}.");
+                }
+
+                if (player.Delinquent)
+                {
+                    _output.WriteLine("Estás en el registro de morosos.");
+                }
+
                 if (player.Pension.HasValue || player.LastPensionPayment > 0)
                 {
                     _output.WriteLine($"Pensión del último mes (propia y del Estado): ${player.LastPensionPayment.ToString("N0", culture)}.");

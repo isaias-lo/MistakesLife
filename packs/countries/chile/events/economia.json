@@ -89,12 +89,30 @@
         ]
       },
       {
+        "texto": "opcion.rojo.credito",
+        "condiciones": "jugador.trabaja && !jugador.moroso && jugador.deuda_de('deuda.chile.consumo') == 0",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.endeudarse('deuda.chile.consumo', sueldo_tipico() * 2)",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
         "texto": "opcion.rojo.apretarse",
         "tendencia": "jugador.responsabilidad / 2",
         "efectos": [
           "jugador.felicidad -= 3"
         ]
       }
+    ]
+  },
+  {
+    "id": "evento.cobranza",
+    "condiciones": "jugador.moroso",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 26,
+    "efectos": [
+      "jugador.felicidad -= 3"
     ]
   }
 ]

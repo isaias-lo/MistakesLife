@@ -40,6 +40,7 @@ namespace MistakesLife.Core.Game
                 .Register(new PensionSystem(content))
                 .Register(new TaxSystem(content))
                 .Register(new ExpenseSystem(content))
+                .Register(new DebtSystem(content))
                 .Register(new EducationSystem(content))
                 .Register(new CareerSystem())
                 .Register(new AgingSystem())

@@ -15,16 +15,23 @@ namespace MistakesLife.Core.Events
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
     /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo,
-    /// fondo_pension, pension_estimada, jubilado, pension, pension_universal.
+    /// fondo_pension, pension_estimada, jubilado, pension, pension_universal,
+    /// deuda, cuotas_deudas, moroso.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
     /// cambiar_genero('género'), cambiar_nombre(), adoptar(),
     /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo(), declarar(),
-    /// jubilarse(), recibir_pension_universal().
+    /// jubilarse(), recibir_pension_universal(), endeudarse('tipo', monto), deuda_de('tipo').
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
+        /// <summary>Método para endeudarse: la validación revisa que el tipo de deuda exista en todo país.</summary>
+        public const string BorrowMethod = "endeudarse";
+
+        /// <summary>Método que lee lo que se debe de un tipo de deuda.</summary>
+        public const string DebtOfMethod = "deuda_de";
+
         private readonly Character _character;
 
         public CharacterObject(Character character)
@@ -115,6 +122,12 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(_character.PendingTaxReturn != null);
                 case "declaracion_saldo":
                     return Value.FromNumber((double)(_character.PendingTaxReturn?.Balance ?? 0));
+                case "deuda":
+                    return Value.FromNumber((double)_character.Debts.Sum(d => d.Balance));
+                case "cuotas_deudas":
+                    return Value.FromNumber((double)_character.LastDebtPayment);
+                case "moroso":
+                    return Value.FromBool(_character.Delinquent);
                 case "fondo_pension":
                     return Value.FromNumber((double)PayrollToday(_character.PensionFund, scope));
                 case "pension_estimada":
@@ -299,6 +312,13 @@ namespace MistakesLife.Core.Events
                     ((EventScope)scope).RequireWritable("jugador.recibir_pension_universal");
                     _character.ReceivesUniversalPension = true;
                     return Value.Null;
+                case BorrowMethod:
+                    ((EventScope)scope).RequireWritable("jugador." + BorrowMethod);
+                    Borrow((EventScope)scope, args);
+                    return Value.Null;
+                case DebtOfMethod:
+                    string debtType = EventScope.SingleText("jugador." + method, args);
+                    return Value.FromNumber((double)_character.Debts.Where(d => d.TypeId == debtType).Sum(d => d.Balance));
                 case "dejar_trabajo":
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.dejar_trabajo");
@@ -325,6 +345,31 @@ namespace MistakesLife.Core.Events
                 default:
                     throw new ScriptException($"jugador.{method}() no existe.");
             }
+        }
+
+        /// <summary>
+        /// endeudarse('tipo', monto): pide prestado ese monto, escrito en dinero del
+        /// inicio del mundo, con un tipo de deuda de su país.
+        /// </summary>
+        private void Borrow(EventScope scope, Value[] args)
+        {
+            if (args.Length != 2)
+            {
+                throw new ScriptException("jugador.endeudarse() necesita el tipo de deuda y el monto: endeudarse('deuda.chile.consumo', 1000000).");
+            }
+
+            string typeId = args[0].AsText("jugador.endeudarse()");
+            double amount = args[1].AsNumber("jugador.endeudarse()");
+            if (amount <= 0)
+            {
+                throw new ScriptException("jugador.endeudarse(): el monto debe ser mayor que 0.");
+            }
+
+            string? country = _character.Residence?.CountryId;
+            Content.DebtTypeDefinition type = (country == null ? null : scope.Content.GetCountry(country).Economy?.Debts?.Type(typeId))
+                ?? throw new ScriptException($"jugador.endeudarse('{typeId}'): esa deuda no existe en el país donde vive.");
+            double priceIndex = scope.World.EconomyOf(country!)?.PriceIndex ?? 1;
+            Economy.DebtSystem.Borrow(_character, type, Economy.PayrollCalculator.ToToday((decimal)amount, priceIndex), priceIndex);
         }
 
         /// <summary>Clave del tipo de trabajo en el lenguaje: 'dependiente' o 'honorarios'.</summary>
