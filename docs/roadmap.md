@@ -50,8 +50,8 @@
 | # | Tarea | Estado |
 |---|---|---|
 | E1 | Dinero e inflación: saldo de cada personaje, inflación generada por regímenes del país, índice de precios y `precio()` | Hecha |
-| E2 | Sueldos: sueldo mínimo y típico del país, sueldo por carrera y título, liquidación mensual con AFP, salud e impuesto del país, reajuste con la inflación | En revisión |
-| E3 | Declaración anual de impuestos (en Chile, la Operación Renta): tramos anuales, honorarios, devolución o pago y multas | Pendiente |
+| E2 | Sueldos: sueldo mínimo y típico del país, sueldo por carrera y título, liquidación mensual con AFP, salud e impuesto del país, reajuste con la inflación | Hecha |
+| E3 | Declaración anual de impuestos (en Chile, la Operación Renta): tramos anuales, honorarios, devolución o pago y multas | En revisión |
 | E4 | Gastos del hogar (arriendo, comida, transporte, hijos) según la comuna, y estrés financiero | Pendiente |
 | E5 | Deudas: CAE, tarjetas y créditos con interés, registro de morosos y herencia de deudas según la ley | Pendiente |
 | E6 | Jubilación real: fondo de pensión (capitalización o reparto según el país) y PGU con su monto | Pendiente |

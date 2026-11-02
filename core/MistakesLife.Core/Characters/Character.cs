@@ -98,6 +98,30 @@ namespace MistakesLife.Core.Characters
         /// <summary>Su última liquidación de sueldo, o null si nunca ha recibido sueldo.</summary>
         public Economy.Payslip? LastPayslip { get; set; }
 
+        private readonly List<Economy.AnnualIncome> _incomes = new List<Economy.AnnualIncome>();
+
+        /// <summary>Lo ganado en un año (para la declaración de impuestos), o null si no ganó nada.</summary>
+        public Economy.AnnualIncome? IncomeOf(int year) => _incomes.Find(i => i.Year == year);
+
+        /// <summary>Suma una liquidación a lo ganado en ese año.</summary>
+        public void AddIncome(int year, Economy.Payslip payslip)
+        {
+            Economy.AnnualIncome? income = IncomeOf(year);
+            if (income == null)
+            {
+                income = new Economy.AnnualIncome(year);
+                _incomes.Add(income);
+            }
+
+            income.Add(payslip);
+        }
+
+        /// <summary>Olvida los ingresos de ese año y de los anteriores (ya se declararon).</summary>
+        public void ForgetIncomeUntil(int year) => _incomes.RemoveAll(i => i.Year <= year);
+
+        /// <summary>Declaración anual calculada que el jugador todavía no acepta, o null.</summary>
+        public Economy.TaxReturn? PendingTaxReturn { get; set; }
+
         /// <summary>Etapa educativa actual (id del paquete del país), o null si no estudia.</summary>
         public string? EducationStageId { get; set; }
 

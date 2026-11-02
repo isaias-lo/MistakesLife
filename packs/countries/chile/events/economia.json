@@ -1,0 +1,32 @@
+[
+  {
+    "id": "evento.operacion_renta",
+    "condiciones": "jugador.declaracion_pendiente",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 2,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.renta.declarar_devolucion",
+        "condiciones": "jugador.declaracion_saldo >= 0",
+        "tendencia": "60 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.declarar()"
+        ]
+      },
+      {
+        "texto": "opcion.renta.declarar_pagar",
+        "condiciones": "jugador.declaracion_saldo < 0",
+        "tendencia": "40 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.declarar()",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.renta.despues",
+        "tendencia": "(100 - jugador.responsabilidad) / 3"
+      }
+    ]
+  }
+]

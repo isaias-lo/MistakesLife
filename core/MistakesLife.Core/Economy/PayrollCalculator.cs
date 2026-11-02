@@ -37,7 +37,7 @@ namespace MistakesLife.Core.Economy
                 }
             }
 
-            return new Payslip(date, kind, gross, lines);
+            return new Payslip(date, kind, gross, lines, taxable);
         }
 
         /// <summary>

@@ -13,12 +13,13 @@ namespace MistakesLife.Core.Events
     /// apertura, responsabilidad, extraversion, amabilidad, neuroticismo,
     /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre,
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
-    /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido.
+    /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
+    /// declaracion_pendiente, declaracion_saldo.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
     /// cambiar_genero('género'), cambiar_nombre(), adoptar(),
-    /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo().
+    /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo(), declarar().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -102,6 +103,10 @@ namespace MistakesLife.Core.Events
                     return _character.Job == null ? Value.Null : Value.FromText(JobKindKey(_character.Job.Kind));
                 case "sueldo":
                     return Value.FromNumber((double)(_character.Job?.Salary ?? 0));
+                case "declaracion_pendiente":
+                    return Value.FromBool(_character.PendingTaxReturn != null);
+                case "declaracion_saldo":
+                    return Value.FromNumber((double)(_character.PendingTaxReturn?.Balance ?? 0));
                 case "sueldo_liquido":
                     return Value.FromNumber(_character.Job == null ? 0 : (double)(_character.LastPayslip?.Net ?? 0));
                 case "hijos":
@@ -235,6 +240,16 @@ namespace MistakesLife.Core.Events
                 case "trabajar":
                     ((EventScope)scope).RequireWritable("jugador.trabajar");
                     StartJob((EventScope)scope, args);
+                    return Value.Null;
+                case "declarar":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.declarar");
+                    if (_character.PendingTaxReturn == null)
+                    {
+                        throw new ScriptException("jugador.declarar(): no tiene una declaración pendiente (revisa jugador.declaracion_pendiente).");
+                    }
+
+                    Economy.TaxSystem.Accept(((EventScope)scope).World, _character);
                     return Value.Null;
                 case "dejar_trabajo":
                     NoArguments(method, args);

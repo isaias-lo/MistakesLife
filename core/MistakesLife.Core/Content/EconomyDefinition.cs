@@ -19,5 +19,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Descuentos e impuesto de la liquidación de sueldo. Si falta, el sueldo llega entero.</summary>
         [JsonProperty("liquidacion")]
         public PayrollDefinition Payroll { get; set; } = new PayrollDefinition();
+
+        /// <summary>La declaración anual de impuestos. Si falta, nadie declara.</summary>
+        [JsonProperty("declaracion_anual")]
+        public AnnualTaxDefinition? AnnualTax { get; set; }
     }
 }

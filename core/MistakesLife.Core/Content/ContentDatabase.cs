@@ -491,6 +491,17 @@ namespace MistakesLife.Core.Content
             }
 
             CheckBrackets($"{where}.liquidacion.impuesto_mensual", economy.Payroll.MonthlyTax);
+
+            AnnualTaxDefinition? annual = economy.AnnualTax;
+            if (annual != null)
+            {
+                CheckBrackets($"{where}.declaracion_anual.tramos", annual.Brackets);
+                bool badRate = new[] { annual.FreelancePresumedExpenses, annual.FreelanceContributionBase, annual.FreelanceContributionRate, annual.LatePenalty }.Any(r => r < 0 || r > 1);
+                if (annual.Month < 1 || annual.Month > 12 || badRate || annual.FreelancePresumedExpensesCap < 0)
+                {
+                    _errors.Add(new ContentError($"{where}.declaracion_anual", "mes de 1 a 12; gastos presuntos, base y tasa de cotización y multa entre 0 y 1; tope no negativo."));
+                }
+            }
         }
 
         private void CheckBrackets(string where, IReadOnlyList<TaxBracketDefinition> brackets)
@@ -657,6 +668,14 @@ namespace MistakesLife.Core.Content
                     if (payroll.MonthlyTax.Count > 0)
                     {
                         yield return new KeyValuePair<string, string>(Economy.Payslip.IncomeTaxId, $"país {country.Id}");
+                    }
+                }
+
+                if (country.Economy?.AnnualTax != null)
+                {
+                    foreach (string key in new[] { Economy.TaxSystem.RefundJournal, Economy.TaxSystem.PaymentJournal, Economy.TaxSystem.PenaltyJournal, Economy.TaxSystem.LostRefundJournal })
+                    {
+                        yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
                     }
                 }
             }
