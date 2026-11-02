@@ -525,6 +525,11 @@ namespace MistakesLife.Core.Scripting
                         return new LiteralNode(Value.False);
                     }
 
+                    if (token.Text == "nada")
+                    {
+                        return new LiteralNode(Value.Null);
+                    }
+
                     return Current.Kind == TokenKind.LeftParen
                         ? new FunctionNode(token.Text, ParseArguments())
                         : (Node)new RootNode(token.Text);

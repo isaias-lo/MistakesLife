@@ -35,6 +35,24 @@ namespace MistakesLife.Core.Characters
 
         public Stats Stats { get; }
 
+        /// <summary>Id de la madre, si existe en el mundo.</summary>
+        public int? MotherId { get; set; }
+
+        /// <summary>Id del padre, si existe en el mundo.</summary>
+        public int? FatherId { get; set; }
+
+        /// <summary>Dónde vive: país, ciudad y comuna (ids de los paquetes).</summary>
+        public Residence? Residence { get; set; }
+
+        /// <summary>
+        /// Nivel socioeconómico del hogar donde creció, de 0 a 100.
+        /// Influye en colegio, oportunidades y eventos.
+        /// </summary>
+        public int HouseholdLevel { get; set; } = 50;
+
+        /// <summary>Etapa educativa actual (id del paquete del país), o null si no estudia.</summary>
+        public string? EducationStageId { get; set; }
+
         private readonly SortedSet<string> _flags = new SortedSet<string>(StringComparer.Ordinal);
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace MistakesLife.Core.Content
 {
     /// <summary>
     /// Carga paquetes desde carpetas (para pruebas y herramientas).
-    /// Cada paquete tiene pack.json y, opcionalmente, las carpetas events/ y seeds/
+    /// Cada paquete tiene pack.json y, opcionalmente, country.json y las carpetas events/ y seeds/
     /// con archivos .json que contienen una lista.
     /// </summary>
     public static class PackLoader
@@ -30,6 +30,12 @@ namespace MistakesLife.Core.Content
             string manifestPath = Path.Combine(packDirectory, "pack.json");
             string packId = (string?)JObject.Parse(File.ReadAllText(manifestPath))["id"]
                 ?? throw new InvalidDataException($"{manifestPath} no tiene id.");
+
+            string countryFile = Path.Combine(packDirectory, "country.json");
+            if (File.Exists(countryFile))
+            {
+                content.AddCountryJson(packId, Relative(packDirectory, countryFile), File.ReadAllText(countryFile));
+            }
 
             foreach (string file in JsonFiles(packDirectory, "seeds"))
             {

@@ -70,6 +70,51 @@ namespace MistakesLife.Core.Randomness
             return minInclusive + NextInt(maxExclusive - minInclusive);
         }
 
+        /// <summary>
+        /// Elige una posición al azar según pesos (un peso 3 sale el triple que un peso 1).
+        /// </summary>
+        public int PickWeightedIndex(System.Collections.Generic.IReadOnlyList<int> weights)
+        {
+            if (weights == null || weights.Count == 0)
+            {
+                throw new ArgumentException("Se necesita al menos un peso.", nameof(weights));
+            }
+
+            int total = 0;
+            foreach (int weight in weights)
+            {
+                if (weight <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(weights), "Los pesos deben ser mayores que 0.");
+                }
+
+                total += weight;
+            }
+
+            int roll = NextInt(total);
+            for (int i = 0; i < weights.Count; i++)
+            {
+                roll -= weights[i];
+                if (roll < 0)
+                {
+                    return i;
+                }
+            }
+
+            return weights.Count - 1;
+        }
+
+        /// <summary>Elige un elemento de una lista al azar.</summary>
+        public T Pick<T>(System.Collections.Generic.IReadOnlyList<T> items)
+        {
+            if (items == null || items.Count == 0)
+            {
+                throw new ArgumentException("La lista está vacía.", nameof(items));
+            }
+
+            return items[NextInt(items.Count)];
+        }
+
         /// <summary>Devuelve true con la probabilidad indicada (0 a 1).</summary>
         public bool Chance(double probability) => NextDouble() < probability;
 

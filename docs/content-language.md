@@ -5,11 +5,39 @@ Los eventos y semillas se escriben en JSON dentro de cada paquete:
 ```
 packs/<paquete>/
   pack.json
+  country.json    ← solo en paquetes de país
   seeds/*.json    ← lista de tipos de semilla
   events/*.json   ← lista de eventos
 ```
 
 Al cargar, el juego revisa todo y avisa **todos** los errores juntos, con el id del evento o semilla donde están (condición mal escrita, semilla que no existe, id repetido, campo desconocido…). La integración continua carga los paquetes del repositorio en cada PR.
+
+## País (country.json)
+
+```json
+{
+  "id": "pais.chile",
+  "moneda": "CLP",
+  "peso_nacimiento": 1,
+  "edad_madre_min": 18,
+  "edad_madre_max": 42,
+  "dos_apellidos": true,
+  "nombres": { "femeninos": ["Sofía"], "masculinos": ["Mateo"], "apellidos": ["González", "Muñoz"] },
+  "ciudades": [
+    { "id": "ciudad.santiago", "peso_nacimiento": 1, "comunas": [
+      { "id": "comuna.puente_alto", "peso_nacimiento": 568, "nivel_hogar_min": 15, "nivel_hogar_max": 60 }
+    ] }
+  ],
+  "etapas_educacion": [
+    { "id": "etapa.chile.basica", "edad_desde": 6, "edad_hasta": 14, "obligatoria": true }
+  ]
+}
+```
+
+- `peso_nacimiento`: qué tan probable es nacer ahí (sirve la población real, por ejemplo en miles).
+- `nivel_hogar_min`/`max`: rango del nivel socioeconómico (0 a 100) de un hogar de esa comuna.
+- `etapas_educacion`: en orden, sin solaparse; `edad_hasta` no se incluye.
+- Al nacer se eligen país, ciudad y comuna según los pesos, una madre y un padre con nombres del país, y el hijo lleva el primer apellido del padre y luego el de la madre.
 
 ## Semilla
 
@@ -76,7 +104,7 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 - Comparar: `==  !=  <  <=  >  >=`
 - Combinar: `&&` (y), `||` (o), `!` (no), paréntesis
 - Calcular: `+  -  *  /`
-- Textos entre comillas: `'chile'`; sí/no: `true`/`false` (o `verdadero`/`falso`)
+- Textos entre comillas: `'chile'`; sí/no: `true`/`false` (o `verdadero`/`falso`); vacío: `nada`
 
 **Efectos** (cambian el mundo): `jugador.salud -= 10`, `jugador.felicidad += 5`, `jugador.salud = 50`, `plantar('semilla.x')`, `semilla('semilla.x').cerrar`.
 
@@ -88,6 +116,10 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `jugador.salud`, `jugador.felicidad`, `jugador.inteligencia` | 0 a 100, se pueden cambiar |
 | `jugador.vivo`, `jugador.sexo` | `true`/`false`; `'femenino'`/`'masculino'` |
 | `jugador.apertura`, `.responsabilidad`, `.extraversion`, `.amabilidad`, `.neuroticismo` | Personalidad oculta, 0 a 100 (solo lectura) |
+| `jugador.pais`, `jugador.ciudad`, `jugador.comuna` | Ids del lugar donde vive, por ejemplo `'comuna.puente_alto'` |
+| `jugador.nivel_hogar` | Nivel socioeconómico del hogar, 0 a 100 |
+| `jugador.etapa` | Etapa educativa actual, por ejemplo `'etapa.chile.basica'`, o `''` |
+| `jugador.madre`, `jugador.padre` | Otro personaje con los mismos datos (`jugador.madre.edad`), o `nada` si no hay |
 | `jugador.tiene('x')` | Si tiene la marca `x` |
 | `jugador.marcar('x')`, `jugador.desmarcar('x')` | Pone o quita una marca (solo efectos) |
 | `mundo.anio`, `mundo.semana`, `mundo.semanas_totales` | Fecha del juego |

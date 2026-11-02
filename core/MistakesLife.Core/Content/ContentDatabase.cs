@@ -16,12 +16,18 @@ namespace MistakesLife.Core.Content
     {
         private readonly SortedDictionary<string, EventDefinition> _events = new SortedDictionary<string, EventDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
         private readonly List<ContentError> _errors = new List<ContentError>();
         private bool _built;
 
         public IEnumerable<EventDefinition> Events => _events.Values;
 
         public IEnumerable<SeedTypeDefinition> SeedTypes => _seedTypes.Values;
+
+        public IEnumerable<CountryDefinition> Countries => _countries.Values;
+
+        public CountryDefinition GetCountry(string id) =>
+            _countries.TryGetValue(id, out CountryDefinition? definition) ? definition : throw new KeyNotFoundException($"No existe el país '{id}'.");
 
         public bool TryGetEvent(string id, out EventDefinition? definition) => _events.TryGetValue(id, out definition);
 
@@ -49,6 +55,36 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega un país desde su archivo country.json.</summary>
+        public void AddCountryJson(string packId, string sourceName, string json)
+        {
+            CountryDefinition? country;
+            try
+            {
+                country = JsonConvert.DeserializeObject<CountryDefinition>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
+            }
+            catch (JsonException ex)
+            {
+                _errors.Add(new ContentError(sourceName, "JSON no válido: " + ex.Message));
+                return;
+            }
+
+            if (country == null)
+            {
+                _errors.Add(new ContentError(sourceName, "archivo vacío."));
+                return;
+            }
+
+            country.PackId = packId;
+            if (_countries.ContainsKey(country.Id))
+            {
+                _errors.Add(new ContentError(sourceName, $"el país {country.Id} ya existe."));
+                return;
+            }
+
+            _countries.Add(country.Id, country);
+        }
+
         /// <summary>Agrega los tipos de semilla de un archivo JSON (una lista).</summary>
         public void AddSeedsJson(string packId, string sourceName, string json)
         {
@@ -74,6 +110,11 @@ namespace MistakesLife.Core.Content
             if (_built)
             {
                 throw new InvalidOperationException("El contenido ya se armó.");
+            }
+
+            foreach (CountryDefinition country in _countries.Values)
+            {
+                ValidateCountry(country);
             }
 
             foreach (SeedTypeDefinition seed in _seedTypes.Values)
@@ -146,6 +187,91 @@ namespace MistakesLife.Core.Content
 
             _built = true;
             return this;
+        }
+
+        private void ValidateCountry(CountryDefinition country)
+        {
+            string where = $"país {country.Id}";
+            CheckId(where, country.Id, "pais.");
+            if (country.BirthWeight <= 0)
+            {
+                _errors.Add(new ContentError(where, "peso_nacimiento debe ser mayor que 0."));
+            }
+
+            if (country.MotherAgeMin < 12 || country.MotherAgeMax < country.MotherAgeMin)
+            {
+                _errors.Add(new ContentError(where, "edad_madre_min y edad_madre_max no son válidas."));
+            }
+
+            if (country.Names.Female.Count == 0 || country.Names.Male.Count == 0 || country.Names.Surnames.Count == 0)
+            {
+                _errors.Add(new ContentError(where, "faltan nombres femeninos, masculinos o apellidos."));
+            }
+
+            if (country.Cities.Count == 0)
+            {
+                _errors.Add(new ContentError(where, "debe tener al menos una ciudad."));
+            }
+
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (CityDefinition city in country.Cities)
+            {
+                string cityWhere = $"{where}, {city.Id}";
+                CheckId(cityWhere, city.Id, "ciudad.");
+                CheckUnique(cityWhere, city.Id, seen);
+                if (city.BirthWeight <= 0)
+                {
+                    _errors.Add(new ContentError(cityWhere, "peso_nacimiento debe ser mayor que 0."));
+                }
+
+                if (city.Communes.Count == 0)
+                {
+                    _errors.Add(new ContentError(cityWhere, "debe tener al menos una comuna."));
+                }
+
+                foreach (CommuneDefinition commune in city.Communes)
+                {
+                    string communeWhere = $"{cityWhere}, {commune.Id}";
+                    CheckId(communeWhere, commune.Id, "comuna.");
+                    CheckUnique(communeWhere, commune.Id, seen);
+                    if (commune.BirthWeight <= 0)
+                    {
+                        _errors.Add(new ContentError(communeWhere, "peso_nacimiento debe ser mayor que 0."));
+                    }
+
+                    if (commune.HouseholdLevelMin < 0 || commune.HouseholdLevelMax > 100 || commune.HouseholdLevelMin > commune.HouseholdLevelMax)
+                    {
+                        _errors.Add(new ContentError(communeWhere, "nivel_hogar_min y nivel_hogar_max deben estar entre 0 y 100, con min <= max."));
+                    }
+                }
+            }
+
+            int previousEnd = -1;
+            foreach (EducationStageDefinition stage in country.EducationStages)
+            {
+                string stageWhere = $"{where}, {stage.Id}";
+                CheckId(stageWhere, stage.Id, "etapa.");
+                CheckUnique(stageWhere, stage.Id, seen);
+                if (stage.ToAge <= stage.FromAge)
+                {
+                    _errors.Add(new ContentError(stageWhere, "edad_hasta debe ser mayor que edad_desde."));
+                }
+
+                if (stage.FromAge < previousEnd)
+                {
+                    _errors.Add(new ContentError(stageWhere, "se cruza con la etapa anterior; deben ir en orden y sin solaparse."));
+                }
+
+                previousEnd = stage.ToAge;
+            }
+        }
+
+        private void CheckUnique(string where, string id, HashSet<string> seen)
+        {
+            if (!seen.Add(id))
+            {
+                _errors.Add(new ContentError(where, "id repetido dentro del país."));
+            }
         }
 
         private Expression? CompileCondition(string where, string? source)
