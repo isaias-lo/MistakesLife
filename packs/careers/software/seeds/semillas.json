@@ -1,0 +1,16 @@
+[
+  {
+    "id": "semilla.copio_tarea_programacion",
+    "tipo": "negativa",
+    "fuerza": 50,
+    "vence_anios": 6,
+    "condiciones": "jugador.tiene('buscando_trabajo')"
+  },
+  {
+    "id": "semilla.proyecto_publico",
+    "tipo": "positiva",
+    "fuerza": 60,
+    "vence_anios": 8,
+    "condiciones": "jugador.tiene('buscando_trabajo')"
+  }
+]

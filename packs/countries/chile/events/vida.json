@@ -1,0 +1,556 @@
+[
+  {
+    "id": "evento.primeros_pasos",
+    "condiciones": "jugador.edad_semanas >= 52 && jugador.edad_semanas <= 75",
+    "peso": 60,
+    "unico": true,
+    "efectos": [
+      "jugador.felicidad += 3",
+      "diario('diario.primeros_pasos')"
+    ]
+  },
+  {
+    "id": "evento.primera_palabra",
+    "condiciones": "jugador.edad_semanas >= 50 && jugador.edad < 2",
+    "peso": 40,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.primera_palabra.mama",
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.primera_palabra.papa",
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.primera_palabra.agua",
+        "efectos": [
+          "jugador.inteligencia += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.berrinche_feria",
+    "condiciones": "jugador.edad >= 2 && jugador.edad < 5",
+    "peso": 15,
+    "opciones": [
+      {
+        "texto": "opcion.berrinche.gritar",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.berrinche.calmarse",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.primer_dia_jardin",
+    "condiciones": "jugador.etapa == 'etapa.chile.nivel_medio'",
+    "peso": 80,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.jardin.llorar",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.jardin.explorar",
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.compartir_juguete",
+    "condiciones": "jugador.edad >= 3 && jugador.edad < 6",
+    "peso": 15,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.juguete.compartir",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "plantar('semilla.compartio_juguete')"
+        ]
+      },
+      {
+        "texto": "opcion.juguete.no_compartir",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.primer_dia_colegio",
+    "condiciones": "jugador.etapa == 'etapa.chile.basica'",
+    "peso": 100,
+    "dia_clave": true,
+    "unico": true,
+    "efectos": [
+      "diario('diario.primer_dia_colegio')"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.colegio.amigo",
+        "efectos": [
+          "jugador.felicidad += 3",
+          "jugador.marcar('tiene_amigo_colegio')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.callado",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.companero_molestado",
+    "condiciones": "jugador.edad >= 8 && jugador.edad < 13",
+    "peso": 15,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.molestado.defender",
+        "efectos": [
+          "jugador.salud -= 2",
+          "jugador.felicidad += 2",
+          "plantar('semilla.defendiste_companero')"
+        ]
+      },
+      {
+        "texto": "opcion.molestado.avisar",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.molestado.mirar",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.prueba_dificil",
+    "condiciones": "jugador.edad >= 9 && jugador.edad < 18",
+    "peso": 12,
+    "opciones": [
+      {
+        "texto": "opcion.prueba.estudiar",
+        "efectos": [
+          "jugador.inteligencia += 2",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.copiar",
+        "efectos": [
+          "plantar('semilla.copio_prueba_colegio')"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.nada",
+        "efectos": [
+          "jugador.inteligencia -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.computador_en_casa",
+    "condiciones": "jugador.edad >= 9 && jugador.edad < 14 && jugador.nivel_hogar >= 25",
+    "peso": 10,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.computador.jugar",
+        "efectos": [
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.computador.programar",
+        "efectos": [
+          "jugador.inteligencia += 3",
+          "jugador.marcar('le_gusta_programar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.taller_robotica",
+    "condiciones": "jugador.edad >= 10 && jugador.edad < 14 && jugador.inteligencia >= 45",
+    "peso": 8,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.robotica.inscribirse",
+        "efectos": [
+          "jugador.inteligencia += 2",
+          "jugador.marcar('le_gusta_programar')"
+        ]
+      },
+      {
+        "texto": "opcion.robotica.no"
+      }
+    ]
+  },
+  {
+    "id": "evento.temblor",
+    "condiciones": "jugador.edad >= 3",
+    "peso": 2,
+    "efectos": [
+      "jugador.felicidad -= 1",
+      "diario('diario.temblor')"
+    ]
+  },
+  {
+    "id": "evento.elegir_liceo",
+    "condiciones": "jugador.edad == 13 && jugador.etapa == 'etapa.chile.basica'",
+    "peso": 100,
+    "dia_clave": true,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.liceo.cientifico",
+        "efectos": [
+          "jugador.marcar('liceo_ch')"
+        ]
+      },
+      {
+        "texto": "opcion.liceo.tecnico",
+        "efectos": [
+          "jugador.marcar('liceo_tp')",
+          "jugador.marcar('le_gusta_programar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.primer_carrete",
+    "condiciones": "jugador.edad >= 15 && jugador.edad < 18",
+    "peso": 12,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.carrete.descontrol",
+        "efectos": [
+          "jugador.felicidad += 3",
+          "jugador.salud -= 2",
+          "plantar('semilla.carrete_descontrolado')"
+        ]
+      },
+      {
+        "texto": "opcion.carrete.calma",
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.carrete.no_ir",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.pololeo",
+    "condiciones": "jugador.edad >= 14 && jugador.edad < 19 && !jugador.tiene('pololeando')",
+    "peso": 8,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.pololeo.si",
+        "efectos": [
+          "jugador.marcar('pololeando')",
+          "jugador.felicidad += 5"
+        ]
+      },
+      {
+        "texto": "opcion.pololeo.no"
+      }
+    ]
+  },
+  {
+    "id": "evento.termino_pololeo",
+    "condiciones": "jugador.tiene('pololeando')",
+    "peso": 4,
+    "efectos": [
+      "jugador.desmarcar('pololeando')",
+      "jugador.felicidad -= 6",
+      "diario('diario.termino_pololeo')"
+    ]
+  },
+  {
+    "id": "evento.prueba_paes",
+    "condiciones": "jugador.edad == 17 && jugador.etapa == 'etapa.chile.media'",
+    "peso": 100,
+    "dia_clave": true,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.paes.rendir",
+        "efectos": [
+          "jugador.marcar('rindio_paes')"
+        ]
+      },
+      {
+        "texto": "opcion.paes.copiar",
+        "efectos": [
+          "jugador.marcar('rindio_paes')",
+          "jugador.inteligencia += 3",
+          "plantar('semilla.copio_paes')"
+        ]
+      },
+      {
+        "texto": "opcion.paes.no_ir",
+        "efectos": [
+          "jugador.marcar('no_rindio_paes')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.resultados_paes_altos",
+    "condiciones": "jugador.tiene('rindio_paes') && !jugador.tiene('resultados_paes') && jugador.inteligencia >= 55",
+    "peso": 100,
+    "unico": true,
+    "efectos": [
+      "jugador.marcar('resultados_paes')",
+      "jugador.marcar('paes_alta')",
+      "jugador.felicidad += 6",
+      "diario('diario.paes_alta')"
+    ]
+  },
+  {
+    "id": "evento.resultados_paes_medios",
+    "condiciones": "jugador.tiene('rindio_paes') && !jugador.tiene('resultados_paes') && jugador.inteligencia < 55",
+    "peso": 100,
+    "unico": true,
+    "efectos": [
+      "jugador.marcar('resultados_paes')",
+      "jugador.felicidad -= 2",
+      "diario('diario.paes_media')"
+    ]
+  },
+  {
+    "id": "evento.egreso_media",
+    "condiciones": "jugador.edad >= 18 && !jugador.tiene('egresado_media')",
+    "peso": 100,
+    "unico": true,
+    "efectos": [
+      "jugador.marcar('egresado_media')",
+      "diario('diario.egreso_media')"
+    ]
+  },
+  {
+    "id": "evento.elegir_futuro",
+    "condiciones": "jugador.tiene('egresado_media') && !jugador.tiene('decidio_futuro')",
+    "peso": 100,
+    "dia_clave": true,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.universidad",
+        "condiciones": "jugador.tiene('paes_alta')",
+        "efectos": [
+          "jugador.marcar('decidio_futuro')",
+          "jugador.marcar('estudia_software')",
+          "jugador.marcar('universidad')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.instituto",
+        "efectos": [
+          "jugador.marcar('decidio_futuro')",
+          "jugador.marcar('estudia_software')",
+          "jugador.marcar('instituto')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.trabajar",
+        "efectos": [
+          "jugador.marcar('decidio_futuro')",
+          "jugador.marcar('buscando_trabajo')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.gratuidad",
+    "condiciones": "jugador.tiene('estudia_software') && !jugador.tiene('financiamiento') && jugador.nivel_hogar <= 60",
+    "peso": 100,
+    "unico": true,
+    "efectos": [
+      "jugador.marcar('financiamiento')",
+      "jugador.marcar('gratuidad')",
+      "jugador.felicidad += 5"
+    ]
+  },
+  {
+    "id": "evento.sin_gratuidad",
+    "condiciones": "jugador.tiene('estudia_software') && !jugador.tiene('financiamiento') && jugador.nivel_hogar > 60",
+    "peso": 100,
+    "dia_clave": true,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.financiar.credito",
+        "efectos": [
+          "jugador.marcar('financiamiento')",
+          "plantar('semilla.deuda_cae')"
+        ]
+      },
+      {
+        "texto": "opcion.financiar.trabajar",
+        "efectos": [
+          "jugador.marcar('financiamiento')",
+          "jugador.marcar('trabaja_y_estudia')",
+          "jugador.salud -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.trabajo_sin_titulo",
+    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.tiene('titulado') && jugador.edad < 26",
+    "peso": 20,
+    "opciones": [
+      {
+        "texto": "opcion.trabajo.aceptar",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.trabajo.rechazar"
+      }
+    ]
+  },
+  {
+    "id": "evento.amigo_de_la_infancia",
+    "semilla": "semilla.compartio_juguete",
+    "peso": 10,
+    "efectos": [
+      "jugador.felicidad += 4",
+      "jugador.marcar('tiene_contacto')"
+    ]
+  },
+  {
+    "id": "evento.reencuentro_defendido",
+    "semilla": "semilla.defendiste_companero",
+    "peso": 10,
+    "opciones": [
+      {
+        "texto": "opcion.reencuentro.aceptar",
+        "efectos": [
+          "jugador.marcar('tiene_contacto')",
+          "jugador.felicidad += 5"
+        ]
+      },
+      {
+        "texto": "opcion.reencuentro.orgullo",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.profesor_recuerda_copia",
+    "semilla": "semilla.copio_prueba_colegio",
+    "peso": 10,
+    "opciones": [
+      {
+        "texto": "opcion.profesor.disculpa",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.profesor.ignorar",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.entrevista_testigo_copia",
+    "semilla": "semilla.copio_paes",
+    "peso": 10,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.entrevista.reconocer",
+        "efectos": [
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.entrevista.negar",
+        "efectos": [
+          "plantar('semilla.mentira_entrevista')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.mentira_descubierta",
+    "semilla": "semilla.mentira_entrevista",
+    "peso": 10,
+    "efectos": [
+      "jugador.felicidad -= 8",
+      "diario('diario.mentira_descubierta')"
+    ]
+  },
+  {
+    "id": "evento.foto_carrete_circula",
+    "semilla": "semilla.carrete_descontrolado",
+    "peso": 10,
+    "opciones": [
+      {
+        "texto": "opcion.foto.reir",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.foto.esconder",
+        "efectos": [
+          "jugador.felicidad -= 4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.cobranza_cae",
+    "semilla": "semilla.deuda_cae",
+    "peso": 10,
+    "efectos": [
+      "jugador.felicidad -= 3",
+      "diario('diario.cobranza_cae')"
+    ]
+  }
+]

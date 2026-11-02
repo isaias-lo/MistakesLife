@@ -8,9 +8,23 @@ packs/<paquete>/
   country.json    ← solo en paquetes de país
   seeds/*.json    ← lista de tipos de semilla
   events/*.json   ← lista de eventos
+  lang/es.json    ← textos que ve el jugador (clave → texto), uno por idioma
 ```
 
 Al cargar, el juego revisa todo y avisa **todos** los errores juntos, con el id del evento o semilla donde están (condición mal escrita, semilla que no existe, id repetido, campo desconocido…). La integración continua carga los paquetes del repositorio en cada PR.
+
+## Textos (lang/)
+
+Ningún texto para el jugador va dentro de los eventos: se usan **claves** (`evento.primer_dia_colegio`, `opcion.paes.copiar`, `diario.primeros_pasos`) y la frase va en `lang/es.json`:
+
+```json
+{
+  "evento.primer_dia_colegio": "Primer día de primero básico. Mochila nueva, delantal y un poco de miedo.",
+  "opcion.colegio.amigo": "Te sientas al lado de alguien que también está solo."
+}
+```
+
+El validador exige que **toda clave usada exista en español** (`es`): textos de eventos y opciones, claves de `diario('...')`, nombres de país, ciudad, comuna y etapas, y `diario.<etapa>`. Otros idiomas (`en.json`, `pt-BR.json`) pueden faltar: se muestra el español mientras tanto.
 
 ## País (country.json)
 

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "semilla.compartio_juguete",
+    "tipo": "positiva",
+    "fuerza": 30,
+    "vence_anios": 20,
+    "dormir_min_semanas": 520,
+    "condiciones": "jugador.edad >= 14"
+  },
+  {
+    "id": "semilla.defendiste_companero",
+    "tipo": "positiva",
+    "fuerza": 70,
+    "vence_anios": 25,
+    "condiciones": "jugador.tiene('buscando_trabajo')"
+  },
+  {
+    "id": "semilla.copio_prueba_colegio",
+    "tipo": "negativa",
+    "fuerza": 40,
+    "vence_anios": 8,
+    "condiciones": "jugador.etapa == 'etapa.chile.media'"
+  },
+  {
+    "id": "semilla.copio_paes",
+    "tipo": "negativa",
+    "fuerza": 40,
+    "vence_anios": 20,
+    "condiciones": "jugador.tiene('buscando_trabajo')"
+  },
+  {
+    "id": "semilla.mentira_entrevista",
+    "tipo": "negativa",
+    "fuerza": 30,
+    "vence_anios": 5,
+    "condiciones": "jugador.tiene('trabajando')"
+  },
+  {
+    "id": "semilla.carrete_descontrolado",
+    "tipo": "ambigua",
+    "fuerza": 35,
+    "vence_anios": 3,
+    "dormir_min_semanas": 8
+  },
+  {
+    "id": "semilla.deuda_cae",
+    "tipo": "negativa",
+    "fuerza": 100,
+    "vence_anios": 20,
+    "condiciones": "jugador.tiene('trabajando')"
+  }
+]

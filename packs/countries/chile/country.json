@@ -1,0 +1,43 @@
+{
+  "id": "pais.chile",
+  "moneda": "CLP",
+  "peso_nacimiento": 1,
+  "edad_madre_min": 18,
+  "edad_madre_max": 42,
+  "dos_apellidos": true,
+  "nombres": {
+    "femeninos": [
+      "Emma", "Isabella", "Sofía", "Emilia", "Julieta", "Mía", "Isidora", "Trinidad", "Aurora", "Antonella",
+      "Amanda", "Florencia", "Josefa", "Agustina", "Martina", "Maite", "Valentina", "Amparo", "Leonor", "Antonia",
+      "Catalina", "Camila", "Constanza", "Javiera", "Francisca", "Daniela", "Fernanda", "Carolina", "Paulina", "Macarena"
+    ],
+    "masculinos": [
+      "Mateo", "Liam", "Lucas", "Santiago", "Gaspar", "Facundo", "Thiago", "Benjamín", "Vicente", "Gael",
+      "Agustín", "Máximo", "Tomás", "Maximiliano", "Emiliano", "Bruno", "Alonso", "Matías", "Martín", "Joaquín",
+      "Sebastián", "Felipe", "Diego", "Nicolás", "Ignacio", "Cristóbal", "Francisco", "Rodrigo", "Gonzalo", "Claudio"
+    ],
+    "apellidos": [
+      "González", "Muñoz", "Rojas", "Díaz", "Pérez", "Contreras", "Soto", "Silva", "Morales", "Flores",
+      "Torres", "Sepúlveda", "Castillo", "Martínez", "Fuentes", "Rodríguez", "Espinoza", "López", "Araya", "Reyes",
+      "Castro", "Hernández", "Valenzuela", "Vargas", "Ramírez", "Gutiérrez", "Herrera", "Álvarez", "Vásquez", "Tapia",
+      "Sánchez", "Fernández", "Carrasco", "Cortés", "Gómez", "Jara", "Vergara", "Rivera", "Núñez", "Bravo"
+    ]
+  },
+  "ciudades": [
+    {
+      "id": "ciudad.santiago",
+      "peso_nacimiento": 1,
+      "comunas": [
+        { "id": "comuna.puente_alto", "peso_nacimiento": 568, "nivel_hogar_min": 10, "nivel_hogar_max": 65 }
+      ]
+    }
+  ],
+  "etapas_educacion": [
+    { "id": "etapa.chile.sala_cuna", "edad_desde": 0, "edad_hasta": 2 },
+    { "id": "etapa.chile.nivel_medio", "edad_desde": 2, "edad_hasta": 4 },
+    { "id": "etapa.chile.prekinder", "edad_desde": 4, "edad_hasta": 5 },
+    { "id": "etapa.chile.kinder", "edad_desde": 5, "edad_hasta": 6, "obligatoria": true },
+    { "id": "etapa.chile.basica", "edad_desde": 6, "edad_hasta": 14, "obligatoria": true },
+    { "id": "etapa.chile.media", "edad_desde": 14, "edad_hasta": 18, "obligatoria": true }
+  ]
+}

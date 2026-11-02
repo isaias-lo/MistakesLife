@@ -7,7 +7,7 @@ namespace MistakesLife.Core.Content
 {
     /// <summary>
     /// Carga paquetes desde carpetas (para pruebas y herramientas).
-    /// Cada paquete tiene pack.json y, opcionalmente, country.json y las carpetas events/ y seeds/
+    /// Cada paquete tiene pack.json y, opcionalmente, country.json y las carpetas events/, seeds/ y lang/
     /// con archivos .json que contienen una lista.
     /// </summary>
     public static class PackLoader
@@ -45,6 +45,12 @@ namespace MistakesLife.Core.Content
             foreach (string file in JsonFiles(packDirectory, "events"))
             {
                 content.AddEventsJson(packId, Relative(packDirectory, file), File.ReadAllText(file));
+            }
+
+            foreach (string file in JsonFiles(packDirectory, "lang"))
+            {
+                string language = Path.GetFileNameWithoutExtension(file);
+                content.AddTextsJson(packId, Relative(packDirectory, file), language, File.ReadAllText(file));
             }
         }
 
