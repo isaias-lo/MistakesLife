@@ -113,6 +113,24 @@
         { "desde": 8280000, "tasa": 0.35 },
         { "desde": 21390000, "tasa": 0.4 }
       ]
+    },
+    "declaracion_anual": {
+      "mes": 4,
+      "tramos": [
+        { "desde": 0, "tasa": 0 },
+        { "desde": 11178000, "tasa": 0.04 },
+        { "desde": 24840000, "tasa": 0.08 },
+        { "desde": 41400000, "tasa": 0.135 },
+        { "desde": 57960000, "tasa": 0.23 },
+        { "desde": 74520000, "tasa": 0.304 },
+        { "desde": 99360000, "tasa": 0.35 },
+        { "desde": 256680000, "tasa": 0.4 }
+      ],
+      "gastos_presuntos_honorarios": 0.3,
+      "tope_gastos_presuntos": 12420000,
+      "base_cotizacion_honorarios": 0.8,
+      "tasa_cotizacion_honorarios": 0.17,
+      "multa_atraso": 0.1
     }
   },
   "familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03, "adopcion_anual": 0.03, "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 },

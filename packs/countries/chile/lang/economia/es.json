@@ -6,5 +6,13 @@
   "descuento.chile.salud": "Salud (Fonasa o Isapre)",
   "descuento.chile.seguro_cesantia": "Seguro de cesantía",
   "descuento.chile.retencion_honorarios": "Retención de la boleta de honorarios",
-  "descuento.impuesto_mensual": "Impuesto único de segunda categoría"
+  "descuento.impuesto_mensual": "Impuesto único de segunda categoría",
+  "evento.operacion_renta": "Llegó abril y con él la Operación Renta. Como boleteaste honorarios el año pasado, tienes que declarar. El SII ya te dejó lista una propuesta.",
+  "opcion.renta.declarar_devolucion": "Entras al sitio del SII, revisas la propuesta y la aceptas. Te toca devolución.",
+  "opcion.renta.declarar_pagar": "Entras al sitio del SII y aceptas la propuesta. Esta vez te toca pagar: lo retenido no alcanzó para las cotizaciones y el impuesto.",
+  "opcion.renta.despues": "Lo dejas para después. Todavía queda plazo… ¿o no?",
+  "diario.impuestos.devolucion": "Llegó la devolución de impuestos a la cuenta. Plata que no esperabas tener.",
+  "diario.impuestos.pago": "Pagaste lo que debías en la declaración de renta. Duele, pero quedaste al día con el SII.",
+  "diario.impuestos.multa": "Se te pasó el plazo de la Operación Renta y debías plata. Te llegó el giro de Tesorería con multa e intereses.",
+  "diario.impuestos.devolucion_perdida": "No declaraste a tiempo y la devolución de impuestos quedó retenida. Esa plata no llegó."
 }

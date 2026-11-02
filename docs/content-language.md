@@ -139,6 +139,25 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Al empezar cada mes, quien tiene trabajo recibe el **líquido** (bruto menos descuentos) en su dinero, y queda guardada su liquidación.
 - Si un evento usa `sueldo_minimo()`, `sueldo_tipico()` o `sueldo_titulo()`, todo país debe tener `sueldos`.
 
+#### Declaración anual de impuestos (`economia.declaracion_anual`)
+
+```json
+"declaracion_anual": {
+  "mes": 4,
+  "tramos": [ { "desde": 0, "tasa": 0 }, { "desde": 11178000, "tasa": 0.04 } ],
+  "gastos_presuntos_honorarios": 0.3, "tope_gastos_presuntos": 12420000,
+  "base_cotizacion_honorarios": 0.8, "tasa_cotizacion_honorarios": 0.17,
+  "multa_atraso": 0.1
+}
+```
+
+- Cada liquidación se suma a lo ganado en el año. Al empezar el `mes` de declarar, se calcula la declaración del año anterior de quien tuvo **honorarios** (quien solo tuvo contrato ya pagó su impuesto cada mes y no declara, como en Chile).
+- Renta = sueldos (sin las cotizaciones que rebajan impuesto) + honorarios − gastos presuntos (con su tope) − cotizaciones de los honorarios. El impuesto se calcula con los `tramos` anuales.
+- Saldo = lo ya pagado (impuesto mensual y retenciones) − impuesto − cotizaciones de honorarios. Si es positivo hay devolución; si es negativo, hay que pagar.
+- El jugador la tiene pendiente (`jugador.declaracion_pendiente`) hasta aceptarla con `jugador.declarar()` en un evento. Los demás personajes declaran solos.
+- Hay plazo hasta que empieza el mes siguiente. Si no declaró y debía, paga lo que debía más la `multa_atraso`; si le tocaba devolución, la pierde.
+- Textos obligatorios del diario: `diario.impuestos.devolucion`, `diario.impuestos.pago`, `diario.impuestos.multa` y `diario.impuestos.devolucion_perdida`.
+
 ### Vida previa (campo `vida_previa` de country.json)
 
 En el legado, el jugador puede seguir con un hijo que ya es adulto y que nadie jugó. Para que no le aparezcan los eventos del colegio a los 40 años, el país dice qué marcas se dan por hechas desde cada edad:
@@ -335,6 +354,8 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `mundo.regimen_inflacion` | Régimen de inflación actual del país del jugador, por ejemplo `'economia.inflacion.alta'` |
 | `mundo.indice_precios` | Cuántas veces más cuesta todo que al empezar el mundo (1 al principio) |
 | `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero del inicio del mundo; sin tipo es `'dependiente'` (con contrato). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
+| `jugador.declaracion_pendiente`, `jugador.declaracion_saldo` | Si tiene una declaración de impuestos por aceptar, y su saldo (positivo: devolución; negativo: a pagar) |
+| `jugador.declarar()` | Acepta la declaración pendiente: recibe la devolución o paga (solo efectos) |
 | `jugador.dejar_trabajo()` | Deja de trabajar y de recibir sueldo (solo efectos) |
 | `jugador.trabaja`, `jugador.tipo_trabajo` | Si tiene trabajo; `'dependiente'`, `'honorarios'` o `nada` |
 | `jugador.sueldo`, `jugador.sueldo_liquido` | Sueldo bruto de hoy y líquido de la última liquidación (0 si no trabaja) |

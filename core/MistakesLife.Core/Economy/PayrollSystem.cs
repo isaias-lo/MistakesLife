@@ -54,6 +54,7 @@ namespace MistakesLife.Core.Economy
                 Payslip payslip = PayrollCalculator.Compute(context.Date, job.Kind, job.Salary, rules.Payroll, economy.PriceIndex);
                 character.Money += payslip.Net;
                 character.LastPayslip = payslip;
+                character.AddIncome(context.Date.Year, payslip);
             }
         }
     }
