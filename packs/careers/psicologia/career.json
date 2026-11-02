@@ -3,6 +3,7 @@
   "niveles": [
     {
       "id": "carrera.psicologia.nivel.psicologo",
+      "sueldo_relativo": 1.45,
       "institucion": "universidad",
       "semestres": 10,
       "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",
@@ -10,6 +11,7 @@
     },
     {
       "id": "carrera.psicologia.nivel.psicologo_privada",
+      "sueldo_relativo": 1.35,
       "institucion": "universidad",
       "semestres": 10,
       "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",

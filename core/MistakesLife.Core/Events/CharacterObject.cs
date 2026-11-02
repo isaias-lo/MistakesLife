@@ -13,11 +13,12 @@ namespace MistakesLife.Core.Events
     /// apertura, responsabilidad, extraversion, amabilidad, neuroticismo,
     /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre,
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
-    /// pareja, hijos, adoptado, dinero.
+    /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
-    /// cambiar_genero('género'), cambiar_nombre(), adoptar().
+    /// cambiar_genero('género'), cambiar_nombre(), adoptar(),
+    /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -95,6 +96,14 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(_character.Adopted);
                 case "dinero":
                     return Value.FromNumber((double)_character.Money);
+                case "trabaja":
+                    return Value.FromBool(_character.Job != null);
+                case "tipo_trabajo":
+                    return _character.Job == null ? Value.Null : Value.FromText(JobKindKey(_character.Job.Kind));
+                case "sueldo":
+                    return Value.FromNumber((double)(_character.Job?.Salary ?? 0));
+                case "sueldo_liquido":
+                    return Value.FromNumber(_character.Job == null ? 0 : (double)(_character.LastPayslip?.Net ?? 0));
                 case "hijos":
                     return Value.FromNumber(((EventScope)scope).World.ChildrenOf(_character.Id).Count(c => c.IsAlive));
                 default:
@@ -223,6 +232,15 @@ namespace MistakesLife.Core.Events
                     Character adopted = FamilyFactory.Adopt(((EventScope)scope).World, ((EventScope)scope).Content, _character);
                     ((EventScope)scope).World.WriteJournal(_character.Id, adopted.Sex == Sex.Female ? "diario.adopcion_hija" : "diario.adopcion_hijo");
                     return Value.Null;
+                case "trabajar":
+                    ((EventScope)scope).RequireWritable("jugador.trabajar");
+                    StartJob((EventScope)scope, args);
+                    return Value.Null;
+                case "dejar_trabajo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.dejar_trabajo");
+                    _character.Job = null;
+                    return Value.Null;
                 case "titulado_en":
                     string career = EventScope.SingleText("jugador." + method, args);
                     return Value.FromBool(_character.Degrees.Any(d => d == career || d.StartsWith(career + ".", StringComparison.Ordinal)));
@@ -244,6 +262,46 @@ namespace MistakesLife.Core.Events
                 default:
                     throw new ScriptException($"jugador.{method}() no existe.");
             }
+        }
+
+        /// <summary>Clave del tipo de trabajo en el lenguaje: 'dependiente' o 'honorarios'.</summary>
+        public static string JobKindKey(Economy.JobKind kind) => kind == Economy.JobKind.Freelance ? "honorarios" : "dependiente";
+
+        /// <summary>
+        /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'): empieza un trabajo con ese
+        /// sueldo bruto mensual, escrito en dinero del inicio del mundo (por ejemplo
+        /// sueldo_titulo() o sueldo_minimo() * 1.2). Reemplaza el trabajo anterior.
+        /// </summary>
+        private void StartJob(EventScope scope, Value[] args)
+        {
+            if (args.Length < 1 || args.Length > 2)
+            {
+                throw new ScriptException("jugador.trabajar() necesita el sueldo y, si quieres, el tipo: trabajar(sueldo_titulo(), 'honorarios').");
+            }
+
+            double salary = args[0].AsNumber("jugador.trabajar()");
+            if (salary < 0)
+            {
+                throw new ScriptException("jugador.trabajar(): el sueldo no puede ser negativo.");
+            }
+
+            Economy.JobKind kind = Economy.JobKind.Employee;
+            if (args.Length == 2)
+            {
+                string key = args[1].AsText("jugador.trabajar()");
+                if (key == "honorarios")
+                {
+                    kind = Economy.JobKind.Freelance;
+                }
+                else if (key != "dependiente")
+                {
+                    throw new ScriptException($"jugador.trabajar(): el tipo '{key}' no existe; usa 'dependiente' u 'honorarios'.");
+                }
+            }
+
+            double index = _character.Residence == null ? 1 : scope.World.EconomyOf(_character.Residence.CountryId)?.PriceIndex ?? 1;
+            decimal baseSalary = Math.Round((decimal)salary, MidpointRounding.AwayFromZero);
+            _character.Job = new Economy.Job(kind, baseSalary, index);
         }
 
         private static void NoArguments(string method, Value[] args)

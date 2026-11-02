@@ -32,6 +32,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("tendencia")]
         public string? Tendency { get; set; }
 
+        /// <summary>
+        /// Cuánto gana un titulado de este nivel frente al sueldo típico de su país
+        /// (2.5 = dos veces y media). Si falta, 1.
+        /// </summary>
+        [JsonProperty("sueldo_relativo")]
+        public double SalaryRelative { get; set; } = 1;
+
         [JsonIgnore]
         public string CareerId { get; internal set; } = string.Empty;
 

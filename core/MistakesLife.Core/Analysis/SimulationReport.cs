@@ -45,6 +45,18 @@ namespace MistakesLife.Core.Analysis
 
         public double AverageEventsPerLife { get; internal set; }
 
+        /// <summary>Vidas que terminan con trabajo (con sueldo).</summary>
+        public int Working { get; internal set; }
+
+        /// <summary>
+        /// Mediana del sueldo bruto de quienes trabajan al final, en dinero del inicio
+        /// del mundo (sin inflación), para compararla con los sueldos reales del país.
+        /// </summary>
+        public double MedianRealSalary { get; internal set; }
+
+        /// <summary>Inflación anual promedio del país del jugador durante las vidas.</summary>
+        public double AverageAnnualInflation { get; internal set; }
+
         public int Deaths { get; internal set; }
 
         public double Percent(int count) => Lives == 0 ? 0 : 100.0 * count / Lives;
@@ -59,6 +71,8 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Eventos por vida (promedio): {AverageEventsPerLife.ToString("0.0", ci)}");
             sb.AppendLine($"- Salud / felicidad / inteligencia al final (promedio): {AverageHealth.ToString("0", ci)} / {AverageHappiness.ToString("0", ci)} / {AverageSmarts.ToString("0", ci)}");
             sb.AppendLine($"- Muertes antes de los {FinalAge}: {Deaths}");
+            sb.AppendLine($"- Trabajan al final: {Percent(Working).ToString("0.0", ci)} %; sueldo bruto mediano (en dinero del inicio): {MedianRealSalary.ToString("N0", ci)}");
+            sb.AppendLine($"- Inflación anual promedio: {(AverageAnnualInflation * 100).ToString("0.0", ci)} %");
             sb.AppendLine();
             sb.AppendLine("## Cómo terminan las vidas (marcas)");
             sb.AppendLine();

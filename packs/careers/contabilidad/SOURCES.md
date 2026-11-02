@@ -13,3 +13,7 @@
 
 - La universidad usa 10 semestres formales (tomamos el extremo largo para acercarnos a la duración real). Las reprobaciones agregan semestres.
 - Los sueldos todavía no se usan: llegarán con el sistema de economía.
+
+## Sueldos
+
+- `sueldo_relativo` en `career.json` (cuánto gana un titulado frente al sueldo típico de Chile, $760.000): contador general (CFT) 1,0; contador auditor de instituto 1,45; contador auditor universitario 2,0. Estimado de memoria con el ingreso al cuarto año de titulación de [mifuturo.cl](https://www.mifuturo.cl) (Mineduc). Por verificar.

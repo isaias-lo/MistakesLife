@@ -165,6 +165,7 @@
           "jugador.marcar('trabajando')",
           "jugador.marcar('trabaja_psicologia')",
           "jugador.marcar('trabaja_honorarios')",
+          "jugador.trabajar(sueldo_titulo(), 'honorarios')",
           "jugador.felicidad += 3"
         ]
       },
@@ -175,6 +176,7 @@
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
           "jugador.marcar('trabaja_psicologia')",
+          "jugador.trabajar(sueldo_titulo() * 0.9)",
           "jugador.felicidad += 3"
         ]
       },
@@ -185,6 +187,7 @@
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
           "jugador.marcar('trabaja_psicologia')",
+          "jugador.trabajar(sueldo_titulo() * 1.1)",
           "jugador.felicidad += 2"
         ]
       },
@@ -210,6 +213,7 @@
         "texto": "opcion.psicologia.honorarios.contrato",
         "efectos": [
           "jugador.desmarcar('trabaja_honorarios')",
+          "jugador.trabajar(sueldo_titulo())",
           "jugador.felicidad += 2"
         ]
       }

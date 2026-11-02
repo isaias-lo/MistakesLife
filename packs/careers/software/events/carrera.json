@@ -132,6 +132,7 @@
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
           "jugador.marcar('trabaja_software')",
+          "jugador.trabajar(sueldo_titulo())",
           "jugador.felicidad += 5"
         ]
       },

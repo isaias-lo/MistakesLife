@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Decisions;
@@ -39,7 +40,9 @@ namespace MistakesLife.Core.Analysis
 
             var report = new SimulationReport { Lives = lives, FinalAge = finalAge };
             long totalEvents = 0;
-            double health = 0, happiness = 0, smarts = 0;
+            double health = 0, happiness = 0, smarts = 0, inflation = 0;
+            int inflationLives = 0;
+            var realSalaries = new List<double>();
 
             for (int i = 0; i < lives; i++)
             {
@@ -65,6 +68,27 @@ namespace MistakesLife.Core.Analysis
                 if (!player.IsAlive)
                 {
                     report.Deaths++;
+                }
+
+                var economy = player.Residence == null ? null : session.World.EconomyOf(player.Residence.CountryId);
+                if (economy != null)
+                {
+                    double years = (double)player.AgeInWeeks(session.World.Date) / GameDate.WeeksPerYear;
+                    if (years > 0)
+                    {
+                        inflation += Math.Pow(economy.PriceIndex, 1 / years) - 1;
+                        inflationLives++;
+                    }
+
+                    if (player.Job != null)
+                    {
+                        realSalaries.Add((double)player.Job.Salary / economy.PriceIndex);
+                    }
+                }
+
+                if (player.Job != null)
+                {
+                    report.Working++;
                 }
 
                 health += player.Stats.Health;
@@ -128,6 +152,9 @@ namespace MistakesLife.Core.Analysis
             report.AverageHappiness = happiness / lives;
             report.AverageSmarts = smarts / lives;
             report.AverageEventsPerLife = (double)totalEvents / lives;
+            report.AverageAnnualInflation = inflationLives == 0 ? 0 : inflation / inflationLives;
+            realSalaries.Sort();
+            report.MedianRealSalary = realSalaries.Count == 0 ? 0 : realSalaries[realSalaries.Count / 2];
             report.NeverSeenEvents.AddRange(_content.Events.Select(e => e.Id).Where(id => !report.LivesWithEvent.ContainsKey(id)));
             return report;
         }

@@ -448,6 +448,7 @@ namespace MistakesLife.Core.Content
             if (country.Economy != null)
             {
                 ValidateInflation($"{where}, economia.inflacion", country.Economy.Inflation);
+                ValidatePayroll($"{where}, economia", country.Economy);
             }
 
             FamilyRatesDefinition? family = country.NonPlayedFamily;
@@ -457,6 +458,49 @@ namespace MistakesLife.Core.Content
                 if (badRate || family.PartnerMinAge < 12 || family.FertileMaxAge < family.PartnerMinAge || family.MaxChildren < 0)
                 {
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));
+                }
+            }
+        }
+
+        private void ValidatePayroll(string where, EconomyDefinition economy)
+        {
+            SalaryDefinition? salaries = economy.Salaries;
+            if (salaries != null && (salaries.Minimum < 0 || salaries.Typical < salaries.Minimum || salaries.NoDegreeRelative <= 0 || salaries.AdjustmentMonths < 1))
+            {
+                _errors.Add(new ContentError($"{where}.sueldos", "minimo no negativo, tipico no menor que minimo, relativo_sin_titulo mayor que 0 y reajuste_meses desde 1."));
+            }
+
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (DeductionDefinition deduction in economy.Payroll.Employee.Concat(economy.Payroll.Freelance))
+            {
+                string deductionWhere = $"{where}.liquidacion, {deduction.Id}";
+                CheckId(deductionWhere, deduction.Id, "descuento.");
+                if (deduction.Rate < 0 || deduction.Rate > 1 || deduction.Cap < 0)
+                {
+                    _errors.Add(new ContentError(deductionWhere, "la tasa va de 0 a 1 y el tope no puede ser negativo."));
+                }
+            }
+
+            foreach (List<DeductionDefinition> list in new[] { economy.Payroll.Employee, economy.Payroll.Freelance })
+            {
+                seen.Clear();
+                foreach (DeductionDefinition deduction in list.Where(d => !seen.Add(d.Id)))
+                {
+                    _errors.Add(new ContentError($"{where}.liquidacion, {deduction.Id}", "descuento repetido."));
+                }
+            }
+
+            CheckBrackets($"{where}.liquidacion.impuesto_mensual", economy.Payroll.MonthlyTax);
+        }
+
+        private void CheckBrackets(string where, IReadOnlyList<TaxBracketDefinition> brackets)
+        {
+            for (int i = 0; i < brackets.Count; i++)
+            {
+                if (brackets[i].Rate < 0 || brackets[i].Rate > 1 || brackets[i].From < 0 || (i > 0 && brackets[i].From <= brackets[i - 1].From))
+                {
+                    _errors.Add(new ContentError(where, "los tramos van de menor a mayor (desde), sin repetirse, con tasa de 0 a 1."));
+                    return;
                 }
             }
         }
@@ -538,6 +582,11 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError(levelWhere, "semestres debe ser mayor que 0."));
                 }
+
+                if (level.SalaryRelative <= 0)
+                {
+                    _errors.Add(new ContentError(levelWhere, "sueldo_relativo debe ser mayor que 0."));
+                }
             }
         }
 
@@ -595,6 +644,20 @@ namespace MistakesLife.Core.Content
                 foreach (InflationRegimeDefinition regime in country.Economy?.Inflation.Regimes ?? new List<InflationRegimeDefinition>())
                 {
                     yield return new KeyValuePair<string, string>("diario." + regime.Id, $"país {country.Id}");
+                }
+
+                PayrollDefinition? payroll = country.Economy?.Payroll;
+                if (payroll != null)
+                {
+                    foreach (DeductionDefinition deduction in payroll.Employee.Concat(payroll.Freelance))
+                    {
+                        yield return new KeyValuePair<string, string>(deduction.Id, $"país {country.Id}");
+                    }
+
+                    if (payroll.MonthlyTax.Count > 0)
+                    {
+                        yield return new KeyValuePair<string, string>(Economy.Payslip.IncomeTaxId, $"país {country.Id}");
+                    }
                 }
             }
 
@@ -691,6 +754,14 @@ namespace MistakesLife.Core.Content
         {
             foreach (string name in names.Distinct())
             {
+                if (EventScope.SalaryNames.Contains(name))
+                {
+                    foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Salaries == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{name}: el país {country.Id} no define sus sueldos (economia.sueldos). Todo país debe tenerlos si un evento los usa."));
+                    }
+                }
+
                 if (!EventScope.KnownNames.Contains(name))
                 {
                     _errors.Add(new ContentError(where, $"'{name}' no existe en el lenguaje. Disponibles: {string.Join(", ", EventScope.KnownNames)}."));

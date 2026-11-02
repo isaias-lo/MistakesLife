@@ -36,6 +36,7 @@ namespace MistakesLife.Core.Game
             EconomySystem.Initialize(World, content);
             _cycle = new WeekCycle()
                 .Register(new EconomySystem(content))
+                .Register(new PayrollSystem(content))
                 .Register(new EducationSystem(content))
                 .Register(new CareerSystem())
                 .Register(new AgingSystem())

@@ -13,3 +13,7 @@
 - La universidad privada sin puntaje alto representa que muchas universidades privadas aceptan puntajes PAES más bajos (con arancel alto).
 - El primer trabajo aparece con menos frecuencia que en contabilidad (peso 15 contra 30) para reflejar la menor empleabilidad.
 - El trabajo a honorarios en salud es frecuente, pero el porcentaje exacto está por investigar.
+
+## Sueldos
+
+- `sueldo_relativo` en `career.json` (cuánto gana un titulado frente al sueldo típico de Chile, $760.000): psicólogo 1,45 (universidad del CRUCH) y 1,35 (universidad privada). Estimado de memoria con el ingreso al cuarto año de titulación de [mifuturo.cl](https://www.mifuturo.cl) (Mineduc). Por verificar.
