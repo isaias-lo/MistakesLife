@@ -217,6 +217,15 @@ namespace MistakesLife.ConsoleGame
                     }
                 }
 
+                if (player.Pension.HasValue || player.LastPensionPayment > 0)
+                {
+                    _output.WriteLine($"Pensión del último mes (propia y del Estado): ${player.LastPensionPayment.ToString("N0", culture)}.");
+                }
+                else if (player.PensionFund > 0)
+                {
+                    _output.WriteLine($"Fondo de pensión ahorrado: ${MistakesLife.Core.Economy.PayrollCalculator.ToToday(player.PensionFund, economy.PriceIndex).ToString("N0", culture)}.");
+                }
+
                 if (player.Job != null)
                 {
                     string kind = player.Job.Kind == MistakesLife.Core.Economy.JobKind.Freelance ? "a honorarios" : "con contrato";

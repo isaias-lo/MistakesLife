@@ -95,6 +95,7 @@
           "jugador.desmarcar('trabajando')",
           "jugador.dejar_trabajo()",
           "jugador.marcar('jubilado')",
+          "jugador.jubilarse()",
           "jugador.felicidad += 4"
         ]
       },
@@ -105,6 +106,7 @@
           "jugador.desmarcar('trabajando')",
           "jugador.dejar_trabajo()",
           "jugador.marcar('jubilado')",
+          "jugador.jubilarse()",
           "jugador.marcar('pension_baja')",
           "jugador.felicidad -= 6"
         ]
@@ -119,12 +121,23 @@
     ]
   },
   {
+    "id": "evento.cobrar_pension",
+    "condiciones": "!jugador.tiene('trabajando') && !jugador.trabaja && !jugador.jubilado && jugador.edad >= si(jugador.sexo == 'femenino', ley('ley.edad_jubilacion_mujeres'), ley('ley.edad_jubilacion_hombres'))",
+    "probabilidad_anual": 1,
+    "unico": true,
+    "efectos": [
+      "jugador.marcar('jubilado')",
+      "jugador.jubilarse()"
+    ]
+  },
+  {
     "id": "evento.pension_garantizada",
     "condiciones": "jugador.edad >= ley('ley.pension_garantizada_edad') && !jugador.tiene('recibe_pgu')",
     "probabilidad_anual": 1,
     "unico": true,
     "efectos": [
       "jugador.marcar('recibe_pgu')",
+      "jugador.recibir_pension_universal()",
       "jugador.felicidad += 3"
     ]
   },

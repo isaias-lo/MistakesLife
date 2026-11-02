@@ -14,12 +14,14 @@ namespace MistakesLife.Core.Events
     /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre,
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
-    /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo.
+    /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo,
+    /// fondo_pension, pension_estimada, jubilado, pension, pension_universal.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
     /// cambiar_genero('género'), cambiar_nombre(), adoptar(),
-    /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo(), declarar().
+    /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo(), declarar(),
+    /// jubilarse(), recibir_pension_universal().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -113,6 +115,16 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(_character.PendingTaxReturn != null);
                 case "declaracion_saldo":
                     return Value.FromNumber((double)(_character.PendingTaxReturn?.Balance ?? 0));
+                case "fondo_pension":
+                    return Value.FromNumber((double)PayrollToday(_character.PensionFund, scope));
+                case "pension_estimada":
+                    return Value.FromNumber((double)PayrollToday(Economy.PensionSystem.EstimatedPension(_character, Pensions(scope)), scope));
+                case "jubilado":
+                    return Value.FromBool(_character.Pension.HasValue);
+                case "pension":
+                    return Value.FromNumber((double)_character.LastPensionPayment);
+                case "pension_universal":
+                    return Value.FromBool(_character.ReceivesUniversalPension);
                 case "sueldo_liquido":
                     return Value.FromNumber(_character.Job == null ? 0 : (double)(_character.LastPayslip?.Net ?? 0));
                 case "hijos":
@@ -120,6 +132,21 @@ namespace MistakesLife.Core.Events
                 default:
                     throw new ScriptException($"jugador.{member} no existe.");
             }
+        }
+
+        /// <summary>Lleva un monto en dinero del inicio del mundo a precios de hoy del país donde vive.</summary>
+        private decimal PayrollToday(decimal amount, IScriptScope scope)
+        {
+            string? country = _character.Residence?.CountryId;
+            Economy.CountryEconomy? economy = country == null ? null : ((EventScope)scope).World.EconomyOf(country);
+            return Economy.PayrollCalculator.ToToday(amount, economy?.PriceIndex ?? 1);
+        }
+
+        /// <summary>Las reglas de pensiones del país donde vive, o null.</summary>
+        private Content.PensionsDefinition? Pensions(IScriptScope scope)
+        {
+            string? country = _character.Residence?.CountryId;
+            return country == null ? null : ((EventScope)scope).Content.GetCountry(country).Economy?.Pensions;
         }
 
         private static Value TextOrNull(string? text) => text == null ? Value.Null : Value.FromText(text);
@@ -256,6 +283,21 @@ namespace MistakesLife.Core.Events
                     }
 
                     Economy.TaxSystem.Accept(((EventScope)scope).World, _character);
+                    return Value.Null;
+                case "jubilarse":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.jubilarse");
+                    if (_character.Pension.HasValue)
+                    {
+                        throw new ScriptException("jugador.jubilarse(): ya está jubilado (revisa jugador.jubilado).");
+                    }
+
+                    Economy.PensionSystem.Retire(_character, Pensions(scope));
+                    return Value.Null;
+                case "recibir_pension_universal":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.recibir_pension_universal");
+                    _character.ReceivesUniversalPension = true;
                     return Value.Null;
                 case "dejar_trabajo":
                     NoArguments(method, args);

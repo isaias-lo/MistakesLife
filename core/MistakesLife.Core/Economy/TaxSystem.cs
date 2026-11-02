@@ -14,6 +14,7 @@ namespace MistakesLife.Core.Economy
     ///   año anterior por quien tuvo honorarios (quien solo tuvo contrato ya pagó
     ///   cada mes y no necesita declarar). El jugador la tiene pendiente y la
     ///   acepta con un evento (jugador.declarar()); los demás personajes declaran solos.
+    ///   Las cotizaciones de los honorarios llegan a la cuenta de pensión al declarar.
     /// - Si el plazo termina (empieza el mes siguiente) y el jugador no declaró:
     ///   si tenía que pagar, paga con multa; si le tocaba devolución, la pierde.
     /// </summary>
@@ -61,7 +62,7 @@ namespace MistakesLife.Core.Economy
 
                 if (month == rules.Month)
                 {
-                    Declare(world, character, rules, economy, context.Date.Year - 1);
+                    Declare(world, character, rules, _content.GetCountry(character.Residence.CountryId).Economy?.Pensions, economy, context.Date.Year - 1);
                 }
             }
         }
@@ -82,7 +83,7 @@ namespace MistakesLife.Core.Economy
             }
         }
 
-        private static void Declare(World world, Character character, AnnualTaxDefinition rules, CountryEconomy economy, int year)
+        private static void Declare(World world, Character character, AnnualTaxDefinition rules, PensionsDefinition? pensions, CountryEconomy economy, int year)
         {
             AnnualIncome? income = character.IncomeOf(year);
             character.ForgetIncomeUntil(year);
@@ -92,6 +93,7 @@ namespace MistakesLife.Core.Economy
             }
 
             character.PendingTaxReturn = TaxReturnCalculator.Compute(income, rules, economy.PriceIndex);
+            PensionSystem.SaveFreelance(character, pensions, rules, income, economy.PriceIndex);
             if (character.Id != world.PlayerId)
             {
                 Accept(world, character);

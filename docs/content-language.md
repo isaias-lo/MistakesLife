@@ -178,6 +178,25 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Hay plazo hasta que empieza el mes siguiente. Si no declaró y debía, paga lo que debía más la `multa_atraso`; si le tocaba devolución, la pierde.
 - Textos obligatorios del diario: `diario.impuestos.devolucion`, `diario.impuestos.pago`, `diario.impuestos.multa` y `diario.impuestos.devolucion_perdida`.
 
+#### Jubilación (`economia.jubilacion`)
+
+```json
+"jubilacion": {
+  "cuenta_individual": {
+    "descuento": "descuento.chile.afp", "parte_a_la_cuenta": 0.897, "tasa_honorarios": 0.1,
+    "rentabilidad_real_anual": 0.035, "anos_de_pension": 22
+  },
+  "pension_universal": { "monto": 224004, "completa_hasta": 789139, "sin_pension_desde": 1252602 }
+}
+```
+
+- Las dos partes son opcionales: cada país arma su sistema con las que tenga.
+- `cuenta_individual` (capitalización, como las AFP): cada mes, quien recibe sueldo con contrato ahorra en su fondo la `parte_a_la_cuenta` del `descuento` de su liquidación (el resto es comisión y seguro). Quien trabaja a honorarios ahorra al declarar: `tasa_honorarios` sobre la base de cotización de `declaracion_anual`. El fondo gana `rentabilidad_real_anual` (por sobre la inflación) cada mes.
+- El fondo y la pensión se guardan en dinero del inicio del mundo (como la UF): la inflación no los achica.
+- Al jubilarse (`jugador.jubilarse()` en un evento), el fondo se convierte en una pensión fija mensual que dura `anos_de_pension` ganando la misma rentabilidad (como una renta vitalicia). Desde el mes siguiente se paga cada mes.
+- `pension_universal` (como la PGU): quien la pidió (`jugador.recibir_pension_universal()`) recibe el `monto` completo si su pensión propia llega hasta `completa_hasta`; desde ahí baja en línea recta hasta 0 en `sin_pension_desde`. Montos mensuales en dinero del inicio del mundo.
+- El descuento de `cuenta_individual` debe estar en `liquidacion.dependiente`.
+
 ### Vida previa (campo `vida_previa` de country.json)
 
 En el legado, el jugador puede seguir con un hijo que ya es adulto y que nadie jugó. Para que no le aparezcan los eventos del colegio a los 40 años, el país dice qué marcas se dan por hechas desde cada edad:
@@ -379,6 +398,11 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `arriendo()` | Arriendo mensual típico de la comuna donde vive, en dinero del inicio del mundo |
 | `jugador.declaracion_pendiente`, `jugador.declaracion_saldo` | Si tiene una declaración de impuestos por aceptar, y su saldo (positivo: devolución; negativo: a pagar) |
 | `jugador.declarar()` | Acepta la declaración pendiente: recibe la devolución o paga (solo efectos) |
+| `jugador.fondo_pension`, `jugador.pension_estimada` | Lo ahorrado en su cuenta de pensión y la pensión mensual que recibiría si se jubilara hoy, a precios de hoy |
+| `jugador.jubilado`, `jugador.pension` | Si ya se jubiló (con `jubilarse()`), y lo que recibió de pensiones el último mes (propia + del Estado) |
+| `jugador.pension_universal` | Si pidió la pensión del Estado (PGU) |
+| `jugador.jubilarse()` | Convierte su fondo en una pensión mensual para siempre; solo una vez (solo efectos) |
+| `jugador.recibir_pension_universal()` | Empieza a recibir la pensión del Estado de su país (solo efectos) |
 | `jugador.dejar_trabajo()` | Deja de trabajar y de recibir sueldo (solo efectos) |
 | `jugador.trabaja`, `jugador.tipo_trabajo` | Si tiene trabajo; `'dependiente'`, `'honorarios'` o `nada` |
 | `jugador.sueldo`, `jugador.sueldo_liquido` | Sueldo bruto de hoy y líquido de la última liquidación (0 si no trabaja) |
