@@ -202,6 +202,13 @@ namespace MistakesLife.ConsoleGame
         {
             Character player = _session.World.Player;
             _output.WriteLine($"{player.FirstName}, {_session.PlayerAgeInYears} años. Salud {player.Stats.Health}, felicidad {player.Stats.Happiness}, inteligencia {player.Stats.Smarts}.");
+            var economy = player.Residence == null ? null : _session.World.EconomyOf(player.Residence.CountryId);
+            if (economy != null)
+            {
+                // Formato chileno: punto para miles y coma para decimales.
+                var culture = new System.Globalization.NumberFormatInfo { NumberGroupSeparator = ".", NumberDecimalSeparator = "," };
+                _output.WriteLine($"Dinero: ${player.Money.ToString("N0", culture)}. Inflación de los últimos 12 meses: {(economy.InflationLast12Months * 100).ToString("0.0", culture)} %.");
+            }
             if (player.EducationStageId != null)
             {
                 _output.WriteLine($"Etapa: {_session.Text(player.EducationStageId)}.");

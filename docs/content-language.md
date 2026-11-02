@@ -92,6 +92,32 @@ Cada país trae sus propias leyes. Los eventos preguntan por la ley, nunca por e
 - **Todo país debe definir las leyes que usan los eventos.** Si un evento usa `ley('ley.x')` y algún país no la tiene, el validador lo avisa.
 - Cada valor se anota con su fuente en el `SOURCES.md` del país.
 
+### Economía (campo `economia` de country.json)
+
+Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, así que la inflación no se copia de años reales: **la genera el juego** con los datos del país, y sigue avanzando generación tras generación.
+
+```json
+"economia": {
+  "inflacion": {
+    "regimen_inicial": "economia.inflacion.estable",
+    "regimenes": [
+      { "id": "economia.inflacion.estable", "anual_min": 0.02, "anual_max": 0.045, "variacion_mensual": 0.003,
+        "cambio_anual": { "economia.inflacion.alta": 0.08 } },
+      { "id": "economia.inflacion.alta", "anual_min": 0.06, "anual_max": 0.13, "variacion_mensual": 0.006,
+        "cambio_anual": { "economia.inflacion.estable": 0.55 } }
+    ]
+  }
+}
+```
+
+- Un **régimen** es un "clima" de la economía: estable, alta, hiperinflación… Su id empieza con `economia.inflacion.`.
+- `anual_min` y `anual_max`: rango de la inflación anual (0.03 = 3 %). Al entrar al régimen sale un valor al azar en ese rango, y cada mes se mueve hasta `variacion_mensual` hacia arriba o abajo, sin salirse del rango.
+- `cambio_anual`: probabilidad al año de pasar a otro régimen. 0.08 es, en promedio, un episodio cada 12 años; 0.55 es que dura cerca de un año y medio. A un régimen que no aparece en ningún `cambio_anual` solo se llega con un evento (`cambiar_inflacion`).
+- El año tiene 12 meses (de 4 o 5 semanas). Al empezar cada mes suben los precios y se tiran los dados de cambio de régimen.
+- Cuando el país del jugador cambia de régimen, se escribe en su diario `diario.<id del régimen>` (por ejemplo `diario.economia.inflacion.alta`). Ese texto es obligatorio.
+- **Montos en los paquetes:** se escriben en dinero de cuando empieza el mundo, y `precio(monto)` los lleva a precios de hoy. Así un evento escrito una vez sirve en cualquier generación.
+- Si falta el campo, los precios nunca cambian (útil en pruebas).
+
 ### Vida previa (campo `vida_previa` de country.json)
 
 En el legado, el jugador puede seguir con un hijo que ya es adulto y que nadie jugó. Para que no le aparezcan los eventos del colegio a los 40 años, el país dice qué marcas se dan por hechas desde cada edad:
@@ -280,7 +306,13 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `estudiar('nivel')` | Empieza a estudiar ese nivel de carrera (solo efectos) |
 | `jugador.tiene('x')` | Si tiene la marca `x` |
 | `jugador.marcar('x')`, `jugador.desmarcar('x')` | Pone o quita una marca (solo efectos) |
-| `mundo.anio`, `mundo.semana`, `mundo.semanas_totales` | Fecha del juego |
+| `mundo.anio`, `mundo.mes`, `mundo.semana`, `mundo.semanas_totales` | Fecha del juego (mes de 1 a 12) |
+| `jugador.dinero` | Su saldo, en la moneda del país donde vive. Se puede cambiar (`jugador.dinero += precio(20000)`) y puede quedar negativo |
+| `precio(monto)` | Lleva un monto escrito en dinero del inicio del mundo a precios de hoy, en el país del jugador: `precio(15000)` |
+| `mundo.inflacion` | Cuánto subieron los precios en los últimos 12 meses en el país del jugador, en porcentaje (`3.4` es 3,4 %) |
+| `mundo.regimen_inflacion` | Régimen de inflación actual del país del jugador, por ejemplo `'economia.inflacion.alta'` |
+| `mundo.indice_precios` | Cuántas veces más cuesta todo que al empezar el mundo (1 al principio) |
+| `cambiar_inflacion('economia.inflacion.x')` | Pasa el país del jugador a ese régimen (por ejemplo, en una crisis). Todo país debe definir los regímenes que usan los eventos (solo efectos) |
 | `semilla('id').activa`, `.despierta`, `.fuerza`, `.testigos` | La semilla abierta de ese tipo; `fuerza` se puede cambiar |
 | `semilla('id').cerrar` | Cierra la semilla (solo efectos) |
 | `plantar('id')` | Planta una semilla nueva (solo efectos). Si el personaje ya tiene abierta una del mismo tipo, no planta otra: la existente gana la `fuerza` del tipo (máximo 100) |

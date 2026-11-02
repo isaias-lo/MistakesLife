@@ -30,6 +30,17 @@ namespace MistakesLife.Core.Time
         /// <summary>Semana dentro del año, de 1 a 52.</summary>
         public int WeekOfYear => (TotalWeeks % WeeksPerYear) + 1;
 
+        /// <summary>
+        /// Mes del año, de 1 a 12. Las 52 semanas se reparten entre los 12 meses:
+        /// algunos meses tienen 4 semanas y otros 5.
+        /// </summary>
+        public int Month => (WeekIndexInYear * 12 / WeeksPerYear) + 1;
+
+        /// <summary>Si esta es la primera semana de su mes (ahí se pagan sueldos y cuentas, y suben los precios).</summary>
+        public bool IsFirstWeekOfMonth => WeekIndexInYear == 0 || Month != ((WeekIndexInYear - 1) * 12 / WeeksPerYear) + 1;
+
+        private int WeekIndexInYear => TotalWeeks % WeeksPerYear;
+
         public static GameDate Start => new GameDate(0);
 
         public GameDate AddWeeks(int weeks) => new GameDate(TotalWeeks + weeks);

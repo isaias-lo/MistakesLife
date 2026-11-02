@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
+using MistakesLife.Core.Economy;
 using MistakesLife.Core.Education;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Life;
@@ -32,7 +33,9 @@ namespace MistakesLife.Core.Game
             Content = content ?? throw new ArgumentNullException(nameof(content));
             World = WorldFactory.CreateNewLife(seed, content);
             Events = new EventSystem(content, eventRules);
+            EconomySystem.Initialize(World, content);
             _cycle = new WeekCycle()
+                .Register(new EconomySystem(content))
                 .Register(new EducationSystem(content))
                 .Register(new CareerSystem())
                 .Register(new AgingSystem())

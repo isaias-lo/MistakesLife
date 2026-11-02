@@ -445,6 +445,11 @@ namespace MistakesLife.Core.Content
                 CheckWeights($"{where}, diversidad.identidades", country.Diversity.Identities, DiversityDefinition.IdentityKeys);
             }
 
+            if (country.Economy != null)
+            {
+                ValidateInflation($"{where}, economia.inflacion", country.Economy.Inflation);
+            }
+
             FamilyRatesDefinition? family = country.NonPlayedFamily;
             if (family != null)
             {
@@ -453,6 +458,53 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));
                 }
+            }
+        }
+
+        private void ValidateInflation(string where, InflationDefinition inflation)
+        {
+            if (inflation.Regimes.Count == 0)
+            {
+                _errors.Add(new ContentError(where, "debe tener al menos un régimen."));
+            }
+
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (InflationRegimeDefinition regime in inflation.Regimes)
+            {
+                string regimeWhere = $"{where}, {regime.Id}";
+                CheckId(regimeWhere, regime.Id, "economia.inflacion.");
+                if (!seen.Add(regime.Id))
+                {
+                    _errors.Add(new ContentError(regimeWhere, "régimen repetido."));
+                }
+
+                if (regime.AnnualMin <= -1 || regime.AnnualMax < regime.AnnualMin || regime.MonthlyVariation < 0)
+                {
+                    _errors.Add(new ContentError(regimeWhere, "anual_min debe ser mayor que -1, anual_max no menor que anual_min y variacion_mensual no negativa."));
+                }
+
+                foreach (KeyValuePair<string, double> change in regime.AnnualSwitch)
+                {
+                    if (inflation.Regime(change.Key) == null || change.Key == regime.Id)
+                    {
+                        _errors.Add(new ContentError(regimeWhere, $"cambio_anual: '{change.Key}' no es otro régimen de este país."));
+                    }
+
+                    if (change.Value < 0 || change.Value > 1)
+                    {
+                        _errors.Add(new ContentError(regimeWhere, $"cambio_anual: la probabilidad de '{change.Key}' debe estar entre 0 y 1."));
+                    }
+                }
+
+                if (regime.AnnualSwitch.Values.Sum() > 1)
+                {
+                    _errors.Add(new ContentError(regimeWhere, "cambio_anual: las probabilidades suman más que 1."));
+                }
+            }
+
+            if (inflation.Regime(inflation.InitialRegime) == null)
+            {
+                _errors.Add(new ContentError(where, $"regimen_inicial '{inflation.InitialRegime}' no es uno de sus regímenes."));
             }
         }
 
@@ -540,6 +592,10 @@ namespace MistakesLife.Core.Content
                 }
 
                 yield return new KeyValuePair<string, string>(country.Id, $"país {country.Id}");
+                foreach (InflationRegimeDefinition regime in country.Economy?.Inflation.Regimes ?? new List<InflationRegimeDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>("diario." + regime.Id, $"país {country.Id}");
+                }
             }
 
             foreach (CareerDefinition career in _careers.Values)
@@ -660,6 +716,14 @@ namespace MistakesLife.Core.Content
                     foreach (CountryDefinition country in _countries.Values.Where(c => !c.LawsJson.ContainsKey(reference.Argument)))
                     {
                         _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): el país {country.Id} no define esa ley. Todo país debe definir las leyes que usan los eventos."));
+                    }
+                }
+
+                if (reference.Function == EventScope.ChangeInflationFunction)
+                {
+                    foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Inflation.Regime(reference.Argument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): el país {country.Id} no tiene ese régimen de inflación. Todo país debe definir los regímenes que usan los eventos."));
                     }
                 }
 
