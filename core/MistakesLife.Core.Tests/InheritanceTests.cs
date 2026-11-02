@@ -108,6 +108,7 @@ namespace MistakesLife.Core.Tests
             Assert.Equal(0m, partner.Money);
             Assert.All(children, c => Assert.Equal(0m, c.Money));
             Assert.Empty(world.Player.Debts);
+            Assert.False(world.Player.Delinquent);
         }
 
         [Fact]

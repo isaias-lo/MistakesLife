@@ -216,6 +216,8 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Si se cumple `condicion_pago` (o si no la tiene), se cobra la cuota fija que paga la deuda en las cuotas que quedan. Sin dinero suficiente, la cuota queda impaga.
 - Con `meses_para_moroso` meses seguidos sin pagar alguna cuota, queda en el registro de morosos (`jugador.moroso`); sale al ponerse al día con todas. Con `meses_prescripcion` (opcional) meses seguidos sin pagar, la deuda prescribe y se borra (diario `diario.deudas.prescrita`).
 - El `id` empieza con `deuda.` y es la clave de su nombre en `lang/`. Todo país debe tener los tipos que usan los eventos.
+- Deudas rotativas (tarjetas): con `pago_minimo` (por ejemplo `0.05`), cada mes se cobra esa parte de lo que se debe, al menos `pago_minimo_monto` (en dinero del inicio del mundo), en vez de cuotas fijas.
+- Con `cuotas_repactacion`, una deuda atrasada se puede repactar con `jugador.repactar()`: queda al día en esas cuotas nuevas y, al mes siguiente, sale del registro de morosos. `jugador.puede_repactar` dice si tiene alguna.
 - Textos obligatorios del diario: `diario.deudas.pagada`, `diario.deudas.moroso`, `diario.deudas.fuera_registro` y `diario.deudas.prescrita`.
 
 #### Herencia (`economia.herencia`)
@@ -437,6 +439,7 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `jugador.recibir_pension_universal()` | Empieza a recibir la pensión del Estado de su país (solo efectos) |
 | `jugador.endeudarse('tipo', monto)` | Pide prestado ese monto (en dinero del inicio del mundo) con un tipo de deuda de su país (solo efectos) |
 | `jugador.deuda`, `jugador.deuda_de('tipo')` | Lo que debe hoy en total, o de un tipo de deuda |
+| `jugador.repactar()`, `jugador.puede_repactar` | Repacta las deudas atrasadas que se pueden repactar (solo efectos), y si tiene alguna |
 | `jugador.cuotas_deudas`, `jugador.moroso` | Lo que pagó en cuotas el último mes, y si está en el registro de morosos |
 | `jugador.dejar_trabajo()` | Deja de trabajar y de recibir sueldo (solo efectos) |
 | `jugador.trabaja`, `jugador.tipo_trabajo` | Si tiene trabajo; `'dependiente'`, `'honorarios'` o `nada` |

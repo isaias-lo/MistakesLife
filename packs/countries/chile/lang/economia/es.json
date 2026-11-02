@@ -41,5 +41,14 @@
   "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de DICOM.",
   "diario.herencia.recibida": "Recibiste tu parte de una herencia.",
   "diario.herencia.deudas": "Te tocó pagar tu parte de las deudas de una herencia.",
-  "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de DICOM, pero ningún banco lo olvida."
+  "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de DICOM, pero ningún banco lo olvida.",
+  "opcion.cobranza.repactar": "Vas al banco y repactas: la deuda queda en cuotas nuevas, más largas. Sales de DICOM, pero vas a pagar más intereses.",
+  "opcion.cobranza.ignorar": "No contestas. Ya verás cómo pagas.",
+  "evento.oferta_tarjeta": "Te llama un ejecutivo del banco: tienes una tarjeta de crédito pre-aprobada, sin costo de mantención el primer año.",
+  "opcion.oferta_tarjeta.aceptar": "Aceptas. Te llega la tarjeta a la semana.",
+  "opcion.oferta_tarjeta.rechazar": "Le dices que no, gracias. Mejor no tentarse.",
+  "evento.compra_tarjeta": "En el mall ves algo que quieres hace tiempo: un televisor nuevo, ropa, un celular. Con la tarjeta lo puedes tener hoy.",
+  "opcion.compra_tarjeta.comprar": "Lo compras con la tarjeta. Total, después pagas el mínimo.",
+  "opcion.compra_tarjeta.no_comprar": "Lo dejas pasar. No es el momento.",
+  "deuda.chile.tarjeta": "Tarjeta de crédito"
 }

@@ -21,6 +21,24 @@ namespace MistakesLife.Core.Content
         public int Installments { get; set; }
 
         /// <summary>
+        /// Deuda rotativa (como una tarjeta de crédito): en vez de cuotas fijas, cada
+        /// mes se cobra esta parte de lo que se debe (0.05 = 5 %). Si falta, se paga en cuotas.
+        /// </summary>
+        [JsonProperty("pago_minimo")]
+        public double? MinimumPaymentRate { get; set; }
+
+        /// <summary>Con pago mínimo: lo menos que se cobra al mes, en dinero del inicio del mundo (o todo, si se debe menos).</summary>
+        [JsonProperty("pago_minimo_monto")]
+        public decimal MinimumPaymentAmount { get; set; }
+
+        /// <summary>
+        /// Si se puede repactar cuando hay cuotas atrasadas: en cuántas cuotas nuevas
+        /// queda la deuda. Si falta, no se puede repactar.
+        /// </summary>
+        [JsonProperty("cuotas_repactacion")]
+        public int? RescheduleInstallments { get; set; }
+
+        /// <summary>
         /// Si la deuda sube con la inflación (como lo que está en UF en Chile). Si no,
         /// la inflación la achica: con el tiempo vale menos.
         /// </summary>
