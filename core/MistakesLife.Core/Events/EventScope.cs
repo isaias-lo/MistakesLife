@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
+using MistakesLife.Core.Economy;
 using MistakesLife.Core.Scripting;
 using MistakesLife.Core.Seeds;
 using MistakesLife.Core.Worlds;
@@ -14,7 +15,8 @@ namespace MistakesLife.Core.Events
     ///
     /// Raíces: jugador, mundo.
     /// Funciones: semilla('id'), plantar('id'), diario('clave'), estudiar('nivel'),
-    /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor).
+    /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor),
+    /// precio(monto), cambiar_inflacion('regimen').
     /// Ver docs/content-language.md para la lista completa.
     /// </summary>
     public sealed class EventScope : IScriptScope
@@ -26,17 +28,20 @@ namespace MistakesLife.Core.Events
         public const string IfFunction = "si";
         public const string LawFunction = "ley";
         public const string ChangeLawFunction = "cambiar_ley";
+        public const string PriceFunction = "precio";
+        public const string ChangeInflationFunction = "cambiar_inflacion";
 
         /// <summary>Todos los nombres que existen en el lenguaje.</summary>
         public static readonly IReadOnlyCollection<string> KnownNames = new SortedSet<string>(StringComparer.Ordinal)
         {
             "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
+            PriceFunction + "()", ChangeInflationFunction + "()",
         };
 
         /// <summary>Nombres que cambian el mundo: no se permiten en condiciones.</summary>
         public static readonly IReadOnlyCollection<string> EffectOnlyNames = new SortedSet<string>(StringComparer.Ordinal)
         {
-            PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", ChangeLawFunction + "()",
+            PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", ChangeLawFunction + "()", ChangeInflationFunction + "()",
         };
 
         public EventScope(World world, ContentDatabase content, Character subject, Seed? currentSeed, bool readOnly)
@@ -109,6 +114,20 @@ namespace MistakesLife.Core.Events
                     Law(lawId);
                     World.ChangeLaw(SubjectCountry().Id, lawId, args[1]);
                     return Value.Null;
+                case PriceFunction:
+                    if (args.Length != 1)
+                    {
+                        throw new ScriptException("precio() necesita un monto: precio(15000).");
+                    }
+
+                    // El monto está en dinero del inicio del mundo; se lleva a precios de hoy.
+                    double amount = args[0].AsNumber(name + "()");
+                    double index = Subject.Residence == null ? 1 : World.EconomyOf(Subject.Residence.CountryId)?.PriceIndex ?? 1;
+                    return Value.FromNumber(Math.Round(amount * index, MidpointRounding.AwayFromZero));
+                case ChangeInflationFunction:
+                    RequireWritable(name);
+                    ChangeInflation(SingleText(name, args));
+                    return Value.Null;
                 case JournalFunction:
                     RequireWritable(name);
                     World.WriteJournal(Subject.Id, SingleText(name, args));
@@ -148,6 +167,18 @@ namespace MistakesLife.Core.Events
             }
 
             return country.TryGetLaw(lawId, out Value value) ? value : throw new ScriptException($"ley('{lawId}'): el país {country.Id} no define esa ley.");
+        }
+
+        /// <summary>Cambia el régimen de inflación del país del personaje (por ejemplo, en una crisis).</summary>
+        private void ChangeInflation(string regimeId)
+        {
+            CountryDefinition country = SubjectCountry();
+            InflationRegimeDefinition regime = country.Economy?.Inflation.Regime(regimeId)
+                ?? throw new ScriptException($"cambiar_inflacion('{regimeId}'): el país {country.Id} no tiene ese régimen de inflación.");
+            EconomySystem.Initialize(World, Content);
+            CountryEconomy economy = World.EconomyOf(country.Id)!;
+            var random = World.Random.Fork("economia.cambio." + country.Id + "." + World.Date.TotalWeeks);
+            EconomySystem.ChangeRegime(World, economy, regime, random);
         }
 
         private CountryDefinition SubjectCountry() =>

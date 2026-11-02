@@ -13,7 +13,7 @@ namespace MistakesLife.Core.Events
     /// apertura, responsabilidad, extraversion, amabilidad, neuroticismo,
     /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre,
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
-    /// pareja, hijos, adoptado.
+    /// pareja, hijos, adoptado, dinero.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
@@ -93,6 +93,8 @@ namespace MistakesLife.Core.Events
                     return Relative(_character.PartnerId, scope);
                 case "adoptado":
                     return Value.FromBool(_character.Adopted);
+                case "dinero":
+                    return Value.FromNumber((double)_character.Money);
                 case "hijos":
                     return Value.FromNumber(((EventScope)scope).World.ChildrenOf(_character.Id).Count(c => c.IsAlive));
                 default:
@@ -115,6 +117,13 @@ namespace MistakesLife.Core.Events
         public void Set(string member, Value value, IScriptScope scope)
         {
             ((EventScope)scope).RequireWritable("jugador." + member);
+            if (member == "dinero")
+            {
+                // Se guarda en unidades enteras de la moneda (sin centavos).
+                _character.Money = Math.Round((decimal)value.AsNumber("jugador.dinero"), MidpointRounding.AwayFromZero);
+                return;
+            }
+
             int number = (int)Math.Round(value.AsNumber("jugador." + member), MidpointRounding.AwayFromZero);
             switch (member)
             {

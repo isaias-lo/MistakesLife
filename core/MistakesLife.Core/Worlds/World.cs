@@ -21,6 +21,7 @@ namespace MistakesLife.Core.Worlds
         private readonly List<EventRecord> _eventHistory = new List<EventRecord>();
         private readonly List<int> _formerPlayers = new List<int>();
         private readonly Dictionary<string, Scripting.Value> _lawChanges = new Dictionary<string, Scripting.Value>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, Economy.CountryEconomy> _economies = new SortedDictionary<string, Economy.CountryEconomy>(StringComparer.Ordinal);
         private int _nextCharacterId = 1;
 
         public World(ulong seed)
@@ -143,6 +144,15 @@ namespace MistakesLife.Core.Worlds
         /// <summary>El valor de una ley si cambió durante la partida.</summary>
         public bool TryGetChangedLaw(string countryId, string lawId, out Scripting.Value value) =>
             _lawChanges.TryGetValue(countryId + "|" + lawId, out value);
+
+        /// <summary>La economía de un país durante la partida (precios e inflación), o null si el país no tiene datos de economía.</summary>
+        public Economy.CountryEconomy? EconomyOf(string countryId) =>
+            _economies.TryGetValue(countryId, out Economy.CountryEconomy? economy) ? economy : null;
+
+        /// <summary>Las economías de todos los países, ordenadas por id.</summary>
+        public IEnumerable<Economy.CountryEconomy> Economies => _economies.Values;
+
+        internal void AddEconomy(Economy.CountryEconomy economy) => _economies.Add(economy.CountryId, economy);
 
         /// <summary>Generación del jugador actual: 1 para el primero, 2 para su hijo, etc.</summary>
         public int Generation => _formerPlayers.Count + 1;

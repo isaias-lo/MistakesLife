@@ -86,6 +86,12 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public int HouseholdLevel { get; set; } = 50;
 
+        /// <summary>
+        /// Dinero disponible (su saldo), en la moneda del país donde vive. Puede
+        /// quedar negativo: eso es estar en deuda.
+        /// </summary>
+        public decimal Money { get; set; }
+
         /// <summary>Etapa educativa actual (id del paquete del país), o null si no estudia.</summary>
         public string? EducationStageId { get; set; }
 

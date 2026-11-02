@@ -119,6 +119,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("diversidad")]
         public DiversityDefinition? Diversity { get; set; }
 
+        /// <summary>
+        /// Cómo funciona el dinero en el país (ver <see cref="EconomyDefinition"/>).
+        /// Si falta, los precios nunca cambian.
+        /// </summary>
+        [JsonProperty("economia")]
+        public EconomyDefinition? Economy { get; set; }
+
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
 
