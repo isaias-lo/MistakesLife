@@ -35,5 +35,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Tipos de deuda y registro de morosos. Si falta, nadie puede endeudarse.</summary>
         [JsonProperty("deudas")]
         public DebtsDefinition? Debts { get; set; }
+
+        /// <summary>Herencia de bienes y deudas al morir. Si falta, lo que deja se pierde.</summary>
+        [JsonProperty("herencia")]
+        public InheritanceDefinition? Inheritance { get; set; }
     }
 }

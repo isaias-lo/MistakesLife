@@ -18,7 +18,8 @@ namespace MistakesLife.Core.Life
     /// pareja o un hijo), se escribe en el diario ("diario.muerte",
     /// "diario.muerte_madre", "diario.muerte_padre", "diario.muerte_pareja",
     /// "diario.muerte_hija", "diario.muerte_hijo") y el tiempo se detiene (día clave).
-    /// Quien muere deja de tener pareja, y su pareja también.
+    /// Lo que deja se reparte como herencia según la ley de su país; después
+    /// quien muere deja de tener pareja, y su pareja también.
     /// </summary>
     public sealed class MortalitySystem : IWeeklySystem
     {
@@ -57,6 +58,7 @@ namespace MistakesLife.Core.Life
                 {
                     int? playerPartnerId = world.Player.PartnerId;
                     character.Die(context.Date, Character.CauseNatural);
+                    Economy.InheritanceSettlement.Settle(world, _content, character);
                     if (character.PartnerId.HasValue)
                     {
                         FamilyFactory.EndPartnership(world, character);

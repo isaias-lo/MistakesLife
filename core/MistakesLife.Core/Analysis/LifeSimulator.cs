@@ -83,7 +83,12 @@ namespace MistakesLife.Core.Analysis
                         inflationLives++;
                     }
 
-                    realMoney.Add((double)player.Money / economy.PriceIndex);
+                    // Al morir, el dinero y las deudas pasan a la herencia: se miden solo en vidas que siguen.
+                    if (player.IsAlive)
+                    {
+                        realMoney.Add((double)player.Money / economy.PriceIndex);
+                    }
+
                     if (player.Debts.Count > 0)
                     {
                         report.WithDebt++;
@@ -112,7 +117,7 @@ namespace MistakesLife.Core.Analysis
                     report.Working++;
                 }
 
-                if (player.Money < 0)
+                if (player.IsAlive && player.Money < 0)
                 {
                     report.InRed++;
                 }
