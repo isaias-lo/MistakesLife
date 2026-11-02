@@ -1,4 +1,7 @@
 {
   "diario.nacimiento": "Nací.",
-  "diario.cumpleanos": "Hoy cumplí un año más."
+  "diario.cumpleanos": "Hoy cumplí un año más.",
+  "diario.muerte": "Aquí termina mi historia.",
+  "diario.muerte_madre": "Hoy murió mi mamá.",
+  "diario.muerte_padre": "Hoy murió mi papá."
 }

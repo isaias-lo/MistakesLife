@@ -39,7 +39,7 @@ namespace MistakesLife.Core.Content
         public const string BaseLanguage = "es";
 
         /// <summary>Claves de texto que usa el núcleo directamente.</summary>
-        public static readonly IReadOnlyList<string> CoreTextKeys = new[] { "diario.nacimiento", "diario.cumpleanos" };
+        public static readonly IReadOnlyList<string> CoreTextKeys = new[] { "diario.nacimiento", "diario.cumpleanos", "diario.muerte", "diario.muerte_madre", "diario.muerte_padre" };
 
         /// <summary>Idiomas con textos cargados.</summary>
         public IEnumerable<string> Languages => _texts.Keys;
@@ -401,6 +401,23 @@ namespace MistakesLife.Core.Content
                 }
 
                 previousEnd = stage.ToAge;
+            }
+
+            int previousAge = -1;
+            foreach (MortalityRateDefinition row in country.Mortality)
+            {
+                string rowWhere = $"{where}, mortalidad edad {row.Age}";
+                if (row.Age <= previousAge)
+                {
+                    _errors.Add(new ContentError(rowWhere, "las edades deben ir de menor a mayor, sin repetirse."));
+                }
+
+                if (row.Female < 0 || row.Female > 1 || row.Male < 0 || row.Male > 1)
+                {
+                    _errors.Add(new ContentError(rowWhere, "femenino y masculino son probabilidades: deben estar entre 0 y 1."));
+                }
+
+                previousAge = row.Age;
             }
         }
 

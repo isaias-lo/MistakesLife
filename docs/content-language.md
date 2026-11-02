@@ -53,6 +53,25 @@ El validador exige que **toda clave usada exista en español** (`es`): textos de
 - `etapas_educacion`: en orden, sin solaparse; `edad_hasta` no se incluye.
 - Al nacer se eligen país, ciudad y comuna según los pesos, una madre y un padre con nombres del país, y el hijo lleva el primer apellido del padre y luego el de la madre.
 
+### Mortalidad (campo `mortalidad` de country.json)
+
+La probabilidad de morir de causas naturales sale de la **tabla de vida oficial** del país (en Chile, del INE). Cada fila es una edad y la probabilidad de morir durante ese año, por sexo:
+
+```json
+"mortalidad": [
+  { "edad": 0, "femenino": 0.0072, "masculino": 0.00813 },
+  { "edad": 5, "femenino": 0.00014, "masculino": 0.00016 },
+  { "edad": 110, "femenino": 1, "masculino": 1 }
+]
+```
+
+- Las edades van de menor a mayor; entre dos filas el núcleo interpola en línea recta y después de la última usa la última.
+- Cada semana se tira el dado con la probabilidad semanal equivalente, para todos los personajes (también los padres).
+- La salud cambia el riesgo: con salud 40 o más vale la tabla; por debajo sube en línea recta hasta 10 veces con salud 0.
+- Si el país no tiene tabla, nadie muere de causas naturales (útil en pruebas).
+- La salud se acerca sola a la "salud esperada" de la edad (85 hasta los 40, 40 a los 90), unos 4 puntos al año: el cuerpo se recupera de lo que restan los eventos y envejece aunque no pase nada.
+- Al morir el jugador se escribe `diario.muerte`; al morir su madre o padre, `diario.muerte_madre` o `diario.muerte_padre`. En ambos casos el tiempo se detiene.
+
 ## Carrera (career.json)
 
 Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. El país no necesita conocer las carreras: un evento con `"opciones_carreras": true` (en Chile, `evento.elegir_futuro`) recibe una opción por cada nivel de cada carrera cargada.

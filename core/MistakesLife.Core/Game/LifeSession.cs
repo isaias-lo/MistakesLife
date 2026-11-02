@@ -4,6 +4,7 @@ using System.Linq;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Education;
 using MistakesLife.Core.Events;
+using MistakesLife.Core.Life;
 using MistakesLife.Core.Seeds;
 using MistakesLife.Core.Simulation;
 using MistakesLife.Core.Worlds;
@@ -33,6 +34,8 @@ namespace MistakesLife.Core.Game
             _cycle = new WeekCycle()
                 .Register(new EducationSystem(content))
                 .Register(new CareerSystem())
+                .Register(new AgingSystem())
+                .Register(new MortalitySystem(content))
                 .Register(new SeedSystem(seedRules))
                 .Register(Events)
                 .Register(new BirthdaySystem());

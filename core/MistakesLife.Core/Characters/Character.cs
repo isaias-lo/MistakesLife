@@ -91,13 +91,21 @@ namespace MistakesLife.Core.Characters
 
         public GameDate? DeathDate { get; private set; }
 
+        /// <summary>
+        /// Por qué murió (id de causa, por ejemplo "causa.natural"), o null si sigue vivo.
+        /// </summary>
+        public string? DeathCauseId { get; private set; }
+
         /// <summary>Edad en semanas en la fecha indicada.</summary>
         public int AgeInWeeks(GameDate date) => Math.Max(0, date.WeeksSince(BirthDate));
 
         /// <summary>Edad en años cumplidos en la fecha indicada.</summary>
         public int AgeInYears(GameDate date) => AgeInWeeks(date) / GameDate.WeeksPerYear;
 
-        public void Die(GameDate date)
+        public void Die(GameDate date) => Die(date, CauseNatural);
+
+        /// <summary>Muere en esa fecha por esa causa. Si ya estaba muerto, no cambia nada.</summary>
+        public void Die(GameDate date, string causeId)
         {
             if (!IsAlive)
             {
@@ -106,7 +114,11 @@ namespace MistakesLife.Core.Characters
 
             IsAlive = false;
             DeathDate = date;
+            DeathCauseId = causeId ?? throw new ArgumentNullException(nameof(causeId));
         }
+
+        /// <summary>Causa de muerte por edad y salud (la que usa la tabla de mortalidad).</summary>
+        public const string CauseNatural = "causa.natural";
 
         public override string ToString() => $"{FirstName} {LastName} (#{Id})";
     }
