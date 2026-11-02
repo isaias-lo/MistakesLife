@@ -92,6 +92,27 @@
         { "id": "economia.inflacion.muy_alta", "anual_min": 0.15, "anual_max": 0.3, "variacion_mensual": 0.01,
           "cambio_anual": { "economia.inflacion.alta": 0.3 } }
       ]
+    },
+    "sueldos": { "minimo": 539000, "tipico": 760000, "relativo_sin_titulo": 0.85, "reajuste_meses": 12 },
+    "liquidacion": {
+      "dependiente": [
+        { "id": "descuento.chile.afp", "tasa": 0.1115, "tope": 3500000, "rebaja_impuesto": true },
+        { "id": "descuento.chile.salud", "tasa": 0.07, "tope": 3500000, "rebaja_impuesto": true },
+        { "id": "descuento.chile.seguro_cesantia", "tasa": 0.006, "tope": 5250000, "rebaja_impuesto": true }
+      ],
+      "honorarios": [
+        { "id": "descuento.chile.retencion_honorarios", "tasa": 0.1525 }
+      ],
+      "impuesto_mensual": [
+        { "desde": 0, "tasa": 0 },
+        { "desde": 931500, "tasa": 0.04 },
+        { "desde": 2070000, "tasa": 0.08 },
+        { "desde": 3450000, "tasa": 0.135 },
+        { "desde": 4830000, "tasa": 0.23 },
+        { "desde": 6210000, "tasa": 0.304 },
+        { "desde": 8280000, "tasa": 0.35 },
+        { "desde": 21390000, "tasa": 0.4 }
+      ]
     }
   },
   "familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03, "adopcion_anual": 0.03, "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 },

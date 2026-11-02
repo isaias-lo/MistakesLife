@@ -469,6 +469,7 @@
         "efectos": [
           "jugador.marcar('financiamiento')",
           "jugador.marcar('trabaja_y_estudia')",
+          "jugador.trabajar(sueldo_minimo() / 2)",
           "jugador.salud -= 3"
         ]
       }
@@ -485,6 +486,7 @@
         "efectos": [
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
+          "jugador.trabajar(sueldo_minimo())",
           "jugador.felicidad += 2"
         ]
       },
@@ -660,6 +662,7 @@
         "condiciones": "jugador.edad >= 16",
         "efectos": [
           "jugador.felicidad += 1",
+          "jugador.dinero += precio(120000)",
           "jugador.marcar('primer_sueldo')"
         ]
       }
@@ -726,6 +729,7 @@
         "efectos": [
           "jugador.felicidad += 2",
           "jugador.salud -= 1",
+          "jugador.dinero += precio(800000)",
           "jugador.marcar('primer_sueldo')"
         ]
       },
@@ -745,6 +749,7 @@
         "tendencia": "jugador.amabilidad / 2 + (100 - jugador.nivel_hogar) / 3",
         "efectos": [
           "jugador.felicidad += 2",
+          "jugador.dinero -= jugador.dinero / 4",
           "jugador.marcar('aporta_en_casa')"
         ]
       },
@@ -752,6 +757,7 @@
         "texto": "opcion.sueldo.gusto",
         "tendencia": "jugador.extraversion / 2",
         "efectos": [
+          "jugador.dinero -= jugador.dinero / 3",
           "jugador.felicidad += 3"
         ]
       },

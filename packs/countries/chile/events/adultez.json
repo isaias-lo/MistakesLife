@@ -11,6 +11,7 @@
         "tendencia": "jugador.responsabilidad",
         "efectos": [
           "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
           "jugador.marcar('buscando_trabajo')",
           "jugador.felicidad -= 8"
         ]
@@ -20,6 +21,7 @@
         "tendencia": "jugador.neuroticismo",
         "efectos": [
           "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
           "jugador.marcar('buscando_trabajo')",
           "jugador.felicidad -= 12"
         ]
@@ -36,6 +38,7 @@
         "efectos": [
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
+          "jugador.trabajar(sueldo_titulo())",
           "jugador.felicidad += 6"
         ]
       },
@@ -90,6 +93,7 @@
         "tendencia": "100 - jugador.responsabilidad / 2",
         "efectos": [
           "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
           "jugador.marcar('jubilado')",
           "jugador.felicidad += 4"
         ]
@@ -99,6 +103,7 @@
         "condiciones": "jugador.tiene('trabaja_honorarios')",
         "efectos": [
           "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
           "jugador.marcar('jubilado')",
           "jugador.marcar('pension_baja')",
           "jugador.felicidad -= 6"

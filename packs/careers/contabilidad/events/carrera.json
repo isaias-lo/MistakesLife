@@ -157,6 +157,7 @@
           "jugador.marcar('trabajando')",
           "jugador.marcar('trabaja_contabilidad')",
           "jugador.marcar('trabaja_auditoria')",
+          "jugador.trabajar(sueldo_titulo() * 1.1)",
           "jugador.felicidad += 4",
           "jugador.salud -= 2"
         ]
@@ -167,6 +168,7 @@
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
           "jugador.marcar('trabaja_contabilidad')",
+          "jugador.trabajar(sueldo_titulo() * 0.9)",
           "jugador.felicidad += 4"
         ]
       },

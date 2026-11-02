@@ -92,6 +92,12 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public decimal Money { get; set; }
 
+        /// <summary>Su trabajo actual (tipo y sueldo), o null si no trabaja.</summary>
+        public Economy.Job? Job { get; set; }
+
+        /// <summary>Su última liquidación de sueldo, o null si nunca ha recibido sueldo.</summary>
+        public Economy.Payslip? LastPayslip { get; set; }
+
         /// <summary>Etapa educativa actual (id del paquete del país), o null si no estudia.</summary>
         public string? EducationStageId { get; set; }
 

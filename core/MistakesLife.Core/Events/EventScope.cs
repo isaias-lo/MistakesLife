@@ -16,7 +16,7 @@ namespace MistakesLife.Core.Events
     /// Raíces: jugador, mundo.
     /// Funciones: semilla('id'), plantar('id'), diario('clave'), estudiar('nivel'),
     /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor),
-    /// precio(monto), cambiar_inflacion('regimen').
+    /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo().
     /// Ver docs/content-language.md para la lista completa.
     /// </summary>
     public sealed class EventScope : IScriptScope
@@ -30,12 +30,22 @@ namespace MistakesLife.Core.Events
         public const string ChangeLawFunction = "cambiar_ley";
         public const string PriceFunction = "precio";
         public const string ChangeInflationFunction = "cambiar_inflacion";
+        public const string MinimumSalaryFunction = "sueldo_minimo";
+        public const string TypicalSalaryFunction = "sueldo_tipico";
+        public const string DegreeSalaryFunction = "sueldo_titulo";
+
+        /// <summary>Funciones que leen los sueldos del país: todo país debe tener "economia.sueldos" si un evento las usa.</summary>
+        public static readonly IReadOnlyCollection<string> SalaryNames = new[]
+        {
+            MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()",
+        };
 
         /// <summary>Todos los nombres que existen en el lenguaje.</summary>
         public static readonly IReadOnlyCollection<string> KnownNames = new SortedSet<string>(StringComparer.Ordinal)
         {
             "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
             PriceFunction + "()", ChangeInflationFunction + "()",
+            MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()",
         };
 
         /// <summary>Nombres que cambian el mundo: no se permiten en condiciones.</summary>
@@ -124,6 +134,15 @@ namespace MistakesLife.Core.Events
                     double amount = args[0].AsNumber(name + "()");
                     double index = Subject.Residence == null ? 1 : World.EconomyOf(Subject.Residence.CountryId)?.PriceIndex ?? 1;
                     return Value.FromNumber(Math.Round(amount * index, MidpointRounding.AwayFromZero));
+                case MinimumSalaryFunction:
+                    NoArgs(name, args);
+                    return Value.FromNumber((double)Salaries().Minimum);
+                case TypicalSalaryFunction:
+                    NoArgs(name, args);
+                    return Value.FromNumber((double)Salaries().Typical);
+                case DegreeSalaryFunction:
+                    NoArgs(name, args);
+                    return Value.FromNumber(DegreeSalary());
                 case ChangeInflationFunction:
                     RequireWritable(name);
                     ChangeInflation(SingleText(name, args));
@@ -167,6 +186,34 @@ namespace MistakesLife.Core.Events
             }
 
             return country.TryGetLaw(lawId, out Value value) ? value : throw new ScriptException($"ley('{lawId}'): el país {country.Id} no define esa ley.");
+        }
+
+        private SalaryDefinition Salaries()
+        {
+            CountryDefinition country = SubjectCountry();
+            return country.Economy?.Salaries ?? throw new ScriptException($"El país {country.Id} no define sus sueldos (economia.sueldos).");
+        }
+
+        /// <summary>
+        /// Sueldo de mercado del personaje según su mejor título: el sueldo típico del
+        /// país por el "sueldo_relativo" del nivel (o por "relativo_sin_titulo" si no
+        /// tiene título). Nunca menos que el sueldo mínimo. En dinero del inicio del mundo.
+        /// </summary>
+        private double DegreeSalary()
+        {
+            SalaryDefinition salaries = Salaries();
+            double relative = Subject.Degrees.Count == 0
+                ? salaries.NoDegreeRelative
+                : Subject.Degrees.Max(d => Content.GetCareerLevel(d).SalaryRelative);
+            return Math.Max((double)salaries.Minimum, Math.Round((double)salaries.Typical * relative));
+        }
+
+        private static void NoArgs(string function, Value[] args)
+        {
+            if (args.Length != 0)
+            {
+                throw new ScriptException($"{function}() no recibe valores.");
+            }
         }
 
         /// <summary>Cambia el régimen de inflación del país del personaje (por ejemplo, en una crisis).</summary>

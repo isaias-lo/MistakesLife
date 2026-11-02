@@ -3,6 +3,7 @@
   "niveles": [
     {
       "id": "carrera.software.nivel.analista_programador",
+      "sueldo_relativo": 1.4,
       "institucion": "instituto",
       "semestres": 5,
       "tendencia": "si(jugador.tiene('le_gusta_programar'), 60, 15) + jugador.apertura / 4 + jugador.inteligencia / 5",
@@ -10,6 +11,7 @@
     },
     {
       "id": "carrera.software.nivel.ingenieria_informatica",
+      "sueldo_relativo": 1.7,
       "institucion": "instituto",
       "semestres": 8,
       "tendencia": "si(jugador.tiene('le_gusta_programar'), 60, 15) + jugador.apertura / 4 + jugador.inteligencia / 5",
@@ -17,6 +19,7 @@
     },
     {
       "id": "carrera.software.nivel.ingenieria_civil_computacion",
+      "sueldo_relativo": 3.0,
       "institucion": "universidad",
       "semestres": 11,
       "tendencia": "si(jugador.tiene('le_gusta_programar'), 60, 15) + jugador.apertura / 4 + jugador.inteligencia / 5",

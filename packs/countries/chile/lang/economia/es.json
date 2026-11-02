@@ -1,5 +1,10 @@
 {
   "diario.economia.inflacion.estable": "Los precios se calmaron. En las noticias dicen que la inflación volvió a la meta del Banco Central.",
   "diario.economia.inflacion.alta": "Todo está más caro. En la feria, en la micro y en el supermercado se nota: la inflación subió.",
-  "diario.economia.inflacion.muy_alta": "Los precios suben cada semana. La plata no alcanza y nadie sabe cuánto va a costar algo el próximo mes."
+  "diario.economia.inflacion.muy_alta": "Los precios suben cada semana. La plata no alcanza y nadie sabe cuánto va a costar algo el próximo mes.",
+  "descuento.chile.afp": "Cotización AFP (10 % + comisión)",
+  "descuento.chile.salud": "Salud (Fonasa o Isapre)",
+  "descuento.chile.seguro_cesantia": "Seguro de cesantía",
+  "descuento.chile.retencion_honorarios": "Retención de la boleta de honorarios",
+  "descuento.impuesto_mensual": "Impuesto único de segunda categoría"
 }
