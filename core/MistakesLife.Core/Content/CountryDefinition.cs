@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MistakesLife.Core.Characters;
 using Newtonsoft.Json;
 
 namespace MistakesLife.Core.Content
@@ -44,6 +45,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("etapas_educacion")]
         public List<EducationStageDefinition> EducationStages { get; set; } = new List<EducationStageDefinition>();
 
+        /// <summary>
+        /// Tabla de mortalidad: probabilidad anual de morir por edad y sexo, de
+        /// menor a mayor edad. Si falta, en este país nadie muere de causas naturales.
+        /// </summary>
+        [JsonProperty("mortalidad")]
+        public List<MortalityRateDefinition> Mortality { get; set; } = new List<MortalityRateDefinition>();
+
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
 
@@ -60,5 +68,39 @@ namespace MistakesLife.Core.Content
 
             return null;
         }
+
+        /// <summary>
+        /// Probabilidad de morir durante un año a esa edad, según la tabla.
+        /// Entre dos filas se interpola en línea recta; antes de la primera fila
+        /// vale la primera y después de la última vale la última.
+        /// </summary>
+        public double AnnualDeathProbability(int ageInYears, Sex sex)
+        {
+            if (Mortality.Count == 0)
+            {
+                return 0;
+            }
+
+            MortalityRateDefinition first = Mortality[0];
+            if (ageInYears <= first.Age)
+            {
+                return Rate(first, sex);
+            }
+
+            for (int i = 1; i < Mortality.Count; i++)
+            {
+                MortalityRateDefinition next = Mortality[i];
+                if (ageInYears <= next.Age)
+                {
+                    MortalityRateDefinition previous = Mortality[i - 1];
+                    double share = (double)(ageInYears - previous.Age) / (next.Age - previous.Age);
+                    return Rate(previous, sex) + ((Rate(next, sex) - Rate(previous, sex)) * share);
+                }
+            }
+
+            return Rate(Mortality[Mortality.Count - 1], sex);
+        }
+
+        private static double Rate(MortalityRateDefinition row, Sex sex) => sex == Sex.Female ? row.Female : row.Male;
     }
 }

@@ -19,8 +19,17 @@
 
 | # | Tarea | Estado |
 |---|---|---|
-| C1 | Núcleo: carreras como paquetes (`career.json`, niveles, semestres, títulos) y software migrado | En revisión |
-| C2 | Paquete de contabilidad (contador general, contador auditor) | En revisión |
-| C3 | Paquete de psicología | En revisión |
-| C4 | Más eventos de vida en Puente Alto | En revisión |
-| C5 | Equilibrar con el simulador y datos reales (`probabilidad_anual`) | En revisión |
+| C1 | Núcleo: carreras como paquetes (`career.json`, niveles, semestres, títulos) y software migrado | Hecha |
+| C2 | Paquete de contabilidad (contador general, contador auditor) | Hecha |
+| C3 | Paquete de psicología | Hecha |
+| C4 | Más eventos de vida en Puente Alto | Hecha |
+| C5 | Equilibrar con el simulador y datos reales (`probabilidad_anual`) | Hecha |
+
+## Opción B: la vida hasta la vejez y el legado
+
+| # | Tarea | Estado |
+|---|---|---|
+| B1 | Envejecer y morir: tabla de mortalidad real por país, salud que se recupera y envejece, muerte del jugador y de sus padres | En revisión |
+| B2 | Pareja e hijos: personajes nuevos que nacen en el mundo | Pendiente |
+| B3 | Legado: al morir, seguir jugando con un hijo (semillas heredables, mismo mundo) | Pendiente |
+| B4 | Eventos de adultez y vejez en Chile (trabajo, jubilación por AFP, enfermedades) y consola hasta la muerte | Pendiente |
