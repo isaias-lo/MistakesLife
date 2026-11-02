@@ -218,8 +218,7 @@
   {
     "id": "evento.temblor",
     "condiciones": "jugador.edad >= 3",
-    "peso": 1,
-    "enfriamiento_semanas": 156,
+    "probabilidad_anual": 0.3,
     "efectos": [
       "jugador.felicidad -= 1",
       "diario('diario.temblor')"
@@ -579,8 +578,8 @@
   {
     "id": "evento.fiestas_patrias",
     "condiciones": "jugador.edad >= 4",
-    "peso": 3,
-    "enfriamiento_semanas": 156,
+    "probabilidad_anual": 0.35,
+    "enfriamiento_semanas": 52,
     "opciones": [
       {
         "texto": "opcion.dieciocho.fonda",
@@ -608,8 +607,7 @@
   {
     "id": "evento.robo_celular",
     "condiciones": "jugador.edad >= 12",
-    "peso": 2,
-    "enfriamiento_semanas": 520,
+    "probabilidad_anual": 0.04,
     "opciones": [
       {
         "texto": "opcion.robo.perseguir",
@@ -775,8 +773,8 @@
   {
     "id": "evento.temporal_lluvia",
     "condiciones": "jugador.edad >= 6",
-    "peso": 1,
-    "enfriamiento_semanas": 260,
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
     "efectos": [
       "jugador.salud -= 1",
       "diario('diario.temporal_lluvia')"

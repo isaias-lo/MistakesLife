@@ -270,6 +270,16 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, "el peso debe ser mayor que 0."));
                 }
 
+                if (ev.AnnualProbability.HasValue && (ev.AnnualProbability <= 0 || ev.AnnualProbability > 1))
+                {
+                    _errors.Add(new ContentError(where, "probabilidad_anual debe ser mayor que 0 y como máximo 1."));
+                }
+
+                if (ev.AnnualProbability.HasValue && ev.SeedType != null)
+                {
+                    _errors.Add(new ContentError(where, "un evento de semilla no lleva probabilidad_anual: ocurre cuando la semilla despierta."));
+                }
+
                 if (ev.CooldownWeeks < 0)
                 {
                     _errors.Add(new ContentError(where, "enfriamiento_semanas no puede ser negativo."));

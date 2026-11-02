@@ -56,6 +56,20 @@ namespace MistakesLife.Core.Content
         public List<EventOptionDefinition> Options { get; set; } = new List<EventOptionDefinition>();
 
         /// <summary>
+        /// Probabilidad de que ocurra en un año (0 a 1) mientras se cumplen sus condiciones,
+        /// tomada de estadísticas reales (por ejemplo 0.04 para un robo). Si se usa, el
+        /// evento no compite por peso con los demás: cada semana tiene su propia oportunidad.
+        /// Opcional.
+        /// </summary>
+        [JsonProperty("probabilidad_anual")]
+        public double? AnnualProbability { get; set; }
+
+        /// <summary>Oportunidad semanal equivalente a la probabilidad anual.</summary>
+        [JsonIgnore]
+        public double WeeklyProbability =>
+            AnnualProbability.HasValue ? 1.0 - System.Math.Pow(1.0 - AnnualProbability.Value, 1.0 / Time.GameDate.WeeksPerYear) : 0.0;
+
+        /// <summary>
         /// Si es verdadero, al armar el contenido se agrega una opción por cada nivel
         /// de cada carrera cargada ("estudiar esto"), antes de las opciones propias.
         /// Así un país no necesita conocer las carreras que existen.

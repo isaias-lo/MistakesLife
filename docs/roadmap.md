@@ -23,4 +23,4 @@
 | C2 | Paquete de contabilidad (contador general, contador auditor) | En revisión |
 | C3 | Paquete de psicología | En revisión |
 | C4 | Más eventos de vida en Puente Alto | En revisión |
-| C5 | Equilibrar con el simulador y datos reales | Pendiente |
+| C5 | Equilibrar con el simulador y datos reales (`probabilidad_anual`) | En revisión |

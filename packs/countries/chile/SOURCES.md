@@ -14,7 +14,11 @@
 | Voto obligatorio desde los 18; multa de 0,5 UTM que cobra el Juzgado de Policía Local | [Meganoticias (2024)](https://www.meganoticias.cl/dato-util/462986-multas-por-no-ir-a-votar-elecciones-municipales-pdp-24-10-2024.html) | Eventos `primera_votacion` y `citacion_policia_local` |
 | Línea 4 del Metro llega a Plaza de Puente Alto desde 2005 | [Cooperativa (2005)](https://www.cooperativa.cl/noticias/site/artic/20051130/pags-amp/20051130115251.html) | Evento `viaje_largo` |
 
+| Robo con violencia o intimidación: 3,5 % de los hogares al año | [INE, ENUSC 2024](https://www.ine.gob.cl/sala-de-prensa/prensa/general/noticia/2025/07/07/subsecretar%C3%ADa-de-prevenci%C3%B3n-del-delito-e-ine-presentan-los-resultados-de-la-encuesta-nacional-urbana-de-seguridad-ciudadana-(enusc)-2024) | `robo_celular` usa `probabilidad_anual` 0.04 (estimación por persona) |
+
 ## Estimaciones por revisar
+
+- **Probabilidades anuales sin estadística exacta:** temblor fuerte que se siente en Santiago (0.3), temporal que inunda la calle (0.25) y un 18 memorable (0.35).
 
 - **Nivel de hogar de Puente Alto (10 a 65):** comuna popular y de clase media baja, con sectores de alta vulnerabilidad como Bajos de Mena. CASEN 2024 da 13,8 % de pobreza por ingresos y 22,1 % multidimensional: hay que llevar esos números a la distribución de `nivel_hogar`.
 - **Solo una comuna:** la fase 1 parte en Puente Alto. Las demás comunas de Santiago se suman después de investigarlas.
