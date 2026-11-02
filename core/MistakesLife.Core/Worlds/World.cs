@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using MistakesLife.Core.Characters;
+using MistakesLife.Core.Events;
 using MistakesLife.Core.Randomness;
 using MistakesLife.Core.Seeds;
 using MistakesLife.Core.Time;
@@ -16,6 +17,8 @@ namespace MistakesLife.Core.Worlds
     {
         private readonly Dictionary<int, Character> _characters = new Dictionary<int, Character>();
         private readonly List<JournalEntry> _journal = new List<JournalEntry>();
+        private readonly List<PendingEvent> _pendingEvents = new List<PendingEvent>();
+        private readonly List<EventRecord> _eventHistory = new List<EventRecord>();
         private int _nextCharacterId = 1;
 
         public World(ulong seed)
@@ -44,6 +47,18 @@ namespace MistakesLife.Core.Worlds
 
         /// <summary>Todas las semillas (consecuencias diferidas) del mundo.</summary>
         public SeedBook Seeds { get; } = new SeedBook();
+
+        /// <summary>Eventos que esperan que el jugador elija una opción.</summary>
+        public IReadOnlyList<PendingEvent> PendingEvents => _pendingEvents;
+
+        /// <summary>Eventos ya vividos.</summary>
+        public IReadOnlyList<EventRecord> EventHistory => _eventHistory;
+
+        internal void AddPendingEvent(PendingEvent pending) => _pendingEvents.Add(pending);
+
+        internal void RemovePendingEvent(PendingEvent pending) => _pendingEvents.Remove(pending);
+
+        internal void RecordEvent(EventRecord record) => _eventHistory.Add(record);
 
         /// <summary>Entrega un id nuevo, que nunca se repite en este mundo.</summary>
         public int NextCharacterId() => _nextCharacterId++;

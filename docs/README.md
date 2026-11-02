@@ -9,3 +9,4 @@ En esta carpeta van los documentos que necesitan estar junto al código:
 
 - [`architecture.md`](architecture.md): resumen de la arquitectura para quien programe.
 - [`roadmap.md`](roadmap.md): fases y tareas, con su estado.
+- [`content-language.md`](content-language.md): cómo escribir eventos y semillas en los paquetes.

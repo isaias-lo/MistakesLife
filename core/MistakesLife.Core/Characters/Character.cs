@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MistakesLife.Core.Time;
 
 namespace MistakesLife.Core.Characters
@@ -33,6 +34,20 @@ namespace MistakesLife.Core.Characters
         public Personality Personality { get; }
 
         public Stats Stats { get; }
+
+        private readonly SortedSet<string> _flags = new SortedSet<string>(StringComparer.Ordinal);
+
+        /// <summary>
+        /// Marcas simples sobre el personaje, como "postulando" o "fumador".
+        /// Las ponen y quitan los efectos de los eventos.
+        /// </summary>
+        public IReadOnlyCollection<string> Flags => _flags;
+
+        public bool HasFlag(string flag) => _flags.Contains(flag);
+
+        public void SetFlag(string flag) => _flags.Add(flag);
+
+        public void ClearFlag(string flag) => _flags.Remove(flag);
 
         public bool IsAlive { get; private set; } = true;
 

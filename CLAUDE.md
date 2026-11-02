@@ -6,6 +6,7 @@ Fuentes de verdad (léelas antes de decisiones de diseño):
 - Diseño: https://claude.ai/artifact/TLyFxfHXuytpZFXHUHY3B9
 - Técnico: https://claude.ai/artifact/Rv74yh2pBA6kTHmLLQ7nSL
 - Resumen local: `docs/architecture.md` y `docs/roadmap.md`
+- Formato de eventos, semillas y lenguaje de condiciones: `docs/content-language.md` (actualízalo si agregas datos al lenguaje)
 
 ## Mapa del repositorio
 
