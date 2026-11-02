@@ -12,8 +12,9 @@ namespace MistakesLife.Core.Events
 {
     /// <summary>
     /// Fase de eventos del ciclo semanal. Primero convierte en escena las semillas
-    /// que despertaron; si no hay, puede ocurrir un evento al azar según sus
-    /// condiciones y su peso. Un día clave detiene el tiempo.
+    /// que despertaron; si no hay, prueba los eventos con probabilidad anual
+    /// (cada uno con su propia oportunidad) y luego, con cierta probabilidad,
+    /// elige un evento al azar según sus condiciones y su peso. Un día clave detiene el tiempo.
     /// Mientras el jugador tenga un evento sin responder, no ocurren otros.
     /// </summary>
     public sealed class EventSystem : IWeeklySystem
@@ -62,14 +63,24 @@ namespace MistakesLife.Core.Events
                 }
             }
 
+            // Eventos con probabilidad anual: cada uno tiene su propia oportunidad cada semana.
+            var randomScope = new EventScope(world, Content, player, null, readOnly: true);
+            foreach (EventDefinition ev in Content.Events.Where(e => e.AnnualProbability.HasValue))
+            {
+                if (CanHappen(world, ev, player, randomScope) && random.Chance(ev.WeeklyProbability))
+                {
+                    Occur(world, context, ev, player, null);
+                    return;
+                }
+            }
+
             if (!random.Chance(Rules.WeeklyRandomEventChance))
             {
                 return;
             }
 
-            var randomScope = new EventScope(world, Content, player, null, readOnly: true);
             List<EventDefinition> pool = Content.Events
-                .Where(e => e.SeedType == null && !(e.Unique && HasHappened(world, e.Id, player.Id)) && !InCooldown(world, e, player.Id) && Passes(e, randomScope))
+                .Where(e => e.SeedType == null && !e.AnnualProbability.HasValue && CanHappen(world, e, player, randomScope))
                 .ToList();
             if (pool.Count > 0)
             {
@@ -148,6 +159,9 @@ namespace MistakesLife.Core.Events
                 world.Seeds.Resolve(seed, world.Date);
             }
         }
+
+        private static bool CanHappen(World world, EventDefinition definition, Character player, EventScope scope) =>
+            !(definition.Unique && HasHappened(world, definition.Id, player.Id)) && !InCooldown(world, definition, player.Id) && Passes(definition, scope);
 
         private static bool Passes(EventDefinition definition, EventScope scope) =>
             definition.CompiledConditions == null || definition.CompiledConditions.IsTrue(scope);

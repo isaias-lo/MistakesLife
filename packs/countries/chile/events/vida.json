@@ -218,8 +218,7 @@
   {
     "id": "evento.temblor",
     "condiciones": "jugador.edad >= 3",
-    "peso": 1,
-    "enfriamiento_semanas": 156,
+    "probabilidad_anual": 0.3,
     "efectos": [
       "jugador.felicidad -= 1",
       "diario('diario.temblor')"
@@ -541,6 +540,244 @@
     "efectos": [
       "jugador.felicidad -= 3",
       "diario('diario.cobranza_cae')"
+    ]
+  },
+  {
+    "id": "evento.abuela_cuida",
+    "condiciones": "jugador.edad >= 1 && jugador.edad < 4 && jugador.nivel_hogar <= 55",
+    "peso": 10,
+    "unico": true,
+    "efectos": [
+      "jugador.felicidad += 2",
+      "jugador.marcar('cercano_abuela')",
+      "diario('diario.abuela_cuida')"
+    ]
+  },
+  {
+    "id": "evento.allegados",
+    "condiciones": "jugador.edad >= 2 && jugador.edad < 12 && jugador.nivel_hogar <= 30",
+    "peso": 10,
+    "unico": true,
+    "efectos": [
+      "jugador.felicidad -= 1",
+      "jugador.marcar('allegados')",
+      "diario('diario.allegados')"
+    ]
+  },
+  {
+    "id": "evento.subsidio_casa_propia",
+    "condiciones": "jugador.tiene('allegados') && jugador.edad >= 5 && jugador.edad < 18",
+    "peso": 4,
+    "unico": true,
+    "efectos": [
+      "jugador.desmarcar('allegados')",
+      "jugador.felicidad += 5",
+      "diario('diario.subsidio_casa_propia')"
+    ]
+  },
+  {
+    "id": "evento.fiestas_patrias",
+    "condiciones": "jugador.edad >= 4",
+    "probabilidad_anual": 0.35,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.dieciocho.fonda",
+        "efectos": [
+          "jugador.felicidad += 2",
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.dieciocho.asado",
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.dieciocho.trabajar",
+        "condiciones": "jugador.edad >= 16",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "jugador.marcar('primer_sueldo')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.robo_celular",
+    "condiciones": "jugador.edad >= 12",
+    "probabilidad_anual": 0.04,
+    "opciones": [
+      {
+        "texto": "opcion.robo.perseguir",
+        "efectos": [
+          "jugador.salud -= 3",
+          "diario('diario.robo_celular')"
+        ]
+      },
+      {
+        "texto": "opcion.robo.dejar",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "diario('diario.robo_celular')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.viaje_largo",
+    "condiciones": "jugador.edad >= 18 && (jugador.estudia != nada || jugador.tiene('trabajando'))",
+    "peso": 10,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.viaje.estudiar",
+        "efectos": [
+          "jugador.inteligencia += 2",
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.viaje.dormir",
+        "efectos": [
+          "jugador.salud += 1"
+        ]
+      },
+      {
+        "texto": "opcion.viaje.musica",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.trabajo_temporada",
+    "condiciones": "jugador.edad >= 16 && jugador.edad < 20",
+    "peso": 5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.temporada.aceptar",
+        "efectos": [
+          "jugador.felicidad += 2",
+          "jugador.salud -= 1",
+          "jugador.marcar('primer_sueldo')"
+        ]
+      },
+      {
+        "texto": "opcion.temporada.no"
+      }
+    ]
+  },
+  {
+    "id": "evento.primer_sueldo",
+    "condiciones": "jugador.tiene('primer_sueldo') || jugador.tiene('trabajando')",
+    "peso": 15,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.sueldo.aportar",
+        "efectos": [
+          "jugador.felicidad += 2",
+          "jugador.marcar('aporta_en_casa')"
+        ]
+      },
+      {
+        "texto": "opcion.sueldo.gusto",
+        "efectos": [
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.sueldo.ahorrar",
+        "efectos": [
+          "jugador.marcar('ahorrando')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.primera_votacion",
+    "condiciones": "jugador.edad >= 18 && jugador.edad < 20",
+    "peso": 4,
+    "unico": true,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.votar.ir",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "jugador.marcar('vota')"
+        ]
+      },
+      {
+        "texto": "opcion.votar.no_ir",
+        "efectos": [
+          "plantar('semilla.multa_no_votar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.citacion_policia_local",
+    "semilla": "semilla.multa_no_votar",
+    "peso": 10,
+    "efectos": [
+      "jugador.felicidad -= 2",
+      "diario('diario.citacion_policia_local')"
+    ]
+  },
+  {
+    "id": "evento.ofrecen_pito",
+    "condiciones": "jugador.edad >= 14 && jugador.edad < 18",
+    "peso": 5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.pito.no",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.pito.probar",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "jugador.salud -= 1",
+          "plantar('semilla.vecino_vio_pito')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.mama_se_entera",
+    "semilla": "semilla.vecino_vio_pito",
+    "peso": 10,
+    "opciones": [
+      {
+        "texto": "opcion.mama.conversar",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.mama.negar",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.temporal_lluvia",
+    "condiciones": "jugador.edad >= 6",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "efectos": [
+      "jugador.salud -= 1",
+      "diario('diario.temporal_lluvia')"
     ]
   }
 ]

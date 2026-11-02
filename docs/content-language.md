@@ -135,6 +135,7 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `dia_clave` | Detiene el tiempo | false |
 | `unico` | Solo una vez en la vida | false |
 | `enfriamiento_semanas` | Semanas mínimas antes de que el mismo evento se repita | 0 |
+| `probabilidad_anual` | Probabilidad real de que ocurra en un año (0 a 1), por ejemplo `0.04` para un robo según ENUSC. El evento no compite por `peso`: cada semana tiene su propia oportunidad. Úsala cuando haya una estadística | — |
 | `efectos` | Se aplican apenas ocurre | — |
 | `opciones` | Lo que puede elegir el jugador; cada una con `texto`, `condiciones` y `efectos` | — |
 | `opciones_carreras` | Agrega una opción por cada nivel de carrera, antes de las propias (ver Carrera) | false |
