@@ -9,13 +9,14 @@ namespace MistakesLife.Core.Events
     /// <summary>
     /// Un personaje visto desde el lenguaje de condiciones ("jugador").
     /// Datos: edad, edad_semanas, salud, felicidad, inteligencia, vivo, sexo,
+    /// genero, identidad, orientacion,
     /// apertura, responsabilidad, extraversion, amabilidad, neuroticismo,
     /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre,
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
-    /// formar_pareja(), terminar_pareja(), tener_hijo().
+    /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -45,6 +46,12 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(_character.IsAlive);
                 case "sexo":
                     return Value.FromText(_character.Sex == Sex.Female ? "femenino" : "masculino");
+                case "genero":
+                    return Value.FromText(Diversity.Key(_character.Gender));
+                case "identidad":
+                    return Value.FromText(Diversity.Key(_character.GenderIdentity));
+                case "orientacion":
+                    return Value.FromText(Diversity.Key(_character.Orientation));
                 case "apertura":
                     return Value.FromNumber(_character.Personality.Openness);
                 case "responsabilidad":
@@ -147,14 +154,25 @@ namespace MistakesLife.Core.Events
                     _character.Studies = null;
                     return Value.Null;
                 case "formar_pareja":
-                    NoArguments(method, args);
+                    Gender? gender = null;
+                    if (args.Length > 0)
+                    {
+                        string key = EventScope.SingleText("jugador." + method, args);
+                        if (!Diversity.TryParseGender(key, out Gender parsed))
+                        {
+                            throw new ScriptException($"jugador.formar_pareja('{key}'): el género debe ser 'femenino', 'masculino' o 'no_binario'.");
+                        }
+
+                        gender = parsed;
+                    }
+
                     ((EventScope)scope).RequireWritable("jugador.formar_pareja");
                     if (_character.PartnerId.HasValue)
                     {
                         throw new ScriptException("jugador.formar_pareja(): ya tiene pareja.");
                     }
 
-                    FamilyFactory.CreatePartner(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+                    FamilyFactory.CreatePartner(((EventScope)scope).World, ((EventScope)scope).Content, _character, gender);
                     return Value.Null;
                 case "terminar_pareja":
                     NoArguments(method, args);

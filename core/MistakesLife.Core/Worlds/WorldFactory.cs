@@ -72,6 +72,7 @@ namespace MistakesLife.Core.Worlds
             {
                 parent.Residence = residence;
                 parent.HouseholdLevel = householdLevel;
+                Life.Diversity.AssignToBirthParent(parent, country, random);
                 world.AddCharacter(parent);
             }
 
@@ -83,6 +84,7 @@ namespace MistakesLife.Core.Worlds
             player.FatherId = father.Id;
             player.Residence = residence;
             player.HouseholdLevel = householdLevel;
+            Life.Diversity.AssignAtBirth(player, country, random);
             world.AddCharacter(player);
             world.SetPlayer(player.Id);
             world.WriteJournal(player.Id, "diario.nacimiento");

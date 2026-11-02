@@ -439,6 +439,12 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            if (country.Diversity != null)
+            {
+                CheckWeights($"{where}, diversidad.orientaciones", country.Diversity.Orientations, DiversityDefinition.OrientationKeys);
+                CheckWeights($"{where}, diversidad.identidades", country.Diversity.Identities, DiversityDefinition.IdentityKeys);
+            }
+
             FamilyRatesDefinition? family = country.NonPlayedFamily;
             if (family != null)
             {
@@ -661,6 +667,19 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): ese nivel de carrera no existe."));
                 }
+            }
+        }
+
+        private void CheckWeights(string where, Dictionary<string, int> weights, IReadOnlyList<string> allowed)
+        {
+            foreach (string key in weights.Keys.Where(k => !allowed.Contains(k)))
+            {
+                _errors.Add(new ContentError(where, $"'{key}' no existe. Usa: {string.Join(", ", allowed)}."));
+            }
+
+            if (weights.Values.Any(w => w < 0) || (weights.Count > 0 && weights.Values.Sum() <= 0))
+            {
+                _errors.Add(new ContentError(where, "los pesos no pueden ser negativos y deben sumar más que 0."));
             }
         }
 

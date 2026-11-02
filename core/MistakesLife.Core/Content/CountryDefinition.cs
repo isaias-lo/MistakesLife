@@ -112,6 +112,13 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>
+        /// Proporciones de orientaciones e identidades al nacer (ver <see cref="DiversityDefinition"/>).
+        /// Si falta, todos nacen heterosexuales y con el género de su sexo.
+        /// </summary>
+        [JsonProperty("diversidad")]
+        public DiversityDefinition? Diversity { get; set; }
+
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
 
