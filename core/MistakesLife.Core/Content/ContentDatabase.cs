@@ -524,6 +524,27 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            PensionsDefinition? pensions = economy.Pensions;
+            PensionAccountDefinition? account = pensions?.IndividualAccount;
+            if (account != null)
+            {
+                if (!economy.Payroll.Employee.Any(d => d.Id == account.Deduction))
+                {
+                    _errors.Add(new ContentError($"{where}.jubilacion.cuenta_individual", $"el descuento '{account.Deduction}' no está en liquidacion.dependiente."));
+                }
+
+                if (account.ShareToAccount < 0 || account.ShareToAccount > 1 || account.FreelanceRate < 0 || account.FreelanceRate > 1 || account.RealAnnualReturn <= -1 || account.PensionYears < 1)
+                {
+                    _errors.Add(new ContentError($"{where}.jubilacion.cuenta_individual", "parte_a_la_cuenta y tasa_honorarios de 0 a 1, rentabilidad_real_anual mayor que -1 y anos_de_pension desde 1."));
+                }
+            }
+
+            UniversalPensionDefinition? universal = pensions?.UniversalPension;
+            if (universal != null && (universal.Amount < 0 || universal.FullUpTo < 0 || (universal.FullUpTo.HasValue != universal.NoneFrom.HasValue) || universal.NoneFrom <= universal.FullUpTo))
+            {
+                _errors.Add(new ContentError($"{where}.jubilacion.pension_universal", "monto no negativo; completa_hasta y sin_pension_desde van juntos y el segundo es mayor."));
+            }
+
             AnnualTaxDefinition? annual = economy.AnnualTax;
             if (annual != null)
             {

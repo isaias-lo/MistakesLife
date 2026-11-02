@@ -44,6 +44,7 @@ namespace MistakesLife.Core.Analysis
             int inflationLives = 0;
             var realSalaries = new List<double>();
             var realMoney = new List<double>();
+            var realPensions = new List<double>();
 
             for (int i = 0; i < lives; i++)
             {
@@ -82,6 +83,12 @@ namespace MistakesLife.Core.Analysis
                     }
 
                     realMoney.Add((double)player.Money / economy.PriceIndex);
+                    if (player.Pension.HasValue)
+                    {
+                        report.Retired++;
+                        realPensions.Add((double)player.LastPensionPayment / economy.PriceIndex);
+                    }
+
                     if (player.Job != null)
                     {
                         realSalaries.Add((double)player.Job.Salary / economy.PriceIndex);
@@ -162,6 +169,8 @@ namespace MistakesLife.Core.Analysis
             report.AverageAnnualInflation = inflationLives == 0 ? 0 : inflation / inflationLives;
             realSalaries.Sort();
             report.MedianRealSalary = realSalaries.Count == 0 ? 0 : realSalaries[realSalaries.Count / 2];
+            realPensions.Sort();
+            report.MedianRealPension = realPensions.Count == 0 ? 0 : realPensions[realPensions.Count / 2];
             realMoney.Sort();
             report.MedianRealMoney = realMoney.Count == 0 ? 0 : realMoney[realMoney.Count / 2];
             report.NeverSeenEvents.AddRange(_content.Events.Select(e => e.Id).Where(id => !report.LivesWithEvent.ContainsKey(id)));

@@ -128,6 +128,21 @@ namespace MistakesLife.Core.Characters
         /// <summary>Declaración anual calculada que el jugador todavía no acepta, o null.</summary>
         public Economy.TaxReturn? PendingTaxReturn { get; set; }
 
+        /// <summary>
+        /// Lo ahorrado en su cuenta de pensión (por ejemplo en la AFP), en dinero
+        /// del inicio del mundo: así la inflación no lo achica.
+        /// </summary>
+        public decimal PensionFund { get; set; }
+
+        /// <summary>Su pensión mensual, en dinero del inicio del mundo, o null si no se ha jubilado.</summary>
+        public decimal? Pension { get; set; }
+
+        /// <summary>Si pidió la pensión del Estado para personas mayores (en Chile, la PGU).</summary>
+        public bool ReceivesUniversalPension { get; set; }
+
+        /// <summary>Lo que recibió de pensiones el último mes, a precios de ese mes.</summary>
+        public decimal LastPensionPayment { get; set; }
+
         /// <summary>Etapa educativa actual (id del paquete del país), o null si no estudia.</summary>
         public string? EducationStageId { get; set; }
 
