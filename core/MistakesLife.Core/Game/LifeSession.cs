@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Education;
 using MistakesLife.Core.Events;
@@ -64,6 +65,64 @@ namespace MistakesLife.Core.Game
             }
 
             return _cycle.AdvanceWeeks(World, maxWeeks);
+        }
+
+        /// <summary>
+        /// Los hijos vivos con quienes se puede seguir jugando cuando el jugador
+        /// muere (del mayor al menor). Vacío mientras el jugador vive.
+        /// </summary>
+        public IReadOnlyList<Character> Heirs =>
+            World.Player.IsAlive
+                ? Array.Empty<Character>()
+                : World.ChildrenOf(World.PlayerId).Where(c => c.IsAlive).ToList();
+
+        /// <summary>La partida terminó: el jugador murió y no tiene hijos vivos.</summary>
+        public bool IsOver => !World.Player.IsAlive && Heirs.Count == 0;
+
+        /// <summary>
+        /// Legado: el jugador murió y se sigue jugando con uno de sus hijos, en el
+        /// mismo mundo. Las semillas heredables pasan al hijo; las demás siguen vivas
+        /// a través de sus testigos.
+        /// </summary>
+        public void ContinueWith(int heirId)
+        {
+            Character deceased = World.Player;
+            if (deceased.IsAlive)
+            {
+                throw new InvalidOperationException("El jugador sigue vivo: todavía no hay legado.");
+            }
+
+            Character heir = Heirs.FirstOrDefault(c => c.Id == heirId)
+                ?? throw new InvalidOperationException($"El personaje {heirId} no es un hijo vivo del jugador.");
+
+            foreach (PendingEvent pending in World.PendingEvents.Where(p => p.CharacterId == deceased.Id).ToList())
+            {
+                World.RemovePendingEvent(pending);
+            }
+
+            World.Seeds.PassToHeir(deceased.Id, heir.Id);
+            GivePriorLife(heir);
+            World.SetPlayer(heir.Id);
+            World.WriteJournal(heir.Id, deceased.Sex == Sex.Female ? "diario.muerte_madre" : "diario.muerte_padre");
+            World.WriteJournal(heir.Id, "diario.legado");
+        }
+
+        /// <summary>Da por vivido lo que su país dice para su edad (campo vida_previa).</summary>
+        private void GivePriorLife(Character heir)
+        {
+            if (heir.Residence == null)
+            {
+                return;
+            }
+
+            int age = heir.AgeInYears(World.Date);
+            foreach (PriorLifeDefinition prior in Content.GetCountry(heir.Residence.CountryId).PriorLife.Where(p => p.Age <= age))
+            {
+                foreach (string flag in prior.Flags)
+                {
+                    heir.SetFlag(flag);
+                }
+            }
         }
 
         /// <summary>Responde el evento pendiente con una de sus opciones disponibles.</summary>

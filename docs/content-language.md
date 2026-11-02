@@ -74,6 +74,26 @@ La probabilidad de morir de causas naturales sale de la **tabla de vida oficial*
 - La salud se acerca sola a la "salud esperada" de la edad (85 hasta los 40, 40 a los 90), unos 4 puntos al año: el cuerpo se recupera de lo que restan los eventos y envejece aunque no pase nada.
 - Al morir el jugador se escribe `diario.muerte`; al morir su madre, padre, pareja o un hijo, `diario.muerte_madre`, `diario.muerte_padre`, `diario.muerte_pareja`, `diario.muerte_hija` o `diario.muerte_hijo`. En todos los casos el tiempo se detiene. Quien muere deja de tener pareja.
 
+### Vida previa (campo `vida_previa` de country.json)
+
+En el legado, el jugador puede seguir con un hijo que ya es adulto y que nadie jugó. Para que no le aparezcan los eventos del colegio a los 40 años, el país dice qué marcas se dan por hechas desde cada edad:
+
+```json
+"vida_previa": [
+  { "edad": 18, "marcas": ["egresado_media", "decidio_futuro"] }
+]
+```
+
+Al seguir con el hijo, recibe las marcas de todas las filas con `edad` menor o igual a la suya.
+
+## Legado
+
+Cuando el jugador muere, puede seguir con uno de sus hijos vivos, en el mismo mundo:
+
+- Las semillas con `"heredable": true` pasan al hijo; las demás siguen vivas en el mundo a través de sus testigos.
+- El hijo recibe la vida previa de su país y escribe en su diario `diario.muerte_madre` o `diario.muerte_padre`, y luego `diario.legado`.
+- Si no quedan hijos vivos, la partida termina.
+
 ## Carrera (career.json)
 
 Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. El país no necesita conocer las carreras: un evento con `"opciones_carreras": true` (en Chile, `evento.elegir_futuro`) recibe una opción por cada nivel de cada carrera cargada.
