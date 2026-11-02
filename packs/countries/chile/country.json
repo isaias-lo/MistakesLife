@@ -39,5 +39,31 @@
     { "id": "etapa.chile.kinder", "edad_desde": 5, "edad_hasta": 6, "obligatoria": true },
     { "id": "etapa.chile.basica", "edad_desde": 6, "edad_hasta": 14, "obligatoria": true },
     { "id": "etapa.chile.media", "edad_desde": 14, "edad_hasta": 18, "obligatoria": true }
+  ],
+  "mortalidad": [
+    { "edad": 0, "femenino": 0.0072, "masculino": 0.00813 },
+    { "edad": 1, "femenino": 0.0004, "masculino": 0.00039 },
+    { "edad": 5, "femenino": 0.00014, "masculino": 0.00016 },
+    { "edad": 10, "femenino": 0.00012, "masculino": 0.00013 },
+    { "edad": 15, "femenino": 0.00024, "masculino": 0.00048 },
+    { "edad": 20, "femenino": 0.00032, "masculino": 0.00094 },
+    { "edad": 25, "femenino": 0.00033, "masculino": 0.0011 },
+    { "edad": 30, "femenino": 0.0004, "masculino": 0.00117 },
+    { "edad": 35, "femenino": 0.00062, "masculino": 0.00156 },
+    { "edad": 40, "femenino": 0.00084, "masculino": 0.00197 },
+    { "edad": 45, "femenino": 0.00141, "masculino": 0.00274 },
+    { "edad": 50, "femenino": 0.00225, "masculino": 0.00401 },
+    { "edad": 55, "femenino": 0.00364, "masculino": 0.00617 },
+    { "edad": 60, "femenino": 0.0058, "masculino": 0.01007 },
+    { "edad": 65, "femenino": 0.00913, "masculino": 0.01611 },
+    { "edad": 70, "femenino": 0.01487, "masculino": 0.02459 },
+    { "edad": 75, "femenino": 0.02368, "masculino": 0.04004 },
+    { "edad": 80, "femenino": 0.04425, "masculino": 0.07195 },
+    { "edad": 85, "femenino": 0.07761, "masculino": 0.11936 },
+    { "edad": 90, "femenino": 0.13, "masculino": 0.19 },
+    { "edad": 95, "femenino": 0.21, "masculino": 0.29 },
+    { "edad": 100, "femenino": 0.33, "masculino": 0.42 },
+    { "edad": 105, "femenino": 0.5, "masculino": 0.58 },
+    { "edad": 110, "femenino": 1, "masculino": 1 }
   ]
 }

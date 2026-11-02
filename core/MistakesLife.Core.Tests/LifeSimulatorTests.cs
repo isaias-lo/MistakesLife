@@ -22,13 +22,14 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void Simulador_ConElContenidoReal_TodosLosEventosAparecenYNadieMuereJoven()
+        public void Simulador_ConElContenidoReal_TodosLosEventosAparecenYPocosMuerenJovenes()
         {
             SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 200, finalAge: 25);
 
             Assert.Equal(200, report.Lives);
             Assert.Empty(report.NeverSeenEvents);
-            Assert.Equal(0, report.Deaths);
+            // En Chile, cerca del 2 % muere antes de los 25 (tabla de mortalidad del INE).
+            Assert.InRange(report.Deaths, 0, 10);
             Assert.Contains("# Simulación de 200 vidas hasta los 25 años", report.ToMarkdown());
         }
 
