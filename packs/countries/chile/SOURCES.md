@@ -10,7 +10,11 @@
 | Etapas educativas | Sistema educacional chileno (sala cuna, nivel medio, NT1, NT2, básica 1° a 8°, media 1° a 4°); kínder obligatorio por reforma constitucional de 2013 | |
 | Gratuidad | Hogares del 60 % de menores ingresos, vía FUAS e institución adscrita ([ChileAtiende](https://www.chileatiende.gob.cl/fichas/43203-gratuidad-en-la-educacion-superior-2018)) | En el juego: `nivel_hogar <= 60` |
 
+| Indicadores de Puente Alto: pobreza por ingresos 13,8 %, multidimensional 22,1 %, hacinamiento 6,9 %, escolaridad 10,4 años | [BCN, reporte comunal](https://www.bcn.cl/siit/reportescomunales/comunas_v.html?anno=2026&idcom=13201) (CASEN 2024, Censo 2024, RSH 2026) | Para calibrar `nivel_hogar`, allegados y subsidios |
+| Voto obligatorio desde los 18; multa de 0,5 UTM que cobra el Juzgado de Policía Local | [Meganoticias (2024)](https://www.meganoticias.cl/dato-util/462986-multas-por-no-ir-a-votar-elecciones-municipales-pdp-24-10-2024.html) | Eventos `primera_votacion` y `citacion_policia_local` |
+| Línea 4 del Metro llega a Plaza de Puente Alto desde 2005 | [Cooperativa (2005)](https://www.cooperativa.cl/noticias/site/artic/20051130/pags-amp/20051130115251.html) | Evento `viaje_largo` |
+
 ## Estimaciones por revisar
 
-- **Nivel de hogar de Puente Alto (10 a 65):** comuna popular y de clase media baja, con sectores de alta vulnerabilidad como Bajos de Mena. Falta calibrar con CASEN (pobreza por ingresos y multidimensional) en la tarea 7.
+- **Nivel de hogar de Puente Alto (10 a 65):** comuna popular y de clase media baja, con sectores de alta vulnerabilidad como Bajos de Mena. CASEN 2024 da 13,8 % de pobreza por ingresos y 22,1 % multidimensional: hay que llevar esos números a la distribución de `nivel_hogar`.
 - **Solo una comuna:** la fase 1 parte en Puente Alto. Las demás comunas de Santiago se suman después de investigarlas.

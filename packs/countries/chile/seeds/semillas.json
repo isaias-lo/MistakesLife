@@ -48,5 +48,19 @@
     "fuerza": 100,
     "vence_anios": 20,
     "condiciones": "jugador.tiene('trabajando')"
+  },
+  {
+    "id": "semilla.multa_no_votar",
+    "tipo": "negativa",
+    "fuerza": 80,
+    "vence_anios": 3,
+    "dormir_min_semanas": 8
+  },
+  {
+    "id": "semilla.vecino_vio_pito",
+    "tipo": "negativa",
+    "fuerza": 60,
+    "vence_anios": 1,
+    "dormir_min_semanas": 2
   }
 ]
