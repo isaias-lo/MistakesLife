@@ -111,8 +111,65 @@
     "condiciones": "jugador.moroso",
     "probabilidad_anual": 1,
     "enfriamiento_semanas": 26,
-    "efectos": [
-      "jugador.felicidad -= 3"
+    "opciones": [
+      {
+        "texto": "opcion.cobranza.repactar",
+        "condiciones": "jugador.puede_repactar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.repactar()",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.cobranza.ignorar",
+        "tendencia": "100 - jugador.responsabilidad",
+        "efectos": [
+          "jugador.felicidad -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.oferta_tarjeta",
+    "condiciones": "jugador.trabaja && !jugador.tiene('tarjeta_credito') && !jugador.moroso",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.oferta_tarjeta.aceptar",
+        "tendencia": "30 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.marcar('tarjeta_credito')"
+        ]
+      },
+      {
+        "texto": "opcion.oferta_tarjeta.rechazar",
+        "tendencia": "jugador.responsabilidad * 0.6"
+      }
+    ]
+  },
+  {
+    "id": "evento.compra_tarjeta",
+    "condiciones": "jugador.tiene('tarjeta_credito') && !jugador.moroso",
+    "probabilidad_anual": 0.35,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.compra_tarjeta.comprar",
+        "tendencia": "100 - jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.endeudarse('deuda.chile.tarjeta', sueldo_tipico() * 0.6)",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.compra_tarjeta.no_comprar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
     ]
   }
 ]

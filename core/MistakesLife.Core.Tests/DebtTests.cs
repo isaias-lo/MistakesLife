@@ -23,7 +23,8 @@ namespace MistakesLife.Core.Tests
               ""inflacion"": { ""regimen_inicial"": ""economia.inflacion.fija"",
                 ""regimenes"": [ { ""id"": ""economia.inflacion.fija"", ""anual_min"": " + inflation + @", ""anual_max"": " + inflation + @" } ] },
               ""deudas"": { ""meses_para_moroso"": 2, ""meses_prescripcion"": 24, ""tipos"": [
-                { ""id"": ""deuda.prueba.consumo"", ""tasa_anual"": 0, ""cuotas"": 10 },
+                { ""id"": ""deuda.prueba.consumo"", ""tasa_anual"": 0, ""cuotas"": 10, ""cuotas_repactacion"": 20 },
+                { ""id"": ""deuda.prueba.tarjeta"", ""tasa_anual"": 0, ""cuotas"": 1, ""pago_minimo"": 0.1, ""pago_minimo_monto"": 30000, ""entrega_dinero"": false },
                 { ""id"": ""deuda.prueba.estudios"", ""tasa_anual"": 0, ""cuotas"": 10, ""reajustable"": true, ""entrega_dinero"": false,
                   ""condicion_pago"": ""!jugador.tiene('estudiando')"" }
               ] } } }";
@@ -123,6 +124,46 @@ namespace MistakesLife.Core.Tests
             Assert.Empty(world.Player.Debts);
             Assert.False(Is(world, content, "jugador.moroso"));
             Assert.Contains(world.Journal, e => e.TextKey == DebtSystem.PrescribedJournal);
+        }
+
+        [Fact]
+        public void Tarjeta_CobraElPagoMinimo_ConUnMontoMinimo()
+        {
+            ContentDatabase content = Content();
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.endeudarse('deuda.prueba.tarjeta', 1000000)");
+            world.Player.Money = 1000000;
+
+            Advance(world, content, 1);
+
+            // No entrega dinero (fue una compra) y cobra el 10 %.
+            Assert.Equal(900000m, world.Player.Money);
+            Assert.Equal(900000, Eval(world, content, "jugador.deuda_de('deuda.prueba.tarjeta')"));
+
+            DebtTypeDefinition card = content.GetCountry("pais.prueba").Economy!.Debts!.Type("deuda.prueba.tarjeta")!;
+            Assert.Equal(30000m, DebtSystem.MinimumPayment(100000, card, 1));
+            Assert.Equal(20000m, DebtSystem.MinimumPayment(20000, card, 1));
+        }
+
+        [Fact]
+        public void Repactar_DejaLaDeudaAlDia_YSaleDelRegistro()
+        {
+            ContentDatabase content = Content();
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.endeudarse('deuda.prueba.consumo', 1000000)");
+            world.Player.Money = 0;
+            Advance(world, content, 6);
+            Assert.True(Is(world, content, "jugador.moroso"));
+            Assert.True(Is(world, content, "jugador.puede_repactar"));
+
+            Run(world, content, "jugador.repactar()");
+            world.Player.Money = 50000;
+            Advance(world, content, 4);
+
+            // 1.000.000 en 20 cuotas nuevas: paga 50.000 y sale de DICOM.
+            Assert.False(Is(world, content, "jugador.moroso"));
+            Assert.Equal(950000, Eval(world, content, "jugador.deuda"));
+            Assert.Throws<ScriptException>(() => Run(world, content, "jugador.repactar()"));
         }
 
         [Fact]

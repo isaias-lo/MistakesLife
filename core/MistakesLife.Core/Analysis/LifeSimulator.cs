@@ -95,7 +95,7 @@ namespace MistakesLife.Core.Analysis
                         realDebts.Add((double)player.Debts.Sum(d => d.Balance) / economy.PriceIndex);
                     }
 
-                    if (player.Delinquent)
+                    if (player.IsAlive && player.Delinquent)
                     {
                         report.Delinquent++;
                     }

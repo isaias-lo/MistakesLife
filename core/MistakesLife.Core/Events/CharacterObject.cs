@@ -16,13 +16,13 @@ namespace MistakesLife.Core.Events
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
     /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo,
     /// fondo_pension, pension_estimada, jubilado, pension, pension_universal,
-    /// deuda, cuotas_deudas, moroso.
+    /// deuda, cuotas_deudas, moroso, puede_repactar.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
     /// cambiar_genero('género'), cambiar_nombre(), adoptar(),
     /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo(), declarar(),
-    /// jubilarse(), recibir_pension_universal(), endeudarse('tipo', monto), deuda_de('tipo').
+    /// jubilarse(), recibir_pension_universal(), endeudarse('tipo', monto), deuda_de('tipo'), repactar().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -128,6 +128,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber((double)_character.LastDebtPayment);
                 case "moroso":
                     return Value.FromBool(_character.Delinquent);
+                case "puede_repactar":
+                    return Value.FromBool(Economy.DebtSystem.CanReschedule(_character, Debts(scope)));
                 case "fondo_pension":
                     return Value.FromNumber((double)PayrollToday(_character.PensionFund, scope));
                 case "pension_estimada":
@@ -153,6 +155,13 @@ namespace MistakesLife.Core.Events
             string? country = _character.Residence?.CountryId;
             Economy.CountryEconomy? economy = country == null ? null : ((EventScope)scope).World.EconomyOf(country);
             return Economy.PayrollCalculator.ToToday(amount, economy?.PriceIndex ?? 1);
+        }
+
+        /// <summary>Las reglas de deudas del país donde vive, o null.</summary>
+        private Content.DebtsDefinition? Debts(IScriptScope scope)
+        {
+            string? country = _character.Residence?.CountryId;
+            return country == null ? null : ((EventScope)scope).Content.GetCountry(country).Economy?.Debts;
         }
 
         /// <summary>Las reglas de pensiones del país donde vive, o null.</summary>
@@ -315,6 +324,16 @@ namespace MistakesLife.Core.Events
                 case BorrowMethod:
                     ((EventScope)scope).RequireWritable("jugador." + BorrowMethod);
                     Borrow((EventScope)scope, args);
+                    return Value.Null;
+                case "repactar":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.repactar");
+                    Content.DebtsDefinition? debtRules = Debts(scope);
+                    if (debtRules == null || Economy.DebtSystem.Reschedule(_character, debtRules) == 0)
+                    {
+                        throw new ScriptException("jugador.repactar(): no tiene deudas atrasadas que se puedan repactar (revisa jugador.puede_repactar).");
+                    }
+
                     return Value.Null;
                 case DebtOfMethod:
                     string debtType = EventScope.SingleText("jugador." + method, args);

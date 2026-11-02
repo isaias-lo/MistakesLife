@@ -16,6 +16,7 @@ namespace MistakesLife.Core.Economy
     /// - si se cumple su condición de pago, cobra la cuota (el interés y una parte
     ///   de lo que se debe). Si no hay dinero suficiente, la cuota queda sin pagar
     ///   y la deuda sigue creciendo.
+    /// Las deudas rotativas (tarjetas) cobran un pago mínimo en vez de cuotas fijas.
     /// Con varios meses seguidos sin pagar, la persona queda en el registro de
     /// morosos; sale al ponerse al día. Si el país lo dice, tras muchos meses sin
     /// pagar la deuda prescribe y se borra.
@@ -104,7 +105,9 @@ namespace MistakesLife.Core.Economy
                 return 0;
             }
 
-            decimal installment = Installment(debt.Balance, type.AnnualRate, debt.RemainingInstallments);
+            decimal installment = type.MinimumPaymentRate.HasValue
+                ? MinimumPayment(debt.Balance, type, priceIndex)
+                : Installment(debt.Balance, type.AnnualRate, debt.RemainingInstallments);
             if (character.Money < installment)
             {
                 debt.MonthsLate++;
@@ -141,6 +144,45 @@ namespace MistakesLife.Core.Economy
             double factor = rate / (1 - Math.Pow(1 + rate, -remaining));
             return Math.Min(balance, Round(balance * (decimal)factor));
         }
+
+        /// <summary>
+        /// El pago mínimo de una deuda rotativa: una parte de lo que se debe, con un
+        /// monto mínimo (o todo, si se debe menos que ese mínimo).
+        /// </summary>
+        public static decimal MinimumPayment(decimal balance, DebtTypeDefinition type, double priceIndex)
+        {
+            decimal byRate = Round(balance * (decimal)(type.MinimumPaymentRate ?? 1));
+            decimal floor = PayrollCalculator.ToToday(type.MinimumPaymentAmount, priceIndex);
+            return Math.Min(balance, Math.Max(byRate, floor));
+        }
+
+        /// <summary>
+        /// Repactar: las deudas atrasadas que se pueden repactar quedan al día, en
+        /// nuevas cuotas (con su interés de siempre). Devuelve cuántas repactó.
+        /// Al ponerse al día, sale del registro de morosos el mes siguiente.
+        /// </summary>
+        public static int Reschedule(Character character, DebtsDefinition rules)
+        {
+            int count = 0;
+            foreach (Debt debt in character.Debts.Where(d => d.MonthsLate > 0))
+            {
+                DebtTypeDefinition? type = rules.Type(debt.TypeId);
+                if (type?.RescheduleInstallments == null)
+                {
+                    continue;
+                }
+
+                debt.MonthsLate = 0;
+                debt.RemainingInstallments = type.RescheduleInstallments.Value;
+                count++;
+            }
+
+            return count;
+        }
+
+        /// <summary>Si tiene alguna deuda atrasada que se pueda repactar.</summary>
+        public static bool CanReschedule(Character character, DebtsDefinition? rules) =>
+            rules != null && character.Debts.Any(d => d.MonthsLate > 0 && rules.Type(d.TypeId)?.RescheduleInstallments != null);
 
         /// <summary>
         /// Endeudarse: suma el monto (a precios de hoy) a la deuda de ese tipo, o

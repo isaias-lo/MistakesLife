@@ -563,9 +563,10 @@ namespace MistakesLife.Core.Content
                         _errors.Add(new ContentError(debtWhere, "deuda repetida."));
                     }
 
-                    if (type.AnnualRate < 0 || type.Installments < 1)
+                    if (type.AnnualRate < 0 || type.Installments < 1 || type.MinimumPaymentRate <= 0 || type.MinimumPaymentRate > 1
+                        || type.MinimumPaymentAmount < 0 || type.RescheduleInstallments < 1)
                     {
-                        _errors.Add(new ContentError(debtWhere, "tasa_anual no negativa y cuotas desde 1."));
+                        _errors.Add(new ContentError(debtWhere, "tasa_anual no negativa, cuotas y cuotas_repactacion desde 1, pago_minimo mayor que 0 y hasta 1, pago_minimo_monto no negativo."));
                     }
 
                     type.CompiledPaymentCondition = CompileCondition(debtWhere + " (condicion_pago)", type.PaymentCondition);

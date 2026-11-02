@@ -72,7 +72,7 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Vidas que terminan con alguna deuda.</summary>
         public int WithDebt { get; internal set; }
 
-        /// <summary>Vidas que terminan en el registro de morosos (DICOM).</summary>
+        /// <summary>Vidas que siguen al final en el registro de morosos (DICOM).</summary>
         public int Delinquent { get; internal set; }
 
         /// <summary>Mediana de lo que deben quienes terminan con deudas, en dinero del inicio del mundo.</summary>

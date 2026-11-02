@@ -48,6 +48,7 @@ namespace MistakesLife.Core.Economy
             decimal estate = deceased.Money + PayrollCalculator.ToToday(deceased.PensionFund, priceIndex) - debts;
             deceased.Money = 0;
             deceased.PensionFund = 0;
+            deceased.Delinquent = false;
             InheritanceDefinition? inheritance = rules?.Inheritance;
             if (inheritance == null || estate == 0 || (estate < 0 && inheritance.LimitedToEstate))
             {
