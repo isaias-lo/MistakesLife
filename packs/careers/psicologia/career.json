@@ -1,0 +1,17 @@
+{
+  "id": "carrera.psicologia",
+  "niveles": [
+    {
+      "id": "carrera.psicologia.nivel.psicologo",
+      "institucion": "universidad",
+      "semestres": 10,
+      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')"
+    },
+    {
+      "id": "carrera.psicologia.nivel.psicologo_privada",
+      "institucion": "universidad",
+      "semestres": 10,
+      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('rindio_paes') && !jugador.tiene('puede_universidad')"
+    }
+  ]
+}

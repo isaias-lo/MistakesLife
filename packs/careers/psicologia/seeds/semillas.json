@@ -1,0 +1,17 @@
+[
+  {
+    "id": "semilla.psicologia.rompio_confidencialidad",
+    "tipo": "negativa",
+    "fuerza": 40,
+    "vence_anios": 6,
+    "dormir_min_semanas": 26,
+    "condiciones": "jugador.titulado_en('carrera.psicologia')"
+  },
+  {
+    "id": "semilla.psicologia.paciente_agradecido",
+    "tipo": "positiva",
+    "fuerza": 45,
+    "vence_anios": 15,
+    "dormir_min_semanas": 52
+  }
+]

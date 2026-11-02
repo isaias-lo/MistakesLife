@@ -21,6 +21,6 @@
 |---|---|---|
 | C1 | Núcleo: carreras como paquetes (`career.json`, niveles, semestres, títulos) y software migrado | En revisión |
 | C2 | Paquete de contabilidad (contador general, contador auditor) | En revisión |
-| C3 | Paquete de psicología | Pendiente |
+| C3 | Paquete de psicología | En revisión |
 | C4 | Más eventos de vida en Puente Alto | Pendiente |
 | C5 | Equilibrar con el simulador y datos reales | Pendiente |
