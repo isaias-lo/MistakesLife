@@ -378,6 +378,11 @@ namespace MistakesLife.Core.Content
                         _errors.Add(new ContentError(communeWhere, "peso_nacimiento debe ser mayor que 0."));
                     }
 
+                    if (commune.Rent < 0)
+                    {
+                        _errors.Add(new ContentError(communeWhere, "el arriendo no puede ser negativo."));
+                    }
+
                     if (commune.HouseholdLevelMin < 0 || commune.HouseholdLevelMax > 100 || commune.HouseholdLevelMin > commune.HouseholdLevelMax)
                     {
                         _errors.Add(new ContentError(communeWhere, "nivel_hogar_min y nivel_hogar_max deben estar entre 0 y 100, con min <= max."));
@@ -491,6 +496,33 @@ namespace MistakesLife.Core.Content
             }
 
             CheckBrackets($"{where}.liquidacion.impuesto_mensual", economy.Payroll.MonthlyTax);
+
+            ExpensesDefinition? expenses = economy.Expenses;
+            if (expenses != null)
+            {
+                if (expenses.FromAge < 0 || expenses.HappinessInRed < 0)
+                {
+                    _errors.Add(new ContentError($"{where}.gastos", "edad_desde y felicidad_en_rojo no pueden ser negativos."));
+                }
+
+                var seenExpenses = new HashSet<string>(StringComparer.Ordinal);
+                foreach (ExpenseDefinition expense in expenses.Categories)
+                {
+                    string expenseWhere = $"{where}.gastos, {expense.Id}";
+                    CheckId(expenseWhere, expense.Id, "gasto.");
+                    if (!seenExpenses.Add(expense.Id))
+                    {
+                        _errors.Add(new ContentError(expenseWhere, "gasto repetido."));
+                    }
+
+                    expense.CompiledAmount = CompileCondition(expenseWhere + " (monto)", expense.Amount);
+                    expense.CompiledConditions = CompileCondition(expenseWhere, expense.Conditions);
+                    if (expense.CompiledAmount == null && string.IsNullOrWhiteSpace(expense.Amount))
+                    {
+                        _errors.Add(new ContentError(expenseWhere, "falta el monto."));
+                    }
+                }
+            }
 
             AnnualTaxDefinition? annual = economy.AnnualTax;
             if (annual != null)
@@ -671,6 +703,11 @@ namespace MistakesLife.Core.Content
                     }
                 }
 
+                foreach (ExpenseDefinition expense in country.Economy?.Expenses?.Categories ?? new List<ExpenseDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>(expense.Id, $"país {country.Id}");
+                }
+
                 if (country.Economy?.AnnualTax != null)
                 {
                     foreach (string key in new[] { Economy.TaxSystem.RefundJournal, Economy.TaxSystem.PaymentJournal, Economy.TaxSystem.PenaltyJournal, Economy.TaxSystem.LostRefundJournal })
@@ -773,6 +810,14 @@ namespace MistakesLife.Core.Content
         {
             foreach (string name in names.Distinct())
             {
+                if (name == EventScope.RentFunction + "()")
+                {
+                    foreach (CommuneDefinition commune in _countries.Values.SelectMany(c => c.Cities).SelectMany(c => c.Communes).Where(c => c.Rent == null))
+                    {
+                        _errors.Add(new ContentError(where, $"arriendo(): la comuna {commune.Id} no define su arriendo. Toda comuna debe tenerlo si se usa."));
+                    }
+                }
+
                 if (EventScope.SalaryNames.Contains(name))
                 {
                     foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Salaries == null))

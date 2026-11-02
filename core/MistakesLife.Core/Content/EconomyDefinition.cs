@@ -20,6 +20,10 @@ namespace MistakesLife.Core.Content
         [JsonProperty("liquidacion")]
         public PayrollDefinition Payroll { get; set; } = new PayrollDefinition();
 
+        /// <summary>Gastos de cada mes del hogar. Si falta, no hay gastos.</summary>
+        [JsonProperty("gastos")]
+        public ExpensesDefinition? Expenses { get; set; }
+
         /// <summary>La declaración anual de impuestos. Si falta, nadie declara.</summary>
         [JsonProperty("declaracion_anual")]
         public AnnualTaxDefinition? AnnualTax { get; set; }

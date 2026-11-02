@@ -14,5 +14,22 @@
   "diario.impuestos.devolucion": "Llegó la devolución de impuestos a la cuenta. Plata que no esperabas tener.",
   "diario.impuestos.pago": "Pagaste lo que debías en la declaración de renta. Duele, pero quedaste al día con el SII.",
   "diario.impuestos.multa": "Se te pasó el plazo de la Operación Renta y debías plata. Te llegó el giro de Tesorería con multa e intereses.",
-  "diario.impuestos.devolucion_perdida": "No declaraste a tiempo y la devolución de impuestos quedó retenida. Esa plata no llegó."
+  "diario.impuestos.devolucion_perdida": "No declaraste a tiempo y la devolución de impuestos quedó retenida. Esa plata no llegó.",
+  "gasto.chile.arriendo": "Arriendo",
+  "gasto.chile.alimentacion": "Supermercado y feria",
+  "gasto.chile.cuentas": "Cuentas (luz, agua, gas e internet)",
+  "gasto.chile.hijos": "Gastos de los hijos (colegio, ropa, salud)",
+  "gasto.chile.aporte_casa": "Aporte a la casa de tus papás",
+  "gasto.chile.transporte": "Micro y metro",
+  "gasto.chile.celular": "Plan del celular",
+  "gasto.chile.personales": "Gastos personales (ropa, salidas)",
+  "evento.irse_de_la_casa": "Llevas tiempo pensando en irte de la casa de tus papás. Viste un departamento en arriendo que podría servir.",
+  "opcion.irse.arrendar": "Lo arriendas y te vas a vivir solo. Primera noche en tu casa, con el colchón en el suelo.",
+  "opcion.irse.con_pareja": "Lo arriendan con tu pareja. Se van a vivir juntos y dividen las cuentas.",
+  "opcion.irse.quedarse": "Mejor te quedas un tiempo más y ahorras. El arriendo está carísimo.",
+  "diario.irse_de_la_casa": "Ahora vives por tu cuenta. Nadie te llena el refrigerador, pero la casa es tuya.",
+  "evento.fin_de_mes_en_rojo": "Otra vez no llegas a fin de mes. La cuenta está en rojo y las cuentas siguen llegando.",
+  "opcion.rojo.pedir_familia": "Le pides plata a tu mamá. Te la presta, pero te da vergüenza.",
+  "opcion.rojo.volver_casa": "Dejas el arriendo y vuelves a la casa de tus papás mientras te ordenas.",
+  "opcion.rojo.apretarse": "Te aprietas el cinturón: arroz, fideos y nada de salidas."
 }

@@ -16,7 +16,7 @@ namespace MistakesLife.Core.Events
     /// Raíces: jugador, mundo.
     /// Funciones: semilla('id'), plantar('id'), diario('clave'), estudiar('nivel'),
     /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor),
-    /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo().
+    /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo(), arriendo().
     /// Ver docs/content-language.md para la lista completa.
     /// </summary>
     public sealed class EventScope : IScriptScope
@@ -33,6 +33,7 @@ namespace MistakesLife.Core.Events
         public const string MinimumSalaryFunction = "sueldo_minimo";
         public const string TypicalSalaryFunction = "sueldo_tipico";
         public const string DegreeSalaryFunction = "sueldo_titulo";
+        public const string RentFunction = "arriendo";
 
         /// <summary>Funciones que leen los sueldos del país: todo país debe tener "economia.sueldos" si un evento las usa.</summary>
         public static readonly IReadOnlyCollection<string> SalaryNames = new[]
@@ -45,7 +46,7 @@ namespace MistakesLife.Core.Events
         {
             "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
             PriceFunction + "()", ChangeInflationFunction + "()",
-            MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()",
+            MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()", RentFunction + "()",
         };
 
         /// <summary>Nombres que cambian el mundo: no se permiten en condiciones.</summary>
@@ -143,6 +144,9 @@ namespace MistakesLife.Core.Events
                 case DegreeSalaryFunction:
                     NoArgs(name, args);
                     return Value.FromNumber(DegreeSalary());
+                case RentFunction:
+                    NoArgs(name, args);
+                    return Value.FromNumber((double)Rent());
                 case ChangeInflationFunction:
                     RequireWritable(name);
                     ChangeInflation(SingleText(name, args));
@@ -186,6 +190,25 @@ namespace MistakesLife.Core.Events
             }
 
             return country.TryGetLaw(lawId, out Value value) ? value : throw new ScriptException($"ley('{lawId}'): el país {country.Id} no define esa ley.");
+        }
+
+        /// <summary>Arriendo típico de la comuna donde vive el personaje, en dinero del inicio del mundo.</summary>
+        private decimal Rent()
+        {
+            CountryDefinition country = SubjectCountry();
+            string communeId = Subject.Residence!.CommuneId;
+            foreach (CityDefinition city in country.Cities)
+            {
+                foreach (CommuneDefinition commune in city.Communes)
+                {
+                    if (commune.Id == communeId)
+                    {
+                        return commune.Rent ?? throw new ScriptException($"arriendo(): la comuna {communeId} no define su arriendo.");
+                    }
+                }
+            }
+
+            throw new ScriptException($"arriendo(): la comuna {communeId} no existe en {country.Id}.");
         }
 
         private SalaryDefinition Salaries()

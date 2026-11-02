@@ -20,5 +20,12 @@ namespace MistakesLife.Core.Content
         /// <summary>Nivel socioeconómico máximo de un hogar de esta comuna (0 a 100).</summary>
         [JsonProperty("nivel_hogar_max")]
         public int HouseholdLevelMax { get; set; } = 100;
+
+        /// <summary>
+        /// Arriendo mensual típico de una vivienda en la comuna, en dinero del inicio
+        /// del mundo. Lo lee la función arriendo(). Opcional.
+        /// </summary>
+        [JsonProperty("arriendo")]
+        public decimal? Rent { get; set; }
     }
 }

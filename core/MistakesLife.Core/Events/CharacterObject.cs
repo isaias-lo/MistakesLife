@@ -14,7 +14,7 @@ namespace MistakesLife.Core.Events
     /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre,
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
-    /// declaracion_pendiente, declaracion_saldo.
+    /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
@@ -103,6 +103,12 @@ namespace MistakesLife.Core.Events
                     return _character.Job == null ? Value.Null : Value.FromText(JobKindKey(_character.Job.Kind));
                 case "sueldo":
                     return Value.FromNumber((double)(_character.Job?.Salary ?? 0));
+                case "hijos_menores":
+                    return Value.FromNumber(((EventScope)scope).World.ChildrenOf(_character.Id).Count(c => c.IsAlive && c.AgeInYears(date) < 18));
+                case "gastos":
+                    return Value.FromNumber((double)_character.LastExpenses.Sum(l => l.Amount));
+                case "meses_en_rojo":
+                    return Value.FromNumber(_character.MonthsInRed);
                 case "declaracion_pendiente":
                     return Value.FromBool(_character.PendingTaxReturn != null);
                 case "declaracion_saldo":

@@ -119,6 +119,12 @@ namespace MistakesLife.Core.Characters
         /// <summary>Olvida los ingresos de ese año y de los anteriores (ya se declararon).</summary>
         public void ForgetIncomeUntil(int year) => _incomes.RemoveAll(i => i.Year <= year);
 
+        /// <summary>Lo que pagó en gastos el último mes, línea por línea.</summary>
+        public IReadOnlyList<Economy.PayslipLine> LastExpenses { get; set; } = Array.Empty<Economy.PayslipLine>();
+
+        /// <summary>Meses seguidos que terminó con el dinero en negativo (estrés financiero).</summary>
+        public int MonthsInRed { get; set; }
+
         /// <summary>Declaración anual calculada que el jugador todavía no acepta, o null.</summary>
         public Economy.TaxReturn? PendingTaxReturn { get; set; }
 

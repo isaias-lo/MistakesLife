@@ -28,5 +28,73 @@
         "tendencia": "(100 - jugador.responsabilidad) / 3"
       }
     ]
+  },
+  {
+    "id": "evento.irse_de_la_casa",
+    "condiciones": "jugador.edad >= 20 && !jugador.tiene('vive_independiente') && (jugador.trabaja || jugador.pareja != nada)",
+    "probabilidad_anual": 0.2,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.irse.arrendar",
+        "condiciones": "jugador.pareja == nada",
+        "tendencia": "si(jugador.sueldo_liquido > precio(900000), 70, 15) + jugador.extraversion / 5",
+        "efectos": [
+          "jugador.marcar('vive_independiente')",
+          "jugador.felicidad += 5",
+          "diario('diario.irse_de_la_casa')"
+        ]
+      },
+      {
+        "texto": "opcion.irse.con_pareja",
+        "condiciones": "jugador.pareja != nada",
+        "tendencia": "70",
+        "efectos": [
+          "jugador.marcar('vive_independiente')",
+          "jugador.felicidad += 6",
+          "diario('diario.irse_de_la_casa')"
+        ]
+      },
+      {
+        "texto": "opcion.irse.quedarse",
+        "tendencia": "40 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.fin_de_mes_en_rojo",
+    "condiciones": "jugador.meses_en_rojo >= 2",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.rojo.pedir_familia",
+        "condiciones": "jugador.madre != nada && jugador.madre.vivo",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.dinero += precio(200000)",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.rojo.volver_casa",
+        "condiciones": "jugador.tiene('vive_independiente') && jugador.madre != nada && jugador.madre.vivo",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.desmarcar('vive_independiente')",
+          "jugador.felicidad -= 5"
+        ]
+      },
+      {
+        "texto": "opcion.rojo.apretarse",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.felicidad -= 3"
+        ]
+      }
+    ]
   }
 ]
