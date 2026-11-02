@@ -572,6 +572,11 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            if (economy.Inheritance != null && economy.Inheritance.PartnerShares < 0)
+            {
+                _errors.Add(new ContentError($"{where}.herencia", "porciones_pareja no puede ser negativo."));
+            }
+
             AnnualTaxDefinition? annual = economy.AnnualTax;
             if (annual != null)
             {
@@ -767,6 +772,12 @@ namespace MistakesLife.Core.Content
                     {
                         yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
                     }
+                }
+
+                if (country.Economy?.Inheritance != null)
+                {
+                    yield return new KeyValuePair<string, string>(Economy.InheritanceSettlement.ReceivedJournal, $"país {country.Id}");
+                    yield return new KeyValuePair<string, string>(Economy.InheritanceSettlement.DebtsJournal, $"país {country.Id}");
                 }
 
                 if (country.Economy?.AnnualTax != null)

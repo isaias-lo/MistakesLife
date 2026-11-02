@@ -203,7 +203,7 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 "deudas": {
   "meses_para_moroso": 3,
   "tipos": [
-    { "id": "deuda.chile.cae", "tasa_anual": 0.02, "cuotas": 180, "reajustable": true, "entrega_dinero": false,
+    { "id": "deuda.chile.cae", "tasa_anual": 0.02, "cuotas": 180, "reajustable": true, "entrega_dinero": false, "se_extingue_al_morir": true,
       "condicion_pago": "jugador.estudia == nada" },
     { "id": "deuda.chile.consumo", "tasa_anual": 0.3, "cuotas": 36 }
   ]
@@ -217,6 +217,17 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Con `meses_para_moroso` meses seguidos sin pagar alguna cuota, queda en el registro de morosos (`jugador.moroso`); sale al ponerse al día con todas. Con `meses_prescripcion` (opcional) meses seguidos sin pagar, la deuda prescribe y se borra (diario `diario.deudas.prescrita`).
 - El `id` empieza con `deuda.` y es la clave de su nombre en `lang/`. Todo país debe tener los tipos que usan los eventos.
 - Textos obligatorios del diario: `diario.deudas.pagada`, `diario.deudas.moroso`, `diario.deudas.fuera_registro` y `diario.deudas.prescrita`.
+
+#### Herencia (`economia.herencia`)
+
+```json
+"herencia": { "beneficio_inventario": true, "porciones_pareja": 2 }
+```
+
+- Cuando alguien muere, sus bienes son su dinero y lo ahorrado para la pensión. Se restan sus deudas, salvo las de tipos con `"se_extingue_al_morir": true` (en `economia.deudas`), que se borran.
+- Heredan los hijos vivos (una parte cada uno) y la pareja (`porciones_pareja` partes). Sin hijos ni pareja, heredan los padres vivos. Sin nadie, se pierde (lo recibe el Estado).
+- Si las deudas son más que los bienes: con `beneficio_inventario`, nadie hereda ni paga; si es `false`, cada heredero paga su parte de lo que falta.
+- Si falta `herencia`, lo que deja se pierde. Textos obligatorios del diario: `diario.herencia.recibida` y `diario.herencia.deudas`.
 
 ### Vida previa (campo `vida_previa` de country.json)
 

@@ -54,10 +54,10 @@ namespace MistakesLife.Core.Analysis
         /// </summary>
         public double MedianRealSalary { get; internal set; }
 
-        /// <summary>Vidas que terminan con el dinero en negativo.</summary>
+        /// <summary>Vidas que siguen al final con el dinero en negativo (al morir, el dinero pasa a la herencia).</summary>
         public int InRed { get; internal set; }
 
-        /// <summary>Mediana del dinero al final, en dinero del inicio del mundo (sin inflación).</summary>
+        /// <summary>Mediana del dinero al final de quienes siguen vivos, en dinero del inicio del mundo (sin inflación).</summary>
         public double MedianRealMoney { get; internal set; }
 
         /// <summary>Vidas que terminan jubiladas (con pensión propia, aunque sea 0).</summary>
@@ -96,7 +96,7 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Salud / felicidad / inteligencia al final (promedio): {AverageHealth.ToString("0", ci)} / {AverageHappiness.ToString("0", ci)} / {AverageSmarts.ToString("0", ci)}");
             sb.AppendLine($"- Muertes antes de los {FinalAge}: {Deaths}");
             sb.AppendLine($"- Trabajan al final: {Percent(Working).ToString("0.0", ci)} %; sueldo bruto mediano (en dinero del inicio): {MedianRealSalary.ToString("N0", ci)}");
-            sb.AppendLine($"- Terminan con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano (en dinero del inicio): {MedianRealMoney.ToString("N0", ci)}");
+            sb.AppendLine($"- Siguen vivos con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano de los vivos (en dinero del inicio): {MedianRealMoney.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan jubilados: {Percent(Retired).ToString("0.0", ci)} %; pensión mediana al mes, propia + del Estado (en dinero del inicio): {MedianRealPension.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan con deudas: {Percent(WithDebt).ToString("0.0", ci)} %; deuda mediana (en dinero del inicio): {MedianRealDebt.ToString("N0", ci)}; morosos: {Percent(Delinquent).ToString("0.0", ci)} %");
             sb.AppendLine($"- Inflación anual promedio: {(AverageAnnualInflation * 100).ToString("0.0", ci)} %");

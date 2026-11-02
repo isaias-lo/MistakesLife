@@ -39,5 +39,7 @@
   "diario.deudas.pagada": "Pagaste la última cuota de una deuda. Te sacaste un peso de encima.",
   "diario.deudas.moroso": "Llevas meses sin pagar tus cuotas: quedaste en DICOM.",
   "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de DICOM.",
+  "diario.herencia.recibida": "Recibiste tu parte de una herencia.",
+  "diario.herencia.deudas": "Te tocó pagar tu parte de las deudas de una herencia.",
   "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de DICOM, pero ningún banco lo olvida."
 }

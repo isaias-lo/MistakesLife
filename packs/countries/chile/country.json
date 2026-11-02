@@ -160,11 +160,12 @@
       "meses_para_moroso": 3,
       "meses_prescripcion": 60,
       "tipos": [
-        { "id": "deuda.chile.cae", "tasa_anual": 0.02, "cuotas": 180, "reajustable": true, "entrega_dinero": false,
+        { "id": "deuda.chile.cae", "tasa_anual": 0.02, "cuotas": 180, "reajustable": true, "entrega_dinero": false, "se_extingue_al_morir": true,
           "condicion_pago": "jugador.estudia == nada" },
         { "id": "deuda.chile.consumo", "tasa_anual": 0.3, "cuotas": 36 }
       ]
-    }
+    },
+    "herencia": { "beneficio_inventario": true, "porciones_pareja": 2 }
   },
   "familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03, "adopcion_anual": 0.03, "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 },
   "diversidad": {

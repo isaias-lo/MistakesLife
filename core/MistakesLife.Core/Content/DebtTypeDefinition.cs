@@ -39,6 +39,13 @@ namespace MistakesLife.Core.Content
         /// cumple, la deuda solo suma intereses (por ejemplo, "!jugador.estudia"
         /// para empezar a pagar al terminar de estudiar). Si falta, se cobra siempre.
         /// </summary>
+        /// <summary>
+        /// Si la deuda se borra cuando muere quien la tiene (por un seguro o por ley,
+        /// como el CAE en Chile), en vez de pasar a la herencia.
+        /// </summary>
+        [JsonProperty("se_extingue_al_morir")]
+        public bool EndsAtDeath { get; set; }
+
         [JsonProperty("condicion_pago")]
         public string? PaymentCondition { get; set; }
 

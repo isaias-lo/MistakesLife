@@ -40,6 +40,9 @@
 | Crédito de consumo: tasas entre 20 % y 40 % al año; la tasa máxima convencional para créditos pequeños es cerca de 40 % | [CMF](https://www.cmfchile.cl), de memoria | `deuda.chile.consumo`: 30 % al año en 36 cuotas. Por verificar |
 | DICOM: una deuda impaga se informa después de unos 90 días de mora; al pagarla se borra (Ley 20.575) | Ley 19.628 y Ley 20.575 | `meses_para_moroso` 3 |
 | Prescripción: la acción para cobrar una deuda prescribe en general a los 5 años sin cobro judicial, y DICOM no puede informar deudas de más de 5 años | Código Civil art. 2515, Ley 19.628 art. 18 | `meses_prescripcion` 60, simplificado: en el juego prescribe siempre (en la realidad el cobro judicial la interrumpe) |
+| Herencia: heredan los hijos y el cónyuge o conviviente civil, que recibe el doble que cada hijo (y no menos de un cuarto); sin hijos, el cónyuge con los padres | Código Civil arts. 988 y 989; Ley 20.830 (Acuerdo de Unión Civil) | `herencia.porciones_pareja` 2. Simplificado: sin hijos, la pareja hereda todo y sin el mínimo de un cuarto |
+| Las deudas se heredan, pero el heredero puede aceptar con beneficio de inventario (paga solo hasta lo que recibe) o repudiar la herencia | Código Civil arts. 1247 y 1225 | `beneficio_inventario` true: el juego asume que el heredero se protege |
+| El CAE se extingue si el deudor muere (seguro de desgravamen) | Ley 20.027, de memoria | `se_extingue_al_morir` en `deuda.chile.cae`. Por verificar |
 
 ## Estimaciones por revisar
 
