@@ -4,7 +4,7 @@ namespace MistakesLife.Core.Content
 {
     /// <summary>
     /// Campo "economia" de country.json: cómo funciona el dinero en ese país.
-    /// Inflación, sueldos, impuestos, gastos y pensiones; después se suman las deudas.
+    /// Inflación, sueldos, impuestos, gastos, pensiones y deudas.
     /// </summary>
     public sealed class EconomyDefinition
     {
@@ -31,5 +31,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Pensiones: cuenta individual y pensión del Estado. Si falta, nadie recibe pensión.</summary>
         [JsonProperty("jubilacion")]
         public PensionsDefinition? Pensions { get; set; }
+
+        /// <summary>Tipos de deuda y registro de morosos. Si falta, nadie puede endeudarse.</summary>
+        [JsonProperty("deudas")]
+        public DebtsDefinition? Debts { get; set; }
     }
 }

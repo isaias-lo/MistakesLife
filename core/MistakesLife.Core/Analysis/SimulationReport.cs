@@ -69,6 +69,15 @@ namespace MistakesLife.Core.Analysis
         /// </summary>
         public double MedianRealPension { get; internal set; }
 
+        /// <summary>Vidas que terminan con alguna deuda.</summary>
+        public int WithDebt { get; internal set; }
+
+        /// <summary>Vidas que terminan en el registro de morosos (DICOM).</summary>
+        public int Delinquent { get; internal set; }
+
+        /// <summary>Mediana de lo que deben quienes terminan con deudas, en dinero del inicio del mundo.</summary>
+        public double MedianRealDebt { get; internal set; }
+
         /// <summary>Inflación anual promedio del país del jugador durante las vidas.</summary>
         public double AverageAnnualInflation { get; internal set; }
 
@@ -89,6 +98,7 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Trabajan al final: {Percent(Working).ToString("0.0", ci)} %; sueldo bruto mediano (en dinero del inicio): {MedianRealSalary.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano (en dinero del inicio): {MedianRealMoney.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan jubilados: {Percent(Retired).ToString("0.0", ci)} %; pensión mediana al mes, propia + del Estado (en dinero del inicio): {MedianRealPension.ToString("N0", ci)}");
+            sb.AppendLine($"- Terminan con deudas: {Percent(WithDebt).ToString("0.0", ci)} %; deuda mediana (en dinero del inicio): {MedianRealDebt.ToString("N0", ci)}; morosos: {Percent(Delinquent).ToString("0.0", ci)} %");
             sb.AppendLine($"- Inflación anual promedio: {(AverageAnnualInflation * 100).ToString("0.0", ci)} %");
             sb.AppendLine();
             sb.AppendLine("## Cómo terminan las vidas (marcas)");

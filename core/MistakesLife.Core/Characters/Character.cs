@@ -143,6 +143,21 @@ namespace MistakesLife.Core.Characters
         /// <summary>Lo que recibió de pensiones el último mes, a precios de ese mes.</summary>
         public decimal LastPensionPayment { get; set; }
 
+        private readonly List<Economy.Debt> _debts = new List<Economy.Debt>();
+
+        /// <summary>Sus deudas (una por tipo).</summary>
+        public IReadOnlyList<Economy.Debt> Debts => _debts;
+
+        public void AddDebt(Economy.Debt debt) => _debts.Add(debt);
+
+        public void RemoveDebt(Economy.Debt debt) => _debts.Remove(debt);
+
+        /// <summary>Lo que pagó en cuotas de deudas el último mes.</summary>
+        public decimal LastDebtPayment { get; set; }
+
+        /// <summary>Si está en el registro de morosos de su país (en Chile, DICOM).</summary>
+        public bool Delinquent { get; set; }
+
         /// <summary>Etapa educativa actual (id del paquete del país), o null si no estudia.</summary>
         public string? EducationStageId { get; set; }
 

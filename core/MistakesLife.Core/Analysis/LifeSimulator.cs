@@ -45,6 +45,7 @@ namespace MistakesLife.Core.Analysis
             var realSalaries = new List<double>();
             var realMoney = new List<double>();
             var realPensions = new List<double>();
+            var realDebts = new List<double>();
 
             for (int i = 0; i < lives; i++)
             {
@@ -83,6 +84,17 @@ namespace MistakesLife.Core.Analysis
                     }
 
                     realMoney.Add((double)player.Money / economy.PriceIndex);
+                    if (player.Debts.Count > 0)
+                    {
+                        report.WithDebt++;
+                        realDebts.Add((double)player.Debts.Sum(d => d.Balance) / economy.PriceIndex);
+                    }
+
+                    if (player.Delinquent)
+                    {
+                        report.Delinquent++;
+                    }
+
                     if (player.Pension.HasValue)
                     {
                         report.Retired++;
@@ -169,6 +181,8 @@ namespace MistakesLife.Core.Analysis
             report.AverageAnnualInflation = inflationLives == 0 ? 0 : inflation / inflationLives;
             realSalaries.Sort();
             report.MedianRealSalary = realSalaries.Count == 0 ? 0 : realSalaries[realSalaries.Count / 2];
+            realDebts.Sort();
+            report.MedianRealDebt = realDebts.Count == 0 ? 0 : realDebts[realDebts.Count / 2];
             realPensions.Sort();
             report.MedianRealPension = realPensions.Count == 0 ? 0 : realPensions[realPensions.Count / 2];
             realMoney.Sort();
