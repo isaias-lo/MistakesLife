@@ -14,9 +14,11 @@ namespace MistakesLife.Core.Life
     /// sube si su salud es muy mala. Aplica a todos los personajes, no solo al
     /// jugador: los padres también envejecen y pueden morir.
     ///
-    /// Cuando muere el jugador o uno de sus padres, se escribe en el diario
-    /// ("diario.muerte", "diario.muerte_madre", "diario.muerte_padre") y el
-    /// tiempo se detiene (día clave).
+    /// Cuando muere el jugador o alguien de su familia cercana (madre, padre,
+    /// pareja o un hijo), se escribe en el diario ("diario.muerte",
+    /// "diario.muerte_madre", "diario.muerte_padre", "diario.muerte_pareja",
+    /// "diario.muerte_hija", "diario.muerte_hijo") y el tiempo se detiene (día clave).
+    /// Quien muere deja de tener pareja, y su pareja también.
     /// </summary>
     public sealed class MortalitySystem : IWeeklySystem
     {
@@ -31,7 +33,7 @@ namespace MistakesLife.Core.Life
         /// <summary>Motivo para detener el tiempo cuando muere el jugador.</summary>
         public const string StopReasonPlayerDeath = "dia_clave.muerte";
 
-        /// <summary>Motivo para detener el tiempo cuando muere uno de sus padres.</summary>
+        /// <summary>Motivo para detener el tiempo cuando muere alguien de su familia cercana.</summary>
         public const string StopReasonParentDeath = "dia_clave.muerte_familiar";
 
         private readonly ContentDatabase _content;
@@ -53,8 +55,14 @@ namespace MistakesLife.Core.Life
                 double chance = WeeklyDeathProbability(country, character, context.Date);
                 if (chance > 0 && context.RandomFor(SystemId + "." + character.Id).Chance(chance))
                 {
+                    int? playerPartnerId = world.Player.PartnerId;
                     character.Die(context.Date, Character.CauseNatural);
-                    Announce(world, context, character);
+                    if (character.PartnerId.HasValue)
+                    {
+                        FamilyFactory.EndPartnership(world, character);
+                    }
+
+                    Announce(world, context, character, playerPartnerId);
                 }
             }
         }
@@ -89,17 +97,42 @@ namespace MistakesLife.Core.Life
             return 1 + (missing * (ZeroHealthRiskMultiplier - 1));
         }
 
-        private static void Announce(World world, WeekContext context, Character dead)
+        private static void Announce(World world, WeekContext context, Character dead, int? partnerIdBefore)
         {
             Character player = world.Player;
             if (dead.Id == player.Id)
             {
                 world.WriteJournal(player.Id, "diario.muerte");
                 context.RequestStop(StopReasonPlayerDeath);
+                return;
             }
-            else if (player.IsAlive && (dead.Id == player.MotherId || dead.Id == player.FatherId))
+
+            if (!player.IsAlive)
             {
-                world.WriteJournal(player.Id, dead.Id == player.MotherId ? "diario.muerte_madre" : "diario.muerte_padre");
+                return;
+            }
+
+            string? journalKey = null;
+            if (dead.Id == player.MotherId)
+            {
+                journalKey = "diario.muerte_madre";
+            }
+            else if (dead.Id == player.FatherId)
+            {
+                journalKey = "diario.muerte_padre";
+            }
+            else if (dead.Id == partnerIdBefore)
+            {
+                journalKey = "diario.muerte_pareja";
+            }
+            else if (dead.MotherId == player.Id || dead.FatherId == player.Id)
+            {
+                journalKey = dead.Sex == Sex.Female ? "diario.muerte_hija" : "diario.muerte_hijo";
+            }
+
+            if (journalKey != null)
+            {
+                world.WriteJournal(player.Id, journalKey);
                 context.RequestStop(StopReasonParentDeath);
             }
         }

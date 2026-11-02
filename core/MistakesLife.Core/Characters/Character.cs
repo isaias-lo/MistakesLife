@@ -41,6 +41,12 @@ namespace MistakesLife.Core.Characters
         /// <summary>Id del padre, si existe en el mundo.</summary>
         public int? FatherId { get; set; }
 
+        /// <summary>
+        /// Id de su pareja actual, o null si no tiene. Siempre va en ambos sentidos:
+        /// si A tiene pareja B, B tiene pareja A.
+        /// </summary>
+        public int? PartnerId { get; set; }
+
         /// <summary>Dónde vive: país, ciudad y comuna (ids de los paquetes).</summary>
         public Residence? Residence { get; set; }
 

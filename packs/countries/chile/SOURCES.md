@@ -16,8 +16,11 @@
 
 | Robo con violencia o intimidación: 3,5 % de los hogares al año | [INE, ENUSC 2024](https://www.ine.gob.cl/sala-de-prensa/prensa/general/noticia/2025/07/07/subsecretar%C3%ADa-de-prevenci%C3%B3n-del-delito-e-ine-presentan-los-resultados-de-la-encuesta-nacional-urbana-de-seguridad-ciudadana-(enusc)-2024) | `robo_celular` usa `probabilidad_anual` 0.04 (estimación por persona) |
 | Tabla de mortalidad 0 a 85 años (probabilidad anual de morir por edad y sexo; esperanza de vida 81,4 mujeres y 76,0 hombres) | INE, tablas de vida 2011 (Estadísticas Vitales), publicadas por la Superintendencia de Pensiones; copia en [Human Life-Table Database](https://www.lifetable.de/File/GetDocument/data%5CCHL%5CCHL000020112011CU1.pdf) | Campo `mortalidad` de `country.json` |
+| Fecundidad: 1,16 hijos por mujer (2023) y edad promedio de la madre al primer hijo cerca de 29 años | INE, Estadísticas Vitales 2023 | Para calibrar `events/familia.json` (en el simulador: ~1,2 hijos por persona y primer hijo a los ~30) |
 
 ## Estimaciones por revisar
+
+- **Familia (`events/familia.json`):** las probabilidades de conocer pareja (0,3 al año), de conversar sobre hijos (0,4), de lograr el embarazo al buscarlo (0,6), de embarazo no planificado (0,03) y de crisis de pareja (0,06) son estimaciones ajustadas para acercarse a la fecundidad del INE. Falta calibrar con CASEN cuántas personas viven en pareja a cada edad (hoy ~78 % a los 45, probablemente alto).
 
 - **Mortalidad desde los 90 años:** la tabla del INE agrupa "90 y más"; de 90 a 110 se extrapoló siguiendo la curva de las edades anteriores (cada 5 años sube ~1,5 veces). Además la tabla es de 2011: hoy la esperanza de vida en Chile es algo mayor (cerca de 81 años en promedio). Conviene actualizarla con la tabla más reciente del INE.
 

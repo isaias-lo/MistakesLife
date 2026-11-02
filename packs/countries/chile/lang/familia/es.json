@@ -1,0 +1,16 @@
+{
+  "evento.conocer_pareja": "En el cumpleaños de una amiga conoces a alguien. Conversan toda la noche y al despedirse te pide tu número.",
+  "opcion.conocer_pareja.oportunidad": "Darse una oportunidad.",
+  "opcion.conocer_pareja.no_es_momento": "No es el momento. Le das las gracias y no le escribes.",
+  "evento.conversar_hijos": "Una noche, después de cenar, tu pareja te pregunta si alguna vez has pensado en tener hijos.",
+  "opcion.conversar_hijos.queremos": "Sí. Deciden intentarlo.",
+  "opcion.conversar_hijos.todavia_no": "Todavía no. Primero quieren estar más estables.",
+  "opcion.conversar_hijos.no_queremos": "No. Están de acuerdo en que no quieren hijos.",
+  "evento.nace_hijo": "Después de nueve meses de espera, controles en el consultorio y noches sin dormir, llega a casa tu bebé.",
+  "evento.embarazo_no_planificado": "Un test de embarazo da positivo. No lo tenían planeado.",
+  "opcion.embarazo_no_planificado.alegria": "Después del susto, lo reciben con alegría.",
+  "opcion.embarazo_no_planificado.cuesta": "Les cuesta, el momento no es el mejor, pero siguen adelante.",
+  "evento.crisis_pareja": "Las discusiones con tu pareja ya son de todos los días. Una noche, uno de los dos dice: \"Así no podemos seguir\".",
+  "opcion.crisis_pareja.conversar": "Se sientan a conversar y deciden intentarlo de nuevo.",
+  "opcion.crisis_pareja.terminar": "Terminan. Cada uno sigue su camino."
+}

@@ -99,6 +99,22 @@ namespace MistakesLife.Core.Worlds
             return _characters.TryGetValue(id, out character);
         }
 
+        /// <summary>Hijos de un personaje (vivos o no), del mayor al menor.</summary>
+        public IReadOnlyList<Character> ChildrenOf(int parentId)
+        {
+            var children = new List<Character>();
+            foreach (Character character in _characters.Values)
+            {
+                if (character.MotherId == parentId || character.FatherId == parentId)
+                {
+                    children.Add(character);
+                }
+            }
+
+            children.Sort((a, b) => a.BirthDate.TotalWeeks != b.BirthDate.TotalWeeks ? a.BirthDate.TotalWeeks.CompareTo(b.BirthDate.TotalWeeks) : a.Id.CompareTo(b.Id));
+            return children;
+        }
+
         public void SetPlayer(int characterId)
         {
             GetCharacter(characterId);

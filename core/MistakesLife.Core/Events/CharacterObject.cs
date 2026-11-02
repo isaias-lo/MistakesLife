@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using MistakesLife.Core.Characters;
+using MistakesLife.Core.Life;
 using MistakesLife.Core.Scripting;
 
 namespace MistakesLife.Core.Events
@@ -10,9 +11,11 @@ namespace MistakesLife.Core.Events
     /// Datos: edad, edad_semanas, salud, felicidad, inteligencia, vivo, sexo,
     /// apertura, responsabilidad, extraversion, amabilidad, neuroticismo,
     /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre,
-    /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado.
+    /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
+    /// pareja, hijos.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
-    /// titulado_en('carrera o nivel'), titularse(), desertar().
+    /// titulado_en('carrera o nivel'), titularse(), desertar(),
+    /// formar_pareja(), terminar_pareja(), tener_hijo().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -78,6 +81,10 @@ namespace MistakesLife.Core.Events
                     return Relative(_character.MotherId, scope);
                 case "padre":
                     return Relative(_character.FatherId, scope);
+                case "pareja":
+                    return Relative(_character.PartnerId, scope);
+                case "hijos":
+                    return Value.FromNumber(((EventScope)scope).World.ChildrenOf(_character.Id).Count(c => c.IsAlive));
                 default:
                     throw new ScriptException($"jugador.{member} no existe.");
             }
@@ -138,6 +145,32 @@ namespace MistakesLife.Core.Events
                     ((EventScope)scope).RequireWritable("jugador.desertar");
                     RequireStudies(method);
                     _character.Studies = null;
+                    return Value.Null;
+                case "formar_pareja":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.formar_pareja");
+                    if (_character.PartnerId.HasValue)
+                    {
+                        throw new ScriptException("jugador.formar_pareja(): ya tiene pareja.");
+                    }
+
+                    FamilyFactory.CreatePartner(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+                    return Value.Null;
+                case "terminar_pareja":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.terminar_pareja");
+                    if (!_character.PartnerId.HasValue)
+                    {
+                        throw new ScriptException("jugador.terminar_pareja(): no tiene pareja.");
+                    }
+
+                    FamilyFactory.EndPartnership(((EventScope)scope).World, _character);
+                    return Value.Null;
+                case "tener_hijo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.tener_hijo");
+                    Character child = FamilyFactory.CreateChild(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+                    ((EventScope)scope).World.WriteJournal(_character.Id, child.Sex == Sex.Female ? "diario.nace_hija" : "diario.nace_hijo");
                     return Value.Null;
                 case "titulado_en":
                     string career = EventScope.SingleText("jugador." + method, args);

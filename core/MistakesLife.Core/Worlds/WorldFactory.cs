@@ -89,22 +89,25 @@ namespace MistakesLife.Core.Worlds
             return world;
         }
 
-        private static string Surnames(CountryDefinition country, string first, string second) =>
+        internal static string Surnames(CountryDefinition country, string first, string second) =>
             country.TwoSurnames ? first + " " + second : first;
 
-        private static GameDate BirthDateForAge(GameDate today, int ageInYears, GameRandom random) =>
+        internal static GameDate BirthDateForAge(GameDate today, int ageInYears, GameRandom random) =>
             new GameDate(today.TotalWeeks - (ageInYears * GameDate.WeeksPerYear) - random.NextInt(GameDate.WeeksPerYear));
 
-        private static Sex RandomSex(GameRandom random) => random.Chance(0.5) ? Sex.Female : Sex.Male;
+        internal static Sex RandomSex(GameRandom random) => random.Chance(0.5) ? Sex.Female : Sex.Male;
 
-        private static Character NewPerson(World world, GameRandom random, string firstName, string lastName, Sex sex, GameDate birthDate) =>
+        internal static Character NewPerson(World world, GameRandom random, string firstName, string lastName, Sex sex, GameDate birthDate) =>
+            NewPerson(world, random, firstName, lastName, sex, birthDate, Personality.Random(random));
+
+        internal static Character NewPerson(World world, GameRandom random, string firstName, string lastName, Sex sex, GameDate birthDate, Personality personality) =>
             new Character(
                 world.NextCharacterId(),
                 firstName,
                 lastName,
                 sex,
                 birthDate,
-                Personality.Random(random),
+                personality,
                 new Stats(
                     health: random.NextInt(70, 101),
                     happiness: random.NextInt(60, 101),

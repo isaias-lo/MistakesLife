@@ -1,0 +1,101 @@
+[
+  {
+    "id": "evento.conocer_pareja",
+    "condiciones": "jugador.edad >= 18 && jugador.edad < 70 && jugador.pareja == nada",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.conocer_pareja.oportunidad",
+        "efectos": [
+          "jugador.formar_pareja()",
+          "jugador.felicidad += 10"
+        ]
+      },
+      {
+        "texto": "opcion.conocer_pareja.no_es_momento",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.conversar_hijos",
+    "condiciones": "jugador.pareja != nada && jugador.edad >= 22 && jugador.hijos < 3 && !jugador.tiene('buscando_hijo') && !jugador.tiene('no_quiere_hijos') && ((jugador.sexo == 'femenino' && jugador.edad <= 42) || (jugador.sexo == 'masculino' && jugador.pareja.edad <= 42))",
+    "probabilidad_anual": 0.4,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.conversar_hijos.queremos",
+        "efectos": [
+          "jugador.marcar('buscando_hijo')"
+        ]
+      },
+      {
+        "texto": "opcion.conversar_hijos.todavia_no",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.conversar_hijos.no_queremos",
+        "efectos": [
+          "jugador.marcar('no_quiere_hijos')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.nace_hijo",
+    "condiciones": "jugador.tiene('buscando_hijo') && jugador.pareja != nada && ((jugador.sexo == 'femenino' && jugador.edad <= 44) || (jugador.sexo == 'masculino' && jugador.pareja.edad <= 44))",
+    "probabilidad_anual": 0.6,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.tener_hijo()",
+      "jugador.desmarcar('buscando_hijo')",
+      "jugador.felicidad += 15"
+    ]
+  },
+  {
+    "id": "evento.embarazo_no_planificado",
+    "condiciones": "jugador.pareja != nada && !jugador.tiene('buscando_hijo') && ((jugador.sexo == 'femenino' && jugador.edad >= 18 && jugador.edad <= 44) || (jugador.sexo == 'masculino' && jugador.pareja.edad >= 18 && jugador.pareja.edad <= 44))",
+    "probabilidad_anual": 0.03,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.embarazo_no_planificado.alegria",
+        "efectos": [
+          "jugador.tener_hijo()",
+          "jugador.felicidad += 5"
+        ]
+      },
+      {
+        "texto": "opcion.embarazo_no_planificado.cuesta",
+        "efectos": [
+          "jugador.tener_hijo()",
+          "jugador.felicidad -= 5"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.crisis_pareja",
+    "condiciones": "jugador.pareja != nada",
+    "probabilidad_anual": 0.06,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.crisis_pareja.conversar",
+        "efectos": [
+          "jugador.felicidad -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.crisis_pareja.terminar",
+        "efectos": [
+          "jugador.terminar_pareja()",
+          "jugador.desmarcar('buscando_hijo')",
+          "jugador.desmarcar('no_quiere_hijos')",
+          "jugador.felicidad -= 10"
+        ]
+      }
+    ]
+  }
+]
