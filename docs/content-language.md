@@ -86,6 +86,19 @@ En el legado, el jugador puede seguir con un hijo que ya es adulto y que nadie j
 
 Al seguir con el hijo, recibe las marcas de todas las filas con `edad` menor o igual a la suya.
 
+### Familia no jugada (campo `familia_no_jugada` de country.json)
+
+Los descendientes del linaje que nadie juega (hijos, nietos y bisnietos de los jugadores) también forman pareja, tienen hijos y se separan, para que el heredero llegue con su propia familia. Todas son probabilidades por año:
+
+```json
+"familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03,
+                       "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 }
+```
+
+- `hijo_anual` vale solo si la mujer de la pareja tiene `edad_fertil_max` años o menos, y si tiene menos de `max_hijos` hijos vivos.
+- Cuando a un hijo del jugador le nace un hijo, el jugador escribe `diario.nace_nieta` o `diario.nace_nieto`.
+- Si falta el campo, los parientes no forman familia.
+
 ## Legado
 
 Cuando el jugador muere, puede seguir con uno de sus hijos vivos, en el mismo mundo:

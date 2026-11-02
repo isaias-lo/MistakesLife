@@ -20,6 +20,7 @@
 
 ## Estimaciones por revisar
 
+- **Familia no jugada (`familia_no_jugada` en `country.json`):** pareja 0,15 al año, hijo 0,07 al año y separación 0,03 al año, ajustadas con el simulador para que los hijos no jugados lleguen a los 50 años con ~1,2 hijos en promedio, como la fecundidad del INE.
 - **Familia (`events/familia.json`):** las probabilidades de conocer pareja (0,3 al año), de conversar sobre hijos (0,4), de lograr el embarazo al buscarlo (0,6), de embarazo no planificado (0,03) y de crisis de pareja (0,06) son estimaciones ajustadas para acercarse a la fecundidad del INE. Falta calibrar con CASEN cuántas personas viven en pareja a cada edad (hoy ~78 % a los 45, probablemente alto).
 
 - **Mortalidad desde los 90 años:** la tabla del INE agrupa "90 y más"; de 90 a 110 se extrapoló siguiendo la curva de las edades anteriores (cada 5 años sube ~1,5 veces). Además la tabla es de 2011: hoy la esperanza de vida en Chile es algo mayor (cerca de 81 años en promedio). Conviene actualizarla con la tabla más reciente del INE.
