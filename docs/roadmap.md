@@ -35,8 +35,8 @@
 | B4a | Los hijos y nietos que nadie juega forman su propia familia (pareja, hijos, separación), y el jugador tiene nietos | Hecha |
 | B4b | Eventos de adultez y vejez en Chile (trabajo, jubilación por AFP, enfermedades) | Pendiente |
 | B5a | Diversidad, núcleo: orientación e identidad al nacer según encuestas del país, y pareja según la orientación | Hecha |
-| B5b | Diversidad, eventos de Chile: descubrirse, salir del clóset, reacción de la familia, Marcha del Orgullo, discriminación y cambio registral con la ley | En revisión |
-| B5c | Diversidad, familias del mismo sexo con adopción | Pendiente |
+| B5b | Diversidad, eventos de Chile: descubrirse, salir del clóset, reacción de la familia, Marcha del Orgullo, discriminación y cambio registral con la ley | Hecha |
+| B5c | Diversidad, familias del mismo sexo con adopción (también los hijos no jugados adoptan) | En revisión |
 | B6 | Leyes de cada país (`leyes` en country.json, `ley()` y `cambiar_ley()`), con las primeras leyes de Chile | Hecha |
 
 ## Decisiones según la personalidad

@@ -60,6 +60,18 @@ namespace MistakesLife.Core.Characters
         public int? FatherId { get; set; }
 
         /// <summary>
+        /// La otra madre o el otro padre, en familias de dos madres o dos padres
+        /// (por ahora, por adopción). Si no hay, null.
+        /// </summary>
+        public int? SecondParentId { get; set; }
+
+        /// <summary>Si llegó a su familia por adopción.</summary>
+        public bool Adopted { get; set; }
+
+        /// <summary>Si <paramref name="id"/> es su madre o su padre (biológico o por adopción).</summary>
+        public bool IsChildOf(int id) => MotherId == id || FatherId == id || SecondParentId == id;
+
+        /// <summary>
         /// Id de su pareja actual, o null si no tiene. Siempre va en ambos sentidos:
         /// si A tiene pareja B, B tiene pareja A.
         /// </summary>

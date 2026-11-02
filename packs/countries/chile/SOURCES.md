@@ -21,6 +21,7 @@
 
 ## Estimaciones por revisar
 
+- **Adopción (`evento.conversar_adopcion`, `evento.llega_adopcion` y `adopcion_anual`):** la Ley 19.620 pide adoptantes de 25 a 60 años, y desde la Ley 21.400 (2022) las parejas del mismo sexo pueden adoptar. La espera (probabilidad 0,35 al año, unos 3 años en promedio) y `adopcion_anual` 0,03 son estimaciones; conviene revisarlas con los datos del Servicio Mejor Niñez. Las parejas de mujer y hombre también pueden conversar de adoptar si no tienen hijos y la mujer pasó los 42.
 - **Eventos de diversidad (`events/diversidad.json`):** las probabilidades por año (descubrirse 0,25 a 0,35; salir del clóset 0,15; discriminación 0,1; aceptación de la familia con el tiempo 0,2) son estimaciones. La reacción de la familia depende de la personalidad de la madre (o del padre si no está): apertura + amabilidad de 90 o más apoya; menos, le cuesta. Conviene calibrar con estudios del Movilh y de Todo Mejora.
 - **Diversidad (`diversidad` en `country.json`):** de la encuesta Ipsos se dejaron fuera quienes no respondieron, se sumó pansexual a bisexual, se agregó 1 % de asexuales y el 3 % trans/no binario se repartió en 1 % trans y 2 % no binario. Conviene revisar con datos oficiales (el Censo 2024 preguntó por primera vez por orientación e identidad).
 

@@ -121,13 +121,17 @@ namespace MistakesLife.Core.Life
             {
                 journalKey = "diario.muerte_padre";
             }
+            else if (dead.Id == player.SecondParentId)
+            {
+                journalKey = dead.Gender == Gender.Female ? "diario.muerte_madre" : "diario.muerte_padre";
+            }
             else if (dead.Id == partnerIdBefore)
             {
                 journalKey = "diario.muerte_pareja";
             }
-            else if (dead.MotherId == player.Id || dead.FatherId == player.Id)
+            else if (dead.IsChildOf(player.Id))
             {
-                journalKey = dead.Sex == Sex.Female ? "diario.muerte_hija" : "diario.muerte_hijo";
+                journalKey = dead.Gender == Gender.Female ? "diario.muerte_hija" : "diario.muerte_hijo";
             }
 
             if (journalKey != null)

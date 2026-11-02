@@ -11,5 +11,9 @@
   "diario.nace_hijo": "Hoy nació mi hijo.",
   "diario.legado": "Desde hoy, la historia de mi familia sigue conmigo.",
   "diario.nace_nieta": "Hoy nació mi nieta.",
-  "diario.nace_nieto": "Hoy nació mi nieto."
+  "diario.nace_nieto": "Hoy nació mi nieto.",
+  "diario.adopcion_hija": "Hoy llegó a casa nuestra hija. Después de tanta espera, por fin somos familia.",
+  "diario.adopcion_hijo": "Hoy llegó a casa nuestro hijo. Después de tanta espera, por fin somos familia.",
+  "diario.llega_nieta": "Hoy conocí a mi nieta, que llegó a la familia por adopción.",
+  "diario.llega_nieto": "Hoy conocí a mi nieto, que llegó a la familia por adopción."
 }
