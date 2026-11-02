@@ -13,6 +13,8 @@ namespace MistakesLife.Core.Characters
         {
             Id = id;
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
+            Gender = sex == Sex.Female ? Gender.Female : Gender.Male;
+            GenderIdentity = Gender;
             LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
             Sex = sex;
             BirthDate = birthDate;
@@ -23,11 +25,27 @@ namespace MistakesLife.Core.Characters
         /// <summary>Número único dentro del mundo. Nunca se reutiliza.</summary>
         public int Id { get; }
 
-        public string FirstName { get; }
+        public string FirstName { get; private set; }
+
+        /// <summary>Cambia el nombre de pila (por ejemplo, al cambiar el nombre registral).</summary>
+        public void ChangeFirstName(string firstName) => FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
 
         public string LastName { get; }
 
+        /// <summary>Sexo asignado al nacer. Decide lo biológico (por ejemplo, el embarazo).</summary>
         public Sex Sex { get; }
+
+        /// <summary>Género con que vive y figura en su registro. Al nacer, el que corresponde a su sexo.</summary>
+        public Gender Gender { get; set; }
+
+        /// <summary>
+        /// Género que siente (oculto). Si no coincide con <see cref="Gender"/>, el
+        /// personaje puede descubrirlo y vivir ese camino con los eventos.
+        /// </summary>
+        public Gender GenderIdentity { get; set; }
+
+        /// <summary>Orientación sexual (oculta).</summary>
+        public Orientation Orientation { get; set; } = Orientation.Heterosexual;
 
         public GameDate BirthDate { get; }
 

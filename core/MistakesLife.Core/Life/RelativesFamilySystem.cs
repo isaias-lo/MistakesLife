@@ -64,7 +64,8 @@ namespace MistakesLife.Core.Life
                 }
 
                 Character? woman = person.Sex == Sex.Female ? person : partner.Sex == Sex.Female ? partner : null;
-                bool fertile = woman != null && woman.AgeInYears(context.Date) <= rates.FertileMaxAge;
+                // Hijos biológicos: hace falta una mujer y un hombre (por sexo al nacer).
+                bool fertile = woman != null && person.Sex != partner.Sex && woman.AgeInYears(context.Date) <= rates.FertileMaxAge;
                 int livingChildren = world.ChildrenOf(person.Id).Count(c => c.IsAlive);
                 if (fertile && livingChildren < rates.MaxChildren && random.Chance(Weekly(rates.ChildPerYear)))
                 {

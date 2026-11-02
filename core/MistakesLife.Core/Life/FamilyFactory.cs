@@ -18,10 +18,12 @@ namespace MistakesLife.Core.Life
 
         /// <summary>
         /// Crea una pareja para <paramref name="person"/>, de edad parecida y del
-        /// mismo lugar, y los une. Versión 1: la pareja es del otro sexo; la
-        /// orientación de cada personaje llegará con el sistema de relaciones.
+        /// mismo lugar, y los une. El género de la pareja sale de la orientación
+        /// de la persona (ver <see cref="Diversity.PartnerGender"/>), salvo que un
+        /// evento lo pida con <paramref name="gender"/>. La pareja es cis y su
+        /// orientación calza con la persona.
         /// </summary>
-        public static Character CreatePartner(World world, ContentDatabase content, Character person)
+        public static Character CreatePartner(World world, ContentDatabase content, Character person, Gender? gender = null)
         {
             Check(world, content, person);
             if (person.PartnerId.HasValue)
@@ -31,7 +33,10 @@ namespace MistakesLife.Core.Life
 
             CountryDefinition country = content.GetCountry(person.Residence!.CountryId);
             GameRandom random = RandomFor(world, person, "pareja");
-            Sex sex = person.Sex == Sex.Female ? Sex.Male : Sex.Female;
+            Gender partnerGender = gender ?? Diversity.PartnerGender(person, random);
+            Sex sex = partnerGender == Gender.Female ? Sex.Female
+                : partnerGender == Gender.Male ? Sex.Male
+                : WorldFactory.RandomSex(random.Fork("pareja.sexo"));
             int age = Math.Max(MinPartnerAge, person.AgeInYears(world.Date) + random.NextInt(-4, 5));
             string firstName = random.Pick(sex == Sex.Female ? country.Names.Female : country.Names.Male);
             string lastName = WorldFactory.Surnames(country, random.Pick(country.Names.Surnames), random.Pick(country.Names.Surnames));
@@ -39,6 +44,9 @@ namespace MistakesLife.Core.Life
             Character partner = WorldFactory.NewPerson(world, random, firstName, lastName, sex, WorldFactory.BirthDateForAge(world.Date, age, random));
             partner.Residence = person.Residence;
             partner.HouseholdLevel = person.HouseholdLevel;
+            partner.Gender = partnerGender;
+            partner.GenderIdentity = partnerGender;
+            Diversity.AssignToPartner(partner, person, country, random);
             world.AddCharacter(partner);
 
             person.PartnerId = partner.Id;
@@ -92,6 +100,7 @@ namespace MistakesLife.Core.Life
             child.FatherId = father?.Id;
             child.Residence = parent.Residence;
             child.HouseholdLevel = parent.HouseholdLevel;
+            Diversity.AssignAtBirth(child, country, random);
             world.AddCharacter(child);
             return child;
         }

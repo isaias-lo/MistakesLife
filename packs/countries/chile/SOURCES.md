@@ -17,8 +17,11 @@
 | Robo con violencia o intimidación: 3,5 % de los hogares al año | [INE, ENUSC 2024](https://www.ine.gob.cl/sala-de-prensa/prensa/general/noticia/2025/07/07/subsecretar%C3%ADa-de-prevenci%C3%B3n-del-delito-e-ine-presentan-los-resultados-de-la-encuesta-nacional-urbana-de-seguridad-ciudadana-(enusc)-2024) | `robo_celular` usa `probabilidad_anual` 0.04 (estimación por persona) |
 | Tabla de mortalidad 0 a 85 años (probabilidad anual de morir por edad y sexo; esperanza de vida 81,4 mujeres y 76,0 hombres) | INE, tablas de vida 2011 (Estadísticas Vitales), publicadas por la Superintendencia de Pensiones; copia en [Human Life-Table Database](https://www.lifetable.de/File/GetDocument/data%5CCHL%5CCHL000020112011CU1.pdf) | Campo `mortalidad` de `country.json` |
 | Fecundidad: 1,16 hijos por mujer (2023) y edad promedio de la madre al primer hijo cerca de 29 años | INE, Estadísticas Vitales 2023 | Para calibrar `events/familia.json` (en el simulador: ~1,2 hijos por persona y primer hijo a los ~30) |
+| Diversidad: 3 % gay o lesbiana, 4 % bisexual y 3 % trans, no binario o de género fluido; 10 % se siente parte de la comunidad LGBT+ | Ipsos, *LGBT+ Pride 2023*, vía [Alturi](https://alturi.org/news_items/sexual-diversity-10-of-chileans-say-they-feel-part-of-the-lgbt-community-and-65-favor-adoption-by-gay-parents) | Campo `diversidad` de `country.json` |
 
 ## Estimaciones por revisar
+
+- **Diversidad (`diversidad` en `country.json`):** de la encuesta Ipsos se dejaron fuera quienes no respondieron, se sumó pansexual a bisexual, se agregó 1 % de asexuales y el 3 % trans/no binario se repartió en 1 % trans y 2 % no binario. Conviene revisar con datos oficiales (el Censo 2024 preguntó por primera vez por orientación e identidad).
 
 - **Leyes (`leyes` en `country.json`), anotadas de memoria y por verificar en [Ley Chile (BCN)](https://www.bcn.cl/leychile):** mayoría de edad 18; voto obligatorio desde los 18 (reforma de 2022); divorcio (Ley 19.947, 2004); matrimonio igualitario con adopción para parejas del mismo sexo (Ley 21.400, 2022); identidad de género desde los 14 años (Ley 21.120, 2018); aborto por tres causales (Ley 21.030, 2017); edad legal de jubilación 65 hombres y 60 mujeres (DL 3.500).
 
