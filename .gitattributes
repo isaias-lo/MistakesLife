@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.fbx binary
+*.unity text merge=unityyamlmerge
+*.prefab text merge=unityyamlmerge

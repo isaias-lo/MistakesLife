@@ -1,0 +1,6 @@
+{
+  "id": "pack.country.chile",
+  "type": "country",
+  "version": "0.1.0",
+  "dependencies": ["pack.base"]
+}

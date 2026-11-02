@@ -1,0 +1,6 @@
+{
+  "id": "pack.career.software",
+  "type": "career",
+  "version": "0.1.0",
+  "dependencies": ["pack.base"]
+}

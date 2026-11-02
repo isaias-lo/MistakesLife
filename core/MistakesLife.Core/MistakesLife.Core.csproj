@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Núcleo de simulación de MistakesLife.
+    netstandard2.1 + C# 9 es lo que Unity entiende, así que el mismo código
+    corre en las pruebas, en las herramientas y dentro del juego.
+    Regla: este proyecto NO puede depender de Unity ni de nada gráfico.
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <RootNamespace>MistakesLife.Core</RootNamespace>
+  </PropertyGroup>
+
+</Project>
