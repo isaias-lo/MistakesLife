@@ -39,6 +39,7 @@
     "id": "evento.berrinche_feria",
     "condiciones": "jugador.edad >= 2 && jugador.edad < 5",
     "peso": 15,
+    "enfriamiento_semanas": 26,
     "opciones": [
       {
         "texto": "opcion.berrinche.gritar",
@@ -152,6 +153,7 @@
     "id": "evento.prueba_dificil",
     "condiciones": "jugador.edad >= 9 && jugador.edad < 18",
     "peso": 12,
+    "enfriamiento_semanas": 20,
     "opciones": [
       {
         "texto": "opcion.prueba.estudiar",
@@ -217,6 +219,7 @@
     "id": "evento.temblor",
     "condiciones": "jugador.edad >= 3",
     "peso": 2,
+    "enfriamiento_semanas": 52,
     "efectos": [
       "jugador.felicidad -= 1",
       "diario('diario.temblor')"

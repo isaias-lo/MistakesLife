@@ -204,6 +204,20 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void Enfriamiento_EvitaQueUnEventoSeRepitaSeguido()
+        {
+            var (world, cycle, _) = Setup(Content(events: @"[
+              { ""id"": ""evento.comun"", ""enfriamiento_semanas"": 10 }
+            ]", seeds: "[]"));
+
+            cycle.AdvanceWeeks(world, 100);
+
+            int[] weeks = world.EventHistory.Select(r => r.Date.TotalWeeks).ToArray();
+            Assert.Equal(10, weeks.Length);
+            Assert.All(weeks.Zip(weeks.Skip(1), (a, b) => b - a), gap => Assert.True(gap >= 10));
+        }
+
+        [Fact]
         public void PaquetesDelRepositorio_CarganSinErrores()
         {
             Assert.NotEmpty(RepoPacks.Content.Events);

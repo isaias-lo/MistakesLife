@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MistakesLife.Core", "core\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MistakesLife.Core.Tests", "core\MistakesLife.Core.Tests\MistakesLife.Core.Tests.csproj", "{D5343515-725A-4D68-AA74-A50E19390D62}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A90FF33F-4B46-46F9-BDCE-2534C49DEF1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MistakesLife.Console", "tools\MistakesLife.Console\MistakesLife.Console.csproj", "{EC1E2082-A654-43D1-8068-1B039F8BA99A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +30,14 @@ Global
 		{D5343515-725A-4D68-AA74-A50E19390D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5343515-725A-4D68-AA74-A50E19390D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5343515-725A-4D68-AA74-A50E19390D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC1E2082-A654-43D1-8068-1B039F8BA99A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC1E2082-A654-43D1-8068-1B039F8BA99A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC1E2082-A654-43D1-8068-1B039F8BA99A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC1E2082-A654-43D1-8068-1B039F8BA99A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C65F0207-D881-4ECD-9901-03A0CF113656} = {D0818EE5-9FF3-4C3F-860C-91BDE4E7A4D6}
 		{D5343515-725A-4D68-AA74-A50E19390D62} = {D0818EE5-9FF3-4C3F-860C-91BDE4E7A4D6}
+		{EC1E2082-A654-43D1-8068-1B039F8BA99A} = {A90FF33F-4B46-46F9-BDCE-2534C49DEF1D}
 	EndGlobalSection
 EndGlobal

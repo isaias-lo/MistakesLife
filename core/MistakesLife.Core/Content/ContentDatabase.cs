@@ -222,6 +222,11 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, "el peso debe ser mayor que 0."));
                 }
 
+                if (ev.CooldownWeeks < 0)
+                {
+                    _errors.Add(new ContentError(where, "enfriamiento_semanas no puede ser negativo."));
+                }
+
                 if (ev.SeedType != null)
                 {
                     if (_seedTypes.TryGetValue(ev.SeedType, out SeedTypeDefinition? seedType))
