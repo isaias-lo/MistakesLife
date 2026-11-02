@@ -140,7 +140,7 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `mundo.anio`, `mundo.semana`, `mundo.semanas_totales` | Fecha del juego |
 | `semilla('id').activa`, `.despierta`, `.fuerza`, `.testigos` | La semilla abierta de ese tipo; `fuerza` se puede cambiar |
 | `semilla('id').cerrar` | Cierra la semilla (solo efectos) |
-| `plantar('id')` | Planta una semilla nueva (solo efectos) |
+| `plantar('id')` | Planta una semilla nueva (solo efectos). Si el personaje ya tiene abierta una del mismo tipo, no planta otra: la existente gana la `fuerza` del tipo (máximo 100) |
 | `diario('clave')` | Escribe en el diario (solo efectos) |
 
 Se irán sumando datos (dinero, colegio, relaciones, empresas) a medida que lleguen esos sistemas.

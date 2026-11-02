@@ -11,6 +11,6 @@
 | 5a | Núcleo para paquetes de país: país, ciudad, comuna, familia de origen y etapas educativas | Hecha |
 | 5b | Paquetes mínimos: Chile, Santiago con Puente Alto, carrera de software, 0 a 25 años | Hecha |
 | 6 | Interfaz simple de texto para jugar una vida completa | En revisión |
-| 7 | Simulador de vidas para revisar que los resultados se parezcan a la realidad | Pendiente |
+| 7 | Simulador de vidas para revisar que los resultados se parezcan a la realidad | En revisión |
 
 **Prueba de la fase 1:** ¿vivir por semanas es entretenido y las decisiones pesan?

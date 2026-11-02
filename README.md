@@ -35,6 +35,14 @@ dotnet run --project tools/MistakesLife.Console
 
 Naces en Puente Alto y vives semana a semana hasta los 25 años. Enter avanza hasta que pase algo, `a` avanza un año, `e` muestra tu estado, `d` tu diario y `q` sale. Al empezar verás un **número de partida**: con `dotnet run --project tools/MistakesLife.Console -- 2026` repites exactamente la misma vida.
 
+## Revisar el equilibrio con el simulador
+
+```bash
+dotnet run --project tools/MistakesLife.Simulator -- 1000 25
+```
+
+Juega 1000 vidas automáticas hasta los 25 años (eligiendo al azar) y muestra un informe: cuántas vidas viven cada evento, cuáles nunca aparecen, cómo terminan las vidas y qué pasa con las semillas. Úsalo después de cambiar contenido. Con `--out informe.md` lo guarda en un archivo.
+
 ## Documentos
 
 - [Documento de diseño](https://claude.ai/artifact/TLyFxfHXuytpZFXHUHY3B9)
