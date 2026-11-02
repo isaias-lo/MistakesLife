@@ -304,6 +304,7 @@ namespace MistakesLife.Core.Content
                     EventOptionDefinition option = ev.Options[i];
                     string optionWhere = $"{where}, opción {i + 1}";
                     option.CompiledConditions = CompileCondition(optionWhere, option.Conditions);
+                    option.CompiledTendency = CompileCondition(optionWhere, option.Tendency);
                     CompileEffects(optionWhere, option.Effects, option.CompiledEffects);
                 }
             }
@@ -470,6 +471,7 @@ namespace MistakesLife.Core.Content
                     {
                         TextKey = level.Id,
                         Conditions = level.Conditions,
+                        Tendency = level.Tendency,
                         Effects = new List<string> { $"{EventScope.StudyFunction}('{level.Id}')" },
                     });
                 }

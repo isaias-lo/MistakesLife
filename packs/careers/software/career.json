@@ -5,18 +5,21 @@
       "id": "carrera.software.nivel.analista_programador",
       "institucion": "instituto",
       "semestres": 5,
+      "tendencia": "si(jugador.tiene('le_gusta_programar'), 60, 15) + jugador.apertura / 4 + jugador.inteligencia / 5",
       "condiciones": "jugador.pais == 'pais.chile'"
     },
     {
       "id": "carrera.software.nivel.ingenieria_informatica",
       "institucion": "instituto",
       "semestres": 8,
+      "tendencia": "si(jugador.tiene('le_gusta_programar'), 60, 15) + jugador.apertura / 4 + jugador.inteligencia / 5",
       "condiciones": "jugador.pais == 'pais.chile'"
     },
     {
       "id": "carrera.software.nivel.ingenieria_civil_computacion",
       "institucion": "universidad",
       "semestres": 11,
+      "tendencia": "si(jugador.tiene('le_gusta_programar'), 60, 15) + jugador.apertura / 4 + jugador.inteligencia / 5",
       "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')"
     }
   ]

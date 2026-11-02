@@ -7,6 +7,7 @@
     "opciones": [
       {
         "texto": "opcion.software.ramo.estudiar",
+        "tendencia": "jugador.responsabilidad",
         "efectos": [
           "jugador.inteligencia += 3",
           "jugador.salud -= 1"
@@ -21,6 +22,7 @@
       },
       {
         "texto": "opcion.software.ramo.copiar",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
         "efectos": [
           "plantar('semilla.copio_tarea_programacion')"
         ]
@@ -47,13 +49,15 @@
     "opciones": [
       {
         "texto": "opcion.software.proyecto.publicar",
+        "tendencia": "jugador.apertura",
         "efectos": [
           "jugador.inteligencia += 2",
           "plantar('semilla.proyecto_publico')"
         ]
       },
       {
-        "texto": "opcion.software.proyecto.guardar"
+        "texto": "opcion.software.proyecto.guardar",
+        "tendencia": "100 - jugador.apertura"
       }
     ]
   },
@@ -132,7 +136,8 @@
         ]
       },
       {
-        "texto": "opcion.software.trabajo.esperar"
+        "texto": "opcion.software.trabajo.esperar",
+        "tendencia": "15"
       }
     ]
   },
@@ -143,12 +148,14 @@
     "opciones": [
       {
         "texto": "opcion.software.entrevista.honesto",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 3",
         "efectos": [
           "jugador.inteligencia += 1"
         ]
       },
       {
         "texto": "opcion.software.entrevista.inventar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
         "efectos": [
           "jugador.felicidad -= 3"
         ]

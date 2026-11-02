@@ -134,5 +134,8 @@
   "opcion.mama.conversar": "Le cuentas la verdad y conversan.",
   "opcion.mama.negar": "Le dices que el vecino es un copuchento y que no es cierto.",
   "evento.temporal_lluvia": "Un temporal de lluvia inunda tu calle y se corta la luz toda la noche.",
-  "diario.temporal_lluvia": "Se inundó la calle con el temporal. Pasamos la noche con velas."
+  "diario.temporal_lluvia": "Se inundó la calle con el temporal. Pasamos la noche con velas.",
+  "opcion.futuro.estudiar": "Seguir estudiando: un CFT, un instituto o la universidad.",
+  "evento.elegir_carrera": "Llegó el momento de postular. ¿Qué vas a estudiar?",
+  "opcion.carrera.mejor_trabajar": "Pensándolo bien, mejor me pongo a trabajar."
 }

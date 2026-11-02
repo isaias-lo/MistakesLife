@@ -33,3 +33,9 @@
 | B2 | Pareja e hijos: personajes nuevos que nacen en el mundo | Pendiente |
 | B3 | Legado: al morir, seguir jugando con un hijo (semillas heredables, mismo mundo) | Pendiente |
 | B4 | Eventos de adultez y vejez en Chile (trabajo, jubilación por AFP, enfermedades) y consola hasta la muerte | Pendiente |
+
+## Decisiones según la personalidad
+
+| # | Tarea | Estado |
+|---|---|---|
+| D1 | Tendencia en las opciones y `AutoDecider`: el simulador decide según personalidad, hogar e historia | En revisión |

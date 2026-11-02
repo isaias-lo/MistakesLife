@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using MistakesLife.Core.Content;
+using MistakesLife.Core.Decisions;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Randomness;
@@ -10,7 +11,8 @@ using MistakesLife.Core.Time;
 namespace MistakesLife.Core.Analysis
 {
     /// <summary>
-    /// Simula muchas vidas automáticas, eligiendo opciones al azar, y junta
+    /// Simula muchas vidas automáticas, decidiendo según la tendencia de cada opción
+    /// (personalidad, hogar, historia), y junta
     /// estadísticas. Es reproducible: la misma semilla inicial da el mismo informe.
     /// </summary>
     public sealed class LifeSimulator
@@ -44,6 +46,7 @@ namespace MistakesLife.Core.Analysis
                 ulong seed = firstSeed + (ulong)i;
                 var session = new LifeSession(_content, seed, SeedRules, EventRules);
                 var chooser = new GameRandom(seed).Fork("simulador.decisiones");
+                var decider = new AutoDecider(_content);
                 int target = finalAge * GameDate.WeeksPerYear;
 
                 while (session.World.Player.IsAlive && session.World.Player.AgeInWeeks(session.World.Date) < target)
@@ -51,7 +54,7 @@ namespace MistakesLife.Core.Analysis
                     PendingEvent? pending = session.Pending;
                     if (pending != null)
                     {
-                        session.Choose(chooser.Pick(pending.AvailableOptions));
+                        session.Choose(decider.Choose(session.World, pending, chooser));
                         continue;
                     }
 

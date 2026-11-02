@@ -28,6 +28,10 @@ namespace MistakesLife.Core.Content
         [JsonProperty("condiciones")]
         public string? Conditions { get; set; }
 
+        /// <summary>Qué tan atractivo es este nivel para quien decide solo (ver EventOptionDefinition.Tendency). Opcional.</summary>
+        [JsonProperty("tendencia")]
+        public string? Tendency { get; set; }
+
         [JsonIgnore]
         public string CareerId { get; internal set; } = string.Empty;
 

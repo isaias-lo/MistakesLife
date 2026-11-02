@@ -7,6 +7,7 @@
     "opciones": [
       {
         "texto": "opcion.contabilidad.balance.cuadrar",
+        "tendencia": "jugador.responsabilidad",
         "efectos": [
           "jugador.inteligencia += 3",
           "jugador.felicidad -= 1"
@@ -21,6 +22,7 @@
       },
       {
         "texto": "opcion.contabilidad.balance.dejar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
         "efectos": [
           "jugador.inteligencia -= 1"
         ]
@@ -47,6 +49,7 @@
     "opciones": [
       {
         "texto": "opcion.contabilidad.renta.ayudar",
+        "tendencia": "jugador.amabilidad",
         "efectos": [
           "jugador.inteligencia += 1",
           "plantar('semilla.contabilidad.cliente_recomendado')"
@@ -60,6 +63,7 @@
       },
       {
         "texto": "opcion.contabilidad.renta.no",
+        "tendencia": "(100 - jugador.extraversion) / 3",
         "efectos": []
       }
     ]
@@ -104,12 +108,14 @@
     "opciones": [
       {
         "texto": "opcion.contabilidad.boleta.registrar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.neuroticismo / 4",
         "efectos": [
           "plantar('semilla.contabilidad.gasto_falso')"
         ]
       },
       {
         "texto": "opcion.contabilidad.boleta.negarse",
+        "tendencia": "jugador.responsabilidad / 2",
         "efectos": [
           "jugador.felicidad -= 2",
           "jugador.marcar('se_nego_gasto_falso')"
@@ -117,6 +123,7 @@
       },
       {
         "texto": "opcion.contabilidad.boleta.preguntar",
+        "tendencia": "30",
         "efectos": [
           "jugador.inteligencia += 1"
         ]
@@ -164,7 +171,8 @@
         ]
       },
       {
-        "texto": "opcion.contabilidad.trabajo.esperar"
+        "texto": "opcion.contabilidad.trabajo.esperar",
+        "tendencia": "15"
       }
     ]
   },
@@ -176,6 +184,7 @@
     "opciones": [
       {
         "texto": "opcion.contabilidad.cierre.quedarse",
+        "tendencia": "jugador.responsabilidad",
         "efectos": [
           "jugador.salud -= 3",
           "jugador.inteligencia += 1"
@@ -183,6 +192,7 @@
       },
       {
         "texto": "opcion.contabilidad.cierre.irse",
+        "tendencia": "100 - jugador.responsabilidad",
         "efectos": [
           "jugador.felicidad += 1"
         ]
@@ -197,12 +207,14 @@
     "opciones": [
       {
         "texto": "opcion.contabilidad.fiscalizacion.reconocer",
+        "tendencia": "jugador.amabilidad / 2 + 20",
         "efectos": [
           "jugador.felicidad -= 4"
         ]
       },
       {
         "texto": "opcion.contabilidad.fiscalizacion.culpar",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
         "efectos": [
           "jugador.felicidad -= 1",
           "plantar('semilla.mentira_entrevista')"
