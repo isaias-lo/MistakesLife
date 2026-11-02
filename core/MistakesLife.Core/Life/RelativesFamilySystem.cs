@@ -67,12 +67,18 @@ namespace MistakesLife.Core.Life
                 // Hijos biológicos: hace falta una mujer y un hombre (por sexo al nacer).
                 bool fertile = woman != null && person.Sex != partner.Sex && woman.AgeInYears(context.Date) <= rates.FertileMaxAge;
                 int livingChildren = world.ChildrenOf(person.Id).Count(c => c.IsAlive);
-                if (fertile && livingChildren < rates.MaxChildren && random.Chance(Weekly(rates.ChildPerYear)))
+                bool sameSexCouple = person.Sex == partner.Sex;
+                bool adopts = sameSexCouple && age <= FamilyFactory.MaxAdoptionAge && livingChildren < rates.MaxChildren && random.Chance(Weekly(rates.AdoptionPerYear));
+                if (adopts || (fertile && livingChildren < rates.MaxChildren && random.Chance(Weekly(rates.ChildPerYear))))
                 {
-                    Character child = FamilyFactory.CreateChild(world, _content, person);
-                    if (person.MotherId == world.PlayerId || person.FatherId == world.PlayerId)
+                    Character child = adopts ? FamilyFactory.Adopt(world, _content, person) : FamilyFactory.CreateChild(world, _content, person);
+                    if (person.IsChildOf(world.PlayerId))
                     {
-                        world.WriteJournal(world.PlayerId, child.Sex == Sex.Female ? "diario.nace_nieta" : "diario.nace_nieto");
+                        bool girl = child.Sex == Sex.Female;
+                        string key = child.Adopted
+                            ? (girl ? "diario.llega_nieta" : "diario.llega_nieto")
+                            : (girl ? "diario.nace_nieta" : "diario.nace_nieto");
+                        world.WriteJournal(world.PlayerId, key);
                     }
                 }
             }

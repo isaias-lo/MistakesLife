@@ -107,7 +107,7 @@ namespace MistakesLife.Core.Worlds
             var children = new List<Character>();
             foreach (Character character in _characters.Values)
             {
-                if (character.MotherId == parentId || character.FatherId == parentId)
+                if (character.IsChildOf(parentId))
                 {
                     children.Add(character);
                 }

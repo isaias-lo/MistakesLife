@@ -22,6 +22,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("separacion_anual")]
         public double SeparationPerYear { get; set; }
 
+        /// <summary>
+        /// Probabilidad al año de adoptar, para una pareja del mismo sexo (que no
+        /// puede tener hijos biológicos juntos). Pon 0 si la ley del país no lo permite.
+        /// </summary>
+        [JsonProperty("adopcion_anual")]
+        public double AdoptionPerYear { get; set; }
+
         /// <summary>Edad desde la que forman pareja.</summary>
         [JsonProperty("edad_pareja_min")]
         public int PartnerMinAge { get; set; } = 18;

@@ -13,11 +13,11 @@ namespace MistakesLife.Core.Events
     /// apertura, responsabilidad, extraversion, amabilidad, neuroticismo,
     /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre,
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
-    /// pareja, hijos.
+    /// pareja, hijos, adoptado.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
-    /// cambiar_genero('género'), cambiar_nombre().
+    /// cambiar_genero('género'), cambiar_nombre(), adoptar().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -91,6 +91,8 @@ namespace MistakesLife.Core.Events
                     return Relative(_character.FatherId, scope);
                 case "pareja":
                     return Relative(_character.PartnerId, scope);
+                case "adoptado":
+                    return Value.FromBool(_character.Adopted);
                 case "hijos":
                     return Value.FromNumber(((EventScope)scope).World.ChildrenOf(_character.Id).Count(c => c.IsAlive));
                 default:
@@ -205,6 +207,12 @@ namespace MistakesLife.Core.Events
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.cambiar_nombre");
                     FamilyFactory.ChangeFirstName(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+                    return Value.Null;
+                case "adoptar":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.adoptar");
+                    Character adopted = FamilyFactory.Adopt(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+                    ((EventScope)scope).World.WriteJournal(_character.Id, adopted.Sex == Sex.Female ? "diario.adopcion_hija" : "diario.adopcion_hijo");
                     return Value.Null;
                 case "titulado_en":
                     string career = EventScope.SingleText("jugador." + method, args);

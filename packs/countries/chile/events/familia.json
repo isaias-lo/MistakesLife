@@ -99,10 +99,47 @@
         "efectos": [
           "jugador.terminar_pareja()",
           "jugador.desmarcar('buscando_hijo')",
+          "jugador.desmarcar('buscando_adopcion')",
           "jugador.desmarcar('no_quiere_hijos')",
           "jugador.felicidad -= 10"
         ]
       }
+    ]
+  },
+  {
+    "id": "evento.conversar_adopcion",
+    "condiciones": "jugador.pareja != nada && jugador.edad >= 25 && jugador.edad <= 50 && jugador.hijos < 3 && !jugador.tiene('buscando_adopcion') && !jugador.tiene('buscando_hijo') && !jugador.tiene('no_quiere_hijos') && ((jugador.sexo == jugador.pareja.sexo && ley('ley.adopcion_parejas_mismo_sexo')) || (jugador.sexo != jugador.pareja.sexo && jugador.hijos == 0 && si(jugador.sexo == 'femenino', jugador.edad, jugador.pareja.edad) > 42))",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.conversar_adopcion.postular",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.marcar('buscando_adopcion')"
+        ]
+      },
+      {
+        "texto": "opcion.conversar_adopcion.todavia_no",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.conversar_adopcion.no_queremos",
+        "efectos": [
+          "jugador.marcar('no_quiere_hijos')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.llega_adopcion",
+    "condiciones": "jugador.tiene('buscando_adopcion') && jugador.pareja != nada",
+    "probabilidad_anual": 0.35,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.adoptar()",
+      "jugador.desmarcar('buscando_adopcion')",
+      "jugador.felicidad += 15"
     ]
   }
 ]

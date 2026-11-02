@@ -4,6 +4,7 @@ using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Randomness;
+using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
 
 namespace MistakesLife.Core.Life
@@ -17,6 +18,12 @@ namespace MistakesLife.Core.Life
     {
         /// <summary>Edad mínima de una pareja creada por el juego.</summary>
         public const int MinPartnerAge = 18;
+
+        /// <summary>Edad máxima del niño o niña que llega en adopción (en Chile, casi siempre pequeños).</summary>
+        public const int MaxAdoptedChildAge = 5;
+
+        /// <summary>Edad máxima con que una persona no jugada adopta.</summary>
+        public const int MaxAdoptionAge = 50;
 
         /// <summary>
         /// Crea una pareja para <paramref name="person"/>, de edad parecida y del
@@ -105,6 +112,63 @@ namespace MistakesLife.Core.Life
             Diversity.AssignAtBirth(child, country, random);
             world.AddCharacter(child);
             return child;
+        }
+
+        /// <summary>
+        /// Llega por adopción un niño o niña (de 0 a <see cref="MaxAdoptedChildAge"/>
+        /// años) a la familia de <paramref name="parent"/> y su pareja, si tiene.
+        /// Sus padres biológicos no están en el mundo y su personalidad es propia.
+        /// Lleva el primer apellido de quien adopta y luego el de su pareja.
+        /// </summary>
+        public static Character Adopt(World world, ContentDatabase content, Character parent)
+        {
+            Check(world, content, parent);
+            Character? other = null;
+            if (parent.PartnerId.HasValue && world.TryGetCharacter(parent.PartnerId.Value, out Character? partner) && partner.IsAlive)
+            {
+                other = partner;
+            }
+
+            CountryDefinition country = content.GetCountry(parent.Residence!.CountryId);
+            GameRandom random = RandomFor(world, parent, "adopcion");
+            Sex sex = WorldFactory.RandomSex(random);
+            string firstName = random.Pick(sex == Sex.Female ? country.Names.Female : country.Names.Male);
+            string lastName = other == null ? parent.LastName : WorldFactory.Surnames(country, FirstSurname(parent), FirstSurname(other));
+            GameDate birth = WorldFactory.BirthDateForAge(world.Date, random.NextInt(0, MaxAdoptedChildAge + 1), random);
+
+            Character child = WorldFactory.NewPerson(world, random, firstName, lastName, sex, birth);
+            child.Adopted = true;
+            foreach (Character adoptive in other == null ? new[] { parent } : new[] { parent, other })
+            {
+                AddParent(child, adoptive);
+            }
+
+            child.Residence = parent.Residence;
+            child.HouseholdLevel = parent.HouseholdLevel;
+            Diversity.AssignAtBirth(child, country, random);
+            world.AddCharacter(child);
+            return child;
+        }
+
+        /// <summary>Pone a la persona como madre o padre según su género; si ese lugar ya está, como segunda madre o padre.</summary>
+        private static void AddParent(Character child, Character parent)
+        {
+            if (parent.Gender == Gender.Female && !child.MotherId.HasValue)
+            {
+                child.MotherId = parent.Id;
+            }
+            else if (parent.Gender == Gender.Male && !child.FatherId.HasValue)
+            {
+                child.FatherId = parent.Id;
+            }
+            else if (parent.Gender == Gender.NonBinary && !child.MotherId.HasValue && !child.FatherId.HasValue)
+            {
+                child.FatherId = parent.Id;
+            }
+            else
+            {
+                child.SecondParentId = parent.Id;
+            }
         }
 
         /// <summary>

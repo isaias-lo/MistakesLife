@@ -39,7 +39,7 @@ namespace MistakesLife.Core.Content
         public const string BaseLanguage = "es";
 
         /// <summary>Claves de texto que usa el núcleo directamente.</summary>
-        public static readonly IReadOnlyList<string> CoreTextKeys = new[] { "diario.nacimiento", "diario.cumpleanos", "diario.muerte", "diario.muerte_madre", "diario.muerte_padre", "diario.muerte_pareja", "diario.muerte_hija", "diario.muerte_hijo", "diario.nace_hija", "diario.nace_hijo", "diario.legado", "diario.nace_nieta", "diario.nace_nieto" };
+        public static readonly IReadOnlyList<string> CoreTextKeys = new[] { "diario.nacimiento", "diario.cumpleanos", "diario.muerte", "diario.muerte_madre", "diario.muerte_padre", "diario.muerte_pareja", "diario.muerte_hija", "diario.muerte_hijo", "diario.nace_hija", "diario.nace_hijo", "diario.legado", "diario.nace_nieta", "diario.nace_nieto", "diario.adopcion_hija", "diario.adopcion_hijo", "diario.llega_nieta", "diario.llega_nieto" };
 
         /// <summary>Idiomas con textos cargados.</summary>
         public IEnumerable<string> Languages => _texts.Keys;
@@ -448,7 +448,7 @@ namespace MistakesLife.Core.Content
             FamilyRatesDefinition? family = country.NonPlayedFamily;
             if (family != null)
             {
-                bool badRate = new[] { family.PartnerPerYear, family.ChildPerYear, family.SeparationPerYear }.Any(r => r < 0 || r > 1);
+                bool badRate = new[] { family.PartnerPerYear, family.ChildPerYear, family.SeparationPerYear, family.AdoptionPerYear }.Any(r => r < 0 || r > 1);
                 if (badRate || family.PartnerMinAge < 12 || family.FertileMaxAge < family.PartnerMinAge || family.MaxChildren < 0)
                 {
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));

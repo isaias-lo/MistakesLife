@@ -13,5 +13,10 @@
   "opcion.embarazo_no_planificado.interrumpir": "Lo conversan con calma y deciden interrumpir el embarazo, como permite la ley.",
   "evento.crisis_pareja": "Las discusiones con tu pareja ya son de todos los días. Una noche, uno de los dos dice: \"Así no podemos seguir\".",
   "opcion.crisis_pareja.conversar": "Se sientan a conversar y deciden intentarlo de nuevo.",
-  "opcion.crisis_pareja.terminar": "Terminan. Cada uno sigue su camino."
+  "opcion.crisis_pareja.terminar": "Terminan. Cada uno sigue su camino.",
+  "evento.conversar_adopcion": "Con tu pareja llevan tiempo hablando de formar una familia. Esta noche alguien dice la palabra en voz alta: adoptar.",
+  "opcion.conversar_adopcion.postular": "Postulan al programa de adopción. Les advierten que el proceso es largo: evaluaciones, talleres y años de espera.",
+  "opcion.conversar_adopcion.todavia_no": "Todavía no. Primero quieren estar más estables.",
+  "opcion.conversar_adopcion.no_queremos": "Lo conversan y están de acuerdo: no quieren hijos.",
+  "evento.llega_adopcion": "Suena el teléfono. Es del programa de adopción: hay un niño o una niña que podría ser parte de su familia. Una semana después llega a casa."
 }

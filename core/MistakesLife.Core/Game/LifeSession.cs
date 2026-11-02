@@ -104,7 +104,7 @@ namespace MistakesLife.Core.Game
             World.Seeds.PassToHeir(deceased.Id, heir.Id);
             GivePriorLife(heir);
             World.SetPlayer(heir.Id);
-            World.WriteJournal(heir.Id, deceased.Sex == Sex.Female ? "diario.muerte_madre" : "diario.muerte_padre");
+            World.WriteJournal(heir.Id, deceased.Gender == Gender.Female ? "diario.muerte_madre" : "diario.muerte_padre");
             World.WriteJournal(heir.Id, "diario.legado");
         }
 

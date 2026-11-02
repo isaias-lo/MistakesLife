@@ -109,11 +109,12 @@ Al seguir con el hijo, recibe las marcas de todas las filas con `edad` menor o i
 Los descendientes del linaje que nadie juega (hijos, nietos y bisnietos de los jugadores) también forman pareja, tienen hijos y se separan, para que el heredero llegue con su propia familia. Todas son probabilidades por año:
 
 ```json
-"familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03,
+"familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03, "adopcion_anual": 0.03,
                        "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 }
 ```
 
 - `hijo_anual` vale solo si la pareja es de mujer y hombre (por sexo al nacer), si la mujer tiene `edad_fertil_max` años o menos, y si tiene menos de `max_hijos` hijos vivos.
+- `adopcion_anual` vale para parejas del mismo sexo (hasta los 50 años y con menos de `max_hijos` hijos vivos). Pon 0 si la ley del país no permite que adopten.
 - Cuando a un hijo del jugador le nace un hijo, el jugador escribe `diario.nace_nieta` o `diario.nace_nieto`.
 - Si falta el campo, los parientes no forman familia.
 
@@ -260,8 +261,10 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `jugador.etapa` | Etapa educativa actual, por ejemplo `'etapa.chile.basica'`, o `''` |
 | `jugador.madre`, `jugador.padre` | Otro personaje con los mismos datos (`jugador.madre.edad`), o `nada` si no hay |
 | `jugador.pareja` | Su pareja actual (otro personaje: `jugador.pareja.edad`), o `nada`. Usa `jugador.pareja != nada && ...` antes de leer sus datos |
-| `jugador.hijos` | Cuántos hijos vivos tiene |
+| `jugador.hijos` | Cuántos hijos vivos tiene (biológicos o adoptados) |
+| `jugador.adoptado` | `true` si llegó a su familia por adopción |
 | `jugador.formar_pareja()` | Crea una pareja de edad parecida (±4 años, mínimo 18), del mismo lugar, con nombre del país, del género que le atrae según su orientación (solo efectos). `jugador.formar_pareja('femenino')` la pide de un género. Para hijos biológicos, revisa `jugador.sexo != jugador.pareja.sexo` |
+| `jugador.adoptar()` | Llega por adopción un niño o niña de 0 a 5 años; su pareja (si tiene) también es su madre o padre. Lleva el primer apellido de quien adopta y luego el de su pareja. Escribe `diario.adopcion_hija` o `diario.adopcion_hijo` (solo efectos) |
 | `jugador.cambiar_genero('género')` | Cambia el género registral (`'femenino'`, `'masculino'` o `'no_binario'`). El sexo al nacer no cambia (solo efectos) |
 | `jugador.cambiar_nombre()` | Le da un nombre de pila nuevo del país, acorde a su género (solo efectos) |
 | `jugador.terminar_pareja()` | Termina la pareja; la otra persona sigue en el mundo (solo efectos) |
