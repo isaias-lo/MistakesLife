@@ -28,7 +28,7 @@
       "id": "ciudad.santiago",
       "peso_nacimiento": 1,
       "comunas": [
-        { "id": "comuna.puente_alto", "peso_nacimiento": 568, "nivel_hogar_min": 10, "nivel_hogar_max": 65 }
+        { "id": "comuna.puente_alto", "peso_nacimiento": 568, "nivel_hogar_min": 10, "nivel_hogar_max": 65, "arriendo": 380000 }
       ]
     }
   ],
@@ -114,6 +114,20 @@
         { "desde": 21390000, "tasa": 0.4 }
       ]
     },
+    "gastos": {
+      "edad_desde": 18,
+      "felicidad_en_rojo": 1,
+      "categorias": [
+        { "id": "gasto.chile.arriendo", "monto": "arriendo()", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+        { "id": "gasto.chile.alimentacion", "monto": "160000 + 80000 * jugador.hijos_menores", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+        { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+        { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
+        { "id": "gasto.chile.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
+        { "id": "gasto.chile.transporte", "monto": "45000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
+        { "id": "gasto.chile.celular", "monto": "15000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
+        { "id": "gasto.chile.personales", "monto": "60000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" }
+      ]
+    },
     "declaracion_anual": {
       "mes": 4,
       "tramos": [
@@ -139,6 +153,7 @@
     "identidades": { "cis": 970, "trans": 10, "no_binario": 20 }
   },
   "vida_previa": [
-    { "edad": 18, "marcas": ["egresado_media", "decidio_futuro"] }
+    { "edad": 18, "marcas": ["egresado_media", "decidio_futuro"] },
+    { "edad": 28, "marcas": ["vive_independiente"] }
   ]
 }

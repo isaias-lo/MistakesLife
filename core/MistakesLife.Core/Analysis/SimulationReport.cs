@@ -54,6 +54,12 @@ namespace MistakesLife.Core.Analysis
         /// </summary>
         public double MedianRealSalary { get; internal set; }
 
+        /// <summary>Vidas que terminan con el dinero en negativo.</summary>
+        public int InRed { get; internal set; }
+
+        /// <summary>Mediana del dinero al final, en dinero del inicio del mundo (sin inflación).</summary>
+        public double MedianRealMoney { get; internal set; }
+
         /// <summary>Inflación anual promedio del país del jugador durante las vidas.</summary>
         public double AverageAnnualInflation { get; internal set; }
 
@@ -72,6 +78,7 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Salud / felicidad / inteligencia al final (promedio): {AverageHealth.ToString("0", ci)} / {AverageHappiness.ToString("0", ci)} / {AverageSmarts.ToString("0", ci)}");
             sb.AppendLine($"- Muertes antes de los {FinalAge}: {Deaths}");
             sb.AppendLine($"- Trabajan al final: {Percent(Working).ToString("0.0", ci)} %; sueldo bruto mediano (en dinero del inicio): {MedianRealSalary.ToString("N0", ci)}");
+            sb.AppendLine($"- Terminan con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano (en dinero del inicio): {MedianRealMoney.ToString("N0", ci)}");
             sb.AppendLine($"- Inflación anual promedio: {(AverageAnnualInflation * 100).ToString("0.0", ci)} %");
             sb.AppendLine();
             sb.AppendLine("## Cómo terminan las vidas (marcas)");

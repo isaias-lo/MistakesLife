@@ -139,6 +139,26 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Al empezar cada mes, quien tiene trabajo recibe el **líquido** (bruto menos descuentos) en su dinero, y queda guardada su liquidación.
 - Si un evento usa `sueldo_minimo()`, `sueldo_tipico()` o `sueldo_titulo()`, todo país debe tener `sueldos`.
 
+#### Gastos del mes (`economia.gastos`)
+
+```json
+"gastos": {
+  "edad_desde": 18,
+  "felicidad_en_rojo": 1,
+  "categorias": [
+    { "id": "gasto.chile.arriendo", "monto": "arriendo()", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+    { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores" }
+  ]
+}
+```
+
+- Al empezar cada mes, después del sueldo, el jugador paga cada gasto cuyas `condiciones` se cumplan (desde `edad_desde`; antes los pagan sus padres). Por ahora solo el jugador lleva sus cuentas.
+- `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o `arriendo()`.
+- `compartido`: se divide en dos si tiene pareja.
+- El `id` empieza con `gasto.` y es la clave de su nombre en `lang/`.
+- Cada mes que termina con el dinero en negativo suma uno a `jugador.meses_en_rojo` y resta `felicidad_en_rojo` (estrés financiero). Al volver a positivo, vuelve a 0.
+- Las comunas pueden traer su `arriendo` mensual típico (en dinero del inicio del mundo), que lee `arriendo()`. Si se usa `arriendo()`, toda comuna debe tenerlo.
+
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
 
 ```json
@@ -354,6 +374,9 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `mundo.regimen_inflacion` | Régimen de inflación actual del país del jugador, por ejemplo `'economia.inflacion.alta'` |
 | `mundo.indice_precios` | Cuántas veces más cuesta todo que al empezar el mundo (1 al principio) |
 | `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero del inicio del mundo; sin tipo es `'dependiente'` (con contrato). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
+| `jugador.hijos_menores` | Cuántos hijos vivos menores de 18 tiene |
+| `jugador.gastos`, `jugador.meses_en_rojo` | Lo que pagó en gastos el último mes, y cuántos meses seguidos terminó con el dinero en negativo |
+| `arriendo()` | Arriendo mensual típico de la comuna donde vive, en dinero del inicio del mundo |
 | `jugador.declaracion_pendiente`, `jugador.declaracion_saldo` | Si tiene una declaración de impuestos por aceptar, y su saldo (positivo: devolución; negativo: a pagar) |
 | `jugador.declarar()` | Acepta la declaración pendiente: recibe la devolución o paga (solo efectos) |
 | `jugador.dejar_trabajo()` | Deja de trabajar y de recibir sueldo (solo efectos) |

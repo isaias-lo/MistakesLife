@@ -208,6 +208,15 @@ namespace MistakesLife.ConsoleGame
                 // Formato chileno: punto para miles y coma para decimales.
                 var culture = new System.Globalization.NumberFormatInfo { NumberGroupSeparator = ".", NumberDecimalSeparator = "," };
                 _output.WriteLine($"Dinero: ${player.Money.ToString("N0", culture)}. Inflación de los últimos 12 meses: {(economy.InflationLast12Months * 100).ToString("0.0", culture)} %.");
+                if (player.LastExpenses.Count > 0)
+                {
+                    _output.WriteLine("Gastos del último mes:");
+                    foreach (var line in player.LastExpenses)
+                    {
+                        _output.WriteLine($"  {_session.Text(line.Id)}: -${line.Amount.ToString("N0", culture)}");
+                    }
+                }
+
                 if (player.Job != null)
                 {
                     string kind = player.Job.Kind == MistakesLife.Core.Economy.JobKind.Freelance ? "a honorarios" : "con contrato";
