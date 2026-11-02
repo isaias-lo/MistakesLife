@@ -196,7 +196,7 @@
   },
   {
     "id": "evento.psicologia.honorarios",
-    "condiciones": "jugador.tiene('trabaja_honorarios')",
+    "condiciones": "jugador.tiene('trabaja_honorarios') && jugador.tiene('trabajando')",
     "peso": 10,
     "unico": true,
     "opciones": [
@@ -217,7 +217,7 @@
   },
   {
     "id": "evento.psicologia.agotamiento",
-    "condiciones": "jugador.tiene('trabaja_psicologia')",
+    "condiciones": "jugador.tiene('trabaja_psicologia') && jugador.tiene('trabajando')",
     "peso": 6,
     "enfriamiento_semanas": 52,
     "opciones": [

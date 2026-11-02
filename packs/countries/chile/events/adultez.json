@@ -1,0 +1,285 @@
+[
+  {
+    "id": "evento.perder_trabajo",
+    "condiciones": "jugador.tiene('trabajando') && jugador.edad >= 25 && jugador.edad < 65",
+    "probabilidad_anual": 0.04,
+    "enfriamiento_semanas": 104,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.perder_trabajo.buscar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.perder_trabajo.descansar",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 12"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.trabajo_adulto",
+    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad >= 26 && jugador.edad < 65 && jugador.estudia == nada",
+    "probabilidad_anual": 0.6,
+    "opciones": [
+      {
+        "texto": "opcion.trabajo_adulto.aceptar",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.felicidad += 6"
+        ]
+      },
+      {
+        "texto": "opcion.trabajo_adulto.esperar",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.crisis_mediana_edad",
+    "condiciones": "jugador.edad >= 40 && jugador.edad <= 52",
+    "probabilidad_anual": 0.1,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.crisis_mediana_edad.cambiar",
+        "tendencia": "jugador.apertura",
+        "efectos": [
+          "jugador.marcar('cambio_de_rumbo')",
+          "jugador.felicidad += 6"
+        ]
+      },
+      {
+        "texto": "opcion.crisis_mediana_edad.agradecer",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.crisis_mediana_edad.amargura",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.felicidad -= 6"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.jubilacion",
+    "condiciones": "jugador.tiene('trabajando') && !jugador.tiene('jubilado') && jugador.edad >= si(jugador.sexo == 'femenino', ley('ley.edad_jubilacion_mujeres'), ley('ley.edad_jubilacion_hombres'))",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 52,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.jubilacion.jubilarse",
+        "condiciones": "!jugador.tiene('trabaja_honorarios')",
+        "tendencia": "100 - jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.marcar('jubilado')",
+          "jugador.felicidad += 4"
+        ]
+      },
+      {
+        "texto": "opcion.jubilacion.jubilarse_honorarios",
+        "condiciones": "jugador.tiene('trabaja_honorarios')",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.marcar('jubilado')",
+          "jugador.marcar('pension_baja')",
+          "jugador.felicidad -= 6"
+        ]
+      },
+      {
+        "texto": "opcion.jubilacion.seguir",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.pension_garantizada",
+    "condiciones": "jugador.edad >= ley('ley.pension_garantizada_edad') && !jugador.tiene('recibe_pgu')",
+    "probabilidad_anual": 1,
+    "unico": true,
+    "efectos": [
+      "jugador.marcar('recibe_pgu')",
+      "jugador.felicidad += 3"
+    ]
+  },
+  {
+    "id": "evento.control_medico",
+    "condiciones": "jugador.edad >= 40 && !jugador.tiene('controla_salud')",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.control_medico.ir",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.marcar('controla_salud')",
+          "jugador.salud += 2"
+        ]
+      },
+      {
+        "texto": "opcion.control_medico.no_ir",
+        "tendencia": "100 - jugador.responsabilidad",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.diagnostico_hipertension",
+    "condiciones": "jugador.edad >= 40 && !jugador.tiene('hipertension')",
+    "probabilidad_anual": 0.02,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.hipertension.tratarse",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.marcar('hipertension')",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.hipertension.ignorar",
+        "tendencia": "100 - jugador.responsabilidad",
+        "efectos": [
+          "jugador.marcar('hipertension')",
+          "plantar('semilla.hipertension_sin_tratar')",
+          "jugador.salud -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.infarto",
+    "semilla": "semilla.hipertension_sin_tratar",
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.infarto.rehabilitacion",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.salud -= 30",
+          "jugador.felicidad -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.infarto.seguir_igual",
+        "tendencia": "100 - jugador.responsabilidad",
+        "efectos": [
+          "jugador.salud -= 40",
+          "jugador.felicidad -= 5"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.diagnostico_diabetes",
+    "condiciones": "jugador.edad >= 45 && !jugador.tiene('diabetes')",
+    "probabilidad_anual": 0.012,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.diabetes.tratarse",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.marcar('diabetes')",
+          "jugador.salud -= 3",
+          "jugador.felicidad -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.diabetes.ignorar",
+        "tendencia": "100 - jugador.responsabilidad",
+        "efectos": [
+          "jugador.marcar('diabetes')",
+          "plantar('semilla.diabetes_sin_tratar')",
+          "jugador.salud -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.complicacion_diabetes",
+    "semilla": "semilla.diabetes_sin_tratar",
+    "dia_clave": true,
+    "efectos": [
+      "jugador.salud -= 25",
+      "jugador.felicidad -= 10"
+    ]
+  },
+  {
+    "id": "evento.diagnostico_cancer",
+    "condiciones": "jugador.edad >= 50 && !jugador.tiene('tuvo_cancer')",
+    "probabilidad_anual": 0.006,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.cancer.tratamiento",
+        "efectos": [
+          "jugador.marcar('tuvo_cancer')",
+          "jugador.salud -= 25",
+          "jugador.felicidad -= 12"
+        ]
+      },
+      {
+        "texto": "opcion.cancer.sin_tratamiento",
+        "efectos": [
+          "jugador.marcar('tuvo_cancer')",
+          "jugador.salud -= 50",
+          "jugador.felicidad -= 8"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.soledad_vejez",
+    "condiciones": "jugador.edad >= 70 && jugador.pareja == nada",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.soledad_vejez.llamar_hijos",
+        "condiciones": "jugador.hijos > 0",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.felicidad += 4"
+        ]
+      },
+      {
+        "texto": "opcion.soledad_vejez.club",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "jugador.marcar('club_adulto_mayor')",
+          "jugador.felicidad += 6"
+        ]
+      },
+      {
+        "texto": "opcion.soledad_vejez.quedarse",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.felicidad -= 5"
+        ]
+      }
+    ]
+  }
+]

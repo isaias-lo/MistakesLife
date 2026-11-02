@@ -1,3 +1,4 @@
+using System.Linq;
 using MistakesLife.Core.Analysis;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Events;
@@ -33,14 +34,16 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void Simulador_VidasHastaLos60_TodosLosEventosAparecenAlMenosUnaVez()
+        public void Simulador_VidasJovenesYHastaLaVejez_TodosLosEventosAparecenAlMenosUnaVez()
         {
-            // Hasta los 60 para llegar a los eventos de adultos (por ejemplo, adoptar
-            // desde los 25), y bastantes vidas para los que le pasan a pocas
-            // personas (por ejemplo, a quienes son asexuales, cerca del 1 %).
-            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 400, finalAge: 60);
+            // Muchas vidas jóvenes, para los eventos que le pasan a pocas personas
+            // (por ejemplo, a quienes son asexuales, cerca del 1 %), y menos vidas
+            // hasta los 85, para los eventos de adultos y de vejez (por ejemplo, jubilar).
+            var simulator = new LifeSimulator(RepoPacks.Content);
+            SimulationReport young = simulator.Run(lives: 600, finalAge: 25);
+            SimulationReport old = simulator.Run(lives: 150, finalAge: 85);
 
-            Assert.Empty(report.NeverSeenEvents);
+            Assert.Empty(young.NeverSeenEvents.Intersect(old.NeverSeenEvents));
         }
 
         [Fact]
