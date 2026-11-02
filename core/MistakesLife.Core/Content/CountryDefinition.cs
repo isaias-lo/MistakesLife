@@ -59,6 +59,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("vida_previa")]
         public List<PriorLifeDefinition> PriorLife { get; set; } = new List<PriorLifeDefinition>();
 
+        /// <summary>
+        /// Cómo forman familia los parientes que nadie juega (ver <see cref="FamilyRatesDefinition"/>).
+        /// Si falta, no forman pareja ni tienen hijos.
+        /// </summary>
+        [JsonProperty("familia_no_jugada")]
+        public FamilyRatesDefinition? NonPlayedFamily { get; set; }
+
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
 
