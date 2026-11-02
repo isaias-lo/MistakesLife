@@ -1,0 +1,8 @@
+{
+  "id": "pack.career.psicologia",
+  "type": "career",
+  "version": "0.1.0",
+  "dependencies": [
+    "pack.base"
+  ]
+}

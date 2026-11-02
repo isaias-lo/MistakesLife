@@ -31,6 +31,12 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Cuántas vidas terminan con cada marca (por ejemplo "trabaja_software").</summary>
         public SortedDictionary<string, int> FinalFlags { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
 
+        /// <summary>Cuántas vidas terminan con cada título (id de nivel de carrera).</summary>
+        public SortedDictionary<string, int> Degrees { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        /// <summary>Cuántas vidas siguen estudiando cada nivel al final.</summary>
+        public SortedDictionary<string, int> StillStudying { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
         public double AverageHealth { get; internal set; }
 
         public double AverageHappiness { get; internal set; }
@@ -61,6 +67,18 @@ namespace MistakesLife.Core.Analysis
             foreach (var flag in FinalFlags.OrderByDescending(f => f.Value).ThenBy(f => f.Key, StringComparer.Ordinal))
             {
                 sb.AppendLine($"| {flag.Key} | {flag.Value} | {Percent(flag.Value).ToString("0.0", ci)} |");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("## Estudios superiores al final");
+            sb.AppendLine();
+            sb.AppendLine("| Nivel de carrera | Titulados | % | Siguen estudiando | % |");
+            sb.AppendLine("|---|---:|---:|---:|---:|");
+            foreach (string level in Degrees.Keys.Union(StillStudying.Keys).OrderBy(k => k, StringComparer.Ordinal))
+            {
+                Degrees.TryGetValue(level, out int done);
+                StillStudying.TryGetValue(level, out int studying);
+                sb.AppendLine($"| {level} | {done} | {Percent(done).ToString("0.0", ci)} | {studying} | {Percent(studying).ToString("0.0", ci)} |");
             }
 
             sb.AppendLine();

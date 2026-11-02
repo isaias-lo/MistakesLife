@@ -1,0 +1,23 @@
+{
+  "id": "carrera.contabilidad",
+  "niveles": [
+    {
+      "id": "carrera.contabilidad.nivel.contador_general",
+      "institucion": "cft",
+      "semestres": 5,
+      "condiciones": "jugador.pais == 'pais.chile'"
+    },
+    {
+      "id": "carrera.contabilidad.nivel.contador_auditor_ip",
+      "institucion": "instituto",
+      "semestres": 8,
+      "condiciones": "jugador.pais == 'pais.chile'"
+    },
+    {
+      "id": "carrera.contabilidad.nivel.contador_auditor",
+      "institucion": "universidad",
+      "semestres": 10,
+      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')"
+    }
+  ]
+}

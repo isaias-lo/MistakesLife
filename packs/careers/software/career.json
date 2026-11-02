@@ -1,0 +1,23 @@
+{
+  "id": "carrera.software",
+  "niveles": [
+    {
+      "id": "carrera.software.nivel.analista_programador",
+      "institucion": "instituto",
+      "semestres": 5,
+      "condiciones": "jugador.pais == 'pais.chile'"
+    },
+    {
+      "id": "carrera.software.nivel.ingenieria_informatica",
+      "institucion": "instituto",
+      "semestres": 8,
+      "condiciones": "jugador.pais == 'pais.chile'"
+    },
+    {
+      "id": "carrera.software.nivel.ingenieria_civil_computacion",
+      "institucion": "universidad",
+      "semestres": 11,
+      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')"
+    }
+  ]
+}

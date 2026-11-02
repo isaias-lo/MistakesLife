@@ -1,0 +1,17 @@
+[
+  {
+    "id": "semilla.contabilidad.gasto_falso",
+    "tipo": "negativa",
+    "fuerza": 45,
+    "vence_anios": 6,
+    "dormir_min_semanas": 26,
+    "condiciones": "jugador.tiene('trabajando')"
+  },
+  {
+    "id": "semilla.contabilidad.cliente_recomendado",
+    "tipo": "positiva",
+    "fuerza": 55,
+    "vence_anios": 8,
+    "condiciones": "jugador.titulado_en('carrera.contabilidad')"
+  }
+]

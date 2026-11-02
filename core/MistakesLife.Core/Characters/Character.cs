@@ -67,6 +67,26 @@ namespace MistakesLife.Core.Characters
 
         public void ClearFlag(string flag) => _flags.Remove(flag);
 
+        /// <summary>La carrera que estudia ahora, o null si no estudia.</summary>
+        public CareerStudies? Studies { get; set; }
+
+        private readonly List<string> _degrees = new List<string>();
+
+        /// <summary>Niveles de carrera en que se tituló (ids de nivel), en orden.</summary>
+        public IReadOnlyList<string> Degrees => _degrees;
+
+        /// <summary>Termina los estudios actuales con su título.</summary>
+        public void Graduate()
+        {
+            if (Studies == null)
+            {
+                throw new InvalidOperationException($"{this} no está estudiando.");
+            }
+
+            _degrees.Add(Studies.LevelId);
+            Studies = null;
+        }
+
         public bool IsAlive { get; private set; } = true;
 
         public GameDate? DeathDate { get; private set; }

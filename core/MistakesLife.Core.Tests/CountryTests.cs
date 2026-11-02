@@ -15,7 +15,7 @@ namespace MistakesLife.Core.Tests
 {
     public class CountryTests
     {
-        private const string CountryJson = @"{
+        internal const string CountryJson = @"{
           ""id"": ""pais.prueba"",
           ""moneda"": ""CLP"",
           ""edad_madre_min"": 20,
