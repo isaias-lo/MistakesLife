@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Randomness;
+using MistakesLife.Core.Seeds;
 using MistakesLife.Core.Time;
 
 namespace MistakesLife.Core.Worlds
@@ -40,6 +42,9 @@ namespace MistakesLife.Core.Worlds
 
         public IReadOnlyList<JournalEntry> Journal => _journal;
 
+        /// <summary>Todas las semillas (consecuencias diferidas) del mundo.</summary>
+        public SeedBook Seeds { get; } = new SeedBook();
+
         /// <summary>Entrega un id nuevo, que nunca se repite en este mundo.</summary>
         public int NextCharacterId() => _nextCharacterId++;
 
@@ -66,6 +71,11 @@ namespace MistakesLife.Core.Worlds
             }
 
             return character;
+        }
+
+        public bool TryGetCharacter(int id, [MaybeNullWhen(false)] out Character character)
+        {
+            return _characters.TryGetValue(id, out character);
         }
 
         public void SetPlayer(int characterId)
