@@ -3,5 +3,10 @@
   "diario.cumpleanos": "Hoy cumplí un año más.",
   "diario.muerte": "Aquí termina mi historia.",
   "diario.muerte_madre": "Hoy murió mi mamá.",
-  "diario.muerte_padre": "Hoy murió mi papá."
+  "diario.muerte_padre": "Hoy murió mi papá.",
+  "diario.muerte_pareja": "Hoy murió mi pareja.",
+  "diario.muerte_hija": "Hoy murió mi hija. No hay palabras para esto.",
+  "diario.muerte_hijo": "Hoy murió mi hijo. No hay palabras para esto.",
+  "diario.nace_hija": "Hoy nació mi hija.",
+  "diario.nace_hijo": "Hoy nació mi hijo."
 }

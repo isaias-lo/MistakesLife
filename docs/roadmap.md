@@ -29,7 +29,7 @@
 
 | # | Tarea | Estado |
 |---|---|---|
-| B1 | Envejecer y morir: tabla de mortalidad real por país, salud que se recupera y envejece, muerte del jugador y de sus padres | En revisión |
-| B2 | Pareja e hijos: personajes nuevos que nacen en el mundo | Pendiente |
+| B1 | Envejecer y morir: tabla de mortalidad real por país, salud que se recupera y envejece, muerte del jugador y de sus padres | Hecha |
+| B2 | Pareja e hijos: personajes nuevos que nacen en el mundo, con eventos de familia en Chile | En revisión |
 | B3 | Legado: al morir, seguir jugando con un hijo (semillas heredables, mismo mundo) | Pendiente |
 | B4 | Eventos de adultez y vejez en Chile (trabajo, jubilación por AFP, enfermedades) y consola hasta la muerte | Pendiente |

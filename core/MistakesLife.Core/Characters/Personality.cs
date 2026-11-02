@@ -39,7 +39,7 @@ namespace MistakesLife.Core.Characters
 
         /// <summary>
         /// Personalidad al azar, concentrada cerca de 50 (como en la población real).
-        /// Más adelante se mezclará con la genética de los padres.
+        /// Para un hijo, usa <see cref="Inherit"/>.
         /// </summary>
         public static Personality Random(GameRandom random)
         {
@@ -50,6 +50,35 @@ namespace MistakesLife.Core.Characters
 
             return new Personality(Trait(random), Trait(random), Trait(random), Trait(random), Trait(random));
         }
+
+        /// <summary>
+        /// Personalidad de un hijo: cada rasgo es la mitad herencia (el promedio de
+        /// los padres) y la mitad propia (al azar). Así se parece a sus padres pero
+        /// no es una copia, como pasa en la vida real (la personalidad se hereda
+        /// cerca de un 40 a 50 %). Si solo se conoce a un padre, se usa ese.
+        /// </summary>
+        public static Personality Inherit(Personality parent, Personality? otherParent, GameRandom random)
+        {
+            if (parent == null)
+            {
+                throw new ArgumentNullException(nameof(parent));
+            }
+
+            if (random == null)
+            {
+                throw new ArgumentNullException(nameof(random));
+            }
+
+            Personality other = otherParent ?? parent;
+            return new Personality(
+                Mix(parent.Openness, other.Openness, random),
+                Mix(parent.Conscientiousness, other.Conscientiousness, random),
+                Mix(parent.Extraversion, other.Extraversion, random),
+                Mix(parent.Agreeableness, other.Agreeableness, random),
+                Mix(parent.Neuroticism, other.Neuroticism, random));
+        }
+
+        private static int Mix(int a, int b, GameRandom random) => (((a + b) / 2) + Trait(random)) / 2;
 
         private static int Trait(GameRandom random)
         {
