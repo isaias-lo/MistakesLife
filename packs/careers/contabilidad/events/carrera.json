@@ -178,7 +178,7 @@
   },
   {
     "id": "evento.contabilidad.cierre_anual",
-    "condiciones": "jugador.tiene('trabaja_contabilidad')",
+    "condiciones": "jugador.tiene('trabaja_contabilidad') && jugador.tiene('trabajando')",
     "peso": 8,
     "enfriamiento_semanas": 52,
     "opciones": [

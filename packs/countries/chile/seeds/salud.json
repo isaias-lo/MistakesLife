@@ -1,0 +1,18 @@
+[
+  {
+    "id": "semilla.hipertension_sin_tratar",
+    "tipo": "negativa",
+    "fuerza": 60,
+    "vence_anios": 30,
+    "dormir_min_semanas": 260,
+    "condiciones": "jugador.edad >= 50"
+  },
+  {
+    "id": "semilla.diabetes_sin_tratar",
+    "tipo": "negativa",
+    "fuerza": 60,
+    "vence_anios": 30,
+    "dormir_min_semanas": 260,
+    "condiciones": "jugador.edad >= 50"
+  }
+]

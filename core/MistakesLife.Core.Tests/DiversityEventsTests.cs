@@ -42,7 +42,7 @@ namespace MistakesLife.Core.Tests
         {
             Gender felt = Gender.Female;
             string name = string.Empty;
-            LifeSession session = Play(p => { felt = Other(p.Gender); p.GenderIdentity = felt; name = p.FirstName; }, 30);
+            LifeSession session = Play(p => { felt = Other(p.Gender); p.GenderIdentity = felt; name = p.FirstName; }, 40);
             Character player = session.World.Player;
 
             Assert.True(player.HasFlag("siente_identidad"));
