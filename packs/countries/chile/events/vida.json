@@ -340,6 +340,7 @@
     "efectos": [
       "jugador.marcar('resultados_paes')",
       "jugador.marcar('paes_alta')",
+      "jugador.marcar('puede_universidad')",
       "jugador.felicidad += 6",
       "diario('diario.paes_alta')"
     ]
@@ -373,34 +374,20 @@
     "unico": true,
     "opciones": [
       {
-        "texto": "opcion.futuro.universidad",
-        "condiciones": "jugador.tiene('paes_alta')",
-        "efectos": [
-          "jugador.marcar('decidio_futuro')",
-          "jugador.marcar('estudia_software')",
-          "jugador.marcar('universidad')"
-        ]
-      },
-      {
-        "texto": "opcion.futuro.instituto",
-        "efectos": [
-          "jugador.marcar('decidio_futuro')",
-          "jugador.marcar('estudia_software')",
-          "jugador.marcar('instituto')"
-        ]
-      },
-      {
         "texto": "opcion.futuro.trabajar",
         "efectos": [
-          "jugador.marcar('decidio_futuro')",
           "jugador.marcar('buscando_trabajo')"
         ]
       }
+    ],
+    "opciones_carreras": true,
+    "efectos": [
+      "jugador.marcar('decidio_futuro')"
     ]
   },
   {
     "id": "evento.gratuidad",
-    "condiciones": "jugador.tiene('estudia_software') && !jugador.tiene('financiamiento') && jugador.nivel_hogar <= 60",
+    "condiciones": "jugador.estudia != nada && !jugador.tiene('financiamiento') && jugador.nivel_hogar <= 60",
     "peso": 100,
     "unico": true,
     "efectos": [
@@ -411,7 +398,7 @@
   },
   {
     "id": "evento.sin_gratuidad",
-    "condiciones": "jugador.tiene('estudia_software') && !jugador.tiene('financiamiento') && jugador.nivel_hogar > 60",
+    "condiciones": "jugador.estudia != nada && !jugador.tiene('financiamiento') && jugador.nivel_hogar > 60",
     "peso": 100,
     "dia_clave": true,
     "unico": true,
@@ -435,7 +422,7 @@
   },
   {
     "id": "evento.trabajo_sin_titulo",
-    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.tiene('titulado') && jugador.edad < 26",
+    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad < 26",
     "peso": 20,
     "opciones": [
       {

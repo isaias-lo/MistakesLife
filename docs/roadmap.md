@@ -11,6 +11,16 @@
 | 5a | Núcleo para paquetes de país: país, ciudad, comuna, familia de origen y etapas educativas | Hecha |
 | 5b | Paquetes mínimos: Chile, Santiago con Puente Alto, carrera de software, 0 a 25 años | Hecha |
 | 6 | Interfaz simple de texto para jugar una vida completa | Hecha |
-| 7 | Simulador de vidas para revisar que los resultados se parezcan a la realidad | En revisión |
+| 7 | Simulador de vidas para revisar que los resultados se parezcan a la realidad | Hecha |
 
 **Prueba de la fase 1:** ¿vivir por semanas es entretenido y las decisiones pesan?
+
+## Opción C: realismo de Puente Alto y nuevas carreras
+
+| # | Tarea | Estado |
+|---|---|---|
+| C1 | Núcleo: carreras como paquetes (`career.json`, niveles, semestres, títulos) y software migrado | En revisión |
+| C2 | Paquete de contabilidad (contador general, contador auditor) | Pendiente |
+| C3 | Paquete de psicología | Pendiente |
+| C4 | Más eventos de vida en Puente Alto | Pendiente |
+| C5 | Equilibrar con el simulador y datos reales | Pendiente |

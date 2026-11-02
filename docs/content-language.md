@@ -53,6 +53,34 @@ El validador exige que **toda clave usada exista en español** (`es`): textos de
 - `etapas_educacion`: en orden, sin solaparse; `edad_hasta` no se incluye.
 - Al nacer se eligen país, ciudad y comuna según los pesos, una madre y un padre con nombres del país, y el hijo lleva el primer apellido del padre y luego el de la madre.
 
+## Carrera (career.json)
+
+Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. El país no necesita conocer las carreras: un evento con `"opciones_carreras": true` (en Chile, `evento.elegir_futuro`) recibe una opción por cada nivel de cada carrera cargada.
+
+```json
+{
+  "id": "carrera.software",
+  "niveles": [
+    { "id": "carrera.software.nivel.analista_programador", "institucion": "instituto", "semestres": 5,
+      "condiciones": "jugador.pais == 'pais.chile'" },
+    { "id": "carrera.software.nivel.ingenieria_civil_computacion", "institucion": "universidad", "semestres": 11,
+      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')" }
+  ]
+}
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Empieza con `carrera.`; es también la clave de su nombre en `lang/` |
+| `niveles[].id` | Empieza con el id de la carrera + `.nivel.`. Su texto es la opción ("Analista programador en un instituto…") y `<id>.titulo` el nombre del título |
+| `niveles[].institucion` | `cft`, `instituto` o `universidad` |
+| `niveles[].semestres` | Duración formal del plan. El núcleo suma un semestre aprobado cada 26 semanas de estudio |
+| `niveles[].condiciones` | Quién puede entrar. Opcional |
+
+Lo que pasa mientras se estudia (ramos, práctica, titulación, primer trabajo) va en los eventos del paquete. La titulación la decide un evento con `jugador.titularse()`: así cada carrera pone sus requisitos (por ejemplo, la práctica). La duración real suele ser mayor que la formal: un evento puede restar semestres con `jugador.semestres_aprobados -= 1`.
+
+**Convención entre paquetes:** el país marca `puede_universidad` cuando el jugador cumple lo que su país exige para entrar a la universidad (en Chile, un buen puntaje PAES). Las carreras usan esa marca en vez de conocer la PAES.
+
 ## Semilla
 
 ```json
@@ -109,6 +137,7 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `enfriamiento_semanas` | Semanas mínimas antes de que el mismo evento se repita | 0 |
 | `efectos` | Se aplican apenas ocurre | — |
 | `opciones` | Lo que puede elegir el jugador; cada una con `texto`, `condiciones` y `efectos` | — |
+| `opciones_carreras` | Agrega una opción por cada nivel de carrera, antes de las propias (ver Carrera) | false |
 
 Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla se cierra al terminar el evento.
 
@@ -135,6 +164,14 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `jugador.nivel_hogar` | Nivel socioeconómico del hogar, 0 a 100 |
 | `jugador.etapa` | Etapa educativa actual, por ejemplo `'etapa.chile.basica'`, o `''` |
 | `jugador.madre`, `jugador.padre` | Otro personaje con los mismos datos (`jugador.madre.edad`), o `nada` si no hay |
+| `jugador.estudia` | Id de la carrera que estudia (`'carrera.software'`), o `nada` |
+| `jugador.nivel_estudio`, `jugador.institucion` | Nivel que estudia y dónde (`'cft'`, `'instituto'`, `'universidad'`), o `nada` |
+| `jugador.semestres_aprobados` | Semestres aprobados; se puede cambiar mientras estudia (reprobar resta uno) |
+| `jugador.semestres_carrera` | Duración formal del nivel que estudia |
+| `jugador.titulado` | Si tiene algún título |
+| `jugador.titulado_en('carrera.x')` | Si se tituló de esa carrera (o de ese nivel exacto) |
+| `jugador.titularse()`, `jugador.desertar()` | Termina los estudios con título, o sin él (solo efectos) |
+| `estudiar('nivel')` | Empieza a estudiar ese nivel de carrera (solo efectos) |
 | `jugador.tiene('x')` | Si tiene la marca `x` |
 | `jugador.marcar('x')`, `jugador.desmarcar('x')` | Pone o quita una marca (solo efectos) |
 | `mundo.anio`, `mundo.semana`, `mundo.semanas_totales` | Fecha del juego |

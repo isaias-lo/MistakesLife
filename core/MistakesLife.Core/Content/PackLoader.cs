@@ -7,7 +7,7 @@ namespace MistakesLife.Core.Content
 {
     /// <summary>
     /// Carga paquetes desde carpetas (para pruebas y herramientas).
-    /// Cada paquete tiene pack.json y, opcionalmente, country.json y las carpetas events/, seeds/ y lang/
+    /// Cada paquete tiene pack.json y, opcionalmente, country.json, career.json y las carpetas events/, seeds/ y lang/
     /// con archivos .json que contienen una lista.
     /// </summary>
     public static class PackLoader
@@ -35,6 +35,12 @@ namespace MistakesLife.Core.Content
             if (File.Exists(countryFile))
             {
                 content.AddCountryJson(packId, Relative(packDirectory, countryFile), File.ReadAllText(countryFile));
+            }
+
+            string careerFile = Path.Combine(packDirectory, "career.json");
+            if (File.Exists(careerFile))
+            {
+                content.AddCareerJson(packId, Relative(packDirectory, careerFile), File.ReadAllText(careerFile));
             }
 
             foreach (string file in JsonFiles(packDirectory, "seeds"))

@@ -155,6 +155,16 @@ namespace MistakesLife.ConsoleGame
             {
                 _output.WriteLine($"Etapa: {_session.Text(player.EducationStageId)}.");
             }
+
+            if (player.Studies != null)
+            {
+                _output.WriteLine($"Estudias: {_session.Text(player.Studies.LevelId)} Semestres aprobados: {player.Studies.CompletedSemesters} de {player.Studies.RequiredSemesters}.");
+            }
+
+            foreach (string degree in player.Degrees)
+            {
+                _output.WriteLine($"Título: {_session.Text(degree + ".titulo")}.");
+            }
         }
 
         private void PrintJournal()

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace MistakesLife.Core.Content
 {
     /// <summary>
-    /// Todo el contenido cargado de los paquetes: eventos y tipos de semilla.
+    /// Todo el contenido cargado de los paquetes: países, carreras, eventos, semillas y textos.
     /// Se llena con Add* y se cierra con Build(), que lee las condiciones y
     /// revisa que todo esté bien antes de jugar.
     /// </summary>
@@ -17,6 +17,8 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, EventDefinition> _events = new SortedDictionary<string, EventDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, CareerDefinition> _careers = new SortedDictionary<string, CareerDefinition>(StringComparer.Ordinal);
+        private readonly Dictionary<string, CareerLevelDefinition> _careerLevels = new Dictionary<string, CareerLevelDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, Dictionary<string, string>> _texts = new SortedDictionary<string, Dictionary<string, string>>(StringComparer.Ordinal);
         private readonly List<ContentError> _errors = new List<ContentError>();
         private bool _built;
@@ -26,6 +28,12 @@ namespace MistakesLife.Core.Content
         public IEnumerable<SeedTypeDefinition> SeedTypes => _seedTypes.Values;
 
         public IEnumerable<CountryDefinition> Countries => _countries.Values;
+
+        /// <summary>Las carreras, ordenadas por id.</summary>
+        public IEnumerable<CareerDefinition> Careers => _careers.Values;
+
+        public CareerLevelDefinition GetCareerLevel(string id) =>
+            _careerLevels.TryGetValue(id, out CareerLevelDefinition? level) ? level : throw new KeyNotFoundException($"No existe el nivel de carrera '{id}'.");
 
         /// <summary>Idioma base: todo texto debe existir en este idioma.</summary>
         public const string BaseLanguage = "es";
@@ -155,6 +163,36 @@ namespace MistakesLife.Core.Content
             _countries.Add(country.Id, country);
         }
 
+        /// <summary>Agrega una carrera desde su archivo career.json.</summary>
+        public void AddCareerJson(string packId, string sourceName, string json)
+        {
+            CareerDefinition? career;
+            try
+            {
+                career = JsonConvert.DeserializeObject<CareerDefinition>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
+            }
+            catch (JsonException ex)
+            {
+                _errors.Add(new ContentError(sourceName, "JSON no válido: " + ex.Message));
+                return;
+            }
+
+            if (career == null)
+            {
+                _errors.Add(new ContentError(sourceName, "archivo vacío."));
+                return;
+            }
+
+            career.PackId = packId;
+            if (_careers.ContainsKey(career.Id))
+            {
+                _errors.Add(new ContentError(sourceName, $"la carrera {career.Id} ya existe."));
+                return;
+            }
+
+            _careers.Add(career.Id, career);
+        }
+
         /// <summary>Agrega los tipos de semilla de un archivo JSON (una lista).</summary>
         public void AddSeedsJson(string packId, string sourceName, string json)
         {
@@ -185,6 +223,16 @@ namespace MistakesLife.Core.Content
             foreach (CountryDefinition country in _countries.Values)
             {
                 ValidateCountry(country);
+            }
+
+            foreach (CareerDefinition career in _careers.Values)
+            {
+                ValidateCareer(career);
+            }
+
+            foreach (EventDefinition ev in _events.Values.Where(e => e.CareerOptions))
+            {
+                AddCareerOptions(ev);
             }
 
             foreach (SeedTypeDefinition seed in _seedTypes.Values)
@@ -346,6 +394,63 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        private void ValidateCareer(CareerDefinition career)
+        {
+            string where = $"carrera {career.Id}";
+            CheckId(where, career.Id, "carrera.");
+            if (career.Levels.Count == 0)
+            {
+                _errors.Add(new ContentError(where, "debe tener al menos un nivel."));
+            }
+
+            foreach (CareerLevelDefinition level in career.Levels)
+            {
+                string levelWhere = $"{where}, {level.Id}";
+                level.CareerId = career.Id;
+                CheckId(levelWhere, level.Id, career.Id + ".nivel.");
+                if (_careerLevels.ContainsKey(level.Id))
+                {
+                    _errors.Add(new ContentError(levelWhere, "id de nivel repetido."));
+                    continue;
+                }
+
+                _careerLevels.Add(level.Id, level);
+                if (!CareerLevelDefinition.Institutions.Contains(level.Institution))
+                {
+                    _errors.Add(new ContentError(levelWhere, $"institucion debe ser una de: {string.Join(", ", CareerLevelDefinition.Institutions)}."));
+                }
+
+                if (level.Semesters <= 0)
+                {
+                    _errors.Add(new ContentError(levelWhere, "semestres debe ser mayor que 0."));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Agrega a un evento con "opciones_carreras" una opción por cada nivel de cada
+        /// carrera, antes de sus opciones propias. El orden es fijo (por id de carrera y
+        /// orden de niveles) para que las partidas se puedan repetir.
+        /// </summary>
+        private void AddCareerOptions(EventDefinition ev)
+        {
+            var careerOptions = new List<EventOptionDefinition>();
+            foreach (CareerDefinition career in _careers.Values)
+            {
+                foreach (CareerLevelDefinition level in career.Levels)
+                {
+                    careerOptions.Add(new EventOptionDefinition
+                    {
+                        TextKey = level.Id,
+                        Conditions = level.Conditions,
+                        Effects = new List<string> { $"{EventScope.StudyFunction}('{level.Id}')" },
+                    });
+                }
+            }
+
+            ev.Options.InsertRange(0, careerOptions);
+        }
+
         /// <summary>Todas las claves de texto que el contenido usa, con dónde se usan.</summary>
         public IEnumerable<KeyValuePair<string, string>> UsedTextKeys()
         {
@@ -372,6 +477,16 @@ namespace MistakesLife.Core.Content
                 }
 
                 yield return new KeyValuePair<string, string>(country.Id, $"país {country.Id}");
+            }
+
+            foreach (CareerDefinition career in _careers.Values)
+            {
+                yield return new KeyValuePair<string, string>(career.Id, $"carrera {career.Id}");
+                foreach (CareerLevelDefinition level in career.Levels)
+                {
+                    yield return new KeyValuePair<string, string>(level.Id, $"carrera {career.Id}");
+                    yield return new KeyValuePair<string, string>(level.TitleTextKey, $"carrera {career.Id}");
+                }
             }
 
             foreach (EventDefinition ev in _events.Values)
@@ -475,6 +590,11 @@ namespace MistakesLife.Core.Content
                 if ((reference.Function == EventScope.SeedFunction || reference.Function == EventScope.PlantFunction) && !_seedTypes.ContainsKey(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): esa semilla no existe."));
+                }
+
+                if (reference.Function == EventScope.StudyFunction && !_careerLevels.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): ese nivel de carrera no existe."));
                 }
             }
         }

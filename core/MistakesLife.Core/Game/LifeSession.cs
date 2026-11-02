@@ -32,6 +32,7 @@ namespace MistakesLife.Core.Game
             Events = new EventSystem(content, eventRules);
             _cycle = new WeekCycle()
                 .Register(new EducationSystem(content))
+                .Register(new CareerSystem())
                 .Register(new SeedSystem(seedRules))
                 .Register(Events)
                 .Register(new BirthdaySystem());

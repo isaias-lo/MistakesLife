@@ -55,6 +55,14 @@ namespace MistakesLife.Core.Content
         [JsonProperty("opciones")]
         public List<EventOptionDefinition> Options { get; set; } = new List<EventOptionDefinition>();
 
+        /// <summary>
+        /// Si es verdadero, al armar el contenido se agrega una opción por cada nivel
+        /// de cada carrera cargada ("estudiar esto"), antes de las opciones propias.
+        /// Así un país no necesita conocer las carreras que existen.
+        /// </summary>
+        [JsonProperty("opciones_carreras")]
+        public bool CareerOptions { get; set; }
+
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
 

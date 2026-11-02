@@ -73,8 +73,8 @@ namespace MistakesLife.Core.Tests
             {
                 World world = LiveTo25(seed);
                 string path = world.Player.HasFlag("trabaja_software") ? "desarrollador"
-                    : world.Player.HasFlag("estudia_software") ? "estudiando"
-                    : world.Player.HasFlag("titulado") ? "titulado"
+                    : world.Player.Studies != null ? "estudiando"
+                    : world.Player.Degrees.Count > 0 ? "titulado"
                     : world.Player.HasFlag("trabajando") ? "trabajando"
                     : "otro";
                 paths[path] = paths.TryGetValue(path, out int n) ? n + 1 : 1;

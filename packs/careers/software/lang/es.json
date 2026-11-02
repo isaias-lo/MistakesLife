@@ -23,5 +23,12 @@
   "evento.software.reclutador": "Una reclutadora encontró la app de las micros que publicaste y te escribe para una entrevista.",
   "diario.software.ramo_reprobado": "Reprobé un ramo. Me da rabia, pero lo voy a sacar.",
   "diario.software.titulacion": "Hoy me titulé.",
-  "diario.software.reclutador": "Alguien vio mi proyecto y me escribió. No lo puedo creer."
+  "diario.software.reclutador": "Alguien vio mi proyecto y me escribió. No lo puedo creer.",
+  "carrera.software": "Desarrollo de software",
+  "carrera.software.nivel.analista_programador": "Analista programador en un instituto profesional (2 años y medio).",
+  "carrera.software.nivel.analista_programador.titulo": "Analista programador",
+  "carrera.software.nivel.ingenieria_informatica": "Ingeniería en informática en un instituto profesional (4 años).",
+  "carrera.software.nivel.ingenieria_informatica.titulo": "Ingeniero en informática",
+  "carrera.software.nivel.ingenieria_civil_computacion": "Ingeniería civil en computación en la universidad (5 años y medio).",
+  "carrera.software.nivel.ingenieria_civil_computacion.titulo": "Ingeniero civil en computación"
 }

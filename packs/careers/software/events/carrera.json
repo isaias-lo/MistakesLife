@@ -1,7 +1,7 @@
 [
   {
     "id": "evento.software.primer_ramo",
-    "condiciones": "jugador.tiene('estudia_software')",
+    "condiciones": "jugador.estudia == 'carrera.software'",
     "peso": 100,
     "unico": true,
     "opciones": [
@@ -29,17 +29,19 @@
   },
   {
     "id": "evento.software.ramo_reprobado",
-    "condiciones": "jugador.tiene('estudia_software') && jugador.inteligencia < 50",
+    "condiciones": "jugador.estudia == 'carrera.software' && jugador.inteligencia < 50",
     "peso": 6,
-    "enfriamiento_semanas": 26,
+    "enfriamiento_semanas": 52,
     "efectos": [
       "jugador.felicidad -= 4",
+      "jugador.semestres_aprobados -= 1",
+      "jugador.inteligencia += 2",
       "diario('diario.software.ramo_reprobado')"
     ]
   },
   {
     "id": "evento.software.proyecto_personal",
-    "condiciones": "jugador.tiene('estudia_software')",
+    "condiciones": "jugador.estudia == 'carrera.software'",
     "peso": 6,
     "unico": true,
     "opciones": [
@@ -57,7 +59,7 @@
   },
   {
     "id": "evento.software.hackathon",
-    "condiciones": "jugador.tiene('estudia_software')",
+    "condiciones": "jugador.estudia == 'carrera.software'",
     "peso": 5,
     "unico": true,
     "opciones": [
@@ -80,7 +82,7 @@
   },
   {
     "id": "evento.software.practica",
-    "condiciones": "jugador.tiene('estudia_software') && jugador.edad >= 20 && !jugador.tiene('hizo_practica')",
+    "condiciones": "jugador.estudia == 'carrera.software' && jugador.semestres_aprobados >= jugador.semestres_carrera - 2 && !jugador.tiene('hizo_practica')",
     "peso": 40,
     "unico": true,
     "opciones": [
@@ -103,13 +105,13 @@
   },
   {
     "id": "evento.software.titulacion",
-    "condiciones": "jugador.tiene('estudia_software') && jugador.tiene('hizo_practica') && ((jugador.tiene('instituto') && jugador.edad >= 21) || (jugador.tiene('universidad') && jugador.edad >= 23))",
+    "condiciones": "jugador.estudia == 'carrera.software' && jugador.tiene('hizo_practica') && jugador.semestres_aprobados >= jugador.semestres_carrera",
     "peso": 100,
     "dia_clave": true,
     "unico": true,
     "efectos": [
-      "jugador.desmarcar('estudia_software')",
-      "jugador.marcar('titulado')",
+      "jugador.titularse()",
+      "jugador.desmarcar('hizo_practica')",
       "jugador.marcar('buscando_trabajo')",
       "jugador.felicidad += 8",
       "diario('diario.software.titulacion')"
@@ -117,7 +119,7 @@
   },
   {
     "id": "evento.software.primer_trabajo",
-    "condiciones": "jugador.tiene('titulado') && jugador.tiene('buscando_trabajo')",
+    "condiciones": "jugador.titulado_en('carrera.software') && jugador.tiene('buscando_trabajo')",
     "peso": 25,
     "opciones": [
       {

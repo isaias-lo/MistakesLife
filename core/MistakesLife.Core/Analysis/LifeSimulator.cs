@@ -76,6 +76,17 @@ namespace MistakesLife.Core.Analysis
                     report.EventCount[group.Key] = report.EventCount.TryGetValue(group.Key, out int c) ? c + group.Count() : group.Count();
                 }
 
+                foreach (string degree in player.Degrees)
+                {
+                    report.Degrees[degree] = report.Degrees.TryGetValue(degree, out int d) ? d + 1 : 1;
+                }
+
+                if (player.Studies != null)
+                {
+                    string level = player.Studies.LevelId;
+                    report.StillStudying[level] = report.StillStudying.TryGetValue(level, out int st) ? st + 1 : 1;
+                }
+
                 foreach (string flag in player.Flags)
                 {
                     report.FinalFlags[flag] = report.FinalFlags.TryGetValue(flag, out int f) ? f + 1 : 1;

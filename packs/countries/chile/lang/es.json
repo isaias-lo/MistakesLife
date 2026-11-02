@@ -50,8 +50,6 @@
   "evento.resultados_paes_medios": "Salen los resultados de la PAES. No es lo que esperabas, pero tienes opciones.",
   "evento.egreso_media": "Te licencias de cuarto medio. Se acaba el liceo.",
   "evento.elegir_futuro": "Terminaste el liceo. ¿Qué viene ahora?",
-  "opcion.futuro.universidad": "Ingeniería civil en computación en la universidad.",
-  "opcion.futuro.instituto": "Técnico en programación en un instituto.",
   "opcion.futuro.trabajar": "Ponerte a trabajar.",
   "evento.gratuidad": "Te llega la noticia: quedaste con gratuidad. Tu familia no tendrá que pagar el arancel.",
   "evento.sin_gratuidad": "No calificas para gratuidad. Hay que ver cómo pagar el arancel.",
