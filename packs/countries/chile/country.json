@@ -65,5 +65,8 @@
     { "edad": 100, "femenino": 0.33, "masculino": 0.42 },
     { "edad": 105, "femenino": 0.5, "masculino": 0.58 },
     { "edad": 110, "femenino": 1, "masculino": 1 }
+  ],
+  "vida_previa": [
+    { "edad": 18, "marcas": ["egresado_media", "decidio_futuro"] }
   ]
 }

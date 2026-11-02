@@ -52,6 +52,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("mortalidad")]
         public List<MortalityRateDefinition> Mortality { get; set; } = new List<MortalityRateDefinition>();
 
+        /// <summary>
+        /// Lo que se da por vivido en alguien de cierta edad que nadie jugó (ver
+        /// <see cref="PriorLifeDefinition"/>). Se usa al seguir con un hijo en el legado.
+        /// </summary>
+        [JsonProperty("vida_previa")]
+        public List<PriorLifeDefinition> PriorLife { get; set; } = new List<PriorLifeDefinition>();
+
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
 

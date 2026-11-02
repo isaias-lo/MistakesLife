@@ -39,7 +39,7 @@ namespace MistakesLife.Core.Content
         public const string BaseLanguage = "es";
 
         /// <summary>Claves de texto que usa el núcleo directamente.</summary>
-        public static readonly IReadOnlyList<string> CoreTextKeys = new[] { "diario.nacimiento", "diario.cumpleanos", "diario.muerte", "diario.muerte_madre", "diario.muerte_padre", "diario.muerte_pareja", "diario.muerte_hija", "diario.muerte_hijo", "diario.nace_hija", "diario.nace_hijo" };
+        public static readonly IReadOnlyList<string> CoreTextKeys = new[] { "diario.nacimiento", "diario.cumpleanos", "diario.muerte", "diario.muerte_madre", "diario.muerte_padre", "diario.muerte_pareja", "diario.muerte_hija", "diario.muerte_hijo", "diario.nace_hija", "diario.nace_hijo", "diario.legado" };
 
         /// <summary>Idiomas con textos cargados.</summary>
         public IEnumerable<string> Languages => _texts.Keys;
@@ -419,6 +419,14 @@ namespace MistakesLife.Core.Content
                 }
 
                 previousAge = row.Age;
+            }
+
+            foreach (PriorLifeDefinition prior in country.PriorLife)
+            {
+                if (prior.Age < 0 || prior.Flags.Count == 0 || prior.Flags.Any(string.IsNullOrWhiteSpace))
+                {
+                    _errors.Add(new ContentError($"{where}, vida_previa edad {prior.Age}", "la edad no puede ser negativa y debe tener al menos una marca no vacía."));
+                }
             }
         }
 

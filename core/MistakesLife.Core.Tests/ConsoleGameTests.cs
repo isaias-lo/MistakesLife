@@ -20,7 +20,7 @@ namespace MistakesLife.Core.Tests
         private static string AlwaysFirstOption() => string.Concat(Enumerable.Repeat("\n1\n", 3000));
 
         [Fact]
-        public void Consola_JuegaUnaVidaHastaLosVeinticinco()
+        public void Consola_JuegaUnaVidaHastaLaMuerte()
         {
             string output = Play(7, AlwaysFirstOption());
 
@@ -28,7 +28,7 @@ namespace MistakesLife.Core.Tests
             Assert.Contains("Puente Alto, Santiago, Chile", output);
             Assert.Contains("Tu mamá:", output);
             Assert.Contains("Primer día de primero básico", output);
-            Assert.Contains("Aquí termina la fase 1", output);
+            Assert.Contains("Tu vida terminó a los", output);
         }
 
         [Fact]

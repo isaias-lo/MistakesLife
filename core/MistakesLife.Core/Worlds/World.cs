@@ -19,6 +19,7 @@ namespace MistakesLife.Core.Worlds
         private readonly List<JournalEntry> _journal = new List<JournalEntry>();
         private readonly List<PendingEvent> _pendingEvents = new List<PendingEvent>();
         private readonly List<EventRecord> _eventHistory = new List<EventRecord>();
+        private readonly List<int> _formerPlayers = new List<int>();
         private int _nextCharacterId = 1;
 
         public World(ulong seed)
@@ -118,8 +119,22 @@ namespace MistakesLife.Core.Worlds
         public void SetPlayer(int characterId)
         {
             GetCharacter(characterId);
+            if (PlayerId != 0 && PlayerId != characterId)
+            {
+                _formerPlayers.Add(PlayerId);
+            }
+
             PlayerId = characterId;
         }
+
+        /// <summary>
+        /// Los personajes que el jugador controló antes (el linaje), del primero
+        /// al último. Siguen en el mundo: lo que hicieron queda en la historia.
+        /// </summary>
+        public IReadOnlyList<int> FormerPlayers => _formerPlayers;
+
+        /// <summary>Generación del jugador actual: 1 para el primero, 2 para su hijo, etc.</summary>
+        public int Generation => _formerPlayers.Count + 1;
 
         public void WriteJournal(int characterId, string textKey)
         {
