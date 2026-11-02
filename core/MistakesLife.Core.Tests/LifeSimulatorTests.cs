@@ -24,13 +24,15 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Simulador_ConElContenidoReal_TodosLosEventosAparecenYPocosMuerenJovenes()
         {
-            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 200, finalAge: 25);
+            // 1000 vidas, como pide CLAUDE.md: algunos eventos le pasan a pocas
+            // personas (por ejemplo, a quienes son asexuales, cerca del 1 %).
+            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 1000, finalAge: 25);
 
-            Assert.Equal(200, report.Lives);
+            Assert.Equal(1000, report.Lives);
             Assert.Empty(report.NeverSeenEvents);
             // En Chile, cerca del 2 % muere antes de los 25 (tabla de mortalidad del INE).
-            Assert.InRange(report.Deaths, 0, 10);
-            Assert.Contains("# Simulación de 200 vidas hasta los 25 años", report.ToMarkdown());
+            Assert.InRange(report.Deaths, 5, 40);
+            Assert.Contains("# Simulación de 1000 vidas hasta los 25 años", report.ToMarkdown());
         }
 
         [Fact]

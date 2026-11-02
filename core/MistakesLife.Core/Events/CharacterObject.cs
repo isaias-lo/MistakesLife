@@ -16,7 +16,8 @@ namespace MistakesLife.Core.Events
     /// pareja, hijos.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
-    /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo().
+    /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
+    /// cambiar_genero('género'), cambiar_nombre().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -189,6 +190,21 @@ namespace MistakesLife.Core.Events
                     ((EventScope)scope).RequireWritable("jugador.tener_hijo");
                     Character child = FamilyFactory.CreateChild(((EventScope)scope).World, ((EventScope)scope).Content, _character);
                     ((EventScope)scope).World.WriteJournal(_character.Id, child.Sex == Sex.Female ? "diario.nace_hija" : "diario.nace_hijo");
+                    return Value.Null;
+                case "cambiar_genero":
+                    string genderKey = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador.cambiar_genero");
+                    if (!Diversity.TryParseGender(genderKey, out Gender newGender))
+                    {
+                        throw new ScriptException($"jugador.cambiar_genero('{genderKey}'): el género debe ser 'femenino', 'masculino' o 'no_binario'.");
+                    }
+
+                    _character.Gender = newGender;
+                    return Value.Null;
+                case "cambiar_nombre":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.cambiar_nombre");
+                    FamilyFactory.ChangeFirstName(((EventScope)scope).World, ((EventScope)scope).Content, _character);
                     return Value.Null;
                 case "titulado_en":
                     string career = EventScope.SingleText("jugador." + method, args);

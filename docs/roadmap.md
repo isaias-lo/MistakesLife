@@ -34,8 +34,8 @@
 | B3 | Legado: al morir, seguir jugando con un hijo (semillas heredables, mismo mundo, vida previa) y consola hasta la muerte | Hecha |
 | B4a | Los hijos y nietos que nadie juega forman su propia familia (pareja, hijos, separación), y el jugador tiene nietos | Hecha |
 | B4b | Eventos de adultez y vejez en Chile (trabajo, jubilación por AFP, enfermedades) | Pendiente |
-| B5a | Diversidad, núcleo: orientación e identidad al nacer según encuestas del país, y pareja según la orientación | En revisión |
-| B5b | Diversidad, eventos de Chile: descubrirse, salir del clóset, Marcha del Orgullo, identidad de género con la ley | Pendiente |
+| B5a | Diversidad, núcleo: orientación e identidad al nacer según encuestas del país, y pareja según la orientación | Hecha |
+| B5b | Diversidad, eventos de Chile: descubrirse, salir del clóset, reacción de la familia, Marcha del Orgullo, discriminación y cambio registral con la ley | En revisión |
 | B5c | Diversidad, familias del mismo sexo con adopción | Pendiente |
 | B6 | Leyes de cada país (`leyes` en country.json, `ley()` y `cambiar_ley()`), con las primeras leyes de Chile | Hecha |
 
