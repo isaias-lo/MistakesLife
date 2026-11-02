@@ -22,10 +22,16 @@ namespace MistakesLife.Core.Worlds
         private int _nextCharacterId = 1;
 
         public World(ulong seed)
+            : this(seed, GameDate.Start)
+        {
+        }
+
+        /// <summary>Crea un mundo que empieza en una fecha dada (para que haya pasado: padres, abuelos).</summary>
+        public World(ulong seed, GameDate startDate)
         {
             Seed = seed;
             Random = new GameRandom(seed);
-            Date = GameDate.Start;
+            Date = startDate;
         }
 
         /// <summary>Semilla de azar de la partida. Con ella se repite la vida exacta.</summary>

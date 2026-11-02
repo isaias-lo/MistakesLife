@@ -7,7 +7,8 @@ namespace MistakesLife.Core.Events
     /// <summary>
     /// Un personaje visto desde el lenguaje de condiciones ("jugador").
     /// Datos: edad, edad_semanas, salud, felicidad, inteligencia, vivo, sexo,
-    /// apertura, responsabilidad, extraversion, amabilidad, neuroticismo.
+    /// apertura, responsabilidad, extraversion, amabilidad, neuroticismo,
+    /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca').
     /// </summary>
     public sealed class CharacterObject : IScriptObject
@@ -48,9 +49,33 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.Personality.Agreeableness);
                 case "neuroticismo":
                     return Value.FromNumber(_character.Personality.Neuroticism);
+                case "pais":
+                    return Value.FromText(_character.Residence?.CountryId ?? string.Empty);
+                case "ciudad":
+                    return Value.FromText(_character.Residence?.CityId ?? string.Empty);
+                case "comuna":
+                    return Value.FromText(_character.Residence?.CommuneId ?? string.Empty);
+                case "nivel_hogar":
+                    return Value.FromNumber(_character.HouseholdLevel);
+                case "etapa":
+                    return Value.FromText(_character.EducationStageId ?? string.Empty);
+                case "madre":
+                    return Relative(_character.MotherId, scope);
+                case "padre":
+                    return Relative(_character.FatherId, scope);
                 default:
                     throw new ScriptException($"jugador.{member} no existe.");
             }
+        }
+
+        private static Value Relative(int? id, IScriptScope scope)
+        {
+            if (id.HasValue && ((EventScope)scope).World.TryGetCharacter(id.Value, out Character? relative))
+            {
+                return Value.FromObject(new CharacterObject(relative));
+            }
+
+            return Value.Null;
         }
 
         public void Set(string member, Value value, IScriptScope scope)
@@ -93,6 +118,6 @@ namespace MistakesLife.Core.Events
             }
         }
 
-        public override string ToString() => "jugador";
+        public override string ToString() => _character.ToString();
     }
 }
