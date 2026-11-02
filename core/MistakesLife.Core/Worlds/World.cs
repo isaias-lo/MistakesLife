@@ -20,6 +20,7 @@ namespace MistakesLife.Core.Worlds
         private readonly List<PendingEvent> _pendingEvents = new List<PendingEvent>();
         private readonly List<EventRecord> _eventHistory = new List<EventRecord>();
         private readonly List<int> _formerPlayers = new List<int>();
+        private readonly Dictionary<string, Scripting.Value> _lawChanges = new Dictionary<string, Scripting.Value>(StringComparer.Ordinal);
         private int _nextCharacterId = 1;
 
         public World(ulong seed)
@@ -132,6 +133,16 @@ namespace MistakesLife.Core.Worlds
         /// al último. Siguen en el mundo: lo que hicieron queda en la historia.
         /// </summary>
         public IReadOnlyList<int> FormerPlayers => _formerPlayers;
+
+        /// <summary>
+        /// Cambia una ley de un país durante la partida (por ejemplo, un evento
+        /// histórico que la aprueba). Desde ahora vale para todos en ese país.
+        /// </summary>
+        public void ChangeLaw(string countryId, string lawId, Scripting.Value value) => _lawChanges[countryId + "|" + lawId] = value;
+
+        /// <summary>El valor de una ley si cambió durante la partida.</summary>
+        public bool TryGetChangedLaw(string countryId, string lawId, out Scripting.Value value) =>
+            _lawChanges.TryGetValue(countryId + "|" + lawId, out value);
 
         /// <summary>Generación del jugador actual: 1 para el primero, 2 para su hijo, etc.</summary>
         public int Generation => _formerPlayers.Count + 1;

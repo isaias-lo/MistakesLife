@@ -766,7 +766,7 @@
   },
   {
     "id": "evento.primera_votacion",
-    "condiciones": "jugador.edad >= 18 && jugador.edad < 20",
+    "condiciones": "jugador.edad >= ley('ley.edad_voto') && jugador.edad < ley('ley.edad_voto') + 2",
     "peso": 4,
     "unico": true,
     "dia_clave": true,

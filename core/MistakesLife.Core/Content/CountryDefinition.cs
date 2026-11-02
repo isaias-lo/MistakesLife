@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using MistakesLife.Core.Characters;
+using MistakesLife.Core.Scripting;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MistakesLife.Core.Content
 {
@@ -65,6 +67,50 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("familia_no_jugada")]
         public FamilyRatesDefinition? NonPlayedFamily { get; set; }
+
+        /// <summary>
+        /// Las leyes del país: id de ley ("ley.matrimonio_igualitario") → valor (sí/no,
+        /// un número como una edad, o un texto como una modalidad). Los eventos las leen
+        /// con ley('id'), así un mismo evento sirve para todos los países.
+        /// </summary>
+        [JsonProperty("leyes")]
+        public Dictionary<string, JToken> LawsJson { get; set; } = new Dictionary<string, JToken>();
+
+        /// <summary>El valor de una ley tal como lo trae el paquete, o false si el país no la define.</summary>
+        public bool TryGetLaw(string lawId, out Value value)
+        {
+            value = Value.Null;
+            if (!LawsJson.TryGetValue(lawId, out JToken? token))
+            {
+                return false;
+            }
+
+            Value? converted = LawValue(token);
+            if (converted == null)
+            {
+                return false;
+            }
+
+            value = converted.Value;
+            return true;
+        }
+
+        /// <summary>Convierte un valor JSON de ley; null si no es sí/no, número o texto.</summary>
+        internal static Value? LawValue(JToken token)
+        {
+            switch (token.Type)
+            {
+                case JTokenType.Boolean:
+                    return Value.FromBool(token.Value<bool>());
+                case JTokenType.Integer:
+                case JTokenType.Float:
+                    return Value.FromNumber(token.Value<double>());
+                case JTokenType.String:
+                    return Value.FromText(token.Value<string>() ?? string.Empty);
+                default:
+                    return null;
+            }
+        }
 
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;

@@ -14,7 +14,7 @@ namespace MistakesLife.Core.Events
     ///
     /// Raíces: jugador, mundo.
     /// Funciones: semilla('id'), plantar('id'), diario('clave'), estudiar('nivel'),
-    /// si(condición, valor_si, valor_no).
+    /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor).
     /// Ver docs/content-language.md para la lista completa.
     /// </summary>
     public sealed class EventScope : IScriptScope
@@ -24,17 +24,19 @@ namespace MistakesLife.Core.Events
         public const string JournalFunction = "diario";
         public const string StudyFunction = "estudiar";
         public const string IfFunction = "si";
+        public const string LawFunction = "ley";
+        public const string ChangeLawFunction = "cambiar_ley";
 
         /// <summary>Todos los nombres que existen en el lenguaje.</summary>
         public static readonly IReadOnlyCollection<string> KnownNames = new SortedSet<string>(StringComparer.Ordinal)
         {
-            "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()",
+            "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
         };
 
         /// <summary>Nombres que cambian el mundo: no se permiten en condiciones.</summary>
         public static readonly IReadOnlyCollection<string> EffectOnlyNames = new SortedSet<string>(StringComparer.Ordinal)
         {
-            PlantFunction + "()", JournalFunction + "()", StudyFunction + "()",
+            PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", ChangeLawFunction + "()",
         };
 
         public EventScope(World world, ContentDatabase content, Character subject, Seed? currentSeed, bool readOnly)
@@ -94,6 +96,19 @@ namespace MistakesLife.Core.Events
                     }
 
                     return args[0].AsBool("si()") ? args[1] : args[2];
+                case LawFunction:
+                    return Law(SingleText(name, args));
+                case ChangeLawFunction:
+                    RequireWritable(name);
+                    if (args.Length != 2)
+                    {
+                        throw new ScriptException("cambiar_ley() necesita dos valores: cambiar_ley('ley.x', valor).");
+                    }
+
+                    string lawId = args[0].AsText(name + "()");
+                    Law(lawId);
+                    World.ChangeLaw(SubjectCountry().Id, lawId, args[1]);
+                    return Value.Null;
                 case JournalFunction:
                     RequireWritable(name);
                     World.WriteJournal(Subject.Id, SingleText(name, args));
@@ -119,6 +134,26 @@ namespace MistakesLife.Core.Events
 
             World.Seeds.Plant(type.ToSeedDefinition(Content), Subject.Id, World.Date, Subject.AgeInYears(World.Date));
         }
+
+        /// <summary>
+        /// El valor de una ley en el país donde vive el personaje: el que tenga
+        /// ahora si cambió durante la partida, o el de su paquete de país.
+        /// </summary>
+        private Value Law(string lawId)
+        {
+            CountryDefinition country = SubjectCountry();
+            if (World.TryGetChangedLaw(country.Id, lawId, out Value changed))
+            {
+                return changed;
+            }
+
+            return country.TryGetLaw(lawId, out Value value) ? value : throw new ScriptException($"ley('{lawId}'): el país {country.Id} no define esa ley.");
+        }
+
+        private CountryDefinition SubjectCountry() =>
+            Subject.Residence == null
+                ? throw new ScriptException($"{Subject} no vive en ningún país: no tiene leyes.")
+                : Content.GetCountry(Subject.Residence.CountryId);
 
         internal void RequireWritable(string what)
         {
