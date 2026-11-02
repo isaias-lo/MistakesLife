@@ -43,12 +43,14 @@
     "opciones": [
       {
         "texto": "opcion.berrinche.gritar",
+        "tendencia": "jugador.neuroticismo",
         "efectos": [
           "jugador.felicidad -= 1"
         ]
       },
       {
         "texto": "opcion.berrinche.calmarse",
+        "tendencia": "100 - jugador.neuroticismo",
         "efectos": [
           "jugador.felicidad += 1"
         ]
@@ -63,12 +65,14 @@
     "opciones": [
       {
         "texto": "opcion.jardin.llorar",
+        "tendencia": "jugador.neuroticismo",
         "efectos": [
           "jugador.felicidad -= 2"
         ]
       },
       {
         "texto": "opcion.jardin.explorar",
+        "tendencia": "jugador.apertura",
         "efectos": [
           "jugador.felicidad += 2"
         ]
@@ -83,6 +87,7 @@
     "opciones": [
       {
         "texto": "opcion.juguete.compartir",
+        "tendencia": "jugador.amabilidad",
         "efectos": [
           "jugador.felicidad += 1",
           "plantar('semilla.compartio_juguete')"
@@ -90,6 +95,7 @@
       },
       {
         "texto": "opcion.juguete.no_compartir",
+        "tendencia": "100 - jugador.amabilidad",
         "efectos": [
           "jugador.felicidad -= 1"
         ]
@@ -108,6 +114,7 @@
     "opciones": [
       {
         "texto": "opcion.colegio.amigo",
+        "tendencia": "jugador.extraversion",
         "efectos": [
           "jugador.felicidad += 3",
           "jugador.marcar('tiene_amigo_colegio')"
@@ -115,6 +122,7 @@
       },
       {
         "texto": "opcion.colegio.callado",
+        "tendencia": "100 - jugador.extraversion",
         "efectos": [
           "jugador.felicidad -= 1"
         ]
@@ -129,6 +137,7 @@
     "opciones": [
       {
         "texto": "opcion.molestado.defender",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 3",
         "efectos": [
           "jugador.salud -= 2",
           "jugador.felicidad += 2",
@@ -137,12 +146,14 @@
       },
       {
         "texto": "opcion.molestado.avisar",
+        "tendencia": "jugador.amabilidad / 2",
         "efectos": [
           "jugador.felicidad += 1"
         ]
       },
       {
         "texto": "opcion.molestado.mirar",
+        "tendencia": "(100 - jugador.amabilidad) / 2 + jugador.neuroticismo / 4",
         "efectos": [
           "jugador.felicidad -= 2"
         ]
@@ -157,6 +168,7 @@
     "opciones": [
       {
         "texto": "opcion.prueba.estudiar",
+        "tendencia": "jugador.responsabilidad",
         "efectos": [
           "jugador.inteligencia += 2",
           "jugador.felicidad -= 1"
@@ -164,12 +176,14 @@
       },
       {
         "texto": "opcion.prueba.copiar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + (100 - jugador.amabilidad) / 6",
         "efectos": [
           "plantar('semilla.copio_prueba_colegio')"
         ]
       },
       {
         "texto": "opcion.prueba.nada",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
         "efectos": [
           "jugador.inteligencia -= 1"
         ]
@@ -184,12 +198,14 @@
     "opciones": [
       {
         "texto": "opcion.computador.jugar",
+        "tendencia": "100 - jugador.apertura / 2",
         "efectos": [
           "jugador.felicidad += 3"
         ]
       },
       {
         "texto": "opcion.computador.programar",
+        "tendencia": "jugador.apertura / 2 + jugador.inteligencia / 3",
         "efectos": [
           "jugador.inteligencia += 3",
           "jugador.marcar('le_gusta_programar')"
@@ -205,13 +221,15 @@
     "opciones": [
       {
         "texto": "opcion.robotica.inscribirse",
+        "tendencia": "jugador.apertura / 2 + jugador.inteligencia / 3",
         "efectos": [
           "jugador.inteligencia += 2",
           "jugador.marcar('le_gusta_programar')"
         ]
       },
       {
-        "texto": "opcion.robotica.no"
+        "texto": "opcion.robotica.no",
+        "tendencia": "100 - jugador.apertura"
       }
     ]
   },
@@ -233,12 +251,14 @@
     "opciones": [
       {
         "texto": "opcion.liceo.cientifico",
+        "tendencia": "20 + jugador.inteligencia / 2 + jugador.nivel_hogar / 3",
         "efectos": [
           "jugador.marcar('liceo_ch')"
         ]
       },
       {
         "texto": "opcion.liceo.tecnico",
+        "tendencia": "30 + (100 - jugador.nivel_hogar) / 2",
         "efectos": [
           "jugador.marcar('liceo_tp')",
           "jugador.marcar('le_gusta_programar')"
@@ -254,6 +274,7 @@
     "opciones": [
       {
         "texto": "opcion.carrete.descontrol",
+        "tendencia": "jugador.extraversion / 2 + (100 - jugador.responsabilidad) / 3",
         "efectos": [
           "jugador.felicidad += 3",
           "jugador.salud -= 2",
@@ -262,12 +283,14 @@
       },
       {
         "texto": "opcion.carrete.calma",
+        "tendencia": "20 + jugador.responsabilidad / 2",
         "efectos": [
           "jugador.felicidad += 2"
         ]
       },
       {
         "texto": "opcion.carrete.no_ir",
+        "tendencia": "(100 - jugador.extraversion) / 2",
         "efectos": [
           "jugador.felicidad -= 1"
         ]
@@ -282,13 +305,15 @@
     "opciones": [
       {
         "texto": "opcion.pololeo.si",
+        "tendencia": "30 + jugador.extraversion / 2",
         "efectos": [
           "jugador.marcar('pololeando')",
           "jugador.felicidad += 5"
         ]
       },
       {
-        "texto": "opcion.pololeo.no"
+        "texto": "opcion.pololeo.no",
+        "tendencia": "(100 - jugador.extraversion) / 2"
       }
     ]
   },
@@ -311,12 +336,14 @@
     "opciones": [
       {
         "texto": "opcion.paes.rendir",
+        "tendencia": "50 + jugador.responsabilidad / 2",
         "efectos": [
           "jugador.marcar('rindio_paes')"
         ]
       },
       {
         "texto": "opcion.paes.copiar",
+        "tendencia": "(100 - jugador.responsabilidad) / 6",
         "efectos": [
           "jugador.marcar('rindio_paes')",
           "jugador.inteligencia += 3",
@@ -325,6 +352,7 @@
       },
       {
         "texto": "opcion.paes.no_ir",
+        "tendencia": "si(jugador.tiene('liceo_tp'), 35, 8) + (100 - jugador.responsabilidad) / 5",
         "efectos": [
           "jugador.marcar('no_rindio_paes')"
         ]
@@ -373,15 +401,40 @@
     "unico": true,
     "opciones": [
       {
+        "texto": "opcion.futuro.estudiar",
+        "tendencia": "46 + si(jugador.tiene('liceo_ch'), 25, 0) + si(jugador.tiene('puede_universidad'), 25, 0) + (jugador.nivel_hogar - 40) / 2 + (jugador.responsabilidad - 50) / 3",
+        "efectos": [
+          "jugador.marcar('quiere_estudiar')"
+        ]
+      },
+      {
         "texto": "opcion.futuro.trabajar",
+        "tendencia": "50 + si(jugador.tiene('liceo_tp'), 10, 0) + (50 - jugador.nivel_hogar) / 3",
         "efectos": [
           "jugador.marcar('buscando_trabajo')"
         ]
       }
     ],
-    "opciones_carreras": true,
     "efectos": [
       "jugador.marcar('decidio_futuro')"
+    ]
+  },
+  {
+    "id": "evento.elegir_carrera",
+    "condiciones": "jugador.tiene('quiere_estudiar') && jugador.estudia == nada && !jugador.titulado",
+    "peso": 100,
+    "dia_clave": true,
+    "unico": true,
+    "opciones_carreras": true,
+    "opciones": [
+      {
+        "texto": "opcion.carrera.mejor_trabajar",
+        "tendencia": "5",
+        "efectos": [
+          "jugador.desmarcar('quiere_estudiar')",
+          "jugador.marcar('buscando_trabajo')"
+        ]
+      }
     ]
   },
   {
@@ -404,6 +457,7 @@
     "opciones": [
       {
         "texto": "opcion.financiar.credito",
+        "tendencia": "50",
         "efectos": [
           "jugador.marcar('financiamiento')",
           "plantar('semilla.deuda_cae')"
@@ -411,6 +465,7 @@
       },
       {
         "texto": "opcion.financiar.trabajar",
+        "tendencia": "jugador.responsabilidad / 2",
         "efectos": [
           "jugador.marcar('financiamiento')",
           "jugador.marcar('trabaja_y_estudia')",
@@ -426,6 +481,7 @@
     "opciones": [
       {
         "texto": "opcion.trabajo.aceptar",
+        "tendencia": "60 + (100 - jugador.nivel_hogar) / 3",
         "efectos": [
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
@@ -433,7 +489,8 @@
         ]
       },
       {
-        "texto": "opcion.trabajo.rechazar"
+        "texto": "opcion.trabajo.rechazar",
+        "tendencia": "jugador.nivel_hogar / 4"
       }
     ]
   },
@@ -473,12 +530,14 @@
     "opciones": [
       {
         "texto": "opcion.profesor.disculpa",
+        "tendencia": "jugador.amabilidad",
         "efectos": [
           "jugador.felicidad += 1"
         ]
       },
       {
         "texto": "opcion.profesor.ignorar",
+        "tendencia": "100 - jugador.amabilidad",
         "efectos": [
           "jugador.felicidad -= 2"
         ]
@@ -493,12 +552,14 @@
     "opciones": [
       {
         "texto": "opcion.entrevista.reconocer",
+        "tendencia": "20 + jugador.amabilidad / 2",
         "efectos": [
           "jugador.felicidad += 3"
         ]
       },
       {
         "texto": "opcion.entrevista.negar",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
         "efectos": [
           "plantar('semilla.mentira_entrevista')"
         ]
@@ -611,6 +672,7 @@
     "opciones": [
       {
         "texto": "opcion.robo.perseguir",
+        "tendencia": "jugador.extraversion / 2 + (100 - jugador.neuroticismo) / 4",
         "efectos": [
           "jugador.salud -= 3",
           "diario('diario.robo_celular')"
@@ -618,6 +680,7 @@
       },
       {
         "texto": "opcion.robo.dejar",
+        "tendencia": "jugador.neuroticismo / 2 + 30",
         "efectos": [
           "jugador.felicidad -= 2",
           "diario('diario.robo_celular')"
@@ -679,6 +742,7 @@
     "opciones": [
       {
         "texto": "opcion.sueldo.aportar",
+        "tendencia": "jugador.amabilidad / 2 + (100 - jugador.nivel_hogar) / 3",
         "efectos": [
           "jugador.felicidad += 2",
           "jugador.marcar('aporta_en_casa')"
@@ -686,12 +750,14 @@
       },
       {
         "texto": "opcion.sueldo.gusto",
+        "tendencia": "jugador.extraversion / 2",
         "efectos": [
           "jugador.felicidad += 3"
         ]
       },
       {
         "texto": "opcion.sueldo.ahorrar",
+        "tendencia": "jugador.responsabilidad / 2",
         "efectos": [
           "jugador.marcar('ahorrando')"
         ]
@@ -707,6 +773,7 @@
     "opciones": [
       {
         "texto": "opcion.votar.ir",
+        "tendencia": "60 + jugador.responsabilidad / 3",
         "efectos": [
           "jugador.felicidad += 1",
           "jugador.marcar('vota')"
@@ -714,6 +781,7 @@
       },
       {
         "texto": "opcion.votar.no_ir",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
         "efectos": [
           "plantar('semilla.multa_no_votar')"
         ]
@@ -737,12 +805,14 @@
     "opciones": [
       {
         "texto": "opcion.pito.no",
+        "tendencia": "40 + jugador.responsabilidad / 4",
         "efectos": [
           "jugador.felicidad -= 1"
         ]
       },
       {
         "texto": "opcion.pito.probar",
+        "tendencia": "jugador.apertura / 3 + (100 - jugador.responsabilidad) / 4",
         "efectos": [
           "jugador.felicidad += 1",
           "jugador.salud -= 1",
@@ -758,12 +828,14 @@
     "opciones": [
       {
         "texto": "opcion.mama.conversar",
+        "tendencia": "jugador.amabilidad",
         "efectos": [
           "jugador.felicidad += 1"
         ]
       },
       {
         "texto": "opcion.mama.negar",
+        "tendencia": "100 - jugador.amabilidad",
         "efectos": [
           "jugador.felicidad -= 2"
         ]

@@ -114,10 +114,10 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void PaquetesReales_ChileOfreceLasCarrerasAlTerminarElLiceo()
         {
-            EventDefinition ev = RepoPacks.Content.GetEvent("evento.elegir_futuro");
+            EventDefinition ev = RepoPacks.Content.GetEvent("evento.elegir_carrera");
 
             Assert.Contains(ev.Options, o => o.TextKey == "carrera.software.nivel.ingenieria_civil_computacion");
-            Assert.Equal("opcion.futuro.trabajar", ev.Options.Last().TextKey);
+            Assert.Equal("opcion.carrera.mejor_trabajar", ev.Options.Last().TextKey);
         }
     }
 }

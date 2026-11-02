@@ -15,11 +15,22 @@ namespace MistakesLife.Core.Content
         [JsonProperty("condiciones")]
         public string? Conditions { get; set; }
 
+        /// <summary>
+        /// Qué tan atractiva es esta opción para el personaje, como un número (0 o más).
+        /// La usan los personajes que deciden solos (el simulador y, más adelante, los
+        /// personajes del mundo). Por ejemplo "jugador.responsabilidad". Si falta, vale 50.
+        /// </summary>
+        [JsonProperty("tendencia")]
+        public string? Tendency { get; set; }
+
         [JsonProperty("efectos")]
         public List<string> Effects { get; set; } = new List<string>();
 
         [JsonIgnore]
         public Expression? CompiledConditions { get; set; }
+
+        [JsonIgnore]
+        public Expression? CompiledTendency { get; set; }
 
         [JsonIgnore]
         public List<Effect> CompiledEffects { get; } = new List<Effect>();

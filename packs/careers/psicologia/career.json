@@ -5,12 +5,14 @@
       "id": "carrera.psicologia.nivel.psicologo",
       "institucion": "universidad",
       "semestres": 10,
+      "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",
       "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')"
     },
     {
       "id": "carrera.psicologia.nivel.psicologo_privada",
       "institucion": "universidad",
       "semestres": 10,
+      "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",
       "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('rindio_paes') && !jugador.tiene('puede_universidad')"
     }
   ]

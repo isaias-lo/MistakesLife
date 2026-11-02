@@ -41,7 +41,7 @@ Naces en Puente Alto y vives semana a semana hasta los 25 años. Enter avanza ha
 dotnet run --project tools/MistakesLife.Simulator -- 1000 25
 ```
 
-Juega 1000 vidas automáticas hasta los 25 años (eligiendo al azar) y muestra un informe: cuántas vidas viven cada evento, cuáles nunca aparecen, cómo terminan las vidas y qué pasa con las semillas. Úsalo después de cambiar contenido. Con `--out informe.md` lo guarda en un archivo.
+Juega 1000 vidas automáticas hasta los 25 años (cada personaje decide según su personalidad y su hogar) y muestra un informe: cuántas vidas viven cada evento, cuáles nunca aparecen, cómo terminan las vidas y qué pasa con las semillas. Úsalo después de cambiar contenido. Con `--out informe.md` lo guarda en un archivo.
 
 ## Documentos
 

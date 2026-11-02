@@ -19,8 +19,14 @@
 
 | # | Tarea | Estado |
 |---|---|---|
-| C1 | Núcleo: carreras como paquetes (`career.json`, niveles, semestres, títulos) y software migrado | En revisión |
-| C2 | Paquete de contabilidad (contador general, contador auditor) | En revisión |
-| C3 | Paquete de psicología | En revisión |
-| C4 | Más eventos de vida en Puente Alto | En revisión |
-| C5 | Equilibrar con el simulador y datos reales (`probabilidad_anual`) | En revisión |
+| C1 | Núcleo: carreras como paquetes (`career.json`, niveles, semestres, títulos) y software migrado | Hecha |
+| C2 | Paquete de contabilidad (contador general, contador auditor) | Hecha |
+| C3 | Paquete de psicología | Hecha |
+| C4 | Más eventos de vida en Puente Alto | Hecha |
+| C5 | Equilibrar con el simulador y datos reales (`probabilidad_anual`) | Hecha |
+
+## Decisiones según la personalidad
+
+| # | Tarea | Estado |
+|---|---|---|
+| D1 | Tendencia en las opciones y `AutoDecider`: el simulador decide según personalidad, hogar e historia | En revisión |

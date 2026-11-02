@@ -47,6 +47,7 @@
     "opciones": [
       {
         "texto": "opcion.psicologia.amigos.escuchar",
+        "tendencia": "jugador.amabilidad",
         "efectos": [
           "jugador.felicidad -= 1",
           "jugador.marcar('tiene_amigo_colegio')"
@@ -54,6 +55,7 @@
       },
       {
         "texto": "opcion.psicologia.amigos.limites",
+        "tendencia": "100 - jugador.amabilidad",
         "efectos": [
           "jugador.felicidad += 1"
         ]
@@ -68,13 +70,15 @@
     "opciones": [
       {
         "texto": "opcion.psicologia.terapia.empezar",
+        "tendencia": "jugador.apertura / 2 + jugador.neuroticismo / 3",
         "efectos": [
           "jugador.felicidad += 3",
           "jugador.marcar('hizo_terapia')"
         ]
       },
       {
-        "texto": "opcion.psicologia.terapia.no"
+        "texto": "opcion.psicologia.terapia.no",
+        "tendencia": "(100 - jugador.apertura) / 2"
       }
     ]
   },
@@ -118,6 +122,7 @@
     "opciones": [
       {
         "texto": "opcion.psicologia.secreto.guardar",
+        "tendencia": "50 + jugador.responsabilidad / 2",
         "efectos": [
           "jugador.felicidad -= 1",
           "plantar('semilla.psicologia.paciente_agradecido')"
@@ -125,6 +130,7 @@
       },
       {
         "texto": "opcion.psicologia.secreto.contar",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.extraversion / 5",
         "efectos": [
           "jugador.felicidad += 1",
           "plantar('semilla.psicologia.rompio_confidencialidad')"
@@ -183,7 +189,8 @@
         ]
       },
       {
-        "texto": "opcion.psicologia.trabajo.esperar"
+        "texto": "opcion.psicologia.trabajo.esperar",
+        "tendencia": "15"
       }
     ]
   },
@@ -230,6 +237,7 @@
       },
       {
         "texto": "opcion.psicologia.agotamiento.seguir",
+        "tendencia": "jugador.responsabilidad / 2",
         "efectos": [
           "jugador.salud -= 4",
           "jugador.felicidad -= 3"
@@ -245,12 +253,14 @@
     "opciones": [
       {
         "texto": "opcion.psicologia.reclamo.asumir",
+        "tendencia": "jugador.amabilidad / 2 + 20",
         "efectos": [
           "jugador.felicidad -= 4"
         ]
       },
       {
         "texto": "opcion.psicologia.reclamo.negar",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
         "efectos": [
           "jugador.felicidad -= 1",
           "plantar('semilla.mentira_entrevista')"

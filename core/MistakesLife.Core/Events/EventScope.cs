@@ -13,7 +13,8 @@ namespace MistakesLife.Core.Events
     /// Lo que ven las condiciones y efectos de los paquetes.
     ///
     /// Raíces: jugador, mundo.
-    /// Funciones: semilla('id'), plantar('id'), diario('clave'), estudiar('nivel').
+    /// Funciones: semilla('id'), plantar('id'), diario('clave'), estudiar('nivel'),
+    /// si(condición, valor_si, valor_no).
     /// Ver docs/content-language.md para la lista completa.
     /// </summary>
     public sealed class EventScope : IScriptScope
@@ -22,11 +23,12 @@ namespace MistakesLife.Core.Events
         public const string PlantFunction = "plantar";
         public const string JournalFunction = "diario";
         public const string StudyFunction = "estudiar";
+        public const string IfFunction = "si";
 
         /// <summary>Todos los nombres que existen en el lenguaje.</summary>
         public static readonly IReadOnlyCollection<string> KnownNames = new SortedSet<string>(StringComparer.Ordinal)
         {
-            "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()",
+            "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()",
         };
 
         /// <summary>Nombres que cambian el mundo: no se permiten en condiciones.</summary>
@@ -85,6 +87,13 @@ namespace MistakesLife.Core.Events
                     CareerLevelDefinition level = Content.GetCareerLevel(SingleText(name, args));
                     Subject.Studies = new CareerStudies(level.CareerId, level.Id, level.Institution, level.Semesters);
                     return Value.Null;
+                case IfFunction:
+                    if (args.Length != 3)
+                    {
+                        throw new ScriptException("si() necesita tres valores: si(condición, valor_si, valor_no).");
+                    }
+
+                    return args[0].AsBool("si()") ? args[1] : args[2];
                 case JournalFunction:
                     RequireWritable(name);
                     World.WriteJournal(Subject.Id, SingleText(name, args));
