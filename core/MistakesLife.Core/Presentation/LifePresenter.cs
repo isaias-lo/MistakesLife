@@ -32,6 +32,7 @@ namespace MistakesLife.Core.Presentation
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
             "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
+            "ui.vista.casa", "ui.vista.barrio", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
         };
 
         /// <summary>
@@ -89,7 +90,27 @@ namespace MistakesLife.Core.Presentation
                 phase == LifePhase.Choosing ? EventOf(Session.Pending!) : null,
                 Family(player),
                 Session.Heirs.Select(h => Person(h, ChildRelation(h))).ToList(),
-                Home(player));
+                Home(player),
+                PlaceOf(player));
+        }
+
+        /// <summary>
+        /// Adónde va el jugador en una semana normal: el trabajo manda sobre los estudios,
+        /// y los estudios de una carrera sobre el colegio.
+        /// </summary>
+        public static DailyPlace PlaceOf(Character player)
+        {
+            if (player.Job != null)
+            {
+                return DailyPlace.Work;
+            }
+
+            if (player.Studies != null)
+            {
+                return DailyPlace.Studies;
+            }
+
+            return player.EducationStageId != null ? DailyPlace.School : DailyPlace.Home;
         }
 
         /// <summary>Etapa de la vida para una edad en años.</summary>

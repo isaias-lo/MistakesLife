@@ -106,6 +106,12 @@ namespace MistakesLife.Unity
 
         public static Button MakeButton(Transform parent, string text, Color background, Color textColor, UnityAction onClick)
         {
+            return MakeButton(parent, text, background, textColor, onClick, 40, 120, 32);
+        }
+
+        /// <summary>Botón con tamaño de letra, alto mínimo y margen a elección (para botones chicos).</summary>
+        public static Button MakeButton(Transform parent, string text, Color background, Color textColor, UnityAction onClick, int fontSize, int minHeight, int padding)
+        {
             RectTransform rect = Child(parent, "Boton");
             Image image = rect.gameObject.AddComponent<Image>();
             image.color = background;
@@ -114,14 +120,14 @@ namespace MistakesLife.Unity
             button.onClick.AddListener(onClick);
 
             HorizontalLayoutGroup layout = rect.gameObject.AddComponent<HorizontalLayoutGroup>();
-            layout.padding = new RectOffset(32, 32, 28, 28);
+            layout.padding = new RectOffset(padding, padding, padding * 7 / 8, padding * 7 / 8);
             layout.childControlWidth = true;
             layout.childControlHeight = true;
             layout.childForceExpandWidth = true;
             layout.childForceExpandHeight = false;
-            rect.gameObject.AddComponent<LayoutElement>().minHeight = 120;
+            rect.gameObject.AddComponent<LayoutElement>().minHeight = minHeight;
 
-            Text label = Label(rect, text, 40, textColor);
+            Text label = Label(rect, text, fontSize, textColor);
             label.alignment = TextAnchor.MiddleCenter;
             return button;
         }
