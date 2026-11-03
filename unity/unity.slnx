@@ -1,0 +1,4 @@
+﻿<Solution>
+  <Project Path="MistakesLife.Unity.csproj" />
+  <Project Path="MistakesLife.Unity.Editor.csproj" />
+</Solution>
