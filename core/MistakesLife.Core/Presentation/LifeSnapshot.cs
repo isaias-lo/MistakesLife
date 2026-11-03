@@ -24,7 +24,8 @@ namespace MistakesLife.Core.Presentation
             ulong seed,
             EventView? pendingEvent,
             IReadOnlyList<PersonView> family,
-            IReadOnlyList<PersonView> heirs)
+            IReadOnlyList<PersonView> heirs,
+            HomeView home)
         {
             Phase = phase;
             PlayerName = playerName;
@@ -42,6 +43,7 @@ namespace MistakesLife.Core.Presentation
             PendingEvent = pendingEvent;
             Family = family;
             Heirs = heirs;
+            Home = home;
         }
 
         public LifePhase Phase { get; }
@@ -87,5 +89,8 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>Hijos con quienes se puede seguir (solo en <see cref="LifePhase.ChoosingHeir"/>).</summary>
         public IReadOnlyList<PersonView> Heirs { get; }
+
+        /// <summary>La casa del jugador, para la escena 3D.</summary>
+        public HomeView Home { get; }
     }
 }

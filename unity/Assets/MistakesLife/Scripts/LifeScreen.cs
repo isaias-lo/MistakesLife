@@ -10,7 +10,7 @@ using UnityEngine.UI;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// La pantalla de la vida (2D): tarjeta del personaje, barras de salud, felicidad e inteligencia,
+    /// La pantalla de la vida: tarjeta del personaje, la casa en 3D, barras de salud, felicidad e inteligencia,
     /// el evento con sus opciones como botones, la familia y el diario.
     /// Se crea sola al apretar Play, en cualquier escena: no hay que configurar nada.
     /// Regla: aquí no se decide nada. Se dibuja la foto de LifePresenter (núcleo) y se le pasan los toques.
@@ -35,6 +35,7 @@ namespace MistakesLife.Unity
         private Text _money = null!;
         private RectTransform _story = null!;
         private RectTransform _footer = null!;
+        private HomeScene _home = null!;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void CreateOnPlay()
@@ -85,6 +86,12 @@ namespace MistakesLife.Unity
             _name = UiFactory.Label(header, string.Empty, 56, UiFactory.Ink, FontStyle.Bold);
             _details = UiFactory.Label(header, string.Empty, 32, UiFactory.MutedInk);
 
+            // Hueco transparente donde se ve la casa en 3D.
+            RectTransform window = UiFactory.Child(page, "Casa");
+            window.gameObject.AddComponent<LayoutElement>().preferredHeight = 560;
+            _home = HomeScene.Create();
+            _home.Viewport = window;
+
             RectTransform stats = UiFactory.Column(page, "Estado", 36, 18, UiFactory.Card);
             _health = UiFactory.Bar(stats, "Salud", UiFactory.Health, out _healthLabel);
             _happiness = UiFactory.Bar(stats, "Felicidad", UiFactory.Happiness, out _happinessLabel);
@@ -121,6 +128,7 @@ namespace MistakesLife.Unity
             UiFactory.SetBar(_smarts, life.Smarts);
             _money.text = $"{presenter.Text("ui.dinero_titulo")}: {life.MoneyLabel}";
 
+            _home.Show(life.Home);
             DrawStory(presenter, life);
             DrawActions(presenter, life);
         }

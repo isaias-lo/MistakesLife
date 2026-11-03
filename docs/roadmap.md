@@ -67,5 +67,7 @@
 | U2 | Proyecto de Unity en `unity/` (Unity 6 LTS), comando `tools/MistakesLife.UnityExport` que copia el núcleo y los paquetes adentro, y pantalla de prueba | Hecha |
 | U3 | La vida en pantalla (2D): personaje con barras, evento con botones, familia, diario, legado y nueva vida (uGUI armado desde código, textos `ui.*`) | Hecha |
 | U4 | Guardar y continuar la partida en el teléfono (usa el guardado del núcleo) | Pendiente |
-| U5 | Prototipos 3D estilizados: casa en Puente Alto, barrio y oficina | Pendiente |
+| U5a | Casa en 3D estilo maqueta sobre la pantalla de la vida: muebles según el nivel del hogar, cuna/cama/escritorio según la etapa, una figura por persona (`HomeView` en el núcleo) | En revisión |
+| U5b | Barrio de Puente Alto en 3D | Pendiente |
+| U5c | Oficina en 3D según la carrera | Pendiente |
 | U6 | Primer APK para probar en Android: armado en la nube con GameCI (`.github/workflows/apk.yml`, se corre a mano) y menú "Armar APK de prueba" | En revisión |

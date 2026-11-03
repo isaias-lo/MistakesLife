@@ -163,5 +163,78 @@ namespace MistakesLife.Core.Tests
             Assert.Equal("Seguir con Ana (12 años)", presenter.Text("ui.boton.seguir_con", "Ana", 12));
             Assert.Equal("Seguir viviendo", presenter.Text("ui.boton.seguir_viviendo"));
         }
+
+        [Theory]
+        [InlineData(0, LifeStage.Baby)]
+        [InlineData(1, LifeStage.Baby)]
+        [InlineData(2, LifeStage.Child)]
+        [InlineData(11, LifeStage.Child)]
+        [InlineData(12, LifeStage.Teen)]
+        [InlineData(17, LifeStage.Teen)]
+        [InlineData(18, LifeStage.Adult)]
+        [InlineData(64, LifeStage.Adult)]
+        [InlineData(65, LifeStage.Elder)]
+        public void Etapa_SegunLaEdad(int age, LifeStage expected)
+        {
+            Assert.Equal(expected, LifePresenter.StageOf(age));
+        }
+
+        [Fact]
+        public void Casa_AlNacer_TieneAlJugadorPrimeroYASusPadres()
+        {
+            LifeSnapshot snapshot = NewGame(7).Snapshot();
+            HomeView home = snapshot.Home;
+
+            Assert.True(home.Members[0].IsPlayer);
+            Assert.Equal(LifeStage.Baby, home.PlayerStage);
+            Assert.Contains(home.Members, m => m.Relation == "Mamá");
+            Assert.Equal("comuna.puente_alto", home.CommuneId);
+            Assert.InRange(home.HouseholdLevel, 0, 100);
+        }
+
+        [Fact]
+        public void Casa_DeAdulto_NoIncluyeALosPadres()
+        {
+            LifePresenter presenter = NewGame(7);
+            while (presenter.Snapshot().AgeInYears < 30 && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir)
+            {
+                if (presenter.Phase == LifePhase.Choosing)
+                {
+                    presenter.Choose(0);
+                }
+                else
+                {
+                    presenter.AdvanceUntilSomething();
+                }
+            }
+
+            HomeView home = presenter.Snapshot().Home;
+            Assert.DoesNotContain(home.Members, m => m.Relation == "Mamá" || m.Relation == "Papá");
+            Assert.All(home.Members.Where(m => !m.IsPlayer && m.Relation != "Pareja"), m => Assert.True(m.AgeInYears < 18));
+        }
+
+        [Fact]
+        public void Casa_FirmaCambiaSoloCuandoCambiaLaCasa()
+        {
+            LifePresenter presenter = NewGame(7);
+            string atBirth = presenter.Snapshot().Home.Signature;
+
+            presenter.AdvanceWeek();
+            Assert.Equal(atBirth, presenter.Snapshot().Home.Signature);
+
+            while (presenter.Snapshot().AgeInYears < 3 && presenter.Phase != LifePhase.Over)
+            {
+                if (presenter.Phase == LifePhase.Choosing)
+                {
+                    presenter.Choose(0);
+                }
+                else
+                {
+                    presenter.AdvanceUntilSomething();
+                }
+            }
+
+            Assert.NotEqual(atBirth, presenter.Snapshot().Home.Signature);
+        }
     }
 }
