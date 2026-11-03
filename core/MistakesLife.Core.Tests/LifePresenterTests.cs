@@ -193,7 +193,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void Casa_DeAdulto_NoIncluyeALosPadres()
+        public void Casa_DeAdultoMayorDeLaEdadDeIrse_NoIncluyeALosPadres()
         {
             LifePresenter presenter = NewGame(7);
             while (presenter.Snapshot().AgeInYears < 30 && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir)
@@ -211,6 +211,30 @@ namespace MistakesLife.Core.Tests
             HomeView home = presenter.Snapshot().Home;
             Assert.DoesNotContain(home.Members, m => m.Relation == "Mamá" || m.Relation == "Papá");
             Assert.All(home.Members.Where(m => !m.IsPlayer && m.Relation != "Pareja"), m => Assert.True(m.AgeInYears < 18));
+        }
+
+        [Fact]
+        public void Casa_JovenSinPareja_SigueConSusPadres()
+        {
+            LifePresenter presenter = NewGame(7);
+            while (presenter.Snapshot().AgeInYears < 20 && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir)
+            {
+                if (presenter.Phase == LifePhase.Choosing)
+                {
+                    presenter.Choose(0);
+                }
+                else
+                {
+                    presenter.AdvanceWeek();
+                }
+            }
+
+            var player = presenter.Session.World.Player;
+            Assert.True(player.IsAlive);
+            Assert.Null(player.PartnerId);
+            HomeView home = presenter.Snapshot().Home;
+            bool motherAlive = player.MotherId.HasValue && presenter.Session.World.GetCharacter(player.MotherId.Value).IsAlive;
+            Assert.Equal(motherAlive, home.Members.Any(m => m.Relation == "Mamá"));
         }
 
         [Fact]

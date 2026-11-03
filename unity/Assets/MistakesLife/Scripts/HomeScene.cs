@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using MistakesLife.Core.Presentation;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace MistakesLife.Unity
 {
@@ -55,18 +56,20 @@ namespace MistakesLife.Unity
             _camera.transform.SetParent(transform, false);
             _camera.clearFlags = CameraClearFlags.SolidColor;
             _camera.backgroundColor = Sky;
-            _camera.fieldOfView = 32f;
+            _camera.fieldOfView = 30f;
             _camera.depth = 0;
-            _camera.transform.position = new Vector3(5.5f, 7.5f, -9f);
-            _camera.transform.LookAt(new Vector3(0f, 0.6f, 0.4f));
+            _camera.transform.position = new Vector3(3.6f, 5.4f, -6.4f);
+            _camera.transform.LookAt(new Vector3(-0.2f, 0.5f, 0.5f));
 
             Light sun = new GameObject("Sol").AddComponent<Light>();
             sun.transform.SetParent(transform, false);
             sun.type = LightType.Directional;
-            sun.intensity = 1.1f;
+            sun.intensity = 0.75f;
             sun.shadows = LightShadows.Soft;
             sun.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
-            RenderSettings.ambientLight = new Color(0.55f, 0.55f, 0.58f);
+            // Luz ambiente pareja (sin cielo), para que los colores no se quemen.
+            RenderSettings.ambientMode = AmbientMode.Flat;
+            RenderSettings.ambientLight = new Color(0.42f, 0.42f, 0.45f);
 
             _room = new GameObject("Pieza").transform;
             _room.SetParent(transform, false);
@@ -112,7 +115,7 @@ namespace MistakesLife.Unity
             const float depth = 5f;
 
             Color floor = level < 35 ? new Color(0.62f, 0.62f, 0.60f) : new Color(0.66f, 0.50f, 0.34f);
-            Color wall = level < 35 ? new Color(0.86f, 0.74f, 0.60f) : level < 65 ? new Color(0.93f, 0.90f, 0.82f) : new Color(0.96f, 0.95f, 0.93f);
+            Color wall = level < 35 ? new Color(0.86f, 0.74f, 0.60f) : level < 65 ? new Color(0.86f, 0.80f, 0.68f) : new Color(0.90f, 0.88f, 0.82f);
 
             Box("Piso", new Vector3(0f, -0.05f, 0f), new Vector3(width, 0.1f, depth), floor);
             Box("Muro del fondo", new Vector3(0f, 1.3f, (depth / 2f) + 0.05f), new Vector3(width, 2.6f, 0.1f), wall);
