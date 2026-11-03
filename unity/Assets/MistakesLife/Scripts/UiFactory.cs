@@ -31,7 +31,7 @@ namespace MistakesLife.Unity
         /// <summary>Fuente que viene con Unity, para no depender de archivos extra.</summary>
         public static Font DefaultFont => _font ??= Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
 
-        /// <summary>Lienzo vertical que se escala igual en cualquier celular, más el sistema de toques.</summary>
+        /// <summary>Lienzo vertical transparente que se escala igual en cualquier celular, más el sistema de toques.</summary>
         public static RectTransform CreateCanvas(string name)
         {
             var go = new GameObject(name, typeof(RectTransform));
@@ -48,9 +48,8 @@ namespace MistakesLife.Unity
                 new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
             }
 
-            Image background = Child(go.transform, "Fondo").gameObject.AddComponent<Image>();
-            background.color = Background;
-            Stretch(background.rectTransform);
+            // Sin imagen de fondo: el color de fondo lo pinta una cámara (ver HomeScene),
+            // así la escena 3D se ve en el hueco que le deja la interfaz.
             return (RectTransform)go.transform;
         }
 

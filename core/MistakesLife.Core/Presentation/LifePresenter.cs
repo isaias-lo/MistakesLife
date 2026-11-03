@@ -81,7 +81,29 @@ namespace MistakesLife.Core.Presentation
                 world.Seed,
                 phase == LifePhase.Choosing ? EventOf(Session.Pending!) : null,
                 Family(player),
-                Session.Heirs.Select(h => Person(h, ChildRelation(h))).ToList());
+                Session.Heirs.Select(h => Person(h, ChildRelation(h))).ToList(),
+                Home(player));
+        }
+
+        /// <summary>Etapa de la vida para una edad en años.</summary>
+        public static LifeStage StageOf(int ageInYears)
+        {
+            if (ageInYears < 2)
+            {
+                return LifeStage.Baby;
+            }
+
+            if (ageInYears < 12)
+            {
+                return LifeStage.Child;
+            }
+
+            if (ageInYears < 18)
+            {
+                return LifeStage.Teen;
+            }
+
+            return ageInYears < 65 ? LifeStage.Adult : LifeStage.Elder;
         }
 
         /// <summary>
@@ -195,6 +217,50 @@ namespace MistakesLife.Core.Presentation
 
             family.AddRange(world.ChildrenOf(player.Id).Select(c => Person(c, ChildRelation(c))));
             return family;
+        }
+
+        /// <summary>
+        /// Quiénes están en la casa: el jugador, su pareja, sus hijos menores de edad
+        /// y, mientras el jugador es menor, sus padres. Es una aproximación para dibujar
+        /// hasta que el núcleo tenga un sistema de vivienda.
+        /// </summary>
+        private HomeView Home(Character player)
+        {
+            World world = Session.World;
+            int age = player.AgeInYears(world.Date);
+            var members = new List<HomeMemberView> { Member(player, string.Empty, isPlayer: true) };
+
+            if (age < 18)
+            {
+                AddIfAlive(members, player.MotherId, T("ui.relacion.madre"));
+                AddIfAlive(members, player.FatherId, T("ui.relacion.padre"));
+            }
+
+            AddIfAlive(members, player.PartnerId, T("ui.relacion.pareja"));
+            foreach (Character child in world.ChildrenOf(player.Id).Where(c => c.IsAlive && c.AgeInYears(world.Date) < 18))
+            {
+                members.Add(Member(child, ChildRelation(child), isPlayer: false));
+            }
+
+            return new HomeView(player.Residence?.CommuneId ?? string.Empty, player.HouseholdLevel, StageOf(age), members);
+        }
+
+        private void AddIfAlive(List<HomeMemberView> members, int? id, string relation)
+        {
+            if (id.HasValue)
+            {
+                Character person = Session.World.GetCharacter(id.Value);
+                if (person.IsAlive)
+                {
+                    members.Add(Member(person, relation, isPlayer: false));
+                }
+            }
+        }
+
+        private HomeMemberView Member(Character character, string relation, bool isPlayer)
+        {
+            int age = character.AgeInYears(Session.World.Date);
+            return new HomeMemberView(character.Id, FullName(character), relation, age, StageOf(age), character.Sex == Sex.Female, isPlayer);
         }
 
         private string ChildRelation(Character child) => T(child.Sex == Sex.Female ? "ui.relacion.hija" : "ui.relacion.hijo");
