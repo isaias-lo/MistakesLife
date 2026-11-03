@@ -12,6 +12,10 @@ namespace MistakesLife.Core.Content
         [JsonProperty("inflacion", Required = Required.Always)]
         public InflationDefinition Inflation { get; set; } = new InflationDefinition();
 
+        /// <summary>El ciclo económico (normal, recesión, crisis). Si falta, el país no tiene crisis.</summary>
+        [JsonProperty("ciclo")]
+        public EconomicCycleDefinition? Cycle { get; set; }
+
         /// <summary>Sueldos de referencia (mínimo y típico). Si falta, nadie gana sueldo en este país.</summary>
         [JsonProperty("sueldos")]
         public SalaryDefinition? Salaries { get; set; }

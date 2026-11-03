@@ -30,6 +30,7 @@ namespace MistakesLife.Core.Events
         public const string ChangeLawFunction = "cambiar_ley";
         public const string PriceFunction = "precio";
         public const string ChangeInflationFunction = "cambiar_inflacion";
+        public const string ChangeCycleFunction = "cambiar_ciclo";
         public const string MinimumSalaryFunction = "sueldo_minimo";
         public const string TypicalSalaryFunction = "sueldo_tipico";
         public const string DegreeSalaryFunction = "sueldo_titulo";
@@ -45,14 +46,14 @@ namespace MistakesLife.Core.Events
         public static readonly IReadOnlyCollection<string> KnownNames = new SortedSet<string>(StringComparer.Ordinal)
         {
             "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
-            PriceFunction + "()", ChangeInflationFunction + "()",
+            PriceFunction + "()", ChangeInflationFunction + "()", ChangeCycleFunction + "()",
             MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()", RentFunction + "()",
         };
 
         /// <summary>Nombres que cambian el mundo: no se permiten en condiciones.</summary>
         public static readonly IReadOnlyCollection<string> EffectOnlyNames = new SortedSet<string>(StringComparer.Ordinal)
         {
-            PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", ChangeLawFunction + "()", ChangeInflationFunction + "()",
+            PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", ChangeLawFunction + "()", ChangeInflationFunction + "()", ChangeCycleFunction + "()",
         };
 
         public EventScope(World world, ContentDatabase content, Character subject, Seed? currentSeed, bool readOnly)
@@ -150,6 +151,10 @@ namespace MistakesLife.Core.Events
                 case ChangeInflationFunction:
                     RequireWritable(name);
                     ChangeInflation(SingleText(name, args));
+                    return Value.Null;
+                case ChangeCycleFunction:
+                    RequireWritable(name);
+                    ChangeCycle(SingleText(name, args));
                     return Value.Null;
                 case JournalFunction:
                     RequireWritable(name);
@@ -249,6 +254,17 @@ namespace MistakesLife.Core.Events
             CountryEconomy economy = World.EconomyOf(country.Id)!;
             var random = World.Random.Fork("economia.cambio." + country.Id + "." + World.Date.TotalWeeks);
             EconomySystem.ChangeRegime(World, economy, regime, random);
+        }
+
+        private void ChangeCycle(string phaseId)
+        {
+            CountryDefinition country = SubjectCountry();
+            EconomicPhaseDefinition phase = country.Economy?.Cycle?.Phase(phaseId)
+                ?? throw new ScriptException($"cambiar_ciclo('{phaseId}'): el país {country.Id} no tiene esa fase del ciclo económico.");
+            EconomySystem.Initialize(World, Content);
+            CountryEconomy economy = World.EconomyOf(country.Id)!;
+            var random = World.Random.Fork("economia.ciclo." + country.Id + "." + World.Date.TotalWeeks);
+            EconomySystem.EnterPhase(World, country, economy, phase, random);
         }
 
         private CountryDefinition SubjectCountry() =>

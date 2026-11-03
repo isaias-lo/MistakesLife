@@ -21,6 +21,9 @@ namespace MistakesLife.Core.Economy
             AnnualInflation = annualInflation;
         }
 
+        /// <summary>Fase actual del ciclo económico (por ejemplo "economia.ciclo.normal"), o null si el país no tiene ciclo.</summary>
+        public string? PhaseId { get; internal set; }
+
         /// <summary>Por ejemplo "pais.chile".</summary>
         public string CountryId { get; }
 

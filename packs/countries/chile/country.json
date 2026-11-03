@@ -93,6 +93,16 @@
           "cambio_anual": { "economia.inflacion.alta": 0.3 } }
       ]
     },
+    "ciclo": {
+      "fase_inicial": "economia.ciclo.normal",
+      "fases": [
+        { "id": "economia.ciclo.normal", "cambio_anual": { "economia.ciclo.recesion": 0.1 } },
+        { "id": "economia.ciclo.recesion", "golpe_fondos": -0.08,
+          "cambio_anual": { "economia.ciclo.normal": 0.6, "economia.ciclo.crisis": 0.1 } },
+        { "id": "economia.ciclo.crisis", "inflacion": "economia.inflacion.alta", "golpe_fondos": -0.2,
+          "cambio_anual": { "economia.ciclo.normal": 0.5 } }
+      ]
+    },
     "sueldos": { "minimo": 539000, "tipico": 760000, "relativo_sin_titulo": 0.85, "reajuste_meses": 12 },
     "liquidacion": {
       "dependiente": [
