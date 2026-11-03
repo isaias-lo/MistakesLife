@@ -15,7 +15,7 @@ Fuentes de verdad (léelas antes de decisiones de diseño):
 | `core/MistakesLife.Core/` | Núcleo de simulación en C# puro (`netstandard2.1`, C# 9) |
 | `core/MistakesLife.Core.Tests/` | Pruebas del núcleo (xUnit, `net8.0`) |
 | `packs/` | Paquetes de contenido en JSON (base, países, carreras, ajustes, extras) |
-| `tools/` | Consola de juego, simulador de vidas, validador (usan el núcleo) |
+| `tools/` | Consola de juego, simulador de vidas, exportador a Unity (usan el núcleo) |
 | `unity/` | Proyecto de Unity (solo gráficos e interfaz) |
 | `docs/` | Documentos que viven junto al código |
 
@@ -51,6 +51,7 @@ dotnet test MistakesLife.sln
 
 - Todo JSON en `packs/` debe ser válido (la integración continua lo revisa).
 - Para armar una partida usa siempre `LifeSession` (núcleo): registra los sistemas en el orden correcto. No armes el `WeekCycle` a mano en herramientas ni en Unity.
+- Después de cambiar `core/` o `packs/`, actualiza Unity: `dotnet run --project tools/MistakesLife.UnityExport` (copia el núcleo y el archivo de paquetes a `unity/`; la integración continua revisa que el archivo de paquetes esté al día).
 - Para probar el juego a mano: `dotnet run --project tools/MistakesLife.Console -- <número de partida>`.
 - Después de cambiar contenido, revisa el equilibrio: `dotnet run --project tools/MistakesLife.Simulator -- 1000 25` (ningún evento debe faltar ni repetirse sin parar).
 

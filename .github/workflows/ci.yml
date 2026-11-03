@@ -22,6 +22,14 @@ jobs:
       - name: Correr pruebas
         run: dotnet test MistakesLife.sln --configuration Release --no-build --verbosity normal
 
+      - name: Revisar que Unity tenga los paquetes al día
+        run: |
+          dotnet run --project tools/MistakesLife.UnityExport --configuration Release --no-build
+          if ! git diff --quiet -- unity/Assets/MistakesLife/Resources/packs.bundle.json; then
+            echo "::error file=unity/Assets/MistakesLife/Resources/packs.bundle.json::Los paquetes cambiaron: corre 'dotnet run --project tools/MistakesLife.UnityExport' y sube el resultado."
+            exit 1
+          fi
+
   packs-json:
     name: Paquetes JSON válidos
     runs-on: ubuntu-latest
