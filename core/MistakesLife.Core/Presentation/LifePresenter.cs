@@ -34,6 +34,13 @@ namespace MistakesLife.Core.Presentation
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
         };
 
+        /// <summary>
+        /// Edad hasta la que, sin pareja, se dibuja al jugador viviendo con sus padres.
+        /// En Chile la mayoría de los jóvenes se independiza cerca de los 28 años (CASEN).
+        /// Es solo para dibujar: cuando exista el sistema de vivienda, lo decidirá el núcleo.
+        /// </summary>
+        public const int LeavesHomeAge = 28;
+
         public LifePresenter(LifeSession session, string language = ContentDatabase.BaseLanguage)
         {
             Session = session ?? throw new ArgumentNullException(nameof(session));
@@ -221,7 +228,8 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>
         /// Quiénes están en la casa: el jugador, su pareja, sus hijos menores de edad
-        /// y, mientras el jugador es menor, sus padres. Es una aproximación para dibujar
+        /// y sus padres mientras sea menor de edad o, sin pareja, menor de
+        /// <see cref="LeavesHomeAge"/> años. Es una aproximación para dibujar
         /// hasta que el núcleo tenga un sistema de vivienda.
         /// </summary>
         private HomeView Home(Character player)
@@ -230,7 +238,7 @@ namespace MistakesLife.Core.Presentation
             int age = player.AgeInYears(world.Date);
             var members = new List<HomeMemberView> { Member(player, string.Empty, isPlayer: true) };
 
-            if (age < 18)
+            if (age < 18 || (!player.PartnerId.HasValue && age < LeavesHomeAge))
             {
                 AddIfAlive(members, player.MotherId, T("ui.relacion.madre"));
                 AddIfAlive(members, player.FatherId, T("ui.relacion.padre"));
