@@ -1,29 +1,40 @@
 #nullable enable
 
 using System.Collections.Generic;
+using MistakesLife.Core.Content;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Presentation;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// Pantalla de prueba (U2): comprueba que el núcleo corre dentro de Unity.
-    /// Dibuja la foto de la partida con botones simples; la pantalla de verdad llega en U3.
+    /// La pantalla de la vida (2D): tarjeta del personaje, barras de salud, felicidad e inteligencia,
+    /// el evento con sus opciones como botones, la familia y el diario.
     /// Se crea sola al apretar Play, en cualquier escena: no hay que configurar nada.
-    /// Regla: aquí no se decide nada; todo lo hace LifePresenter (núcleo).
+    /// Regla: aquí no se decide nada. Se dibuja la foto de LifePresenter (núcleo) y se le pasan los toques.
     /// </summary>
     public sealed class LifeScreen : MonoBehaviour
     {
-        /// <summary>Ancho de diseño: la pantalla se escala para que quepa en cualquier celular.</summary>
-        private const float DesignWidth = 540f;
+        /// <summary>Cuántas líneas del diario se muestran (las más nuevas primero).</summary>
+        private const int JournalLines = 60;
 
-        private const int JournalLines = 8;
-
-        private readonly List<string> _journal = new List<string>();
+        private readonly List<JournalLine> _journal = new List<JournalLine>();
+        private ContentDatabase? _content;
         private LifePresenter? _presenter;
-        private string? _error;
-        private Vector2 _scroll;
+
+        private Text _name = null!;
+        private Text _details = null!;
+        private Text _healthLabel = null!;
+        private Text _happinessLabel = null!;
+        private Text _smartsLabel = null!;
+        private RectTransform _health = null!;
+        private RectTransform _happiness = null!;
+        private RectTransform _smarts = null!;
+        private Text _money = null!;
+        private RectTransform _story = null!;
+        private RectTransform _footer = null!;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void CreateOnPlay()
@@ -36,107 +47,162 @@ namespace MistakesLife.Unity
 
         private void Start()
         {
+            Build();
             try
             {
-                // Fuera de la simulación sí se puede usar el reloj: solo elige el número de partida.
-                ulong seed = (ulong)System.DateTime.UtcNow.Ticks;
-                _presenter = new LifePresenter(new LifeSession(CoreLoader.LoadContent(), seed));
-                ReadJournal();
+                _content = CoreLoader.LoadContent();
+                NewLife();
             }
             catch (System.Exception ex)
             {
-                _error = ex.Message;
+                // Sin contenido no hay juego: se muestra el error para poder copiarlo.
+                _name.text = "Error";
+                _details.text = ex.Message;
                 Debug.LogException(ex);
             }
         }
 
-        private void OnGUI()
+        private void NewLife()
         {
-            float scale = Screen.width / DesignWidth;
-            GUI.matrix = Matrix4x4.Scale(new Vector3(scale, scale, 1f));
-            GUI.skin.label.wordWrap = true;
-            GUI.skin.label.fontSize = 18;
-            GUI.skin.button.fontSize = 18;
-
-            GUILayout.BeginArea(new Rect(10, 10, DesignWidth - 20, (Screen.height / scale) - 20));
-            _scroll = GUILayout.BeginScrollView(_scroll);
-            if (_error != null)
-            {
-                GUILayout.Label("Error: " + _error);
-            }
-            else if (_presenter != null)
-            {
-                Draw(_presenter, _presenter.Snapshot());
-            }
-
-            GUILayout.EndScrollView();
-            GUILayout.EndArea();
+            // Fuera de la simulación sí se puede usar el reloj: solo elige el número de partida.
+            ulong seed = (ulong)System.DateTime.UtcNow.Ticks;
+            _presenter = new LifePresenter(new LifeSession(_content!, seed));
+            _journal.Clear();
+            Refresh();
         }
 
-        private void Draw(LifePresenter presenter, LifeSnapshot life)
+        /// <summary>Arma la estructura fija de la pantalla una sola vez.</summary>
+        private void Build()
         {
-            GUILayout.Label($"<b>{life.PlayerName}</b>, {life.AgeLabel}");
-            GUILayout.Label($"{life.Place}\n{life.DateLabel} · Partida {life.Seed}");
-            GUILayout.Label($"Salud {life.Health} · Felicidad {life.Happiness} · Inteligencia {life.Smarts} · {life.MoneyLabel}");
-            GUILayout.Space(10);
+            RectTransform canvas = UiFactory.CreateCanvas("Pantalla de la vida");
+            RectTransform safe = UiFactory.Child(canvas, "Zona segura");
+            UiFactory.Stretch(safe);
+            safe.gameObject.AddComponent<SafeArea>();
+            RectTransform page = UiFactory.Column(safe, "Pagina", 32, 24);
+            UiFactory.Stretch(page);
 
-            switch (life.Phase)
-            {
-                case LifePhase.Living:
-                    if (GUILayout.Button("Seguir viviendo", GUILayout.Height(50)))
-                    {
-                        presenter.AdvanceUntilSomething();
-                        ReadJournal();
-                    }
+            RectTransform header = UiFactory.Column(page, "Personaje", 36, 8, UiFactory.Card);
+            _name = UiFactory.Label(header, string.Empty, 56, UiFactory.Ink, FontStyle.Bold);
+            _details = UiFactory.Label(header, string.Empty, 32, UiFactory.MutedInk);
 
-                    break;
-                case LifePhase.Choosing:
-                    GUILayout.Label(life.PendingEvent!.Text);
-                    for (int i = 0; i < life.PendingEvent.Options.Count; i++)
-                    {
-                        if (GUILayout.Button(life.PendingEvent.Options[i], GUILayout.MinHeight(44)))
-                        {
-                            presenter.Choose(i);
-                            ReadJournal();
-                        }
-                    }
+            RectTransform stats = UiFactory.Column(page, "Estado", 36, 18, UiFactory.Card);
+            _health = UiFactory.Bar(stats, "Salud", UiFactory.Health, out _healthLabel);
+            _happiness = UiFactory.Bar(stats, "Felicidad", UiFactory.Happiness, out _happinessLabel);
+            _smarts = UiFactory.Bar(stats, "Inteligencia", UiFactory.Smarts, out _smartsLabel);
+            _money = UiFactory.Label(stats, string.Empty, 36, UiFactory.Ink, FontStyle.Bold);
 
-                    break;
-                case LifePhase.ChoosingHeir:
-                    for (int i = 0; i < life.Heirs.Count; i++)
-                    {
-                        PersonView heir = life.Heirs[i];
-                        if (GUILayout.Button($"Seguir con {heir.Name} ({heir.AgeInYears})", GUILayout.MinHeight(44)))
-                        {
-                            presenter.ContinueWith(i);
-                            ReadJournal();
-                        }
-                    }
-
-                    break;
-                case LifePhase.Over:
-                    GUILayout.Label("Fin de la partida.");
-                    break;
-            }
-
-            GUILayout.Space(10);
-            foreach (string line in _journal)
-            {
-                GUILayout.Label(line);
-            }
+            _story = UiFactory.ScrollColumn(page, "Historia", 36, 20);
+            _footer = UiFactory.Column(page, "Acciones", 0, 16);
         }
 
-        private void ReadJournal()
+        /// <summary>Vuelve a dibujar todo con la foto actual de la partida.</summary>
+        private void Refresh()
         {
-            foreach (JournalLine line in _presenter!.TakeNewJournal())
+            LifePresenter presenter = _presenter!;
+            foreach (JournalLine line in presenter.TakeNewJournal())
             {
-                _journal.Insert(0, $"{line.AgeLabel}: {line.Text}");
+                _journal.Insert(0, line);
             }
 
             if (_journal.Count > JournalLines)
             {
                 _journal.RemoveRange(JournalLines, _journal.Count - JournalLines);
             }
+
+            LifeSnapshot life = presenter.Snapshot();
+            _name.text = $"{life.PlayerName}, {life.AgeLabel}";
+            _details.text = $"{life.Place}\n{life.DateLabel} · {presenter.Text("ui.generacion", life.Generation)} · {presenter.Text("ui.partida", life.Seed)}";
+
+            _healthLabel.text = $"{presenter.Text("ui.salud")}  {life.Health}";
+            _happinessLabel.text = $"{presenter.Text("ui.felicidad")}  {life.Happiness}";
+            _smartsLabel.text = $"{presenter.Text("ui.inteligencia")}  {life.Smarts}";
+            UiFactory.SetBar(_health, life.Health);
+            UiFactory.SetBar(_happiness, life.Happiness);
+            UiFactory.SetBar(_smarts, life.Smarts);
+            _money.text = $"{presenter.Text("ui.dinero_titulo")}: {life.MoneyLabel}";
+
+            DrawStory(presenter, life);
+            DrawActions(presenter, life);
+        }
+
+        /// <summary>Parte con scroll: el evento (si hay), la familia y el diario.</summary>
+        private void DrawStory(LifePresenter presenter, LifeSnapshot life)
+        {
+            UiFactory.Clear(_story);
+            switch (life.Phase)
+            {
+                case LifePhase.Choosing:
+                    EventView pending = life.PendingEvent!;
+                    UiFactory.Label(_story, pending.Text, 42, UiFactory.Ink, FontStyle.Bold);
+                    for (int i = 0; i < pending.Options.Count; i++)
+                    {
+                        int option = i;
+                        UiFactory.MakeButton(_story, pending.Options[i], UiFactory.Option, UiFactory.Ink, () => Choose(option));
+                    }
+
+                    break;
+                case LifePhase.ChoosingHeir:
+                    UiFactory.Label(_story, presenter.Text("ui.legado"), 42, UiFactory.Ink, FontStyle.Bold);
+                    for (int i = 0; i < life.Heirs.Count; i++)
+                    {
+                        int heir = i;
+                        string text = presenter.Text("ui.boton.seguir_con", life.Heirs[i].Name, life.Heirs[i].AgeInYears);
+                        UiFactory.MakeButton(_story, text, UiFactory.Option, UiFactory.Ink, () => ContinueWith(heir));
+                    }
+
+                    break;
+                case LifePhase.Over:
+                    UiFactory.Label(_story, presenter.Text("ui.fin"), 42, UiFactory.Ink, FontStyle.Bold);
+                    break;
+            }
+
+            if (life.Family.Count > 0)
+            {
+                UiFactory.Label(_story, presenter.Text("ui.familia"), 38, UiFactory.Accent, FontStyle.Bold);
+                foreach (PersonView person in life.Family)
+                {
+                    string age = person.IsAlive ? person.AgeInYears.ToString() : presenter.Text("ui.fallecido");
+                    UiFactory.Label(_story, $"{person.Relation}: {person.Name} ({age})", 34, UiFactory.Ink);
+                }
+            }
+
+            UiFactory.Label(_story, presenter.Text("ui.diario"), 38, UiFactory.Accent, FontStyle.Bold);
+            foreach (JournalLine line in _journal)
+            {
+                UiFactory.Label(_story, $"{line.AgeLabel}: {line.Text}", 34, UiFactory.Ink);
+            }
+        }
+
+        /// <summary>Botón grande de abajo: seguir viviendo o empezar otra vida.</summary>
+        private void DrawActions(LifePresenter presenter, LifeSnapshot life)
+        {
+            UiFactory.Clear(_footer);
+            if (life.Phase == LifePhase.Living)
+            {
+                UiFactory.MakeButton(_footer, presenter.Text("ui.boton.seguir_viviendo"), UiFactory.Accent, UiFactory.AccentText, Advance);
+            }
+            else if (life.Phase == LifePhase.Over)
+            {
+                UiFactory.MakeButton(_footer, presenter.Text("ui.boton.nueva_vida"), UiFactory.Accent, UiFactory.AccentText, NewLife);
+            }
+        }
+
+        private void Advance()
+        {
+            _presenter!.AdvanceUntilSomething();
+            Refresh();
+        }
+
+        private void Choose(int option)
+        {
+            _presenter!.Choose(option);
+            Refresh();
+        }
+
+        private void ContinueWith(int heir)
+        {
+            _presenter!.ContinueWith(heir);
+            Refresh();
         }
     }
 }

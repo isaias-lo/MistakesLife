@@ -154,5 +154,14 @@ namespace MistakesLife.Core.Tests
                 Assert.NotEqual(key, RepoPacks.Content.Text(key));
             }
         }
+
+        [Fact]
+        public void Texto_ConValores_LosPoneEnSuLugar()
+        {
+            LifePresenter presenter = NewGame(7);
+
+            Assert.Equal("Seguir con Ana (12 años)", presenter.Text("ui.boton.seguir_con", "Ana", 12));
+            Assert.Equal("Seguir viviendo", presenter.Text("ui.boton.seguir_viviendo"));
+        }
     }
 }

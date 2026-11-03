@@ -30,6 +30,8 @@ namespace MistakesLife.Core.Presentation
         {
             "ui.edad.semanas", "ui.edad.un_ano", "ui.edad.anos", "ui.fecha", "ui.dinero", "ui.separador_miles",
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
+            "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
+            "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
         };
 
         public LifePresenter(LifeSession session, string language = ContentDatabase.BaseLanguage)
@@ -122,6 +124,13 @@ namespace MistakesLife.Core.Presentation
         /// <summary>El diario completo del jugador actual.</summary>
         public IReadOnlyList<JournalLine> FullJournal() =>
             Session.World.Journal.Where(e => e.CharacterId == Session.World.PlayerId).Select(Line).ToList();
+
+        /// <summary>
+        /// Un texto de la pantalla (botones, títulos) en el idioma del jugador.
+        /// Los {0}, {1}... se reemplazan por los valores dados.
+        /// </summary>
+        public string Text(string key, params object[] values) =>
+            values.Length == 0 ? T(key) : string.Format(CultureInfo.InvariantCulture, T(key), values);
 
         private int Advance(int maxWeeks)
         {

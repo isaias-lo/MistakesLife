@@ -26,5 +26,19 @@
   "ui.relacion.padre": "Papá",
   "ui.relacion.pareja": "Pareja",
   "ui.relacion.hija": "Hija",
-  "ui.relacion.hijo": "Hijo"
+  "ui.relacion.hijo": "Hijo",
+  "ui.boton.seguir_viviendo": "Seguir viviendo",
+  "ui.boton.seguir_con": "Seguir con {0} ({1} años)",
+  "ui.boton.nueva_vida": "Empezar otra vida",
+  "ui.salud": "Salud",
+  "ui.felicidad": "Felicidad",
+  "ui.inteligencia": "Inteligencia",
+  "ui.dinero_titulo": "Dinero",
+  "ui.diario": "Diario",
+  "ui.familia": "Familia",
+  "ui.generacion": "Generación {0}",
+  "ui.partida": "Partida {0}",
+  "ui.legado": "Tu historia puede seguir con uno de tus hijos.",
+  "ui.fin": "Tu historia terminó, pero lo que hiciste queda en el mundo.",
+  "ui.fallecido": "falleció"
 }
