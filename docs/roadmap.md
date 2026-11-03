@@ -56,5 +56,5 @@
 | E5 | Jubilación real: cuenta individual de pensión (AFP) con rentabilidad, pensión al jubilarse y pensión del Estado (PGU) con su monto. El sistema de reparto (Argentina) se suma con ese país | Hecha |
 | E6a | Deudas: tipos de deuda del país con interés, cuotas y reajuste (CAE y crédito de consumo en Chile), registro de morosos (DICOM) | Hecha |
 | E6b | Herencia: bienes y deudas que pasan a los hijos según la ley del país (beneficio de inventario, deudas que se extinguen al morir) | Hecha |
-| E6c | Tarjetas de crédito (pago mínimo) y repactar deudas | En revisión |
-| E7 | Crisis económicas como eventos que cambian la inflación y el empleo para todos | Pendiente |
+| E6c | Tarjetas de crédito (pago mínimo) y repactar deudas | Hecha |
+| E7 | Ciclo económico del país (normal, recesión, crisis): cambia la inflación, golpea los fondos de pensión y trae despidos; `cambiar_ciclo()` para eventos | En revisión |

@@ -453,6 +453,11 @@ namespace MistakesLife.Core.Content
             if (country.Economy != null)
             {
                 ValidateInflation($"{where}, economia.inflacion", country.Economy.Inflation);
+                if (country.Economy.Cycle != null)
+                {
+                    ValidateCycle($"{where}, economia.ciclo", country.Economy.Cycle, country.Economy.Inflation);
+                }
+
                 ValidatePayroll($"{where}, economia", country.Economy);
             }
 
@@ -602,6 +607,48 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        private void ValidateCycle(string where, EconomicCycleDefinition cycle, InflationDefinition inflation)
+        {
+            if (cycle.Phase(cycle.InitialPhase) == null)
+            {
+                _errors.Add(new ContentError(where, $"fase_inicial '{cycle.InitialPhase}' no es una de sus fases."));
+            }
+
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (EconomicPhaseDefinition phase in cycle.Phases)
+            {
+                string phaseWhere = $"{where}, {phase.Id}";
+                CheckId(phaseWhere, phase.Id, "economia.ciclo.");
+                if (!seen.Add(phase.Id))
+                {
+                    _errors.Add(new ContentError(phaseWhere, "fase repetida."));
+                }
+
+                if (phase.InflationRegime != null && inflation.Regime(phase.InflationRegime) == null)
+                {
+                    _errors.Add(new ContentError(phaseWhere, $"inflacion: '{phase.InflationRegime}' no es un régimen de inflación de este país."));
+                }
+
+                if (phase.PensionFundShock <= -1)
+                {
+                    _errors.Add(new ContentError(phaseWhere, "golpe_fondos debe ser mayor que -1."));
+                }
+
+                foreach (KeyValuePair<string, double> change in phase.AnnualSwitch)
+                {
+                    if (cycle.Phase(change.Key) == null || change.Key == phase.Id || change.Value < 0 || change.Value > 1)
+                    {
+                        _errors.Add(new ContentError(phaseWhere, $"cambio_anual: '{change.Key}' debe ser otra fase de este país, con probabilidad entre 0 y 1."));
+                    }
+                }
+
+                if (phase.AnnualSwitch.Values.Sum() > 1)
+                {
+                    _errors.Add(new ContentError(phaseWhere, "cambio_anual: las probabilidades suman más de 1."));
+                }
+            }
+        }
+
         private void ValidateInflation(string where, InflationDefinition inflation)
         {
             if (inflation.Regimes.Count == 0)
@@ -741,6 +788,11 @@ namespace MistakesLife.Core.Content
                 foreach (InflationRegimeDefinition regime in country.Economy?.Inflation.Regimes ?? new List<InflationRegimeDefinition>())
                 {
                     yield return new KeyValuePair<string, string>("diario." + regime.Id, $"país {country.Id}");
+                }
+
+                foreach (EconomicPhaseDefinition phase in country.Economy?.Cycle?.Phases ?? new List<EconomicPhaseDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>("diario." + phase.Id, $"país {country.Id}");
                 }
 
                 PayrollDefinition? payroll = country.Economy?.Payroll;
@@ -924,6 +976,14 @@ namespace MistakesLife.Core.Content
                     foreach (CountryDefinition country in _countries.Values.Where(c => !c.LawsJson.ContainsKey(reference.Argument)))
                     {
                         _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): el país {country.Id} no define esa ley. Todo país debe definir las leyes que usan los eventos."));
+                    }
+                }
+
+                if (reference.Function == EventScope.ChangeCycleFunction)
+                {
+                    foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Cycle?.Phase(reference.Argument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): el país {country.Id} no tiene esa fase del ciclo económico. Todo país debe definir las fases que usan los eventos."));
                     }
                 }
 

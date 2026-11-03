@@ -30,7 +30,7 @@
   },
   {
     "id": "evento.trabajo_adulto",
-    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad >= 26 && jugador.edad < 65 && jugador.estudia == nada",
+    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad >= 26 && jugador.edad < 65 && jugador.estudia == nada && mundo.ciclo != 'economia.ciclo.crisis'",
     "probabilidad_anual": 0.6,
     "opciones": [
       {

@@ -197,6 +197,26 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - `pension_universal` (como la PGU): quien la pidió (`jugador.recibir_pension_universal()`) recibe el `monto` completo si su pensión propia llega hasta `completa_hasta`; desde ahí baja en línea recta hasta 0 en `sin_pension_desde`. Montos mensuales en dinero del inicio del mundo.
 - El descuento de `cuenta_individual` debe estar en `liquidacion.dependiente`.
 
+#### Ciclo económico (`economia.ciclo`)
+
+```json
+"ciclo": {
+  "fase_inicial": "economia.ciclo.normal",
+  "fases": [
+    { "id": "economia.ciclo.normal", "cambio_anual": { "economia.ciclo.recesion": 0.1 } },
+    { "id": "economia.ciclo.recesion", "golpe_fondos": -0.08,
+      "cambio_anual": { "economia.ciclo.normal": 0.6, "economia.ciclo.crisis": 0.1 } },
+    { "id": "economia.ciclo.crisis", "inflacion": "economia.inflacion.alta", "golpe_fondos": -0.2,
+      "cambio_anual": { "economia.ciclo.normal": 0.5 } }
+  ]
+}
+```
+
+- Funciona como los regímenes de inflación: cada mes, el país puede pasar a otra fase con las probabilidades de `cambio_anual` (por año). Los eventos pueden provocar una con `cambiar_ciclo('id')`, y leer la fase actual con `mundo.ciclo`.
+- Al empezar una fase: el jugador que vive ahí lo lee en su diario (`diario.` + id, texto obligatorio); si tiene `inflacion`, el país pasa a ese régimen; si tiene `golpe_fondos`, los fondos de pensión de todos los que viven ahí cambian de una vez (-0.2 = caen 20 %).
+- Los efectos en el empleo los ponen los eventos del país, con condiciones sobre `mundo.ciclo` (por ejemplo, despidos solo en recesión o crisis).
+- Opcional: un país sin `ciclo` no tiene crisis.
+
 #### Deudas (`economia.deudas`)
 
 ```json
@@ -425,6 +445,7 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `precio(monto)` | Lleva un monto escrito en dinero del inicio del mundo a precios de hoy, en el país del jugador: `precio(15000)` |
 | `mundo.inflacion` | Cuánto subieron los precios en los últimos 12 meses en el país del jugador, en porcentaje (`3.4` es 3,4 %) |
 | `mundo.regimen_inflacion` | Régimen de inflación actual del país del jugador, por ejemplo `'economia.inflacion.alta'` |
+| `mundo.ciclo`, `cambiar_ciclo('id')` | Fase del ciclo económico del país del jugador (`'economia.ciclo.crisis'`), y provocar otra (solo efectos) |
 | `mundo.indice_precios` | Cuántas veces más cuesta todo que al empezar el mundo (1 al principio) |
 | `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero del inicio del mundo; sin tipo es `'dependiente'` (con contrato). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
 | `jugador.hijos_menores` | Cuántos hijos vivos menores de 18 tiene |

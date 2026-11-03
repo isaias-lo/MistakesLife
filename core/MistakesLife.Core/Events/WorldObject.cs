@@ -6,7 +6,7 @@ namespace MistakesLife.Core.Events
 {
     /// <summary>
     /// El mundo visto desde el lenguaje ("mundo"): anio, mes, semana, semanas_totales,
-    /// y la economía del país donde vive el personaje: inflacion, regimen_inflacion, indice_precios.
+    /// y la economía del país donde vive el personaje: inflacion, regimen_inflacion, indice_precios, ciclo.
     /// </summary>
     public sealed class WorldObject : IScriptObject
     {
@@ -34,6 +34,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(Math.Round((Economy(scope)?.InflationLast12Months ?? 0) * 100, 1));
                 case "regimen_inflacion":
                     return Value.FromText(Economy(scope)?.RegimeId ?? string.Empty);
+                case "ciclo":
+                    return Value.FromText(Economy(scope)?.PhaseId ?? string.Empty);
                 case "indice_precios":
                     return Value.FromNumber(Economy(scope)?.PriceIndex ?? 1);
                 default:

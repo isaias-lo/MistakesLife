@@ -171,5 +171,34 @@
         ]
       }
     ]
+  },
+  {
+    "id": "evento.despido_crisis",
+    "condiciones": "jugador.tiene('trabajando') && jugador.edad >= 18 && jugador.edad < 65 && mundo.ciclo != 'economia.ciclo.normal'",
+    "probabilidad_anual": 0.07,
+    "enfriamiento_semanas": 52,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.perder_trabajo.buscar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.perder_trabajo.descansar",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 12"
+        ]
+      }
+    ]
   }
 ]
