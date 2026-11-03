@@ -57,7 +57,7 @@
 | E6a | Deudas: tipos de deuda del país con interés, cuotas y reajuste (CAE y crédito de consumo en Chile), registro de morosos (DICOM) | Hecha |
 | E6b | Herencia: bienes y deudas que pasan a los hijos según la ley del país (beneficio de inventario, deudas que se extinguen al morir) | Hecha |
 | E6c | Tarjetas de crédito (pago mínimo) y repactar deudas | Hecha |
-| E7 | Ciclo económico del país (normal, recesión, crisis): cambia la inflación, golpea los fondos de pensión y trae despidos; `cambiar_ciclo()` para eventos | En revisión |
+| E7 | Ciclo económico del país (normal, recesión, crisis): cambia la inflación, golpea los fondos de pensión y trae despidos; `cambiar_ciclo()` para eventos | Hecha |
 
 ## Prototipo en Unity (Unity solo dibuja; todo lo demás es del núcleo)
 
