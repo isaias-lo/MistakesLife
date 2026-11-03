@@ -15,5 +15,16 @@
   "diario.adopcion_hija": "Hoy llegó a casa nuestra hija. Después de tanta espera, por fin somos familia.",
   "diario.adopcion_hijo": "Hoy llegó a casa nuestro hijo. Después de tanta espera, por fin somos familia.",
   "diario.llega_nieta": "Hoy conocí a mi nieta, que llegó a la familia por adopción.",
-  "diario.llega_nieto": "Hoy conocí a mi nieto, que llegó a la familia por adopción."
+  "diario.llega_nieto": "Hoy conocí a mi nieto, que llegó a la familia por adopción.",
+  "ui.edad.semanas": "{0} semanas",
+  "ui.edad.un_ano": "1 año",
+  "ui.edad.anos": "{0} años",
+  "ui.fecha": "Año {0}, semana {1}",
+  "ui.dinero": "${0}",
+  "ui.separador_miles": ".",
+  "ui.relacion.madre": "Mamá",
+  "ui.relacion.padre": "Papá",
+  "ui.relacion.pareja": "Pareja",
+  "ui.relacion.hija": "Hija",
+  "ui.relacion.hijo": "Hijo"
 }

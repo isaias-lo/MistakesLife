@@ -28,3 +28,8 @@ packs/ (JSON)  ──lee──▶  core/ (C# puro)  ◀──usa──  unity/ (
 ## Guardado
 
 SQLite dentro del celular, con versión de formato y migraciones. El legado sigue en el mismo mundo. Detalles en el documento técnico.
+
+## Cómo lo usa Unity
+
+- **Paquetes en un solo archivo:** en Android los archivos del juego van comprimidos dentro de la app, así que Unity no recorre la carpeta `packs/`. Las herramientas arman un `PackBundle` (un JSON "ruta → contenido") y Unity lo carga con `PackLoader.LoadBundle`. La consola y las pruebas pasan por el mismo camino, así una partida es idéntica en todas partes.
+- **Vista de la partida:** `LifePresenter` (carpeta `Presentation/`) envuelve una `LifeSession` y entrega una `LifeSnapshot` con todo ya traducido (nombre, edad, salud, dinero, evento con opciones, familia, herederos) más los comandos: avanzar, elegir, seguir con un hijo. Unity dibuja esa foto y llama a los comandos; no calcula nada. Sus textos son claves `ui.*` en las tablas de idioma.
