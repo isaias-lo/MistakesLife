@@ -58,3 +58,14 @@
 | E6b | Herencia: bienes y deudas que pasan a los hijos según la ley del país (beneficio de inventario, deudas que se extinguen al morir) | Hecha |
 | E6c | Tarjetas de crédito (pago mínimo) y repactar deudas | Hecha |
 | E7 | Ciclo económico del país (normal, recesión, crisis): cambia la inflación, golpea los fondos de pensión y trae despidos; `cambiar_ciclo()` para eventos | Hecha |
+
+## Prototipo en Unity (Unity solo dibuja; todo lo demás es del núcleo)
+
+| # | Tarea | Estado |
+|---|---|---|
+| U1 | Núcleo listo para Unity: paquetes en un solo archivo (`PackBundle`, para Android) y vista de la partida (`LifePresenter`) con textos `ui.*` | En revisión |
+| U2 | Proyecto de Unity en `unity/` y comando que copia el núcleo y los paquetes adentro | Pendiente |
+| U3 | La vida en pantalla (2D): personaje, evento con botones, diario y avanzar | Pendiente |
+| U4 | Guardar y continuar la partida en el teléfono (usa el guardado del núcleo) | Pendiente |
+| U5 | Prototipos 3D estilizados: casa en Puente Alto, barrio y oficina | Pendiente |
+| U6 | Primer APK para probar en Android | Pendiente |
