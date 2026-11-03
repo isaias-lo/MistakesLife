@@ -1,0 +1,8 @@
+<!--
+  Al compilar para Android, Unity borra el código que cree que no se usa.
+  El núcleo lee los paquetes JSON por reflexión, así que se conserva entero.
+-->
+<linker>
+  <assembly fullname="MistakesLife.Core" preserve="all" />
+  <assembly fullname="Newtonsoft.Json" preserve="all" />
+</linker>

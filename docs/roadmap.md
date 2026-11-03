@@ -63,8 +63,8 @@
 
 | # | Tarea | Estado |
 |---|---|---|
-| U1 | Núcleo listo para Unity: paquetes en un solo archivo (`PackBundle`, para Android) y vista de la partida (`LifePresenter`) con textos `ui.*` | En revisión |
-| U2 | Proyecto de Unity en `unity/` y comando que copia el núcleo y los paquetes adentro | Pendiente |
+| U1 | Núcleo listo para Unity: paquetes en un solo archivo (`PackBundle`, para Android) y vista de la partida (`LifePresenter`) con textos `ui.*` | Hecha |
+| U2 | Proyecto de Unity en `unity/` (Unity 6 LTS), comando `tools/MistakesLife.UnityExport` que copia el núcleo y los paquetes adentro, y pantalla de prueba | En revisión |
 | U3 | La vida en pantalla (2D): personaje, evento con botones, diario y avanzar | Pendiente |
 | U4 | Guardar y continuar la partida en el teléfono (usa el guardado del núcleo) | Pendiente |
 | U5 | Prototipos 3D estilizados: casa en Puente Alto, barrio y oficina | Pendiente |

@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="../MistakesLife.Core/MistakesLife.Core.csproj" />
     <ProjectReference Include="../../tools/MistakesLife.Console/MistakesLife.Console.csproj" />
+    <ProjectReference Include="../../tools/MistakesLife.UnityExport/MistakesLife.UnityExport.csproj" />
   </ItemGroup>
 
 </Project>
