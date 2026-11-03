@@ -1,0 +1,45 @@
+# Arma el APK de prueba de MistakesLife en la nube, sin computador.
+# Se corre a mano: pestaña "Actions" → "APK de prueba" → "Run workflow".
+# El APK queda para descargar al final de la ejecución (sección "Artifacts").
+#
+# Necesita tres secretos del repositorio (Settings → Secrets and variables → Actions):
+#   UNITY_LICENSE  → el contenido del archivo Unity_lic.ulf (licencia Personal, se genera una vez con Unity Hub)
+#   UNITY_EMAIL    → el correo de la cuenta de Unity
+#   UNITY_PASSWORD → la contraseña de la cuenta de Unity
+# Guía: https://game.ci/docs/github/activation
+name: APK de prueba
+
+on:
+  workflow_dispatch:
+
+jobs:
+  android:
+    name: Armar APK para Android
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: unity/Library
+          key: Library-Android-${{ hashFiles('unity/Assets/**', 'unity/Packages/**') }}
+          restore-keys: Library-Android-
+
+      - uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: unity
+          # Unity 6 LTS. Cuando exista unity/ProjectSettings/ProjectVersion.txt se puede cambiar por "auto".
+          unityVersion: 6000.0.23f1
+          targetPlatform: Android
+          buildMethod: MistakesLife.Unity.Editor.AndroidBuild.Build
+          buildName: MistakesLife
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MistakesLife-apk
+          path: build/Android
