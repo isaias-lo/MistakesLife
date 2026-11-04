@@ -44,6 +44,37 @@ namespace MistakesLife.Core.Tests
             new WeekCycle().Register(new EconomySystem(content)).Register(new PayrollSystem(content)).Register(new PensionSystem(content)).AdvanceWeeks(world, weeks);
 
         [Fact]
+        public void TrabajoInformal_RecibeTodoElSueldoPeroNoCotizaNiSumaMeses()
+        {
+            ContentDatabase content = Content();
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.trabajar(1000000, 'informal')");
+
+            // 9 semanas son 2 meses del juego: 2 sueldos.
+            Advance(world, content, 9);
+
+            Assert.Equal(0m, world.Player.PensionFund);
+            Assert.Equal(0, world.Player.ContributedMonths);
+            Assert.Equal(0, Eval(world, content, "jugador.meses_cotizados"));
+            Assert.Equal(2000000m, world.Player.Money);
+            Assert.Null(world.Player.IncomeOf(world.Date.Year));
+            Assert.Equal("informal", Expression.Parse("jugador.tipo_trabajo").Evaluate(new EventScope(world, content, world.Player, null, readOnly: true)).AsText("prueba"));
+        }
+
+        [Fact]
+        public void TrabajoConContrato_CadaMesCotizadoSuma()
+        {
+            ContentDatabase content = Content();
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.trabajar(1000000)");
+
+            Advance(world, content, 9);
+
+            Assert.Equal(2, world.Player.ContributedMonths);
+            Assert.Equal(2, Eval(world, content, "jugador.meses_cotizados"));
+        }
+
+        [Fact]
         public void Cotizacion_ConContrato_SeAhorraEnElFondo()
         {
             ContentDatabase content = Content();

@@ -1,8 +1,8 @@
 [
   {
     "id": "evento.perder_trabajo",
-    "condiciones": "jugador.tiene('trabajando') && jugador.edad >= 25 && jugador.edad < 65",
-    "probabilidad_anual": 0.04,
+    "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo != 'informal' && jugador.edad >= 25 && jugador.edad < 65",
+    "probabilidad_anual": 0.08,
     "enfriamiento_semanas": 104,
     "dia_clave": true,
     "opciones": [

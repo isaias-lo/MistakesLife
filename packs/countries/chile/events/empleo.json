@@ -1,0 +1,181 @@
+[
+  {
+    "id": "evento.fin_contrato_joven",
+    "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo == 'dependiente' && jugador.edad >= 18 && jugador.edad < 25",
+    "probabilidad_anual": 0.14,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.fin_contrato_joven.buscar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 5"
+        ]
+      },
+      {
+        "texto": "opcion.fin_contrato_joven.descansar",
+        "tendencia": "jugador.neuroticismo / 2 + 20",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 3",
+          "jugador.salud += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.oferta_trabajo_informal",
+    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad >= 16 && jugador.edad < 65 && jugador.estudia == nada",
+    "probabilidad_anual": 0.8,
+    "opciones": [
+      {
+        "texto": "opcion.oferta_trabajo_informal.aceptar",
+        "tendencia": "45 + (60 - jugador.nivel_hogar) / 2 + jugador.meses_en_rojo * 10",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.trabajar(sueldo_minimo() * 0.9, 'informal')",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.oferta_trabajo_informal.rechazar",
+        "tendencia": "20 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contrato_tras_informal",
+    "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo == 'informal'",
+    "probabilidad_anual": 0.08,
+    "opciones": [
+      {
+        "texto": "opcion.contrato_tras_informal.firmar",
+        "tendencia": "50 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.trabajar(sueldo_titulo())",
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.contrato_tras_informal.seguir",
+        "tendencia": "30 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.fin_trabajo_informal",
+    "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo == 'informal'",
+    "probabilidad_anual": 0.2,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.fin_trabajo_informal.buscar",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 5"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.dejar_de_buscar",
+    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.trabaja && jugador.estudia == nada && jugador.edad >= 18 && jugador.edad < 65",
+    "probabilidad_anual": 0.4,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.dejar_de_buscar.parar",
+        "tendencia": "jugador.neuroticismo / 2 + si(jugador.pareja != nada, 15, 0)",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('sin_buscar_trabajo')",
+          "jugador.felicidad -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.dejar_de_buscar.seguir",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.volver_a_buscar_trabajo",
+    "condiciones": "jugador.tiene('sin_buscar_trabajo') && jugador.edad < 65",
+    "probabilidad_anual": 0.25,
+    "opciones": [
+      {
+        "texto": "opcion.volver_a_buscar_trabajo.buscar",
+        "efectos": [
+          "jugador.desmarcar('sin_buscar_trabajo')",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.cuidar_hijos_en_casa",
+    "condiciones": "jugador.tiene('trabajando') && jugador.hijos_menores > 0 && jugador.pareja != nada && jugador.edad < 55",
+    "probabilidad_anual": 0.08,
+    "enfriamiento_semanas": 156,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.cuidar_hijos_en_casa.quedarse",
+        "tendencia": "jugador.amabilidad / 2 + si(jugador.tipo_trabajo == 'informal', 20, 0)",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('cuida_hijos_en_casa')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.cuidar_hijos_en_casa.seguir",
+        "tendencia": "jugador.responsabilidad / 2 + 30",
+        "efectos": [
+          "jugador.felicidad -= 1",
+          "jugador.salud -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.volver_a_trabajar_tras_cuidar",
+    "condiciones": "jugador.tiene('cuida_hijos_en_casa')",
+    "probabilidad_anual": 0.2,
+    "opciones": [
+      {
+        "texto": "opcion.volver_a_trabajar_tras_cuidar.buscar",
+        "tendencia": "40 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desmarcar('cuida_hijos_en_casa')",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.volver_a_trabajar_tras_cuidar.esperar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": []
+      }
+    ]
+  }
+]

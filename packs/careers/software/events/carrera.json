@@ -124,7 +124,7 @@
   {
     "id": "evento.software.primer_trabajo",
     "condiciones": "jugador.titulado_en('carrera.software') && jugador.tiene('buscando_trabajo')",
-    "peso": 25,
+    "probabilidad_anual": 0.9,
     "opciones": [
       {
         "texto": "opcion.software.trabajo.aceptar",

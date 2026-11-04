@@ -449,7 +449,7 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `mundo.regimen_inflacion` | Régimen de inflación actual del país del jugador, por ejemplo `'economia.inflacion.alta'` |
 | `mundo.ciclo`, `cambiar_ciclo('id')` | Fase del ciclo económico del país del jugador (`'economia.ciclo.crisis'`), y provocar otra (solo efectos) |
 | `mundo.indice_precios` | Cuántas veces más cuesta todo que al empezar el mundo (1 al principio) |
-| `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero del inicio del mundo; sin tipo es `'dependiente'` (con contrato). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
+| `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')`, `jugador.trabajar(sueldo, 'informal')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero del inicio del mundo; sin tipo es `'dependiente'` (con contrato). `'informal'` es sin contrato: recibe todo el sueldo, pero no cotiza ni paga impuesto, y esos meses no suman a su pensión (lagunas). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
 | `jugador.hijos_menores` | Cuántos hijos vivos menores de 18 tiene |
 | `jugador.gastos`, `jugador.meses_en_rojo` | Lo que pagó en gastos el último mes, y cuántos meses seguidos terminó con el dinero en negativo |
 | `arriendo()` | Arriendo mensual típico de la comuna donde vive, en dinero del inicio del mundo |
@@ -465,7 +465,8 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `jugador.repactar()`, `jugador.puede_repactar` | Repacta las deudas atrasadas que se pueden repactar (solo efectos), y si tiene alguna |
 | `jugador.cuotas_deudas`, `jugador.moroso` | Lo que pagó en cuotas el último mes, y si está en el registro de morosos |
 | `jugador.dejar_trabajo()` | Deja de trabajar y de recibir sueldo (solo efectos) |
-| `jugador.trabaja`, `jugador.tipo_trabajo` | Si tiene trabajo; `'dependiente'`, `'honorarios'` o `nada` |
+| `jugador.trabaja`, `jugador.tipo_trabajo` | Si tiene trabajo; `'dependiente'`, `'honorarios'`, `'informal'` o `nada` |
+| `jugador.meses_cotizados` | Meses en que cotizó para su pensión (con contrato). Los meses sin trabajo o informales no suman |
 | `jugador.sueldo`, `jugador.sueldo_liquido` | Sueldo bruto de hoy y líquido de la última liquidación (0 si no trabaja) |
 | `sueldo_minimo()`, `sueldo_tipico()` | Sueldos de referencia del país del jugador, en dinero del inicio del mundo (para usar en `trabajar`) |
 | `sueldo_titulo()` | Lo que paga el mercado según su mejor título: el típico por el `sueldo_relativo` del nivel (o por `relativo_sin_titulo`), nunca menos que el mínimo |

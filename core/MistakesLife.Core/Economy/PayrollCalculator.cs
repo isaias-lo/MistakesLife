@@ -16,7 +16,10 @@ namespace MistakesLife.Core.Economy
         {
             var lines = new List<PayslipLine>();
             decimal taxable = gross;
-            List<DeductionDefinition> deductions = kind == JobKind.Employee ? rules.Employee : rules.Freelance;
+            // El trabajo informal no tiene descuentos: nadie cotiza ni retiene nada.
+            List<DeductionDefinition> deductions = kind == JobKind.Employee ? rules.Employee
+                : kind == JobKind.Freelance ? rules.Freelance
+                : new List<DeductionDefinition>();
             foreach (DeductionDefinition deduction in deductions)
             {
                 decimal basis = deduction.Cap.HasValue ? Math.Min(gross, ToToday(deduction.Cap.Value, priceIndex)) : gross;

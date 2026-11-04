@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Decisions;
+using MistakesLife.Core.Economy;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Randomness;
@@ -31,6 +32,15 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Reglas de eventos a usar.</summary>
         public EventRules EventRules { get; set; } = new EventRules();
 
+        /// <summary>
+        /// Marca con que los paquetes dicen que alguien busca trabajo. Solo sirve
+        /// para contar el desempleo en el informe.
+        /// </summary>
+        public string JobSearchFlag { get; set; } = "buscando_trabajo";
+
+        /// <summary>Edad hasta la que se mide la densidad de cotización (meses cotizados desde los 18).</summary>
+        public const int ContributionDensityAge = 65;
+
         public SimulationReport Run(int lives, int finalAge, ulong firstSeed = 1)
         {
             if (lives <= 0)
@@ -42,6 +52,8 @@ namespace MistakesLife.Core.Analysis
             long totalEvents = 0;
             double health = 0, happiness = 0, smarts = 0, inflation = 0;
             int inflationLives = 0;
+            double density = 0;
+            int densityLives = 0;
             var realSalaries = new List<double>();
             var realMoney = new List<double>();
             var realPensions = new List<double>();
@@ -115,6 +127,21 @@ namespace MistakesLife.Core.Analysis
                 if (player.Job != null)
                 {
                     report.Working++;
+                    if (player.Job.Kind == JobKind.Informal)
+                    {
+                        report.WorkingInformal++;
+                    }
+                }
+                else if (player.IsAlive && player.HasFlag(JobSearchFlag))
+                {
+                    report.Unemployed++;
+                }
+
+                if (player.AgeInYears(session.World.Date) >= ContributionDensityAge)
+                {
+                    const int months = (ContributionDensityAge - 18) * 12;
+                    density += Math.Min(1.0, (double)player.ContributedMonths / months);
+                    densityLives++;
                 }
 
                 if (player.IsAlive && player.Money < 0)
@@ -184,6 +211,7 @@ namespace MistakesLife.Core.Analysis
             report.AverageSmarts = smarts / lives;
             report.AverageEventsPerLife = (double)totalEvents / lives;
             report.AverageAnnualInflation = inflationLives == 0 ? 0 : inflation / inflationLives;
+            report.AverageContributionDensity = densityLives == 0 ? 0 : density / densityLives;
             realSalaries.Sort();
             report.MedianRealSalary = realSalaries.Count == 0 ? 0 : realSalaries[realSalaries.Count / 2];
             realDebts.Sort();

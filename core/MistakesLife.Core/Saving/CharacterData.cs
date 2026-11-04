@@ -64,6 +64,9 @@ namespace MistakesLife.Core.Saving
 
         public decimal PensionFund { get; set; }
 
+        /// <summary>Meses en que cotizó para su pensión (desde la versión 2 del formato).</summary>
+        public int ContributedMonths { get; set; }
+
         public decimal? Pension { get; set; }
 
         public bool ReceivesUniversalPension { get; set; }

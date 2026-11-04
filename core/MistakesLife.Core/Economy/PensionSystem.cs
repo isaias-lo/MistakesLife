@@ -61,6 +61,7 @@ namespace MistakesLife.Core.Economy
                     {
                         decimal saved = payslip.Amount(account.Deduction) * (decimal)account.ShareToAccount;
                         character.PensionFund += saved / (decimal)economy.PriceIndex;
+                        character.ContributedMonths++;
                     }
                 }
 

@@ -147,7 +147,7 @@
   {
     "id": "evento.contabilidad.primer_trabajo",
     "condiciones": "jugador.titulado_en('carrera.contabilidad') && jugador.tiene('buscando_trabajo')",
-    "peso": 30,
+    "probabilidad_anual": 0.9,
     "opciones": [
       {
         "texto": "opcion.contabilidad.trabajo.auditor",

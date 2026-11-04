@@ -106,6 +106,12 @@ namespace MistakesLife.Core.Characters
         /// <summary>Suma una liquidación a lo ganado en ese año.</summary>
         public void AddIncome(int year, Economy.Payslip payslip)
         {
+            if (payslip.Kind == Economy.JobKind.Informal)
+            {
+                // Lo ganado sin contrato no queda registrado: no entra en la declaración.
+                return;
+            }
+
             Economy.AnnualIncome? income = IncomeOf(year);
             if (income == null)
             {
@@ -139,6 +145,12 @@ namespace MistakesLife.Core.Characters
         /// del inicio del mundo: así la inflación no lo achica.
         /// </summary>
         public decimal PensionFund { get; set; }
+
+        /// <summary>
+        /// Meses en que cotizó para su pensión (con contrato). Los meses sin
+        /// trabajo o con trabajo informal son "lagunas" y no suman.
+        /// </summary>
+        public int ContributedMonths { get; set; }
 
         /// <summary>Su pensión mensual, en dinero del inicio del mundo, o null si no se ha jubilado.</summary>
         public decimal? Pension { get; set; }

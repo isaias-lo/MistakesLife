@@ -48,6 +48,18 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Vidas que terminan con trabajo (con sueldo).</summary>
         public int Working { get; internal set; }
 
+        /// <summary>Vidas que terminan con un trabajo informal (sin contrato ni cotizaciones).</summary>
+        public int WorkingInformal { get; internal set; }
+
+        /// <summary>Vidas que terminan buscando trabajo: no trabajan, no estudian y no se jubilaron, pero quieren trabajar.</summary>
+        public int Unemployed { get; internal set; }
+
+        /// <summary>
+        /// Promedio, entre las vidas que llegan a los 65, de la parte de los meses
+        /// desde los 18 en que cotizó para su pensión (densidad de cotización).
+        /// </summary>
+        public double AverageContributionDensity { get; internal set; }
+
         /// <summary>
         /// Mediana del sueldo bruto de quienes trabajan al final, en dinero del inicio
         /// del mundo (sin inflación), para compararla con los sueldos reales del país.
@@ -95,7 +107,13 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Eventos por vida (promedio): {AverageEventsPerLife.ToString("0.0", ci)}");
             sb.AppendLine($"- Salud / felicidad / inteligencia al final (promedio): {AverageHealth.ToString("0", ci)} / {AverageHappiness.ToString("0", ci)} / {AverageSmarts.ToString("0", ci)}");
             sb.AppendLine($"- Muertes antes de los {FinalAge}: {Deaths}");
-            sb.AppendLine($"- Trabajan al final: {Percent(Working).ToString("0.0", ci)} %; sueldo bruto mediano (en dinero del inicio): {MedianRealSalary.ToString("N0", ci)}");
+            sb.AppendLine($"- Trabajan al final: {Percent(Working).ToString("0.0", ci)} % (informales: {Percent(WorkingInformal).ToString("0.0", ci)} %); sueldo bruto mediano (en dinero del inicio): {MedianRealSalary.ToString("N0", ci)}");
+            sb.AppendLine($"- Buscan trabajo al final: {Percent(Unemployed).ToString("0.0", ci)} %; desempleo (buscan / trabajan + buscan): {(Working + Unemployed == 0 ? 0 : 100.0 * Unemployed / (Working + Unemployed)).ToString("0.0", ci)} %");
+            if (AverageContributionDensity > 0)
+            {
+                sb.AppendLine($"- Meses con cotización para la pensión, de los 18 a los 65 (promedio): {(AverageContributionDensity * 100).ToString("0", ci)} %");
+            }
+
             sb.AppendLine($"- Siguen vivos con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano de los vivos (en dinero del inicio): {MedianRealMoney.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan jubilados: {Percent(Retired).ToString("0.0", ci)} %; pensión mediana al mes, propia + del Estado (en dinero del inicio): {MedianRealPension.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan con deudas: {Percent(WithDebt).ToString("0.0", ci)} %; deuda mediana (en dinero del inicio): {MedianRealDebt.ToString("N0", ci)}; morosos: {Percent(Delinquent).ToString("0.0", ci)} %");
