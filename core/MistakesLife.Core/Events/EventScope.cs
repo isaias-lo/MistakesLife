@@ -14,7 +14,7 @@ namespace MistakesLife.Core.Events
     /// Lo que ven las condiciones y efectos de los paquetes.
     ///
     /// Raíces: jugador, mundo.
-    /// Funciones: semilla('id'), plantar('id'), diario('clave'), estudiar('nivel'),
+    /// Funciones: semilla('id'), plantar('id') o plantar('id', persona), diario('clave'), estudiar('nivel'),
     /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor),
     /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo(), arriendo().
     /// Ver docs/content-language.md para la lista completa.
@@ -98,8 +98,19 @@ namespace MistakesLife.Core.Events
                     return Value.FromObject(new SeedHandle(this, SingleText(name, args)));
                 case PlantFunction:
                     RequireWritable(name);
+                    Character? witness = null;
+                    if (args.Length == 2)
+                    {
+                        // plantar('semilla.x', persona): esa persona es testigo (por ejemplo, el amigo al que le prestaste).
+                        witness = args[1].Kind == ValueKind.Null
+                            ? throw new ScriptException("plantar(): el testigo es nada; revisa que exista antes (por ejemplo, jugador.amigo != nada).")
+                            : (args[1].AsObject("plantar()") as CharacterObject)?.Character
+                              ?? throw new ScriptException("plantar(): el testigo debe ser una persona, por ejemplo plantar('semilla.x', jugador.amigo).");
+                        args = new[] { args[0] };
+                    }
+
                     SeedTypeDefinition type = Content.GetSeedType(SingleText(name, args));
-                    PlantOrStrengthen(type);
+                    PlantOrStrengthen(type, witness);
                     return Value.Null;
                 case StudyFunction:
                     RequireWritable(name);
@@ -170,16 +181,21 @@ namespace MistakesLife.Core.Events
         /// la hace más fuerte en vez de plantar otra (copiar diez veces no trae diez
         /// profesores distintos, pero sí uno que se acuerda mejor).
         /// </summary>
-        private void PlantOrStrengthen(SeedTypeDefinition type)
+        private void PlantOrStrengthen(SeedTypeDefinition type, Character? witness)
         {
             Seed? existing = World.Seeds.OpenFor(Subject.Id).FirstOrDefault(s => s.TypeId == type.Id);
             if (existing != null)
             {
                 existing.Strengthen(type.Strength);
+                if (witness != null)
+                {
+                    existing.AddWitness(witness.Id);
+                }
+
                 return;
             }
 
-            World.Seeds.Plant(type.ToSeedDefinition(Content), Subject.Id, World.Date, Subject.AgeInYears(World.Date));
+            World.Seeds.Plant(type.ToSeedDefinition(Content), Subject.Id, World.Date, Subject.AgeInYears(World.Date), witness == null ? null : new[] { witness.Id });
         }
 
         /// <summary>

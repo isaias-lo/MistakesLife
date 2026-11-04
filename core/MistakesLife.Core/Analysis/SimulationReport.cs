@@ -66,6 +66,24 @@ namespace MistakesLife.Core.Analysis
         /// </summary>
         public double MedianRealSalary { get; internal set; }
 
+        /// <summary>Vidas que terminan vivas con al menos un amigo.</summary>
+        public int WithFriends { get; internal set; }
+
+        /// <summary>Amigos vivos al final, en promedio por vida.</summary>
+        public double AverageFriends { get; internal set; }
+
+        /// <summary>Vidas que terminan con un rival.</summary>
+        public int WithRival { get; internal set; }
+
+        /// <summary>Vidas que tuvieron al menos una expareja.</summary>
+        public int WithEx { get; internal set; }
+
+        /// <summary>Cariño promedio que siente la madre por el jugador al final (solo si ella vive).</summary>
+        public double AverageMotherAffection { get; internal set; }
+
+        /// <summary>Rencor promedio que siente la pareja por el jugador al final (solo si tiene pareja).</summary>
+        public double AveragePartnerResentment { get; internal set; }
+
         /// <summary>Vidas que siguen al final con el dinero en negativo (al morir, el dinero pasa a la herencia).</summary>
         public int InRed { get; internal set; }
 
@@ -117,6 +135,8 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Siguen vivos con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano de los vivos (en dinero del inicio): {MedianRealMoney.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan jubilados: {Percent(Retired).ToString("0.0", ci)} %; pensión mediana al mes, propia + del Estado (en dinero del inicio): {MedianRealPension.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan con deudas: {Percent(WithDebt).ToString("0.0", ci)} %; deuda mediana (en dinero del inicio): {MedianRealDebt.ToString("N0", ci)}; morosos: {Percent(Delinquent).ToString("0.0", ci)} %");
+            sb.AppendLine($"- Terminan con amigos: {Percent(WithFriends).ToString("0.0", ci)} % (promedio {AverageFriends.ToString("0.0", ci)}); con un rival: {Percent(WithRival).ToString("0.0", ci)} %; tuvieron una expareja: {Percent(WithEx).ToString("0.0", ci)} %");
+            sb.AppendLine($"- Cariño de la madre (si vive) / rencor de la pareja (si hay), promedio al final: {AverageMotherAffection.ToString("0", ci)} / {AveragePartnerResentment.ToString("0", ci)}");
             sb.AppendLine($"- Inflación anual promedio: {(AverageAnnualInflation * 100).ToString("0.0", ci)} %");
             sb.AppendLine();
             sb.AppendLine("## Cómo terminan las vidas (marcas)");

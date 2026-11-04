@@ -472,10 +472,30 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `sueldo_titulo()` | Lo que paga el mercado según su mejor título: el típico por el `sueldo_relativo` del nivel (o por `relativo_sin_titulo`), nunca menos que el mínimo |
 | `cambiar_inflacion('economia.inflacion.x')` | Pasa el país del jugador a ese régimen (por ejemplo, en una crisis). Todo país debe definir los regímenes que usan los eventos (solo efectos) |
 | `semilla('id').activa`, `.despierta`, `.fuerza`, `.testigos` | La semilla abierta de ese tipo; `fuerza` se puede cambiar |
+| `semilla('id').testigo` | El primer testigo vivo de la semilla (otra persona, vista desde el jugador: `semilla('id').testigo.rencor`), o `nada` |
 | `semilla('id').cerrar` | Cierra la semilla (solo efectos) |
 | `plantar('id')` | Planta una semilla nueva (solo efectos). Si el personaje ya tiene abierta una del mismo tipo, no planta otra: la existente gana la `fuerza` del tipo (máximo 100) |
+| `plantar('id', persona)` | Igual, con esa persona como testigo: `plantar('semilla.presto_plata_amigo', jugador.amigo)`. Así el evento de la semilla, años después, sabe de quién se trata (`semilla('id').testigo`) |
 | `diario('clave')` | Escribe en el diario (solo efectos) |
 | `ley('ley.x')` | Valor de una ley en el país del jugador (ver Leyes) |
 | `cambiar_ley('ley.x', valor)` | Cambia una ley del país del jugador durante la partida (solo efectos) |
 
-Se irán sumando datos (dinero, colegio, relaciones, empresas) a medida que lleguen esos sistemas.
+### Relaciones
+
+Cada persona siente algo por cada otra: **cariño, confianza, respeto y rencor**, de 0 a 100 y por separado. No es simétrico: lo que tu madre siente por ti no es lo que tú sientes por ella. En el lenguaje se lee en la otra persona, y es lo que **ella siente por quien se llegó a ella**:
+
+| Escribes | Qué es |
+|---|---|
+| `jugador.madre.carino`, `.confianza`, `.respeto`, `.rencor` | Lo que la madre siente por el jugador (sirve en `padre`, `pareja`, `amigo`, `colega`, `rival`, `ex` y `semilla('id').testigo`). Se pueden cambiar: `jugador.pareja.rencor += 15`. Siempre quedan entre 0 y 100. `jugador.carino` es un error: el jugador no siente por sí mismo |
+| `jugador.amigo`, `jugador.colega`, `jugador.rival`, `jugador.ex` | La persona más cercana con ese lazo, o `nada`: el amigo que más cariño le tiene, el colega que más lo respeta, el rival con más rencor, el ex con más cariño |
+| `jugador.amigos` | Cuántos amigos vivos tiene |
+| `jugador.conocer('amistad')`, `('colega')`, `('rival')` | Llega alguien nuevo con ese lazo, del mismo lugar y de edad parecida (casi la misma en el colegio, hasta 8 años de diferencia de adulto) (solo efectos) |
+| `jugador.colega.vincular('amistad')` | Cambia el lazo con esa persona, en ambos sentidos; lo que sienten se mantiene (solo efectos) |
+| `jugador.amigo.alejarse()` | Deja de ser amigo (o colega, rival); lo que siente se mantiene (solo efectos) |
+| `jugador.amigo.vinculo` | `'amistad'`, `'colega'`, `'rival'`, `'ex'` o `nada` |
+
+Al empezar, sin que haya pasado nada: madres o padres e hijos sienten cariño 75, confianza 65, respeto 55; hermanos 60, 55, 45; la pareja 75, 60, 55; cualquier otra persona 30, 30, 30; nadie siente rencor. Un amigo nuevo empieza con cariño 55, un colega con respeto 50 y un rival con rencor 45. Al terminar una pareja (no al morir), quedan como ex con lo que sentían.
+
+El tiempo también cambia las relaciones, una vez al mes: el rencor baja 1 punto (2 si la persona es amable, con amabilidad 60 o más), y una amistad pierde 1 punto de cariño cada 4 meses (hasta 25) si nada la alimenta. Juntarse, ayudar y pedir perdón son eventos de los paquetes.
+
+Se irán sumando datos (colegio, empresas) a medida que lleguen esos sistemas.

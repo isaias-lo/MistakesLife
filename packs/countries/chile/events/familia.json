@@ -91,12 +91,16 @@
       {
         "texto": "opcion.crisis_pareja.conversar",
         "efectos": [
+          "jugador.pareja.rencor -= 10",
+          "jugador.pareja.confianza += 3",
           "jugador.felicidad -= 3"
         ]
       },
       {
         "texto": "opcion.crisis_pareja.terminar",
         "efectos": [
+          "jugador.pareja.rencor += 20",
+          "jugador.pareja.carino -= 15",
           "jugador.terminar_pareja()",
           "jugador.desmarcar('buscando_hijo')",
           "jugador.desmarcar('buscando_adopcion')",

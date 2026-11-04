@@ -213,11 +213,36 @@ namespace MistakesLife.Core.Tests
             Assert.Contains("\"version\":" + CoreInfo.SaveFormatVersion, loaded.SaveToText());
         }
 
+        [Fact]
+        public void Cargar_UnGuardadoDeLaVersion2_EmpiezaSinRelacionesGuardadas()
+        {
+            var session = new LifeSession(RepoPacks.Content, 6);
+            PlayUntilAge(session, 30);
+            using var reader = new Newtonsoft.Json.JsonTextReader(new System.IO.StringReader(session.SaveToText()))
+            {
+                FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Decimal,
+            };
+            var json = Newtonsoft.Json.Linq.JObject.Load(reader);
+
+            // Así era un guardado de la versión 2: sin relaciones.
+            json["version"] = 2;
+            foreach (var character in json.SelectTokens("world.characters[*]"))
+            {
+                ((Newtonsoft.Json.Linq.JObject)character).Remove("relationships");
+            }
+
+            LifeSession loaded = LifeSession.Load(RepoPacks.Content, json.ToString());
+
+            Assert.All(loaded.World.Characters, c => Assert.Empty(c.Relationships));
+            Assert.Equal(session.World.Player.Money, loaded.World.Player.Money);
+            loaded.Advance(GameDate.WeeksPerYear);
+        }
+
         [Theory]
         [InlineData("esto no es un guardado")]
         [InlineData("{\"nombre\": \"otra cosa\"}")]
         [InlineData("{\"game\": \"MistakesLife\"}")]
-        [InlineData("{\"game\": \"MistakesLife\", \"version\": 2, \"world\": {\"playerId\": 99}}")]
+        [InlineData("{\"game\": \"MistakesLife\", \"version\": 3, \"world\": {\"playerId\": 99}}")]
         public void Cargar_UnTextoQueNoEsUnaPartida_DaUnErrorClaro(string text)
         {
             Assert.Throws<SaveFormatException>(() => LifeSession.Load(RepoPacks.Content, text));
@@ -244,6 +269,7 @@ namespace MistakesLife.Core.Tests
                 "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "Residence", "HouseholdLevel", "Money", "Job",
                 "LastPayslip", "LastExpenses", "MonthsInRed", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
                 "LastPensionPayment", "ContributedMonths", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
+                "Relationships",
                 "IsAlive", "DeathDate", "DeathCauseId",
             };
             string[] world =
@@ -278,7 +304,10 @@ namespace MistakesLife.Core.Tests
                 Assert.Equal(before.Job?.Salary, after.Job?.Salary);
                 Assert.Equal(before.IsAlive, after.IsAlive);
                 Assert.Equal(before.Personality.Neuroticism, after.Personality.Neuroticism);
+                Assert.Equal(before.Relationships.Select(r => r.ToString() + r.Bond), after.Relationships.Select(r => r.ToString() + r.Bond));
             }
+
+            Assert.Contains(session.World.Player.Relationships, r => r.Bond == Characters.RelationshipBond.Friend);
 
             Assert.Equal(session.World.Seeds.All.Count(), loaded.World.Seeds.All.Count());
             Assert.Equal(session.World.Economies.Single().PriceIndex, loaded.World.Economies.Single().PriceIndex);

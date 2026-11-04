@@ -7,7 +7,7 @@ namespace MistakesLife.Core.Events
     /// <summary>
     /// Resultado de semilla('id'): la semilla abierta de ese tipo del personaje
     /// (la que despertó, si es ese tipo; si no, la más reciente).
-    /// Datos: activa, despierta, fuerza (se puede cambiar), testigos.
+    /// Datos: activa, despierta, fuerza (se puede cambiar), testigos, testigo (el primero vivo, o nada).
     /// Acción: cerrar.
     /// </summary>
     public sealed class SeedHandle : IScriptObject
@@ -48,6 +48,17 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(seed?.Strength ?? 0);
                 case "testigos":
                     return Value.FromNumber(seed?.Witnesses.Count ?? 0);
+                case "testigo":
+                    // El testigo vivo más antiguo (el primero que vio lo que pasó), visto desde el jugador.
+                    foreach (int witnessId in seed?.Witnesses.OrderBy(w => w) ?? Enumerable.Empty<int>())
+                    {
+                        if (_scope.World.TryGetCharacter(witnessId, out Characters.Character? witness) && witness.IsAlive)
+                        {
+                            return Value.FromObject(new CharacterObject(witness, _scope.Subject));
+                        }
+                    }
+
+                    return Value.Null;
                 case "cerrar":
                     _scope.RequireWritable("semilla.cerrar");
                     if (seed != null)
