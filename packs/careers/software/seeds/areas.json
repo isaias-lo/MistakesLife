@@ -1,0 +1,37 @@
+[
+  {
+    "id": "semilla.software.oculto_filtracion",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.software.entrego_clave",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.software.oculto_bug",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.software.pago_rescate_oculto",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.software.modelo_sesgado",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  }
+]

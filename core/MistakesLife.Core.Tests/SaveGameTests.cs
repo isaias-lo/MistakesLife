@@ -238,11 +238,48 @@ namespace MistakesLife.Core.Tests
             loaded.Advance(GameDate.WeeksPerYear);
         }
 
+        [Fact]
+        public void Cargar_UnGuardadoDeLaVersion3_TrabajosSinCargoConDesempenoNormal()
+        {
+            var session = new LifeSession(RepoPacks.Content, 6);
+            PlayUntilAge(session, 30);
+            using var reader = new Newtonsoft.Json.JsonTextReader(new System.IO.StringReader(session.SaveToText()))
+            {
+                FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Decimal,
+            };
+            var json = Newtonsoft.Json.Linq.JObject.Load(reader);
+
+            // Así era un guardado de la versión 3: trabajos sin área, cargo ni desempeño.
+            json["version"] = 3;
+            foreach (var character in json.SelectTokens("world.characters[*]").OfType<Newtonsoft.Json.Linq.JObject>())
+            {
+                character.Remove("lastAreaId");
+                character.Remove("lastPositionId");
+                if (character["job"] is Newtonsoft.Json.Linq.JObject job)
+                {
+                    job.Remove("areaId");
+                    job.Remove("positionId");
+                    job.Remove("monthsInPosition");
+                    job.Remove("performance");
+                }
+            }
+
+            LifeSession loaded = LifeSession.Load(RepoPacks.Content, json.ToString());
+
+            Assert.All(loaded.World.Characters.Where(c => c.Job != null), c =>
+            {
+                Assert.Null(c.Job!.Position);
+                Assert.Equal(Economy.Job.StartingPerformance, c.Job.Performance);
+            });
+            Assert.Equal(session.World.Player.Money, loaded.World.Player.Money);
+            loaded.Advance(GameDate.WeeksPerYear);
+        }
+
         [Theory]
         [InlineData("esto no es un guardado")]
         [InlineData("{\"nombre\": \"otra cosa\"}")]
         [InlineData("{\"game\": \"MistakesLife\"}")]
-        [InlineData("{\"game\": \"MistakesLife\", \"version\": 3, \"world\": {\"playerId\": 99}}")]
+        [InlineData("{\"game\": \"MistakesLife\", \"version\": 4, \"world\": {\"playerId\": 99}}")]
         public void Cargar_UnTextoQueNoEsUnaPartida_DaUnErrorClaro(string text)
         {
             Assert.Throws<SaveFormatException>(() => LifeSession.Load(RepoPacks.Content, text));
@@ -269,7 +306,7 @@ namespace MistakesLife.Core.Tests
                 "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "Residence", "HouseholdLevel", "Money", "Job",
                 "LastPayslip", "LastExpenses", "MonthsInRed", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
                 "LastPensionPayment", "ContributedMonths", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
-                "Relationships",
+                "Relationships", "LastPosition",
                 "IsAlive", "DeathDate", "DeathCauseId",
             };
             string[] world =

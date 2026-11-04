@@ -1,0 +1,30 @@
+[
+  {
+    "id": "semilla.contabilidad.balance_maquillado",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.contabilidad.ayudo_evasion",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.contabilidad.cotizaciones_impagas",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.contabilidad.oculto_fraude",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  }
+]

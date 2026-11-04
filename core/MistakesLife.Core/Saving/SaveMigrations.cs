@@ -41,6 +41,18 @@ namespace MistakesLife.Core.Saving
                     character["relationships"] ??= new JArray();
                 }
             },
+
+            // 3 → 4: aparecen las áreas, los cargos y el desempeño. Los trabajos
+            // guardados antes no tenían área ni cargo: siguen igual (sin escalera) y
+            // con desempeño normal; el próximo trabajo de su carrera ya tendrá cargo.
+            [3] = save =>
+            {
+                foreach (JObject job in save.SelectTokens("world.characters[*].job").OfType<JObject>())
+                {
+                    job["performance"] ??= Economy.Job.StartingPerformance;
+                    job["monthsInPosition"] ??= 0;
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

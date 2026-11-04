@@ -178,7 +178,7 @@ namespace MistakesLife.Core.Tests
                 {
                     if (effects.Any(e => e.Contains("marcar('trabajando')") && !e.Contains("desmarcar")))
                     {
-                        Assert.True(effects.Any(e => e.Contains("jugador.trabajar(")), $"{ev.Id} marca 'trabajando' sin jugador.trabajar().");
+                        Assert.True(effects.Any(e => e.Contains("jugador.trabajar(") || e.Contains("jugador.trabajar_en(")), $"{ev.Id} marca 'trabajando' sin jugador.trabajar() ni jugador.trabajar_en().");
                     }
                 }
             }

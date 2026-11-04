@@ -38,5 +38,7 @@
   "opcion.contabilidad.fiscalizacion.culpar": "Dices que fue un error del sistema.",
   "evento.contabilidad.cliente_recomendado": "Tu tía la de las sopaipillas le contó a medio barrio que le hiciste la renta. El dueño del almacén de la esquina quiere que le lleves la contabilidad.",
   "opcion.contabilidad.cliente.aceptar": "Aceptas: tu primer cliente propio.",
-  "opcion.contabilidad.cliente.rechazar": "Le dices que no tienes tiempo."
+  "opcion.contabilidad.cliente.rechazar": "Le dices que no tienes tiempo.",
+  "opcion.contabilidad.trabajo.impuestos": "Entras a un estudio a llevar impuestos.",
+  "opcion.contabilidad.trabajo.remuneraciones": "Entras a llevar remuneraciones en una empresa."
 }

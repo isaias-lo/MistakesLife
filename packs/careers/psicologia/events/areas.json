@@ -1,0 +1,322 @@
+[
+  {
+    "id": "evento.psicologia.crisis_madrugada",
+    "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.crisis_madrugada.responder",
+        "tendencia": "jugador.responsabilidad + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.crisis_madrugada.protocolo",
+        "tendencia": "50",
+        "efectos": [
+          "jugador.desempeno += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.atender_conocido",
+    "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.atender_conocido.derivar",
+        "tendencia": "jugador.responsabilidad / 2 + 20",
+        "efectos": [
+          "jugador.desempeno += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.atender_conocido.atender",
+        "tendencia": "10 + jugador.amabilidad / 3 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "plantar('semilla.psicologia.atendio_conocido')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.atendio_conocido_sale_a_la_luz",
+    "semilla": "semilla.psicologia.atendio_conocido",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 10",
+      "jugador.felicidad -= 5",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.psicologia.atendio_conocido_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.psicologia.apoderados_diagnostico",
+    "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.apoderados_diagnostico.explicar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.apoderados_diagnostico.ceder",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.desempeno -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.sospecha_maltrato",
+    "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.sospecha_maltrato.denunciar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.desempeno -= 3",
+          "jugador.salud -= 1",
+          "jugador.marcar('denuncio_maltrato')"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.sospecha_maltrato.callar",
+        "tendencia": "10 + jugador.neuroticismo / 3",
+        "efectos": [
+          "jugador.felicidad -= 3",
+          "plantar('semilla.psicologia.callo_maltrato')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.callo_maltrato_sale_a_la_luz",
+    "semilla": "semilla.psicologia.callo_maltrato",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 15",
+      "jugador.felicidad -= 10",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.psicologia.callo_maltrato_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.psicologia.mediar_equipo",
+    "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.mediar_equipo.escuchar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.desempeno += 5"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.mediar_equipo.jefe",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.lista_despidos",
+    "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.lista_despidos.negarse",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno -= 4",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.lista_despidos.hacerlo",
+        "tendencia": "10 + (100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "plantar('semilla.psicologia.uso_fichas')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.uso_fichas_sale_a_la_luz",
+    "semilla": "semilla.psicologia.uso_fichas",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 12",
+      "jugador.felicidad -= 6",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.psicologia.uso_fichas_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.psicologia.peritaje_familia",
+    "condiciones": "jugador.area == 'carrera.psicologia.area.forense'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.peritaje_familia.riguroso",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.peritaje_familia.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno -= 3",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.presion_abogado",
+    "condiciones": "jugador.area == 'carrera.psicologia.area.forense'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.presion_abogado.rechazar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno += 1"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.presion_abogado.aceptar",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.dinero += precio(300000)",
+          "plantar('semilla.psicologia.informe_comprado')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.informe_comprado_sale_a_la_luz",
+    "semilla": "semilla.psicologia.informe_comprado",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 20",
+      "jugador.felicidad -= 8",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.psicologia.informe_comprado_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.psicologia.especializarse",
+    "condiciones": "jugador.area != nada && jugador.tiene('trabaja_psicologia') && jugador.meses_en_cargo >= 12",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.especializarse.enfoque",
+        "condiciones": "!jugador.tiene('formacion_enfoque')",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.marcar('formacion_enfoque')",
+          "jugador.dinero -= precio(1500000)",
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.especializarse.forense",
+        "condiciones": "!jugador.tiene('especialidad_forense')",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.marcar('especialidad_forense')",
+          "jugador.dinero -= precio(1500000)",
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.especializarse.no",
+        "tendencia": "30",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.cambiar_area",
+    "condiciones": "jugador.area != nada && jugador.tiene('trabaja_psicologia') && jugador.meses_en_cargo >= 12",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.cambiar_area.clinica",
+        "condiciones": "jugador.area != 'carrera.psicologia.area.clinica' && jugador.puede_trabajar_en('carrera.psicologia.area.clinica')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.psicologia.area.clinica')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.cambiar_area.educacional",
+        "condiciones": "jugador.area != 'carrera.psicologia.area.educacional' && jugador.puede_trabajar_en('carrera.psicologia.area.educacional')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.psicologia.area.educacional')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.cambiar_area.organizacional",
+        "condiciones": "jugador.area != 'carrera.psicologia.area.organizacional' && jugador.puede_trabajar_en('carrera.psicologia.area.organizacional')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.psicologia.area.organizacional')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.cambiar_area.forense",
+        "condiciones": "jugador.area != 'carrera.psicologia.area.forense' && jugador.puede_trabajar_en('carrera.psicologia.area.forense')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.psicologia.area.forense')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.cambiar_area.quedarse",
+        "tendencia": "40 + jugador.responsabilidad / 3",
+        "efectos": []
+      }
+    ]
+  }
+]

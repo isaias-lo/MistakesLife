@@ -34,6 +34,15 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Cuántas vidas terminan con cada título (id de nivel de carrera).</summary>
         public SortedDictionary<string, int> Degrees { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
 
+        /// <summary>Cuántas vidas terminan en cada cargo de carrera (id de cargo), entre quienes trabajan en su carrera.</summary>
+        public SortedDictionary<string, int> FinalPositions { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        /// <summary>Vidas que en algún momento llegaron a la cima de su carrera.</summary>
+        public int ReachedTop { get; internal set; }
+
+        /// <summary>Ascensos por vida, en promedio, entre quienes terminan trabajando en su carrera (altura del cargo final).</summary>
+        public double AveragePromotions { get; internal set; }
+
         /// <summary>Cuántas vidas siguen estudiando cada nivel al final.</summary>
         public SortedDictionary<string, int> StillStudying { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
 
@@ -137,6 +146,7 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Terminan con deudas: {Percent(WithDebt).ToString("0.0", ci)} %; deuda mediana (en dinero del inicio): {MedianRealDebt.ToString("N0", ci)}; morosos: {Percent(Delinquent).ToString("0.0", ci)} %");
             sb.AppendLine($"- Terminan con amigos: {Percent(WithFriends).ToString("0.0", ci)} % (promedio {AverageFriends.ToString("0.0", ci)}); con un rival: {Percent(WithRival).ToString("0.0", ci)} %; tuvieron una expareja: {Percent(WithEx).ToString("0.0", ci)} %");
             sb.AppendLine($"- Cariño de la madre (si vive) / rencor de la pareja (si hay), promedio al final: {AverageMotherAffection.ToString("0", ci)} / {AveragePartnerResentment.ToString("0", ci)}");
+            sb.AppendLine($"- Trabajan en un cargo de su carrera: {FinalPositions.Values.Sum()} vidas; ascensos en promedio (altura del cargo final): {AveragePromotions.ToString("0.0", ci)}; llegaron a la cima: {Percent(ReachedTop).ToString("0.0", ci)} %");
             sb.AppendLine($"- Inflación anual promedio: {(AverageAnnualInflation * 100).ToString("0.0", ci)} %");
             sb.AppendLine();
             sb.AppendLine("## Cómo terminan las vidas (marcas)");
@@ -161,6 +171,20 @@ namespace MistakesLife.Core.Analysis
             }
 
             sb.AppendLine();
+            if (FinalPositions.Count > 0)
+            {
+                sb.AppendLine("## Cargos al final");
+                sb.AppendLine();
+                sb.AppendLine("| Cargo | Vidas |");
+                sb.AppendLine("|---|---:|");
+                foreach (KeyValuePair<string, int> position in FinalPositions)
+                {
+                    sb.AppendLine($"| {position.Key} | {position.Value} |");
+                }
+
+                sb.AppendLine();
+            }
+
             sb.AppendLine("## Eventos");
             sb.AppendLine();
             sb.AppendLine("| Evento | Vidas donde aparece | % | Veces en total |");

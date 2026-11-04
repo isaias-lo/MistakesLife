@@ -1,0 +1,211 @@
+[
+  {
+    "id": "evento.oferta_ascenso",
+    "condiciones": "jugador.puede_ascender && jugador.caminos_ascenso == 1 && mundo.ciclo != 'economia.ciclo.crisis'",
+    "probabilidad_anual": 0.4,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.oferta_ascenso.aceptar",
+        "tendencia": "60 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.ascender()",
+          "jugador.felicidad += 6",
+          "jugador.salud -= 1",
+          "diario('diario.ascenso')"
+        ]
+      },
+      {
+        "texto": "opcion.oferta_ascenso.rechazar",
+        "tendencia": "5 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.mala_racha_trabajo",
+    "condiciones": "jugador.area != nada && jugador.desempeno < 45",
+    "probabilidad_anual": 0.4,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.mala_racha_trabajo.esforzarse",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 12",
+          "jugador.salud -= 3",
+          "jugador.felicidad -= 2",
+          "jugador.desmarcar('ignoro_mala_racha')"
+        ]
+      },
+      {
+        "texto": "opcion.mala_racha_trabajo.pedir_ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desempeno += 8",
+          "jugador.colega.confianza += 5",
+          "jugador.desmarcar('ignoro_mala_racha')"
+        ]
+      },
+      {
+        "texto": "opcion.mala_racha_trabajo.seguir",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.desempeno -= 3",
+          "jugador.marcar('ignoro_mala_racha')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.degradacion",
+    "condiciones": "jugador.cargo_anterior != nada && jugador.desempeno < 45 && (jugador.tiene('ignoro_mala_racha') || jugador.tiene('en_la_mira'))",
+    "probabilidad_anual": 0.5,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.degradacion.aceptar",
+        "tendencia": "50 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.bajar_cargo()",
+          "jugador.desempeno += 15",
+          "jugador.felicidad -= 8",
+          "diario('diario.degradacion')",
+          "jugador.desmarcar('ignoro_mala_racha')",
+          "jugador.desmarcar('en_la_mira')"
+        ]
+      },
+      {
+        "texto": "opcion.degradacion.renunciar",
+        "tendencia": "10 + jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 6",
+          "jugador.desmarcar('ignoro_mala_racha')",
+          "jugador.desmarcar('en_la_mira')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.despido_por_desempeno",
+    "condiciones": "jugador.area != nada && jugador.cargo_anterior == nada && jugador.desempeno < 45 && jugador.tiene('ignoro_mala_racha')",
+    "probabilidad_anual": 0.5,
+    "efectos": [
+      "jugador.desmarcar('trabajando')",
+      "jugador.dejar_trabajo()",
+      "jugador.marcar('buscando_trabajo')",
+      "jugador.felicidad -= 8",
+      "diario('diario.despido_por_desempeno')",
+      "jugador.desmarcar('ignoro_mala_racha')"
+    ]
+  },
+  {
+    "id": "evento.plazo_imposible",
+    "condiciones": "jugador.area != nada",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.plazo_imposible.trasnochar",
+        "tendencia": "jugador.responsabilidad / 2 + 20",
+        "efectos": [
+          "jugador.desempeno += 6",
+          "jugador.salud -= 4"
+        ]
+      },
+      {
+        "texto": "opcion.plazo_imposible.negociar",
+        "tendencia": "jugador.extraversion / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.plazo_imposible.prometer",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.desempeno -= 8"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.credito_robado",
+    "condiciones": "jugador.area != nada && jugador.desempeno >= 55",
+    "probabilidad_anual": 0.12,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.credito_robado.reclamar",
+        "tendencia": "jugador.extraversion / 2 + 10",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "jugador.felicidad -= 1",
+          "jugador.conocer('rival')"
+        ]
+      },
+      {
+        "texto": "opcion.credito_robado.callar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.desempeno -= 3",
+          "jugador.felicidad -= 4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.curso_empresa",
+    "condiciones": "jugador.area != nada && jugador.meses_en_cargo >= 6",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.curso_empresa.tomar",
+        "tendencia": "jugador.apertura",
+        "efectos": [
+          "jugador.inteligencia += 2",
+          "jugador.desempeno += 5",
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.curso_empresa.no",
+        "tendencia": "100 - jugador.apertura",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.reconocimiento_trabajo",
+    "condiciones": "jugador.area != nada && jugador.desempeno >= 80",
+    "probabilidad_anual": 0.2,
+    "enfriamiento_semanas": 104,
+    "efectos": [
+      "jugador.felicidad += 5",
+      "jugador.marcar('reconocido_en_el_trabajo')",
+      "diario('diario.reconocimiento_trabajo')"
+    ]
+  },
+  {
+    "id": "evento.cima_carrera",
+    "condiciones": "jugador.en_la_cima",
+    "peso": 100,
+    "dia_clave": true,
+    "unico": true,
+    "efectos": [
+      "jugador.felicidad += 10",
+      "jugador.marcar('llego_a_la_cima')",
+      "diario('diario.cima_carrera')"
+    ]
+  }
+]

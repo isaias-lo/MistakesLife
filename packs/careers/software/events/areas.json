@@ -1,0 +1,421 @@
+[
+  {
+    "id": "evento.software.caida_produccion",
+    "condiciones": "jugador.area == 'carrera.software.area.desarrollo'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.software.caida_produccion.arreglar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 6",
+          "jugador.salud -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.software.caida_produccion.lunes",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno -= 5",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.claves_filtradas",
+    "condiciones": "jugador.area == 'carrera.software.area.desarrollo'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.claves_filtradas.avisar",
+        "tendencia": "jugador.responsabilidad + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.desempeno -= 4",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.claves_filtradas.callar",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "plantar('semilla.software.oculto_filtracion')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.oculto_filtracion_sale_a_la_luz",
+    "semilla": "semilla.software.oculto_filtracion",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 15",
+      "jugador.felicidad -= 6",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.software.oculto_filtracion_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.software.caso_absurdo",
+    "condiciones": "jugador.area == 'carrera.software.area.soporte'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.software.caso_absurdo.paciencia",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.software.caso_absurdo.rapido",
+        "tendencia": "50",
+        "efectos": [
+          "jugador.desempeno += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.correo_sospechoso",
+    "condiciones": "jugador.area == 'carrera.software.area.soporte'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.correo_sospechoso.escalar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 3"
+        ]
+      },
+      {
+        "texto": "opcion.software.correo_sospechoso.resolver",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 2 + 10",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "plantar('semilla.software.entrego_clave')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.entrego_clave_sale_a_la_luz",
+    "semilla": "semilla.software.entrego_clave",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 15",
+      "jugador.felicidad -= 6",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.software.entrego_clave_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.software.pruebas_eternas",
+    "condiciones": "jugador.area == 'carrera.software.area.qa'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.software.pruebas_eternas.critico",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.software.pruebas_eternas.firmar",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.bug_lanzamiento",
+    "condiciones": "jugador.area == 'carrera.software.area.qa'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.bug_lanzamiento.reportar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno -= 3",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.bug_lanzamiento.ocultar",
+        "tendencia": "10 + jugador.neuroticismo / 3 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "plantar('semilla.software.oculto_bug')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.oculto_bug_sale_a_la_luz",
+    "semilla": "semilla.software.oculto_bug",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 15",
+      "jugador.felicidad -= 5",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.software.oculto_bug_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.software.phishing",
+    "condiciones": "jugador.area == 'carrera.software.area.ciberseguridad'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.software.phishing.educar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.desempeno += 5"
+        ]
+      },
+      {
+        "texto": "opcion.software.phishing.exponer",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "jugador.conocer('rival')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.ransomware",
+    "condiciones": "jugador.area == 'carrera.software.area.ciberseguridad'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.ransomware.transparentar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 3",
+          "jugador.salud -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.software.ransomware.pagar",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.desempeno += 6",
+          "plantar('semilla.software.pago_rescate_oculto')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.pago_rescate_oculto_sale_a_la_luz",
+    "semilla": "semilla.software.pago_rescate_oculto",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 12",
+      "jugador.felicidad -= 6",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.software.pago_rescate_oculto_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.software.datos_sucios",
+    "condiciones": "jugador.area == 'carrera.software.area.datos'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.software.datos_sucios.automatizar",
+        "tendencia": "jugador.apertura",
+        "efectos": [
+          "jugador.inteligencia += 1",
+          "jugador.desempeno += 4"
+        ]
+      },
+      {
+        "texto": "opcion.software.datos_sucios.mano",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "jugador.salud -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.modelo_sesgado",
+    "condiciones": "jugador.area == 'carrera.software.area.datos'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.modelo_sesgado.corregir",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.desempeno -= 2",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.modelo_sesgado.entregar",
+        "tendencia": "10 + (100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "plantar('semilla.software.modelo_sesgado')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.modelo_sesgado_sale_a_la_luz",
+    "semilla": "semilla.software.modelo_sesgado",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 12",
+      "jugador.felicidad -= 6",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.software.modelo_sesgado_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.software.senior_dos_caminos",
+    "condiciones": "jugador.cargo == 'carrera.software.cargo.senior' && jugador.caminos_ascenso >= 2 && mundo.ciclo != 'economia.ciclo.crisis'",
+    "probabilidad_anual": 0.6,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.software.senior_dos_caminos.tecnico",
+        "tendencia": "jugador.apertura / 2 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.ascender('carrera.software.cargo.lider_tecnico')",
+          "jugador.felicidad += 6",
+          "diario('diario.ascenso')"
+        ]
+      },
+      {
+        "texto": "opcion.software.senior_dos_caminos.gestion",
+        "tendencia": "jugador.extraversion / 2 + 10",
+        "efectos": [
+          "jugador.ascender('carrera.software.cargo.jefe_de_equipo')",
+          "jugador.felicidad += 6",
+          "diario('diario.ascenso')"
+        ]
+      },
+      {
+        "texto": "opcion.software.senior_dos_caminos.seguir",
+        "tendencia": "jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.curso_especializacion",
+    "condiciones": "jugador.area != nada && jugador.tiene('trabaja_software') && jugador.meses_en_cargo >= 12 && !jugador.titulado_en('carrera.software.nivel.ingenieria_civil_computacion') && !jugador.tiene('certificacion_ciberseguridad') && !jugador.tiene('certificacion_datos')",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.software.curso_especializacion.ciberseguridad",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.marcar('certificacion_ciberseguridad')",
+          "jugador.dinero -= precio(400000)",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.curso_especializacion.datos",
+        "tendencia": "jugador.inteligencia / 2",
+        "efectos": [
+          "jugador.marcar('certificacion_datos')",
+          "jugador.dinero -= precio(400000)",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.curso_especializacion.no",
+        "tendencia": "40",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.cambiar_area",
+    "condiciones": "jugador.area != nada && jugador.tiene('trabaja_software') && jugador.meses_en_cargo >= 12",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.software.cambiar_area.desarrollo",
+        "condiciones": "jugador.area != 'carrera.software.area.desarrollo' && jugador.puede_trabajar_en('carrera.software.area.desarrollo')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.software.area.desarrollo')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.cambiar_area.soporte",
+        "condiciones": "jugador.area != 'carrera.software.area.soporte' && jugador.puede_trabajar_en('carrera.software.area.soporte')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.software.area.soporte')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.cambiar_area.qa",
+        "condiciones": "jugador.area != 'carrera.software.area.qa' && jugador.puede_trabajar_en('carrera.software.area.qa')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.software.area.qa')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.cambiar_area.ciberseguridad",
+        "condiciones": "jugador.area != 'carrera.software.area.ciberseguridad' && jugador.puede_trabajar_en('carrera.software.area.ciberseguridad')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.software.area.ciberseguridad')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.cambiar_area.datos",
+        "condiciones": "jugador.area != 'carrera.software.area.datos' && jugador.puede_trabajar_en('carrera.software.area.datos')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.software.area.datos')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.software.cambiar_area.quedarse",
+        "tendencia": "40 + jugador.responsabilidad / 3",
+        "efectos": []
+      }
+    ]
+  }
+]

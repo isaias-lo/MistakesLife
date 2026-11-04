@@ -17,3 +17,9 @@
 ## Sueldos
 
 - `sueldo_relativo` en `career.json` (cuánto gana un titulado frente al sueldo típico de Chile, $760.000): contador general (CFT) 1,0; contador auditor de instituto 1,45; contador auditor universitario 2,0. Estimado de memoria con el ingreso al cuarto año de titulación de [mifuturo.cl](https://www.mifuturo.cl) (Mineduc). Por verificar.
+
+## Áreas y cargos (estimaciones, a verificar)
+
+- Las áreas, sus requisitos y la escalera de cargos siguen el documento de diseño (sección de la carrera y "Reglas para todas las carreras").
+- `sueldo_relativo` de áreas y cargos, `meses_minimos` y `desempeno_minimo` son **estimaciones de diseño**, calibradas con el simulador (`dotnet run --project tools/MistakesLife.Simulator -- 300 45` y `-- 300 65`) para que ascender lleve años y llegar a la cima sea raro. Falta contrastarlos con encuestas de sueldos por cargo en Chile.
+- Los eventos de cada área (típicos y dilemas) están inspirados en situaciones reales de la profesión, sin copiar casos con nombre.

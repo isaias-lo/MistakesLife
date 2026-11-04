@@ -127,14 +127,61 @@
     "probabilidad_anual": 0.9,
     "opciones": [
       {
-        "texto": "opcion.software.trabajo.aceptar",
+        "texto": "opcion.software.trabajo.desarrollo",
+        "tendencia": "jugador.apertura / 2 + 30",
         "efectos": [
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
           "jugador.marcar('trabaja_software')",
-          "jugador.trabajar(sueldo_titulo())",
+          "jugador.trabajar_en('carrera.software.area.desarrollo')",
           "jugador.felicidad += 5"
         ]
+      },
+      {
+        "texto": "opcion.software.trabajo.soporte",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('trabaja_software')",
+          "jugador.trabajar_en('carrera.software.area.soporte')",
+          "jugador.felicidad += 5"
+        ]
+      },
+      {
+        "texto": "opcion.software.trabajo.qa",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('trabaja_software')",
+          "jugador.trabajar_en('carrera.software.area.qa')",
+          "jugador.felicidad += 5"
+        ]
+      },
+      {
+        "texto": "opcion.software.trabajo.ciberseguridad",
+        "tendencia": "jugador.inteligencia / 3",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('trabaja_software')",
+          "jugador.trabajar_en('carrera.software.area.ciberseguridad')",
+          "jugador.felicidad += 5"
+        ],
+        "condiciones": "jugador.puede_trabajar_en('carrera.software.area.ciberseguridad')"
+      },
+      {
+        "texto": "opcion.software.trabajo.datos",
+        "tendencia": "jugador.inteligencia / 3",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('trabaja_software')",
+          "jugador.trabajar_en('carrera.software.area.datos')",
+          "jugador.felicidad += 5"
+        ],
+        "condiciones": "jugador.puede_trabajar_en('carrera.software.area.datos')"
       },
       {
         "texto": "opcion.software.trabajo.esperar",

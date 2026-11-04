@@ -52,6 +52,12 @@ namespace MistakesLife.Core.Saving
 
         public JobData? Job { get; set; }
 
+        /// <summary>Área del último cargo de su carrera que ya no tiene, o null.</summary>
+        public string? LastAreaId { get; set; }
+
+        /// <summary>El último cargo de su carrera que ya no tiene, o null.</summary>
+        public string? LastPositionId { get; set; }
+
         public PayslipData? LastPayslip { get; set; }
 
         public List<IncomeData> Incomes { get; set; } = new List<IncomeData>();

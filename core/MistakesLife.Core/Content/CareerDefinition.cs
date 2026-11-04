@@ -4,8 +4,9 @@ using Newtonsoft.Json;
 namespace MistakesLife.Core.Content
 {
     /// <summary>
-    /// Una carrera (archivo career.json de un paquete de carrera): su id y sus niveles
-    /// de estudio. Lo que pasa mientras se estudia o trabaja va en los eventos del paquete.
+    /// Una carrera (archivo career.json de un paquete de carrera): su id, sus niveles
+    /// de estudio, sus áreas y su escalera de cargos. Lo que pasa mientras se estudia o
+    /// trabaja va en los eventos del paquete.
     /// </summary>
     public sealed class CareerDefinition
     {
@@ -27,6 +28,17 @@ namespace MistakesLife.Core.Content
 
         [JsonProperty("niveles", Required = Required.Always)]
         public List<CareerLevelDefinition> Levels { get; set; } = new List<CareerLevelDefinition>();
+
+        /// <summary>
+        /// Las áreas donde se puede trabajar (mínimo tres, como pide el diseño). Opcional
+        /// para carreras de prueba: sin áreas, el trabajo se crea con trabajar(sueldo).
+        /// </summary>
+        [JsonProperty("areas")]
+        public List<CareerAreaDefinition> Areas { get; set; } = new List<CareerAreaDefinition>();
+
+        /// <summary>La escalera de cargos de la carrera, del inicial a la cima. Un área puede tener la suya.</summary>
+        [JsonProperty("cargos")]
+        public List<CareerPositionDefinition> Positions { get; set; } = new List<CareerPositionDefinition>();
 
         /// <summary>
         /// Cómo se ve el lugar donde trabaja quien tiene este título (uno de

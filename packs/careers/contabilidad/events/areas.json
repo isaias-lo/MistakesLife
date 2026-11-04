@@ -1,0 +1,334 @@
+[
+  {
+    "id": "evento.contabilidad.boletas_en_bolsa",
+    "condiciones": "jugador.area == 'carrera.contabilidad.area.general'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.boletas_en_bolsa.ordenar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.boletas_en_bolsa.cobrar",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "jugador.desempeno += 1",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.maquillar_balance",
+    "condiciones": "jugador.area == 'carrera.contabilidad.area.general'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.maquillar_balance.negarse",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno -= 4",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.maquillar_balance.maquillar",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "plantar('semilla.contabilidad.balance_maquillado')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.balance_maquillado_sale_a_la_luz",
+    "semilla": "semilla.contabilidad.balance_maquillado",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 15",
+      "jugador.felicidad -= 6",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.contabilidad.balance_maquillado_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.contabilidad.temporada_renta",
+    "condiciones": "jugador.area == 'carrera.contabilidad.area.impuestos'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.temporada_renta.fines_de_semana",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 6",
+          "jugador.salud -= 4"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.temporada_renta.priorizar",
+        "tendencia": "jugador.extraversion / 2 + 15",
+        "efectos": [
+          "jugador.desempeno += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.evasion_cliente",
+    "condiciones": "jugador.area == 'carrera.contabilidad.area.impuestos'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.evasion_cliente.negarse",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno -= 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.evasion_cliente.ayudar",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "jugador.dinero += precio(150000)",
+          "plantar('semilla.contabilidad.ayudo_evasion')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.ayudo_evasion_sale_a_la_luz",
+    "semilla": "semilla.contabilidad.ayudo_evasion",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 15",
+      "jugador.felicidad -= 8",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.contabilidad.ayudo_evasion_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.contabilidad.error_sueldos",
+    "condiciones": "jugador.area == 'carrera.contabilidad.area.remuneraciones'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.error_sueldos.asumir",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno -= 2",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.error_sueldos.culpar",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.desempeno -= 6"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.no_pagar_cotizaciones",
+    "condiciones": "jugador.area == 'carrera.contabilidad.area.remuneraciones'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.no_pagar_cotizaciones.negarse",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.no_pagar_cotizaciones.aceptar",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno += 3",
+          "plantar('semilla.contabilidad.cotizaciones_impagas')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.cotizaciones_impagas_sale_a_la_luz",
+    "semilla": "semilla.contabilidad.cotizaciones_impagas",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 12",
+      "jugador.felicidad -= 6",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.contabilidad.cotizaciones_impagas_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.contabilidad.temporada_auditorias",
+    "condiciones": "jugador.area == 'carrera.contabilidad.area.auditoria'",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.temporada_auditorias.aguantar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.temporada_auditorias.respiro",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "jugador.desempeno -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.fraude_cliente",
+    "condiciones": "jugador.area == 'carrera.contabilidad.area.auditoria'",
+    "probabilidad_anual": 0.2,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.fraude_cliente.informar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.fraude_cliente.callar",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.desempeno += 3",
+          "plantar('semilla.contabilidad.oculto_fraude')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.oculto_fraude_sale_a_la_luz",
+    "semilla": "semilla.contabilidad.oculto_fraude",
+    "peso": 10,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.desempeno -= 20",
+      "jugador.felicidad -= 8",
+      "jugador.marcar('en_la_mira')",
+      "diario('diario.contabilidad.oculto_fraude_sale_a_la_luz')"
+    ]
+  },
+  {
+    "id": "evento.contabilidad.especializarse",
+    "condiciones": "jugador.area != nada && jugador.tiene('trabaja_contabilidad') && jugador.meses_en_cargo >= 12",
+    "probabilidad_anual": 0.2,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.especializarse.tributacion",
+        "condiciones": "!jugador.tiene('diplomado_tributacion')",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.marcar('diplomado_tributacion')",
+          "jugador.dinero -= precio(800000)",
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.especializarse.laboral",
+        "condiciones": "!jugador.tiene('curso_legislacion_laboral')",
+        "tendencia": "jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.marcar('curso_legislacion_laboral')",
+          "jugador.dinero -= precio(300000)"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.especializarse.magister",
+        "condiciones": "!jugador.tiene('magister')",
+        "tendencia": "jugador.apertura / 3",
+        "efectos": [
+          "jugador.marcar('magister')",
+          "jugador.dinero -= precio(4000000)",
+          "jugador.salud -= 3",
+          "jugador.inteligencia += 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.especializarse.no",
+        "tendencia": "50",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.contabilidad.cambiar_area",
+    "condiciones": "jugador.area != nada && jugador.tiene('trabaja_contabilidad') && jugador.meses_en_cargo >= 12",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.contabilidad.cambiar_area.general",
+        "condiciones": "jugador.area != 'carrera.contabilidad.area.general' && jugador.puede_trabajar_en('carrera.contabilidad.area.general')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.contabilidad.area.general')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.cambiar_area.impuestos",
+        "condiciones": "jugador.area != 'carrera.contabilidad.area.impuestos' && jugador.puede_trabajar_en('carrera.contabilidad.area.impuestos')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.contabilidad.area.impuestos')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.cambiar_area.remuneraciones",
+        "condiciones": "jugador.area != 'carrera.contabilidad.area.remuneraciones' && jugador.puede_trabajar_en('carrera.contabilidad.area.remuneraciones')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.contabilidad.area.remuneraciones')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.cambiar_area.auditoria",
+        "condiciones": "jugador.area != 'carrera.contabilidad.area.auditoria' && jugador.puede_trabajar_en('carrera.contabilidad.area.auditoria')",
+        "tendencia": "30 + jugador.apertura / 2",
+        "efectos": [
+          "jugador.trabajar_en('carrera.contabilidad.area.auditoria')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.cambiar_area.quedarse",
+        "tendencia": "40 + jugador.responsabilidad / 3",
+        "efectos": []
+      }
+    ]
+  }
+]

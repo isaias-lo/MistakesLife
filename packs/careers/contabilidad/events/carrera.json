@@ -151,13 +151,13 @@
     "opciones": [
       {
         "texto": "opcion.contabilidad.trabajo.auditor",
-        "condiciones": "jugador.tiene('practica_auditora')",
+        "condiciones": "jugador.tiene('practica_auditora') && jugador.puede_trabajar_en('carrera.contabilidad.area.auditoria')",
         "efectos": [
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
           "jugador.marcar('trabaja_contabilidad')",
           "jugador.marcar('trabaja_auditoria')",
-          "jugador.trabajar(sueldo_titulo() * 1.1)",
+          "jugador.trabajar_en('carrera.contabilidad.area.auditoria')",
           "jugador.felicidad += 4",
           "jugador.salud -= 2"
         ]
@@ -168,7 +168,31 @@
           "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('trabajando')",
           "jugador.marcar('trabaja_contabilidad')",
-          "jugador.trabajar(sueldo_titulo() * 0.9)",
+          "jugador.trabajar_en('carrera.contabilidad.area.general')",
+          "jugador.felicidad += 4"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.trabajo.impuestos",
+        "condiciones": "jugador.puede_trabajar_en('carrera.contabilidad.area.impuestos')",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('trabaja_contabilidad')",
+          "jugador.trabajar_en('carrera.contabilidad.area.impuestos')",
+          "jugador.felicidad += 4"
+        ]
+      },
+      {
+        "texto": "opcion.contabilidad.trabajo.remuneraciones",
+        "condiciones": "jugador.puede_trabajar_en('carrera.contabilidad.area.remuneraciones')",
+        "tendencia": "jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.desmarcar('buscando_trabajo')",
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('trabaja_contabilidad')",
+          "jugador.trabajar_en('carrera.contabilidad.area.remuneraciones')",
           "jugador.felicidad += 4"
         ]
       },
