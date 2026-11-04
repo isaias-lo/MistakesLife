@@ -25,7 +25,9 @@ namespace MistakesLife.Core.Presentation
             EventView? pendingEvent,
             IReadOnlyList<PersonView> family,
             IReadOnlyList<PersonView> heirs,
-            HomeView home)
+            HomeView home,
+            DailyPlace dailyPlace,
+            WorkplaceView? workplace)
         {
             Phase = phase;
             PlayerName = playerName;
@@ -44,6 +46,8 @@ namespace MistakesLife.Core.Presentation
             Family = family;
             Heirs = heirs;
             Home = home;
+            DailyPlace = dailyPlace;
+            Workplace = workplace;
         }
 
         public LifePhase Phase { get; }
@@ -92,5 +96,11 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>La casa del jugador, para la escena 3D.</summary>
         public HomeView Home { get; }
+
+        /// <summary>Adónde va el jugador en una semana normal (para el barrio en 3D).</summary>
+        public DailyPlace DailyPlace { get; }
+
+        /// <summary>Dónde trabaja el jugador (para la oficina en 3D), o null si no trabaja.</summary>
+        public WorkplaceView? Workplace { get; }
     }
 }

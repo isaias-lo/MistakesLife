@@ -40,5 +40,12 @@
   "ui.partida": "Partida {0}",
   "ui.legado": "Tu historia puede seguir con uno de tus hijos.",
   "ui.fin": "Tu historia terminó, pero lo que hiciste queda en el mundo.",
-  "ui.fallecido": "falleció"
+  "ui.fallecido": "falleció",
+  "ui.vista.casa": "Casa",
+  "ui.vista.barrio": "Barrio",
+    "ui.vista.trabajo": "Trabajo",
+  "ui.lugar.casa": "Esta semana: en casa",
+  "ui.lugar.colegio": "Esta semana: al colegio",
+  "ui.lugar.estudios": "Esta semana: a estudiar",
+  "ui.lugar.trabajo": "Esta semana: al trabajo"
 }

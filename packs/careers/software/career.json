@@ -1,5 +1,6 @@
 {
   "id": "carrera.software",
+  "lugar_de_trabajo": "lugar_trabajo.oficina_abierta",
   "niveles": [
     {
       "id": "carrera.software.nivel.analista_programador",

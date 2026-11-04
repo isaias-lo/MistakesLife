@@ -1,5 +1,6 @@
 {
   "id": "carrera.contabilidad",
+  "lugar_de_trabajo": "lugar_trabajo.oficina_cubiculos",
   "niveles": [
     {
       "id": "carrera.contabilidad.nivel.contador_general",

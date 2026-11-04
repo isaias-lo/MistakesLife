@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
+using MistakesLife.Core.Economy;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Time;
@@ -32,7 +33,15 @@ namespace MistakesLife.Core.Presentation
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
             "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
+            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
         };
+
+        /// <summary>
+        /// Edad hasta la que, sin pareja, se dibuja al jugador viviendo con sus padres.
+        /// En Chile la mayoría de los jóvenes se independiza cerca de los 28 años (CASEN).
+        /// Es solo para dibujar: cuando exista el sistema de vivienda, lo decidirá el núcleo.
+        /// </summary>
+        public const int LeavesHomeAge = 28;
 
         public LifePresenter(LifeSession session, string language = ContentDatabase.BaseLanguage)
         {
@@ -82,7 +91,28 @@ namespace MistakesLife.Core.Presentation
                 phase == LifePhase.Choosing ? EventOf(Session.Pending!) : null,
                 Family(player),
                 Session.Heirs.Select(h => Person(h, ChildRelation(h))).ToList(),
-                Home(player));
+                Home(player),
+                PlaceOf(player),
+                Workplace(player));
+        }
+
+        /// <summary>
+        /// Adónde va el jugador en una semana normal: el trabajo manda sobre los estudios,
+        /// y los estudios de una carrera sobre el colegio.
+        /// </summary>
+        public static DailyPlace PlaceOf(Character player)
+        {
+            if (player.Job != null)
+            {
+                return DailyPlace.Work;
+            }
+
+            if (player.Studies != null)
+            {
+                return DailyPlace.Studies;
+            }
+
+            return player.EducationStageId != null ? DailyPlace.School : DailyPlace.Home;
         }
 
         /// <summary>Etapa de la vida para una edad en años.</summary>
@@ -221,7 +251,8 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>
         /// Quiénes están en la casa: el jugador, su pareja, sus hijos menores de edad
-        /// y, mientras el jugador es menor, sus padres. Es una aproximación para dibujar
+        /// y sus padres mientras sea menor de edad o, sin pareja, menor de
+        /// <see cref="LeavesHomeAge"/> años. Es una aproximación para dibujar
         /// hasta que el núcleo tenga un sistema de vivienda.
         /// </summary>
         private HomeView Home(Character player)
@@ -230,7 +261,7 @@ namespace MistakesLife.Core.Presentation
             int age = player.AgeInYears(world.Date);
             var members = new List<HomeMemberView> { Member(player, string.Empty, isPlayer: true) };
 
-            if (age < 18)
+            if (age < 18 || (!player.PartnerId.HasValue && age < LeavesHomeAge))
             {
                 AddIfAlive(members, player.MotherId, T("ui.relacion.madre"));
                 AddIfAlive(members, player.FatherId, T("ui.relacion.padre"));
@@ -243,6 +274,32 @@ namespace MistakesLife.Core.Presentation
             }
 
             return new HomeView(player.Residence?.CommuneId ?? string.Empty, player.HouseholdLevel, StageOf(age), members);
+        }
+
+        /// <summary>
+        /// El lugar de trabajo sale del título que mejor paga (el mismo que usa el sueldo);
+        /// sin título, trabaja en un local de atención.
+        /// </summary>
+        private WorkplaceView? Workplace(Character player)
+        {
+            if (player.Job == null)
+            {
+                return null;
+            }
+
+            HomeMemberView figure = Member(player, string.Empty, isPlayer: true);
+            bool freelance = player.Job.Kind == JobKind.Freelance;
+            if (player.Degrees.Count == 0)
+            {
+                return new WorkplaceView(null, null, 1, freelance, figure);
+            }
+
+            CareerLevelDefinition best = player.Degrees
+                .Select(d => Session.Content.GetCareerLevel(d))
+                .OrderByDescending(l => l.SalaryRelative)
+                .First();
+            CareerDefinition career = Session.Content.GetCareer(best.CareerId);
+            return new WorkplaceView(career.Id, career.WorkplaceKind, best.SalaryRelative, freelance, figure);
         }
 
         private void AddIfAlive(List<HomeMemberView> members, int? id, string relation)
