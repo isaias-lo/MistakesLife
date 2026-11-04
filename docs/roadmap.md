@@ -72,6 +72,7 @@
 | U5c | Lugar de trabajo en 3D según la carrera: botón Trabajo; cada carrera elige en su paquete `lugar_de_trabajo` (oficina abierta, cubículos o consulta); sin título, un local de atención; un título que paga más se ve más cuidado (`WorkplaceView` en el núcleo) | En revisión |
 | U6 | Primer APK para probar en Android: armado en la nube con GameCI (`.github/workflows/apk.yml`, se corre a mano) y menú "Armar APK de prueba" | En revisión (faltan los secretos de Unity en GitHub) |
 | U7 | Capturas automáticas de las escenas 3D (pieza, barrio, trabajo) de vidas fijas a varias edades, para revisar el diseño sin abrir Unity: menú "Sacar capturas" y `.github/workflows/capturas.yml` en cada PR que toca `unity/` (necesita los secretos de Unity) | En revisión |
+| U5d | La vista Trabajo muestra el cargo, el área y el desempeño (del núcleo, N5); subir de cargo se nota: segunda pantalla desde el segundo ascenso y rincón propio desde el tercero | En revisión |
 
 ## Lo que falta en el núcleo
 
