@@ -32,6 +32,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Las carreras, ordenadas por id.</summary>
         public IEnumerable<CareerDefinition> Careers => _careers.Values;
 
+        public CareerDefinition GetCareer(string id) =>
+            _careers.TryGetValue(id, out CareerDefinition? career) ? career : throw new KeyNotFoundException($"No existe la carrera '{id}'.");
+
         public CareerLevelDefinition GetCareerLevel(string id) =>
             _careerLevels.TryGetValue(id, out CareerLevelDefinition? level) ? level : throw new KeyNotFoundException($"No existe el nivel de carrera '{id}'.");
 
@@ -700,6 +703,11 @@ namespace MistakesLife.Core.Content
         {
             string where = $"carrera {career.Id}";
             CheckId(where, career.Id, "carrera.");
+            if (career.WorkplaceKind != null && !CareerDefinition.WorkplaceKinds.Contains(career.WorkplaceKind))
+            {
+                _errors.Add(new ContentError(where, $"lugar_de_trabajo debe ser uno de: {string.Join(", ", CareerDefinition.WorkplaceKinds)}."));
+            }
+
             if (career.Levels.Count == 0)
             {
                 _errors.Add(new ContentError(where, "debe tener al menos un nivel."));

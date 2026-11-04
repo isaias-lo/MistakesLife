@@ -68,6 +68,6 @@
 | U3 | La vida en pantalla (2D): personaje con barras, evento con botones, familia, diario, legado y nueva vida (uGUI armado desde código, textos `ui.*`) | Hecha |
 | U4 | Guardar y continuar la partida en el teléfono (usa el guardado del núcleo) | Pendiente |
 | U5a | Casa en 3D estilo maqueta sobre la pantalla de la vida: muebles según el nivel del hogar, cuna/cama/escritorio según la etapa, una figura por persona (`HomeView` en el núcleo), con los padres en casa hasta los 28 sin pareja | Hecha |
-| U5b | Barrio de Puente Alto en 3D: botones Casa/Barrio, cuadra con casas con reja (techo y pisos según el nivel del hogar), colegio, almacén, plaza y paradero, y un camino hasta adonde va el personaje esa semana (`DailyPlace` en el núcleo) | En revisión |
-| U5c | Oficina en 3D según la carrera | Pendiente |
+| U5b | Barrio de Puente Alto en 3D: botones Casa/Barrio, cuadra con casas con reja (techo y pisos según el nivel del hogar), colegio, almacén, plaza y paradero, y un camino hasta adonde va el personaje esa semana (`DailyPlace` en el núcleo) | Hecha |
+| U5c | Lugar de trabajo en 3D según la carrera: botón Trabajo; cada carrera elige en su paquete `lugar_de_trabajo` (oficina abierta, cubículos o consulta); sin título, un local de atención; un título que paga más se ve más cuidado (`WorkplaceView` en el núcleo) | En revisión |
 | U6 | Primer APK para probar en Android: armado en la nube con GameCI (`.github/workflows/apk.yml`, se corre a mano) y menú "Armar APK de prueba" | En revisión (faltan los secretos de Unity en GitHub) |

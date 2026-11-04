@@ -99,7 +99,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void CarreraMalEscrita_SeRechazaConErroresClaros()
         {
-            const string bad = @"{ ""id"": ""carrera.mala"", ""niveles"": [
+            const string bad = @"{ ""id"": ""carrera.mala"", ""lugar_de_trabajo"": ""lugar_trabajo.castillo"", ""niveles"": [
               { ""id"": ""otra.cosa"", ""institucion"": ""colegio"", ""semestres"": 0 } ] }";
             const string events = @"[ { ""id"": ""evento.x"", ""efectos"": [""estudiar('carrera.no_existe.nivel.x')""] } ]";
 
@@ -108,6 +108,7 @@ namespace MistakesLife.Core.Tests
             Assert.Contains(ex.Errors, e => e.Message.Contains("carrera.mala.nivel."));
             Assert.Contains(ex.Errors, e => e.Message.Contains("institucion"));
             Assert.Contains(ex.Errors, e => e.Message.Contains("semestres"));
+            Assert.Contains(ex.Errors, e => e.Message.Contains("lugar_de_trabajo"));
             Assert.Contains(ex.Errors, e => e.Message.Contains("ese nivel de carrera no existe"));
         }
 

@@ -38,6 +38,8 @@ namespace MistakesLife.Unity
         private HomeScene _home = null!;
         private Button _roomButton = null!;
         private Button _blockButton = null!;
+        private Button _workButton = null!;
+        private RectTransform _viewButtons = null!;
         private Text _placeLabel = null!;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -107,25 +109,27 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>
-        /// Encima de la ventana 3D: dos botones para ver la pieza o el barrio (arriba a la derecha)
+        /// Encima de la ventana 3D: botones para ver la pieza, el barrio o el trabajo (arriba a la derecha)
         /// y una etiqueta que dice adónde va el personaje esta semana (abajo a la izquierda).
         /// </summary>
         private void BuildViewSwitch(RectTransform window)
         {
             RectTransform buttons = UiFactory.Child(window, "Vista");
+            _viewButtons = buttons;
             buttons.anchorMin = new Vector2(1f, 1f);
             buttons.anchorMax = new Vector2(1f, 1f);
             buttons.pivot = new Vector2(1f, 1f);
             buttons.anchoredPosition = new Vector2(-16f, -16f);
-            buttons.sizeDelta = new Vector2(380f, 84f);
+            buttons.sizeDelta = new Vector2(560f, 84f);
             HorizontalLayoutGroup row = buttons.gameObject.AddComponent<HorizontalLayoutGroup>();
             row.spacing = 8;
             row.childControlWidth = true;
             row.childControlHeight = true;
             row.childForceExpandWidth = true;
             row.childForceExpandHeight = true;
-            _roomButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(false), 30, 0, 12);
-            _blockButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(true), 30, 0, 12);
+            _roomButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(SceneView.Room), 30, 0, 12);
+            _blockButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(SceneView.Neighborhood), 30, 0, 12);
+            _workButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(SceneView.Work), 30, 0, 12);
 
             RectTransform place = UiFactory.Child(window, "Lugar");
             place.anchorMin = Vector2.zero;
@@ -140,18 +144,18 @@ namespace MistakesLife.Unity
             PaintViewSwitch();
         }
 
-        private void SetView(bool neighborhood)
+        private void SetView(SceneView view)
         {
-            _home.ShowingNeighborhood = neighborhood;
+            _home.View = view;
             PaintViewSwitch();
         }
 
         /// <summary>El botón de la vista activa va con el color de acento.</summary>
         private void PaintViewSwitch()
         {
-            bool block = _home.ShowingNeighborhood;
-            Paint(_roomButton, !block);
-            Paint(_blockButton, block);
+            Paint(_roomButton, _home.View == SceneView.Room);
+            Paint(_blockButton, _home.View == SceneView.Neighborhood);
+            Paint(_workButton, _home.View == SceneView.Work);
         }
 
         private static void Paint(Button button, bool active)
@@ -201,9 +205,18 @@ namespace MistakesLife.Unity
             UiFactory.SetBar(_smarts, life.Smarts);
             _money.text = $"{presenter.Text("ui.dinero_titulo")}: {life.MoneyLabel}";
 
-            _home.Show(life.Home, life.DailyPlace);
+            _home.Show(life.Home, life.DailyPlace, life.Workplace);
             _roomButton.GetComponentInChildren<Text>().text = presenter.Text("ui.vista.casa");
             _blockButton.GetComponentInChildren<Text>().text = presenter.Text("ui.vista.barrio");
+            _workButton.GetComponentInChildren<Text>().text = presenter.Text("ui.vista.trabajo");
+
+            // El botón Trabajo solo aparece si trabaja; si pierde el trabajo, se vuelve a la casa.
+            _workButton.gameObject.SetActive(life.Workplace != null);
+            _viewButtons.sizeDelta = new Vector2(life.Workplace != null ? 560f : 380f, 84f);
+            if (life.Workplace == null && _home.View == SceneView.Work)
+            {
+                SetView(SceneView.Room);
+            }
             _placeLabel.text = presenter.Text(PlaceKey(life.DailyPlace));
             DrawStory(presenter, life);
             DrawActions(presenter, life);
