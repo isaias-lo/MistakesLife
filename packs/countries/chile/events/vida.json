@@ -503,7 +503,8 @@
     "peso": 10,
     "efectos": [
       "jugador.felicidad += 4",
-      "jugador.marcar('tiene_contacto')"
+      "jugador.marcar('tiene_contacto')",
+      "jugador.conocer('amistad')"
     ]
   },
   {
@@ -515,6 +516,7 @@
         "texto": "opcion.reencuentro.aceptar",
         "efectos": [
           "jugador.marcar('tiene_contacto')",
+          "jugador.conocer('amistad')",
           "jugador.felicidad += 5"
         ]
       },
@@ -831,12 +833,14 @@
   {
     "id": "evento.mama_se_entera",
     "semilla": "semilla.vecino_vio_pito",
+    "condiciones": "jugador.madre != nada && jugador.madre.vivo",
     "peso": 10,
     "opciones": [
       {
         "texto": "opcion.mama.conversar",
         "tendencia": "jugador.amabilidad",
         "efectos": [
+          "jugador.madre.confianza += 5",
           "jugador.felicidad += 1"
         ]
       },
@@ -844,6 +848,8 @@
         "texto": "opcion.mama.negar",
         "tendencia": "100 - jugador.amabilidad",
         "efectos": [
+          "jugador.madre.confianza -= 15",
+          "jugador.madre.rencor += 10",
           "jugador.felicidad -= 2"
         ]
       }

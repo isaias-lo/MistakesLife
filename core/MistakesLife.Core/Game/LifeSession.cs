@@ -56,6 +56,7 @@ namespace MistakesLife.Core.Game
                 .Register(new AgingSystem())
                 .Register(new MortalitySystem(content))
                 .Register(new RelativesFamilySystem(content))
+                .Register(new RelationshipSystem())
                 .Register(new SeedSystem(seedRules))
                 .Register(Events)
                 .Register(new BirthdaySystem());

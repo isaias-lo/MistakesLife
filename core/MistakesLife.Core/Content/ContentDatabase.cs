@@ -1003,6 +1003,12 @@ namespace MistakesLife.Core.Content
                     }
                 }
 
+                if ((reference.Function == "." + CharacterObject.MeetMethod || reference.Function == "." + CharacterObject.BondMethod)
+                    && !Life.RelationshipRules.BondKeys.Contains(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese lazo no existe; usa 'amistad', 'colega' o 'rival'."));
+                }
+
                 if (reference.Function == "." + CharacterObject.BorrowMethod || reference.Function == "." + CharacterObject.DebtOfMethod)
                 {
                     foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Debts?.Type(reference.Argument) == null))

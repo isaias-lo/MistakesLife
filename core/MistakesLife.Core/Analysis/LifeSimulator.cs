@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Decisions;
 using MistakesLife.Core.Economy;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
+using MistakesLife.Core.Life;
 using MistakesLife.Core.Randomness;
 using MistakesLife.Core.Seeds;
 using MistakesLife.Core.Time;
@@ -54,6 +56,11 @@ namespace MistakesLife.Core.Analysis
             int inflationLives = 0;
             double density = 0;
             int densityLives = 0;
+            int totalFriends = 0;
+            double motherAffection = 0;
+            int mothers = 0;
+            double partnerResentment = 0;
+            int partners = 0;
             var realSalaries = new List<double>();
             var realMoney = new List<double>();
             var realPensions = new List<double>();
@@ -149,6 +156,27 @@ namespace MistakesLife.Core.Analysis
                     report.InRed++;
                 }
 
+                if (player.IsAlive)
+                {
+                    int friends = RelationshipRules.WithBond(session.World, player, RelationshipBond.Friend).Count;
+                    totalFriends += friends;
+                    report.WithFriends += friends > 0 ? 1 : 0;
+                    report.WithRival += RelationshipRules.WithBond(session.World, player, RelationshipBond.Rival).Count > 0 ? 1 : 0;
+                    if (player.MotherId.HasValue && session.World.TryGetCharacter(player.MotherId.Value, out Character? mother) && mother.IsAlive)
+                    {
+                        motherAffection += RelationshipRules.Feelings(session.World, mother, player).Affection;
+                        mothers++;
+                    }
+
+                    if (player.PartnerId.HasValue && session.World.TryGetCharacter(player.PartnerId.Value, out Character? partner))
+                    {
+                        partnerResentment += RelationshipRules.Feelings(session.World, partner, player).Resentment;
+                        partners++;
+                    }
+                }
+
+                report.WithEx += player.Relationships.Any(r => r.Bond == RelationshipBond.Ex) ? 1 : 0;
+
                 health += player.Stats.Health;
                 happiness += player.Stats.Happiness;
                 smarts += player.Stats.Smarts;
@@ -212,6 +240,9 @@ namespace MistakesLife.Core.Analysis
             report.AverageEventsPerLife = (double)totalEvents / lives;
             report.AverageAnnualInflation = inflationLives == 0 ? 0 : inflation / inflationLives;
             report.AverageContributionDensity = densityLives == 0 ? 0 : density / densityLives;
+            report.AverageFriends = lives == 0 ? 0 : (double)totalFriends / lives;
+            report.AverageMotherAffection = mothers == 0 ? 0 : motherAffection / mothers;
+            report.AveragePartnerResentment = partners == 0 ? 0 : partnerResentment / partners;
             realSalaries.Sort();
             report.MedianRealSalary = realSalaries.Count == 0 ? 0 : realSalaries[realSalaries.Count / 2];
             realDebts.Sort();

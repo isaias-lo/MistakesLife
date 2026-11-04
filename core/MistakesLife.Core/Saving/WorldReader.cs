@@ -153,6 +153,16 @@ namespace MistakesLife.Core.Saving
                 character.AddDebt(new Debt(debt.TypeId, debt.Balance, debt.RemainingInstallments, debt.PriceIndex) { MonthsLate = debt.MonthsLate });
             }
 
+            foreach (RelationshipData r in d.Relationships)
+            {
+                if (!Enum.TryParse(r.Bond, out RelationshipBond bond) || !Enum.IsDefined(typeof(RelationshipBond), bond))
+                {
+                    throw new SaveFormatException($"El guardado tiene un lazo que no existe: '{r.Bond}'.");
+                }
+
+                character.SetRelationship(new Relationship(r.OtherId, r.Affection, r.Trust, r.Respect, r.Resentment, bond));
+            }
+
             foreach (string flag in d.Flags)
             {
                 character.SetFlag(flag);

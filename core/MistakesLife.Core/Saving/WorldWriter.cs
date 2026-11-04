@@ -129,6 +129,15 @@ namespace MistakesLife.Core.Saving
                 }).ToList(),
                 LastDebtPayment = c.LastDebtPayment,
                 Delinquent = c.Delinquent,
+                Relationships = c.Relationships.Select(r => new RelationshipData
+                {
+                    OtherId = r.OtherId,
+                    Affection = r.Affection,
+                    Trust = r.Trust,
+                    Respect = r.Respect,
+                    Resentment = r.Resentment,
+                    Bond = r.Bond.ToString(),
+                }).ToList(),
                 EducationStageId = c.EducationStageId,
                 Flags = c.Flags.ToList(),
                 Studies = c.Studies == null ? null : new StudiesData

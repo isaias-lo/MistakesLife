@@ -61,7 +61,7 @@ namespace MistakesLife.Core.Life
                     Economy.InheritanceSettlement.Settle(world, _content, character);
                     if (character.PartnerId.HasValue)
                     {
-                        FamilyFactory.EndPartnership(world, character);
+                        FamilyFactory.EndPartnership(world, character, breakUp: false);
                     }
 
                     Announce(world, context, character, playerPartnerId);

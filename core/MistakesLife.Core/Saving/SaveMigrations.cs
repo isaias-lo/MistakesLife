@@ -30,6 +30,17 @@ namespace MistakesLife.Core.Saving
                     character["contributedMonths"] ??= 0;
                 }
             },
+
+            // 2 → 3: aparecen las relaciones (cariño, confianza, respeto, rencor y
+            // lazos). Las partidas viejas no tenían ninguna guardada: todos parten
+            // con lo que corresponde a su lazo familiar, sin amigos ni rivales.
+            [2] = save =>
+            {
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    character["relationships"] ??= new JArray();
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>
