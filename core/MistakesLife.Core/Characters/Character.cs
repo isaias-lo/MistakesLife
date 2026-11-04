@@ -116,6 +116,12 @@ namespace MistakesLife.Core.Characters
             income.Add(payslip);
         }
 
+        /// <summary>Todos los años con ingresos que aún no se declaran (para guardar la partida).</summary>
+        internal IReadOnlyList<Economy.AnnualIncome> Incomes => _incomes;
+
+        /// <summary>Repone un año de ingresos al cargar una partida.</summary>
+        internal void RestoreIncome(Economy.AnnualIncome income) => _incomes.Add(income);
+
         /// <summary>Olvida los ingresos de ese año y de los anteriores (ya se declararon).</summary>
         public void ForgetIncomeUntil(int year) => _incomes.RemoveAll(i => i.Year <= year);
 
@@ -195,6 +201,9 @@ namespace MistakesLife.Core.Characters
             Studies = null;
         }
 
+        /// <summary>Repone un título al cargar una partida.</summary>
+        internal void RestoreDegree(string levelId) => _degrees.Add(levelId);
+
         public bool IsAlive { get; private set; } = true;
 
         public GameDate? DeathDate { get; private set; }
@@ -220,6 +229,14 @@ namespace MistakesLife.Core.Characters
                 return;
             }
 
+            IsAlive = false;
+            DeathDate = date;
+            DeathCauseId = causeId ?? throw new ArgumentNullException(nameof(causeId));
+        }
+
+        /// <summary>Repone la muerte tal como se guardó (al cargar una partida).</summary>
+        internal void RestoreDeath(GameDate date, string causeId)
+        {
             IsAlive = false;
             DeathDate = date;
             DeathCauseId = causeId ?? throw new ArgumentNullException(nameof(causeId));

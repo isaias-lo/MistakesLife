@@ -31,10 +31,16 @@ namespace MistakesLife.Core.Worlds
 
         /// <summary>Crea un mundo que empieza en una fecha dada (para que haya pasado: padres, abuelos).</summary>
         public World(ulong seed, GameDate startDate)
+            : this(seed, startDate, seed)
+        {
+        }
+
+        /// <summary>Crea un mundo con el azar en un estado dado (al cargar una partida).</summary>
+        internal World(ulong seed, GameDate date, ulong randomState)
         {
             Seed = seed;
-            Random = new GameRandom(seed);
-            Date = startDate;
+            Random = GameRandom.FromState(randomState);
+            Date = date;
         }
 
         /// <summary>Semilla de azar de la partida. Con ella se repite la vida exacta.</summary>
@@ -68,6 +74,27 @@ namespace MistakesLife.Core.Worlds
         internal void RemovePendingEvent(PendingEvent pending) => _pendingEvents.Remove(pending);
 
         internal void RecordEvent(EventRecord record) => _eventHistory.Add(record);
+
+        /// <summary>El próximo id de personaje (para guardar la partida).</summary>
+        internal int NextCharacterIdValue => _nextCharacterId;
+
+        /// <summary>Todos los cambios de leyes, con clave "país|ley" (para guardar la partida).</summary>
+        internal IReadOnlyDictionary<string, Scripting.Value> LawChanges => _lawChanges;
+
+        /// <summary>Repone lo que no se puede reconstruir paso a paso (al cargar una partida).</summary>
+        internal void RestoreState(int playerId, int nextCharacterId, IEnumerable<int> formerPlayers)
+        {
+            PlayerId = playerId;
+            _nextCharacterId = nextCharacterId;
+            _formerPlayers.Clear();
+            _formerPlayers.AddRange(formerPlayers);
+        }
+
+        /// <summary>Repone un cambio de ley con su clave "país|ley" (al cargar una partida).</summary>
+        internal void RestoreLawChange(string key, Scripting.Value value) => _lawChanges[key] = value;
+
+        /// <summary>Repone una línea del diario tal como se guardó (al cargar una partida).</summary>
+        internal void RestoreJournal(JournalEntry entry) => _journal.Add(entry);
 
         /// <summary>Entrega un id nuevo, que nunca se repite en este mundo.</summary>
         public int NextCharacterId() => _nextCharacterId++;

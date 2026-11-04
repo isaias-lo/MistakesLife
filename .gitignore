@@ -25,3 +25,6 @@ unity/*.aab
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Partidas guardadas con la consola
+partida.json

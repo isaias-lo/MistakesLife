@@ -46,6 +46,25 @@ namespace MistakesLife.Core.Seeds
             return seed;
         }
 
+        /// <summary>El próximo id de semilla (para guardar la partida).</summary>
+        internal int NextId => _nextId;
+
+        /// <summary>Repone una semilla guardada, con su id original (al cargar una partida).</summary>
+        internal Seed Restore(int id, SeedDefinition definition, int ownerId, GameDate plantedDate, int ownerAgeAtPlanting, int? parentSeedId)
+        {
+            var seed = new Seed(id, definition, ownerId, plantedDate, ownerAgeAtPlanting, parentSeedId);
+            _seeds.Add(seed.Id, seed);
+            return seed;
+        }
+
+        /// <summary>Repone el contador de ids y las fechas de despertar (al cargar una partida).</summary>
+        internal void RestoreCounters(int nextId, IEnumerable<GameDate> awakenings)
+        {
+            _nextId = nextId;
+            _awakenings.Clear();
+            _awakenings.AddRange(awakenings);
+        }
+
         public Seed Get(int id)
         {
             if (!_seeds.TryGetValue(id, out Seed? seed))

@@ -48,6 +48,20 @@ namespace MistakesLife.Core.Economy
             _indexHistory.Count < HistoryMonths ? AnnualInflation : (PriceIndex / _indexHistory.Peek()) - 1;
 
         /// <summary>Cambia de régimen, con una nueva inflación anual.</summary>
+        /// <summary>Índices de precios de los últimos meses, del más antiguo al más nuevo (para guardar).</summary>
+        internal IEnumerable<double> IndexHistory => _indexHistory;
+
+        /// <summary>Repone el estado guardado de la economía (al cargar una partida).</summary>
+        internal void Restore(double priceIndex, IEnumerable<double> indexHistory)
+        {
+            PriceIndex = priceIndex;
+            _indexHistory.Clear();
+            foreach (double index in indexHistory)
+            {
+                _indexHistory.Enqueue(index);
+            }
+        }
+
         internal void ChangeRegime(string regimeId, double annualInflation)
         {
             RegimeId = regimeId ?? throw new ArgumentNullException(nameof(regimeId));

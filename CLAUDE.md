@@ -28,7 +28,7 @@ Fuentes de verdad (léelas antes de decisiones de diseño):
 5. **Azar reproducible.** Nunca uses `System.Random` suelto, `Guid.NewGuid()` ni `DateTime.Now` dentro de la simulación. Todo el azar sale del generador de la partida (a partir de su semilla), para que una vida se pueda repetir exacta.
 6. **Identificadores estables.** Todo contenido tiene un id en minúsculas con puntos (`carrera.software.area.ciberseguridad`). Un id publicado nunca se renombra ni se reutiliza.
 7. **Sin textos para el jugador en código ni en paquetes.** Usa claves (`opcion.reconocer_error`); las frases van en tablas de idioma. Idiomas de inicio: español (variantes de Chile y Argentina), inglés, portugués de Brasil.
-8. **Guardado versionado.** Si cambias cómo se guarda una partida, sube `CoreInfo.SaveFormatVersion` y agrega su migración.
+8. **Guardado versionado.** Si cambias cómo se guarda una partida, sube `CoreInfo.SaveFormatVersion` y agrega su migración en `core/MistakesLife.Core/Saving/SaveMigrations.cs`. Si agregas un dato al personaje o al mundo, guárdalo también en `Saving/WorldWriter.cs` y `Saving/WorldReader.cs` (la prueba `DatosNuevosDelPersonajeODelMundo_ObliganARevisarElGuardado` te lo recuerda).
 9. **Primero local, después nube.** El juego funciona completo sin internet.
 
 ## Convenciones de código

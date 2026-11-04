@@ -1,0 +1,93 @@
+using System.Collections.Generic;
+
+namespace MistakesLife.Core.Saving
+{
+    /// <summary>Un personaje guardado, con todo lo que puede cambiar durante la vida.</summary>
+    internal sealed class CharacterData
+    {
+        public int Id { get; set; }
+
+        public string FirstName { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+
+        public string Sex { get; set; } = string.Empty;
+
+        public string Gender { get; set; } = string.Empty;
+
+        public string GenderIdentity { get; set; } = string.Empty;
+
+        public string Orientation { get; set; } = string.Empty;
+
+        public int BirthWeek { get; set; }
+
+        /// <summary>Apertura, responsabilidad, extraversión, amabilidad y neuroticismo, en ese orden.</summary>
+        public List<int> Personality { get; set; } = new List<int>();
+
+        public int Health { get; set; }
+
+        public int Happiness { get; set; }
+
+        public int Smarts { get; set; }
+
+        public int? MotherId { get; set; }
+
+        public int? FatherId { get; set; }
+
+        public int? SecondParentId { get; set; }
+
+        public bool Adopted { get; set; }
+
+        public int? PartnerId { get; set; }
+
+        public string? CountryId { get; set; }
+
+        public string? CityId { get; set; }
+
+        public string? CommuneId { get; set; }
+
+        public int HouseholdLevel { get; set; }
+
+        public decimal Money { get; set; }
+
+        public JobData? Job { get; set; }
+
+        public PayslipData? LastPayslip { get; set; }
+
+        public List<IncomeData> Incomes { get; set; } = new List<IncomeData>();
+
+        public List<MoneyLineData> LastExpenses { get; set; } = new List<MoneyLineData>();
+
+        public int MonthsInRed { get; set; }
+
+        public TaxReturnData? PendingTaxReturn { get; set; }
+
+        public decimal PensionFund { get; set; }
+
+        public decimal? Pension { get; set; }
+
+        public bool ReceivesUniversalPension { get; set; }
+
+        public decimal LastPensionPayment { get; set; }
+
+        public List<DebtData> Debts { get; set; } = new List<DebtData>();
+
+        public decimal LastDebtPayment { get; set; }
+
+        public bool Delinquent { get; set; }
+
+        public string? EducationStageId { get; set; }
+
+        public List<string> Flags { get; set; } = new List<string>();
+
+        public StudiesData? Studies { get; set; }
+
+        public List<string> Degrees { get; set; } = new List<string>();
+
+        public bool IsAlive { get; set; } = true;
+
+        public int? DeathWeek { get; set; }
+
+        public string? DeathCauseId { get; set; }
+    }
+}
