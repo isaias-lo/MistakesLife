@@ -57,7 +57,10 @@ namespace MistakesLife.Unity
             try
             {
                 _content = CoreLoader.LoadContent();
-                NewLife();
+                if (!ContinueSavedLife())
+                {
+                    NewLife();
+                }
             }
             catch (System.Exception ex)
             {
@@ -75,6 +78,70 @@ namespace MistakesLife.Unity
             _presenter = new LifePresenter(new LifeSession(_content!, seed));
             _journal.Clear();
             Refresh();
+            Save();
+        }
+
+        /// <summary>
+        /// Al abrir el juego se sigue la vida guardada, si hay. Si el guardado está dañado
+        /// se aparta y se empieza una vida nueva (el error queda en la consola).
+        /// </summary>
+        private bool ContinueSavedLife()
+        {
+            byte[]? data = SaveStore.Read();
+            if (data == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                _presenter = new LifePresenter(LifeSession.LoadFromBytes(_content!, data));
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogException(ex);
+                SaveStore.SetAsideBroken();
+                return false;
+            }
+
+            // El diario de antes se muestra completo; lo nuevo empieza desde aquí.
+            _journal.Clear();
+            IReadOnlyList<JournalLine> past = _presenter.FullJournal();
+            for (int i = past.Count - 1; i >= 0 && _journal.Count < JournalLines; i--)
+            {
+                _journal.Add(past[i]);
+            }
+
+            _presenter.TakeNewJournal();
+            Refresh();
+            return true;
+        }
+
+        /// <summary>Guarda la partida después de cada paso (la app se puede cerrar en cualquier momento).</summary>
+        private void Save()
+        {
+            if (_presenter == null)
+            {
+                return;
+            }
+
+            try
+            {
+                SaveStore.Write(_presenter.Session.SaveToBytes());
+            }
+            catch (System.Exception ex)
+            {
+                // Sin espacio o sin permiso: se sigue jugando y se intenta de nuevo en el próximo paso.
+                Debug.LogException(ex);
+            }
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            if (paused)
+            {
+                Save();
+            }
         }
 
         /// <summary>Arma la estructura fija de la pantalla una sola vez.</summary>
@@ -273,18 +340,21 @@ namespace MistakesLife.Unity
         {
             _presenter!.AdvanceUntilSomething();
             Refresh();
+            Save();
         }
 
         private void Choose(int option)
         {
             _presenter!.Choose(option);
             Refresh();
+            Save();
         }
 
         private void ContinueWith(int heir)
         {
             _presenter!.ContinueWith(heir);
             Refresh();
+            Save();
         }
     }
 }
