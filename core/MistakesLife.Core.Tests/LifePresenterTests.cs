@@ -1,5 +1,8 @@
 using System;
 using System.Linq;
+using MistakesLife.Core.Characters;
+using MistakesLife.Core.Content;
+using MistakesLife.Core.Economy;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Presentation;
 using Xunit;
@@ -260,5 +263,85 @@ namespace MistakesLife.Core.Tests
 
             Assert.NotEqual(atBirth, presenter.Snapshot().Home.Signature);
         }
+
+        [Fact]
+        public void Lugar_GuaguaSinJardin_EnCasa_YConColegio_AlColegio()
+        {
+            var baby = new LifePresenter(new LifeSession(RepoPacks.Content, 7)).Session.World.Player;
+            baby.EducationStageId = null;
+            Assert.Equal(DailyPlace.Home, LifePresenter.PlaceOf(baby));
+
+            baby.EducationStageId = "etapa.chile.basica";
+            Assert.Equal(DailyPlace.School, LifePresenter.PlaceOf(baby));
+        }
+
+        [Fact]
+        public void Lugar_ConTrabajo_EsElTrabajoAunqueEstudie()
+        {
+            LifePresenter presenter = NewGame(7);
+            for (int step = 0; step < 5000 && presenter.Session.World.Player.Job == null && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir; step++)
+            {
+                if (presenter.Phase == LifePhase.Choosing)
+                {
+                    presenter.Choose(0);
+                }
+                else
+                {
+                    presenter.AdvanceUntilSomething();
+                }
+            }
+
+            Assert.NotNull(presenter.Session.World.Player.Job);
+            Assert.Equal(DailyPlace.Work, presenter.Snapshot().DailyPlace);
+        }
+        [Fact]
+        public void Trabajo_SinTrabajo_NoHayLugarDeTrabajo()
+        {
+            Assert.Null(NewGame(3).Snapshot().Workplace);
+        }
+
+        [Fact]
+        public void Trabajo_SinTitulo_EsUnLocalSinCarrera()
+        {
+            LifePresenter presenter = NewGame(3);
+            presenter.Session.World.Player.Job = new Job(JobKind.Employee, 500000m, 1);
+
+            WorkplaceView workplace = presenter.Snapshot().Workplace!;
+            Assert.Null(workplace.CareerId);
+            Assert.Null(workplace.Kind);
+            Assert.True(workplace.Player.IsPlayer);
+        }
+
+        [Fact]
+        public void Trabajo_ConTitulos_UsaLaCarreraDelTituloQueMejorPaga()
+        {
+            LifePresenter presenter = NewGame(3);
+            Character player = presenter.Session.World.Player;
+            player.Studies = new CareerStudies("carrera.software", "carrera.software.nivel.ingenieria_civil_computacion", "universidad", 11);
+            player.Graduate();
+            player.Studies = new CareerStudies("carrera.psicologia", PsychologyLevel(presenter), "universidad", 10);
+            player.Graduate();
+            player.Job = new Job(JobKind.Freelance, 500000m, 1);
+
+            WorkplaceView workplace = presenter.Snapshot().Workplace!;
+            CareerLevelDefinition software = presenter.Session.Content.GetCareerLevel("carrera.software.nivel.ingenieria_civil_computacion");
+            CareerLevelDefinition psychology = presenter.Session.Content.GetCareerLevel(PsychologyLevel(presenter));
+            string expected = software.SalaryRelative >= psychology.SalaryRelative ? "carrera.software" : "carrera.psicologia";
+            Assert.Equal(expected, workplace.CareerId);
+            Assert.Equal(presenter.Session.Content.GetCareer(expected).WorkplaceKind, workplace.Kind);
+            Assert.True(workplace.Freelance);
+        }
+
+        [Fact]
+        public void Trabajo_CadaCarreraDelRepo_TieneUnLugarConocido()
+        {
+            foreach (CareerDefinition career in RepoPacks.Content.Careers)
+            {
+                Assert.Contains(career.WorkplaceKind, CareerDefinition.WorkplaceKinds);
+            }
+        }
+
+        private static string PsychologyLevel(LifePresenter presenter) =>
+            presenter.Session.Content.GetCareer("carrera.psicologia").Levels[0].Id;
     }
 }

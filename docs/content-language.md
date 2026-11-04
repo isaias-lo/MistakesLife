@@ -309,6 +309,7 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 ```json
 {
   "id": "carrera.software",
+  "lugar_de_trabajo": "lugar_trabajo.oficina_abierta",
   "niveles": [
     { "id": "carrera.software.nivel.analista_programador", "institucion": "instituto", "semestres": 5,
       "condiciones": "jugador.pais == 'pais.chile'" },
@@ -321,6 +322,7 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 | Campo | Qué es |
 |---|---|
 | `id` | Empieza con `carrera.`; es también la clave de su nombre en `lang/` |
+| `lugar_de_trabajo` | Opcional. Cómo se dibuja donde trabaja quien tiene el título: `lugar_trabajo.oficina_abierta` (mesas compartidas con pantallas), `lugar_trabajo.oficina_cubiculos` (cubículos y archivadores) o `lugar_trabajo.consulta` (sillones frente a frente). Sin él, una oficina común. Un tipo nuevo hay que dibujarlo en Unity |
 | `niveles[].id` | Empieza con el id de la carrera + `.nivel.`. Su texto es la opción ("Analista programador en un instituto…") y `<id>.titulo` el nombre del título |
 | `niveles[].institucion` | `cft`, `instituto` o `universidad` |
 | `niveles[].semestres` | Duración formal del plan. El núcleo suma un semestre aprobado cada 26 semanas de estudio |
