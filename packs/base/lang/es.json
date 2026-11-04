@@ -45,7 +45,7 @@
   "ui.vista.barrio": "Barrio",
     "ui.vista.trabajo": "Trabajo",
   "ui.lugar.casa": "Esta semana: en casa",
-  "ui.lugar.colegio": "Esta semana: al colegio",
+  "ui.lugar.colegio": "Esta semana: {0}",
   "ui.lugar.estudios": "Esta semana: a estudiar",
   "ui.lugar.trabajo": "Esta semana: al trabajo"
 }

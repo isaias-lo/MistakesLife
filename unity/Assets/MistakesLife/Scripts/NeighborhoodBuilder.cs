@@ -108,8 +108,8 @@ namespace MistakesLife.Unity
 
         private static void School(ShapeKit kit, Vector3 at, bool highlighted)
         {
-            kit.Box("Colegio", at + new Vector3(0f, 2.2f, 0f), new Vector3(9f, 4.4f, 5f), new Color(0.92f, 0.86f, 0.70f));
-            kit.Box("Franja del colegio", at + new Vector3(0f, 3.6f, 2.52f), new Vector3(9f, 0.5f, 0.06f), new Color(0.25f, 0.40f, 0.65f));
+            kit.Box("Colegio", at + new Vector3(0f, 1.6f, 0f), new Vector3(9f, 3.2f, 5f), new Color(0.92f, 0.86f, 0.70f));
+            kit.Box("Franja del colegio", at + new Vector3(0f, 2.6f, 2.52f), new Vector3(9f, 0.5f, 0.06f), new Color(0.25f, 0.40f, 0.65f));
             kit.Box("Patio", at + new Vector3(0f, 0.02f, 3.6f), new Vector3(9f, 0.04f, 2.2f), new Color(0.75f, 0.72f, 0.66f));
             if (highlighted)
             {

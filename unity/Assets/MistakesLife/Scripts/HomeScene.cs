@@ -158,8 +158,9 @@ namespace MistakesLife.Unity
             switch (_view)
             {
                 case SceneView.Neighborhood:
-                    _camera.transform.position = new Vector3(10f, 19f, -24f);
-                    _camera.transform.LookAt(new Vector3(-1f, 0f, 0f));
+                    // Más alta y más lejos: se ve la cuadra entera y el colegio no tapa las casas.
+                    _camera.transform.position = new Vector3(-1f, 30f, -24f);
+                    _camera.transform.LookAt(new Vector3(-1f, 0f, 0.5f));
                     break;
                 case SceneView.Work:
                     _camera.transform.position = new Vector3(4.4f, 6.4f, -7.6f);

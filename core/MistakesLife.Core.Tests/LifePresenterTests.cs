@@ -276,6 +276,15 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void Lugar_Guagua_DiceElNombreDeSuEtapaYNoColegio()
+        {
+            LifePresenter presenter = NewGame(7);
+            presenter.Session.World.Player.EducationStageId = "etapa.chile.sala_cuna";
+
+            Assert.Equal("Esta semana: Sala cuna", presenter.Snapshot().DailyPlaceLabel);
+        }
+
+        [Fact]
         public void Lugar_ConTrabajo_EsElTrabajoAunqueEstudie()
         {
             LifePresenter presenter = NewGame(7);
