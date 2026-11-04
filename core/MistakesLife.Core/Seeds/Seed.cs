@@ -136,6 +136,14 @@ namespace MistakesLife.Core.Seeds
             ClosedDate = date;
         }
 
+        /// <summary>Repone el estado guardado (al cargar una partida).</summary>
+        internal void Restore(SeedState state, GameDate? awakenedDate, GameDate? closedDate)
+        {
+            State = state;
+            AwakenedDate = awakenedDate;
+            ClosedDate = closedDate;
+        }
+
         internal void TransferTo(int newOwnerId) => OwnerId = newOwnerId;
 
         private void RequireState(SeedState expected)

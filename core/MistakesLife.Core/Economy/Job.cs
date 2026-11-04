@@ -36,6 +36,13 @@ namespace MistakesLife.Core.Economy
         public decimal Salary => Math.Round(BaseSalary * (decimal)AdjustedPriceIndex, MidpointRounding.AwayFromZero);
 
         /// <summary>Pasa un mes; si ya tocaba, el sueldo se reajusta a los precios de hoy.</summary>
+        /// <summary>Repone el estado del reajuste al cargar una partida.</summary>
+        internal void Restore(double adjustedPriceIndex, int monthsSinceAdjustment)
+        {
+            AdjustedPriceIndex = adjustedPriceIndex;
+            MonthsSinceAdjustment = monthsSinceAdjustment;
+        }
+
         internal void AdvanceMonth(double priceIndex, int adjustmentMonths)
         {
             MonthsSinceAdjustment++;

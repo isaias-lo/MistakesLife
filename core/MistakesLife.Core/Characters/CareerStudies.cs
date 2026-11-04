@@ -42,7 +42,7 @@ namespace MistakesLife.Core.Characters
         }
 
         /// <summary>Semanas cursadas del semestre actual.</summary>
-        public int WeeksIntoSemester { get; private set; }
+        public int WeeksIntoSemester { get; internal set; }
 
         private int _completedSemesters;
 

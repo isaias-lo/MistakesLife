@@ -25,12 +25,17 @@ namespace MistakesLife.ConsoleGame
         private readonly LifeSession _session;
         private readonly TextReader _input;
         private readonly TextWriter _output;
+        private readonly string _savePath;
 
-        public ConsoleGame(LifeSession session, TextReader input, TextWriter output)
+        /// <summary>Archivo donde se guarda la partida con "g", si no se indica otro.</summary>
+        public const string DefaultSavePath = "partida.json";
+
+        public ConsoleGame(LifeSession session, TextReader input, TextWriter output, string savePath = DefaultSavePath)
         {
             _session = session;
             _input = input;
             _output = output;
+            _savePath = savePath;
         }
 
         public void Run()
@@ -61,7 +66,7 @@ namespace MistakesLife.ConsoleGame
                 }
 
                 _output.WriteLine();
-                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta que pase algo | s: una semana | a: un año | e: estado | d: diario | q: salir");
+                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta que pase algo | s: una semana | a: un año | e: estado | d: diario | g: guardar | q: salir");
                 _output.Write("> ");
                 string? command = _input.ReadLine();
                 if (command == null)
@@ -86,11 +91,15 @@ namespace MistakesLife.ConsoleGame
                     case "d":
                         PrintFullJournal();
                         break;
+                    case "g":
+                        File.WriteAllText(_savePath, _session.SaveToText());
+                        _output.WriteLine($"Partida guardada en {Path.GetFullPath(_savePath)}. Para seguirla: --cargar {_savePath}");
+                        break;
                     case "q":
                         _output.WriteLine("Hasta pronto.");
                         return;
                     default:
-                        _output.WriteLine("No entendí. Usa Enter, s, a, e, d o q.");
+                        _output.WriteLine("No entendí. Usa Enter, s, a, e, d, g o q.");
                         break;
                 }
             }
@@ -178,6 +187,13 @@ namespace MistakesLife.ConsoleGame
         {
             Character player = _session.World.Player;
             _output.WriteLine("MistakesLife (vida en texto)");
+            if (player.AgeInWeeks(_session.World.Date) > 0)
+            {
+                // Partida cargada: no se cuenta el nacimiento de nuevo.
+                _output.WriteLine($"Sigues tu vida: {player.FirstName} {player.LastName}, {_session.PlayerAgeInYears} años.");
+                return;
+            }
+
             _output.WriteLine($"Naciste: {player.FirstName} {player.LastName}.");
             if (player.Residence != null)
             {

@@ -53,6 +53,36 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void Consola_Guardar_DejaLaPartidaEnUnArchivoQueSePuedeSeguir()
+        {
+            string path = Path.Combine(Path.GetTempPath(), "mistakeslife-prueba-" + Guid.NewGuid().ToString("N") + ".json");
+            try
+            {
+                var session = new LifeSession(RepoPacks.Content, 3);
+                session.Advance(10 * 52);
+                while (session.Pending != null)
+                {
+                    session.Choose(session.Pending.AvailableOptions[0]);
+                }
+                var output = new StringWriter();
+                new ConsoleGame.ConsoleGame(session, new StringReader("g\nq\n"), output, path).Run();
+
+                Assert.Contains("Partida guardada en", output.ToString());
+                LifeSession loaded = LifeSession.Load(RepoPacks.Content, File.ReadAllText(path));
+                Assert.Equal(session.World.Date, loaded.World.Date);
+
+                var resumed = new StringWriter();
+                new ConsoleGame.ConsoleGame(loaded, new StringReader("q\n"), resumed, path).Run();
+                Assert.Contains("Sigues tu vida:", resumed.ToString());
+                Assert.DoesNotContain("Naciste:", resumed.ToString());
+            }
+            finally
+            {
+                File.Delete(path);
+            }
+        }
+
+        [Fact]
         public void Sesion_NoDejaAvanzarConUnEventoPendiente()
         {
             var session = new LifeSession(RepoPacks.Content, 1);

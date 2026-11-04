@@ -43,7 +43,7 @@
 
 | # | Tarea | Estado |
 |---|---|---|
-| D1 | Tendencia en las opciones y `AutoDecider`: el simulador decide según personalidad, hogar e historia | En revisión |
+| D1 | Tendencia en las opciones y `AutoDecider`: el simulador decide según personalidad, hogar e historia | Hecha |
 
 ## Economía (todo con datos de cada paquete de país)
 
@@ -71,3 +71,14 @@
 | U5b | Barrio de Puente Alto en 3D | Pendiente |
 | U5c | Oficina en 3D según la carrera | Pendiente |
 | U6 | Primer APK para probar en Android: armado en la nube con GameCI (`.github/workflows/apk.yml`, se corre a mano) y menú "Armar APK de prueba" | En revisión |
+
+## Lo que falta en el núcleo
+
+Diagnóstico completo (2026-11-03): [Qué le falta al núcleo de MistakesLife](https://claude.ai/artifact/8oPYjZ8g7hjUPXtnSoaSjb).
+
+| # | Tarea | Estado |
+|---|---|---|
+| N1 | Guardar y cargar la partida: a texto o bytes comprimidos, con versión y migraciones; la partida cargada sigue igual; `g` y `--cargar` en la consola | En revisión |
+| N2 | Fotos del mundo para "volver al pasado" | Pendiente |
+| N3 | Mercado laboral realista: desempleo, buscar trabajo, lagunas de cotización | Pendiente |
+| N4 | Relaciones con cariño, confianza, respeto y rencor; amigos y colegas | Pendiente |

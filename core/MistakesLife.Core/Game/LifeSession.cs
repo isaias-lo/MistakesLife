@@ -7,6 +7,7 @@ using MistakesLife.Core.Economy;
 using MistakesLife.Core.Education;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Life;
+using MistakesLife.Core.Saving;
 using MistakesLife.Core.Seeds;
 using MistakesLife.Core.Simulation;
 using MistakesLife.Core.Worlds;
@@ -29,11 +30,20 @@ namespace MistakesLife.Core.Game
         }
 
         public LifeSession(ContentDatabase content, ulong seed, SeedRules seedRules, EventRules eventRules)
+            : this(content ?? throw new ArgumentNullException(nameof(content)), NewWorld(content, seed), seedRules, eventRules, 0)
+        {
+        }
+
+        /// <summary>
+        /// Arma la partida sobre un mundo que ya existe (por ejemplo, uno cargado
+        /// desde un guardado). El ciclo semanal se arma igual que en una partida nueva.
+        /// </summary>
+        internal LifeSession(ContentDatabase content, World world, SeedRules seedRules, EventRules eventRules, int journalRead)
         {
             Content = content ?? throw new ArgumentNullException(nameof(content));
-            World = WorldFactory.CreateNewLife(seed, content);
+            World = world ?? throw new ArgumentNullException(nameof(world));
+            _journalRead = journalRead;
             Events = new EventSystem(content, eventRules);
-            EconomySystem.Initialize(World, content);
             _cycle = new WeekCycle()
                 .Register(new EconomySystem(content))
                 .Register(new PayrollSystem(content))
@@ -50,6 +60,42 @@ namespace MistakesLife.Core.Game
                 .Register(Events)
                 .Register(new BirthdaySystem());
         }
+
+        private static World NewWorld(ContentDatabase content, ulong seed)
+        {
+            World world = WorldFactory.CreateNewLife(seed, content);
+            EconomySystem.Initialize(world, content);
+            return world;
+        }
+
+        /// <summary>
+        /// Carga una partida guardada con <see cref="SaveToText"/>. El contenido
+        /// (paquetes) debe ser el mismo con que se jugó, o una versión más nueva.
+        /// </summary>
+        /// <exception cref="SaveFormatException">Si el texto no es un guardado válido.</exception>
+        public static LifeSession Load(ContentDatabase content, string text) =>
+            SaveGame.FromText(content, text, new SeedRules(), new EventRules());
+
+        /// <summary>Igual que <see cref="Load(ContentDatabase, string)"/>, con reglas de semillas y eventos propias.</summary>
+        public static LifeSession Load(ContentDatabase content, string text, SeedRules seedRules, EventRules eventRules) =>
+            SaveGame.FromText(content, text, seedRules, eventRules);
+
+        /// <summary>Carga una partida guardada con <see cref="SaveToBytes"/>.</summary>
+        /// <exception cref="SaveFormatException">Si los bytes no son un guardado válido.</exception>
+        public static LifeSession LoadFromBytes(ContentDatabase content, byte[] data) =>
+            SaveGame.FromBytes(content, data, new SeedRules(), new EventRules());
+
+        /// <summary>
+        /// Guarda la partida completa como texto (JSON). No escribe archivos: quien
+        /// la usa (Unity, la consola) decide dónde dejarla.
+        /// </summary>
+        public string SaveToText() => SaveGame.ToText(this);
+
+        /// <summary>Guarda la partida completa comprimida, más liviana para el celular.</summary>
+        public byte[] SaveToBytes() => SaveGame.ToBytes(this);
+
+        /// <summary>Cuántas líneas del diario ya se entregaron con <see cref="TakeNewJournalEntries"/>.</summary>
+        internal int JournalRead => _journalRead;
 
         public ContentDatabase Content { get; }
 
