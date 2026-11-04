@@ -66,7 +66,7 @@ namespace MistakesLife.ConsoleGame
                 }
 
                 _output.WriteLine();
-                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta que pase algo | s: una semana | a: un año | e: estado | d: diario | g: guardar | q: salir");
+                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta que pase algo | s: una semana | a: un año | e: estado | d: diario | g: guardar | v: volver al pasado | q: salir");
                 _output.Write("> ");
                 string? command = _input.ReadLine();
                 if (command == null)
@@ -95,13 +95,65 @@ namespace MistakesLife.ConsoleGame
                         File.WriteAllText(_savePath, _session.SaveToText());
                         _output.WriteLine($"Partida guardada en {Path.GetFullPath(_savePath)}. Para seguirla: --cargar {_savePath}");
                         break;
+                    case "v":
+                        AskGoBack();
+                        break;
                     case "q":
                         _output.WriteLine("Hasta pronto.");
                         return;
                     default:
-                        _output.WriteLine("No entendí. Usa Enter, s, a, e, d, g o q.");
+                        _output.WriteLine("No entendí. Usa Enter, s, a, e, d, g, v o q.");
                         break;
                 }
+            }
+        }
+
+        private bool CanGoBack() => _session.TimeMachine.Snapshots.Any(_session.TimeMachine.CanGoBackTo);
+
+        /// <summary>
+        /// Volver al pasado: muestra las fotos del mundo a las que se puede volver
+        /// y vuelve a la elegida. Devuelve true si volvió.
+        /// </summary>
+        private bool AskGoBack()
+        {
+            var machine = _session.TimeMachine;
+            var snapshots = machine.Snapshots.Where(machine.CanGoBackTo).ToList();
+            if (snapshots.Count == 0)
+            {
+                _output.WriteLine(machine.Charges == 0
+                    ? "No te quedan cargas para volver al pasado."
+                    : "No hay un momento al que puedas volver (cada etapa de la vida se vuelve a vivir una sola vez).");
+                return false;
+            }
+
+            _output.WriteLine($"Te quedan {machine.Charges} cargas para volver al pasado. Cada etapa de la vida se vuelve a vivir una sola vez.");
+            for (int i = 0; i < snapshots.Count; i++)
+            {
+                WorldSnapshot snapshot = snapshots[i];
+                string moment = snapshot.Kind == SnapshotKind.StageStart
+                    ? $"inicio de la etapa: {_session.Text(snapshot.StageId)}"
+                    : $"antes de decidir: {_session.Text(_session.Content.GetEvent(snapshot.EventId!).ResolvedTextKey)}";
+                _output.WriteLine($"  {i + 1}. A tus {snapshot.PlayerAgeInYears} años, {moment}");
+            }
+
+            while (true)
+            {
+                _output.Write("¿A cuál vuelves? (número, o Enter para no volver): ");
+                string? answer = _input.ReadLine();
+                if (answer == null || answer.Trim().Length == 0)
+                {
+                    return false;
+                }
+
+                if (int.TryParse(answer.Trim(), out int number) && number >= 1 && number <= snapshots.Count)
+                {
+                    _session.GoBack(snapshots[number - 1].Id);
+                    _output.WriteLine();
+                    _output.WriteLine($"=== Vuelves al pasado: {DateLabel()} ===");
+                    return true;
+                }
+
+                _output.WriteLine($"Escribe un número del 1 al {snapshots.Count}, o Enter.");
             }
         }
 
@@ -118,6 +170,13 @@ namespace MistakesLife.ConsoleGame
             if (heirs.Count == 0)
             {
                 _output.WriteLine("No dejaste hijos que continúen tu historia. Aquí termina la partida, pero lo que hiciste queda en el mundo.");
+                if (CanGoBack())
+                {
+                    _output.Write("¿Quieres volver al pasado? (v para volver, Enter para terminar): ");
+                    string? reply = _input.ReadLine();
+                    return reply != null && reply.Trim().ToLowerInvariant() == "v" && AskGoBack();
+                }
+
                 return false;
             }
 
@@ -131,11 +190,23 @@ namespace MistakesLife.ConsoleGame
 
             while (true)
             {
-                _output.Write("¿Con quién sigues? (número, o q para terminar): ");
+                _output.Write(CanGoBack()
+                    ? "¿Con quién sigues? (número, v para volver al pasado, o q para terminar): "
+                    : "¿Con quién sigues? (número, o q para terminar): ");
                 string? answer = _input.ReadLine();
                 if (answer == null || answer.Trim().ToLowerInvariant() == "q")
                 {
                     return false;
+                }
+
+                if (answer.Trim().ToLowerInvariant() == "v" && CanGoBack())
+                {
+                    if (AskGoBack())
+                    {
+                        return true;
+                    }
+
+                    continue;
                 }
 
                 if (int.TryParse(answer.Trim(), out int number) && number >= 1 && number <= heirs.Count)
@@ -161,16 +232,27 @@ namespace MistakesLife.ConsoleGame
             for (int i = 0; i < pending.AvailableOptions.Count; i++)
             {
                 EventOptionDefinition option = definition.Options[pending.AvailableOptions[i]];
-                _output.WriteLine($"  {i + 1}. {_session.Text(option.TextKey)}");
+                string intuition = _session.TimeMachine.PreviousChoice(pending) == pending.AvailableOptions[i] ? " (la otra vez elegiste esto)" : string.Empty;
+                _output.WriteLine($"  {i + 1}. {_session.Text(option.TextKey)}{intuition}");
             }
 
             while (true)
             {
-                _output.Write("Elige una opción: ");
+                _output.Write(CanGoBack() ? "Elige una opción (o v para volver al pasado): " : "Elige una opción: ");
                 string? answer = _input.ReadLine();
                 if (answer == null)
                 {
                     return false;
+                }
+
+                if (answer.Trim().ToLowerInvariant() == "v" && CanGoBack())
+                {
+                    if (AskGoBack())
+                    {
+                        return true;
+                    }
+
+                    continue;
                 }
 
                 if (int.TryParse(answer.Trim(), out int number) && number >= 1 && number <= pending.AvailableOptions.Count)

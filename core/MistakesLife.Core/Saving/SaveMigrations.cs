@@ -53,6 +53,14 @@ namespace MistakesLife.Core.Saving
                     job["monthsInPosition"] ??= 0;
                 }
             },
+
+            // 4 → 5: aparece volver al pasado. Las partidas viejas no tienen fotos
+            // del mundo: reciben las cargas de una partida nueva y la primera foto
+            // se saca apenas se sigue jugando (el inicio de la etapa en que van).
+            [4] = save =>
+            {
+                save["timeMachine"] ??= new JObject { ["charges"] = Game.TimeMachine.StartingCharges };
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

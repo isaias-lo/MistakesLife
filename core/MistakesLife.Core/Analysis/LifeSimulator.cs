@@ -74,6 +74,7 @@ namespace MistakesLife.Core.Analysis
             {
                 ulong seed = firstSeed + (ulong)i;
                 var session = new LifeSession(_content, seed, SeedRules, EventRules);
+                session.TimeMachine.Enabled = false; // sin fotos del mundo, para ir rápido
                 var chooser = new GameRandom(seed).Fork("simulador.decisiones");
                 var decider = new AutoDecider(_content);
                 int target = finalAge * GameDate.WeeksPerYear;

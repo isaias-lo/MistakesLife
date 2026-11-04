@@ -302,6 +302,10 @@ Cuando el jugador muere, puede seguir con uno de sus hijos vivos, en el mismo mu
 - El hijo recibe la vida previa de su país y escribe en su diario `diario.muerte_madre` o `diario.muerte_padre`, y luego `diario.legado`.
 - Si no quedan hijos vivos, la partida termina.
 
+## Volver al pasado
+
+Textos obligatorios del núcleo en `packs/base/lang/es.json`: `diario.intuicion` (al volver al pasado), `diario.intuicion_decision` (al volver antes de una decisión que ya se había tomado) y el nombre de cada etapa de la vida: `etapa_vida.infancia`, `etapa_vida.ninez`, `etapa_vida.adolescencia`, `etapa_vida.juventud`, `etapa_vida.adultez`, `etapa_vida.madurez` y `etapa_vida.vejez`. Las fotos antes de decidir se sacan en los eventos con `"dia_clave": true`.
+
 ## Carrera (career.json)
 
 Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. El país no necesita conocer las carreras: un evento con `"opciones_carreras": true` (en Chile, `evento.elegir_futuro`) recibe una opción por cada nivel de cada carrera cargada.
