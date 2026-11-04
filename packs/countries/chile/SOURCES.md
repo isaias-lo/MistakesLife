@@ -77,7 +77,7 @@
 
 - **Mortalidad desde los 90 años:** la tabla del INE agrupa "90 y más"; de 90 a 110 se extrapoló siguiendo la curva de las edades anteriores (cada 5 años sube ~1,5 veces). Además la tabla es de 2011: hoy la esperanza de vida en Chile es algo mayor (cerca de 81 años en promedio). Conviene actualizarla con la tabla más reciente del INE.
 
-- **Probabilidades anuales sin estadística exacta:** temblor fuerte que se siente en Santiago (0.3), temporal que inunda la calle (0.25) y un 18 memorable (0.35).
+- **Probabilidades anuales sin estadística exacta:** temblor fuerte que se siente en Santiago (0.15, como máximo uno al año; antes 0.3, que se sentía casi todos los años), temporal que inunda la calle (0.25) y un 18 memorable (0.35).
 
 - **Nivel de hogar de Puente Alto (10 a 65):** comuna popular y de clase media baja, con sectores de alta vulnerabilidad como Bajos de Mena. CASEN 2024 da 13,8 % de pobreza por ingresos y 22,1 % multidimensional: hay que llevar esos números a la distribución de `nivel_hogar`.
 - **Solo una comuna:** la fase 1 parte en Puente Alto. Las demás comunas de Santiago se suman después de investigarlas.
