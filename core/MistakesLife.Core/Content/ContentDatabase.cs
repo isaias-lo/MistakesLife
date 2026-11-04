@@ -19,6 +19,8 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CareerDefinition> _careers = new SortedDictionary<string, CareerDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, CareerLevelDefinition> _careerLevels = new Dictionary<string, CareerLevelDefinition>(StringComparer.Ordinal);
+        private readonly Dictionary<string, CareerAreaDefinition> _careerAreas = new Dictionary<string, CareerAreaDefinition>(StringComparer.Ordinal);
+        private readonly Dictionary<string, CareerPositionDefinition> _careerPositions = new Dictionary<string, CareerPositionDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, Dictionary<string, string>> _texts = new SortedDictionary<string, Dictionary<string, string>>(StringComparer.Ordinal);
         private readonly List<ContentError> _errors = new List<ContentError>();
         private bool _built;
@@ -37,6 +39,14 @@ namespace MistakesLife.Core.Content
 
         public CareerLevelDefinition GetCareerLevel(string id) =>
             _careerLevels.TryGetValue(id, out CareerLevelDefinition? level) ? level : throw new KeyNotFoundException($"No existe el nivel de carrera '{id}'.");
+
+        public CareerAreaDefinition GetCareerArea(string id) =>
+            _careerAreas.TryGetValue(id, out CareerAreaDefinition? area) ? area : throw new KeyNotFoundException($"No existe el área de carrera '{id}'.");
+
+        public bool TryGetCareerArea(string id, out CareerAreaDefinition? area) => _careerAreas.TryGetValue(id, out area);
+
+        public CareerPositionDefinition GetCareerPosition(string id) =>
+            _careerPositions.TryGetValue(id, out CareerPositionDefinition? position) ? position : throw new KeyNotFoundException($"No existe el cargo '{id}'.");
 
         /// <summary>Idioma base: todo texto debe existir en este idioma.</summary>
         public const string BaseLanguage = "es";
@@ -231,6 +241,18 @@ namespace MistakesLife.Core.Content
             foreach (CareerDefinition career in _careers.Values)
             {
                 ValidateCareer(career);
+            }
+
+            // Los requisitos se leen después de registrar todas las áreas y cargos,
+            // porque pueden nombrar los de cualquier carrera.
+            foreach (CareerAreaDefinition area in _careerAreas.Values)
+            {
+                area.CompiledRequirements = CompileCondition($"carrera {area.CareerId}, {area.Id}", area.Requirements);
+            }
+
+            foreach (CareerPositionDefinition position in _careerPositions.Values)
+            {
+                position.CompiledRequirements = CompileCondition($"carrera {position.CareerId}, {position.Id}", position.Requirements);
             }
 
             foreach (EventDefinition ev in _events.Values.Where(e => e.CareerOptions))
@@ -740,6 +762,151 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(levelWhere, "sueldo_relativo debe ser mayor que 0."));
                 }
             }
+
+            ValidateAreas(where, career);
+        }
+
+        /// <summary>Mínimo de áreas por carrera (regla 3 del diseño de carreras).</summary>
+        public const int MinimumAreas = 3;
+
+        private void ValidateAreas(string where, CareerDefinition career)
+        {
+            if (career.Areas.Count == 0)
+            {
+                if (career.Positions.Count > 0)
+                {
+                    _errors.Add(new ContentError(where, "tiene cargos pero ninguna área: los cargos se usan dentro de un área."));
+                }
+
+                return;
+            }
+
+            if (career.Areas.Count < MinimumAreas)
+            {
+                _errors.Add(new ContentError(where, $"debe tener al menos {MinimumAreas} áreas (tiene {career.Areas.Count})."));
+            }
+
+            var positionIds = new HashSet<string>(StringComparer.Ordinal);
+            IReadOnlyList<CareerPositionDefinition>? shared = career.Positions.Count > 0 ? ValidateLadder(where, career, career.Positions, positionIds) : null;
+            foreach (CareerAreaDefinition area in career.Areas)
+            {
+                string areaWhere = $"{where}, {area.Id}";
+                area.CareerId = career.Id;
+                CheckId(areaWhere, area.Id, career.Id + ".area.");
+                if (_careerAreas.ContainsKey(area.Id))
+                {
+                    _errors.Add(new ContentError(areaWhere, "id de área repetido."));
+                    continue;
+                }
+
+                _careerAreas.Add(area.Id, area);
+                if (area.SalaryRelative <= 0)
+                {
+                    _errors.Add(new ContentError(areaWhere, "sueldo_relativo debe ser mayor que 0."));
+                }
+
+                IReadOnlyList<CareerPositionDefinition>? ladder = area.Positions != null && area.Positions.Count > 0
+                    ? ValidateLadder(areaWhere, career, area.Positions, positionIds)
+                    : shared;
+                if (ladder == null || ladder.Count == 0)
+                {
+                    _errors.Add(new ContentError(areaWhere, "no tiene cargos: define \"cargos\" en la carrera o en el área."));
+                    area.Ladder = new List<CareerPositionDefinition>();
+                    continue;
+                }
+
+                area.Ladder = ladder;
+            }
+        }
+
+        /// <summary>
+        /// Revisa una escalera de cargos y enlaza cada cargo con sus siguientes y su anterior.
+        /// Todo cargo debe poder alcanzarse desde el primero, y por un solo camino.
+        /// </summary>
+        private IReadOnlyList<CareerPositionDefinition> ValidateLadder(string where, CareerDefinition career, List<CareerPositionDefinition> positions, HashSet<string> careerPositionIds)
+        {
+            var byId = new Dictionary<string, CareerPositionDefinition>(StringComparer.Ordinal);
+            foreach (CareerPositionDefinition position in positions)
+            {
+                string positionWhere = $"{where}, {position.Id}";
+                position.CareerId = career.Id;
+                CheckId(positionWhere, position.Id, career.Id + ".cargo.");
+                if (!careerPositionIds.Add(position.Id) || _careerPositions.ContainsKey(position.Id))
+                {
+                    _errors.Add(new ContentError(positionWhere, "id de cargo repetido (cada escalera usa cargos propios)."));
+                    continue;
+                }
+
+                byId.Add(position.Id, position);
+                _careerPositions.Add(position.Id, position);
+                if (position.SalaryRelative <= 0)
+                {
+                    _errors.Add(new ContentError(positionWhere, "sueldo_relativo debe ser mayor que 0."));
+                }
+
+                if (position.MinMonths < 0)
+                {
+                    _errors.Add(new ContentError(positionWhere, "meses_minimos no puede ser negativo."));
+                }
+
+                if (position.MinPerformance < 0 || position.MinPerformance > 100)
+                {
+                    _errors.Add(new ContentError(positionWhere, "desempeno_minimo debe estar entre 0 y 100."));
+                }
+            }
+
+            for (int i = 0; i < positions.Count; i++)
+            {
+                CareerPositionDefinition position = positions[i];
+                IEnumerable<string> nextIds = position.Next ?? (i + 1 < positions.Count ? new List<string> { positions[i + 1].Id } : new List<string>());
+                var next = new List<CareerPositionDefinition>();
+                foreach (string nextId in nextIds)
+                {
+                    if (!byId.TryGetValue(nextId, out CareerPositionDefinition? target))
+                    {
+                        _errors.Add(new ContentError($"{where}, {position.Id}", $"siguientes: el cargo '{nextId}' no está en esta escalera."));
+                        continue;
+                    }
+
+                    if (target == positions[0] || (target.Previous != null && target.Previous != position))
+                    {
+                        _errors.Add(new ContentError($"{where}, {position.Id}", $"siguientes: al cargo '{nextId}' ya se llega desde otro; cada cargo tiene un solo anterior."));
+                        continue;
+                    }
+
+                    target.Previous = position;
+                    next.Add(target);
+                }
+
+                position.NextPositions = next;
+            }
+
+            // Profundidad desde el inicial; un cargo sin profundidad no se alcanza nunca.
+            var reached = new HashSet<CareerPositionDefinition>();
+            var pending = new Queue<CareerPositionDefinition>();
+            if (positions.Count > 0)
+            {
+                positions[0].Depth = 0;
+                reached.Add(positions[0]);
+                pending.Enqueue(positions[0]);
+            }
+
+            while (pending.Count > 0)
+            {
+                CareerPositionDefinition current = pending.Dequeue();
+                foreach (CareerPositionDefinition next in current.NextPositions.Where(n => reached.Add(n)))
+                {
+                    next.Depth = current.Depth + 1;
+                    pending.Enqueue(next);
+                }
+            }
+
+            foreach (CareerPositionDefinition position in positions.Where(p => !reached.Contains(p)))
+            {
+                _errors.Add(new ContentError($"{where}, {position.Id}", "no se llega a este cargo desde el primero de la escalera."));
+            }
+
+            return positions;
         }
 
         /// <summary>
@@ -857,6 +1024,16 @@ namespace MistakesLife.Core.Content
                 {
                     yield return new KeyValuePair<string, string>(level.Id, $"carrera {career.Id}");
                     yield return new KeyValuePair<string, string>(level.TitleTextKey, $"carrera {career.Id}");
+                }
+
+                foreach (CareerAreaDefinition area in career.Areas)
+                {
+                    yield return new KeyValuePair<string, string>(area.Id, $"carrera {career.Id}");
+                }
+
+                foreach (CareerPositionDefinition position in career.Positions.Concat(career.Areas.SelectMany(a => a.Positions ?? new List<CareerPositionDefinition>())))
+                {
+                    yield return new KeyValuePair<string, string>(position.Id, $"carrera {career.Id}");
                 }
             }
 
@@ -1015,6 +1192,18 @@ namespace MistakesLife.Core.Content
                     {
                         _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): el país {country.Id} no tiene esa deuda. Todo país debe definir las deudas que usan los eventos."));
                     }
+                }
+
+                if ((reference.Function == "." + CharacterObject.WorkInAreaMethod || reference.Function == "." + CharacterObject.CanWorkInAreaMethod)
+                    && !_careerAreas.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): esa área de carrera no existe."));
+                }
+
+                if ((reference.Function == "." + CharacterObject.PromoteMethod || reference.Function == "." + CharacterObject.CanPromoteToMethod)
+                    && !_careerPositions.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese cargo no existe."));
                 }
 
                 if (reference.Function == EventScope.StudyFunction && !_careerLevels.ContainsKey(reference.Argument))

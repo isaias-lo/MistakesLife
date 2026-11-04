@@ -116,9 +116,17 @@ namespace MistakesLife.Core.Saving
 
             if (d.Job != null)
             {
-                var job = new Job(Parse<JobKind>(d.Job.Kind), d.Job.BaseSalary, d.Job.AdjustedPriceIndex);
+                CareerPosition? position = d.Job.AreaId != null && d.Job.PositionId != null ? new CareerPosition(d.Job.AreaId, d.Job.PositionId) : null;
+                var job = new Job(Parse<JobKind>(d.Job.Kind), d.Job.BaseSalary, d.Job.AdjustedPriceIndex, position);
                 job.Restore(d.Job.AdjustedPriceIndex, d.Job.MonthsSinceAdjustment);
+                job.MonthsInPosition = d.Job.MonthsInPosition;
+                job.Performance = d.Job.Performance;
                 character.Job = job;
+            }
+
+            if (d.LastAreaId != null && d.LastPositionId != null)
+            {
+                character.LastPosition = new CareerPosition(d.LastAreaId, d.LastPositionId);
             }
 
             if (d.LastPayslip != null)

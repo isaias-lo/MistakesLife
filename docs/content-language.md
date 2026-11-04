@@ -332,6 +332,46 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 
 Lo que pasa mientras se estudia (ramos, práctica, titulación, primer trabajo) va en los eventos del paquete. La titulación la decide un evento con `jugador.titularse()`: así cada carrera pone sus requisitos (por ejemplo, la práctica). La duración real suele ser mayor que la formal: un evento puede restar semestres con `jugador.semestres_aprobados -= 1`.
 
+### Áreas y cargos (campos `areas` y `cargos` de career.json)
+
+Toda carrera tiene **al menos tres áreas** (regla 3 del diseño; el núcleo rechaza el paquete si tiene menos) y una **escalera de cargos** del inicial a la cima. Un área puede tener su propia escalera (en contabilidad, auditoría llega a socio); si no, usa la de la carrera.
+
+```json
+"areas": [
+  { "id": "carrera.software.area.desarrollo", "sueldo_relativo": 1.0 },
+  { "id": "carrera.software.area.ciberseguridad", "sueldo_relativo": 1.2,
+    "requisitos": "jugador.titulado_en('carrera.software.nivel.ingenieria_civil_computacion') || jugador.tiene('certificacion_ciberseguridad')" }
+],
+"cargos": [
+  { "id": "carrera.software.cargo.junior" },
+  { "id": "carrera.software.cargo.semi_senior", "sueldo_relativo": 1.3, "meses_minimos": 18, "desempeno_minimo": 50 },
+  { "id": "carrera.software.cargo.senior", "sueldo_relativo": 1.7, "meses_minimos": 24, "desempeno_minimo": 55,
+    "siguientes": ["carrera.software.cargo.lider_tecnico", "carrera.software.cargo.jefe_de_equipo"] },
+  { "id": "carrera.software.cargo.cto", "sueldo_relativo": 3.4, "meses_minimos": 48, "desempeno_minimo": 65, "siguientes": [] }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `areas[].id` | Empieza con el id de la carrera + `.area.`; es también la clave de su nombre en `lang/` |
+| `areas[].requisitos` | Condición extra para trabajar en el área (certificación, diplomado, título universitario). Siempre hace falta, además, un título de esa carrera. Opcional |
+| `areas[].sueldo_relativo` | Cuánto paga el área frente al sueldo del título. Si falta, 1 |
+| `areas[].cargos` | Escalera propia del área. Opcional |
+| `cargos[].id` | Empieza con el id de la carrera + `.cargo.`; también es la clave de su nombre. Cada escalera usa ids propios |
+| `cargos[].sueldo_relativo` | Cuánto paga el cargo frente al sueldo del título. Si falta, 1. El sueldo de un cargo es `sueldo_titulo()` × área × cargo |
+| `cargos[].meses_minimos` | Meses en el cargo anterior que pide el ascenso a este. Si falta, 0 |
+| `cargos[].desempeno_minimo` | Desempeño (0 a 100) que pide el ascenso. Si falta, 50 |
+| `cargos[].requisitos` | Otros requisitos del ascenso: formación, personalidad (`jugador.extraversion >= 35`), contactos. Opcional |
+| `cargos[].siguientes` | A qué cargos se asciende desde este. Si falta, al siguiente de la lista; `[]` es la cima; dos o más dividen la carrera en caminos (técnico o de gestión). A cada cargo se llega por un solo camino |
+
+Reglas del núcleo, iguales para toda carrera:
+
+- **Dónde se empieza:** quien entra a un área sin experiencia, en el primer cargo. Con experiencia (su cargo actual o el último que tuvo en la carrera, aunque haya perdido el trabajo): en la misma área, en el mismo cargo; en otra área, un cargo más abajo (es el costo de cambiarse).
+- **Experiencia y desempeño:** cada mes en el cargo suma un mes de experiencia, y el desempeño se acerca 1 punto a lo que rinde su personalidad (35 + la mitad de su responsabilidad). Los eventos lo suben y lo bajan.
+- **Ascender:** se puede cuando cumple los meses, el desempeño y los requisitos de algún cargo siguiente. Lo da un evento (`jugador.ascender()`), así el contenido decide la probabilidad, la crisis económica o si la persona lo rechaza.
+
+Los eventos de ascenso comunes a toda carrera (oferta de ascenso, mala racha, bajar de cargo, despido, cima) están en el paquete del país (`events/ascensos.json`); los de cada área, en su paquete de carrera (`events/areas.json`).
+
 **Convención entre paquetes:** el país marca `puede_universidad` cuando el jugador cumple lo que su país exige para entrar a la universidad (en Chile, un buen puntaje PAES). Las carreras usan esa marca en vez de conocer la PAES.
 
 ## Semilla
@@ -466,6 +506,17 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `jugador.cuotas_deudas`, `jugador.moroso` | Lo que pagó en cuotas el último mes, y si está en el registro de morosos |
 | `jugador.dejar_trabajo()` | Deja de trabajar y de recibir sueldo (solo efectos) |
 | `jugador.trabaja`, `jugador.tipo_trabajo` | Si tiene trabajo; `'dependiente'`, `'honorarios'`, `'informal'` o `nada` |
+| `jugador.trabajar_en('área')`, `jugador.trabajar_en('área', 'honorarios')` | Empieza un trabajo en esa área de su carrera, en el cargo que le da su experiencia y con el sueldo de ese cargo. Es un error si no puede (revisa antes `puede_trabajar_en`). Con `jugador.trabajar_en(jugador.area)` cambia de contrato sin perder el cargo (solo efectos) |
+| `jugador.puede_trabajar_en('área')` | Si tiene un título de esa carrera y cumple los requisitos del área |
+| `jugador.area`, `jugador.cargo` | Área y cargo de su trabajo actual (`'carrera.software.cargo.senior'`), o `nada` si no trabaja en su carrera |
+| `jugador.cargo_anterior`, `jugador.ultimo_cargo` | El cargo de más abajo en su escalera (`nada` en el inicial), y el cargo actual o el último que tuvo en su carrera |
+| `jugador.meses_en_cargo` | Meses de experiencia en el cargo actual |
+| `jugador.desempeno` | Qué tan bien trabaja, 0 a 100. Se puede cambiar solo en un trabajo de su carrera (`jugador.desempeno += 5`) |
+| `jugador.puede_ascender`, `jugador.caminos_ascenso` | Si puede ascender ahora, y a cuántos cargos (2 cuando hay que elegir camino) |
+| `jugador.puede_ascender_a('cargo')` | Si puede ascender ahora a ese cargo |
+| `jugador.ascender()`, `jugador.ascender('cargo')` | Asciende y le suben el sueldo; con dos caminos hay que nombrar el cargo. Es un error si no puede (solo efectos) |
+| `jugador.bajar_cargo()` | Vuelve al cargo anterior, con su sueldo (solo efectos) |
+| `jugador.en_la_cima` | Si su cargo es el más alto de su escalera |
 | `jugador.meses_cotizados` | Meses en que cotizó para su pensión (con contrato). Los meses sin trabajo o informales no suman |
 | `jugador.sueldo`, `jugador.sueldo_liquido` | Sueldo bruto de hoy y líquido de la última liquidación (0 si no trabaja) |
 | `sueldo_minimo()`, `sueldo_tipico()` | Sueldos de referencia del país del jugador, en dinero del inicio del mundo (para usar en `trabajar`) |

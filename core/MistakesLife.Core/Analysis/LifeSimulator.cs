@@ -40,6 +40,9 @@ namespace MistakesLife.Core.Analysis
         /// </summary>
         public string JobSearchFlag { get; set; } = "buscando_trabajo";
 
+        /// <summary>Marca que pone el contenido al llegar a la cima de una carrera.</summary>
+        public string TopFlag { get; set; } = "llego_a_la_cima";
+
         /// <summary>Edad hasta la que se mide la densidad de cotización (meses cotizados desde los 18).</summary>
         public const int ContributionDensityAge = 65;
 
@@ -57,6 +60,7 @@ namespace MistakesLife.Core.Analysis
             double density = 0;
             int densityLives = 0;
             int totalFriends = 0;
+            int promotions = 0;
             double motherAffection = 0;
             int mothers = 0;
             double partnerResentment = 0;
@@ -129,6 +133,18 @@ namespace MistakesLife.Core.Analysis
                     {
                         realSalaries.Add((double)player.Job.Salary / economy.PriceIndex);
                     }
+                }
+
+                if (player.Job?.Position != null)
+                {
+                    string positionId = player.Job.Position.PositionId;
+                    report.FinalPositions[positionId] = report.FinalPositions.TryGetValue(positionId, out int count) ? count + 1 : 1;
+                    promotions += _content.GetCareerPosition(positionId).Depth;
+                }
+
+                if (player.HasFlag(TopFlag))
+                {
+                    report.ReachedTop++;
                 }
 
                 if (player.Job != null)
@@ -241,6 +257,8 @@ namespace MistakesLife.Core.Analysis
             report.AverageAnnualInflation = inflationLives == 0 ? 0 : inflation / inflationLives;
             report.AverageContributionDensity = densityLives == 0 ? 0 : density / densityLives;
             report.AverageFriends = lives == 0 ? 0 : (double)totalFriends / lives;
+            int inCareer = report.FinalPositions.Values.Sum();
+            report.AveragePromotions = inCareer == 0 ? 0 : (double)promotions / inCareer;
             report.AverageMotherAffection = mothers == 0 ? 0 : motherAffection / mothers;
             report.AveragePartnerResentment = partners == 0 ? 0 : partnerResentment / partners;
             realSalaries.Sort();

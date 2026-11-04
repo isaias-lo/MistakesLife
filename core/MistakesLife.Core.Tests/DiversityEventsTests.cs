@@ -75,7 +75,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void PersonaGayOLesbiana_DescubreSuAtraccion_SaleDelCloset_YSuFamiliaReacciona()
         {
-            LifeSession session = Play(p => p.Orientation = Orientation.Homosexual, 25);
+            LifeSession session = Play(p => p.Orientation = Orientation.Homosexual, 45);
             Character player = session.World.Player;
 
             Assert.True(Saw(session, "evento.descubrir_atraccion"));

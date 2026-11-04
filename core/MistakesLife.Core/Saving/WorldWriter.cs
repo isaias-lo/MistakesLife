@@ -87,7 +87,13 @@ namespace MistakesLife.Core.Saving
                     BaseSalary = c.Job.BaseSalary,
                     AdjustedPriceIndex = c.Job.AdjustedPriceIndex,
                     MonthsSinceAdjustment = c.Job.MonthsSinceAdjustment,
+                    AreaId = c.Job.Position?.AreaId,
+                    PositionId = c.Job.Position?.PositionId,
+                    MonthsInPosition = c.Job.MonthsInPosition,
+                    Performance = c.Job.Performance,
                 },
+                LastAreaId = c.LastPosition?.AreaId,
+                LastPositionId = c.LastPosition?.PositionId,
                 LastPayslip = c.LastPayslip == null ? null : new PayslipData
                 {
                     Week = c.LastPayslip.Date.TotalWeeks,

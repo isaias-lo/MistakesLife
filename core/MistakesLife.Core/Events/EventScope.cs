@@ -243,12 +243,15 @@ namespace MistakesLife.Core.Events
         /// país por el "sueldo_relativo" del nivel (o por "relativo_sin_titulo" si no
         /// tiene título). Nunca menos que el sueldo mínimo. En dinero del inicio del mundo.
         /// </summary>
-        private double DegreeSalary()
+        private double DegreeSalary() => DegreeSalaryOf(Subject);
+
+        /// <summary>sueldo_titulo() de esa persona: el sueldo típico por lo que vale su mejor título.</summary>
+        internal double DegreeSalaryOf(Character person)
         {
             SalaryDefinition salaries = Salaries();
-            double relative = Subject.Degrees.Count == 0
+            double relative = person.Degrees.Count == 0
                 ? salaries.NoDegreeRelative
-                : Subject.Degrees.Max(d => Content.GetCareerLevel(d).SalaryRelative);
+                : person.Degrees.Max(d => Content.GetCareerLevel(d).SalaryRelative);
             return Math.Max((double)salaries.Minimum, Math.Round((double)salaries.Typical * relative));
         }
 

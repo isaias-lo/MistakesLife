@@ -26,5 +26,89 @@
       "tendencia": "jugador.responsabilidad / 2 + si(jugador.tiene('liceo_tp'), 15, 5)",
       "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')"
     }
+  ],
+  "areas": [
+    {
+      "id": "carrera.contabilidad.area.general",
+      "sueldo_relativo": 0.9
+    },
+    {
+      "id": "carrera.contabilidad.area.impuestos",
+      "sueldo_relativo": 1.0,
+      "requisitos": "jugador.titulado_en('carrera.contabilidad.nivel.contador_auditor') || jugador.titulado_en('carrera.contabilidad.nivel.contador_auditor_ip') || jugador.tiene('diplomado_tributacion')"
+    },
+    {
+      "id": "carrera.contabilidad.area.remuneraciones",
+      "sueldo_relativo": 0.9,
+      "requisitos": "jugador.titulado_en('carrera.contabilidad.nivel.contador_auditor') || jugador.tiene('curso_legislacion_laboral')"
+    },
+    {
+      "id": "carrera.contabilidad.area.auditoria",
+      "sueldo_relativo": 1.1,
+      "requisitos": "jugador.titulado_en('carrera.contabilidad.nivel.contador_auditor')",
+      "cargos": [
+        {
+          "id": "carrera.contabilidad.cargo.asistente_auditoria",
+          "sueldo_relativo": 1.0
+        },
+        {
+          "id": "carrera.contabilidad.cargo.auditor",
+          "sueldo_relativo": 1.3,
+          "meses_minimos": 18,
+          "desempeno_minimo": 50
+        },
+        {
+          "id": "carrera.contabilidad.cargo.auditor_senior",
+          "sueldo_relativo": 1.7,
+          "meses_minimos": 24,
+          "desempeno_minimo": 55
+        },
+        {
+          "id": "carrera.contabilidad.cargo.gerente_auditoria",
+          "sueldo_relativo": 2.3,
+          "meses_minimos": 36,
+          "desempeno_minimo": 60,
+          "requisitos": "jugador.extraversion >= 30"
+        },
+        {
+          "id": "carrera.contabilidad.cargo.socio",
+          "sueldo_relativo": 3.2,
+          "meses_minimos": 72,
+          "desempeno_minimo": 70
+        }
+      ]
+    }
+  ],
+  "cargos": [
+    {
+      "id": "carrera.contabilidad.cargo.asistente",
+      "sueldo_relativo": 1.0
+    },
+    {
+      "id": "carrera.contabilidad.cargo.analista",
+      "sueldo_relativo": 1.25,
+      "meses_minimos": 18,
+      "desempeno_minimo": 50
+    },
+    {
+      "id": "carrera.contabilidad.cargo.contador_senior",
+      "sueldo_relativo": 1.55,
+      "meses_minimos": 24,
+      "desempeno_minimo": 55
+    },
+    {
+      "id": "carrera.contabilidad.cargo.jefe_contabilidad",
+      "sueldo_relativo": 2.0,
+      "meses_minimos": 36,
+      "desempeno_minimo": 60,
+      "requisitos": "jugador.extraversion >= 30"
+    },
+    {
+      "id": "carrera.contabilidad.cargo.gerente_finanzas",
+      "sueldo_relativo": 2.8,
+      "meses_minimos": 60,
+      "desempeno_minimo": 65,
+      "requisitos": "jugador.titulado_en('carrera.contabilidad.nivel.contador_auditor') || jugador.tiene('magister')"
+    }
   ]
 }

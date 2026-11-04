@@ -1,0 +1,30 @@
+[
+  {
+    "id": "semilla.psicologia.atendio_conocido",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.psicologia.callo_maltrato",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.psicologia.uso_fichas",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  },
+  {
+    "id": "semilla.psicologia.informe_comprado",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 6,
+    "condiciones": "jugador.area != nada"
+  }
+]

@@ -122,8 +122,32 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public decimal Money { get; set; }
 
-        /// <summary>Su trabajo actual (tipo y sueldo), o null si no trabaja.</summary>
-        public Economy.Job? Job { get; set; }
+        private Economy.Job? _job;
+
+        /// <summary>
+        /// Su trabajo actual (tipo y sueldo), o null si no trabaja. Al dejar un trabajo de su
+        /// carrera se recuerda el cargo (<see cref="LastPosition"/>): con esa experiencia
+        /// vuelve a buscar.
+        /// </summary>
+        public Economy.Job? Job
+        {
+            get => _job;
+            set
+            {
+                if (_job?.Position != null && value?.Position == null)
+                {
+                    LastPosition = _job.Position;
+                }
+
+                _job = value;
+            }
+        }
+
+        /// <summary>
+        /// El último cargo que tuvo en su carrera y ya no tiene (porque dejó ese trabajo), o
+        /// null. Sirve para volver a trabajar sin partir de cero.
+        /// </summary>
+        public Economy.CareerPosition? LastPosition { get; internal set; }
 
         /// <summary>Su última liquidación de sueldo, o null si nunca ha recibido sueldo.</summary>
         public Economy.Payslip? LastPayslip { get; set; }

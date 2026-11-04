@@ -16,7 +16,9 @@ namespace MistakesLife.Core.Events
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
     /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo,
     /// fondo_pension, pension_estimada, meses_cotizados, jubilado, pension, pension_universal,
-    /// deuda, cuotas_deudas, moroso, puede_repactar, amigos, amigo, colega, rival, ex.
+    /// deuda, cuotas_deudas, moroso, puede_repactar, amigos, amigo, colega, rival, ex,
+    /// area, cargo, cargo_anterior, ultimo_cargo, meses_en_cargo, desempeno (se puede cambiar),
+    /// puede_ascender, caminos_ascenso, en_la_cima.
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada).
@@ -26,7 +28,9 @@ namespace MistakesLife.Core.Events
     /// cambiar_genero('género'), cambiar_nombre(), adoptar(),
     /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo(), declarar(),
     /// jubilarse(), recibir_pension_universal(), endeudarse('tipo', monto), deuda_de('tipo'), repactar(),
-    /// conocer('amistad' | 'colega' | 'rival'); en otra persona, vincular('lazo') y alejarse().
+    /// conocer('amistad' | 'colega' | 'rival'); en otra persona, vincular('lazo') y alejarse(),
+    /// trabajar_en('área') o trabajar_en('área', 'honorarios'), puede_trabajar_en('área'),
+    /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -41,6 +45,18 @@ namespace MistakesLife.Core.Events
 
         /// <summary>Método que cambia el lazo con quien se llegó: jugador.colega.vincular('amistad').</summary>
         public const string BondMethod = "vincular";
+
+        /// <summary>Método que empieza un trabajo en un área de su carrera: trabajar_en('carrera.software.area.qa').</summary>
+        public const string WorkInAreaMethod = "trabajar_en";
+
+        /// <summary>Método que pregunta si cumple los requisitos de un área.</summary>
+        public const string CanWorkInAreaMethod = "puede_trabajar_en";
+
+        /// <summary>Método que asciende al siguiente cargo, o a uno de ellos: ascender('carrera.software.cargo.cto').</summary>
+        public const string PromoteMethod = "ascender";
+
+        /// <summary>Método que pregunta si puede ascender ahora a ese cargo.</summary>
+        public const string CanPromoteToMethod = "puede_ascender_a";
 
         private readonly Character _character;
 
@@ -190,6 +206,26 @@ namespace MistakesLife.Core.Events
                     return Closest(RelationshipBond.Rival, scope);
                 case "ex":
                     return Closest(RelationshipBond.Ex, scope);
+                case "area":
+                    return TextOrNull(_character.Job?.Position?.AreaId);
+                case "cargo":
+                    return TextOrNull(_character.Job?.Position?.PositionId);
+                case "cargo_anterior":
+                    return _character.Job?.Position == null
+                        ? Value.Null
+                        : TextOrNull(((EventScope)scope).Content.GetCareerPosition(_character.Job.Position.PositionId).Previous?.Id);
+                case "ultimo_cargo":
+                    return TextOrNull((_character.Job?.Position ?? _character.LastPosition)?.PositionId);
+                case "meses_en_cargo":
+                    return Value.FromNumber(_character.Job?.Position == null ? 0 : _character.Job.MonthsInPosition);
+                case "desempeno":
+                    return Value.FromNumber(_character.Job?.Position == null ? 0 : _character.Job.Performance);
+                case "puede_ascender":
+                    return Value.FromBool(Promotions(scope).Count > 0);
+                case "caminos_ascenso":
+                    return Value.FromNumber(Promotions(scope).Count);
+                case "en_la_cima":
+                    return Value.FromBool(_character.Job?.Position != null && ((EventScope)scope).Content.GetCareerPosition(_character.Job.Position.PositionId).IsTop);
                 default:
                     throw new ScriptException($"jugador.{member} no existe.");
             }
@@ -305,6 +341,14 @@ namespace MistakesLife.Core.Events
                     break;
                 case "salud":
                     _character.Stats.Health = number;
+                    break;
+                case "desempeno":
+                    if (_character.Job?.Position == null)
+                    {
+                        throw new ScriptException("jugador.desempeno solo se puede cambiar en un trabajo de su carrera (revisa jugador.area != nada).");
+                    }
+
+                    _character.Job.Performance = number;
                     break;
                 case "felicidad":
                     _character.Stats.Happiness = number;
@@ -465,6 +509,24 @@ namespace MistakesLife.Core.Events
                     ((EventScope)scope).RequireWritable("jugador.alejarse");
                     RelationshipRules.SetBond(((EventScope)scope).World, _character, Viewer(method + "()"), RelationshipBond.None);
                     return Value.Null;
+                case WorkInAreaMethod:
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    WorkInArea((EventScope)scope, args);
+                    return Value.Null;
+                case CanWorkInAreaMethod:
+                    return Value.FromBool(Economy.CareerLadder.CanEnter(((EventScope)scope).Content, _character, Area(scope, EventScope.SingleText("jugador." + method, args)), scope));
+                case PromoteMethod:
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Promote((EventScope)scope, args);
+                    return Value.Null;
+                case CanPromoteToMethod:
+                    string target = EventScope.SingleText("jugador." + method, args);
+                    return Value.FromBool(Promotions(scope).Any(p => p.Id == target));
+                case "bajar_cargo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.bajar_cargo");
+                    Demote((EventScope)scope);
+                    return Value.Null;
                 case "titulado_en":
                     string career = EventScope.SingleText("jugador." + method, args);
                     return Value.FromBool(_character.Degrees.Any(d => d == career || d.StartsWith(career + ".", StringComparison.Ordinal)));
@@ -535,27 +597,112 @@ namespace MistakesLife.Core.Events
                 throw new ScriptException("jugador.trabajar(): el sueldo no puede ser negativo.");
             }
 
-            Economy.JobKind kind = Economy.JobKind.Employee;
-            if (args.Length == 2)
+            Economy.JobKind kind = args.Length == 2 ? ParseJobKind("jugador.trabajar()", args[1].AsText("jugador.trabajar()")) : Economy.JobKind.Employee;
+            decimal baseSalary = Math.Round((decimal)salary, MidpointRounding.AwayFromZero);
+            _character.Job = new Economy.Job(kind, baseSalary, PriceIndex(scope));
+        }
+
+        private static Content.CareerAreaDefinition Area(IScriptScope scope, string areaId)
+        {
+            if (!((EventScope)scope).Content.TryGetCareerArea(areaId, out Content.CareerAreaDefinition? area))
             {
-                string key = args[1].AsText("jugador.trabajar()");
-                if (key == "honorarios")
-                {
-                    kind = Economy.JobKind.Freelance;
-                }
-                else if (key == "informal")
-                {
-                    kind = Economy.JobKind.Informal;
-                }
-                else if (key != "dependiente")
-                {
-                    throw new ScriptException($"jugador.trabajar(): el tipo '{key}' no existe; usa 'dependiente', 'honorarios' o 'informal'.");
-                }
+                throw new ScriptException($"El área de carrera '{areaId}' no existe.");
             }
 
-            double index = _character.Residence == null ? 1 : scope.World.EconomyOf(_character.Residence.CountryId)?.PriceIndex ?? 1;
-            decimal baseSalary = Math.Round((decimal)salary, MidpointRounding.AwayFromZero);
-            _character.Job = new Economy.Job(kind, baseSalary, index);
+            return area!;
+        }
+
+        private System.Collections.Generic.IReadOnlyList<Content.CareerPositionDefinition> Promotions(IScriptScope scope) =>
+            _character.Job == null
+                ? Array.Empty<Content.CareerPositionDefinition>()
+                : Economy.CareerLadder.EligiblePromotions(((EventScope)scope).Content, _character.Job, scope);
+
+        private double PriceIndex(EventScope scope) =>
+            _character.Residence == null ? 1 : scope.World.EconomyOf(_character.Residence.CountryId)?.PriceIndex ?? 1;
+
+        /// <summary>
+        /// trabajar_en('área') o trabajar_en('área', 'honorarios' o 'informal'): empieza un
+        /// trabajo en esa área de su carrera, en el cargo que le da su experiencia
+        /// (ver CareerLadder.StartingPosition) y con el sueldo de ese cargo.
+        /// </summary>
+        private void WorkInArea(EventScope scope, Value[] args)
+        {
+            if (args.Length < 1 || args.Length > 2)
+            {
+                throw new ScriptException("jugador.trabajar_en() necesita el área y, si quieres, el tipo: trabajar_en('carrera.software.area.qa', 'honorarios').");
+            }
+
+            Content.CareerAreaDefinition area = Area(scope, args[0].AsText("jugador.trabajar_en()"));
+            if (!Economy.CareerLadder.CanEnter(scope.Content, _character, area, scope))
+            {
+                throw new ScriptException($"jugador.trabajar_en('{area.Id}'): no tiene un título de esa carrera o no cumple los requisitos del área (revisa jugador.puede_trabajar_en('{area.Id}')).");
+            }
+
+            Economy.JobKind kind = args.Length == 2 ? ParseJobKind("jugador.trabajar_en()", args[1].AsText("jugador.trabajar_en()")) : Economy.JobKind.Employee;
+            Content.CareerPositionDefinition position = Economy.CareerLadder.StartingPosition(scope.Content, _character, area);
+            Place(scope, kind, area, position);
+        }
+
+        private void Place(EventScope scope, Economy.JobKind kind, Content.CareerAreaDefinition area, Content.CareerPositionDefinition position)
+        {
+            decimal salary = Economy.CareerLadder.Salary(scope.DegreeSalaryOf(_character), area, position);
+            Economy.CareerLadder.Place(_character, kind, salary, PriceIndex(scope), area, position);
+        }
+
+        /// <summary>ascender() sube al único cargo posible; ascender('cargo') elige uno cuando hay dos caminos.</summary>
+        private void Promote(EventScope scope, Value[] args)
+        {
+            System.Collections.Generic.IReadOnlyList<Content.CareerPositionDefinition> options = Promotions(scope);
+            Content.CareerPositionDefinition? target;
+            if (args.Length == 0)
+            {
+                if (options.Count > 1)
+                {
+                    throw new ScriptException("jugador.ascender(): hay más de un camino; elige uno con ascender('cargo').");
+                }
+
+                target = options.FirstOrDefault();
+            }
+            else
+            {
+                string id = EventScope.SingleText("jugador.ascender", args);
+                target = options.FirstOrDefault(p => p.Id == id);
+            }
+
+            if (target == null)
+            {
+                throw new ScriptException("jugador.ascender(): no puede ascender ahora (revisa jugador.puede_ascender o jugador.puede_ascender_a('cargo')).");
+            }
+
+            Economy.Job job = _character.Job!;
+            Place(scope, job.Kind, scope.Content.GetCareerArea(job.Position!.AreaId), target);
+        }
+
+        private void Demote(EventScope scope)
+        {
+            Economy.Job? job = _character.Job;
+            Content.CareerPositionDefinition? previous = job?.Position == null ? null : scope.Content.GetCareerPosition(job.Position.PositionId).Previous;
+            if (previous == null)
+            {
+                throw new ScriptException("jugador.bajar_cargo(): no hay un cargo más abajo (revisa jugador.cargo_anterior != nada).");
+            }
+
+            Place(scope, job!.Kind, scope.Content.GetCareerArea(job.Position!.AreaId), previous);
+        }
+
+        private static Economy.JobKind ParseJobKind(string where, string key)
+        {
+            switch (key)
+            {
+                case "dependiente":
+                    return Economy.JobKind.Employee;
+                case "honorarios":
+                    return Economy.JobKind.Freelance;
+                case "informal":
+                    return Economy.JobKind.Informal;
+                default:
+                    throw new ScriptException($"{where}: el tipo '{key}' no existe; usa 'dependiente', 'honorarios' o 'informal'.");
+            }
         }
 
         private static void NoArguments(string method, Value[] args)
