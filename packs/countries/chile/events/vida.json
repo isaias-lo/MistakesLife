@@ -235,11 +235,35 @@
   },
   {
     "id": "evento.temblor",
-    "condiciones": "jugador.edad >= 3",
-    "probabilidad_anual": 0.3,
+    "condiciones": "jugador.edad >= 3 && jugador.edad < 18",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 52,
     "efectos": [
       "jugador.felicidad -= 1",
       "diario('diario.temblor')"
+    ]
+  },
+  {
+    "id": "evento.temblor_adulto",
+    "condiciones": "jugador.edad >= 18",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.temblor_adulto.salir",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "diario('diario.temblor_salir')"
+        ]
+      },
+      {
+        "texto": "opcion.temblor_adulto.quedarse",
+        "tendencia": "100 - jugador.neuroticismo",
+        "efectos": [
+          "diario('diario.temblor_quedarse')"
+        ]
+      }
     ]
   },
   {
