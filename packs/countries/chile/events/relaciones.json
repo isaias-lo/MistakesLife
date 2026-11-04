@@ -1,0 +1,428 @@
+[
+  {
+    "id": "evento.nuevo_amigo_colegio",
+    "condiciones": "jugador.edad >= 6 && jugador.edad < 18 && jugador.amigos < 3",
+    "probabilidad_anual": 0.45,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.nuevo_amigo_colegio.acercarse",
+        "tendencia": "30 + jugador.extraversion / 2",
+        "efectos": [
+          "jugador.conocer('amistad')",
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.nuevo_amigo_colegio.quedarse",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.nuevo_amigo_adulto",
+    "condiciones": "jugador.edad >= 18 && jugador.edad < 75 && jugador.amigos < 4 && (jugador.tiene('trabajando') || jugador.estudia != nada || jugador.tiene('club_adulto_mayor'))",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.nuevo_amigo_adulto.acercarse",
+        "tendencia": "20 + jugador.extraversion / 2",
+        "efectos": [
+          "jugador.conocer('amistad')",
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.nuevo_amigo_adulto.quedarse",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.juntarse_con_amigos",
+    "condiciones": "jugador.amigo != nada && jugador.edad >= 12",
+    "probabilidad_anual": 0.6,
+    "enfriamiento_semanas": 13,
+    "opciones": [
+      {
+        "texto": "opcion.juntarse_con_amigos.ir",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "jugador.amigo.carino += 5",
+          "jugador.amigo.confianza += 2",
+          "jugador.felicidad += 3",
+          "jugador.dinero -= si(jugador.edad >= 18, precio(10000), 0)"
+        ]
+      },
+      {
+        "texto": "opcion.juntarse_con_amigos.no_ir",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.amigo.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.pelea_amigo",
+    "condiciones": "jugador.amigo != nada && jugador.edad >= 10",
+    "probabilidad_anual": 0.12,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.pelea_amigo.perdon",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.amigo.rencor -= 5",
+          "jugador.amigo.respeto += 5",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.pelea_amigo.orgullo",
+        "tendencia": "100 - jugador.amabilidad",
+        "efectos": [
+          "jugador.amigo.rencor += 25",
+          "jugador.amigo.carino -= 10",
+          "jugador.felicidad -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.amigo_se_aleja",
+    "condiciones": "jugador.amigo != nada && (jugador.amigo.carino < 30 || jugador.amigo.rencor >= 50)",
+    "probabilidad_anual": 0.5,
+    "enfriamiento_semanas": 26,
+    "efectos": [
+      "jugador.amigo.alejarse()",
+      "jugador.felicidad -= 4",
+      "diario('diario.amigo_se_alejo')"
+    ]
+  },
+  {
+    "id": "evento.amigo_pide_plata",
+    "condiciones": "jugador.edad >= 18 && jugador.amigo != nada && jugador.dinero > precio(150000) && !semilla('semilla.presto_plata_amigo').activa",
+    "probabilidad_anual": 0.12,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.amigo_pide_plata.prestar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.dinero -= precio(100000)",
+          "jugador.amigo.carino += 8",
+          "jugador.amigo.confianza += 10",
+          "plantar('semilla.presto_plata_amigo', jugador.amigo)"
+        ]
+      },
+      {
+        "texto": "opcion.amigo_pide_plata.no_prestar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.amigo.rencor += 15",
+          "jugador.amigo.carino -= 5"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.amigo_devuelve_plata",
+    "semilla": "semilla.presto_plata_amigo",
+    "condiciones": "semilla('semilla.presto_plata_amigo').testigo != nada && semilla('semilla.presto_plata_amigo').testigo.responsabilidad >= 45",
+    "efectos": [
+      "jugador.dinero += precio(100000)",
+      "semilla('semilla.presto_plata_amigo').testigo.carino += 5",
+      "jugador.felicidad += 2"
+    ]
+  },
+  {
+    "id": "evento.amigo_no_devuelve_plata",
+    "semilla": "semilla.presto_plata_amigo",
+    "condiciones": "semilla('semilla.presto_plata_amigo').testigo != nada && semilla('semilla.presto_plata_amigo').testigo.responsabilidad < 45",
+    "opciones": [
+      {
+        "texto": "opcion.amigo_no_devuelve_plata.reclamar",
+        "tendencia": "100 - jugador.amabilidad",
+        "efectos": [
+          "semilla('semilla.presto_plata_amigo').testigo.rencor += 20",
+          "semilla('semilla.presto_plata_amigo').testigo.respeto += 5",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.amigo_no_devuelve_plata.dejar_pasar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.felicidad -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.amigo_no_devuelve_plata.cortar",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "semilla('semilla.presto_plata_amigo').testigo.alejarse()",
+          "jugador.felicidad -= 4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colega_nuevo",
+    "condiciones": "jugador.tiene('trabajando') && jugador.colega == nada && jugador.edad < 70",
+    "probabilidad_anual": 0.6,
+    "efectos": [
+      "jugador.conocer('colega')"
+    ]
+  },
+  {
+    "id": "evento.colega_amistad",
+    "condiciones": "jugador.colega != nada && jugador.colega.carino >= 30 && jugador.amigos < 4",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.colega_amistad.salir",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "jugador.colega.carino += 10",
+          "jugador.colega.vincular('amistad')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colega_amistad.distancia",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.dejar_de_ser_colegas",
+    "condiciones": "jugador.colega != nada && !jugador.tiene('trabajando')",
+    "probabilidad_anual": 0.9,
+    "efectos": [
+      "jugador.colega.alejarse()"
+    ]
+  },
+  {
+    "id": "evento.rival_trabajo",
+    "condiciones": "jugador.tiene('trabajando') && jugador.rival == nada && jugador.edad < 65",
+    "probabilidad_anual": 0.06,
+    "efectos": [
+      "jugador.conocer('rival')",
+      "jugador.felicidad -= 2"
+    ]
+  },
+  {
+    "id": "evento.rival_zancadilla",
+    "condiciones": "jugador.rival != nada && jugador.rival.rencor >= 30",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.rival_zancadilla.enfrentar",
+        "tendencia": "100 - jugador.amabilidad",
+        "efectos": [
+          "jugador.rival.respeto += 10",
+          "jugador.rival.rencor += 10",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.rival_zancadilla.ignorar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.felicidad -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.rival_zancadilla.acercarse",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.rival.rencor -= 20",
+          "jugador.rival.carino += 5"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.rival_se_calma",
+    "condiciones": "jugador.rival != nada && jugador.rival.rencor < 15",
+    "probabilidad_anual": 0.8,
+    "efectos": [
+      "jugador.rival.alejarse()",
+      "jugador.felicidad += 2"
+    ]
+  },
+  {
+    "id": "evento.discusion_adolescente",
+    "condiciones": "jugador.edad >= 13 && jugador.edad < 18 && jugador.madre != nada && jugador.madre.vivo",
+    "probabilidad_anual": 0.35,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.discusion_adolescente.conversar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.madre.confianza += 5",
+          "jugador.madre.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.discusion_adolescente.portazo",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.madre.rencor += 10",
+          "jugador.madre.confianza -= 8",
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.visitar_mama",
+    "condiciones": "jugador.edad >= 20 && jugador.madre != nada && jugador.madre.vivo && jugador.madre.edad >= 50",
+    "probabilidad_anual": 0.4,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.visitar_mama.ir",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.madre.carino += 5",
+          "jugador.madre.rencor -= 3",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.visitar_mama.no_hay_tiempo",
+        "tendencia": "si(jugador.tiene('trabajando'), 40, 15) + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "jugador.madre.carino -= 4",
+          "jugador.madre.rencor += 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.visitar_papa",
+    "condiciones": "jugador.edad >= 20 && jugador.padre != nada && jugador.padre.vivo && jugador.padre.edad >= 50",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.visitar_papa.ir",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.padre.carino += 5",
+          "jugador.padre.rencor -= 3",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.visitar_papa.no_hay_tiempo",
+        "tendencia": "si(jugador.tiene('trabajando'), 40, 15) + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "jugador.padre.carino -= 4",
+          "jugador.padre.rencor += 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.discusion_plata_pareja",
+    "condiciones": "jugador.pareja != nada && jugador.meses_en_rojo >= 2",
+    "probabilidad_anual": 0.6,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.discusion_plata_pareja.conversar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.pareja.rencor += 3",
+          "jugador.pareja.confianza += 2"
+        ]
+      },
+      {
+        "texto": "opcion.discusion_plata_pareja.culpar",
+        "tendencia": "jugador.neuroticismo",
+        "efectos": [
+          "jugador.pareja.rencor += 20",
+          "jugador.pareja.confianza -= 8",
+          "jugador.pareja.carino -= 5",
+          "jugador.felicidad -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.detalle_pareja",
+    "condiciones": "jugador.pareja != nada",
+    "probabilidad_anual": 0.4,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.detalle_pareja.sorprender",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.pareja.carino += 5",
+          "jugador.pareja.rencor -= 5",
+          "jugador.dinero -= precio(20000)",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.detalle_pareja.olvidar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.pareja.rencor += 12",
+          "jugador.pareja.carino -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja_se_va",
+    "condiciones": "jugador.pareja != nada && jugador.pareja.rencor >= 35 && jugador.pareja.carino < 70",
+    "probabilidad_anual": 0.6,
+    "enfriamiento_semanas": 26,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.terminar_pareja()",
+      "jugador.desmarcar('buscando_hijo')",
+      "jugador.desmarcar('buscando_adopcion')",
+      "jugador.desmarcar('no_quiere_hijos')",
+      "jugador.felicidad -= 12",
+      "diario('diario.pareja_se_fue')"
+    ]
+  },
+  {
+    "id": "evento.ex_escribe",
+    "condiciones": "jugador.ex != nada && jugador.pareja == nada && jugador.ex.carino >= 50 && jugador.edad < 60",
+    "probabilidad_anual": 0.1,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.ex_escribe.responder",
+        "tendencia": "20 + jugador.extraversion / 2",
+        "efectos": [
+          "jugador.ex.carino += 5",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.ex_escribe.ignorar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.ex.rencor += 5"
+        ]
+      }
+    ]
+  }
+]

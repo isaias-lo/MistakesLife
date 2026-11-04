@@ -10,8 +10,8 @@ using MistakesLife.Core.Worlds;
 namespace MistakesLife.Core.Life
 {
     /// <summary>
-    /// Crea a las personas nuevas que llegan a la vida de un personaje: su pareja
-    /// y sus hijos. Los nombres salen del paquete de su país. Todo el azar sale
+    /// Crea a las personas nuevas que llegan a la vida de un personaje: su pareja,
+    /// sus hijos, sus amigos, colegas y rivales. Los nombres salen del paquete de su país. Todo el azar sale
     /// del generador de la partida, así que la misma vida da la misma familia.
     /// </summary>
     public static class FamilyFactory
@@ -63,20 +63,78 @@ namespace MistakesLife.Core.Life
             return partner;
         }
 
-        /// <summary>Termina la pareja de <paramref name="person"/>. La otra persona sigue en el mundo.</summary>
-        public static void EndPartnership(World world, Character person)
+        /// <summary>
+        /// Termina la pareja de <paramref name="person"/>. La otra persona sigue en
+        /// el mundo. Si se separan (<paramref name="breakUp"/>), quedan como ex y
+        /// guardan lo que sentían; si termina porque uno murió, no.
+        /// </summary>
+        public static void EndPartnership(World world, Character person, bool breakUp = true)
         {
             if (!person.PartnerId.HasValue)
             {
                 throw new InvalidOperationException($"{person} no tiene pareja.");
             }
 
-            if (world.TryGetCharacter(person.PartnerId.Value, out Character? partner) && partner.PartnerId == person.Id)
+            if (breakUp && world.TryGetCharacter(person.PartnerId.Value, out Character? partner) && partner.PartnerId == person.Id)
             {
+                // Lo que sentían como pareja se guarda antes de separarse: queda como ex.
+                RelationshipRules.Edit(world, person, partner);
+                RelationshipRules.Edit(world, partner, person);
                 partner.PartnerId = null;
+                person.PartnerId = null;
+                RelationshipRules.SetBond(world, person, partner, RelationshipBond.Ex);
+                return;
+            }
+
+            if (world.TryGetCharacter(person.PartnerId.Value, out Character? other) && other.PartnerId == person.Id)
+            {
+                other.PartnerId = null;
             }
 
             person.PartnerId = null;
+        }
+
+        /// <summary>Diferencia máxima de edad (en años) con alguien que se conoce en el colegio.</summary>
+        public const int MaxSchoolAgeGap = 1;
+
+        /// <summary>Diferencia máxima de edad (en años) con alguien que se conoce de adulto.</summary>
+        public const int MaxAdultAgeGap = 8;
+
+        /// <summary>
+        /// Llega a la vida de <paramref name="person"/> alguien nuevo: un amigo, un
+        /// colega o un rival, del mismo lugar y de edad parecida (casi la misma en
+        /// el colegio; hasta <see cref="MaxAdultAgeGap"/> años de diferencia de
+        /// adulto). Queda con ese lazo en ambos sentidos.
+        /// </summary>
+        public static Character CreateAcquaintance(World world, ContentDatabase content, Character person, RelationshipBond bond)
+        {
+            Check(world, content, person);
+            if (bond != RelationshipBond.Friend && bond != RelationshipBond.Colleague && bond != RelationshipBond.Rival)
+            {
+                throw new ArgumentOutOfRangeException(nameof(bond), bond, "Solo se conoce a un amigo, un colega o un rival.");
+            }
+
+            CountryDefinition country = content.GetCountry(person.Residence!.CountryId);
+            GameRandom random = RandomFor(world, person, "conocido");
+            Sex sex = WorldFactory.RandomSex(random);
+            int personAge = person.AgeInYears(world.Date);
+            int gap = personAge < 18 ? MaxSchoolAgeGap : MaxAdultAgeGap;
+            int age = Math.Max(0, personAge + random.NextInt(-gap, gap + 1));
+            if (personAge >= 18)
+            {
+                age = Math.Max(18, age);
+            }
+
+            string firstName = random.Pick(sex == Sex.Female ? country.Names.Female : country.Names.Male);
+            string lastName = WorldFactory.Surnames(country, random.Pick(country.Names.Surnames), random.Pick(country.Names.Surnames));
+            Character other = WorldFactory.NewPerson(world, random, firstName, lastName, sex, WorldFactory.BirthDateForAge(world.Date, age, random));
+            other.Residence = person.Residence;
+            other.HouseholdLevel = Math.Max(0, Math.Min(100, person.HouseholdLevel + random.NextInt(-15, 16)));
+            Diversity.AssignAtBirth(other, country, random);
+            world.AddCharacter(other);
+
+            RelationshipRules.SetBond(world, person, other, bond);
+            return other;
         }
 
         /// <summary>

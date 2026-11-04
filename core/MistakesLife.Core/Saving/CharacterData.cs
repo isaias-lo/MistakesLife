@@ -79,6 +79,9 @@ namespace MistakesLife.Core.Saving
 
         public bool Delinquent { get; set; }
 
+        /// <summary>Lo que siente por otras personas (desde la versión 3 del formato).</summary>
+        public List<RelationshipData> Relationships { get; set; } = new List<RelationshipData>();
+
         public string? EducationStageId { get; set; }
 
         public List<string> Flags { get; set; } = new List<string>();

@@ -77,6 +77,36 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public int? PartnerId { get; set; }
 
+        private readonly SortedDictionary<int, Relationship> _relationships = new SortedDictionary<int, Relationship>();
+
+        /// <summary>
+        /// Lo que siente por otras personas (cariño, confianza, respeto y rencor) y
+        /// qué son (amigos, colegas, rivales, ex), ordenado por id. Solo están las
+        /// personas con quienes ya pasó algo: para el resto vale lo que diga
+        /// <see cref="Life.RelationshipRules.Feelings"/> según el lazo familiar.
+        /// </summary>
+        public IReadOnlyCollection<Relationship> Relationships => _relationships.Values;
+
+        /// <summary>Lo que siente por esa persona, o null si todavía no pasó nada entre ellos.</summary>
+        public Relationship? RelationshipWith(int otherId) =>
+            _relationships.TryGetValue(otherId, out Relationship? relationship) ? relationship : null;
+
+        /// <summary>Guarda lo que siente por otra persona (reemplaza lo anterior).</summary>
+        public void SetRelationship(Relationship relationship)
+        {
+            if (relationship == null)
+            {
+                throw new ArgumentNullException(nameof(relationship));
+            }
+
+            if (relationship.OtherId == Id)
+            {
+                throw new InvalidOperationException($"{this} no puede tener una relación consigo mismo.");
+            }
+
+            _relationships[relationship.OtherId] = relationship;
+        }
+
         /// <summary>Dónde vive: país, ciudad y comuna (ids de los paquetes).</summary>
         public Residence? Residence { get; set; }
 
