@@ -66,7 +66,7 @@
 | U1 | Núcleo listo para Unity: paquetes en un solo archivo (`PackBundle`, para Android) y vista de la partida (`LifePresenter`) con textos `ui.*` | Hecha |
 | U2 | Proyecto de Unity en `unity/` (Unity 6 LTS), comando `tools/MistakesLife.UnityExport` que copia el núcleo y los paquetes adentro, y pantalla de prueba | Hecha |
 | U3 | La vida en pantalla (2D): personaje con barras, evento con botones, familia, diario, legado y nueva vida (uGUI armado desde código, textos `ui.*`) | Hecha |
-| U4 | Guardar y continuar la partida en el teléfono (usa el guardado del núcleo) | Pendiente |
+| U4 | Guardar y continuar la partida en el teléfono: se guarda sola después de cada paso y al salir; al abrir el juego sigue la misma vida (`SaveStore`, usa `LifeSession.SaveToBytes`/`LoadFromBytes` del núcleo); un guardado dañado se aparta y empieza una vida nueva | En revisión |
 | U5a | Casa en 3D estilo maqueta sobre la pantalla de la vida: muebles según el nivel del hogar, cuna/cama/escritorio según la etapa, una figura por persona (`HomeView` en el núcleo), con los padres en casa hasta los 28 sin pareja | Hecha |
 | U5b | Barrio de Puente Alto en 3D: botones Casa/Barrio, cuadra con casas con reja (techo y pisos según el nivel del hogar), colegio, almacén, plaza y paradero, y un camino hasta adonde va el personaje esa semana (`DailyPlace` en el núcleo) | Hecha |
 | U5c | Lugar de trabajo en 3D según la carrera: botón Trabajo; cada carrera elige en su paquete `lugar_de_trabajo` (oficina abierta, cubículos o consulta); sin título, un local de atención; un título que paga más se ve más cuidado (`WorkplaceView` en el núcleo) | En revisión |
