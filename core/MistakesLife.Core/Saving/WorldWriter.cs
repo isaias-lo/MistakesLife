@@ -115,6 +115,7 @@ namespace MistakesLife.Core.Saving
                     Credits = c.PendingTaxReturn.Credits,
                 },
                 PensionFund = c.PensionFund,
+                ContributedMonths = c.ContributedMonths,
                 Pension = c.Pension,
                 ReceivesUniversalPension = c.ReceivesUniversalPension,
                 LastPensionPayment = c.LastPensionPayment,

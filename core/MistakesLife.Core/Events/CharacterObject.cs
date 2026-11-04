@@ -15,7 +15,7 @@ namespace MistakesLife.Core.Events
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
     /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo,
-    /// fondo_pension, pension_estimada, jubilado, pension, pension_universal,
+    /// fondo_pension, pension_estimada, meses_cotizados, jubilado, pension, pension_universal,
     /// deuda, cuotas_deudas, moroso, puede_repactar.
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
@@ -130,6 +130,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(_character.Delinquent);
                 case "puede_repactar":
                     return Value.FromBool(Economy.DebtSystem.CanReschedule(_character, Debts(scope)));
+                case "meses_cotizados":
+                    return Value.FromNumber(_character.ContributedMonths);
                 case "fondo_pension":
                     return Value.FromNumber((double)PayrollToday(_character.PensionFund, scope));
                 case "pension_estimada":
@@ -391,11 +393,12 @@ namespace MistakesLife.Core.Events
             Economy.DebtSystem.Borrow(_character, type, Economy.PayrollCalculator.ToToday((decimal)amount, priceIndex), priceIndex);
         }
 
-        /// <summary>Clave del tipo de trabajo en el lenguaje: 'dependiente' o 'honorarios'.</summary>
-        public static string JobKindKey(Economy.JobKind kind) => kind == Economy.JobKind.Freelance ? "honorarios" : "dependiente";
+        /// <summary>Clave del tipo de trabajo en el lenguaje: 'dependiente', 'honorarios' o 'informal'.</summary>
+        public static string JobKindKey(Economy.JobKind kind) =>
+            kind == Economy.JobKind.Freelance ? "honorarios" : kind == Economy.JobKind.Informal ? "informal" : "dependiente";
 
         /// <summary>
-        /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'): empieza un trabajo con ese
+        /// trabajar(sueldo) o trabajar(sueldo, 'honorarios' o 'informal'): empieza un trabajo con ese
         /// sueldo bruto mensual, escrito en dinero del inicio del mundo (por ejemplo
         /// sueldo_titulo() o sueldo_minimo() * 1.2). Reemplaza el trabajo anterior.
         /// </summary>
@@ -420,9 +423,13 @@ namespace MistakesLife.Core.Events
                 {
                     kind = Economy.JobKind.Freelance;
                 }
+                else if (key == "informal")
+                {
+                    kind = Economy.JobKind.Informal;
+                }
                 else if (key != "dependiente")
                 {
-                    throw new ScriptException($"jugador.trabajar(): el tipo '{key}' no existe; usa 'dependiente' u 'honorarios'.");
+                    throw new ScriptException($"jugador.trabajar(): el tipo '{key}' no existe; usa 'dependiente', 'honorarios' o 'informal'.");
                 }
             }
 

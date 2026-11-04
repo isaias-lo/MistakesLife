@@ -478,8 +478,8 @@
   },
   {
     "id": "evento.trabajo_sin_titulo",
-    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad < 26",
-    "peso": 20,
+    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad < 26 && mundo.ciclo != 'economia.ciclo.crisis'",
+    "probabilidad_anual": 0.6,
     "opciones": [
       {
         "texto": "opcion.trabajo.aceptar",

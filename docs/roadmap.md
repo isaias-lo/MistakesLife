@@ -78,7 +78,7 @@ Diagnóstico completo (2026-11-03): [Qué le falta al núcleo de MistakesLife](h
 
 | # | Tarea | Estado |
 |---|---|---|
-| N1 | Guardar y cargar la partida: a texto o bytes comprimidos, con versión y migraciones; la partida cargada sigue igual; `g` y `--cargar` en la consola | En revisión |
+| N1 | Guardar y cargar la partida: a texto o bytes comprimidos, con versión y migraciones; la partida cargada sigue igual; `g` y `--cargar` en la consola | Hecha |
 | N2 | Fotos del mundo para "volver al pasado" | Pendiente |
-| N3 | Mercado laboral realista: desempleo, buscar trabajo, lagunas de cotización | Pendiente |
+| N3 | Mercado laboral realista: trabajo informal sin cotizaciones, fin de contratos, dejar de buscar y volver, cuidar a los hijos en casa, meses cotizados (`jugador.meses_cotizados`) y desempleo en el simulador | En revisión |
 | N4 | Relaciones con cariño, confianza, respeto y rencor; amigos y colegas | Pendiente |

@@ -186,11 +186,38 @@ namespace MistakesLife.Core.Tests
             Assert.Contains("actualizar", error.Message);
         }
 
+        [Fact]
+        public void Cargar_UnGuardadoDeLaVersion1_LoConvierteYSigue()
+        {
+            var session = new LifeSession(RepoPacks.Content, 6);
+            PlayUntilAge(session, 30);
+            // Se lee con los números como decimales, para no perder dígitos del dinero.
+            using var reader = new Newtonsoft.Json.JsonTextReader(new System.IO.StringReader(session.SaveToText()))
+            {
+                FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Decimal,
+            };
+            var json = Newtonsoft.Json.Linq.JObject.Load(reader);
+
+            // Así era un guardado de la versión 1: sin los meses cotizados.
+            json["version"] = 1;
+            foreach (var character in json.SelectTokens("world.characters[*]"))
+            {
+                ((Newtonsoft.Json.Linq.JObject)character).Remove("contributedMonths");
+            }
+
+            LifeSession loaded = LifeSession.Load(RepoPacks.Content, json.ToString());
+
+            Assert.Equal(0, loaded.World.Player.ContributedMonths);
+            Assert.Equal(session.World.Player.Money, loaded.World.Player.Money);
+            Assert.Equal(session.World.Player.PensionFund, loaded.World.Player.PensionFund);
+            Assert.Contains("\"version\":" + CoreInfo.SaveFormatVersion, loaded.SaveToText());
+        }
+
         [Theory]
         [InlineData("esto no es un guardado")]
         [InlineData("{\"nombre\": \"otra cosa\"}")]
         [InlineData("{\"game\": \"MistakesLife\"}")]
-        [InlineData("{\"game\": \"MistakesLife\", \"version\": 1, \"world\": {\"playerId\": 99}}")]
+        [InlineData("{\"game\": \"MistakesLife\", \"version\": 2, \"world\": {\"playerId\": 99}}")]
         public void Cargar_UnTextoQueNoEsUnaPartida_DaUnErrorClaro(string text)
         {
             Assert.Throws<SaveFormatException>(() => LifeSession.Load(RepoPacks.Content, text));
@@ -216,7 +243,7 @@ namespace MistakesLife.Core.Tests
                 "Id", "FirstName", "LastName", "Sex", "Gender", "GenderIdentity", "Orientation", "BirthDate", "Personality", "Stats",
                 "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "Residence", "HouseholdLevel", "Money", "Job",
                 "LastPayslip", "LastExpenses", "MonthsInRed", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
-                "LastPensionPayment", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
+                "LastPensionPayment", "ContributedMonths", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
                 "IsAlive", "DeathDate", "DeathCauseId",
             };
             string[] world =

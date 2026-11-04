@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace MistakesLife.Core.Saving
@@ -15,10 +16,21 @@ namespace MistakesLife.Core.Saving
     {
         /// <summary>
         /// Pasos por versión de origen: el paso con clave N convierte un guardado
-        /// de la versión N en uno de la versión N + 1. La versión 1 es la primera,
-        /// así que todavía no hay pasos.
+        /// de la versión N en uno de la versión N + 1.
         /// </summary>
-        private static readonly IReadOnlyDictionary<int, Action<JObject>> Steps = new Dictionary<int, Action<JObject>>();
+        private static readonly IReadOnlyDictionary<int, Action<JObject>> Steps = new Dictionary<int, Action<JObject>>
+        {
+            // 1 → 2: aparecen los meses cotizados. Las partidas viejas no los
+            // contaron, así que parten en 0. El fondo de pensión ya ahorrado no
+            // cambia: solo se pierde el conteo de meses anteriores.
+            [1] = save =>
+            {
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    character["contributedMonths"] ??= 0;
+                }
+            },
+        };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>
         public static void MigrateToCurrent(JObject save, int version)

@@ -155,7 +155,7 @@
   {
     "id": "evento.psicologia.primer_trabajo",
     "condiciones": "jugador.titulado_en('carrera.psicologia') && jugador.tiene('buscando_trabajo')",
-    "peso": 15,
+    "probabilidad_anual": 0.75,
     "opciones": [
       {
         "texto": "opcion.psicologia.trabajo.cesfam",
