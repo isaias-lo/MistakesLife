@@ -93,6 +93,7 @@ namespace MistakesLife.Core.Presentation
                 Session.Heirs.Select(h => Person(h, ChildRelation(h))).ToList(),
                 Home(player),
                 PlaceOf(player),
+                PlaceLabel(player),
                 Workplace(player));
         }
 
@@ -113,6 +114,25 @@ namespace MistakesLife.Core.Presentation
             }
 
             return player.EducationStageId != null ? DailyPlace.School : DailyPlace.Home;
+        }
+
+        /// <summary>
+        /// La frase de adónde va esta semana. En el colegio usa el nombre de la etapa del
+        /// país ("Sala cuna", "Educación básica"), así una guagua no "va al colegio".
+        /// </summary>
+        private string PlaceLabel(Character player)
+        {
+            switch (PlaceOf(player))
+            {
+                case DailyPlace.Work:
+                    return T("ui.lugar.trabajo");
+                case DailyPlace.Studies:
+                    return T("ui.lugar.estudios");
+                case DailyPlace.School:
+                    return Text("ui.lugar.colegio", T(player.EducationStageId!));
+                default:
+                    return T("ui.lugar.casa");
+            }
         }
 
         /// <summary>Etapa de la vida para una edad en años.</summary>

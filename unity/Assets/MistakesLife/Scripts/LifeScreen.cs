@@ -164,21 +164,6 @@ namespace MistakesLife.Unity
             button.GetComponentInChildren<Text>().color = active ? UiFactory.AccentText : UiFactory.Ink;
         }
 
-        private static string PlaceKey(DailyPlace place)
-        {
-            switch (place)
-            {
-                case DailyPlace.School:
-                    return "ui.lugar.colegio";
-                case DailyPlace.Studies:
-                    return "ui.lugar.estudios";
-                case DailyPlace.Work:
-                    return "ui.lugar.trabajo";
-                default:
-                    return "ui.lugar.casa";
-            }
-        }
-
         /// <summary>Vuelve a dibujar todo con la foto actual de la partida.</summary>
         private void Refresh()
         {
@@ -217,7 +202,7 @@ namespace MistakesLife.Unity
             {
                 SetView(SceneView.Room);
             }
-            _placeLabel.text = presenter.Text(PlaceKey(life.DailyPlace));
+            _placeLabel.text = life.DailyPlaceLabel;
             DrawStory(presenter, life);
             DrawActions(presenter, life);
         }
