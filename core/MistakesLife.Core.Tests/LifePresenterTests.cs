@@ -260,5 +260,36 @@ namespace MistakesLife.Core.Tests
 
             Assert.NotEqual(atBirth, presenter.Snapshot().Home.Signature);
         }
+
+        [Fact]
+        public void Lugar_GuaguaSinJardin_EnCasa_YConColegio_AlColegio()
+        {
+            var baby = new LifePresenter(new LifeSession(RepoPacks.Content, 7)).Session.World.Player;
+            baby.EducationStageId = null;
+            Assert.Equal(DailyPlace.Home, LifePresenter.PlaceOf(baby));
+
+            baby.EducationStageId = "etapa.chile.basica";
+            Assert.Equal(DailyPlace.School, LifePresenter.PlaceOf(baby));
+        }
+
+        [Fact]
+        public void Lugar_ConTrabajo_EsElTrabajoAunqueEstudie()
+        {
+            LifePresenter presenter = NewGame(7);
+            for (int step = 0; step < 5000 && presenter.Session.World.Player.Job == null && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir; step++)
+            {
+                if (presenter.Phase == LifePhase.Choosing)
+                {
+                    presenter.Choose(0);
+                }
+                else
+                {
+                    presenter.AdvanceUntilSomething();
+                }
+            }
+
+            Assert.NotNull(presenter.Session.World.Player.Job);
+            Assert.Equal(DailyPlace.Work, presenter.Snapshot().DailyPlace);
+        }
     }
 }
