@@ -1,0 +1,56 @@
+# Saca capturas de las escenas 3D (pieza, barrio y trabajo) de algunas vidas fijas,
+# para revisar el diseño sin abrir Unity. Corre sola en cada PR que toca unity/
+# y también a mano: pestaña "Actions" → "Capturas 3D" → "Run workflow".
+# Las imágenes quedan para descargar al final de la ejecución (sección "Artifacts").
+#
+# Usa los mismos tres secretos que el APK (UNITY_LICENSE, UNITY_EMAIL, UNITY_PASSWORD).
+# Mientras no existan, el trabajo se salta sin fallar.
+name: Capturas 3D
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'unity/**'
+
+jobs:
+  capturas:
+    name: Sacar capturas
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      TIENE_LICENCIA: ${{ secrets.UNITY_LICENSE != '' }}
+    steps:
+      - name: Sin licencia de Unity no hay capturas
+        if: env.TIENE_LICENCIA != 'true'
+        run: echo "Faltan los secretos de Unity; ver https://game.ci/docs/github/activation"
+
+      - uses: actions/checkout@v4
+        if: env.TIENE_LICENCIA == 'true'
+
+      - uses: actions/cache@v4
+        if: env.TIENE_LICENCIA == 'true'
+        with:
+          path: unity/Library
+          key: Library-Linux-${{ hashFiles('unity/Assets/**', 'unity/Packages/**') }}
+          restore-keys: Library-Linux-
+
+      # El "armado" no arma el juego: solo abre Unity y corre SceneCaptures.Capture.
+      - uses: game-ci/unity-builder@v4
+        if: env.TIENE_LICENCIA == 'true'
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: unity
+          unityVersion: auto
+          targetPlatform: StandaloneLinux64
+          buildMethod: MistakesLife.Unity.Editor.SceneCaptures.Capture
+
+      - uses: actions/upload-artifact@v4
+        if: env.TIENE_LICENCIA == 'true'
+        with:
+          name: capturas
+          path: capturas
+          if-no-files-found: error
