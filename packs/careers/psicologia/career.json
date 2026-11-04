@@ -1,5 +1,6 @@
 {
   "id": "carrera.psicologia",
+  "lugar_de_trabajo": "lugar_trabajo.consulta",
   "niveles": [
     {
       "id": "carrera.psicologia.nivel.psicologo",

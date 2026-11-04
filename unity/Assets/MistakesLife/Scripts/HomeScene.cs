@@ -7,8 +7,9 @@ using UnityEngine.Rendering;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// La casa del jugador en 3D, estilo maqueta: la pieza (muebles y una figura por persona)
-    /// o el barrio (la cuadra con el camino adonde va esa semana), vistos desde arriba en diagonal.
+    /// La vida del jugador en 3D, estilo maqueta: la pieza (muebles y una figura por persona),
+    /// el barrio (la cuadra con el camino adonde va esa semana) o el lugar de trabajo,
+    /// vistos desde arriba en diagonal.
     /// Lo que se ve sale de <see cref="HomeView"/> (núcleo): el nivel del hogar decide
     /// colores y muebles, y la etapa de vida decide cuna, cama o escritorio.
     /// Se dibuja dentro de un rectángulo de la pantalla que le indica <see cref="LifeScreen"/>.
@@ -20,8 +21,9 @@ namespace MistakesLife.Unity
         private Camera _camera = null!;
         private Transform _room = null!;
         private Transform _block = null!;
+        private Transform _work = null!;
         private ShapeKit _kit = null!;
-        private bool _showNeighborhood;
+        private SceneView _view = SceneView.Room;
         private RectTransform? _viewport;
         private string? _shown;
 
@@ -74,25 +76,30 @@ namespace MistakesLife.Unity
             _room.SetParent(transform, false);
             _block = new GameObject("Barrio").transform;
             _block.SetParent(transform, false);
+            _work = new GameObject("Trabajo").transform;
+            _work.SetParent(transform, false);
             _kit = new ShapeKit(_room);
             ApplyMode();
         }
 
-        /// <summary>True si se está viendo el barrio; false si se ve la pieza.</summary>
-        public bool ShowingNeighborhood
+        /// <summary>Qué se está viendo: la pieza, el barrio o el trabajo.</summary>
+        public SceneView View
         {
-            get => _showNeighborhood;
+            get => _view;
             set
             {
-                _showNeighborhood = value;
+                _view = value;
                 ApplyMode();
             }
         }
 
-        /// <summary>Dibuja la casa y el barrio; si nada cambió desde la última vez, no hace nada.</summary>
-        public void Show(HomeView home, DailyPlace place)
+        /// <summary>
+        /// Dibuja la casa, el barrio y, si trabaja, el lugar de trabajo;
+        /// si nada cambió desde la última vez, no hace nada.
+        /// </summary>
+        public void Show(HomeView home, DailyPlace place, WorkplaceView? workplace)
         {
-            string signature = home.Signature + "|" + place;
+            string signature = home.Signature + "|" + place + "|" + (workplace?.Signature ?? "-");
             if (signature == _shown)
             {
                 return;
@@ -108,6 +115,12 @@ namespace MistakesLife.Unity
 
             _kit.Parent = _block;
             NeighborhoodBuilder.Build(_kit, home, place);
+
+            if (workplace != null)
+            {
+                _kit.Parent = _work;
+                OfficeBuilder.Build(_kit, workplace);
+            }
         }
 
         private void LateUpdate()
@@ -132,23 +145,30 @@ namespace MistakesLife.Unity
         {
             ShapeKit.ClearChildren(_room);
             ShapeKit.ClearChildren(_block);
+            ShapeKit.ClearChildren(_work);
             _kit.ReleaseMaterials();
         }
 
-        /// <summary>Mueve la cámara y muestra la pieza o el barrio.</summary>
+        /// <summary>Mueve la cámara y muestra solo lo que se está viendo.</summary>
         private void ApplyMode()
         {
-            _room.gameObject.SetActive(!_showNeighborhood);
-            _block.gameObject.SetActive(_showNeighborhood);
-            if (_showNeighborhood)
+            _room.gameObject.SetActive(_view == SceneView.Room);
+            _block.gameObject.SetActive(_view == SceneView.Neighborhood);
+            _work.gameObject.SetActive(_view == SceneView.Work);
+            switch (_view)
             {
-                _camera.transform.position = new Vector3(10f, 19f, -24f);
-                _camera.transform.LookAt(new Vector3(-1f, 0f, 0f));
-            }
-            else
-            {
-                _camera.transform.position = new Vector3(3.6f, 5.4f, -6.4f);
-                _camera.transform.LookAt(new Vector3(-0.2f, 0.5f, 0.5f));
+                case SceneView.Neighborhood:
+                    _camera.transform.position = new Vector3(10f, 19f, -24f);
+                    _camera.transform.LookAt(new Vector3(-1f, 0f, 0f));
+                    break;
+                case SceneView.Work:
+                    _camera.transform.position = new Vector3(4.4f, 6.4f, -7.6f);
+                    _camera.transform.LookAt(new Vector3(-0.2f, 0.5f, 0.4f));
+                    break;
+                default:
+                    _camera.transform.position = new Vector3(3.6f, 5.4f, -6.4f);
+                    _camera.transform.LookAt(new Vector3(-0.2f, 0.5f, 0.5f));
+                    break;
             }
         }
     }
