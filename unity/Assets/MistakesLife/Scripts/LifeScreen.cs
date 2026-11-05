@@ -40,6 +40,8 @@ namespace MistakesLife.Unity
         private Button _blockButton = null!;
         private Button _workButton = null!;
         private RectTransform _viewButtons = null!;
+        private string _placeCaption = string.Empty;
+        private string? _workCaption;
         private Text _placeLabel = null!;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -199,11 +201,12 @@ namespace MistakesLife.Unity
             _workButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(SceneView.Work), 30, 0, 12);
 
             RectTransform place = UiFactory.Child(window, "Lugar");
+            // A lo ancho de la ventana: el cargo puede ser largo ("Gerente de tecnología en Datos e IA...").
             place.anchorMin = Vector2.zero;
-            place.anchorMax = Vector2.zero;
-            place.pivot = Vector2.zero;
-            place.anchoredPosition = new Vector2(16f, 16f);
-            place.sizeDelta = new Vector2(480f, 64f);
+            place.anchorMax = new Vector2(1f, 0f);
+            place.pivot = new Vector2(0.5f, 0f);
+            place.anchoredPosition = new Vector2(0f, 16f);
+            place.sizeDelta = new Vector2(-32f, 64f);
             place.gameObject.AddComponent<Image>().color = new Color(1f, 1f, 1f, 0.85f);
             _placeLabel = UiFactory.Label(place, string.Empty, 28, UiFactory.Ink, FontStyle.Bold);
             UiFactory.Stretch(_placeLabel.rectTransform);
@@ -215,6 +218,13 @@ namespace MistakesLife.Unity
         {
             _home.View = view;
             PaintViewSwitch();
+            ShowCaption();
+        }
+
+        /// <summary>En la vista Trabajo se muestra el cargo; en las otras, adónde va esta semana.</summary>
+        private void ShowCaption()
+        {
+            _placeLabel.text = _home.View == SceneView.Work && _workCaption != null ? _workCaption : _placeCaption;
         }
 
         /// <summary>El botón de la vista activa va con el color de acento.</summary>
@@ -269,7 +279,9 @@ namespace MistakesLife.Unity
             {
                 SetView(SceneView.Room);
             }
-            _placeLabel.text = life.DailyPlaceLabel;
+            _placeCaption = life.DailyPlaceLabel;
+            _workCaption = life.Workplace?.Caption;
+            ShowCaption();
             DrawStory(presenter, life);
             DrawActions(presenter, life);
         }

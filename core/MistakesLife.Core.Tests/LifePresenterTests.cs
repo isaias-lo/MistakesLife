@@ -350,6 +350,37 @@ namespace MistakesLife.Core.Tests
             }
         }
 
+        [Fact]
+        public void Trabajo_ConCargo_MuestraCargoAreaYDesempeno()
+        {
+            LifePresenter presenter = NewGame(3);
+            Character player = presenter.Session.World.Player;
+            player.Studies = new CareerStudies("carrera.software", "carrera.software.nivel.ingenieria_civil_computacion", "universidad", 11);
+            player.Graduate();
+            player.Job = new Job(JobKind.Employee, 500000m, 1, new CareerPosition("carrera.software.area.datos", "carrera.software.cargo.senior"));
+
+            WorkplaceView workplace = presenter.Snapshot().Workplace!;
+            Assert.Equal("Senior en Datos e IA · desempeño 50/100", workplace.Caption);
+            Assert.Equal(2, workplace.Rank);
+        }
+
+        [Fact]
+        public void Trabajo_RangoDelCargo_CuentaAscensosDesdeElPrimero()
+        {
+            CareerDefinition software = RepoPacks.Content.GetCareer("carrera.software");
+            Assert.Equal(0, LifePresenter.RankOf(software, RepoPacks.Content.GetCareerPosition("carrera.software.cargo.junior")));
+            Assert.Equal(5, LifePresenter.RankOf(software, RepoPacks.Content.GetCareerPosition("carrera.software.cargo.cto")));
+        }
+
+        [Fact]
+        public void Trabajo_SinCargo_NoTieneFrase()
+        {
+            LifePresenter presenter = NewGame(3);
+            presenter.Session.World.Player.Job = new Job(JobKind.Employee, 500000m, 1);
+
+            Assert.Null(presenter.Snapshot().Workplace!.Caption);
+        }
+
         private static string PsychologyLevel(LifePresenter presenter) =>
             presenter.Session.Content.GetCareer("carrera.psicologia").Levels[0].Id;
     }

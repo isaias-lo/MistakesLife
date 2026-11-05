@@ -123,6 +123,29 @@ namespace MistakesLife.Unity
             }
         }
 
+        /// <summary>
+        /// Dibuja la vista actual en una imagen del tamaño pedido, sin pasar por la pantalla.
+        /// Lo usan las capturas automáticas para revisar el diseño sin abrir el juego.
+        /// </summary>
+        public Texture2D RenderToTexture(int width, int height)
+        {
+            var target = new RenderTexture(width, height, 24);
+            RenderTexture? previous = RenderTexture.active;
+            _camera.targetTexture = target;
+            _camera.Render();
+
+            RenderTexture.active = target;
+            var image = new Texture2D(width, height, TextureFormat.RGB24, false);
+            image.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+            image.Apply();
+
+            RenderTexture.active = previous;
+            _camera.targetTexture = null;
+            target.Release();
+            DestroyImmediate(target);
+            return image;
+        }
+
         private void LateUpdate()
         {
             if (_viewport == null)
