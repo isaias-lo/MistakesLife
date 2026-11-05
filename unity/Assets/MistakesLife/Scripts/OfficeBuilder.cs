@@ -52,7 +52,7 @@ namespace MistakesLife.Unity
 
             if (nice)
             {
-                Plant(kit, new Vector3(3.4f, 0f, 2.4f));
+                Plant(kit, new Vector3(3.5f, 0f, 1.5f));
             }
         }
 
@@ -86,8 +86,14 @@ namespace MistakesLife.Unity
             kit.Box("Pizarra", new Vector3((-Width / 2f) + 0.02f, 1.5f, 0.3f), new Vector3(0.04f, 1.1f, 2.0f), Color.white);
             kit.Ball("Puf", new Vector3(3.0f, 0.3f, -2.2f), 0.7f, new Color(0.90f, 0.55f, 0.30f));
 
-            RoomBuilder.Person(kit, work.Player, new Vector3(-1.5f, 0f, 0.0f), 0);
-            Seniority(kit, new Vector3(-1.5f, 0f, 0.0f), new Vector3(-1.5f, 1.05f, 1.5f), work.Rank);
+            Player(kit, work, new Vector3(-1.5f, 0f, 0.0f));
+            SecondScreen(kit, new Vector3(-1.5f, 1.05f, 1.5f), work.Rank);
+            if (work.Rank >= 3)
+            {
+                // Rincón propio en la punta de la mesa: vidrio entre las dos filas y una planta junto al muro.
+                Glass(kit, new Vector3(-2.6f, 0.6f, 0.2f), new Vector3(0.05f, 1.2f, 0.8f));
+                Plant(kit, new Vector3(-3.5f, 0f, 0.2f));
+            }
             Colleague(kit, new Vector3(0.2f, 0f, 0.0f), 1);
             Colleague(kit, new Vector3(1.9f, 0f, -2.0f), 2);
             Colleague(kit, new Vector3(-1.5f, 0f, -2.0f), 3);
@@ -113,8 +119,15 @@ namespace MistakesLife.Unity
                 kit.Box("Archivador", new Vector3(2.6f + (i * 0.55f) - 0.55f, 0.6f, 2.6f), new Vector3(0.5f, 1.2f, 0.6f), new Color(0.50f, 0.52f, 0.55f));
             }
 
-            RoomBuilder.Person(kit, work.Player, new Vector3(-1.8f, 0f, 0.6f), 0);
-            Seniority(kit, new Vector3(-1.8f, 0f, 0.6f), new Vector3(-1.4f, 1.0f, 1.65f), work.Rank);
+            Player(kit, work, new Vector3(-1.8f, 0f, 0.6f));
+            SecondScreen(kit, new Vector3(-1.4f, 1.0f, 1.65f), work.Rank);
+            if (work.Rank >= 3)
+            {
+                // Cubículo de esquina: los paneles del jugador suben con vidrio y la planta queda afuera, junto al muro.
+                Glass(kit, new Vector3(-1.8f, 1.6f, 1.85f), new Vector3(2.2f, 0.6f, 0.05f));
+                Glass(kit, new Vector3(-2.9f, 1.6f, 1.2f), new Vector3(0.05f, 0.6f, 1.3f));
+                Plant(kit, new Vector3(-3.5f, 0f, -0.3f));
+            }
             Colleague(kit, new Vector3(0.8f, 0f, 0.6f), 1);
             Colleague(kit, new Vector3(0.8f, 0f, -1.6f), 2);
         }
@@ -138,7 +151,7 @@ namespace MistakesLife.Unity
 
             kit.Box("Titulo enmarcado", new Vector3(-0.6f, 1.8f, (Depth / 2f) - 0.01f), new Vector3(0.6f, 0.45f, 0.04f), new Color(0.95f, 0.90f, 0.75f));
 
-            RoomBuilder.Person(kit, work.Player, new Vector3(-1.4f, 0f, -0.5f), 0);
+            Player(kit, work, new Vector3(-1.4f, 0f, -0.5f));
             Colleague(kit, new Vector3(1.4f, 0f, -0.5f), 1);
         }
 
@@ -149,8 +162,15 @@ namespace MistakesLife.Unity
             kit.Box("Pantalla", new Vector3(-0.6f, 1.05f, 1.5f), new Vector3(0.7f, 0.42f, 0.04f), DarkScreen);
             kit.Box("Silla", new Vector3(-0.6f, 0.45f, 0.4f), new Vector3(0.5f, 0.1f, 0.5f), Chair);
             kit.Box("Archivador", new Vector3(2.4f, 0.6f, 2.6f), new Vector3(0.5f, 1.2f, 0.6f), new Color(0.50f, 0.52f, 0.55f));
-            RoomBuilder.Person(kit, work.Player, new Vector3(-0.6f, 0f, -0.3f), 0);
-            Seniority(kit, new Vector3(-0.6f, 0f, -0.3f), new Vector3(-0.6f, 1.05f, 1.5f), work.Rank);
+            Player(kit, work, new Vector3(-0.6f, 0f, -0.3f));
+            SecondScreen(kit, new Vector3(-0.6f, 1.05f, 1.5f), work.Rank);
+            if (work.Rank >= 3)
+            {
+                // Oficina propia: vidrio a los dos lados del escritorio, sin tocarlo, y una planta en la esquina.
+                Glass(kit, new Vector3(-2.1f, 0.6f, 0.4f), new Vector3(0.05f, 1.2f, 1.8f));
+                Glass(kit, new Vector3(1.1f, 0.6f, 0.4f), new Vector3(0.05f, 1.2f, 1.8f));
+                Plant(kit, new Vector3(-2.7f, 0f, 1.8f));
+            }
             Colleague(kit, new Vector3(1.6f, 0f, -0.8f), 1);
         }
 
@@ -170,28 +190,32 @@ namespace MistakesLife.Unity
                 }
             }
 
-            RoomBuilder.Person(kit, work.Player, new Vector3(0f, 0f, 1.6f), 0);
+            Player(kit, work, new Vector3(0f, 0f, 1.6f));
             Colleague(kit, new Vector3(0.4f, 0f, -0.8f), 1);
         }
 
         /// <summary>
         /// Lo que se gana subiendo de cargo (el rango lo calcula el núcleo): desde el segundo
-        /// ascenso, una segunda pantalla; desde el tercero, un rincón propio con vidrio y una planta.
+        /// ascenso, una segunda pantalla. Desde el tercero, cada tipo de lugar arma su propio
+        /// rincón (vidrio y planta) donde no choque con los muebles.
         /// </summary>
-        private static void Seniority(ShapeKit kit, Vector3 feet, Vector3 screen, int rank)
+        private static void SecondScreen(ShapeKit kit, Vector3 screen, int rank)
         {
             if (rank >= 2)
             {
                 kit.Box("Segunda pantalla", screen + new Vector3(0.75f, 0f, 0f), new Vector3(0.7f, 0.42f, 0.04f), DarkScreen);
             }
+        }
 
-            if (rank >= 3)
-            {
-                Color glass = new Color(0.78f, 0.90f, 0.95f);
-                kit.Box("Vidrio", feet + new Vector3(-0.9f, 0.6f, 0.5f), new Vector3(0.05f, 1.2f, 1.8f), glass);
-                kit.Box("Vidrio", feet + new Vector3(1.6f, 0.6f, 0.5f), new Vector3(0.05f, 1.2f, 1.8f), glass);
-                Plant(kit, feet + new Vector3(1.2f, 0f, -0.2f));
-            }
+        private static void Glass(ShapeKit kit, Vector3 center, Vector3 size)
+        {
+            kit.Box("Vidrio", center, size, new Color(0.78f, 0.90f, 0.95f));
+        }
+
+        /// <summary>El jugador, con una marca amarilla más grande que en la casa para que se vea entre muebles.</summary>
+        private static void Player(ShapeKit kit, WorkplaceView work, Vector3 feet)
+        {
+            RoomBuilder.Person(kit, work.Player, feet, 0, markerSize: 1.1f);
         }
 
         private static void Colleague(ShapeKit kit, Vector3 feet, int index)
