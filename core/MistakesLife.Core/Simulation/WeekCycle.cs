@@ -64,19 +64,28 @@ namespace MistakesLife.Core.Simulation
         /// pide detener el tiempo, si hay un evento esperando la decisión del jugador
         /// o si el jugador muere. Devuelve las semanas simuladas.
         /// </summary>
-        public int AdvanceWeeks(World world, int maxWeeks)
+        public int AdvanceWeeks(World world, int maxWeeks) => AdvanceWeeks(world, maxWeeks, out _);
+
+        /// <summary>
+        /// Igual que <see cref="AdvanceWeeks(World, int)"/>, y además dice si se
+        /// detuvo antes de tiempo (evento, día clave o muerte del jugador).
+        /// </summary>
+        public int AdvanceWeeks(World world, int maxWeeks, out bool stopped)
         {
             int simulated = 0;
+            stopped = false;
             while (simulated < maxWeeks && world.Player.IsAlive)
             {
                 WeekContext context = AdvanceWeek(world);
                 simulated++;
                 if (context.StopRequested || world.PendingEvents.Count > 0)
                 {
+                    stopped = true;
                     break;
                 }
             }
 
+            stopped = stopped || !world.Player.IsAlive;
             return simulated;
         }
     }
