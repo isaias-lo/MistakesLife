@@ -28,3 +28,6 @@ Thumbs.db
 
 # Partidas guardadas con la consola
 partida.json
+
+# Capturas automáticas de las escenas 3D (MistakesLife > Sacar capturas)
+capturas/
