@@ -4,7 +4,13 @@ namespace MistakesLife.Core.Presentation
     public sealed class PersonView
     {
         public PersonView(int id, string name, string relation, int ageInYears, bool isAlive)
+            : this(id, name, relation, ageInYears, isAlive, string.Empty)
         {
+        }
+
+        public PersonView(int id, string name, string relation, int ageInYears, bool isAlive, string feeling)
+        {
+            Feeling = feeling;
             Id = id;
             Name = name;
             Relation = relation;
@@ -24,5 +30,12 @@ namespace MistakesLife.Core.Presentation
         public int AgeInYears { get; }
 
         public bool IsAlive { get; }
+
+        /// <summary>
+        /// Cómo se nota la relación desde afuera ("Muy unidos", "Hay rencor"...), en el
+        /// idioma de la partida. Vacío si no aplica (por ejemplo, si la persona murió).
+        /// Es una palabra y no un número: en la vida real nadie ve el cariño en cifras.
+        /// </summary>
+        public string Feeling { get; }
     }
 }
