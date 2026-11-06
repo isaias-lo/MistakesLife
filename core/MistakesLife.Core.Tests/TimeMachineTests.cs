@@ -3,6 +3,7 @@ using System.Linq;
 using MistakesLife.Core.Decisions;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
+using MistakesLife.Core.Presentation;
 using MistakesLife.Core.Randomness;
 using MistakesLife.Core.Time;
 using Xunit;
@@ -215,6 +216,57 @@ namespace MistakesLife.Core.Tests
 
             // Otra etapa sí se puede volver a vivir.
             Assert.True(session.TimeMachine.CanGoBackTo(session.TimeMachine.Snapshots.First(s => s.StageId == LifeStages.Adolescence)));
+        }
+
+        [Fact]
+        public void Pantalla_ConCargaYFotos_MuestraMomentosConSuEdadYSuEtapa()
+        {
+            var session = new LifeSession(RepoPacks.Content, 11);
+            Assert.True(PlayUntilAge(session, 20));
+            var presenter = new LifePresenter(session);
+
+            TimeTravelView travel = presenter.TimeTravel();
+            Assert.True(travel.CanGoBack);
+            Assert.Equal(TimeMachine.StartingCharges, travel.Charges);
+            Assert.Contains("Te quedan 1 cargas", travel.ChargesLabel);
+            Assert.All(travel.Moments, m => Assert.StartsWith($"A tus {m.AgeInYears} años, ", m.Label));
+        }
+
+        [Fact]
+        public void Pantalla_VolverGastaLaCarga_YSinCargasNoHayMomentos()
+        {
+            var session = new LifeSession(RepoPacks.Content, 11);
+            Assert.True(PlayUntilAge(session, 20));
+            var presenter = new LifePresenter(session);
+            int first = presenter.TimeTravel().Moments[0].AgeInYears;
+
+            presenter.GoBack(0);
+
+            Assert.True(session.PlayerAgeInYears <= first);
+            TimeTravelView after = presenter.TimeTravel();
+            Assert.Equal(0, after.Charges);
+            Assert.False(after.CanGoBack);
+            Assert.Throws<ArgumentOutOfRangeException>(() => presenter.GoBack(0));
+        }
+
+        [Fact]
+        public void Pantalla_AlVolverAntesDeDecidir_MarcaLaOpcionDeLaOtraVez()
+        {
+            LifeSession session = PlayUntilKeyDay(out PendingEvent keyDay);
+            var presenter = new LifePresenter(session);
+            Assert.Null(presenter.Snapshot().PendingEvent!.IntuitionOption);
+
+            int position = keyDay.AvailableOptions.Count - 1;
+            presenter.Choose(position);
+            session.Advance(GameDate.WeeksPerYear);
+
+            TimeTravelView travel = presenter.TimeTravel();
+            WorldSnapshot before = session.TimeMachine.Snapshots.Single(s => s.Kind == SnapshotKind.BeforeDecision);
+            int moment = travel.Moments.ToList().FindIndex(m => m.SnapshotId == before.Id);
+            Assert.Contains("antes de decidir", travel.Moments[moment].Label);
+            presenter.GoBack(moment);
+
+            Assert.Equal(position, presenter.Snapshot().PendingEvent!.IntuitionOption);
         }
 
         [Fact]

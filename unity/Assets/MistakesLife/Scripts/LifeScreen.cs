@@ -21,6 +21,9 @@ namespace MistakesLife.Unity
         private const int JournalLines = 60;
 
         private readonly List<JournalLine> _journal = new List<JournalLine>();
+
+        /// <summary>Si la parte de abajo muestra la lista de momentos para volver al pasado.</summary>
+        private bool _pickingMoment;
         private ContentDatabase? _content;
         private LifePresenter? _presenter;
 
@@ -79,6 +82,7 @@ namespace MistakesLife.Unity
             ulong seed = (ulong)System.DateTime.UtcNow.Ticks;
             _presenter = new LifePresenter(new LifeSession(_content!, seed));
             _journal.Clear();
+            _pickingMoment = false;
             Refresh();
             Save();
         }
@@ -106,17 +110,22 @@ namespace MistakesLife.Unity
                 return false;
             }
 
-            // El diario de antes se muestra completo; lo nuevo empieza desde aquí.
+            ReloadJournal();
+            Refresh();
+            return true;
+        }
+
+        /// <summary>El diario se vuelve a leer completo (al abrir el juego o al volver al pasado); lo nuevo empieza desde aquí.</summary>
+        private void ReloadJournal()
+        {
             _journal.Clear();
-            IReadOnlyList<JournalLine> past = _presenter.FullJournal();
+            IReadOnlyList<JournalLine> past = _presenter!.FullJournal();
             for (int i = past.Count - 1; i >= 0 && _journal.Count < JournalLines; i--)
             {
                 _journal.Add(past[i]);
             }
 
             _presenter.TakeNewJournal();
-            Refresh();
-            return true;
         }
 
         /// <summary>Guarda la partida después de cada paso (la app se puede cerrar en cualquier momento).</summary>
@@ -290,6 +299,12 @@ namespace MistakesLife.Unity
         private void DrawStory(LifePresenter presenter, LifeSnapshot life)
         {
             UiFactory.Clear(_story);
+            if (_pickingMoment)
+            {
+                DrawMoments(presenter);
+                return;
+            }
+
             switch (life.Phase)
             {
                 case LifePhase.Choosing:
@@ -298,7 +313,11 @@ namespace MistakesLife.Unity
                     for (int i = 0; i < pending.Options.Count; i++)
                     {
                         int option = i;
-                        UiFactory.MakeButton(_story, pending.Options[i], UiFactory.Option, UiFactory.Ink, () => Choose(option));
+
+                        // Después de volver al pasado, la opción de la otra vez se marca como intuición.
+                        bool intuition = pending.IntuitionOption == i;
+                        string text = intuition ? presenter.Text("ui.intuicion", pending.Options[i]) : pending.Options[i];
+                        UiFactory.MakeButton(_story, text, intuition ? UiFactory.Accent : UiFactory.Option, intuition ? UiFactory.AccentText : UiFactory.Ink, () => Choose(option));
                     }
 
                     break;
@@ -334,10 +353,38 @@ namespace MistakesLife.Unity
             }
         }
 
-        /// <summary>Botón grande de abajo: seguir viviendo o empezar otra vida.</summary>
+        /// <summary>Volver al pasado: las cargas que quedan y un botón por cada momento al que se puede volver.</summary>
+        private void DrawMoments(LifePresenter presenter)
+        {
+            TimeTravelView travel = presenter.TimeTravel();
+            UiFactory.Label(_story, presenter.Text("ui.pasado.titulo"), 42, UiFactory.Ink, FontStyle.Bold);
+            UiFactory.Label(_story, travel.ChargesLabel, 34, UiFactory.MutedInk);
+            for (int i = 0; i < travel.Moments.Count; i++)
+            {
+                int moment = i;
+                UiFactory.MakeButton(_story, travel.Moments[i].Label, UiFactory.Option, UiFactory.Ink, () => GoBack(moment));
+            }
+
+            UiFactory.MakeButton(_story, presenter.Text("ui.boton.cancelar"), UiFactory.Card, UiFactory.MutedInk, () => PickMoment(false));
+        }
+
+        /// <summary>
+        /// Botón grande de abajo: seguir viviendo o empezar otra vida; y, si hay cargas y
+        /// momentos permitidos, "Volver al pasado" (también al morir).
+        /// </summary>
         private void DrawActions(LifePresenter presenter, LifeSnapshot life)
         {
             UiFactory.Clear(_footer);
+            if (_pickingMoment)
+            {
+                return;
+            }
+
+            if (presenter.TimeTravel().CanGoBack)
+            {
+                UiFactory.MakeButton(_footer, presenter.Text("ui.boton.volver_pasado"), UiFactory.Option, UiFactory.Ink, () => PickMoment(true));
+            }
+
             if (life.Phase == LifePhase.Living)
             {
                 UiFactory.MakeButton(_footer, presenter.Text("ui.boton.seguir_viviendo"), UiFactory.Accent, UiFactory.AccentText, Advance);
@@ -358,6 +405,21 @@ namespace MistakesLife.Unity
         private void Choose(int option)
         {
             _presenter!.Choose(option);
+            Refresh();
+            Save();
+        }
+
+        private void PickMoment(bool picking)
+        {
+            _pickingMoment = picking;
+            Refresh();
+        }
+
+        private void GoBack(int moment)
+        {
+            _presenter!.GoBack(moment);
+            _pickingMoment = false;
+            ReloadJournal();
             Refresh();
             Save();
         }
