@@ -169,24 +169,27 @@ namespace MistakesLife.Unity.Editor
         private static int Showcase(string folder)
         {
             var player = new HomeMemberView(1, string.Empty, string.Empty, 40, LifeStage.Adult, false, true);
-            var kinds = new (string? Career, string? Kind, string Name)[]
+            // Rango 3 en una empresa grande (con letrero) y una microempresa para comparar.
+            const string Grande = "empresa.tamano.grande";
+            var kinds = new (string? Career, string? Kind, string Name, int Rank, string? Size)[]
             {
-                ("carrera.software", "lugar_trabajo.oficina_abierta", "oficina_abierta"),
-                ("carrera.contabilidad", "lugar_trabajo.oficina_cubiculos", "oficina_cubiculos"),
-                ("carrera.psicologia", "lugar_trabajo.consulta", "consulta"),
-                ("carrera.otra", null, "oficina_comun"),
+                ("carrera.software", "lugar_trabajo.oficina_abierta", "oficina_abierta-rango3", 3, Grande),
+                ("carrera.contabilidad", "lugar_trabajo.oficina_cubiculos", "oficina_cubiculos-rango3", 3, Grande),
+                ("carrera.psicologia", "lugar_trabajo.consulta", "consulta-rango3", 3, Grande),
+                ("carrera.otra", null, "oficina_comun-rango3", 3, Grande),
+                ("carrera.software", "lugar_trabajo.oficina_abierta", "oficina_abierta-micro", 0, "empresa.tamano.micro"),
             };
             var home = new HomeView("comuna.puente_alto", 50, LifeStage.Adult, new[] { player });
             int count = 0;
-            foreach ((string? career, string? kind, string name) in kinds)
+            foreach ((string? career, string? kind, string name, int rank, string? size) in kinds)
             {
                 HomeScene scene = HomeScene.Create();
                 try
                 {
-                    scene.Show(home, DailyPlace.Work, new WorkplaceView(career, kind, 3.0, false, player, 3, null));
+                    scene.Show(home, DailyPlace.Work, new WorkplaceView(career, kind, 3.0, false, player, rank, null, size));
                     scene.View = SceneView.Work;
                     Texture2D image = scene.RenderToTexture(Width, Height);
-                    File.WriteAllBytes(Path.Combine(folder, $"vitrina-{name}-rango3-work.png"), image.EncodeToPNG());
+                    File.WriteAllBytes(Path.Combine(folder, $"vitrina-{name}-work.png"), image.EncodeToPNG());
                     UnityEngine.Object.DestroyImmediate(image);
                     count++;
                 }
