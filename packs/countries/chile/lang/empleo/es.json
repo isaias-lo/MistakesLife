@@ -20,5 +20,19 @@
   "opcion.cuidar_hijos_en_casa.seguir": "Siguen trabajando los dos y se las arreglan como pueden.",
   "evento.volver_a_trabajar_tras_cuidar": "Los niños ya están más grandes. Piensas en volver a trabajar.",
   "opcion.volver_a_trabajar_tras_cuidar.buscar": "Empiezas a buscar trabajo de nuevo.",
-  "opcion.volver_a_trabajar_tras_cuidar.esperar": "Prefieres esperar un poco más."
+  "opcion.volver_a_trabajar_tras_cuidar.esperar": "Prefieres esperar un poco más.",
+  "evento.cuidar_familiar": "Tu mamá o tu papá ya no se puede valer solo. Alguien tiene que cuidarlo todos los días.",
+  "opcion.cuidar_familiar.dejar_trabajo": "Dejas el trabajo para cuidarlo tú.",
+  "opcion.cuidar_familiar.pagar_cuidadora": "Sigues trabajando y entre todos pagan a alguien que lo cuide.",
+  "diario.cuidar_familiar": "Dejé de trabajar para cuidar a mi mamá o a mi papá.",
+  "evento.dejar_trabajo_por_salud": "La salud no te está dando. Cada día de trabajo cuesta más y el médico te dijo que pares.",
+  "opcion.dejar_trabajo_por_salud.dejar": "Dejas de trabajar hasta recuperarte.",
+  "opcion.dejar_trabajo_por_salud.seguir": "Sigues igual: no puedes darte el lujo de parar.",
+  "diario.dejar_trabajo_por_salud": "Dejé de trabajar por mi salud.",
+  "evento.pololito_vejez": "Un vecino te ofrece un pololito: unas horas a la semana, sin contrato, por algo de plata extra.",
+  "opcion.pololito_vejez.aceptar": "Aceptas: la pensión sola no alcanza.",
+  "opcion.pololito_vejez.rechazar": "No, gracias: ya trabajaste suficiente.",
+  "evento.dejar_de_buscar_jubilado": "Ya cobras la pensión. Dejas de buscar trabajo.",
+  "evento.volver_a_trabajar_tras_cuidar_familiar": "Ya no tienes que cuidar a tu familiar todos los días. Empiezas a buscar trabajo otra vez.",
+  "evento.volver_a_trabajar_tras_salud": "Te sientes mejor. Empiezas a buscar trabajo otra vez."
 }
