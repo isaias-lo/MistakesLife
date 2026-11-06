@@ -12,6 +12,7 @@ on:
   pull_request:
     paths:
       - 'unity/**'
+      - '.github/workflows/capturas.yml'
 
 jobs:
   capturas:
@@ -36,8 +37,25 @@ jobs:
           restore-keys: Library-Linux-
 
       # El "armado" no arma el juego: solo abre Unity y corre SceneCaptures.Capture.
+      # A veces el sistema mata a Unity al arrancar (código 137, "Killed"), antes de
+      # compilar nuestros scripts: por eso, si el primer intento falla, se intenta
+      # una vez más. Si el segundo también falla, el error es real y el trabajo falla.
       - uses: game-ci/unity-builder@v4
+        id: primer_intento
         if: env.TIENE_LICENCIA == 'true'
+        continue-on-error: true
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: unity
+          unityVersion: auto
+          targetPlatform: StandaloneLinux64
+          buildMethod: MistakesLife.Unity.Editor.SceneCaptures.Capture
+
+      - uses: game-ci/unity-builder@v4
+        if: env.TIENE_LICENCIA == 'true' && steps.primer_intento.outcome == 'failure'
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}

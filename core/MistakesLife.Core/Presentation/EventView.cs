@@ -6,10 +6,16 @@ namespace MistakesLife.Core.Presentation
     public sealed class EventView
     {
         public EventView(string eventId, string text, IReadOnlyList<string> options)
+            : this(eventId, text, options, null)
+        {
+        }
+
+        public EventView(string eventId, string text, IReadOnlyList<string> options, int? intuitionOption)
         {
             EventId = eventId;
             Text = text;
             Options = options;
+            IntuitionOption = intuitionOption;
         }
 
         /// <summary>Id del evento (sirve para elegir una ilustración o una escena).</summary>
@@ -20,5 +26,11 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>Opciones disponibles, en orden. Se responde con su posición en esta lista.</summary>
         public IReadOnlyList<string> Options { get; }
+
+        /// <summary>
+        /// La intuición después de volver al pasado: la posición (en <see cref="Options"/>)
+        /// de lo que el jugador eligió la otra vez en este mismo momento. Null si es la primera vez.
+        /// </summary>
+        public int? IntuitionOption { get; }
     }
 }
