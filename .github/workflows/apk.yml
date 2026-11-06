@@ -18,6 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
+      # Android pesa mucho: se borran herramientas que la máquina trae y no usamos
+      # (Unity viene en su propia imagen con su SDK de Android) para no quedar sin disco.
+      - name: Liberar espacio en disco
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+
       - uses: actions/checkout@v4
 
       - uses: actions/cache@v4
@@ -26,7 +31,25 @@ jobs:
           key: Library-Android-${{ hashFiles('unity/Assets/**', 'unity/Packages/**') }}
           restore-keys: Library-Android-
 
+      # A veces el sistema mata a Unity al arrancar (código 137), antes de armar nada.
+      # Si el primer intento falla, se prueba una vez más; si el segundo falla, el trabajo falla.
       - uses: game-ci/unity-builder@v4
+        id: primer_intento
+        continue-on-error: true
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: unity
+          # La misma versión de Unity del proyecto (unity/ProjectSettings/ProjectVersion.txt).
+          unityVersion: auto
+          targetPlatform: Android
+          buildMethod: MistakesLife.Unity.Editor.AndroidBuild.Build
+          buildName: MistakesLife
+
+      - uses: game-ci/unity-builder@v4
+        if: steps.primer_intento.outcome == 'failure'
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
