@@ -27,6 +27,17 @@ namespace MistakesLife.Core.Saving
                 SeedAwakenings = world.Seeds.Awakenings.Select(d => d.TotalWeeks).ToList(),
                 Seeds = world.Seeds.All.Select(WriteSeed).ToList(),
                 Economies = world.Economies.Select(WriteEconomy).ToList(),
+                Companies = world.Companies.Select(co => new CompanyData
+                {
+                    Id = co.Id,
+                    CountryId = co.CountryId,
+                    CareerId = co.CareerId,
+                    SizeId = co.SizeId,
+                    NameId = co.NameId,
+                    FoundedWeek = co.Founded.TotalWeeks,
+                    ClosedWeek = co.ClosedDate?.TotalWeeks,
+                }).ToList(),
+                NextCompanyId = world.NextCompanyIdValue,
                 LawChanges = world.LawChanges.OrderBy(l => l.Key, System.StringComparer.Ordinal).Select(l => WriteLaw(l.Key, l.Value)).ToList(),
                 Journal = world.Journal.Select(j => new JournalData { Week = j.Date.TotalWeeks, CharacterId = j.CharacterId, TextKey = j.TextKey }).ToList(),
                 PendingEvents = world.PendingEvents.Select(p => new PendingEventData
@@ -91,6 +102,7 @@ namespace MistakesLife.Core.Saving
                     PositionId = c.Job.Position?.PositionId,
                     MonthsInPosition = c.Job.MonthsInPosition,
                     Performance = c.Job.Performance,
+                    CompanyId = c.Job.CompanyId,
                 },
                 LastAreaId = c.LastPosition?.AreaId,
                 LastPositionId = c.LastPosition?.PositionId,

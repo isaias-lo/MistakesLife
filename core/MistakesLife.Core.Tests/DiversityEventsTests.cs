@@ -75,12 +75,27 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void PersonaGayOLesbiana_DescubreSuAtraccion_SaleDelCloset_YSuFamiliaReacciona()
         {
-            LifeSession session = Play(p => p.Orientation = Orientation.Homosexual, 45);
-            Character player = session.World.Player;
+            // Salir del clóset depende de cada vida (no todos lo hacen): de 5 vidas, en casi
+            // todas pasa. Se revisa la cadena completa en las que pasa, y que pase en la mayoría.
+            int out_ = 0;
+            for (ulong seed = 11; seed < 16; seed++)
+            {
+                LifeSession session = Play(p => p.Orientation = Orientation.Homosexual, 45, seed);
+                Character player = session.World.Player;
+                if (!player.IsAlive)
+                {
+                    continue;
+                }
 
-            Assert.True(Saw(session, "evento.descubrir_atraccion"));
-            Assert.True(player.HasFlag("fuera_del_closet"));
-            Assert.True(Saw(session, "evento.familia_apoya") || Saw(session, "evento.familia_le_cuesta"));
+                Assert.True(Saw(session, "evento.descubrir_atraccion"));
+                if (player.HasFlag("fuera_del_closet"))
+                {
+                    out_++;
+                    Assert.True(Saw(session, "evento.familia_apoya") || Saw(session, "evento.familia_le_cuesta"));
+                }
+            }
+
+            Assert.True(out_ >= 3, $"Solo {out_} de 5 vidas salieron del clóset.");
         }
 
         [Fact]

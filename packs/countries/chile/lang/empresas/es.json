@@ -1,0 +1,22 @@
+{
+  "empresa.tamano.micro": "microempresa",
+  "empresa.tamano.pequena": "empresa pequeña",
+  "empresa.tamano.mediana": "empresa mediana",
+  "empresa.tamano.grande": "empresa grande",
+  "diario.empresa.quiebra": "Quebró la empresa donde trabajaba. Llegué y estaba cerrada.",
+  "diario.empresa.crece": "La empresa donde trabajo creció: llegó gente nueva y hay cargos que antes no existían.",
+  "diario.empresa.achica": "La empresa donde trabajo se achicó. Se fueron varios compañeros.",
+  "diario.empresa.cambio": "Me cambié de empresa.",
+  "evento.empresa.quiebra": "La empresa quebró. El dueño mandó un correo y no contesta el teléfono, y nadie sabe si van a pagar el finiquito.",
+  "opcion.empresa.quiebra.buscar": "Actualizas el currículum y empiezas a buscar al tiro.",
+  "opcion.empresa.quiebra.reclamar": "Vas con tus compañeros a la Inspección del Trabajo a reclamar lo que te deben.",
+  "evento.empresa.tope": "Llevas años en el cargo más alto que existe en tu empresa. Una empresa más grande te ofrece el mismo puesto, con más sueldo y espacio para seguir subiendo.",
+  "opcion.empresa.tope.cambiarse": "Aceptas y te cambias a la empresa más grande.",
+  "opcion.empresa.tope.quedarse": "Te quedas: conoces a todos y te sientes bien así.",
+  "evento.empresa.sueldo_atrasado": "Este mes el sueldo llegó tarde otra vez. En la microempresa el jefe dice que los clientes no han pagado.",
+  "opcion.empresa.sueldo_atrasado.aguantar": "Aguantas: confías en que la empresa va a salir adelante.",
+  "opcion.empresa.sueldo_atrasado.irse": "Buscas trabajo en otra empresa y te vas.",
+  "evento.empresa.reestructuracion": "Tu empresa anuncia una reestructuración: nuevos jefes, nuevos procesos y equipos que se juntan.",
+  "opcion.empresa.reestructuracion.adaptarse": "Te adaptas y aprendes rápido cómo funcionan las cosas ahora.",
+  "opcion.empresa.reestructuracion.resistir": "Te cuesta: extrañas cómo era antes y se te nota en el trabajo."
+}

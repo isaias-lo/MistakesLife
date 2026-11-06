@@ -75,7 +75,10 @@ namespace MistakesLife.Core.Tests
             Assert.Equal(Junior, job.Position.PositionId);
             Assert.Equal(JobKind.Employee, job.Kind);
             Assert.Equal(Job.StartingPerformance, job.Performance);
-            Assert.Equal(System.Math.Round((decimal)(degreeSalary * Content.GetCareerArea(Soporte).SalaryRelative)), job.BaseSalary);
+            // El sueldo del área, por lo que paga el tamaño de la empresa a la que llegó.
+            decimal areaSalary = System.Math.Round((decimal)(degreeSalary * Content.GetCareerArea(Soporte).SalaryRelative), System.MidpointRounding.AwayFromZero);
+            double companyRelative = CompanyRules.SizeOf(world, Content, world.Player)!.SalaryRelative;
+            Assert.Equal(System.Math.Round(areaSalary * (decimal)companyRelative, System.MidpointRounding.AwayFromZero), job.BaseSalary);
             Assert.Equal(Soporte, Eval(world, "jugador.area").AsText("prueba"));
             Assert.Equal(Junior, Eval(world, "jugador.cargo").AsText("prueba"));
         }

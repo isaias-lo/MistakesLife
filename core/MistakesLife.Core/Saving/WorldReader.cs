@@ -40,6 +40,17 @@ namespace MistakesLife.Core.Saving
 
             world.Seeds.RestoreCounters(data.NextSeedId, data.SeedAwakenings.Select(Date));
 
+            foreach (CompanyData co in data.Companies)
+            {
+                var company = new Company(co.Id, co.CountryId, co.CareerId, co.SizeId, co.NameId, Date(co.FoundedWeek))
+                {
+                    ClosedDate = co.ClosedWeek.HasValue ? Date(co.ClosedWeek.Value) : (GameDate?)null,
+                };
+                world.RestoreCompany(company);
+            }
+
+            world.NextCompanyIdValue = System.Math.Max(world.NextCompanyIdValue, data.NextCompanyId);
+
             foreach (EconomyData e in data.Economies)
             {
                 var economy = new CountryEconomy(e.CountryId, e.RegimeId, e.AnnualInflation) { PhaseId = e.PhaseId };
@@ -121,6 +132,7 @@ namespace MistakesLife.Core.Saving
                 job.Restore(d.Job.AdjustedPriceIndex, d.Job.MonthsSinceAdjustment);
                 job.MonthsInPosition = d.Job.MonthsInPosition;
                 job.Performance = d.Job.Performance;
+                job.CompanyId = d.Job.CompanyId;
                 character.Job = job;
             }
 

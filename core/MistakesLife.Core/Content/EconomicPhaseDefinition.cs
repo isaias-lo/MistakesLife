@@ -31,5 +31,12 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("golpe_fondos")]
         public double PensionFundShock { get; set; }
+
+        /// <summary>
+        /// Cuántas veces más (o menos) quiebran las empresas del país durante esta
+        /// fase, comparado con un año normal (2 = el doble). Si falta, 1.
+        /// </summary>
+        [JsonProperty("quiebras")]
+        public double BankruptcyFactor { get; set; } = 1;
     }
 }
