@@ -85,18 +85,21 @@ namespace MistakesLife.Unity
 
         public static void BuildPeople(ShapeKit kit, IReadOnlyList<HomeMemberView> members)
         {
-            float spacing = 0.9f;
+            // En zigzag (una fila adelante y otra atrás) para que, vistos en diagonal
+            // desde la cámara, nadie quede tapando a otro.
+            float spacing = 1.0f;
             float start = -((members.Count - 1) * spacing) / 2f;
             for (int i = 0; i < members.Count; i++)
             {
                 HomeMemberView member = members[i];
-                Vector3 position = new Vector3(start + (i * spacing), 0f, -0.4f);
+                float z = i % 2 == 0 ? -0.9f : 0.0f;
+                Vector3 position = new Vector3(start + (i * spacing), 0f, z);
                 Person(kit, member, position, i);
             }
         }
 
         /// <summary>Una figura: cuerpo, cabeza y, para el jugador, un círculo amarillo a sus pies.</summary>
-        public static void Person(ShapeKit kit, HomeMemberView member, Vector3 feet, int index)
+        public static void Person(ShapeKit kit, HomeMemberView member, Vector3 feet, int index, float markerSize = 0.7f)
         {
             float height = member.Stage switch
             {
@@ -125,7 +128,7 @@ namespace MistakesLife.Unity
 
             if (member.IsPlayer)
             {
-                kit.Shape(PrimitiveType.Cylinder, "Marca del jugador", feet + new Vector3(0f, 0.02f, 0f), new Vector3(0.7f, 0.01f, 0.7f), new Color(0.98f, 0.82f, 0.25f));
+                kit.Shape(PrimitiveType.Cylinder, "Marca del jugador", feet + new Vector3(0f, 0.02f, 0f), new Vector3(markerSize, 0.01f, markerSize), new Color(0.98f, 0.82f, 0.25f));
             }
         }
     }

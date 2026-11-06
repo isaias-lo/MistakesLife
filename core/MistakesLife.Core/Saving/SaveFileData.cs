@@ -13,5 +13,11 @@ namespace MistakesLife.Core.Saving
         public int JournalRead { get; set; }
 
         public WorldData World { get; set; } = new WorldData();
+
+        /// <summary>
+        /// Volver al pasado (desde la versión 5). Null dentro de una foto del mundo,
+        /// que guarda solo la partida de ese momento.
+        /// </summary>
+        public TimeMachineData? TimeMachine { get; set; }
     }
 }

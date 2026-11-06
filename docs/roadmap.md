@@ -71,7 +71,10 @@
 | U5b | Barrio de Puente Alto en 3D: botones Casa/Barrio, cuadra con casas con reja (techo y pisos según el nivel del hogar), colegio, almacén, plaza y paradero, y un camino hasta adonde va el personaje esa semana (`DailyPlace` en el núcleo) | Hecha |
 | U5c | Lugar de trabajo en 3D según la carrera: botón Trabajo; cada carrera elige en su paquete `lugar_de_trabajo` (oficina abierta, cubículos o consulta); sin título, un local de atención; un título que paga más se ve más cuidado (`WorkplaceView` en el núcleo) | En revisión |
 | U6 | Primer APK para probar en Android: armado en la nube con GameCI (`.github/workflows/apk.yml`, se corre a mano) y menú "Armar APK de prueba" | En revisión (faltan los secretos de Unity en GitHub) |
-| U7 | Capturas automáticas de las escenas 3D (pieza, barrio, trabajo) de vidas fijas a varias edades, para revisar el diseño sin abrir Unity: menú "Sacar capturas" y `.github/workflows/capturas.yml` en cada PR que toca `unity/` (necesita los secretos de Unity) | En revisión |
+| U7 | Capturas automáticas de las escenas 3D (pieza, barrio, trabajo) de vidas fijas a varias edades, para revisar el diseño sin abrir Unity: menú "Sacar capturas" y `.github/workflows/capturas.yml` en cada PR que toca `unity/` (necesita los secretos de Unity) | Hecha (secretos funcionando desde el 2026-11-05) |
+| U5d | La vista Trabajo muestra el cargo, el área y el desempeño (del núcleo, N5); subir de cargo se nota: segunda pantalla desde el segundo ascenso y rincón propio desde el tercero | Hecha |
+| U8a | Primera ronda de correcciones visuales con las capturas: el rincón del cargo alto ya no atraviesa los cubículos (cada lugar arma el suyo), marca amarilla más grande en Trabajo, familia en zigzag en la pieza, y vidas de prueba con carreras distintas más una vitrina de cada lugar en rango 3 | Hecha |
+| U8b | Barrio vivo: el jugador (con su tamaño según la edad) y su familia en la calle, el jugador donde va esa semana, vecinos y autos que cambian de una vida a otra, alfiler amarillo sobre tu casa, y sin el árbol cortado en el borde | En revisión |
 
 ## Lo que falta en el núcleo
 
@@ -80,7 +83,7 @@ Diagnóstico completo (2026-11-03): [Qué le falta al núcleo de MistakesLife](h
 | # | Tarea | Estado |
 |---|---|---|
 | N1 | Guardar y cargar la partida: a texto o bytes comprimidos, con versión y migraciones; la partida cargada sigue igual; `g` y `--cargar` en la consola | Hecha |
-| N2 | Fotos del mundo para "volver al pasado" | Pendiente |
+| N2 | Volver al pasado: fotos del mundo al empezar cada etapa de la vida y antes de cada día clave, `LifeSession.GoBack`, cargas (`TimeMachine.Charges`, una gratis por partida), cada etapa se vuelve a vivir una vez por generación, intuición en el diario y la opción elegida la otra vez; `v` en la consola; guardado versión 5 | En revisión |
 | N3 | Mercado laboral realista: trabajo informal sin cotizaciones, fin de contratos, dejar de buscar y volver, cuidar a los hijos en casa, meses cotizados (`jugador.meses_cotizados`) y desempleo en el simulador | Hecha |
 | N4 | Relaciones con cariño, confianza, respeto y rencor (lo que cada persona siente por otra, 0 a 100); amigos, colegas, rivales y ex (`jugador.conocer('amistad')`, `jugador.amigo.carino`); el rencor se olvida y la amistad se enfría con el tiempo; testigos en las semillas (`plantar('id', persona)`); 25 eventos de Chile y guardado versión 3 | Hecha |
 | N5 | Áreas y ascensos en las carreras: cada carrera con al menos 3 áreas (software 5, contabilidad 4, psicología 4) con requisitos y sueldo propios, escalera de cargos hasta la cima (con dos caminos en software senior), experiencia y desempeño (`jugador.desempeno`), ascensos, bajar de cargo y despidos; volver a trabajar con la experiencia y cambiar de área cuesta un cargo; un dilema con semilla y un evento típico por área; guardado versión 4. Pendiente para después: minijuegos por área, empresas con tamaño (que el cargo exista), reconocimiento fuera de la empresa | Hecha |

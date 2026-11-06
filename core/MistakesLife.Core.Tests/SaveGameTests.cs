@@ -164,7 +164,9 @@ namespace MistakesLife.Core.Tests
 
             string text = session.SaveToText();
             Assert.Equal(text, loaded.SaveToText());
-            Assert.True(bytes.Length < Encoding.UTF8.GetByteCount(text) / 3, $"Comprimido pesa {bytes.Length} bytes y el texto {text.Length}.");
+            // Las fotos del mundo (volver al pasado) ya van comprimidas dentro del
+            // texto, así que el total se comprime menos que un mundo solo.
+            Assert.True(bytes.Length < Encoding.UTF8.GetByteCount(text) / 2, $"Comprimido pesa {bytes.Length} bytes y el texto {text.Length}.");
         }
 
         [Fact]

@@ -33,7 +33,7 @@ namespace MistakesLife.Core.Presentation
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
             "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
-            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
+            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
         };
 
         /// <summary>
@@ -318,8 +318,48 @@ namespace MistakesLife.Core.Presentation
                 .Select(d => Session.Content.GetCareerLevel(d))
                 .OrderByDescending(l => l.SalaryRelative)
                 .First();
-            CareerDefinition career = Session.Content.GetCareer(best.CareerId);
-            return new WorkplaceView(career.Id, career.WorkplaceKind, best.SalaryRelative, freelance, figure);
+            CareerPosition? position = player.Job.Position;
+            if (position == null)
+            {
+                CareerDefinition career = Session.Content.GetCareer(best.CareerId);
+                return new WorkplaceView(career.Id, career.WorkplaceKind, best.SalaryRelative, freelance, figure);
+            }
+
+            // Con cargo, manda la carrera del cargo (puede trabajar en algo distinto a su mejor título).
+            CareerPositionDefinition current = Session.Content.GetCareerPosition(position.PositionId);
+            CareerDefinition jobCareer = Session.Content.GetCareer(current.CareerId);
+            string caption = Text("ui.trabajo.cargo", T(position.PositionId), T(position.AreaId), player.Job.Performance);
+            return new WorkplaceView(jobCareer.Id, jobCareer.WorkplaceKind, best.SalaryRelative, freelance, figure, RankOf(jobCareer, current), caption);
+        }
+
+        /// <summary>
+        /// Cuántos ascensos hay desde el primer cargo de la carrera hasta este
+        /// (el camino más corto, porque la escalera se puede dividir).
+        /// </summary>
+        public static int RankOf(CareerDefinition career, CareerPositionDefinition position)
+        {
+            if (career.Positions.Count == 0)
+            {
+                return 0;
+            }
+
+            var depth = new Dictionary<string, int> { [career.Positions[0].Id] = 0 };
+            var pending = new Queue<CareerPositionDefinition>();
+            pending.Enqueue(career.Positions[0]);
+            while (pending.Count > 0)
+            {
+                CareerPositionDefinition step = pending.Dequeue();
+                foreach (CareerPositionDefinition next in step.NextPositions)
+                {
+                    if (!depth.ContainsKey(next.Id))
+                    {
+                        depth[next.Id] = depth[step.Id] + 1;
+                        pending.Enqueue(next);
+                    }
+                }
+            }
+
+            return depth.TryGetValue(position.Id, out int rank) ? rank : 0;
         }
 
         private void AddIfAlive(List<HomeMemberView> members, int? id, string relation)

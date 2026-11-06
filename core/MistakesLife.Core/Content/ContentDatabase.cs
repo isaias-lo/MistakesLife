@@ -52,7 +52,8 @@ namespace MistakesLife.Core.Content
         public const string BaseLanguage = "es";
 
         /// <summary>Claves de texto que usa el núcleo directamente.</summary>
-        public static readonly IReadOnlyList<string> CoreTextKeys = new[] { "diario.nacimiento", "diario.cumpleanos", "diario.muerte", "diario.muerte_madre", "diario.muerte_padre", "diario.muerte_pareja", "diario.muerte_hija", "diario.muerte_hijo", "diario.nace_hija", "diario.nace_hijo", "diario.legado", "diario.nace_nieta", "diario.nace_nieto", "diario.adopcion_hija", "diario.adopcion_hijo", "diario.llega_nieta", "diario.llega_nieto" };
+        public static readonly IReadOnlyList<string> CoreTextKeys = new[] { "diario.nacimiento", "diario.cumpleanos", "diario.muerte", "diario.muerte_madre", "diario.muerte_padre", "diario.muerte_pareja", "diario.muerte_hija", "diario.muerte_hijo", "diario.nace_hija", "diario.nace_hijo", "diario.legado", "diario.nace_nieta", "diario.nace_nieto", "diario.adopcion_hija", "diario.adopcion_hijo", "diario.llega_nieta", "diario.llega_nieto", Game.LifeSession.JournalIntuition, Game.LifeSession.JournalIntuitionDecision }
+            .Concat(Game.LifeStages.All).ToArray();
 
         /// <summary>Idiomas con textos cargados.</summary>
         public IEnumerable<string> Languages => _texts.Keys;

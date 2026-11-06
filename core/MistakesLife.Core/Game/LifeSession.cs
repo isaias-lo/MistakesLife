@@ -32,6 +32,7 @@ namespace MistakesLife.Core.Game
         public LifeSession(ContentDatabase content, ulong seed, SeedRules seedRules, EventRules eventRules)
             : this(content ?? throw new ArgumentNullException(nameof(content)), NewWorld(content, seed), seedRules, eventRules, 0)
         {
+            TimeMachine.SetCharges(TimeMachine.StartingCharges);
         }
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace MistakesLife.Core.Game
             Content = content ?? throw new ArgumentNullException(nameof(content));
             World = world ?? throw new ArgumentNullException(nameof(world));
             _journalRead = journalRead;
+            TimeMachine = new TimeMachine(0);
             Events = new EventSystem(content, eventRules);
             _cycle = new WeekCycle()
                 .Register(new EconomySystem(content))
@@ -100,7 +102,15 @@ namespace MistakesLife.Core.Game
 
         public ContentDatabase Content { get; }
 
-        public World World { get; }
+        /// <summary>
+        /// El mundo de la partida. Cambia por otro al volver al pasado
+        /// (<see cref="GoBack(int)"/>): no conviene guardarlo aparte, siempre
+        /// pedirlo aquí.
+        /// </summary>
+        public World World { get; private set; }
+
+        /// <summary>Volver al pasado: fotos del mundo, cargas y etapas ya vividas de nuevo.</summary>
+        public TimeMachine TimeMachine { get; }
 
         public EventSystem Events { get; }
 
@@ -120,8 +130,100 @@ namespace MistakesLife.Core.Game
                 throw new InvalidOperationException("Primero hay que responder el evento pendiente.");
             }
 
-            return _cycle.AdvanceWeeks(World, maxWeeks);
+            // Con la máquina del tiempo encendida, el tiempo se para un momento
+            // al empezar cada etapa de la vida, para sacar su foto, y sigue.
+            // La primera foto (la del nacimiento, o la de una partida vieja) se saca
+            // al empezar a avanzar.
+            TakeSnapshots();
+            int total = 0;
+            while (total < maxWeeks && World.Player.IsAlive)
+            {
+                int step = maxWeeks - total;
+                int? toNextStage = TimeMachine.Enabled ? LifeStages.WeeksToNextStage(World.Player.AgeInWeeks(World.Date)) : null;
+                if (toNextStage.HasValue && toNextStage.Value < step)
+                {
+                    step = toNextStage.Value;
+                }
+
+                total += _cycle.AdvanceWeeks(World, step, out bool stopped);
+                TakeSnapshots();
+                if (stopped)
+                {
+                    break;
+                }
+            }
+
+            return total;
         }
+
+        /// <summary>
+        /// Vuelve al pasado: la partida sigue desde esa foto del mundo, como si lo
+        /// que vino después no hubiera pasado. Gasta una carga y la etapa de la
+        /// foto ya no se puede volver a vivir. El jugador conserva una intuición
+        /// en su diario y, si la foto es de antes de una decisión, la opción que
+        /// eligió la otra vez queda en <see cref="TimeMachine.PreviousChoice"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Si no quedan cargas, la etapa ya se volvió a vivir o la foto no existe.</exception>
+        public void GoBack(int snapshotId)
+        {
+            WorldSnapshot snapshot = TimeMachine.Snapshots.FirstOrDefault(s => s.Id == snapshotId)
+                ?? throw new InvalidOperationException($"No hay una foto del mundo número {snapshotId}.");
+
+            // Lo que eligió esa vez, antes de que ese futuro se borre.
+            int? previous = null;
+            if (snapshot.Kind == SnapshotKind.BeforeDecision)
+            {
+                previous = World.EventHistory
+                    .FirstOrDefault(r => r.CharacterId == snapshot.PlayerId && r.EventId == snapshot.EventId && r.Date >= snapshot.Date)
+                    ?.ChosenOption;
+            }
+
+            TimeMachine.Spend(snapshot);
+            World = SaveGame.ReadSnapshot(Content, snapshot.Data, out int journalRead);
+            _journalRead = journalRead;
+            PendingEvent? again = Pending;
+            if (previous.HasValue && again != null && again.EventId == snapshot.EventId)
+            {
+                TimeMachine.RememberChoice(again.EventId, again.CharacterId, again.Date, previous.Value);
+            }
+
+            World.WriteJournal(World.PlayerId, previous.HasValue ? JournalIntuitionDecision : JournalIntuition);
+        }
+
+        /// <summary>Diario al volver al pasado.</summary>
+        public const string JournalIntuition = "diario.intuicion";
+
+        /// <summary>Diario al volver a una decisión que ya se había tomado.</summary>
+        public const string JournalIntuitionDecision = "diario.intuicion_decision";
+
+        /// <summary>
+        /// Saca las fotos que faltan: al empezar la etapa de la vida en que va el
+        /// jugador y antes de una decisión de día clave que espera respuesta.
+        /// </summary>
+        private void TakeSnapshots()
+        {
+            Character player = World.Player;
+            if (!TimeMachine.Enabled || !player.IsAlive)
+            {
+                return;
+            }
+
+            int age = player.AgeInYears(World.Date);
+            string stage = LifeStages.StageAt(age);
+            if (!TimeMachine.HasStageSnapshot(player.Id, stage))
+            {
+                TimeMachine.Add(NewSnapshot(SnapshotKind.StageStart, age, stage, null));
+            }
+
+            PendingEvent? pending = Pending;
+            if (pending != null && Content.GetEvent(pending.EventId).KeyDay && !TimeMachine.HasDecisionSnapshot(pending, World.Date))
+            {
+                TimeMachine.Add(NewSnapshot(SnapshotKind.BeforeDecision, age, stage, pending.EventId));
+            }
+        }
+
+        private WorldSnapshot NewSnapshot(SnapshotKind kind, int age, string stage, string? eventId) =>
+            new WorldSnapshot(TimeMachine.NextSnapshotId, kind, World.Date, World.PlayerId, age, stage, eventId, SaveGame.SnapshotBytes(World, _journalRead));
 
         /// <summary>
         /// Los hijos vivos con quienes se puede seguir jugando cuando el jugador
@@ -161,6 +263,8 @@ namespace MistakesLife.Core.Game
             World.SetPlayer(heir.Id);
             World.WriteJournal(heir.Id, deceased.Gender == Gender.Female ? "diario.muerte_madre" : "diario.muerte_padre");
             World.WriteJournal(heir.Id, "diario.legado");
+            TimeMachine.StartNewGeneration();
+            TakeSnapshots();
         }
 
         /// <summary>Da por vivido lo que su país dice para su edad (campo vida_previa).</summary>
@@ -186,6 +290,7 @@ namespace MistakesLife.Core.Game
         {
             PendingEvent pending = Pending ?? throw new InvalidOperationException("No hay un evento pendiente.");
             Events.Choose(World, pending, optionIndex);
+            TakeSnapshots();
         }
 
         /// <summary>Entradas nuevas del diario del jugador desde la última vez que se pidieron.</summary>
