@@ -384,6 +384,31 @@ namespace MistakesLife.Core.Tests
             Assert.Null(presenter.Snapshot().Workplace!.Caption);
         }
 
+        [Fact]
+        public void Trabajo_EnEmpresa_MuestraNombreYTamanoAntesDelCargo()
+        {
+            LifePresenter presenter = NewGame(3);
+            Run(presenter, "estudiar('carrera.software.nivel.analista_programador')");
+            Run(presenter, "jugador.titularse()");
+            Run(presenter, "jugador.marcar('trabajando')");
+            Run(presenter, "jugador.trabajar_en('carrera.software.area.desarrollo')");
+
+            WorkplaceView workplace = presenter.Snapshot().Workplace!;
+            Assert.StartsWith("empresa.tamano.", workplace.CompanySizeId);
+            string size = presenter.Text(workplace.CompanySizeId!);
+            Assert.Contains($", {size} · ", workplace.Caption);
+            Assert.DoesNotContain("empresa.", workplace.Caption);
+        }
+
+        [Fact]
+        public void Trabajo_SinEmpresa_NoTieneTamano()
+        {
+            LifePresenter presenter = NewGame(3);
+            presenter.Session.World.Player.Job = new Job(JobKind.Employee, 500000m, 1);
+
+            Assert.Null(presenter.Snapshot().Workplace!.CompanySizeId);
+        }
+
         private static void Run(LifePresenter presenter, string effect)
         {
             var world = presenter.Session.World;

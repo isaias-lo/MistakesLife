@@ -38,6 +38,7 @@ namespace MistakesLife.Core.Presentation
             "ui.boton.volver_pasado", "ui.boton.cancelar", "ui.pasado.titulo", "ui.pasado.cargas", "ui.pasado.etapa", "ui.pasado.decision", "ui.intuicion",
             "ui.gente", "ui.relacion.amistad", "ui.relacion.colega", "ui.relacion.rival", "ui.relacion.ex",
             "ui.sentir.muy_unidos", "ui.sentir.buena", "ui.sentir.tibia", "ui.sentir.distanciados", "ui.sentir.rencor",
+            "ui.trabajo.empresa", "ui.trabajo.empresa_sin_nombre",
         };
 
         /// <summary>Cuántas personas fuera de la familia se muestran como máximo, para que la lista se pueda leer.</summary>
@@ -366,9 +367,14 @@ namespace MistakesLife.Core.Presentation
 
             HomeMemberView figure = Member(player, string.Empty, isPlayer: true);
             bool freelance = player.Job.Kind == JobKind.Freelance;
+            Company? company = Session.World.CompanyById(player.Job.CompanyId);
+            string? sizeId = company != null && company.IsOpen ? company.SizeId : null;
+            string? companyText = sizeId == null ? null
+                : company!.NameId != null ? Text("ui.trabajo.empresa", T(company.NameId), T(sizeId))
+                : Text("ui.trabajo.empresa_sin_nombre", T(sizeId));
             if (player.Degrees.Count == 0)
             {
-                return new WorkplaceView(null, null, 1, freelance, figure);
+                return new WorkplaceView(null, null, 1, freelance, figure, 0, companyText, sizeId);
             }
 
             CareerLevelDefinition best = player.Degrees
@@ -379,14 +385,19 @@ namespace MistakesLife.Core.Presentation
             if (position == null)
             {
                 CareerDefinition career = Session.Content.GetCareer(best.CareerId);
-                return new WorkplaceView(career.Id, career.WorkplaceKind, best.SalaryRelative, freelance, figure);
+                return new WorkplaceView(career.Id, career.WorkplaceKind, best.SalaryRelative, freelance, figure, 0, companyText, sizeId);
             }
 
             // Con cargo, manda la carrera del cargo (puede trabajar en algo distinto a su mejor título).
             CareerPositionDefinition current = Session.Content.GetCareerPosition(position.PositionId);
             CareerDefinition jobCareer = Session.Content.GetCareer(current.CareerId);
             string caption = Text("ui.trabajo.cargo", T(position.PositionId), T(position.AreaId), player.Job.Performance);
-            return new WorkplaceView(jobCareer.Id, jobCareer.WorkplaceKind, best.SalaryRelative, freelance, figure, RankOf(jobCareer, current), caption);
+            if (companyText != null)
+            {
+                caption = companyText + " · " + caption;
+            }
+
+            return new WorkplaceView(jobCareer.Id, jobCareer.WorkplaceKind, best.SalaryRelative, freelance, figure, RankOf(jobCareer, current), caption, sizeId);
         }
 
         /// <summary>

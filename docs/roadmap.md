@@ -78,7 +78,8 @@
 | U8c | Segunda ronda con capturas: bolita amarilla sobre la cabeza del jugador (se ve aunque un mueble tape el piso), vidrio con marco, puf y colega que ya no se cortan ni atraviesan, peatones lejos de árboles y paradero, familia separada en el antejardín | Hecha |
 | U9 | Botón "Volver al pasado" en Unity (usa N2): lista de momentos permitidos con edad y etapa o decisión, cargas que quedan, el diario se rehace y la opción de la otra vez se marca como intuición; en el núcleo `LifePresenter.TimeTravel`/`GoBack` y `EventView.IntuitionOption` | Hecha |
 | U8d | Tercera ronda de capturas: bolita del jugador justo sobre el pelo según la estatura, sin círculo de piso en el trabajo, productos del local sin amarillo y sillón de la pieza a un costado | Hecha |
-| U10 | Tu gente en pantalla (usa N4): amistades, colegas, rivales y ex vivos (hasta 8, de la más cercana) y, para ellos y la familia, cómo está la relación en una palabra ("muy unidos", "te guarda rencor"), sin números; en el núcleo `LifeSnapshot.People`, `PersonView.Feeling` y `LifePresenter.FeelingKey` | En revisión |
+| U10 | Tu gente en pantalla (usa N4): amistades, colegas, rivales y ex vivos (hasta 8, de la más cercana) y, para ellos y la familia, cómo está la relación en una palabra ("muy unidos", "te guarda rencor"), sin números; en el núcleo `LifeSnapshot.People`, `PersonView.Feeling` y `LifePresenter.FeelingKey` | Hecha |
+| U11 | La empresa en la vista Trabajo (usa N6): nombre y tamaño antes del cargo; en una micro o pequeña hay menos colegas y en una micro una sola mesa; en una mediana o grande un letrero en el muro (con logo de color en la grande); en el núcleo `WorkplaceView.CompanySizeId` | En revisión |
 
 ## Lo que falta en el núcleo
 
