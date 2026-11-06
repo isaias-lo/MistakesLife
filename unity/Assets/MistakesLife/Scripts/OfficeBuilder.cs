@@ -84,7 +84,6 @@ namespace MistakesLife.Unity
                 kit.Box("Logo", at + new Vector3((-width / 2f) + 0.28f, 0f, -0.03f), new Vector3(0.32f, 0.32f, 0.02f), new Color(0.90f, 0.42f, 0.25f));
             }
         }
-        }
 
         /// <summary>Piso, dos muros y una ventana; más luz y madera si el título paga bien.</summary>
         private static void Shell(ShapeKit kit, bool nice)
