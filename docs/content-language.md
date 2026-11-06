@@ -215,6 +215,7 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Funciona como los regímenes de inflación: cada mes, el país puede pasar a otra fase con las probabilidades de `cambio_anual` (por año). Los eventos pueden provocar una con `cambiar_ciclo('id')`, y leer la fase actual con `mundo.ciclo`.
 - Al empezar una fase: el jugador que vive ahí lo lee en su diario (`diario.` + id, texto obligatorio); si tiene `inflacion`, el país pasa a ese régimen; si tiene `golpe_fondos`, los fondos de pensión de todos los que viven ahí cambian de una vez (-0.2 = caen 20 %).
 - Los efectos en el empleo los ponen los eventos del país, con condiciones sobre `mundo.ciclo` (por ejemplo, despidos solo en recesión o crisis).
+- Con `quiebras` (opcional, por defecto 1), la fase multiplica las quiebras de empresas del país (2 = el doble que en un año normal).
 - Opcional: un país sin `ciclo` no tiene crisis.
 
 #### Deudas (`economia.deudas`)
@@ -239,6 +240,25 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Deudas rotativas (tarjetas): con `pago_minimo` (por ejemplo `0.05`), cada mes se cobra esa parte de lo que se debe, al menos `pago_minimo_monto` (en dinero del inicio del mundo), en vez de cuotas fijas.
 - Con `cuotas_repactacion`, una deuda atrasada se puede repactar con `jugador.repactar()`: queda al día en esas cuotas nuevas y, al mes siguiente, sale del registro de morosos. `jugador.puede_repactar` dice si tiene alguna.
 - Textos obligatorios del diario: `diario.deudas.pagada`, `diario.deudas.moroso`, `diario.deudas.fuera_registro` y `diario.deudas.prescrita`.
+
+#### Empresas (`economia.empresas`)
+
+```json
+"empresas": {
+  "misma_empresa": 0.5,
+  "tamanos": [
+    { "id": "empresa.tamano.micro", "peso": 0.15, "sueldo_relativo": 0.75, "cargo_maximo": 2, "quiebra_anual": 0.1, "crece_anual": 0.04 },
+    { "id": "empresa.tamano.grande", "peso": 0.5, "sueldo_relativo": 1.15, "quiebra_anual": 0.015, "achica_anual": 0.02 }
+  ]
+}
+```
+
+- Quien entra a trabajar en su carrera (`jugador.trabajar_en`) llega a una empresa de esa carrera. El tamaño sale al azar según `peso` (la parte de los trabajadores que trabaja en ese tamaño). Con `misma_empresa` de probabilidad llega a una empresa donde ya trabaja otro personaje, del mismo tamaño y carrera; si no, a una nueva, con un nombre de `nombres_empresa` de la carrera.
+- Los tamaños van del más chico al más grande. `sueldo_relativo` multiplica el sueldo del cargo. `cargo_maximo` es el cargo más alto que existe en ese tamaño, contado desde el inicial (0 = solo el inicial). Sin él no hay tope. Quien llega con más experiencia entra en el cargo más alto que existe, y no puede ascender más allá.
+- Una vez al año, cada empresa donde trabaja alguien puede quebrar (`quiebra_anual`, por la fase del ciclo), o si no crecer al tamaño siguiente (`crece_anual`) o achicarse al anterior (`achica_anual`).
+- Si quiebra la empresa del jugador, el tiempo se detiene y `jugador.empresa_quebro` queda verdadero hasta que un evento del país le quite el trabajo (en Chile, `evento.empresa.quiebra`). Si el país no tiene ese evento, lo pierde al año siguiente. Los demás personajes lo pierden de una vez.
+- El `id` empieza con `empresa.tamano.` y es la clave de su texto. Textos obligatorios del diario: `diario.empresa.quiebra`, `diario.empresa.crece` y `diario.empresa.achica`.
+- Opcional: en un país sin `empresas`, los trabajos no tienen empresa (sin tope de cargo ni sueldo por tamaño).
 
 #### Herencia (`economia.herencia`)
 
@@ -327,6 +347,7 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 |---|---|
 | `id` | Empieza con `carrera.`; es también la clave de su nombre en `lang/` |
 | `lugar_de_trabajo` | Opcional. Cómo se dibuja donde trabaja quien tiene el título: `lugar_trabajo.oficina_abierta` (mesas compartidas con pantallas), `lugar_trabajo.oficina_cubiculos` (cubículos y archivadores) o `lugar_trabajo.consulta` (sillones frente a frente). Sin él, una oficina común. Un tipo nuevo hay que dibujarlo en Unity |
+| `nombres_empresa` | Opcional. Claves de texto (empiezan con `empresa.`) para los nombres de las empresas de esta carrera. Cada empresa nueva toma uno que no use otra empresa abierta. Ver `economia.empresas` en country.json |
 | `niveles[].id` | Empieza con el id de la carrera + `.nivel.`. Su texto es la opción ("Analista programador en un instituto…") y `<id>.titulo` el nombre del título |
 | `niveles[].institucion` | `cft`, `instituto` o `universidad` |
 | `niveles[].semestres` | Duración formal del plan. El núcleo suma un semestre aprobado cada 26 semanas de estudio |
@@ -521,6 +542,10 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 | `jugador.ascender()`, `jugador.ascender('cargo')` | Asciende y le suben el sueldo; con dos caminos hay que nombrar el cargo. Es un error si no puede (solo efectos) |
 | `jugador.bajar_cargo()` | Vuelve al cargo anterior, con su sueldo (solo efectos) |
 | `jugador.en_la_cima` | Si su cargo es el más alto de su escalera |
+| `jugador.empresa_tamano`, `jugador.empresa_mayor` | Tamaño de su empresa (`'empresa.tamano.micro'`) y el tamaño siguiente, o `nada` |
+| `jugador.tope_de_empresa` | Si está en el cargo más alto que existe en su empresa, aunque su escalera sigue |
+| `jugador.empresa_quebro` | Si su empresa quebró y todavía no deja ese trabajo |
+| `jugador.cambiar_de_empresa()` | Se va a una empresa más grande de su carrera (o a otra del mismo tamaño si ya es grande), en la misma área y cargo, con el sueldo de allá (solo efectos) |
 | `jugador.meses_cotizados` | Meses en que cotizó para su pensión (con contrato). Los meses sin trabajo o informales no suman |
 | `jugador.sueldo`, `jugador.sueldo_liquido` | Sueldo bruto de hoy y líquido de la última liquidación (0 si no trabaja) |
 | `sueldo_minimo()`, `sueldo_tipico()` | Sueldos de referencia del país del jugador, en dinero del inicio del mundo (para usar en `trabajar`) |

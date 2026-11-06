@@ -61,6 +61,19 @@ namespace MistakesLife.Core.Saving
             {
                 save["timeMachine"] ??= new JObject { ["charges"] = Game.TimeMachine.StartingCharges };
             },
+
+            // 5 → 6: aparecen las empresas. Los trabajos guardados antes no tenían
+            // empresa: siguen igual (sin tope de cargo ni sueldo por tamaño) y el
+            // próximo trabajo de su carrera ya llega a una empresa. Las fotos del
+            // mundo guardadas adentro se convierten solas al volver a ellas.
+            [5] = save =>
+            {
+                if (save["world"] is JObject world)
+                {
+                    world["companies"] ??= new JArray();
+                    world["nextCompanyId"] ??= 1;
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

@@ -143,6 +143,14 @@ namespace MistakesLife.Core.Analysis
                     promotions += _content.GetCareerPosition(positionId).Depth;
                 }
 
+                Company? company = session.World.CompanyById(player.Job?.CompanyId);
+                if (company != null)
+                {
+                    report.FinalCompanySizes[company.SizeId] = report.FinalCompanySizes.TryGetValue(company.SizeId, out int sized) ? sized + 1 : 1;
+                }
+
+                report.CompaniesClosed += session.World.Companies.Count(c => !c.IsOpen);
+
                 if (player.HasFlag(TopFlag))
                 {
                     report.ReachedTop++;

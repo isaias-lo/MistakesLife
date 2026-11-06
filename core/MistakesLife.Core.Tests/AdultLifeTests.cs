@@ -51,8 +51,11 @@ namespace MistakesLife.Core.Tests
 
                 session.World.Player.SetFlag("trabajando");
                 session.World.Player.ClearFlag("jubilado");
+                int before = session.World.EventHistory.Count;
                 PlayUntil(session, legalAge + 1);
-                if (!session.World.Player.IsAlive)
+
+                // Si quebró su empresa justo antes, ya no trabaja y no se jubila: se prueba otra vida.
+                if (!session.World.Player.IsAlive || session.World.EventHistory.Skip(before).Any(e => e.EventId == "evento.empresa.quiebra"))
                 {
                     continue;
                 }

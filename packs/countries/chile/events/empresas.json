@@ -1,0 +1,103 @@
+[
+  {
+    "id": "evento.empresa.quiebra",
+    "condiciones": "jugador.empresa_quebro",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.empresa.quiebra.buscar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.empresa.quiebra.reclamar",
+        "tendencia": "jugador.extraversion / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 12",
+          "jugador.salud -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.empresa.tope",
+    "condiciones": "jugador.tope_de_empresa && jugador.empresa_mayor != nada && jugador.meses_en_cargo >= 24",
+    "probabilidad_anual": 0.35,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.empresa.tope.cambiarse",
+        "tendencia": "40 + jugador.apertura / 3",
+        "efectos": [
+          "jugador.cambiar_de_empresa()",
+          "jugador.felicidad += 4",
+          "diario('diario.empresa.cambio')"
+        ]
+      },
+      {
+        "texto": "opcion.empresa.tope.quedarse",
+        "tendencia": "30 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.empresa.sueldo_atrasado",
+    "condiciones": "jugador.empresa_tamano == 'empresa.tamano.micro'",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.empresa.sueldo_atrasado.aguantar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.felicidad -= 4"
+        ]
+      },
+      {
+        "texto": "opcion.empresa.sueldo_atrasado.irse",
+        "tendencia": "jugador.neuroticismo / 2 + jugador.apertura / 3",
+        "efectos": [
+          "jugador.cambiar_de_empresa()",
+          "jugador.felicidad -= 1",
+          "diario('diario.empresa.cambio')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.empresa.reestructuracion",
+    "condiciones": "jugador.empresa_tamano == 'empresa.tamano.grande'",
+    "probabilidad_anual": 0.08,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.empresa.reestructuracion.adaptarse",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.empresa.reestructuracion.resistir",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.desempeno -= 6",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  }
+]

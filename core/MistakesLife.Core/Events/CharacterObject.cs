@@ -30,7 +30,7 @@ namespace MistakesLife.Core.Events
     /// jubilarse(), recibir_pension_universal(), endeudarse('tipo', monto), deuda_de('tipo'), repactar(),
     /// conocer('amistad' | 'colega' | 'rival'); en otra persona, vincular('lazo') y alejarse(),
     /// trabajar_en('área') o trabajar_en('área', 'honorarios'), puede_trabajar_en('área'),
-    /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo().
+    /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo(), cambiar_de_empresa().
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -224,6 +224,15 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(Promotions(scope).Count > 0);
                 case "caminos_ascenso":
                     return Value.FromNumber(Promotions(scope).Count);
+                case "empresa_tamano":
+                    return TextOrNull(Economy.CompanyRules.SizeOf(((EventScope)scope).World, ((EventScope)scope).Content, _character)?.Id);
+                case "empresa_mayor":
+                    Content.CompanySizeDefinition? current = Economy.CompanyRules.SizeOf(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+                    return current == null ? Value.Null : TextOrNull(Economy.CompanyRules.Definition(((EventScope)scope).Content, _character)?.Bigger(current.Id)?.Id);
+                case "empresa_quebro":
+                    return Value.FromBool(((EventScope)scope).World.CompanyById(_character.Job?.CompanyId)?.IsOpen == false);
+                case "tope_de_empresa":
+                    return Value.FromBool(Economy.CompanyRules.AtCompanyTop(((EventScope)scope).World, ((EventScope)scope).Content, _character));
                 case "en_la_cima":
                     return Value.FromBool(_character.Job?.Position != null && ((EventScope)scope).Content.GetCareerPosition(_character.Job.Position.PositionId).IsTop);
                 default:
@@ -522,6 +531,11 @@ namespace MistakesLife.Core.Events
                 case CanPromoteToMethod:
                     string target = EventScope.SingleText("jugador." + method, args);
                     return Value.FromBool(Promotions(scope).Any(p => p.Id == target));
+                case "cambiar_de_empresa":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.cambiar_de_empresa");
+                    ChangeCompany((EventScope)scope);
+                    return Value.Null;
                 case "bajar_cargo":
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.bajar_cargo");
@@ -612,10 +626,19 @@ namespace MistakesLife.Core.Events
             return area!;
         }
 
-        private System.Collections.Generic.IReadOnlyList<Content.CareerPositionDefinition> Promotions(IScriptScope scope) =>
-            _character.Job == null
-                ? Array.Empty<Content.CareerPositionDefinition>()
-                : Economy.CareerLadder.EligiblePromotions(((EventScope)scope).Content, _character.Job, scope);
+        /// <summary>Los ascensos posibles, solo a cargos que existen en su empresa.</summary>
+        private System.Collections.Generic.IReadOnlyList<Content.CareerPositionDefinition> Promotions(IScriptScope scope)
+        {
+            if (_character.Job == null)
+            {
+                return Array.Empty<Content.CareerPositionDefinition>();
+            }
+
+            int? max = Economy.CompanyRules.MaxDepth(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+            return Economy.CareerLadder.EligiblePromotions(((EventScope)scope).Content, _character.Job, scope)
+                .Where(p => !max.HasValue || p.Depth <= max.Value)
+                .ToList();
+        }
 
         private double PriceIndex(EventScope scope) =>
             _character.Residence == null ? 1 : scope.World.EconomyOf(_character.Residence.CountryId)?.PriceIndex ?? 1;
@@ -639,14 +662,54 @@ namespace MistakesLife.Core.Events
             }
 
             Economy.JobKind kind = args.Length == 2 ? ParseJobKind("jugador.trabajar_en()", args[1].AsText("jugador.trabajar_en()")) : Economy.JobKind.Employee;
+            // En la misma área (por ejemplo, para cambiar de contrato) sigue en su empresa.
+            Economy.Company? company = _character.Job?.Position?.AreaId == area.Id && scope.World.CompanyById(_character.Job.CompanyId)?.IsOpen == true
+                ? scope.World.CompanyById(_character.Job.CompanyId)
+                : Economy.CompanyRules.Hire(scope.World, scope.Content, _character, scope.Content.GetCareer(area.CareerId));
             Content.CareerPositionDefinition position = Economy.CareerLadder.StartingPosition(scope.Content, _character, area);
-            Place(scope, kind, area, position);
+            Place(scope, kind, area, position, company);
         }
 
-        private void Place(EventScope scope, Economy.JobKind kind, Content.CareerAreaDefinition area, Content.CareerPositionDefinition position)
+        /// <summary>
+        /// cambiar_de_empresa(): se va a una empresa más grande de su carrera si existe
+        /// (si no, a otra del mismo tamaño), en la misma área y en su cargo, o en el más
+        /// alto que exista allá. El sueldo es el de la nueva empresa.
+        /// </summary>
+        private void ChangeCompany(EventScope scope)
         {
+            Economy.Job? job = _character.Job;
+            Content.CompanySizeDefinition? size = Economy.CompanyRules.SizeOf(scope.World, scope.Content, _character);
+            if (job?.Position == null || size == null)
+            {
+                throw new ScriptException("jugador.cambiar_de_empresa(): no trabaja en una empresa de su carrera (revisa jugador.empresa_tamano != nada).");
+            }
+
+            Content.CareerAreaDefinition area = scope.Content.GetCareerArea(job.Position.AreaId);
+            string target = Economy.CompanyRules.Definition(scope.Content, _character)?.Bigger(size.Id)?.Id ?? size.Id;
+            Economy.Company? company = Economy.CompanyRules.Hire(scope.World, scope.Content, _character, scope.Content.GetCareer(area.CareerId), target, job.CompanyId);
+            Place(scope, job.Kind, area, scope.Content.GetCareerPosition(job.Position.PositionId), company);
+        }
+
+        /// <summary>Lo pone en el cargo de la empresa donde ya trabaja (ascensos y bajadas).</summary>
+        private void Place(EventScope scope, Economy.JobKind kind, Content.CareerAreaDefinition area, Content.CareerPositionDefinition position) =>
+            Place(scope, kind, area, position, scope.World.CompanyById(_character.Job?.CompanyId));
+
+        /// <summary>
+        /// Lo pone en ese cargo en esa empresa: si la empresa es chica y el cargo no existe
+        /// ahí, en el más alto que exista; el sueldo es el del cargo por lo que paga la empresa.
+        /// </summary>
+        private void Place(EventScope scope, Economy.JobKind kind, Content.CareerAreaDefinition area, Content.CareerPositionDefinition position, Economy.Company? company)
+        {
+            Content.CompanySizeDefinition? size = company == null ? null : scope.Content.GetCountry(company.CountryId).Economy?.Companies?.Size(company.SizeId);
+            position = Economy.CompanyRules.Cap(position, size?.MaxPositionDepth);
             decimal salary = Economy.CareerLadder.Salary(scope.DegreeSalaryOf(_character), area, position);
-            Economy.CareerLadder.Place(_character, kind, salary, PriceIndex(scope), area, position);
+            if (size != null)
+            {
+                salary = Math.Round(salary * (decimal)size.SalaryRelative, MidpointRounding.AwayFromZero);
+            }
+
+            Economy.Job job = Economy.CareerLadder.Place(_character, kind, salary, PriceIndex(scope), area, position);
+            job.CompanyId = company?.Id;
         }
 
         /// <summary>ascender() sube al único cargo posible; ascender('cargo') elige uno cuando hay dos caminos.</summary>
