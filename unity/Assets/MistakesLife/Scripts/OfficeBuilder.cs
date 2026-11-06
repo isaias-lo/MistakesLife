@@ -185,7 +185,8 @@ namespace MistakesLife.Unity
                 kit.Box("Estante", new Vector3(-0.4f, y, 2.75f), new Vector3(5.0f, 0.06f, 0.4f), new Color(0.60f, 0.46f, 0.32f));
                 for (int item = 0; item < 6; item++)
                 {
-                    Color product = item % 3 == 0 ? new Color(0.95f, 0.75f, 0.25f) : item % 3 == 1 ? new Color(0.35f, 0.60f, 0.85f) : new Color(0.55f, 0.75f, 0.40f);
+                    // Sin amarillo: ese color es solo de la marca del jugador.
+                    Color product = item % 3 == 0 ? new Color(0.85f, 0.35f, 0.45f) : item % 3 == 1 ? new Color(0.35f, 0.60f, 0.85f) : new Color(0.55f, 0.75f, 0.40f);
                     kit.Box("Producto", new Vector3(-2.4f + (item * 0.8f), y + 0.18f, 2.75f), new Vector3(0.35f, 0.3f, 0.3f), product);
                 }
             }
@@ -216,10 +217,13 @@ namespace MistakesLife.Unity
             kit.Box("Marco", top, frame, new Color(0.30f, 0.32f, 0.36f));
         }
 
-        /// <summary>El jugador, con una marca amarilla más grande que en la casa para que se vea entre muebles.</summary>
+        /// <summary>
+        /// El jugador. En el trabajo solo lleva la bolita sobre la cabeza: el círculo del piso
+        /// queda bajo los muebles y se asomaba lejos de él, entre paneles.
+        /// </summary>
         private static void Player(ShapeKit kit, WorkplaceView work, Vector3 feet)
         {
-            RoomBuilder.Person(kit, work.Player, feet, 0, markerSize: 1.1f);
+            RoomBuilder.Person(kit, work.Player, feet, 0, markerSize: 0f);
         }
 
         private static void Colleague(ShapeKit kit, Vector3 feet, int index)

@@ -68,7 +68,8 @@ namespace MistakesLife.Unity
 
             if (level >= 25)
             {
-                kit.Box("Sillon", new Vector3(0.4f, 0.3f, -1.6f), new Vector3(1.8f, 0.6f, 0.7f), new Color(0.35f, 0.45f, 0.40f));
+                // A un costado, a lo largo: delante de la familia tapaba medio cuerpo a la cámara.
+                kit.Box("Sillon", new Vector3(3.0f, 0.3f, -0.8f), new Vector3(0.7f, 0.6f, 1.6f), new Color(0.35f, 0.45f, 0.40f));
             }
 
             if (level >= 40)
@@ -98,7 +99,7 @@ namespace MistakesLife.Unity
             }
         }
 
-        /// <summary>Una figura: cuerpo, cabeza y, para el jugador, un círculo amarillo a sus pies y una bolita sobre la cabeza.</summary>
+        /// <summary>Una figura: cuerpo, cabeza y, para el jugador, un círculo amarillo a sus pies (si <paramref name="markerSize"/> es mayor que 0) y una bolita sobre la cabeza.</summary>
         public static void Person(ShapeKit kit, HomeMemberView member, Vector3 feet, int index, float markerSize = 0.7f)
         {
             float height = member.Stage switch
@@ -129,11 +130,16 @@ namespace MistakesLife.Unity
             if (member.IsPlayer)
             {
                 Color marker = new Color(0.98f, 0.82f, 0.25f);
-                kit.Shape(PrimitiveType.Cylinder, "Marca del jugador", feet + new Vector3(0f, 0.02f, 0f), new Vector3(markerSize, 0.01f, markerSize), marker);
+                if (markerSize > 0f)
+                {
+                    kit.Shape(PrimitiveType.Cylinder, "Marca del jugador", feet + new Vector3(0f, 0.02f, 0f), new Vector3(markerSize, 0.01f, markerSize), marker);
+                }
 
-                // Bolita amarilla flotando sobre la cabeza: se ve aunque un mueble tape el piso.
-                float dot = Mathf.Max(0.22f, height * 0.16f);
-                kit.Ball("Marca sobre la cabeza", feet + new Vector3(0f, height + 0.25f + (dot / 2f), 0f), dot, marker);
+                // Bolita amarilla justo sobre el pelo, proporcional a la estatura: se ve aunque
+                // un mueble tape el piso, sin quedar flotando lejos de la cabeza.
+                float dot = Mathf.Max(0.16f, height * 0.12f);
+                float top = body + (head * 0.62f) + (hairSize / 2f);
+                kit.Ball("Marca sobre la cabeza", feet + new Vector3(0f, top + (height * 0.06f) + (dot / 2f), 0f), dot, marker);
             }
         }
     }
