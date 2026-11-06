@@ -34,6 +34,7 @@ namespace MistakesLife.Core.Presentation
             "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
             "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
+            "ui.boton.volver_pasado", "ui.boton.cancelar", "ui.pasado.titulo", "ui.pasado.cargas", "ui.pasado.etapa", "ui.pasado.decision", "ui.intuicion",
         };
 
         /// <summary>
@@ -177,6 +178,36 @@ namespace MistakesLife.Core.Presentation
             Session.Choose(pending.AvailableOptions[optionPosition]);
         }
 
+        /// <summary>
+        /// Volver al pasado: cargas que quedan y los momentos a los que se puede volver
+        /// ahora (fotos del mundo permitidas por <see cref="TimeMachine.CanGoBackTo"/>).
+        /// </summary>
+        public TimeTravelView TimeTravel()
+        {
+            TimeMachine machine = Session.TimeMachine;
+            var moments = machine.Snapshots
+                .Where(machine.CanGoBackTo)
+                .Select(s => new MomentView(s.Id, s.PlayerAgeInYears, MomentLabel(s)))
+                .ToList();
+            return new TimeTravelView(machine.Charges, Text("ui.pasado.cargas", machine.Charges), moments);
+        }
+
+        /// <summary>
+        /// Vuelve al pasado, al momento en esa posición de <see cref="TimeTravelView.Moments"/>.
+        /// Gasta una carga. Después conviene pedir el diario completo de nuevo
+        /// (<see cref="FullJournal"/>): ese futuro ya no pasó.
+        /// </summary>
+        public void GoBack(int momentPosition)
+        {
+            IReadOnlyList<MomentView> moments = TimeTravel().Moments;
+            if (momentPosition < 0 || momentPosition >= moments.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(momentPosition), $"Hay {moments.Count} momentos a los que volver.");
+            }
+
+            Session.GoBack(moments[momentPosition].SnapshotId);
+        }
+
         /// <summary>Legado: sigue jugando con el hijo en esa posición de <see cref="LifeSnapshot.Heirs"/>.</summary>
         public void ContinueWith(int heirPosition)
         {
@@ -218,7 +249,26 @@ namespace MistakesLife.Core.Presentation
         {
             EventDefinition definition = Session.Content.GetEvent(pending.EventId);
             var options = pending.AvailableOptions.Select(i => T(definition.Options[i].TextKey)).ToList();
-            return new EventView(pending.EventId, T(definition.ResolvedTextKey), options);
+            int? previous = Session.TimeMachine.PreviousChoice(pending);
+            int position = previous.HasValue ? IndexOf(pending.AvailableOptions, previous.Value) : -1;
+            return new EventView(pending.EventId, T(definition.ResolvedTextKey), options, position >= 0 ? position : (int?)null);
+        }
+
+        private string MomentLabel(WorldSnapshot snapshot) => snapshot.Kind == SnapshotKind.StageStart
+            ? Text("ui.pasado.etapa", snapshot.PlayerAgeInYears, T(snapshot.StageId))
+            : Text("ui.pasado.decision", snapshot.PlayerAgeInYears, T(Session.Content.GetEvent(snapshot.EventId!).ResolvedTextKey));
+
+        private static int IndexOf(IReadOnlyList<int> list, int value)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] == value)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         private string AgeLabel(Character character, GameDate date)
