@@ -74,7 +74,8 @@
 | U7 | Capturas automáticas de las escenas 3D (pieza, barrio, trabajo) de vidas fijas a varias edades, para revisar el diseño sin abrir Unity: menú "Sacar capturas" y `.github/workflows/capturas.yml` en cada PR que toca `unity/` (necesita los secretos de Unity) | Hecha (secretos funcionando desde el 2026-11-05) |
 | U5d | La vista Trabajo muestra el cargo, el área y el desempeño (del núcleo, N5); subir de cargo se nota: segunda pantalla desde el segundo ascenso y rincón propio desde el tercero | Hecha |
 | U8a | Primera ronda de correcciones visuales con las capturas: el rincón del cargo alto ya no atraviesa los cubículos (cada lugar arma el suyo), marca amarilla más grande en Trabajo, familia en zigzag en la pieza, y vidas de prueba con carreras distintas más una vitrina de cada lugar en rango 3 | Hecha |
-| U8b | Barrio vivo: el jugador (con su tamaño según la edad) y su familia en la calle, el jugador donde va esa semana, vecinos y autos que cambian de una vida a otra, alfiler amarillo sobre tu casa, y sin el árbol cortado en el borde | En revisión |
+| U8b | Barrio vivo: el jugador (con su tamaño según la edad) y su familia en la calle, el jugador donde va esa semana, vecinos y autos que cambian de una vida a otra, alfiler amarillo sobre tu casa, y sin el árbol cortado en el borde | Hecha |
+| U8c | Segunda ronda con capturas: bolita amarilla sobre la cabeza del jugador (se ve aunque un mueble tape el piso), vidrio con marco, puf y colega que ya no se cortan ni atraviesan, peatones lejos de árboles y paradero, familia separada en el antejardín | En revisión |
 
 ## Lo que falta en el núcleo
 
