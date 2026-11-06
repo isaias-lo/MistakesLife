@@ -15,7 +15,13 @@ namespace MistakesLife.Core.Presentation
         }
 
         public WorkplaceView(string? careerId, string? kind, double salaryRelative, bool freelance, HomeMemberView player, int rank, string? caption)
+            : this(careerId, kind, salaryRelative, freelance, player, rank, caption, null)
         {
+        }
+
+        public WorkplaceView(string? careerId, string? kind, double salaryRelative, bool freelance, HomeMemberView player, int rank, string? caption, string? companySizeId)
+        {
+            CompanySizeId = companySizeId;
             Rank = rank;
             Caption = caption;
             CareerId = careerId;
@@ -50,13 +56,22 @@ namespace MistakesLife.Core.Presentation
         public int Rank { get; }
 
         /// <summary>
-        /// Frase lista para mostrar con el cargo, el área y el desempeño
-        /// (por ejemplo "Senior en Datos e IA · desempeño 62/100"), o null si no tiene cargo.
+        /// Frase lista para mostrar con la empresa, el cargo, el área y el desempeño
+        /// (por ejemplo "Nodo Austral, empresa mediana · Senior en Datos e IA · desempeño 62/100").
+        /// Sin cargo dice solo la empresa; sin cargo ni empresa es null.
         /// </summary>
         public string? Caption { get; }
 
         /// <summary>Resumen corto para saber si hay que volver a dibujar el lugar.</summary>
+        /// <summary>
+        /// Tamaño de la empresa donde trabaja ('empresa.tamano.micro', '.pequena', '.mediana'
+        /// o '.grande', del paquete del país), o null si no trabaja en una empresa
+        /// (por ejemplo, a honorarios o en un país sin empresas). Unity lo usa para
+        /// cuánta gente y qué tan armada se ve la oficina.
+        /// </summary>
+        public string? CompanySizeId { get; }
+
         public string Signature =>
-            string.Join("|", CareerId ?? "-", Kind ?? "-", SalaryRelative.ToString("0.0", CultureInfo.InvariantCulture), Freelance ? "h" : "c", Player.Stage.ToString(), Rank.ToString(CultureInfo.InvariantCulture));
+            string.Join("|", CareerId ?? "-", Kind ?? "-", CompanySizeId ?? "-", SalaryRelative.ToString("0.0", CultureInfo.InvariantCulture), Freelance ? "h" : "c", Player.Stage.ToString(), Rank.ToString(CultureInfo.InvariantCulture));
     }
 }

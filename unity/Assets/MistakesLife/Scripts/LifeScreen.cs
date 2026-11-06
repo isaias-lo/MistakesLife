@@ -210,16 +210,19 @@ namespace MistakesLife.Unity
             _workButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(SceneView.Work), 30, 0, 12);
 
             RectTransform place = UiFactory.Child(window, "Lugar");
-            // A lo ancho de la ventana: el cargo puede ser largo ("Gerente de tecnología en Datos e IA...").
+            // A lo ancho de la ventana y con espacio para dos líneas: empresa y cargo juntos son largos.
             place.anchorMin = Vector2.zero;
             place.anchorMax = new Vector2(1f, 0f);
             place.pivot = new Vector2(0.5f, 0f);
             place.anchoredPosition = new Vector2(0f, 16f);
-            place.sizeDelta = new Vector2(-32f, 64f);
+            place.sizeDelta = new Vector2(-32f, 88f);
             place.gameObject.AddComponent<Image>().color = new Color(1f, 1f, 1f, 0.85f);
             _placeLabel = UiFactory.Label(place, string.Empty, 28, UiFactory.Ink, FontStyle.Bold);
             UiFactory.Stretch(_placeLabel.rectTransform);
             _placeLabel.alignment = TextAnchor.MiddleCenter;
+            _placeLabel.resizeTextForBestFit = true;
+            _placeLabel.resizeTextMinSize = 18;
+            _placeLabel.resizeTextMaxSize = 28;
             PaintViewSwitch();
         }
 

@@ -54,6 +54,29 @@ namespace MistakesLife.Unity
             {
                 Plant(kit, new Vector3(3.5f, 0f, 1.5f));
             }
+
+            Sign(kit, work.CompanySizeId);
+        }
+
+        /// <summary>
+        /// El letrero con el nombre de la empresa en el muro del fondo: chico y simple en una
+        /// mediana, más grande y con una franja de color en una grande. Las chicas no tienen.
+        /// </summary>
+        private static void Sign(ShapeKit kit, string? sizeId)
+        {
+            bool big = sizeId == "empresa.tamano.grande";
+            if (!big && sizeId != "empresa.tamano.mediana")
+            {
+                return;
+            }
+
+            float width = big ? 1.8f : 1.1f;
+            Vector3 at = new Vector3(-2.3f, 2.35f, (Depth / 2f) - 0.02f);
+            kit.Box("Letrero", at, new Vector3(width, 0.38f, 0.04f), new Color(0.20f, 0.22f, 0.26f));
+            if (big)
+            {
+                kit.Box("Franja del letrero", at + new Vector3(0f, -0.12f, -0.01f), new Vector3(width, 0.08f, 0.04f), UiFactory.Accent);
+            }
         }
 
         /// <summary>Piso, dos muros y una ventana; más luz y madera si el título paga bien.</summary>
@@ -94,9 +117,9 @@ namespace MistakesLife.Unity
                 Glass(kit, new Vector3(-2.6f, 0.9f, 0.2f), new Vector3(0.05f, 1.8f, 0.9f));
                 Plant(kit, new Vector3(-3.5f, 0f, 0.2f));
             }
-            Colleague(kit, new Vector3(0.2f, 0f, 0.0f), 1);
-            Colleague(kit, new Vector3(1.9f, 0f, -2.0f), 2);
-            Colleague(kit, new Vector3(-1.5f, 0f, -2.0f), 3);
+            Colleague(kit, work, new Vector3(0.2f, 0f, 0.0f), 1);
+            Colleague(kit, work, new Vector3(1.9f, 0f, -2.0f), 2);
+            Colleague(kit, work, new Vector3(-1.5f, 0f, -2.0f), 3);
         }
 
         /// <summary>Contabilidad y parecidas: cubículos con paneles, papeles y archivadores.</summary>
@@ -128,8 +151,8 @@ namespace MistakesLife.Unity
                 Glass(kit, new Vector3(-2.9f, 1.6f, 1.2f), new Vector3(0.05f, 0.6f, 1.3f));
                 Plant(kit, new Vector3(-3.5f, 0f, -0.3f));
             }
-            Colleague(kit, new Vector3(0.8f, 0f, 0.6f), 1);
-            Colleague(kit, new Vector3(0.8f, 0f, -1.6f), 2);
+            Colleague(kit, work, new Vector3(0.8f, 0f, 0.6f), 1);
+            Colleague(kit, work, new Vector3(0.8f, 0f, -1.6f), 2);
         }
 
         /// <summary>Psicología y parecidas: dos sillones frente a frente, diván, libros y el título en la pared.</summary>
@@ -152,7 +175,7 @@ namespace MistakesLife.Unity
             kit.Box("Titulo enmarcado", new Vector3(-0.6f, 1.8f, (Depth / 2f) - 0.01f), new Vector3(0.6f, 0.45f, 0.04f), new Color(0.95f, 0.90f, 0.75f));
 
             Player(kit, work, new Vector3(-1.4f, 0f, -0.5f));
-            Colleague(kit, new Vector3(1.4f, 0f, -0.5f), 1);
+            Colleague(kit, work, new Vector3(1.4f, 0f, -0.5f), 1);
         }
 
         /// <summary>Con título pero sin tipo de lugar en su paquete: un escritorio y un archivador.</summary>
@@ -171,7 +194,7 @@ namespace MistakesLife.Unity
                 Glass(kit, new Vector3(1.1f, 0.6f, 0.4f), new Vector3(0.05f, 1.2f, 1.8f));
                 Plant(kit, new Vector3(-2.7f, 0f, 1.8f));
             }
-            Colleague(kit, new Vector3(2.4f, 0f, -1.4f), 1);
+            Colleague(kit, work, new Vector3(2.4f, 0f, -1.4f), 1);
         }
 
         /// <summary>Sin título: un local de atención con mostrador, estantes y caja.</summary>
@@ -192,7 +215,7 @@ namespace MistakesLife.Unity
             }
 
             Player(kit, work, new Vector3(0f, 0f, 1.6f));
-            Colleague(kit, new Vector3(0.4f, 0f, -0.8f), 1);
+            Colleague(kit, work, new Vector3(0.4f, 0f, -0.8f), 1);
         }
 
         /// <summary>
@@ -226,8 +249,20 @@ namespace MistakesLife.Unity
             RoomBuilder.Person(kit, work.Player, feet, 0, markerSize: 0f);
         }
 
-        private static void Colleague(ShapeKit kit, Vector3 feet, int index)
+        /// <summary>
+        /// Un colega, si la empresa tiene gente para él: en una microempresa trabaja uno
+        /// más, en una pequeña dos; en una mediana, grande o sin empresa, todos los del lugar.
+        /// </summary>
+        private static void Colleague(ShapeKit kit, WorkplaceView work, Vector3 feet, int index)
         {
+            int limit = work.CompanySizeId == "empresa.tamano.micro" ? 1
+                : work.CompanySizeId == "empresa.tamano.pequena" ? 2
+                : int.MaxValue;
+            if (index > limit)
+            {
+                return;
+            }
+
             var person = new HomeMemberView(-index, string.Empty, string.Empty, 35, LifeStage.Adult, index % 2 == 0, false);
             RoomBuilder.Person(kit, person, feet, index);
         }
