@@ -60,7 +60,7 @@ namespace MistakesLife.Unity
 
         /// <summary>
         /// El letrero con el nombre de la empresa en el muro del fondo: chico y simple en una
-        /// mediana, más grande y con una franja de color en una grande. Las chicas no tienen.
+        /// mediana, más grande y con un logo de color en una grande. Las chicas no tienen.
         /// </summary>
         private static void Sign(ShapeKit kit, string? sizeId)
         {
@@ -70,13 +70,20 @@ namespace MistakesLife.Unity
                 return;
             }
 
-            float width = big ? 1.8f : 1.1f;
-            Vector3 at = new Vector3(-2.3f, 2.35f, (Depth / 2f) - 0.02f);
-            kit.Box("Letrero", at, new Vector3(width, 0.38f, 0.04f), new Color(0.20f, 0.22f, 0.26f));
+            // A la altura de los ojos de la cámara (más arriba lo corta la foto). Una placa oscura,
+            // el "nombre" en barras claras y, en una grande, un logo de color. Sin amarillo: es del jugador.
+            float width = big ? 1.8f : 1.2f;
+            Vector3 at = new Vector3(-2.3f, 2.0f, (Depth / 2f) - 0.03f);
+            kit.Box("Letrero", at, new Vector3(width, 0.45f, 0.04f), new Color(0.20f, 0.22f, 0.26f));
+            float lettersLeft = big ? -0.35f : -0.45f;
+            float lettersWidth = width - (big ? 0.6f : 0.25f);
+            kit.Box("Nombre del letrero", at + new Vector3(lettersLeft + (lettersWidth / 2f), 0.06f, -0.03f), new Vector3(lettersWidth, 0.1f, 0.02f), new Color(0.93f, 0.93f, 0.90f));
+            kit.Box("Nombre del letrero", at + new Vector3(lettersLeft + (lettersWidth * 0.35f), -0.1f, -0.03f), new Vector3(lettersWidth * 0.7f, 0.07f, 0.02f), new Color(0.75f, 0.77f, 0.80f));
             if (big)
             {
-                kit.Box("Franja del letrero", at + new Vector3(0f, -0.12f, -0.01f), new Vector3(width, 0.08f, 0.04f), UiFactory.Accent);
+                kit.Box("Logo", at + new Vector3((-width / 2f) + 0.28f, 0f, -0.03f), new Vector3(0.32f, 0.32f, 0.02f), new Color(0.90f, 0.42f, 0.25f));
             }
+        }
         }
 
         /// <summary>Piso, dos muros y una ventana; más luz y madera si el título paga bien.</summary>
@@ -94,7 +101,9 @@ namespace MistakesLife.Unity
         /// <summary>Ingeniería de software y parecidas: mesas largas compartidas, pantallas y una pizarra.</summary>
         private static void OpenOffice(ShapeKit kit, WorkplaceView work)
         {
-            for (int row = 0; row < 2; row++)
+            // En una microempresa basta una mesa: 6 puestos para 2 personas se ve como oficina vacía.
+            int rows = IsMicro(work) ? 1 : 2;
+            for (int row = 0; row < rows; row++)
             {
                 float z = row == 0 ? 1.2f : -0.8f;
                 kit.Box("Mesa compartida", new Vector3(0.2f, 0.72f, z), new Vector3(5.2f, 0.06f, 1.0f), Desk);
@@ -126,7 +135,8 @@ namespace MistakesLife.Unity
         private static void Cubicles(ShapeKit kit, WorkplaceView work)
         {
             Color panel = new Color(0.55f, 0.62f, 0.70f);
-            for (int i = 0; i < 4; i++)
+            int cubicles = IsMicro(work) ? 2 : 4;
+            for (int i = 0; i < cubicles; i++)
             {
                 float x = i % 2 == 0 ? -1.8f : 0.8f;
                 float z = i < 2 ? 1.0f : -1.2f;
@@ -266,6 +276,8 @@ namespace MistakesLife.Unity
             var person = new HomeMemberView(-index, string.Empty, string.Empty, 35, LifeStage.Adult, index % 2 == 0, false);
             RoomBuilder.Person(kit, person, feet, index);
         }
+
+        private static bool IsMicro(WorkplaceView work) => work.CompanySizeId == "empresa.tamano.micro";
 
         private static void Plant(ShapeKit kit, Vector3 at)
         {
