@@ -3,8 +3,11 @@ using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Economy;
+using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
+using MistakesLife.Core.Life;
 using MistakesLife.Core.Presentation;
+using MistakesLife.Core.Scripting;
 using Xunit;
 
 namespace MistakesLife.Core.Tests
@@ -379,6 +382,63 @@ namespace MistakesLife.Core.Tests
             presenter.Session.World.Player.Job = new Job(JobKind.Employee, 500000m, 1);
 
             Assert.Null(presenter.Snapshot().Workplace!.Caption);
+        }
+
+        private static void Run(LifePresenter presenter, string effect)
+        {
+            var world = presenter.Session.World;
+            Effect.Parse(effect).Apply(new EventScope(world, RepoPacks.Content, world.Player, null, readOnly: false));
+        }
+
+        [Fact]
+        public void Familia_Viva_DiceComoEstaLaRelacion()
+        {
+            LifeSnapshot snapshot = NewGame(7).Snapshot();
+
+            PersonView mother = Assert.Single(snapshot.Family, p => p.Relation == "Mamá");
+            Assert.Equal("muy unidos", mother.Feeling);
+        }
+
+        [Fact]
+        public void Gente_AlConocerAmistadYRival_ApareceConSuRelacionYElRencor()
+        {
+            LifePresenter presenter = NewGame(1);
+            Assert.Empty(presenter.Snapshot().People);
+
+            Run(presenter, "jugador.conocer('amistad')");
+            Run(presenter, "jugador.conocer('rival')");
+            LifeSnapshot snapshot = presenter.Snapshot();
+
+            Assert.Equal(2, snapshot.People.Count);
+            Assert.Contains(snapshot.People, p => p.Relation == "Amistad" && p.Feeling.Length > 0);
+            PersonView rival = Assert.Single(snapshot.People, p => p.Relation == "Rival");
+            Assert.Equal("te guarda rencor", rival.Feeling);
+            Assert.DoesNotContain(snapshot.Family, p => p.Relation == "Amistad" || p.Relation == "Rival");
+        }
+
+        [Fact]
+        public void Gente_ConMuchasAmistades_MuestraSoloLasMasCercanasHastaElMaximo()
+        {
+            LifePresenter presenter = NewGame(1);
+            for (int i = 0; i < LifePresenter.MaxPeople + 3; i++)
+            {
+                Run(presenter, "jugador.conocer('amistad')");
+            }
+
+            Assert.Equal(LifePresenter.MaxPeople, presenter.Snapshot().People.Count);
+        }
+
+        [Theory]
+        [InlineData(90, 0, "ui.sentir.muy_unidos")]
+        [InlineData(60, 10, "ui.sentir.buena")]
+        [InlineData(40, 0, "ui.sentir.tibia")]
+        [InlineData(10, 0, "ui.sentir.distanciados")]
+        [InlineData(90, 60, "ui.sentir.rencor")]
+        public void Sentir_ElRencorFuertePesaMasQueElCarino(int affection, int resentment, string expected)
+        {
+            var feelings = new Relationship(2, affection, 50, 50, resentment);
+
+            Assert.Equal(expected, LifePresenter.FeelingKey(feelings));
         }
 
         private static string PsychologyLevel(LifePresenter presenter) =>

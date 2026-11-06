@@ -341,8 +341,16 @@ namespace MistakesLife.Unity
                 UiFactory.Label(_story, presenter.Text("ui.familia"), 38, UiFactory.Accent, FontStyle.Bold);
                 foreach (PersonView person in life.Family)
                 {
-                    string age = person.IsAlive ? person.AgeInYears.ToString() : presenter.Text("ui.fallecido");
-                    UiFactory.Label(_story, $"{person.Relation}: {person.Name} ({age})", 34, UiFactory.Ink);
+                    DrawPerson(presenter, person);
+                }
+            }
+
+            if (life.People.Count > 0)
+            {
+                UiFactory.Label(_story, presenter.Text("ui.gente"), 38, UiFactory.Accent, FontStyle.Bold);
+                foreach (PersonView person in life.People)
+                {
+                    DrawPerson(presenter, person);
                 }
             }
 
@@ -351,6 +359,14 @@ namespace MistakesLife.Unity
             {
                 UiFactory.Label(_story, $"{line.AgeLabel}: {line.Text}", 34, UiFactory.Ink);
             }
+        }
+
+        /// <summary>Una persona en una línea: relación, nombre, edad y, si está viva, cómo está la relación.</summary>
+        private void DrawPerson(LifePresenter presenter, PersonView person)
+        {
+            string age = person.IsAlive ? person.AgeInYears.ToString() : presenter.Text("ui.fallecido");
+            string feeling = person.Feeling.Length > 0 ? $", {person.Feeling}" : string.Empty;
+            UiFactory.Label(_story, $"{person.Relation}: {person.Name} ({age}{feeling})", 34, UiFactory.Ink);
         }
 
         /// <summary>Volver al pasado: las cargas que quedan y un botón por cada momento al que se puede volver.</summary>

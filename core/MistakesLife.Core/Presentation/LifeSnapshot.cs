@@ -28,8 +28,10 @@ namespace MistakesLife.Core.Presentation
             HomeView home,
             DailyPlace dailyPlace,
             string dailyPlaceLabel,
-            WorkplaceView? workplace)
+            WorkplaceView? workplace,
+            IReadOnlyList<PersonView>? people = null)
         {
+            People = people ?? new PersonView[0];
             Phase = phase;
             PlayerName = playerName;
             AgeInYears = ageInYears;
@@ -107,5 +109,11 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>Dónde trabaja el jugador (para la oficina en 3D), o null si no trabaja.</summary>
         public WorkplaceView? Workplace { get; }
+
+        /// <summary>
+        /// La gente de tu vida fuera de la familia: amistades, colegas, rivales y ex
+        /// parejas vivas, de la más cercana a la menos, hasta <see cref="LifePresenter.MaxPeople"/>.
+        /// </summary>
+        public IReadOnlyList<PersonView> People { get; }
     }
 }

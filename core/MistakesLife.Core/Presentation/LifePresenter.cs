@@ -7,6 +7,7 @@ using MistakesLife.Core.Content;
 using MistakesLife.Core.Economy;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
+using MistakesLife.Core.Life;
 using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
 
@@ -35,7 +36,12 @@ namespace MistakesLife.Core.Presentation
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
             "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
             "ui.boton.volver_pasado", "ui.boton.cancelar", "ui.pasado.titulo", "ui.pasado.cargas", "ui.pasado.etapa", "ui.pasado.decision", "ui.intuicion",
+            "ui.gente", "ui.relacion.amistad", "ui.relacion.colega", "ui.relacion.rival", "ui.relacion.ex",
+            "ui.sentir.muy_unidos", "ui.sentir.buena", "ui.sentir.tibia", "ui.sentir.distanciados", "ui.sentir.rencor",
         };
+
+        /// <summary>Cuántas personas fuera de la familia se muestran como máximo, para que la lista se pueda leer.</summary>
+        public const int MaxPeople = 8;
 
         /// <summary>
         /// Edad hasta la que, sin pareja, se dibuja al jugador viviendo con sus padres.
@@ -95,7 +101,8 @@ namespace MistakesLife.Core.Presentation
                 Home(player),
                 PlaceOf(player),
                 PlaceLabel(player),
-                Workplace(player));
+                Workplace(player),
+                People(player));
         }
 
         /// <summary>
@@ -430,12 +437,61 @@ namespace MistakesLife.Core.Presentation
             return new HomeMemberView(character.Id, FullName(character), relation, age, StageOf(age), character.Sex == Sex.Female, isPlayer);
         }
 
+        /// <summary>
+        /// Amistades, colegas, rivales y ex vivos, ordenados por lo fuerte que es el lazo
+        /// visto desde la otra persona (el rival por su rencor, el resto por su cariño).
+        /// </summary>
+        private IReadOnlyList<PersonView> People(Character player)
+        {
+            World world = Session.World;
+            var bonds = new[] { RelationshipBond.Friend, RelationshipBond.Ex, RelationshipBond.Colleague, RelationshipBond.Rival };
+            var people = new List<(PersonView View, int Strength)>();
+            foreach (RelationshipBond bond in bonds)
+            {
+                string relation = T("ui.relacion." + RelationshipRules.BondKey(bond));
+                foreach (Character other in RelationshipRules.WithBond(world, player, bond))
+                {
+                    Relationship feelings = RelationshipRules.Feelings(world, other, player);
+                    int strength = bond == RelationshipBond.Rival ? feelings.Resentment : feelings.Affection;
+                    people.Add((Person(other, relation), strength));
+                }
+            }
+
+            // OrderByDescending es estable: con la misma fuerza, se mantiene el orden de los lazos y de los ids.
+            return people.OrderByDescending(p => p.Strength).Take(MaxPeople).Select(p => p.View).ToList();
+        }
+
+        /// <summary>
+        /// La relación en una palabra, según lo que la otra persona siente por el jugador:
+        /// el rencor fuerte pesa más que el cariño; si no, manda el cariño.
+        /// </summary>
+        public static string FeelingKey(Relationship towardPlayer)
+        {
+            if (towardPlayer.Resentment >= VisibleResentment)
+            {
+                return "ui.sentir.rencor";
+            }
+
+            int affection = towardPlayer.Affection;
+            return affection >= 75 ? "ui.sentir.muy_unidos"
+                : affection >= 55 ? "ui.sentir.buena"
+                : affection >= 35 ? "ui.sentir.tibia"
+                : "ui.sentir.distanciados";
+        }
+
+        /// <summary>Desde cuánto rencor (0 a 100) se nota en el trato; un rival recién conocido ya lo muestra.</summary>
+        public const int VisibleResentment = 40;
+
         private string ChildRelation(Character child) => T(child.Sex == Sex.Female ? "ui.relacion.hija" : "ui.relacion.hijo");
 
         private PersonView Person(Character character, string relation)
         {
-            GameDate at = character.DeathDate ?? Session.World.Date;
-            return new PersonView(character.Id, FullName(character), relation, character.AgeInYears(at), character.IsAlive);
+            World world = Session.World;
+            GameDate at = character.DeathDate ?? world.Date;
+            string feeling = character.IsAlive && character.Id != world.Player.Id
+                ? T(FeelingKey(RelationshipRules.Feelings(world, character, world.Player)))
+                : string.Empty;
+            return new PersonView(character.Id, FullName(character), relation, character.AgeInYears(at), character.IsAlive, feeling);
         }
 
         private static string FullName(Character character) => $"{character.FirstName} {character.LastName}";
