@@ -69,7 +69,7 @@ namespace MistakesLife.Unity
             if (level >= 25)
             {
                 // A un costado, a lo largo: delante de la familia tapaba medio cuerpo a la cámara.
-                kit.Box("Sillon", new Vector3(3.0f, 0.3f, -0.8f), new Vector3(0.7f, 0.6f, 1.6f), new Color(0.35f, 0.45f, 0.40f));
+                kit.Box("Sillon", new Vector3(2.6f, 0.3f, -0.4f), new Vector3(0.7f, 0.6f, 1.6f), new Color(0.35f, 0.45f, 0.40f));
             }
 
             if (level >= 40)
