@@ -328,7 +328,7 @@ Textos obligatorios del núcleo en `packs/base/lang/es.json`: `diario.intuicion`
 
 ## Carrera (career.json)
 
-Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. El país no necesita conocer las carreras: un evento con `"opciones_carreras": true` (en Chile, `evento.elegir_futuro`) recibe una opción por cada nivel de cada carrera cargada.
+Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. El país no necesita conocer las carreras: un evento con `"opciones_carreras": true` (en Chile, `evento.elegir_carrera`, `evento.estudios.nueva_carrera` al cambiarse de carrera y `evento.estudios.volver_a_estudiar` de adulto) recibe una opción por cada nivel de cada carrera cargada.
 
 ```json
 {
