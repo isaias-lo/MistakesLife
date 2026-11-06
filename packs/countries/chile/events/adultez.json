@@ -90,7 +90,7 @@
       {
         "texto": "opcion.jubilacion.jubilarse",
         "condiciones": "!jugador.tiene('trabaja_honorarios')",
-        "tendencia": "100 - jugador.responsabilidad / 2",
+        "tendencia": "32 + (jugador.edad - 60) * 4 + (60 - jugador.salud) / 2",
         "efectos": [
           "jugador.desmarcar('trabajando')",
           "jugador.dejar_trabajo()",
@@ -112,11 +112,45 @@
         ]
       },
       {
+        "texto": "opcion.jubilacion.jubilarse_y_seguir",
+        "condiciones": "!jugador.tiene('trabaja_honorarios')",
+        "tendencia": "30 + si(jugador.pension_estimada < sueldo_minimo() / 2, 25, 0)",
+        "efectos": [
+          "jugador.marcar('jubilado')",
+          "jugador.jubilarse()",
+          "jugador.marcar('jubilado_trabajando')",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
         "texto": "opcion.jubilacion.seguir",
-        "tendencia": "jugador.responsabilidad",
+        "tendencia": "jugador.responsabilidad / 2",
         "efectos": [
           "jugador.felicidad -= 1"
         ]
+      }
+    ]
+  },
+  {
+    "id": "evento.dejar_de_trabajar_vejez",
+    "condiciones": "jugador.tiene('trabajando') && jugador.jubilado && jugador.trabaja && jugador.edad >= 61",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.dejar_de_trabajar_vejez.dejar",
+        "tendencia": "8 + (jugador.edad - 65) * 1.5 + (60 - jugador.salud) / 3",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.desmarcar('jubilado_trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.felicidad += 3",
+          "diario('diario.dejo_de_trabajar_vejez')"
+        ]
+      },
+      {
+        "texto": "opcion.dejar_de_trabajar_vejez.seguir",
+        "tendencia": "60"
       }
     ]
   },

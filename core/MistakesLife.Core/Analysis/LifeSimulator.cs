@@ -124,13 +124,13 @@ namespace MistakesLife.Core.Analysis
                         report.Delinquent++;
                     }
 
-                    if (player.Pension.HasValue)
+                    if (player.IsAlive && player.Pension.HasValue)
                     {
                         report.Retired++;
                         realPensions.Add((double)player.LastPensionPayment / economy.PriceIndex);
                     }
 
-                    if (player.Job != null)
+                    if (player.IsAlive && player.Job != null)
                     {
                         realSalaries.Add((double)player.Job.Salary / economy.PriceIndex);
                     }
@@ -156,7 +156,12 @@ namespace MistakesLife.Core.Analysis
                     report.ReachedTop++;
                 }
 
-                if (player.Job != null)
+                if (player.IsAlive && player.Studies != null)
+                {
+                    report.Studying++;
+                }
+
+                if (player.IsAlive && player.Job != null)
                 {
                     report.Working++;
                     if (player.Job.Kind == JobKind.Informal)

@@ -1,0 +1,18 @@
+{
+  "evento.estudios.semestre_pesado": "Este semestre viene pesado: tres pruebas la misma semana, trabajos en grupo y un ramo que no entiendes.",
+  "opcion.estudios.semestre_pesado.aguantar": "Aguantas: duermes poco, pero sacas todo adelante.",
+  "opcion.estudios.semestre_pesado.botar_ramo": "Botas un ramo para respirar. Lo tomarás de nuevo más adelante.",
+  "evento.estudios.ramo_reprobado": "Reprobaste un ramo. Vas a tener que repetirlo y la carrera se alarga.",
+  "evento.estudios.dudas_de_carrera": "Llevas poco en la carrera y no sabes si es lo tuyo. Varios compañeros ya se fueron.",
+  "opcion.estudios.dudas.seguir": "Sigues: el primer año es duro para todos.",
+  "opcion.estudios.dudas.cambiarse": "Te cambias de carrera: prefieres empezar de nuevo en algo que te guste.",
+  "opcion.estudios.dudas.dejar": "Dejas de estudiar y te pones a trabajar.",
+  "evento.estudios.nueva_carrera": "Dejaste la carrera anterior. ¿Qué vas a estudiar ahora?",
+  "opcion.estudios.nueva_carrera.trabajar": "Mejor trabajas un tiempo y lo piensas con calma.",
+  "evento.estudios.volver_a_estudiar": "Ves un aviso de carreras vespertinas para gente que trabaja. Te quedas pensando si es momento de estudiar.",
+  "opcion.estudios.volver.no": "No por ahora: entre el trabajo y la casa no te da el tiempo.",
+  "diario.estudios.boto_ramo": "Boté un ramo. La carrera se me alarga un semestre.",
+  "diario.estudios.ramo_reprobado": "Reprobé un ramo. Toca repetirlo.",
+  "diario.estudios.cambio_carrera": "Me cambié de carrera.",
+  "diario.estudios.deserto": "Dejé la carrera."
+}

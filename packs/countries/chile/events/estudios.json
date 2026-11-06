@@ -1,0 +1,109 @@
+[
+  {
+    "id": "evento.estudios.semestre_pesado",
+    "condiciones": "jugador.estudia != nada && jugador.semestres_aprobados >= 1",
+    "probabilidad_anual": 0.6,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.estudios.semestre_pesado.aguantar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.salud -= 2",
+          "jugador.felicidad -= 2",
+          "jugador.inteligencia += 1"
+        ]
+      },
+      {
+        "texto": "opcion.estudios.semestre_pesado.botar_ramo",
+        "tendencia": "100 - jugador.responsabilidad + si(jugador.tiene('trabaja_y_estudia') || jugador.trabaja, 25, 0)",
+        "efectos": [
+          "jugador.semestres_aprobados -= 1",
+          "jugador.felicidad += 1",
+          "diario('diario.estudios.boto_ramo')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.estudios.ramo_reprobado",
+    "condiciones": "jugador.estudia != nada && jugador.semestres_aprobados >= 1",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 26,
+    "efectos": [
+      "jugador.semestres_aprobados -= 1",
+      "jugador.felicidad -= 3",
+      "diario('diario.estudios.ramo_reprobado')"
+    ]
+  },
+  {
+    "id": "evento.estudios.dudas_de_carrera",
+    "condiciones": "jugador.estudia != nada && jugador.semestres_aprobados <= 2",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.estudios.dudas.seguir",
+        "tendencia": "jugador.responsabilidad + jugador.inteligencia / 2",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.estudios.dudas.cambiarse",
+        "tendencia": "jugador.apertura / 3",
+        "efectos": [
+          "jugador.desertar()",
+          "jugador.marcar('cambia_de_carrera')",
+          "diario('diario.estudios.cambio_carrera')"
+        ]
+      },
+      {
+        "texto": "opcion.estudios.dudas.dejar",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 2 + (60 - jugador.nivel_hogar) / 4 + si(jugador.tiene('trabaja_y_estudia'), 15, 0)",
+        "efectos": [
+          "jugador.desertar()",
+          "jugador.marcar('deserto')",
+          "jugador.desmarcar('quiere_estudiar')",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 4",
+          "diario('diario.estudios.deserto')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.estudios.nueva_carrera",
+    "condiciones": "jugador.tiene('cambia_de_carrera') && jugador.estudia == nada && !jugador.titulado",
+    "peso": 100,
+    "unico": true,
+    "dia_clave": true,
+    "opciones_carreras": true,
+    "opciones": [
+      {
+        "texto": "opcion.estudios.nueva_carrera.trabajar",
+        "tendencia": "10",
+        "efectos": [
+          "jugador.marcar('buscando_trabajo')"
+        ]
+      }
+    ],
+    "efectos": [
+      "jugador.desmarcar('cambia_de_carrera')"
+    ]
+  },
+  {
+    "id": "evento.estudios.volver_a_estudiar",
+    "condiciones": "jugador.tiene('decidio_futuro') && jugador.estudia == nada && !jugador.titulado && !jugador.tiene('cambia_de_carrera') && jugador.edad >= 19 && jugador.edad <= 40 && (jugador.trabaja || jugador.tiene('buscando_trabajo'))",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones_carreras": true,
+    "opciones": [
+      {
+        "texto": "opcion.estudios.volver.no",
+        "tendencia": "3000 + (jugador.edad - 19) * 400"
+      }
+    ]
+  }
+]
