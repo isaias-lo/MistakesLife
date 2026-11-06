@@ -78,24 +78,28 @@ namespace MistakesLife.Unity
         /// </summary>
         private static void People(ShapeKit kit, HomeView home, DailyPlace place, int seed)
         {
-            Vector3 door = new Vector3(PlayerHouseX, 0f, NorthRowZ - 3.0f);
+            // Antejardín: en fila, separados, para que nadie tape a otro desde la cámara.
+            Vector3 door = new Vector3(PlayerHouseX - 1.5f, 0f, NorthRowZ - 3.0f);
             for (int i = 0; i < home.Members.Count; i++)
             {
                 HomeMemberView member = home.Members[i];
-                Vector3 feet = door + new Vector3((i * 0.9f) - 0.6f, 0f, (i % 2) * 0.5f);
+                Vector3 feet = door + new Vector3(i * 1.2f, 0f, 0f);
                 if (member.IsPlayer && place != DailyPlace.Home)
                 {
-                    feet = Destination(place) + new Vector3(0.8f, 0f, 0f);
+                    // Parado sobre el círculo de "vas aquí", donde termina el camino.
+                    feet = Destination(place);
                 }
 
                 RoomBuilder.Person(kit, member, feet, i, markerSize: 1.2f);
             }
 
-            float[] sidewalkX = { -17f, -12f, -7f, 0f, 6f, 12f, 17f };
+            // Lugares en la vereda lejos de los troncos, del paradero y del camino del jugador.
+            float[] sidewalkX = { -18f, -12.5f, -9f, 0.5f, 8f, 14.5f };
             int neighbors = 2 + Pick(seed, 1, 3);
+            int first = Pick(seed, 10, sidewalkX.Length);
             for (int n = 0; n < neighbors; n++)
             {
-                float x = sidewalkX[Pick(seed, 10 + n, sidewalkX.Length)] + (n * 0.7f);
+                float x = sidewalkX[(first + (n * 2)) % sidewalkX.Length];
                 float z = Pick(seed, 20 + n, 2) == 0 ? StreetZ + 3.1f : StreetZ - 3.1f;
                 Neighbor(kit, new Vector3(x, 0.08f, z), Pick(seed, 30 + n, 4), n);
             }
@@ -246,9 +250,9 @@ namespace MistakesLife.Unity
         {
             kit.Box("Plaza", at + new Vector3(0f, 0.02f, 0f), new Vector3(9f, 0.04f, 7f), new Color(0.45f, 0.66f, 0.40f));
             kit.Box("Banca", at + new Vector3(0f, 0.25f, 2.6f), new Vector3(1.8f, 0.5f, 0.5f), new Color(0.55f, 0.40f, 0.28f));
-            Tree(kit, at + new Vector3(-3f, 0f, -1.5f));
-            Tree(kit, at + new Vector3(2.5f, 0f, -2f));
-            Tree(kit, at + new Vector3(3f, 0f, 1.5f));
+            Tree(kit, at + new Vector3(-3f, 0f, -0.6f));
+            Tree(kit, at + new Vector3(1.5f, 0f, -0.6f));
+            Tree(kit, at + new Vector3(2.4f, 0f, 1.8f));
         }
 
         private static void BusStop(ShapeKit kit, Vector3 at, bool highlighted)

@@ -84,14 +84,14 @@ namespace MistakesLife.Unity
             }
 
             kit.Box("Pizarra", new Vector3((-Width / 2f) + 0.02f, 1.5f, 0.3f), new Vector3(0.04f, 1.1f, 2.0f), Color.white);
-            kit.Ball("Puf", new Vector3(3.0f, 0.3f, -2.2f), 0.7f, new Color(0.90f, 0.55f, 0.30f));
+            kit.Ball("Puf", new Vector3(3.2f, 0.3f, -1.3f), 0.7f, new Color(0.90f, 0.55f, 0.30f));
 
             Player(kit, work, new Vector3(-1.5f, 0f, 0.0f));
             SecondScreen(kit, new Vector3(-1.5f, 1.05f, 1.5f), work.Rank);
             if (work.Rank >= 3)
             {
                 // Rincón propio en la punta de la mesa: vidrio entre las dos filas y una planta junto al muro.
-                Glass(kit, new Vector3(-2.6f, 0.6f, 0.2f), new Vector3(0.05f, 1.2f, 0.8f));
+                Glass(kit, new Vector3(-2.6f, 0.9f, 0.2f), new Vector3(0.05f, 1.8f, 0.9f));
                 Plant(kit, new Vector3(-3.5f, 0f, 0.2f));
             }
             Colleague(kit, new Vector3(0.2f, 0f, 0.0f), 1);
@@ -171,7 +171,7 @@ namespace MistakesLife.Unity
                 Glass(kit, new Vector3(1.1f, 0.6f, 0.4f), new Vector3(0.05f, 1.2f, 1.8f));
                 Plant(kit, new Vector3(-2.7f, 0f, 1.8f));
             }
-            Colleague(kit, new Vector3(1.6f, 0f, -0.8f), 1);
+            Colleague(kit, new Vector3(2.4f, 0f, -1.4f), 1);
         }
 
         /// <summary>Sin título: un local de atención con mostrador, estantes y caja.</summary>
@@ -207,9 +207,13 @@ namespace MistakesLife.Unity
             }
         }
 
+        /// <summary>Un panel de vidrio con marco oscuro arriba, para que se distinga del fondo claro.</summary>
         private static void Glass(ShapeKit kit, Vector3 center, Vector3 size)
         {
-            kit.Box("Vidrio", center, size, new Color(0.78f, 0.90f, 0.95f));
+            kit.Box("Vidrio", center, size, new Color(0.58f, 0.78f, 0.90f));
+            Vector3 top = center + new Vector3(0f, size.y / 2f, 0f);
+            Vector3 frame = new Vector3(Mathf.Max(size.x, 0.08f), 0.06f, Mathf.Max(size.z, 0.08f));
+            kit.Box("Marco", top, frame, new Color(0.30f, 0.32f, 0.36f));
         }
 
         /// <summary>El jugador, con una marca amarilla más grande que en la casa para que se vea entre muebles.</summary>

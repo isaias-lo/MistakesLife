@@ -98,7 +98,7 @@ namespace MistakesLife.Unity
             }
         }
 
-        /// <summary>Una figura: cuerpo, cabeza y, para el jugador, un círculo amarillo a sus pies.</summary>
+        /// <summary>Una figura: cuerpo, cabeza y, para el jugador, un círculo amarillo a sus pies y una bolita sobre la cabeza.</summary>
         public static void Person(ShapeKit kit, HomeMemberView member, Vector3 feet, int index, float markerSize = 0.7f)
         {
             float height = member.Stage switch
@@ -128,7 +128,12 @@ namespace MistakesLife.Unity
 
             if (member.IsPlayer)
             {
-                kit.Shape(PrimitiveType.Cylinder, "Marca del jugador", feet + new Vector3(0f, 0.02f, 0f), new Vector3(markerSize, 0.01f, markerSize), new Color(0.98f, 0.82f, 0.25f));
+                Color marker = new Color(0.98f, 0.82f, 0.25f);
+                kit.Shape(PrimitiveType.Cylinder, "Marca del jugador", feet + new Vector3(0f, 0.02f, 0f), new Vector3(markerSize, 0.01f, markerSize), marker);
+
+                // Bolita amarilla flotando sobre la cabeza: se ve aunque un mueble tape el piso.
+                float dot = Mathf.Max(0.22f, height * 0.16f);
+                kit.Ball("Marca sobre la cabeza", feet + new Vector3(0f, height + 0.25f + (dot / 2f), 0f), dot, marker);
             }
         }
     }
