@@ -1,6 +1,16 @@
 {
   "id": "carrera.software",
   "lugar_de_trabajo": "lugar_trabajo.oficina_abierta",
+  "nombres_empresa": [
+    "empresa.software.cordillera_digital",
+    "empresa.software.nodo_austral",
+    "empresa.software.pixel_andino",
+    "empresa.software.codigo_pacifico",
+    "empresa.software.bits_del_maipo",
+    "empresa.software.nube_sur",
+    "empresa.software.puerto_logico",
+    "empresa.software.ruta_binaria"
+  ],
   "niveles": [
     {
       "id": "carrera.software.nivel.analista_programador",

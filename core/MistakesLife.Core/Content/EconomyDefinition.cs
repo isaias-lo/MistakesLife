@@ -43,5 +43,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Herencia de bienes y deudas al morir. Si falta, lo que deja se pierde.</summary>
         [JsonProperty("herencia")]
         public InheritanceDefinition? Inheritance { get; set; }
+
+        /// <summary>Tamaños de empresa y cómo viven. Si falta, los trabajos no tienen empresa.</summary>
+        [JsonProperty("empresas")]
+        public CompaniesDefinition? Companies { get; set; }
     }
 }

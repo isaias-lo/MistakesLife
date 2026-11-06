@@ -55,6 +55,7 @@ namespace MistakesLife.Core.Game
                 .Register(new DebtSystem(content))
                 .Register(new EducationSystem(content))
                 .Register(new CareerSystem())
+                .Register(new CompanySystem(content))
                 .Register(new AgingSystem())
                 .Register(new MortalitySystem(content))
                 .Register(new RelativesFamilySystem(content))

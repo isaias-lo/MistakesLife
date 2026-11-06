@@ -81,3 +81,8 @@
 
 - **Nivel de hogar de Puente Alto (10 a 65):** comuna popular y de clase media baja, con sectores de alta vulnerabilidad como Bajos de Mena. CASEN 2024 da 13,8 % de pobreza por ingresos y 22,1 % multidimensional: hay que llevar esos números a la distribución de `nivel_hogar`.
 - **Solo una comuna:** la fase 1 parte en Puente Alto. Las demás comunas de Santiago se suman después de investigarlas.
+| Trabajadores con contrato según tamaño de empresa: las grandes concentran cerca de la mitad, y micro, pequeñas y medianas el resto | SII (estadísticas de empresas) y CASEN, de memoria | `empresas.tamanos.peso`: micro 0,15, pequeña 0,2, mediana 0,15, grande 0,5. Por verificar |
+| Brecha de sueldos por tamaño: en las grandes se gana bastante más que en las micro por el mismo trabajo | Encuesta Longitudinal de Empresas y ENE (INE), de memoria | `sueldo_relativo`: micro 0,75, pequeña 0,9, mediana 1, grande 1,15. Por verificar |
+| Cierre de empresas: cada año cierra cerca de 1 de cada 10 microempresas; mucho menos en las grandes. En las recesiones aumentan las quiebras | SII (dinámica empresarial), Superintendencia de Insolvencia y Reemprendimiento, de memoria | `quiebra_anual`: micro 0,1, pequeña 0,05, mediana 0,03, grande 0,015; `quiebras` 1,8 en recesión y 3 en crisis. Por verificar |
+| Empresas que cambian de tamaño: unas pocas crecen cada año, y algunas se achican | SII (dinámica empresarial), estimación | `crece_anual` 0,03 a 0,04 y `achica_anual` 0,02 a 0,05. Por calibrar |
+| Cargos que existen según el tamaño: una microempresa no tiene gerencias | Estimación | `cargo_maximo`: micro hasta el tercer cargo (por ejemplo senior), pequeña el cuarto, mediana el quinto, grande sin tope |

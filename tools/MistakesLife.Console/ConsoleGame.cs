@@ -338,6 +338,13 @@ namespace MistakesLife.ConsoleGame
                 {
                     string kind = player.Job.Kind == MistakesLife.Core.Economy.JobKind.Freelance ? "a honorarios" : "con contrato";
                     _output.WriteLine($"Trabajas {kind}. Sueldo bruto: ${player.Job.Salary.ToString("N0", culture)}.");
+                    var company = _session.World.CompanyById(player.Job.CompanyId);
+                    if (company != null)
+                    {
+                        string name = company.NameId == null ? string.Empty : _session.Text(company.NameId) + ", ";
+                        _output.WriteLine($"Empresa: {name}{_session.Text(company.SizeId)}{(company.IsOpen ? string.Empty : " (quebró)")}.");
+                    }
+
                     if (player.LastPayslip != null)
                     {
                         _output.WriteLine("Última liquidación:");

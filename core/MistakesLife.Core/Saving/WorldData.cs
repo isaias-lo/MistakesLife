@@ -38,5 +38,10 @@ namespace MistakesLife.Core.Saving
         public List<PendingEventData> PendingEvents { get; set; } = new List<PendingEventData>();
 
         public List<EventRecordData> EventHistory { get; set; } = new List<EventRecordData>();
+
+        /// <summary>Las empresas que conoce el mundo (desde la versión 6).</summary>
+        public List<CompanyData> Companies { get; set; } = new List<CompanyData>();
+
+        public int NextCompanyId { get; set; } = 1;
     }
 }

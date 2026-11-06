@@ -485,6 +485,10 @@ namespace MistakesLife.Core.Content
                 }
 
                 ValidatePayroll($"{where}, economia", country.Economy);
+                if (country.Economy.Companies != null)
+                {
+                    ValidateCompanies($"{where}, economia.empresas", country.Economy.Companies);
+                }
             }
 
             FamilyRatesDefinition? family = country.NonPlayedFamily;
@@ -722,10 +726,40 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        private void ValidateCompanies(string where, CompaniesDefinition companies)
+        {
+            if (companies.Sizes.Count == 0 || companies.Sizes.Sum(s => s.Weight) <= 0 || companies.SameCompany < 0 || companies.SameCompany > 1)
+            {
+                _errors.Add(new ContentError(where, "debe tener al menos un tamaño con peso, y misma_empresa entre 0 y 1."));
+            }
+
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (CompanySizeDefinition size in companies.Sizes)
+            {
+                string sizeWhere = $"{where}, {size.Id}";
+                CheckId(sizeWhere, size.Id, "empresa.tamano.");
+                if (!seen.Add(size.Id))
+                {
+                    _errors.Add(new ContentError(sizeWhere, "tamaño repetido."));
+                }
+
+                bool badChance = new[] { size.AnnualBankruptcy, size.AnnualGrowth, size.AnnualShrink }.Any(p => p < 0 || p > 1);
+                if (size.Weight < 0 || size.SalaryRelative <= 0 || size.MaxPositionDepth < 0 || badChance)
+                {
+                    _errors.Add(new ContentError(sizeWhere, "peso no negativo, sueldo_relativo mayor que 0, cargo_maximo desde 0 y probabilidades entre 0 y 1."));
+                }
+            }
+        }
+
         private void ValidateCareer(CareerDefinition career)
         {
             string where = $"carrera {career.Id}";
             CheckId(where, career.Id, "carrera.");
+            foreach (string name in career.CompanyNames)
+            {
+                CheckId(where + ", nombres_empresa", name, "empresa.");
+            }
+
             if (career.WorkplaceKind != null && !CareerDefinition.WorkplaceKinds.Contains(career.WorkplaceKind))
             {
                 _errors.Add(new ContentError(where, $"lugar_de_trabajo debe ser uno de: {string.Join(", ", CareerDefinition.WorkplaceKinds)}."));
@@ -1003,6 +1037,19 @@ namespace MistakesLife.Core.Content
                     }
                 }
 
+                foreach (CompanySizeDefinition size in country.Economy?.Companies?.Sizes ?? new List<CompanySizeDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>(size.Id, $"país {country.Id}");
+                }
+
+                if (country.Economy?.Companies != null)
+                {
+                    foreach (string key in new[] { Economy.CompanySystem.BankruptcyJournal, Economy.CompanySystem.GrowthJournal, Economy.CompanySystem.ShrinkJournal })
+                    {
+                        yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
+                    }
+                }
+
                 if (country.Economy?.Inheritance != null)
                 {
                     yield return new KeyValuePair<string, string>(Economy.InheritanceSettlement.ReceivedJournal, $"país {country.Id}");
@@ -1030,6 +1077,11 @@ namespace MistakesLife.Core.Content
                 foreach (CareerAreaDefinition area in career.Areas)
                 {
                     yield return new KeyValuePair<string, string>(area.Id, $"carrera {career.Id}");
+                }
+
+                foreach (string name in career.CompanyNames)
+                {
+                    yield return new KeyValuePair<string, string>(name, $"carrera {career.Id}");
                 }
 
                 foreach (CareerPositionDefinition position in career.Positions.Concat(career.Areas.SelectMany(a => a.Positions ?? new List<CareerPositionDefinition>())))

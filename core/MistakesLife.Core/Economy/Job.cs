@@ -36,6 +36,12 @@ namespace MistakesLife.Core.Economy
         /// <summary>Área y cargo en su carrera, o null si es un trabajo fuera de una carrera.</summary>
         public CareerPosition? Position { get; }
 
+        /// <summary>
+        /// Número de la empresa donde trabaja (ver <see cref="Worlds.World.CompanyById"/>), o
+        /// null si el trabajo no es en una empresa de su carrera.
+        /// </summary>
+        public int? CompanyId { get; internal set; }
+
         /// <summary>Meses en el cargo actual (la experiencia que pide un ascenso).</summary>
         public int MonthsInPosition { get; internal set; }
 

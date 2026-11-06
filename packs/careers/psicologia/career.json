@@ -1,6 +1,16 @@
 {
   "id": "carrera.psicologia",
   "lugar_de_trabajo": "lugar_trabajo.consulta",
+  "nombres_empresa": [
+    "empresa.psicologia.centro_alerce",
+    "empresa.psicologia.consulta_raices",
+    "empresa.psicologia.espacio_calma",
+    "empresa.psicologia.centro_quillay",
+    "empresa.psicologia.mente_austral",
+    "empresa.psicologia.centro_vinculos",
+    "empresa.psicologia.red_psicologica_sur",
+    "empresa.psicologia.talento_andino"
+  ],
   "niveles": [
     {
       "id": "carrera.psicologia.nivel.psicologo",

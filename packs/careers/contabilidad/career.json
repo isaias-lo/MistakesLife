@@ -1,6 +1,16 @@
 {
   "id": "carrera.contabilidad",
   "lugar_de_trabajo": "lugar_trabajo.oficina_cubiculos",
+  "nombres_empresa": [
+    "empresa.contabilidad.balance_andino",
+    "empresa.contabilidad.cuentas_claras",
+    "empresa.contabilidad.auditores_del_pacifico",
+    "empresa.contabilidad.libro_mayor",
+    "empresa.contabilidad.tributaria_cordillera",
+    "empresa.contabilidad.finanzas_maipo",
+    "empresa.contabilidad.partida_doble",
+    "empresa.contabilidad.asesorias_del_sur"
+  ],
   "niveles": [
     {
       "id": "carrera.contabilidad.nivel.contador_general",

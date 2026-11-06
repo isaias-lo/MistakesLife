@@ -179,6 +179,30 @@ namespace MistakesLife.Core.Worlds
         /// <summary>Las economías de todos los países, ordenadas por id.</summary>
         public IEnumerable<Economy.CountryEconomy> Economies => _economies.Values;
 
+        private readonly SortedDictionary<int, Economy.Company> _companies = new SortedDictionary<int, Economy.Company>();
+
+        /// <summary>Las empresas que conoce el mundo (abiertas y quebradas), por número.</summary>
+        public IReadOnlyCollection<Economy.Company> Companies => _companies.Values;
+
+        internal int NextCompanyIdValue { get; set; } = 1;
+
+        internal Economy.Company CreateCompany(string countryId, string careerId, string sizeId, string? nameId)
+        {
+            var company = new Economy.Company(NextCompanyIdValue++, countryId, careerId, sizeId, nameId, Date);
+            _companies.Add(company.Id, company);
+            return company;
+        }
+
+        internal void RestoreCompany(Economy.Company company)
+        {
+            _companies.Add(company.Id, company);
+            NextCompanyIdValue = Math.Max(NextCompanyIdValue, company.Id + 1);
+        }
+
+        /// <summary>La empresa con ese número, o null si no existe.</summary>
+        public Economy.Company? CompanyById(int? id) =>
+            id.HasValue && _companies.TryGetValue(id.Value, out Economy.Company? company) ? company : null;
+
         internal void AddEconomy(Economy.CountryEconomy economy) => _economies.Add(economy.CountryId, economy);
 
         /// <summary>Generación del jugador actual: 1 para el primero, 2 para su hijo, etc.</summary>

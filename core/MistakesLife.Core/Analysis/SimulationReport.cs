@@ -37,6 +37,12 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Cuántas vidas terminan en cada cargo de carrera (id de cargo), entre quienes trabajan en su carrera.</summary>
         public SortedDictionary<string, int> FinalPositions { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
 
+        /// <summary>Cuántas vidas terminan trabajando en una empresa de cada tamaño (id de tamaño).</summary>
+        public SortedDictionary<string, int> FinalCompanySizes { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        /// <summary>Empresas quebradas en todas las vidas (de las que conoció cada mundo).</summary>
+        public int CompaniesClosed { get; internal set; }
+
         /// <summary>Vidas que en algún momento llegaron a la cima de su carrera.</summary>
         public int ReachedTop { get; internal set; }
 
@@ -147,6 +153,9 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Terminan con amigos: {Percent(WithFriends).ToString("0.0", ci)} % (promedio {AverageFriends.ToString("0.0", ci)}); con un rival: {Percent(WithRival).ToString("0.0", ci)} %; tuvieron una expareja: {Percent(WithEx).ToString("0.0", ci)} %");
             sb.AppendLine($"- Cariño de la madre (si vive) / rencor de la pareja (si hay), promedio al final: {AverageMotherAffection.ToString("0", ci)} / {AveragePartnerResentment.ToString("0", ci)}");
             sb.AppendLine($"- Trabajan en un cargo de su carrera: {FinalPositions.Values.Sum()} vidas; ascensos en promedio (altura del cargo final): {AveragePromotions.ToString("0.0", ci)}; llegaron a la cima: {Percent(ReachedTop).ToString("0.0", ci)} %");
+            int inCompany = FinalCompanySizes.Values.Sum();
+            string sizes = string.Join(", ", FinalCompanySizes.Select(s => $"{s.Key.Substring(s.Key.LastIndexOf('.') + 1)} {(inCompany == 0 ? 0 : 100.0 * s.Value / inCompany).ToString("0", ci)} %"));
+            sb.AppendLine($"- Terminan en una empresa: {inCompany} vidas ({sizes}); empresas quebradas: {CompaniesClosed}");
             sb.AppendLine($"- Inflación anual promedio: {(AverageAnnualInflation * 100).ToString("0.0", ci)} %");
             sb.AppendLine();
             sb.AppendLine("## Cómo terminan las vidas (marcas)");

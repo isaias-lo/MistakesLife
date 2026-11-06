@@ -47,6 +47,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("lugar_de_trabajo")]
         public string? WorkplaceKind { get; set; }
 
+        /// <summary>
+        /// Nombres para las empresas de esta carrera (claves de texto que empiezan con
+        /// "empresa."). Cada empresa nueva toma uno que no se esté usando.
+        /// </summary>
+        [JsonProperty("nombres_empresa")]
+        public List<string> CompanyNames { get; set; } = new List<string>();
+
         [JsonIgnore]
         public string PackId { get; internal set; } = string.Empty;
     }
