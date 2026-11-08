@@ -471,7 +471,25 @@ namespace MistakesLife.Core.Presentation
                 members.Add(Member(child, ChildRelation(child), isPlayer: false));
             }
 
-            return new HomeView(player.Residence?.CommuneId ?? string.Empty, player.HouseholdLevel, StageOf(age), members);
+            return new HomeView(player.Residence?.CommuneId ?? string.Empty, player.HouseholdLevel, StageOf(age), members, SceneObjects(player));
+        }
+
+        /// <summary>
+        /// Los objetos de la escena (paquetes, carpeta scene/) cuya condición se cumple ahora
+        /// para el jugador: así la casa muestra lo que está viviendo y lo que decidió.
+        /// </summary>
+        public IReadOnlyList<string> SceneObjects(Character player)
+        {
+            if (player == null)
+            {
+                throw new ArgumentNullException(nameof(player));
+            }
+
+            var scope = new EventScope(Session.World, Session.Content, player, null, readOnly: true);
+            return Session.Content.SceneObjects
+                .Where(o => o.CompiledConditions != null && o.CompiledConditions.IsTrue(scope))
+                .Select(o => o.Id)
+                .ToList();
         }
 
         /// <summary>

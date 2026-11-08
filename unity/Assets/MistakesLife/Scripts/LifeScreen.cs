@@ -319,6 +319,7 @@ namespace MistakesLife.Unity
             _money.text = $"{presenter.Text("ui.dinero_titulo")}: {life.MoneyLabel}";
 
             _home.Show(life.Home, life.DailyPlace, life.Workplace);
+            _home.SetMood(life.Happiness);
             _roomButton.GetComponentInChildren<Text>().text = presenter.Text("ui.vista.casa");
             _blockButton.GetComponentInChildren<Text>().text = presenter.Text("ui.vista.barrio");
             _workButton.GetComponentInChildren<Text>().text = presenter.Text("ui.vista.trabajo");

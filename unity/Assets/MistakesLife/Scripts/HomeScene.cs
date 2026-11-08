@@ -18,6 +18,11 @@ namespace MistakesLife.Unity
     {
         private static readonly Color Sky = new Color(0.80f, 0.88f, 0.94f);
 
+        /// <summary>Cielo nublado, para cuando el jugador está triste.</summary>
+        private static readonly Color GreySky = new Color(0.62f, 0.64f, 0.68f);
+
+        private Light _sun = null!;
+
         private Camera _camera = null!;
         private Transform _room = null!;
         private Transform _block = null!;
@@ -63,6 +68,7 @@ namespace MistakesLife.Unity
             _camera.depth = 0;
 
             Light sun = new GameObject("Sol").AddComponent<Light>();
+            _sun = sun;
             sun.transform.SetParent(transform, false);
             sun.type = LightType.Directional;
             sun.intensity = 0.75f;
@@ -112,6 +118,7 @@ namespace MistakesLife.Unity
             RoomBuilder.BuildRoom(_kit, home);
             RoomBuilder.BuildFurniture(_kit, home);
             RoomBuilder.BuildPeople(_kit, home.Members);
+            SceneObjectBuilder.BuildRoomObjects(_kit, home);
 
             _kit.Parent = _block;
             NeighborhoodBuilder.Build(_kit, home, place);
@@ -121,6 +128,17 @@ namespace MistakesLife.Unity
                 _kit.Parent = _work;
                 OfficeBuilder.Build(_kit, workplace);
             }
+        }
+
+        /// <summary>
+        /// El ánimo del jugador se nota en la luz: con felicidad baja el cielo se nubla y
+        /// el sol baja; desde 60 hacia arriba, día despejado. Es solo cómo se ve el número.
+        /// </summary>
+        public void SetMood(int happiness)
+        {
+            float clear = Mathf.Clamp01(happiness / 60f);
+            _camera.backgroundColor = Color.Lerp(GreySky, Sky, clear);
+            _sun.intensity = Mathf.Lerp(0.5f, 0.75f, clear);
         }
 
         /// <summary>

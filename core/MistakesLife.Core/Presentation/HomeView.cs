@@ -9,7 +9,13 @@ namespace MistakesLife.Core.Presentation
     public sealed class HomeView
     {
         public HomeView(string communeId, int householdLevel, LifeStage playerStage, IReadOnlyList<HomeMemberView> members)
+            : this(communeId, householdLevel, playerStage, members, new string[0])
         {
+        }
+
+        public HomeView(string communeId, int householdLevel, LifeStage playerStage, IReadOnlyList<HomeMemberView> members, IReadOnlyList<string> sceneObjects)
+        {
+            SceneObjects = sceneObjects;
             CommuneId = communeId;
             HouseholdLevel = householdLevel;
             PlayerStage = playerStage;
@@ -29,6 +35,13 @@ namespace MistakesLife.Core.Presentation
         public IReadOnlyList<HomeMemberView> Members { get; }
 
         /// <summary>
+        /// Los objetos de la escena que se ven ahora según la vida del jugador (ids
+        /// <c>escena.casa.*</c>, <c>escena.barrio.*</c>, <c>escena.trabajo.*</c> de los paquetes, en orden).
+        /// La pantalla dibuja los que conoce y salta los demás.
+        /// </summary>
+        public IReadOnlyList<string> SceneObjects { get; }
+
+        /// <summary>
         /// Resumen corto para saber si la casa cambió y hay que volver a dibujarla
         /// (no cambia cada semana, así que no se redibuja siempre).
         /// </summary>
@@ -41,6 +54,8 @@ namespace MistakesLife.Core.Presentation
                 {
                     parts.Add(member.Id + ":" + member.Stage);
                 }
+
+                parts.AddRange(SceneObjects);
 
                 return string.Join("|", parts);
             }

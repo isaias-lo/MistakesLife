@@ -70,6 +70,7 @@ namespace MistakesLife.Unity.Editor
                 }
 
                 saved += Showcase(folder);
+                saved += RoomShowcase(content, folder);
                 Debug.Log($"Capturas: {saved} imágenes en {folder}");
             }
             catch (Exception ex)
@@ -139,6 +140,7 @@ namespace MistakesLife.Unity.Editor
             try
             {
                 scene.Show(life.Home, life.DailyPlace, life.Workplace);
+                scene.SetMood(life.Happiness);
                 foreach (SceneView view in new[] { SceneView.Room, SceneView.Neighborhood, SceneView.Work })
                 {
                     if (view == SceneView.Work && life.Workplace == null)
@@ -190,6 +192,48 @@ namespace MistakesLife.Unity.Editor
                     scene.View = SceneView.Work;
                     Texture2D image = scene.RenderToTexture(Width, Height);
                     File.WriteAllBytes(Path.Combine(folder, $"vitrina-{name}-work.png"), image.EncodeToPNG());
+                    UnityEngine.Object.DestroyImmediate(image);
+                    count++;
+                }
+                finally
+                {
+                    UnityEngine.Object.DestroyImmediate(scene.gameObject);
+                }
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// Vitrina de la pieza con todos los objetos de la casa del paquete a la vez (aunque en
+        /// una vida no salgan juntos), con día despejado y con cielo nublado, para revisar
+        /// que cada objeto se vea y no choque con los muebles.
+        /// </summary>
+        private static int RoomShowcase(ContentDatabase content, string folder)
+        {
+            var player = new HomeMemberView(1, string.Empty, string.Empty, 40, LifeStage.Adult, false, true);
+            var partner = new HomeMemberView(2, string.Empty, string.Empty, 40, LifeStage.Adult, true, false);
+            var objects = new System.Collections.Generic.List<string>();
+            foreach (SceneObjectDefinition item in content.SceneObjects)
+            {
+                if (item.Place == "casa")
+                {
+                    objects.Add(item.Id);
+                }
+            }
+
+            int count = 0;
+            foreach ((int level, int happiness, string name) in new[] { (30, 90, "casa-todo-nivel30"), (75, 15, "casa-todo-nivel75-triste") })
+            {
+                var home = new HomeView("comuna.puente_alto", level, LifeStage.Adult, new[] { player, partner }, objects);
+                HomeScene scene = HomeScene.Create();
+                try
+                {
+                    scene.Show(home, DailyPlace.Home, null);
+                    scene.SetMood(happiness);
+                    scene.View = SceneView.Room;
+                    Texture2D image = scene.RenderToTexture(Width, Height);
+                    File.WriteAllBytes(Path.Combine(folder, $"vitrina-{name}-room.png"), image.EncodeToPNG());
                     UnityEngine.Object.DestroyImmediate(image);
                     count++;
                 }
