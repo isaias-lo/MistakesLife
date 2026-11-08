@@ -142,5 +142,11 @@
   "diario.temporal_lluvia": "Se inundó la calle con el temporal. Pasamos la noche con velas.",
   "opcion.futuro.estudiar": "Seguir estudiando: un CFT, un instituto o la universidad.",
   "evento.elegir_carrera": "Llegó el momento de postular. ¿Qué vas a estudiar?",
-  "opcion.carrera.mejor_trabajar": "Pensándolo bien, mejor me pongo a trabajar."
+  "opcion.carrera.mejor_trabajar": "Pensándolo bien, mejor me pongo a trabajar.",
+  "evento.fiestas_patrias.2": "Dieciocho otra vez: en la familia discuten si hacer asado en la casa o ir a las fondas del parque.",
+  "evento.fiestas_patrias.3": "Este año el Dieciocho cae largo: cuatro días libres, olor a carbón en todo el barrio y volantines en el cielo.",
+  "evento.temblor_adulto.2": "Tiembla justo cuando te estás quedando dormido. La lámpara se balancea y escuchas a los vecinos abriendo las puertas.",
+  "evento.temblor_adulto.3": "Un temblor largo a las tres de la mañana. Se corta la luz y el celular se llena de mensajes preguntando si estás bien.",
+  "evento.prueba_dificil.2": "Mañana hay control de lectura del libro que no alcanzaste a leer.",
+  "evento.prueba_dificil.3": "La profe avisa que la prueba de ciencias vale doble. Es mañana y no has abierto el cuaderno."
 }

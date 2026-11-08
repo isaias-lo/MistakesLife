@@ -68,7 +68,8 @@
     "id": "evento.fin_de_mes_en_rojo",
     "condiciones": "jugador.meses_en_rojo >= 2",
     "probabilidad_anual": 1,
-    "enfriamiento_semanas": 26,
+    "enfriamiento_semanas": 52,
+    "variantes": ["evento.fin_de_mes_en_rojo.2", "evento.fin_de_mes_en_rojo.3"],
     "opciones": [
       {
         "texto": "opcion.rojo.pedir_familia",
@@ -110,7 +111,8 @@
     "id": "evento.cobranza",
     "condiciones": "jugador.moroso",
     "probabilidad_anual": 1,
-    "enfriamiento_semanas": 26,
+    "enfriamiento_semanas": 52,
+    "variantes": ["evento.cobranza.2", "evento.cobranza.3", "evento.cobranza.4"],
     "opciones": [
       {
         "texto": "opcion.cobranza.repactar",
@@ -153,7 +155,9 @@
     "id": "evento.compra_tarjeta",
     "condiciones": "jugador.tiene('tarjeta_credito') && !jugador.moroso",
     "probabilidad_anual": 0.35,
-    "enfriamiento_semanas": 26,
+    "enfriamiento_semanas": 78,
+    "veces_maximas": 9,
+    "variantes": ["evento.compra_tarjeta.2", "evento.compra_tarjeta.3"],
     "opciones": [
       {
         "texto": "opcion.compra_tarjeta.comprar",

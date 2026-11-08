@@ -69,6 +69,21 @@ namespace MistakesLife.Core.Worlds
         /// <summary>Eventos ya vividos.</summary>
         public IReadOnlyList<EventRecord> EventHistory => _eventHistory;
 
+        /// <summary>Cuántas veces le pasó ya un evento a un personaje (según el historial).</summary>
+        public int TimesHappened(string eventId, int characterId)
+        {
+            int count = 0;
+            foreach (EventRecord record in _eventHistory)
+            {
+                if (record.EventId == eventId && record.CharacterId == characterId)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
         internal void AddPendingEvent(PendingEvent pending) => _pendingEvents.Add(pending);
 
         internal void RemovePendingEvent(PendingEvent pending) => _pendingEvents.Remove(pending);

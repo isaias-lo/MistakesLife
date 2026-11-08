@@ -206,7 +206,9 @@
     "id": "evento.contabilidad.cierre_anual",
     "condiciones": "jugador.tiene('trabaja_contabilidad') && jugador.tiene('trabajando')",
     "peso": 8,
-    "enfriamiento_semanas": 52,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 9,
+    "variantes": ["evento.contabilidad.cierre_anual.2", "evento.contabilidad.cierre_anual.3"],
     "opciones": [
       {
         "texto": "opcion.contabilidad.cierre.quedarse",

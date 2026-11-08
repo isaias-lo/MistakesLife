@@ -161,7 +161,9 @@ namespace MistakesLife.Core.Events
         }
 
         private static bool CanHappen(World world, EventDefinition definition, Character player, EventScope scope) =>
-            !(definition.Unique && HasHappened(world, definition.Id, player.Id)) && !InCooldown(world, definition, player.Id) && Passes(definition, scope);
+            !(definition.Unique && HasHappened(world, definition.Id, player.Id))
+            && !(definition.MaxTimes.HasValue && world.TimesHappened(definition.Id, player.Id) >= definition.MaxTimes.Value)
+            && !InCooldown(world, definition, player.Id) && Passes(definition, scope);
 
         private static bool Passes(EventDefinition definition, EventScope scope) =>
             (definition.CountryId == null || scope.Subject.Residence?.CountryId == definition.CountryId)

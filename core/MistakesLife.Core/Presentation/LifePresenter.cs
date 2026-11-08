@@ -379,7 +379,8 @@ namespace MistakesLife.Core.Presentation
             var options = pending.AvailableOptions.Select(i => T(definition.Options[i].TextKey)).ToList();
             int? previous = Session.TimeMachine.PreviousChoice(pending);
             int position = previous.HasValue ? IndexOf(pending.AvailableOptions, previous.Value) : -1;
-            return new EventView(pending.EventId, T(definition.ResolvedTextKey), options, position >= 0 ? position : (int?)null, definition.KeyDay);
+            string textKey = definition.TextKeyFor(Session.World.TimesHappened(pending.EventId, pending.CharacterId));
+            return new EventView(pending.EventId, T(textKey), options, position >= 0 ? position : (int?)null, definition.KeyDay);
         }
 
         private string MomentLabel(WorldSnapshot snapshot) => snapshot.Kind == SnapshotKind.StageStart
