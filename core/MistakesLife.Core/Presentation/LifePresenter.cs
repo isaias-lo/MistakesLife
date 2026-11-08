@@ -22,10 +22,11 @@ namespace MistakesLife.Core.Presentation
     public sealed class LifePresenter
     {
         /// <summary>
-        /// Al avanzar, el tiempo corre hasta que pasa algo, pero nunca más de estos
-        /// años seguidos, para que el jugador vea pasar su vida.
+        /// Al avanzar, el tiempo corre hasta que pasa algo, pero nunca más de un año
+        /// seguido, para que el jugador vea pasar su vida (cada cumpleaños, cada cambio en la casa).
+        /// Para ir más lento está <see cref="AdvanceWeek"/>.
         /// </summary>
-        public const int MaxYearsPerStep = 5;
+        public const int MaxYearsPerStep = 1;
 
         /// <summary>Claves de texto que usa la pantalla; deben existir en el idioma base.</summary>
         public static readonly IReadOnlyList<string> TextKeys = new[]
@@ -44,7 +45,7 @@ namespace MistakesLife.Core.Presentation
             "ui.nacer.nina", "ui.nacer.nino", "ui.hogar.justo", "ui.hogar.medio", "ui.hogar.acomodado",
             "ui.inicio.titulo", "ui.inicio.lema", "ui.inicio.continuar", "ui.inicio.nueva_vida", "ui.inicio.como_jugar",
             "ui.inicio.reemplazar", "ui.inicio.reemplazar_si", "ui.nacer.titulo", "ui.nacer.ayuda", "ui.nacer.elegir", "ui.nacer.otras",
-            "ui.boton.menu", "ui.boton.siguiente", "ui.boton.entendido",
+            "ui.boton.menu", "ui.boton.una_semana", "ui.boton.siguiente", "ui.boton.entendido",
             "ui.tutorial.1", "ui.tutorial.2", "ui.tutorial.3", "ui.tutorial.4", "ui.tutorial.5",
         };
 

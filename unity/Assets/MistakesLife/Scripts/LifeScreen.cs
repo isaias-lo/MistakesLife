@@ -20,7 +20,13 @@ namespace MistakesLife.Unity
         /// <summary>Cuántas líneas del diario se muestran (las más nuevas primero).</summary>
         private const int JournalLines = 60;
 
+        /// <summary>Cuántas líneas nuevas del diario se destacan en "Lo que pasó".</summary>
+        private const int NewsLines = 4;
+
         private readonly List<JournalLine> _journal = new List<JournalLine>();
+
+        /// <summary>Las líneas del diario que trajo el último paso (las más nuevas primero).</summary>
+        private readonly List<JournalLine> _lastNews = new List<JournalLine>();
 
         /// <summary>Si la parte de abajo muestra la lista de momentos para volver al pasado.</summary>
         private bool _pickingMoment;
@@ -295,9 +301,17 @@ namespace MistakesLife.Unity
         private void Refresh()
         {
             LifePresenter presenter = _presenter!;
-            foreach (JournalLine line in presenter.TakeNewJournal())
+            IReadOnlyList<JournalLine> fresh = presenter.TakeNewJournal();
+            foreach (JournalLine line in fresh)
             {
                 _journal.Insert(0, line);
+            }
+
+            // Lo que se anotó en el diario en este paso se muestra arriba, en "Lo que pasó".
+            _lastNews.Clear();
+            for (int i = fresh.Count - 1; i >= 0 && _lastNews.Count < NewsLines; i--)
+            {
+                _lastNews.Add(fresh[i]);
             }
 
             if (_journal.Count > JournalLines)
@@ -404,22 +418,33 @@ namespace MistakesLife.Unity
         /// </summary>
         private void DrawLastStep(LifePresenter presenter)
         {
-            if (_lastStep == null)
+            if (_lastStep == null && _lastNews.Count == 0)
             {
                 return;
             }
 
             RectTransform box = UiFactory.Column(_story, "Lo que paso", 28, 6, UiFactory.Background);
             string title = presenter.Text("ui.paso.titulo");
-            if (_lastStep.ElapsedLabel.Length > 0)
+            if (_lastStep != null && _lastStep.ElapsedLabel.Length > 0)
             {
                 title += " · " + _lastStep.ElapsedLabel;
             }
 
             UiFactory.Label(box, title, 30, UiFactory.MutedInk, FontStyle.Bold);
-            if (_lastStep.Changes.Count == 0)
+
+            // Avisos de lo importante: lo que quedó en el diario en este paso.
+            foreach (JournalLine line in _lastNews)
             {
-                UiFactory.Label(box, presenter.Text("ui.paso.sin_cambios"), 32, UiFactory.Ink);
+                UiFactory.Label(box, $"• {line.AgeLabel}: {line.Text}", 32, UiFactory.Ink);
+            }
+
+            if (_lastStep == null || _lastStep.Changes.Count == 0)
+            {
+                if (_lastNews.Count == 0)
+                {
+                    UiFactory.Label(box, presenter.Text("ui.paso.sin_cambios"), 32, UiFactory.Ink);
+                }
+
                 return;
             }
 
@@ -501,7 +526,18 @@ namespace MistakesLife.Unity
 
             if (life.Phase == LifePhase.Living)
             {
-                UiFactory.MakeButton(_footer, presenter.Text("ui.boton.seguir_viviendo"), UiFactory.Accent, UiFactory.AccentText, Advance);
+                // Dos ritmos: una semana a la vez, o correr hasta que pase algo (como mucho un año).
+                RectTransform row = UiFactory.Child(_footer, "Avanzar");
+                HorizontalLayoutGroup layout = row.gameObject.AddComponent<HorizontalLayoutGroup>();
+                layout.spacing = 16;
+                layout.childControlWidth = true;
+                layout.childControlHeight = true;
+                layout.childForceExpandWidth = false;
+                layout.childForceExpandHeight = true;
+                Button week = UiFactory.MakeButton(row, presenter.Text("ui.boton.una_semana"), UiFactory.Option, UiFactory.Ink, () => Advance(false));
+                week.GetComponent<LayoutElement>().flexibleWidth = 1;
+                Button jump = UiFactory.MakeButton(row, presenter.Text("ui.boton.seguir_viviendo"), UiFactory.Accent, UiFactory.AccentText, () => Advance(true));
+                jump.GetComponent<LayoutElement>().flexibleWidth = 2;
             }
             else if (life.Phase == LifePhase.Over)
             {
@@ -509,10 +545,11 @@ namespace MistakesLife.Unity
             }
         }
 
-        private void Advance()
+        /// <summary>Avanza una semana o, con <paramref name="untilSomething"/>, hasta que pase algo (máximo un año).</summary>
+        private void Advance(bool untilSomething)
         {
             LifeSnapshot before = _presenter!.Snapshot();
-            int weeks = _presenter.AdvanceUntilSomething();
+            int weeks = untilSomething ? _presenter.AdvanceUntilSomething() : _presenter.AdvanceWeek();
             RememberStep(before, weeks);
             Refresh();
             Save();
