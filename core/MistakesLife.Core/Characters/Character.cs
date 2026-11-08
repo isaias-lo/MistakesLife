@@ -206,6 +206,13 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public int ContributedMonths { get; set; }
 
+        /// <summary>
+        /// En los países con jubilación de reparto: el sueldo bruto promedio de sus
+        /// últimos años con aportes, en dinero del inicio del mundo. Con él se calcula
+        /// la pensión. Se actualiza cada mes con aporte (promedio móvil).
+        /// </summary>
+        public decimal PensionSalaryBase { get; set; }
+
         /// <summary>Su pensión mensual, en dinero del inicio del mundo, o null si no se ha jubilado.</summary>
         public decimal? Pension { get; set; }
 

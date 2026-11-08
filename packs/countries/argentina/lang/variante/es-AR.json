@@ -1,0 +1,13 @@
+{
+  "evento.jubilacion": "Llegaste a la edad legal de jubilación. En la ANSES te muestran cuánto cobrarías según tus años de aportes.",
+  "evento.cobrar_pension": "Llegaste a la edad de jubilación sin un trabajo. Sacás turno en la ANSES y hacés el trámite con los años de aportes que tenés.",
+  "evento.pension_garantizada": "Empezás a cobrar la Pensión Universal para el Adulto Mayor. No es mucho, pero ayuda a llegar a fin de mes.",
+  "diario.deudas.moroso": "Llevás meses sin pagar las cuotas: quedaste en el Veraz.",
+  "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste del Veraz.",
+  "evento.fin_contrato_joven": "Se termina tu contrato y no te lo renuevan. \"Ahora no hay laburo, pero te tenemos en cuenta\", te dicen.",
+  "evento.oferta_trabajo_informal": "Un conocido te ofrece laburo en un taller del barrio. Es en negro: pagan en efectivo, sin recibo ni aportes.",
+  "evento.contrato_tras_informal": "En el laburo por fin te ponen en blanco. Te van a descontar jubilación y obra social, así que lo que cobrás en mano baja.",
+  "evento.fin_trabajo_informal": "El dueño del taller te avisa que ya no hay laburo para vos. Como estabas en negro, no hay indemnización.",
+  "evento.pololito_vejez": "Un vecino te ofrece una changa: unas horas por semana, en negro, por algo de plata extra.",
+  "evento.nace_hijo": "Después de nueve meses de espera, controles en la salita y noches sin dormir, llega a casa tu bebé."
+}

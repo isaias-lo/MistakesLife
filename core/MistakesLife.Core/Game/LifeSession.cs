@@ -30,7 +30,21 @@ namespace MistakesLife.Core.Game
         }
 
         public LifeSession(ContentDatabase content, ulong seed, SeedRules seedRules, EventRules eventRules)
-            : this(content ?? throw new ArgumentNullException(nameof(content)), NewWorld(content, seed), seedRules, eventRules, 0)
+            : this(content, seed, null, seedRules, eventRules)
+        {
+        }
+
+        /// <summary>
+        /// Partida nueva que nace en un país elegido (por ejemplo "pais.argentina").
+        /// Con null, el país sale al azar según los paquetes.
+        /// </summary>
+        public LifeSession(ContentDatabase content, ulong seed, string? countryId)
+            : this(content, seed, countryId, new SeedRules(), new EventRules())
+        {
+        }
+
+        public LifeSession(ContentDatabase content, ulong seed, string? countryId, SeedRules seedRules, EventRules eventRules)
+            : this(content ?? throw new ArgumentNullException(nameof(content)), NewWorld(content, seed, countryId), seedRules, eventRules, 0)
         {
             TimeMachine.SetCharges(TimeMachine.StartingCharges);
         }
@@ -65,9 +79,9 @@ namespace MistakesLife.Core.Game
                 .Register(new BirthdaySystem());
         }
 
-        private static World NewWorld(ContentDatabase content, ulong seed)
+        private static World NewWorld(ContentDatabase content, ulong seed, string? countryId)
         {
-            World world = WorldFactory.CreateNewLife(seed, content);
+            World world = WorldFactory.CreateNewLife(seed, content, countryId);
             EconomySystem.Initialize(world, content);
             return world;
         }

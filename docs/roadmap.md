@@ -101,6 +101,6 @@ Diagnóstico completo (2026-11-03): [Qué le falta al núcleo de MistakesLife](h
 | # | Tarea | Estado |
 |---|---|---|
 | A1 | Núcleo para varios países: los eventos del paquete de un país solo le pasan a quien vive ahí; los eventos comunes (amigos, pareja, diversidad, salud, trabajo, ascensos, empresas, estudios, jubilación) pasan al paquete base; textos con variante por país (`variantes_idioma` y `lang/variante/es-CL.json`), con palabras generales en `es` y las chilenas en `es-CL`. Para quien vive en Chile no cambia nada (el simulador da lo mismo) | Hecha |
-| A2 | País Argentina: Buenos Aires, colegios (inicial, primaria, secundaria), leyes, mortalidad del INDEC, nombres, inflación alta, sueldos y jubilación de reparto (ANSES), nueva en el núcleo | Pendiente |
+| A2 | País Argentina: Buenos Aires (La Matanza), colegios (jardín, primaria, secundaria), leyes, mortalidad, nombres, inflación alta (con hiperinflación posible), sueldos, recibo de sueldo (jubilación, PAMI, obra social, Ganancias), gastos, deudas y jubilación de reparto (ANSES) con PUAM, nueva en el núcleo. Textos generales de la economía pasan al paquete base. Nadie nace en Argentina por azar hasta A3 (`peso_nacimiento: 0`); se juega eligiéndola (`--pais pais.argentina`). Valores de memoria, por verificar en A4 | En revisión |
 | A3 | Eventos y carreras de Argentina: ingreso a la universidad (CBC de la UBA), universidad pública gratis, terciarios, monotributo, trabajo en negro, textos `es-AR` | Pendiente |
 | A4 | Calibrar Argentina con la EPH del INDEC | Pendiente |

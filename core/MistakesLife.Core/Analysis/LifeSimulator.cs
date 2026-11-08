@@ -46,7 +46,10 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Edad hasta la que se mide la densidad de cotización (meses cotizados desde los 18).</summary>
         public const int ContributionDensityAge = 65;
 
-        public SimulationReport Run(int lives, int finalAge, ulong firstSeed = 1)
+        public SimulationReport Run(int lives, int finalAge, ulong firstSeed = 1) => Run(lives, finalAge, null, firstSeed);
+
+        /// <summary>Simula vidas que nacen en un país elegido (null: al azar, como en el juego).</summary>
+        public SimulationReport Run(int lives, int finalAge, string? countryId, ulong firstSeed = 1)
         {
             if (lives <= 0)
             {
@@ -73,7 +76,7 @@ namespace MistakesLife.Core.Analysis
             for (int i = 0; i < lives; i++)
             {
                 ulong seed = firstSeed + (ulong)i;
-                var session = new LifeSession(_content, seed, SeedRules, EventRules);
+                var session = new LifeSession(_content, seed, countryId, SeedRules, EventRules);
                 session.TimeMachine.Enabled = false; // sin fotos del mundo, para ir rápido
                 var chooser = new GameRandom(seed).Fork("simulador.decisiones");
                 var decider = new AutoDecider(_content);

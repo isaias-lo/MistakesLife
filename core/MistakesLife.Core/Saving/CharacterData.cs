@@ -73,6 +73,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>Meses en que cotizó para su pensión (desde la versión 2 del formato).</summary>
         public int ContributedMonths { get; set; }
 
+        /// <summary>Sueldo promedio para la jubilación de reparto (desde la versión 7 del formato).</summary>
+        public decimal PensionSalaryBase { get; set; }
+
         public decimal? Pension { get; set; }
 
         public bool ReceivesUniversalPension { get; set; }
