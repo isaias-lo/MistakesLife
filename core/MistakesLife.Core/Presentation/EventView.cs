@@ -11,7 +11,13 @@ namespace MistakesLife.Core.Presentation
         }
 
         public EventView(string eventId, string text, IReadOnlyList<string> options, int? intuitionOption)
+            : this(eventId, text, options, intuitionOption, false)
         {
+        }
+
+        public EventView(string eventId, string text, IReadOnlyList<string> options, int? intuitionOption, bool isKeyMoment)
+        {
+            IsKeyMoment = isKeyMoment;
             EventId = eventId;
             Text = text;
             Options = options;
@@ -32,5 +38,11 @@ namespace MistakesLife.Core.Presentation
         /// de lo que el jugador eligió la otra vez en este mismo momento. Null si es la primera vez.
         /// </summary>
         public int? IntuitionOption { get; }
+
+        /// <summary>
+        /// Si es un momento clave de la vida (<c>dia_clave</c> en el paquete): la pantalla lo
+        /// destaca, porque lo que se elija aquí pesa más y se puede volver a él desde el futuro.
+        /// </summary>
+        public bool IsKeyMoment { get; }
     }
 }

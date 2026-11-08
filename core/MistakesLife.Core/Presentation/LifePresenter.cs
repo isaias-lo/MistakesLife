@@ -39,7 +39,25 @@ namespace MistakesLife.Core.Presentation
             "ui.gente", "ui.relacion.amistad", "ui.relacion.colega", "ui.relacion.rival", "ui.relacion.ex",
             "ui.sentir.muy_unidos", "ui.sentir.buena", "ui.sentir.tibia", "ui.sentir.distanciados", "ui.sentir.rencor",
             "ui.trabajo.empresa", "ui.trabajo.empresa_sin_nombre",
+            "ui.paso.una_semana", "ui.paso.semanas", "ui.paso.un_ano", "ui.paso.anos", "ui.paso.un_ano_semanas", "ui.paso.anos_semanas",
+            "ui.paso.titulo", "ui.paso.sin_cambios", "ui.momento_clave",
+            "ui.nacer.nina", "ui.nacer.nino", "ui.hogar.justo", "ui.hogar.medio", "ui.hogar.acomodado",
+            "ui.inicio.titulo", "ui.inicio.lema", "ui.inicio.continuar", "ui.inicio.nueva_vida", "ui.inicio.como_jugar",
+            "ui.inicio.reemplazar", "ui.inicio.reemplazar_si", "ui.nacer.titulo", "ui.nacer.ayuda", "ui.nacer.elegir", "ui.nacer.otras",
+            "ui.boton.menu", "ui.boton.siguiente", "ui.boton.entendido",
+            "ui.tutorial.1", "ui.tutorial.2", "ui.tutorial.3", "ui.tutorial.4", "ui.tutorial.5",
         };
+
+        /// <summary>
+        /// Cuánto tiene que cambiar el dinero (en pesos del juego) en un paso para mostrarlo
+        /// en el resumen: los cambios de centavos no se cuentan.
+        /// </summary>
+        public const decimal MinVisibleMoneyChange = 1m;
+
+        /// <summary>Desde qué nivel del hogar (0 a 100) se considera de clase media, y desde cuál acomodado.</summary>
+        public const int MiddleHomeLevel = 35;
+
+        public const int WealthyHomeLevel = 70;
 
         /// <summary>Cuántas personas fuera de la familia se muestran como máximo, para que la lista se pueda leer.</summary>
         public const int MaxPeople = 8;
@@ -243,6 +261,108 @@ namespace MistakesLife.Core.Presentation
         public string Text(string key, params object[] values) =>
             values.Length == 0 ? T(key) : string.Format(CultureInfo.InvariantCulture, T(key), values);
 
+        /// <summary>
+        /// Resume lo que pasó entre dos fotos de la misma vida: el tiempo que corrió y los
+        /// cambios de salud, felicidad, inteligencia y dinero. Si las fotos son de vidas
+        /// distintas (se siguió con un hijo), no hay nada que comparar y el resumen sale vacío.
+        /// </summary>
+        public StepSummary Summarize(LifeSnapshot before, LifeSnapshot after, int weeks)
+        {
+            if (before == null)
+            {
+                throw new ArgumentNullException(nameof(before));
+            }
+
+            if (after == null)
+            {
+                throw new ArgumentNullException(nameof(after));
+            }
+
+            if (before.Generation != after.Generation || before.Seed != after.Seed)
+            {
+                return new StepSummary(0, string.Empty, new ChangeView[0]);
+            }
+
+            var changes = new List<ChangeView>();
+            AddChange(changes, "ui.salud", after.Health - before.Health);
+            AddChange(changes, "ui.felicidad", after.Happiness - before.Happiness);
+            AddChange(changes, "ui.inteligencia", after.Smarts - before.Smarts);
+            decimal money = Math.Round(after.Money - before.Money, 0, MidpointRounding.AwayFromZero);
+            if (Math.Abs(money) >= MinVisibleMoneyChange)
+            {
+                string sign = money > 0 ? "+" : "-";
+                changes.Add(new ChangeView($"{T("ui.dinero_titulo")} {sign}{MoneyLabel(Math.Abs(money))}", money > 0));
+            }
+
+            return new StepSummary(Math.Max(0, weeks), ElapsedLabel(weeks), changes);
+        }
+
+        /// <summary>"Pasó una semana", "Pasaron 3 semanas", "Pasó 1 año y 4 semanas"... Vacío si no pasó tiempo.</summary>
+        public string ElapsedLabel(int weeks)
+        {
+            if (weeks <= 0)
+            {
+                return string.Empty;
+            }
+
+            int years = weeks / GameDate.WeeksPerYear;
+            int rest = weeks % GameDate.WeeksPerYear;
+            if (years == 0)
+            {
+                return weeks == 1 ? T("ui.paso.una_semana") : Text("ui.paso.semanas", weeks);
+            }
+
+            if (rest == 0)
+            {
+                return years == 1 ? T("ui.paso.un_ano") : Text("ui.paso.anos", years);
+            }
+
+            return years == 1 ? Text("ui.paso.un_ano_semanas", years, rest) : Text("ui.paso.anos_semanas", years, rest);
+        }
+
+        /// <summary>
+        /// Cómo nace la vida de esta partida (para elegir entre varios nacimientos antes de empezar).
+        /// Tiene sentido al principio, pero se puede pedir en cualquier momento.
+        /// </summary>
+        public BirthView Birth()
+        {
+            Character player = Session.World.Player;
+            var parents = new List<PersonView>();
+            if (player.MotherId.HasValue)
+            {
+                parents.Add(Person(Session.World.GetCharacter(player.MotherId.Value), T("ui.relacion.madre")));
+            }
+
+            if (player.FatherId.HasValue)
+            {
+                parents.Add(Person(Session.World.GetCharacter(player.FatherId.Value), T("ui.relacion.padre")));
+            }
+
+            bool female = player.Sex == Sex.Female;
+            return new BirthView(
+                FullName(player),
+                female,
+                T(female ? "ui.nacer.nina" : "ui.nacer.nino"),
+                Place(player),
+                T(HomeLevelKey(player.HouseholdLevel)),
+                parents);
+        }
+
+        /// <summary>El hogar en una frase, según su nivel (0 a 100).</summary>
+        public static string HomeLevelKey(int householdLevel) =>
+            householdLevel >= WealthyHomeLevel ? "ui.hogar.acomodado"
+            : householdLevel >= MiddleHomeLevel ? "ui.hogar.medio"
+            : "ui.hogar.justo";
+
+        private void AddChange(List<ChangeView> changes, string titleKey, int delta)
+        {
+            if (delta != 0)
+            {
+                string amount = delta > 0 ? "+" + delta.ToString(CultureInfo.InvariantCulture) : delta.ToString(CultureInfo.InvariantCulture);
+                changes.Add(new ChangeView($"{T(titleKey)} {amount}", delta > 0));
+            }
+        }
+
         private int Advance(int maxWeeks)
         {
             LifePhase phase = Phase;
@@ -259,7 +379,7 @@ namespace MistakesLife.Core.Presentation
             var options = pending.AvailableOptions.Select(i => T(definition.Options[i].TextKey)).ToList();
             int? previous = Session.TimeMachine.PreviousChoice(pending);
             int position = previous.HasValue ? IndexOf(pending.AvailableOptions, previous.Value) : -1;
-            return new EventView(pending.EventId, T(definition.ResolvedTextKey), options, position >= 0 ? position : (int?)null);
+            return new EventView(pending.EventId, T(definition.ResolvedTextKey), options, position >= 0 ? position : (int?)null, definition.KeyDay);
         }
 
         private string MomentLabel(WorldSnapshot snapshot) => snapshot.Kind == SnapshotKind.StageStart

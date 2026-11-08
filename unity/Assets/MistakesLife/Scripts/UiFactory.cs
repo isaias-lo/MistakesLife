@@ -26,7 +26,86 @@ namespace MistakesLife.Unity
         public static readonly Color Happiness = new Color(0.90f, 0.66f, 0.25f);
         public static readonly Color Smarts = new Color(0.38f, 0.48f, 0.78f);
 
+        /// <summary>Tarjeta de un momento clave: un tono cálido para que se note que pesa más.</summary>
+        public static readonly Color KeyCard = new Color(0.99f, 0.93f, 0.84f);
+        public static readonly Color KeyInk = new Color(0.72f, 0.38f, 0.10f);
+
+        /// <summary>Tarjeta de un evento normal.</summary>
+        public static readonly Color EventCard = new Color(0.93f, 0.96f, 0.97f);
+        public static readonly Color Good = new Color(0.20f, 0.52f, 0.28f);
+        public static readonly Color Bad = new Color(0.74f, 0.24f, 0.20f);
+
+        /// <summary>Fondo oscuro y semitransparente detrás de un aviso (tutorial, confirmar).</summary>
+        public static readonly Color Shade = new Color(0f, 0f, 0f, 0.6f);
+
+        /// <summary>Radio de las esquinas redondeadas, en píxeles de la pantalla de referencia (1080 de ancho).</summary>
+        private const int CornerRadius = 28;
+
         private static Font? _font;
+        private static Sprite? _rounded;
+
+        /// <summary>
+        /// Rectángulo blanco con esquinas redondeadas, dibujado por código (sin archivos de imagen).
+        /// Es "9-slice": las esquinas no se deforman aunque el botón sea largo.
+        /// </summary>
+        public static Sprite Rounded
+        {
+            get
+            {
+                if (_rounded != null)
+                {
+                    return _rounded;
+                }
+
+                int size = CornerRadius * 2 + 4;
+                var texture = new Texture2D(size, size, TextureFormat.RGBA32, false);
+                texture.wrapMode = TextureWrapMode.Clamp;
+                texture.filterMode = FilterMode.Bilinear;
+                var pixels = new Color32[size * size];
+                for (int y = 0; y < size; y++)
+                {
+                    for (int x = 0; x < size; x++)
+                    {
+                        // Distancia al centro de la esquina más cercana; afuera del radio es transparente (con borde suave).
+                        float cx = Mathf.Clamp(x + 0.5f, CornerRadius, size - CornerRadius);
+                        float cy = Mathf.Clamp(y + 0.5f, CornerRadius, size - CornerRadius);
+                        float distance = Mathf.Sqrt((x + 0.5f - cx) * (x + 0.5f - cx) + (y + 0.5f - cy) * (y + 0.5f - cy));
+                        byte alpha = (byte)(Mathf.Clamp01(CornerRadius - distance + 0.5f) * 255f);
+                        pixels[y * size + x] = new Color32(255, 255, 255, alpha);
+                    }
+                }
+
+                texture.SetPixels32(pixels);
+                texture.Apply();
+                var border = new Vector4(CornerRadius, CornerRadius, CornerRadius, CornerRadius);
+                _rounded = Sprite.Create(texture, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect, border);
+                return _rounded;
+            }
+        }
+
+        /// <summary>Pone el fondo redondeado a una imagen.</summary>
+        public static Image RoundedImage(GameObject target, Color color)
+        {
+            Image image = target.AddComponent<Image>();
+            image.sprite = Rounded;
+            image.type = Image.Type.Sliced;
+            image.color = color;
+            return image;
+        }
+
+        /// <summary>
+        /// Capa que tapa toda la pantalla (fuera del orden de la columna), con un color de fondo.
+        /// Sirve para el menú de inicio, elegir la vida y el tutorial.
+        /// </summary>
+        public static RectTransform Overlay(Transform parent, string name, Color background)
+        {
+            RectTransform rect = Child(parent, name);
+            Stretch(rect);
+            rect.gameObject.AddComponent<Image>().color = background;
+            rect.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
+            rect.SetAsLastSibling();
+            return rect;
+        }
 
         /// <summary>Fuente que viene con Unity, para no depender de archivos extra.</summary>
         public static Font DefaultFont => _font ??= Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
@@ -76,7 +155,7 @@ namespace MistakesLife.Unity
             RectTransform rect = Child(parent, name);
             if (color.HasValue)
             {
-                rect.gameObject.AddComponent<Image>().color = color.Value;
+                RoundedImage(rect.gameObject, color.Value);
             }
 
             VerticalLayoutGroup layout = rect.gameObject.AddComponent<VerticalLayoutGroup>();
@@ -113,8 +192,7 @@ namespace MistakesLife.Unity
         public static Button MakeButton(Transform parent, string text, Color background, Color textColor, UnityAction onClick, int fontSize, int minHeight, int padding)
         {
             RectTransform rect = Child(parent, "Boton");
-            Image image = rect.gameObject.AddComponent<Image>();
-            image.color = background;
+            Image image = RoundedImage(rect.gameObject, background);
             Button button = rect.gameObject.AddComponent<Button>();
             button.targetGraphic = image;
             button.onClick.AddListener(onClick);
@@ -158,7 +236,7 @@ namespace MistakesLife.Unity
         public static RectTransform ScrollColumn(Transform parent, string name, int padding, int spacing)
         {
             RectTransform scroll = Child(parent, name);
-            scroll.gameObject.AddComponent<Image>().color = Card;
+            RoundedImage(scroll.gameObject, Card);
             scroll.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
             ScrollRect scrollRect = scroll.gameObject.AddComponent<ScrollRect>();
             scrollRect.horizontal = false;
