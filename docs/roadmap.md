@@ -80,6 +80,7 @@
 | U8d | Tercera ronda de capturas: bolita del jugador justo sobre el pelo según la estatura, sin círculo de piso en el trabajo, productos del local sin amarillo y sillón de la pieza a un costado | Hecha |
 | U10 | Tu gente en pantalla (usa N4): amistades, colegas, rivales y ex vivos (hasta 8, de la más cercana) y, para ellos y la familia, cómo está la relación en una palabra ("muy unidos", "te guarda rencor"), sin números; en el núcleo `LifeSnapshot.People`, `PersonView.Feeling` y `LifePresenter.FeelingKey` | Hecha |
 | U11 | La empresa en la vista Trabajo (usa N6): nombre y tamaño antes del cargo; en una micro o pequeña hay menos colegas y en una micro una sola mesa; en una mediana o grande un letrero en el muro (con logo de color en la grande); en el núcleo `WorkplaceView.CompanySizeId` | Hecha |
+| U12 | Primera impresión: menú de inicio (continuar la vida en curso, nueva vida con aviso si se pierde la actual, cómo se juega); elegir entre 3 nacimientos posibles (nombre, lugar, hogar y padres, con `LifePresenter.Birth`); el evento como tarjeta ("Momento clave" en color cálido si es `dia_clave`, con `EventView.IsKeyMoment`); "Lo que pasó" después de cada toque con el tiempo que corrió y los cambios en verde o rojo (`LifePresenter.Summarize`, `StepSummary`); tutorial de 5 tarjetas la primera vez; botones y tarjetas con esquinas redondeadas | En revisión |
 
 ## Lo que falta en el núcleo
 

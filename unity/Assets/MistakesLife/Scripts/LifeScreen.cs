@@ -26,6 +26,12 @@ namespace MistakesLife.Unity
         private bool _pickingMoment;
         private ContentDatabase? _content;
         private LifePresenter? _presenter;
+        private StartMenu? _menu;
+        private Tutorial? _tutorial;
+        private RectTransform _safe = null!;
+
+        /// <summary>Lo que pasó en el último toque (tiempo y cambios), o null si no hay nada que contar.</summary>
+        private StepSummary? _lastStep;
 
         private Text _name = null!;
         private Text _details = null!;
@@ -46,6 +52,7 @@ namespace MistakesLife.Unity
         private string _placeCaption = string.Empty;
         private string? _workCaption;
         private Text _placeLabel = null!;
+        private Button _menuButton = null!;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void CreateOnPlay()
@@ -62,10 +69,16 @@ namespace MistakesLife.Unity
             try
             {
                 _content = CoreLoader.LoadContent();
-                if (!ContinueSavedLife())
+                _menu = new StartMenu(_safe, _content)
                 {
-                    NewLife();
-                }
+                    LifeChosen = StartLife,
+                    ContinueChosen = Refresh,
+                    HelpChosen = () => _tutorial!.Show(),
+                    CurrentLife = () => _presenter?.Snapshot(),
+                };
+                _tutorial = new Tutorial(_safe, _content);
+                ContinueSavedLife();
+                ShowMenu();
             }
             catch (System.Exception ex)
             {
@@ -76,20 +89,29 @@ namespace MistakesLife.Unity
             }
         }
 
-        private void NewLife()
+        /// <summary>El menú de inicio, encima de la vida en curso (si hay una, se puede continuar).</summary>
+        private void ShowMenu()
         {
-            // Fuera de la simulación sí se puede usar el reloj: solo elige el número de partida.
-            ulong seed = (ulong)System.DateTime.UtcNow.Ticks;
-            _presenter = new LifePresenter(new LifeSession(_content!, seed));
+            Save();
+            _menu!.ShowMenu();
+        }
+
+        /// <summary>Empieza la vida que el jugador eligió entre los nacimientos posibles.</summary>
+        private void StartLife(LifePresenter life)
+        {
+            _presenter = life;
             _journal.Clear();
             _pickingMoment = false;
+            _lastStep = null;
+            _presenter.TakeNewJournal();
             Refresh();
             Save();
+            _tutorial!.ShowFirstTime();
         }
 
         /// <summary>
-        /// Al abrir el juego se sigue la vida guardada, si hay. Si el guardado está dañado
-        /// se aparta y se empieza una vida nueva (el error queda en la consola).
+        /// Al abrir el juego se carga la vida guardada, si hay, para ofrecer "Continuar" en el menú.
+        /// Si el guardado está dañado se aparta (el error queda en la consola) y el menú solo ofrece una vida nueva.
         /// </summary>
         private bool ContinueSavedLife()
         {
@@ -160,6 +182,7 @@ namespace MistakesLife.Unity
         {
             RectTransform canvas = UiFactory.CreateCanvas("Pantalla de la vida");
             RectTransform safe = UiFactory.Child(canvas, "Zona segura");
+            _safe = safe;
             UiFactory.Stretch(safe);
             safe.gameObject.AddComponent<SafeArea>();
             RectTransform page = UiFactory.Column(safe, "Pagina", 32, 24);
@@ -168,6 +191,8 @@ namespace MistakesLife.Unity
             RectTransform header = UiFactory.Column(page, "Personaje", 36, 8, UiFactory.Card);
             _name = UiFactory.Label(header, string.Empty, 56, UiFactory.Ink, FontStyle.Bold);
             _details = UiFactory.Label(header, string.Empty, 32, UiFactory.MutedInk);
+            header.GetComponent<VerticalLayoutGroup>().padding.right = 36 + 190;
+            BuildMenuButton(header);
 
             // Hueco transparente donde se ve la casa en 3D.
             RectTransform window = UiFactory.Child(page, "Casa");
@@ -184,6 +209,19 @@ namespace MistakesLife.Unity
 
             _story = UiFactory.ScrollColumn(page, "Historia", 36, 20);
             _footer = UiFactory.Column(page, "Acciones", 0, 16);
+        }
+
+        /// <summary>Botón chico "Menú" arriba a la derecha de la tarjeta del personaje (vuelve al menú de inicio).</summary>
+        private void BuildMenuButton(RectTransform header)
+        {
+            _menuButton = UiFactory.MakeButton(header, string.Empty, UiFactory.Option, UiFactory.Ink, ShowMenu, 30, 0, 12);
+            var rect = (RectTransform)_menuButton.transform;
+            rect.gameObject.GetComponent<LayoutElement>().ignoreLayout = true;
+            rect.anchorMin = new Vector2(1f, 1f);
+            rect.anchorMax = new Vector2(1f, 1f);
+            rect.pivot = new Vector2(1f, 1f);
+            rect.anchoredPosition = new Vector2(-20f, -20f);
+            rect.sizeDelta = new Vector2(170f, 72f);
         }
 
         /// <summary>
@@ -271,6 +309,7 @@ namespace MistakesLife.Unity
             _name.text = $"{life.PlayerName}, {life.AgeLabel}";
             _details.text = $"{life.Place}\n{life.DateLabel} · {presenter.Text("ui.generacion", life.Generation)} · {presenter.Text("ui.partida", life.Seed)}";
 
+            _menuButton.GetComponentInChildren<Text>().text = presenter.Text("ui.boton.menu");
             _healthLabel.text = $"{presenter.Text("ui.salud")}  {life.Health}";
             _happinessLabel.text = $"{presenter.Text("ui.felicidad")}  {life.Happiness}";
             _smartsLabel.text = $"{presenter.Text("ui.inteligencia")}  {life.Smarts}";
@@ -302,27 +341,21 @@ namespace MistakesLife.Unity
         private void DrawStory(LifePresenter presenter, LifeSnapshot life)
         {
             UiFactory.Clear(_story);
+
+            // Cada vez que cambia lo que se muestra, la lista vuelve arriba: lo nuevo está ahí.
+            _story.anchoredPosition = Vector2.zero;
             if (_pickingMoment)
             {
                 DrawMoments(presenter);
                 return;
             }
 
+            DrawLastStep(presenter);
+
             switch (life.Phase)
             {
                 case LifePhase.Choosing:
-                    EventView pending = life.PendingEvent!;
-                    UiFactory.Label(_story, pending.Text, 42, UiFactory.Ink, FontStyle.Bold);
-                    for (int i = 0; i < pending.Options.Count; i++)
-                    {
-                        int option = i;
-
-                        // Después de volver al pasado, la opción de la otra vez se marca como intuición.
-                        bool intuition = pending.IntuitionOption == i;
-                        string text = intuition ? presenter.Text("ui.intuicion", pending.Options[i]) : pending.Options[i];
-                        UiFactory.MakeButton(_story, text, intuition ? UiFactory.Accent : UiFactory.Option, intuition ? UiFactory.AccentText : UiFactory.Ink, () => Choose(option));
-                    }
-
+                    DrawEventCard(presenter, life);
                     break;
                 case LifePhase.ChoosingHeir:
                     UiFactory.Label(_story, presenter.Text("ui.legado"), 42, UiFactory.Ink, FontStyle.Bold);
@@ -361,6 +394,67 @@ namespace MistakesLife.Unity
             foreach (JournalLine line in _journal)
             {
                 UiFactory.Label(_story, $"{line.AgeLabel}: {line.Text}", 34, UiFactory.Ink);
+            }
+        }
+
+        /// <summary>
+        /// "Lo que pasó" en el último toque: cuánto tiempo corrió y los cambios, en verde
+        /// lo bueno y en rojo lo malo. Así se siente pasar el tiempo y pesar las decisiones.
+        /// </summary>
+        private void DrawLastStep(LifePresenter presenter)
+        {
+            if (_lastStep == null)
+            {
+                return;
+            }
+
+            RectTransform box = UiFactory.Column(_story, "Lo que paso", 28, 6, UiFactory.Background);
+            string title = presenter.Text("ui.paso.titulo");
+            if (_lastStep.ElapsedLabel.Length > 0)
+            {
+                title += " · " + _lastStep.ElapsedLabel;
+            }
+
+            UiFactory.Label(box, title, 30, UiFactory.MutedInk, FontStyle.Bold);
+            if (_lastStep.Changes.Count == 0)
+            {
+                UiFactory.Label(box, presenter.Text("ui.paso.sin_cambios"), 32, UiFactory.Ink);
+                return;
+            }
+
+            var parts = new List<string>();
+            foreach (ChangeView change in _lastStep.Changes)
+            {
+                string color = ColorUtility.ToHtmlStringRGB(change.IsGood ? UiFactory.Good : UiFactory.Bad);
+                parts.Add($"<color=#{color}>{change.Label}</color>");
+            }
+
+            Text changes = UiFactory.Label(box, string.Join("     ", parts), 34, UiFactory.Ink, FontStyle.Bold);
+            changes.supportRichText = true;
+        }
+
+        /// <summary>
+        /// El evento como tarjeta: la edad arriba, "Momento clave" si lo es (con un color
+        /// cálido), el texto grande y cada opción como un botón ancho.
+        /// </summary>
+        private void DrawEventCard(LifePresenter presenter, LifeSnapshot life)
+        {
+            EventView pending = life.PendingEvent!;
+            Color background = pending.IsKeyMoment ? UiFactory.KeyCard : UiFactory.EventCard;
+            RectTransform card = UiFactory.Column(_story, "Evento", 36, 18, background);
+
+            string tag = pending.IsKeyMoment ? $"{life.AgeLabel} · {presenter.Text("ui.momento_clave")}" : life.AgeLabel;
+            UiFactory.Label(card, tag, 30, pending.IsKeyMoment ? UiFactory.KeyInk : UiFactory.MutedInk, FontStyle.Bold);
+            UiFactory.Label(card, pending.Text, 44, UiFactory.Ink, FontStyle.Bold);
+            for (int i = 0; i < pending.Options.Count; i++)
+            {
+                int option = i;
+
+                // Después de volver al pasado, la opción de la otra vez se marca como intuición.
+                bool intuition = pending.IntuitionOption == i;
+                string text = intuition ? presenter.Text("ui.intuicion", pending.Options[i]) : pending.Options[i];
+                Button button = UiFactory.MakeButton(card, text, intuition ? UiFactory.Accent : UiFactory.Card, intuition ? UiFactory.AccentText : UiFactory.Ink, () => Choose(option));
+                button.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleLeft;
             }
         }
 
@@ -410,22 +504,33 @@ namespace MistakesLife.Unity
             }
             else if (life.Phase == LifePhase.Over)
             {
-                UiFactory.MakeButton(_footer, presenter.Text("ui.boton.nueva_vida"), UiFactory.Accent, UiFactory.AccentText, NewLife);
+                UiFactory.MakeButton(_footer, presenter.Text("ui.boton.nueva_vida"), UiFactory.Accent, UiFactory.AccentText, () => _menu!.ShowBirths());
             }
         }
 
         private void Advance()
         {
-            _presenter!.AdvanceUntilSomething();
+            LifeSnapshot before = _presenter!.Snapshot();
+            int weeks = _presenter.AdvanceUntilSomething();
+            RememberStep(before, weeks);
             Refresh();
             Save();
         }
 
         private void Choose(int option)
         {
-            _presenter!.Choose(option);
+            LifeSnapshot before = _presenter!.Snapshot();
+            _presenter.Choose(option);
+            RememberStep(before, 0);
             Refresh();
             Save();
+        }
+
+        /// <summary>Guarda el resumen del paso (lo calcula el núcleo) para mostrarlo arriba de la historia.</summary>
+        private void RememberStep(LifeSnapshot before, int weeks)
+        {
+            StepSummary summary = _presenter!.Summarize(before, _presenter.Snapshot(), weeks);
+            _lastStep = summary.IsEmpty ? null : summary;
         }
 
         private void PickMoment(bool picking)
@@ -438,6 +543,7 @@ namespace MistakesLife.Unity
         {
             _presenter!.GoBack(moment);
             _pickingMoment = false;
+            _lastStep = null;
             ReloadJournal();
             Refresh();
             Save();
@@ -446,6 +552,7 @@ namespace MistakesLife.Unity
         private void ContinueWith(int heir)
         {
             _presenter!.ContinueWith(heir);
+            _lastStep = null;
             Refresh();
             Save();
         }
