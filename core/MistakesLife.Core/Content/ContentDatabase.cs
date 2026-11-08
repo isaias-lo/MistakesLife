@@ -69,12 +69,41 @@ namespace MistakesLife.Core.Content
                 return text;
             }
 
-            if (language != BaseLanguage && _texts.TryGetValue(BaseLanguage, out table) && table.TryGetValue(key, out text))
+            // Una variante (es-CL) sin ese texto usa el idioma general (es).
+            string general = GeneralLanguage(language);
+            if (general != language && _texts.TryGetValue(general, out table) && table.TryGetValue(key, out text))
+            {
+                return text;
+            }
+
+            if (general != BaseLanguage && _texts.TryGetValue(BaseLanguage, out table) && table.TryGetValue(key, out text))
             {
                 return text;
             }
 
             return key;
+        }
+
+        /// <summary>
+        /// El idioma que se usa en un país: su variante si la tiene (para "es" en Chile,
+        /// "es-CL"), o el mismo idioma si no.
+        /// </summary>
+        public string LanguageFor(string? countryId, string language = BaseLanguage)
+        {
+            if (countryId != null && _countries.TryGetValue(countryId, out CountryDefinition? country)
+                && country.LanguageVariants.TryGetValue(language, out string? variant))
+            {
+                return variant;
+            }
+
+            return language;
+        }
+
+        /// <summary>El idioma general de una variante: "es-CL" → "es".</summary>
+        public static string GeneralLanguage(string language)
+        {
+            int dash = language.IndexOf('-');
+            return dash > 0 ? language.Substring(0, dash) : language;
         }
 
         /// <summary>
@@ -259,6 +288,13 @@ namespace MistakesLife.Core.Content
             foreach (EventDefinition ev in _events.Values.Where(e => e.CareerOptions))
             {
                 AddCareerOptions(ev);
+            }
+
+            // Los eventos del paquete de un país solo le pasan a quien vive en ese país.
+            Dictionary<string, string> countryOfPack = _countries.Values.Where(c => c.PackId.Length > 0).ToDictionary(c => c.PackId, c => c.Id, StringComparer.Ordinal);
+            foreach (EventDefinition ev in _events.Values)
+            {
+                ev.CountryId = countryOfPack.TryGetValue(ev.PackId, out string? countryId) ? countryId : null;
             }
 
             foreach (SeedTypeDefinition seed in _seedTypes.Values)
@@ -1118,6 +1154,28 @@ namespace MistakesLife.Core.Content
                 if (!table.ContainsKey(used.Key))
                 {
                     _errors.Add(new ContentError(used.First().Value, $"falta el texto '{used.Key}' en el idioma '{BaseLanguage}'."));
+                }
+            }
+
+            // Una variante solo cambia la forma de decir un texto que ya existe en su idioma general.
+            foreach (KeyValuePair<string, Dictionary<string, string>> variant in _texts.Where(t => GeneralLanguage(t.Key) != t.Key))
+            {
+                string general = GeneralLanguage(variant.Key);
+                _texts.TryGetValue(general, out Dictionary<string, string>? generalTable);
+                foreach (string key in variant.Value.Keys.Where(k => generalTable == null || !generalTable.ContainsKey(k)))
+                {
+                    _errors.Add(new ContentError($"idioma {variant.Key}", $"el texto '{key}' no existe en '{general}': una variante solo cambia textos que ya existen."));
+                }
+            }
+
+            foreach (CountryDefinition country in _countries.Values)
+            {
+                foreach (KeyValuePair<string, string> variant in country.LanguageVariants)
+                {
+                    if (GeneralLanguage(variant.Value) != variant.Key || variant.Value == variant.Key)
+                    {
+                        _errors.Add(new ContentError($"país {country.Id}", $"variantes_idioma: '{variant.Value}' no es una variante de '{variant.Key}' (por ejemplo, \"es\": \"es-CL\")."));
+                    }
                 }
             }
         }

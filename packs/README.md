@@ -4,7 +4,7 @@ Todo lo que hace distinto a un país, una carrera o un evento vive aquí como **
 
 | Carpeta | Tipo | Ejemplo |
 |---|---|---|
-| `base/` | Reglas comunes a todo el mundo (estadísticas, rasgos, tipos de relación) | Los cinco grandes rasgos |
+| `base/` | Reglas y eventos comunes a todo el mundo (amigos, pareja, salud, trabajo, jubilación) | `base/events/relaciones.json` |
 | `countries/<país>/` | Ciudades, barrios, moneda, leyes, colegios, trámites, eventos históricos | `countries/chile/` |
 | `careers/<carrera>/` | Títulos, áreas, cargos, eventos, dilemas, minijuegos | `careers/software/` |
 | `overrides/<carrera>.<país>/` | Lo que una carrera cambia en un país (ajuste local) | Contabilidad en Argentina |

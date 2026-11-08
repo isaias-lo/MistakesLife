@@ -302,7 +302,11 @@ namespace MistakesLife.Core.Game
             return entries;
         }
 
-        /// <summary>Texto para el jugador en el idioma dado.</summary>
-        public string Text(string key, string language = ContentDatabase.BaseLanguage) => Content.Text(key, language);
+        /// <summary>
+        /// Texto para el jugador en el idioma dado, con la forma de decirlo del país
+        /// donde vive (por ejemplo "es" en Chile usa "es-CL").
+        /// </summary>
+        public string Text(string key, string language = ContentDatabase.BaseLanguage) =>
+            Content.Text(key, Content.LanguageFor(World.Player.Residence?.CountryId, language));
     }
 }

@@ -164,7 +164,8 @@ namespace MistakesLife.Core.Events
             !(definition.Unique && HasHappened(world, definition.Id, player.Id)) && !InCooldown(world, definition, player.Id) && Passes(definition, scope);
 
         private static bool Passes(EventDefinition definition, EventScope scope) =>
-            definition.CompiledConditions == null || definition.CompiledConditions.IsTrue(scope);
+            (definition.CountryId == null || scope.Subject.Residence?.CountryId == definition.CountryId)
+            && (definition.CompiledConditions == null || definition.CompiledConditions.IsTrue(scope));
 
         private static bool HasHappened(World world, string eventId, int characterId) =>
             world.EventHistory.Any(r => r.EventId == eventId && r.CharacterId == characterId);
