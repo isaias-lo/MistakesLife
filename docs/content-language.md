@@ -28,6 +28,15 @@ Los textos se pueden repartir en subcarpetas por tema (`lang/familia/es.json`): 
 
 El validador exige que **toda clave usada exista en español** (`es`): textos de eventos y opciones, claves de `diario('...')`, nombres de país, ciudad, comuna y etapas, y `diario.<etapa>`. Otros idiomas (`en.json`, `pt-BR.json`) pueden faltar: se muestra el español mientras tanto.
 
+### Variantes por país (`es-CL`, `es-AR`)
+
+Un mismo texto se dice distinto en cada país ("pega" en Chile, "laburo" en Argentina). El texto general va en `es` con palabras que se entiendan en todos lados, y el paquete del país lo cambia en su variante:
+
+- El país dice qué variante usa en `country.json`: `"variantes_idioma": { "es": "es-CL" }`.
+- El paquete del país trae `lang/variante/es-CL.json` (el idioma es el nombre del archivo) con **solo** los textos que cambian.
+- Una variante solo puede cambiar textos que ya existen en `es`: si trae una clave nueva, el validador avisa.
+- El juego elige solo la variante del país donde vive el jugador (`LifeSession.Text`); lo que la variante no tenga sale de `es`.
+
 ## País (country.json)
 
 ```json
@@ -426,6 +435,8 @@ Los eventos de ascenso comunes a toda carrera (oferta de ascenso, mala racha, ba
 Toda semilla necesita al menos un evento que la use (campo `semilla` del evento); si no, al despertar no pasaría nada y el validador lo avisa.
 
 ## Evento
+
+**Dónde va cada evento:** los que le pueden pasar a cualquiera (amigos, pareja, salud, trabajo, ascensos, empresas, jubilación por ley) van en `packs/base/events/`. Los propios de un país (la PAES, la gratuidad, el CAE, un temblor) van en el paquete de ese país, y **solo le pasan a quien vive en ese país**: no hace falta escribir `jugador.pais == ...` en sus condiciones. Los eventos de las carreras le pueden pasar a quien estudia o trabaja en ellas, en cualquier país. Para que un evento común funcione en un país nuevo, ese país debe definir las leyes que el evento usa (`ley(...)`) y marcar los mismos hitos (`decidio_futuro`, `buscando_trabajo`, `trabajando`).
 
 ```json
 {

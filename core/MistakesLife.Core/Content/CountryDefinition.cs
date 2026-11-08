@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Scripting;
@@ -125,6 +126,14 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("economia")]
         public EconomyDefinition? Economy { get; set; }
+
+        /// <summary>
+        /// La variante de cada idioma que se usa en este país, por ejemplo
+        /// "es" → "es-CL". Los textos de la variante (archivos lang/es-CL.json)
+        /// reemplazan a los del idioma general; los que no tenga, salen del general.
+        /// </summary>
+        [JsonProperty("variantes_idioma")]
+        public Dictionary<string, string> LanguageVariants { get; set; } = new Dictionary<string, string>(StringComparer.Ordinal);
 
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;

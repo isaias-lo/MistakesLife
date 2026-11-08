@@ -80,6 +80,14 @@ namespace MistakesLife.Core.Content
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Si el evento viene del paquete de un país, ese país: solo le pasa a quien
+        /// vive ahí. Null en los eventos del paquete base y de las carreras, que le
+        /// pueden pasar a cualquiera.
+        /// </summary>
+        [JsonIgnore]
+        public string? CountryId { get; internal set; }
+
         [JsonIgnore]
         public string ResolvedTextKey => string.IsNullOrEmpty(TextKey) ? Id : TextKey!;
 

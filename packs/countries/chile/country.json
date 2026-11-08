@@ -1,5 +1,6 @@
 {
   "id": "pais.chile",
+  "variantes_idioma": { "es": "es-CL" },
   "moneda": "CLP",
   "peso_nacimiento": 1,
   "edad_madre_min": 18,
