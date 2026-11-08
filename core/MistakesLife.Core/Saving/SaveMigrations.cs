@@ -74,6 +74,17 @@ namespace MistakesLife.Core.Saving
                     world["nextCompanyId"] ??= 1;
                 }
             },
+
+            // 6 → 7: aparece la jubilación de reparto (Argentina), con el sueldo
+            // promedio de los últimos años. Hasta ahora solo se jugaba en Chile, que
+            // no la usa: todos parten en 0.
+            [6] = save =>
+            {
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    character["pensionSalaryBase"] ??= 0;
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

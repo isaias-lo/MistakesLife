@@ -12,6 +12,6 @@ namespace MistakesLife.Core
         /// Versión del formato de guardado. Se sube cada vez que cambia la forma
         /// en que se guarda una partida, para poder migrar partidas viejas.
         /// </summary>
-        public const int SaveFormatVersion = 6;
+        public const int SaveFormatVersion = 7;
     }
 }

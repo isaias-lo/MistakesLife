@@ -277,6 +277,32 @@ namespace MistakesLife.Core.Tests
             loaded.Advance(GameDate.WeeksPerYear);
         }
 
+        [Fact]
+        public void Cargar_UnGuardadoDeLaVersion6_EmpiezaSinSueldoPromedioDeReparto()
+        {
+            var session = new LifeSession(RepoPacks.Content, 6);
+            PlayUntilAge(session, 30);
+            using var reader = new Newtonsoft.Json.JsonTextReader(new System.IO.StringReader(session.SaveToText()))
+            {
+                FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Decimal,
+            };
+            var json = Newtonsoft.Json.Linq.JObject.Load(reader);
+
+            // Así era un guardado de la versión 6: sin el sueldo promedio de la jubilación de reparto.
+            json["version"] = 6;
+            foreach (var character in json.SelectTokens("world.characters[*]").OfType<Newtonsoft.Json.Linq.JObject>())
+            {
+                character.Remove("pensionSalaryBase");
+            }
+
+            LifeSession loaded = LifeSession.Load(RepoPacks.Content, json.ToString());
+
+            Assert.All(loaded.World.Characters, c => Assert.Equal(0m, c.PensionSalaryBase));
+            Assert.Equal(session.World.Player.Money, loaded.World.Player.Money);
+            Assert.Equal(session.World.Player.PensionFund, loaded.World.Player.PensionFund);
+            loaded.Advance(GameDate.WeeksPerYear);
+        }
+
         [Theory]
         [InlineData("esto no es un guardado")]
         [InlineData("{\"nombre\": \"otra cosa\"}")]
@@ -307,7 +333,7 @@ namespace MistakesLife.Core.Tests
                 "Id", "FirstName", "LastName", "Sex", "Gender", "GenderIdentity", "Orientation", "BirthDate", "Personality", "Stats",
                 "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "Residence", "HouseholdLevel", "Money", "Job",
                 "LastPayslip", "LastExpenses", "MonthsInRed", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
-                "LastPensionPayment", "ContributedMonths", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
+                "LastPensionPayment", "ContributedMonths", "PensionSalaryBase", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
                 "Relationships", "LastPosition",
                 "IsAlive", "DeathDate", "DeathCauseId",
             };
@@ -349,7 +375,7 @@ namespace MistakesLife.Core.Tests
             Assert.Contains(session.World.Player.Relationships, r => r.Bond == Characters.RelationshipBond.Friend);
 
             Assert.Equal(session.World.Seeds.All.Count(), loaded.World.Seeds.All.Count());
-            Assert.Equal(session.World.Economies.Single().PriceIndex, loaded.World.Economies.Single().PriceIndex);
+            Assert.Equal(session.World.Economies.Select(e => e.PriceIndex), loaded.World.Economies.Select(e => e.PriceIndex));
         }
     }
 }

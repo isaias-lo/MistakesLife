@@ -134,6 +134,7 @@ namespace MistakesLife.Core.Saving
                 },
                 PensionFund = c.PensionFund,
                 ContributedMonths = c.ContributedMonths,
+                PensionSalaryBase = c.PensionSalaryBase,
                 Pension = c.Pension,
                 ReceivesUniversalPension = c.ReceivesUniversalPension,
                 LastPensionPayment = c.LastPensionPayment,

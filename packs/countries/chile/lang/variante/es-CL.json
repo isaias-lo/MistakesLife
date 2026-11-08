@@ -22,5 +22,14 @@
   "evento.jubilacion": "Llegaste a la edad legal de jubilación. En la AFP te muestran cuánto sería tu pensión.",
   "evento.cobrar_pension": "Llegaste a la edad de jubilación sin un trabajo. Vas a la AFP y pides tu pensión con lo que alcanzaste a ahorrar.",
   "opcion.jubilacion.jubilarse_honorarios": "Te jubilas, pero como trabajaste años a honorarios cotizando poco, la pensión es muy baja.",
-  "evento.pension_garantizada": "Te llega la Pensión Garantizada Universal. No es mucho, pero ayuda a llegar a fin de mes."
+  "evento.pension_garantizada": "Te llega la Pensión Garantizada Universal. No es mucho, pero ayuda a llegar a fin de mes.",
+  "diario.economia.inflacion.alta": "Todo está más caro. En la feria, en la micro y en el supermercado se nota: la inflación subió.",
+  "diario.economia.ciclo.recesion": "Las noticias hablan de recesión: la economía se achica y varias empresas anuncian despidos. Tu fondo de pensión bajó.",
+  "diario.economia.ciclo.crisis": "Crisis económica. Cierran empresas, el desempleo se dispara y los fondos de pensión caen fuerte.",
+  "descuento.impuesto_mensual": "Impuesto único de segunda categoría",
+  "diario.impuestos.pago": "Pagaste lo que debías en la declaración de renta. Duele, pero quedaste al día con el SII.",
+  "diario.impuestos.multa": "Se te pasó el plazo de la Operación Renta y debías plata. Te llegó el giro de Tesorería con multa e intereses.",
+  "diario.deudas.moroso": "Llevas meses sin pagar tus cuotas: quedaste en DICOM.",
+  "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de DICOM.",
+  "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de DICOM, pero ningún banco lo olvida."
 }
