@@ -18,6 +18,22 @@ namespace MistakesLife.Unity
             Parent = parent;
         }
 
+        /// <summary>Material de base de todas las formas (Resources/FormaBase.mat).</summary>
+        private static Material? _baseMaterial;
+
+        private static Material? BaseMaterial
+        {
+            get
+            {
+                if (_baseMaterial == null)
+                {
+                    _baseMaterial = Resources.Load<Material>("FormaBase");
+                }
+
+                return _baseMaterial;
+            }
+        }
+
         /// <summary>Dónde se cuelgan las formas nuevas.</summary>
         public Transform Parent { get; set; }
 
@@ -36,8 +52,12 @@ namespace MistakesLife.Unity
             shape.transform.localPosition = position;
             shape.transform.localScale = scale;
             // Material propio de cada forma (sirve igual en el juego y en el editor).
+            // Se copia de FormaBase (en Resources) y no del material que trae la forma:
+            // en el APK, Unity deja fuera los "shaders" que ningún archivo usa, y las formas
+            // se veían de color magenta. FormaBase obliga a incluir el shader Standard.
             Renderer renderer = shape.GetComponent<Renderer>();
-            var material = new Material(renderer.sharedMaterial) { color = color };
+            Material template = BaseMaterial ?? renderer.sharedMaterial;
+            var material = new Material(template) { color = color };
             renderer.sharedMaterial = material;
             _materials.Add(material);
             return shape;
