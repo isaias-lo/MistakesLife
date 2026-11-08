@@ -342,7 +342,7 @@
     "id": "evento.discusion_plata_pareja",
     "condiciones": "jugador.pareja != nada && jugador.meses_en_rojo >= 2",
     "probabilidad_anual": 0.6,
-    "enfriamiento_semanas": 52,
+    "enfriamiento_semanas": 26,
     "veces_maximas": 9,
     "variantes": ["evento.discusion_plata_pareja.2", "evento.discusion_plata_pareja.3"],
     "opciones": [
@@ -377,7 +377,7 @@
         "texto": "opcion.detalle_pareja.sorprender",
         "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 2",
         "efectos": [
-          "jugador.pareja.carino += 8",
+          "jugador.pareja.carino += 5",
           "jugador.pareja.rencor -= 5",
           "jugador.dinero -= precio(20000)",
           "jugador.felicidad += 3"
