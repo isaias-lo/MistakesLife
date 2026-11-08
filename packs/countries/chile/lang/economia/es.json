@@ -37,5 +37,6 @@
   "evento.compra_tarjeta": "En el mall ves algo que quieres hace tiempo: un televisor nuevo, ropa, un celular. Con la tarjeta lo puedes tener hoy.",
   "opcion.compra_tarjeta.comprar": "Lo compras con la tarjeta. Total, después pagas el mínimo.",
   "opcion.compra_tarjeta.no_comprar": "Lo dejas pasar. No es el momento.",
-  "deuda.chile.tarjeta": "Tarjeta de crédito"
+  "deuda.chile.tarjeta": "Tarjeta de crédito",
+  "deuda.chile.linea_credito": "Línea de crédito"
 }

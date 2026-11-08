@@ -155,6 +155,8 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 "gastos": {
   "edad_desde": 18,
   "felicidad_en_rojo": 1,
+  "deuda_por_deficit": "deuda.chile.linea_credito",
+  "cupo_deficit": 1500000,
   "categorias": [
     { "id": "gasto.chile.arriendo", "monto": "arriendo()", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
     { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores" }
@@ -166,7 +168,8 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o `arriendo()`.
 - `compartido`: se divide en dos si tiene pareja.
 - El `id` empieza con `gasto.` y es la clave de su nombre en `lang/`.
-- Cada mes que termina con el dinero en negativo suma uno a `jugador.meses_en_rojo` y resta `felicidad_en_rojo` (estrés financiero). Al volver a positivo, vuelve a 0.
+- Cada mes en que los gastos son más que el dinero suma uno a `jugador.meses_en_rojo` y resta `felicidad_en_rojo` (estrés financiero). Al alcanzar de nuevo, vuelve a 0.
+- `deuda_por_deficit` (opcional): la deuda de `economia.deudas` que cubre lo que falta, como la línea de crédito del banco. El dinero queda en 0 y lo que faltó pasa a esa deuda, con su interés (diario `diario.gastos.linea_credito` la primera vez). `cupo_deficit` (en dinero del inicio del mundo) es hasta cuánto llega: lo que pasa del cupo no se paga, son cuentas atrasadas. Sin `deuda_por_deficit`, el dinero queda en negativo.
 - Las comunas pueden traer su `arriendo` mensual típico (en dinero del inicio del mundo), que lee `arriendo()`. Si se usa `arriendo()`, toda comuna debe tenerlo.
 
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
@@ -256,6 +259,7 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Si se cumple `condicion_pago` (o si no la tiene), se cobra la cuota fija que paga la deuda en las cuotas que quedan. Sin dinero suficiente, la cuota queda impaga.
 - Con `meses_para_moroso` meses seguidos sin pagar alguna cuota, queda en el registro de morosos (`jugador.moroso`); sale al ponerse al día con todas. Con `meses_prescripcion` (opcional) meses seguidos sin pagar, la deuda prescribe y se borra (diario `diario.deudas.prescrita`).
 - El `id` empieza con `deuda.` y es la clave de su nombre en `lang/`. Todo país debe tener los tipos que usan los eventos.
+- `se_paga_con_el_saldo: true` (línea de crédito, sobregiro): cada mes se lleva todo el dinero que haya, hasta lo que se debe. Si no alcanza al pago mínimo, igual queda atrasada.
 - Deudas rotativas (tarjetas): con `pago_minimo` (por ejemplo `0.05`), cada mes se cobra esa parte de lo que se debe, al menos `pago_minimo_monto` (en dinero del inicio del mundo), en vez de cuotas fijas.
 - Con `cuotas_repactacion`, una deuda atrasada se puede repactar con `jugador.repactar()`: queda al día en esas cuotas nuevas y, al mes siguiente, sale del registro de morosos. `jugador.puede_repactar` dice si tiene alguna.
 - Textos obligatorios del diario: `diario.deudas.pagada`, `diario.deudas.moroso`, `diario.deudas.fuera_registro` y `diario.deudas.prescrita`.

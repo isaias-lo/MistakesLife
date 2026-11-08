@@ -26,5 +26,6 @@
   "gasto.argentina.celular": "Plan del celular",
   "gasto.argentina.personales": "Gastos personales (ropa, salidas)",
   "deuda.argentina.prestamo": "Préstamo personal",
-  "deuda.argentina.tarjeta": "Tarjeta de crédito"
+  "deuda.argentina.tarjeta": "Tarjeta de crédito",
+  "deuda.argentina.descubierto": "Descubierto en la cuenta"
 }

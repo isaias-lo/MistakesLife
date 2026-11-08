@@ -1,0 +1,65 @@
+[
+  {
+    "id": "evento.desalojo",
+    "condiciones": "jugador.tiene('vive_independiente') && jugador.meses_en_rojo >= 4",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 26,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.desalojo.volver_familia",
+        "condiciones": "(jugador.madre != nada && jugador.madre.vivo) || (jugador.padre != nada && jugador.padre.vivo)",
+        "tendencia": "40 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.desmarcar('vive_independiente')",
+          "jugador.desmarcar('arrienda_pieza')",
+          "jugador.felicidad -= 6",
+          "diario('diario.desalojo.volver_familia')"
+        ]
+      },
+      {
+        "texto": "opcion.desalojo.pieza",
+        "condiciones": "!jugador.tiene('arrienda_pieza')",
+        "tendencia": "30 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.marcar('arrienda_pieza')",
+          "jugador.felicidad -= 4",
+          "diario('diario.desalojo.pieza')"
+        ]
+      },
+      {
+        "texto": "opcion.desalojo.allegado",
+        "tendencia": "20 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desmarcar('vive_independiente')",
+          "jugador.desmarcar('arrienda_pieza')",
+          "jugador.felicidad -= 8",
+          "diario('diario.desalojo.allegado')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.dejar_la_pieza",
+    "condiciones": "jugador.tiene('arrienda_pieza') && jugador.meses_en_rojo == 0 && !jugador.moroso && jugador.edad >= 22",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.dejar_la_pieza.arrendar",
+        "tendencia": "30 + jugador.extraversion / 3",
+        "efectos": [
+          "jugador.desmarcar('arrienda_pieza')",
+          "jugador.felicidad += 5"
+        ]
+      },
+      {
+        "texto": "opcion.dejar_la_pieza.ahorrar",
+        "tendencia": "30 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  }
+]

@@ -9,5 +9,16 @@
   "evento.contrato_tras_informal": "En el laburo por fin te ponen en blanco. Te van a descontar jubilación y obra social, así que lo que cobrás en mano baja.",
   "evento.fin_trabajo_informal": "El dueño del taller te avisa que ya no hay laburo para vos. Como estabas en negro, no hay indemnización.",
   "evento.pololito_vejez": "Un vecino te ofrece una changa: unas horas por semana, en negro, por algo de plata extra.",
-  "evento.nace_hijo": "Después de nueve meses de espera, controles en la salita y noches sin dormir, llega a casa tu bebé."
+  "evento.nace_hijo": "Después de nueve meses de espera, controles en la salita y noches sin dormir, llega a casa tu bebé.",
+  "diario.gastos.linea_credito": "Este mes gastaste más de lo que tenías. El banco te dejó la cuenta en descubierto para cubrir lo que faltaba, pero eso se paga, y con intereses altísimos.",
+  "evento.desalojo": "Hace meses que no te alcanza para el alquiler y las cuentas. El dueño te dio plazo hasta fin de mes para irte.",
+  "opcion.desalojo.pieza": "Alquilás una habitación, más barata, en una casa compartida.",
+  "opcion.desalojo.volver_familia": "Volvés a la casa de tu familia mientras te acomodás.",
+  "diario.desalojo.pieza": "Te mudaste a una habitación en una casa compartida. Es chica y el baño tiene fila, pero el alquiler ahora sí alcanza.",
+  "diario.desalojo.volver_familia": "Tuviste que dejar el lugar donde vivías y volver a la casa de tu familia. No es lo que soñabas, pero ahí no te falta un plato de comida.",
+  "evento.dejar_la_pieza": "Las cuentas ya se acomodaron. Te ofrecen un departamento para vos solo, pero el alquiler es más del doble que la habitación.",
+  "opcion.dejar_la_pieza.arrendar": "Te mudás al departamento. Ya era hora de tener tu espacio.",
+  "opcion.dejar_la_pieza.ahorrar": "Te quedás en la habitación un tiempo más y ahorrás la diferencia.",
+  "opcion.desalojo.allegado": "Te vas a vivir a la casa de alguien que te da una mano, hasta que te acomodes.",
+  "diario.desalojo.allegado": "Ahora vivís en la casa de alguien que te recibió. Dormís donde se puede y aportás con lo que tenés, pero tenés techo."
 }

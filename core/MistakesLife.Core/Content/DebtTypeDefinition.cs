@@ -58,6 +58,14 @@ namespace MistakesLife.Core.Content
         /// para empezar a pagar al terminar de estudiar). Si falta, se cobra siempre.
         /// </summary>
         /// <summary>
+        /// Si es true, cada mes paga con todo el dinero que haya (hasta lo que se
+        /// debe), como una línea de crédito o un sobregiro de la cuenta corriente.
+        /// Igual debe alcanzar al menos el pago mínimo para no quedar atrasada.
+        /// </summary>
+        [JsonProperty("se_paga_con_el_saldo")]
+        public bool PaysFromBalance { get; set; }
+
+        /// <summary>
         /// Si la deuda se borra cuando muere quien la tiene (por un seguro o por ley,
         /// como el CAE en Chile), en vez de pasar a la herencia.
         /// </summary>
