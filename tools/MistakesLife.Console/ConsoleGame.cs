@@ -228,7 +228,7 @@ namespace MistakesLife.ConsoleGame
             EventDefinition definition = _session.Content.GetEvent(pending.EventId);
             _output.WriteLine();
             _output.WriteLine($"=== {DateLabel()} ===");
-            _output.WriteLine(_session.Text(definition.ResolvedTextKey));
+            _output.WriteLine(_session.Text(definition.TextKeyFor(_session.World.TimesHappened(pending.EventId, pending.CharacterId))));
             for (int i = 0; i < pending.AvailableOptions.Count; i++)
             {
                 EventOptionDefinition option = definition.Options[pending.AvailableOptions[i]];

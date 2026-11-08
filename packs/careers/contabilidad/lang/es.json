@@ -40,5 +40,7 @@
   "opcion.contabilidad.cliente.aceptar": "Aceptas: tu primer cliente propio.",
   "opcion.contabilidad.cliente.rechazar": "Le dices que no tienes tiempo.",
   "opcion.contabilidad.trabajo.impuestos": "Entras a un estudio a llevar impuestos.",
-  "opcion.contabilidad.trabajo.remuneraciones": "Entras a llevar remuneraciones en una empresa."
+  "opcion.contabilidad.trabajo.remuneraciones": "Entras a llevar remuneraciones en una empresa.",
+  "evento.contabilidad.cierre_anual.2": "Diciembre de nuevo: balances, conciliaciones y el jefe pidiendo todo \"para ayer\". Este cierre viene peor que el anterior.",
+  "evento.contabilidad.cierre_anual.3": "Cierre de año con un cliente nuevo que llegó con la contabilidad hecha un desastre. Nadie se va temprano."
 }

@@ -21,12 +21,12 @@
   "opcion.irse.con_pareja": "Lo arriendan con tu pareja. Se van a vivir juntos y dividen las cuentas.",
   "opcion.irse.quedarse": "Mejor te quedas un tiempo más y ahorras. El arriendo está carísimo.",
   "diario.irse_de_la_casa": "Ahora vives por tu cuenta. Nadie te llena el refrigerador, pero la casa es tuya.",
-  "evento.fin_de_mes_en_rojo": "Otra vez no llegas a fin de mes. La cuenta está en rojo y las cuentas siguen llegando.",
+  "evento.fin_de_mes_en_rojo": "No llegas a fin de mes. La cuenta está en rojo y las cuentas siguen llegando.",
   "opcion.rojo.pedir_familia": "Le pides plata a tu mamá. Te la presta, pero te da vergüenza.",
   "opcion.rojo.volver_casa": "Dejas el arriendo y vuelves a la casa de tus papás mientras te ordenas.",
   "opcion.rojo.apretarse": "Te aprietas el cinturón: arroz, fideos y nada de salidas.",
   "opcion.rojo.credito": "Pides un crédito de consumo en el banco. La plata llega al otro día; las cuotas, todos los meses.",
-  "evento.cobranza": "Te llaman de una empresa de cobranza, otra vez. Estás en DICOM y nadie te quiere dar crédito.",
+  "evento.cobranza": "Te llama una empresa de cobranza. Estás en DICOM y nadie te quiere dar crédito.",
   "deuda.chile.cae": "Crédito con Aval del Estado (CAE)",
   "deuda.chile.consumo": "Crédito de consumo",
   "opcion.cobranza.repactar": "Vas al banco y repactas: la deuda queda en cuotas nuevas, más largas. Sales de DICOM, pero vas a pagar más intereses.",
@@ -37,5 +37,12 @@
   "evento.compra_tarjeta": "En el mall ves algo que quieres hace tiempo: un televisor nuevo, ropa, un celular. Con la tarjeta lo puedes tener hoy.",
   "opcion.compra_tarjeta.comprar": "Lo compras con la tarjeta. Total, después pagas el mínimo.",
   "opcion.compra_tarjeta.no_comprar": "Lo dejas pasar. No es el momento.",
-  "deuda.chile.tarjeta": "Tarjeta de crédito"
+  "deuda.chile.tarjeta": "Tarjeta de crédito",
+  "evento.cobranza.2": "Llega una carta certificada: \"último aviso antes de iniciar acciones judiciales\". Con los intereses, la deuda ya es bastante más grande que al principio.",
+  "evento.cobranza.3": "Te escriben por WhatsApp desde un número desconocido: es la cobranza, ahora con una \"oferta especial\" si pagas antes del viernes.",
+  "evento.cobranza.4": "Quieres sacar un plan de celular y te lo rechazan: sigues en DICOM. La deuda te sigue hasta en lo más simple.",
+  "evento.fin_de_mes_en_rojo.2": "Faltan diez días para el sueldo y ya no queda nada. Buscas monedas en los bolsillos para la micro.",
+  "evento.fin_de_mes_en_rojo.3": "Llega el aviso de corte de la luz por una boleta impaga. Tienes que elegir qué cuenta pagar y cuál dejar para después.",
+  "evento.compra_tarjeta.2": "Llega el Cyberday y te llenan el correo de ofertas \"imperdibles\". Hay una que te tienta de verdad.",
+  "evento.compra_tarjeta.3": "Se te echó a perder el refrigerador. En la tienda te ofrecen uno nuevo en doce cuotas \"precio contado\"."
 }
