@@ -65,6 +65,17 @@ namespace MistakesLife.Core.Economy
                     }
                 }
 
+                PayAsYouGoPensionDefinition? payAsYouGo = rules.PayAsYouGo;
+                if (payAsYouGo != null)
+                {
+                    Payslip? payslip = character.LastPayslip;
+                    if (payslip != null && payslip.Date.Equals(context.Date) && payslip.Kind == JobKind.Employee && payslip.Amount(payAsYouGo.Deduction) > 0)
+                    {
+                        AddToSalaryBase(character, payslip.Gross / (decimal)economy.PriceIndex, payAsYouGo);
+                        character.ContributedMonths++;
+                    }
+                }
+
                 decimal paid = 0;
                 if (character.Pension.HasValue)
                 {
@@ -116,8 +127,43 @@ namespace MistakesLife.Core.Economy
         /// <summary>La pensión mensual que recibiría si se jubilara hoy, en dinero del inicio del mundo.</summary>
         public static decimal EstimatedPension(Character character, PensionsDefinition? rules)
         {
+            PayAsYouGoPensionDefinition? payAsYouGo = rules?.PayAsYouGo;
+            if (payAsYouGo != null)
+            {
+                return PayAsYouGoPension(character.ContributedMonths, character.PensionSalaryBase, payAsYouGo);
+            }
+
             PensionAccountDefinition? account = rules?.IndividualAccount;
             return account == null ? 0 : Math.Round(PensionCalculator.MonthlyPension(character.PensionFund, account), MidpointRounding.AwayFromZero);
+        }
+
+        /// <summary>
+        /// La pensión de reparto: sin los años mínimos de aportes, 0; con ellos,
+        /// la parte fija más un porcentaje del sueldo promedio por cada año, y al
+        /// menos la mínima. Todo en dinero del inicio del mundo.
+        /// </summary>
+        public static decimal PayAsYouGoPension(int contributedMonths, decimal salaryBase, PayAsYouGoPensionDefinition rules)
+        {
+            int years = contributedMonths / 12;
+            if (years < rules.MinimumYears)
+            {
+                return 0;
+            }
+
+            decimal pension = rules.UniversalBase + ((decimal)rules.SharePerYear * years * salaryBase);
+            return Math.Round(Math.Max(rules.Minimum, pension), MidpointRounding.AwayFromZero);
+        }
+
+        /// <summary>
+        /// Suma un mes de sueldo al promedio de los últimos años: promedio móvil
+        /// que pesa un mes de anos_promedio × 12. El primer mes con aporte es el promedio.
+        /// </summary>
+        public static void AddToSalaryBase(Character character, decimal realGross, PayAsYouGoPensionDefinition rules)
+        {
+            int months = Math.Max(1, rules.AverageYears * 12);
+            character.PensionSalaryBase = character.PensionSalaryBase <= 0
+                ? realGross
+                : character.PensionSalaryBase + ((realGross - character.PensionSalaryBase) / months);
         }
     }
 }

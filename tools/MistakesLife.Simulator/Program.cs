@@ -10,7 +10,7 @@ namespace MistakesLife.Simulator
     public static class Program
     {
         /// <summary>
-        /// Uso: dotnet run --project tools/MistakesLife.Simulator -- [vidas] [edad_final] [--out informe.md] [--packs carpeta]
+        /// Uso: dotnet run --project tools/MistakesLife.Simulator -- [vidas] [edad_final] [--out informe.md] [--packs carpeta] [--pais pais.argentina]
         /// Por defecto: 1000 vidas hasta los 25 años, informe en la terminal.
         /// </summary>
         public static int Main(string[] args)
@@ -20,6 +20,7 @@ namespace MistakesLife.Simulator
             int finalAge = 25;
             string? output = null;
             string? packs = null;
+            string? country = null;
             int position = 0;
             for (int i = 0; i < args.Length; i++)
             {
@@ -30,6 +31,10 @@ namespace MistakesLife.Simulator
                 else if (args[i] == "--packs" && i + 1 < args.Length)
                 {
                     packs = args[++i];
+                }
+                else if (args[i] == "--pais" && i + 1 < args.Length)
+                {
+                    country = args[++i];
                 }
                 else if (int.TryParse(args[i], out int number))
                 {
@@ -63,7 +68,7 @@ namespace MistakesLife.Simulator
             }
 
             var watch = Stopwatch.StartNew();
-            SimulationReport report = new LifeSimulator(content).Run(lives, finalAge);
+            SimulationReport report = new LifeSimulator(content).Run(lives, finalAge, country);
             string markdown = report.ToMarkdown() + $"\n_Tiempo: {watch.Elapsed.TotalSeconds:0.0} s._\n";
             if (output != null)
             {

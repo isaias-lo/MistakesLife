@@ -35,24 +35,33 @@ namespace MistakesLife.Core.Worlds
         /// Vida completa: país, ciudad y comuna al azar según los paquetes,
         /// con madre y padre, nombres del país y el nivel del hogar.
         /// </summary>
-        public static World CreateNewLife(ulong seed, ContentDatabase content)
+        public static World CreateNewLife(ulong seed, ContentDatabase content) => CreateNewLife(seed, content, null);
+
+        /// <summary>
+        /// Vida completa en un país elegido (por ejemplo, si el jugador elige dónde
+        /// nacer). Con null, el país sale al azar según peso_nacimiento; un país con
+        /// peso 0 solo se elige así, a propósito.
+        /// </summary>
+        public static World CreateNewLife(ulong seed, ContentDatabase content, string? countryId)
         {
             if (content == null)
             {
                 throw new ArgumentNullException(nameof(content));
             }
 
-            List<CountryDefinition> countries = content.Countries.ToList();
+            List<CountryDefinition> countries = countryId == null
+                ? content.Countries.Where(c => c.BirthWeight > 0).ToList()
+                : new List<CountryDefinition> { content.GetCountry(countryId) };
             if (countries.Count == 0)
             {
-                throw new InvalidOperationException("No hay ningún paquete de país cargado.");
+                throw new InvalidOperationException("No hay ningún paquete de país cargado donde se pueda nacer.");
             }
 
             var world = new World(seed, new GameDate(HistoryYears * GameDate.WeeksPerYear));
             GameRandom random = world.Random.Fork("mundo.nacimiento");
 
             // Dónde nace.
-            CountryDefinition country = countries[random.PickWeightedIndex(countries.Select(c => c.BirthWeight).ToList())];
+            CountryDefinition country = countries[random.PickWeightedIndex(countries.Select(c => Math.Max(1, c.BirthWeight)).ToList())];
             CityDefinition city = country.Cities[random.PickWeightedIndex(country.Cities.Select(c => c.BirthWeight).ToList())];
             CommuneDefinition commune = city.Communes[random.PickWeightedIndex(city.Communes.Select(c => c.BirthWeight).ToList())];
             var residence = new Residence(country.Id, city.Id, commune.Id);

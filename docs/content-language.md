@@ -60,6 +60,7 @@ Un mismo texto se dice distinto en cada país ("pega" en Chile, "laburo" en Arge
 ```
 
 - `peso_nacimiento`: qué tan probable es nacer ahí (sirve la población real, por ejemplo en miles).
+- En el país mismo, `peso_nacimiento` (1 si falta) elige en qué país se nace. Con 0 nadie nace ahí por azar: solo se juega eligiéndolo (`new LifeSession(contenido, semilla, "pais.argentina")` o `--pais pais.argentina` en el simulador). Sirve mientras un país todavía no tiene sus eventos de vida.
 - `nivel_hogar_min`/`max`: rango del nivel socioeconómico (0 a 100) de un hogar de esa comuna.
 - `etapas_educacion`: en orden, sin solaparse; `edad_hasta` no se incluye.
 - Al nacer se eligen país, ciudad y comuna según los pesos, una madre y un padre con nombres del país, y el hijo lleva el primer apellido del padre y luego el de la madre.
@@ -205,6 +206,15 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Al jubilarse (`jugador.jubilarse()` en un evento), el fondo se convierte en una pensión fija mensual que dura `anos_de_pension` ganando la misma rentabilidad (como una renta vitalicia). Desde el mes siguiente se paga cada mes.
 - `pension_universal` (como la PGU): quien la pidió (`jugador.recibir_pension_universal()`) recibe el `monto` completo si su pensión propia llega hasta `completa_hasta`; desde ahí baja en línea recta hasta 0 en `sin_pension_desde`. Montos mensuales en dinero del inicio del mundo.
 - El descuento de `cuenta_individual` debe estar en `liquidacion.dependiente`.
+- `reparto` (como la ANSES de Argentina), en vez de `cuenta_individual` (un país tiene uno de los dos): el `descuento` no se ahorra en una cuenta. Cada mes con sueldo con contrato suma un mes de aportes y actualiza el sueldo promedio de los últimos `anos_promedio` años (en dinero del inicio del mundo). Al jubilarse, sin `anos_minimos` de aportes no hay pensión propia; con ellos, la pensión es `base_universal` + `porcentaje_por_ano` × años × sueldo promedio, y al menos la `minima`. Quien trabaja a honorarios (monotributo) todavía no suma años.
+
+```json
+"reparto": { "descuento": "descuento.argentina.jubilacion", "anos_minimos": 30, "porcentaje_por_ano": 0.015,
+  "anos_promedio": 10, "base_universal": 112000, "minima": 245000 },
+"pension_universal": { "monto": 196000, "completa_hasta": 0, "sin_pension_desde": 1 }
+```
+
+- Con `completa_hasta: 0` y `sin_pension_desde: 1`, la pensión universal es solo para quien no tiene pensión propia (como la PUAM).
 
 #### Ciclo económico (`economia.ciclo`)
 
@@ -436,7 +446,7 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 
 ## Evento
 
-**Dónde va cada evento:** los que le pueden pasar a cualquiera (amigos, pareja, salud, trabajo, ascensos, empresas, jubilación por ley) van en `packs/base/events/`. Los propios de un país (la PAES, la gratuidad, el CAE, un temblor) van en el paquete de ese país, y **solo le pasan a quien vive en ese país**: no hace falta escribir `jugador.pais == ...` en sus condiciones. Los eventos de las carreras le pueden pasar a quien estudia o trabaja en ellas, en cualquier país. Para que un evento común funcione en un país nuevo, ese país debe definir las leyes que el evento usa (`ley(...)`) y marcar los mismos hitos (`decidio_futuro`, `buscando_trabajo`, `trabajando`).
+**Dónde va cada evento:** los que le pueden pasar a cualquiera (amigos, pareja, salud, trabajo, ascensos, empresas, jubilación por ley) van en `packs/base/events/`. Los propios de un país (la PAES, la gratuidad, el CAE, un temblor) van en el paquete de ese país, y **solo le pasan a quien vive en ese país**: no hace falta escribir `jugador.pais == ...` en sus condiciones. Los eventos de las carreras le pueden pasar a quien estudia o trabaja en ellas, en cualquier país. Para que un evento común funcione en un país nuevo, ese país debe definir las leyes que el evento usa (`ley(...)`) y marcar los mismos hitos (`decidio_futuro`, `buscando_trabajo`, `trabajando`). Las leyes, deudas, fases del ciclo y regímenes de inflación que nombra un evento de un país solo tienen que existir en ese país; los del paquete base, en todos.
 
 ```json
 {

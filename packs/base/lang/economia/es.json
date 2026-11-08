@@ -1,0 +1,19 @@
+{
+  "diario.economia.inflacion.estable": "Los precios se calmaron. En las noticias dicen que la inflación volvió a la meta del Banco Central.",
+  "diario.economia.inflacion.alta": "Todo está más caro. En el almacén, en el transporte y en el supermercado se nota: la inflación subió.",
+  "diario.economia.inflacion.muy_alta": "Los precios suben cada semana. La plata no alcanza y nadie sabe cuánto va a costar algo el próximo mes.",
+  "diario.economia.ciclo.normal": "La economía se recupera. Vuelven los avisos de trabajo y la gente se anima a gastar.",
+  "diario.economia.ciclo.recesion": "Las noticias hablan de recesión: la economía se achica y varias empresas anuncian despidos.",
+  "diario.economia.ciclo.crisis": "Crisis económica. Cierran empresas y el desempleo se dispara.",
+  "descuento.impuesto_mensual": "Impuesto a los ingresos",
+  "diario.impuestos.devolucion": "Llegó la devolución de impuestos a la cuenta. Plata que no esperabas tener.",
+  "diario.impuestos.pago": "Pagaste lo que debías en la declaración de impuestos. Duele, pero quedaste al día.",
+  "diario.impuestos.multa": "Se te pasó el plazo de la declaración de impuestos y debías plata. Te llegó el cobro con multa e intereses.",
+  "diario.impuestos.devolucion_perdida": "No declaraste a tiempo y la devolución de impuestos quedó retenida. Esa plata no llegó.",
+  "diario.deudas.pagada": "Pagaste la última cuota de una deuda. Te sacaste un peso de encima.",
+  "diario.deudas.moroso": "Llevas meses sin pagar tus cuotas: quedaste en la lista de deudores.",
+  "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de la lista de deudores.",
+  "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de la lista de deudores, pero ningún banco lo olvida.",
+  "diario.herencia.recibida": "Recibiste tu parte de una herencia.",
+  "diario.herencia.deudas": "Te tocó pagar tu parte de las deudas de una herencia."
+}

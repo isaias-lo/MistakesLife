@@ -111,6 +111,7 @@ namespace MistakesLife.Core.Saving
                 MonthsInRed = d.MonthsInRed,
                 PensionFund = d.PensionFund,
                 ContributedMonths = d.ContributedMonths,
+                PensionSalaryBase = d.PensionSalaryBase,
                 Pension = d.Pension,
                 ReceivesUniversalPension = d.ReceivesUniversalPension,
                 LastPensionPayment = d.LastPensionPayment,

@@ -25,6 +25,13 @@ namespace MistakesLife.Core.Content
         private readonly List<ContentError> _errors = new List<ContentError>();
         private bool _built;
 
+        /// <summary>
+        /// Mientras se lee un evento del paquete de un país, ese país: sus condiciones
+        /// y efectos solo se revisan contra él (los demás países no tienen por qué
+        /// definir sus deudas o leyes). Null: se revisan contra todos.
+        /// </summary>
+        private CountryDefinition? _checkedCountry;
+
         public IEnumerable<EventDefinition> Events => _events.Values;
 
         public IEnumerable<SeedTypeDefinition> SeedTypes => _seedTypes.Values;
@@ -359,6 +366,7 @@ namespace MistakesLife.Core.Content
                     }
                 }
 
+                _checkedCountry = ev.CountryId == null ? null : _countries[ev.CountryId];
                 ev.CompiledConditions = CompileCondition(where, ev.Conditions);
                 CompileEffects(where, ev.Effects, ev.CompiledEffects);
                 for (int i = 0; i < ev.Options.Count; i++)
@@ -370,6 +378,8 @@ namespace MistakesLife.Core.Content
                     CompileEffects(optionWhere, option.Effects, option.CompiledEffects);
                 }
             }
+
+            _checkedCountry = null;
 
             if (_texts.ContainsKey(BaseLanguage))
             {
@@ -394,9 +404,9 @@ namespace MistakesLife.Core.Content
         {
             string where = $"país {country.Id}";
             CheckId(where, country.Id, "pais.");
-            if (country.BirthWeight <= 0)
+            if (country.BirthWeight < 0)
             {
-                _errors.Add(new ContentError(where, "peso_nacimiento debe ser mayor que 0."));
+                _errors.Add(new ContentError(where, "peso_nacimiento no puede ser negativo (0: solo se nace ahí si se elige)."));
             }
 
             if (country.MotherAgeMin < 12 || country.MotherAgeMax < country.MotherAgeMin)
@@ -607,6 +617,25 @@ namespace MistakesLife.Core.Content
                 if (account.ShareToAccount < 0 || account.ShareToAccount > 1 || account.FreelanceRate < 0 || account.FreelanceRate > 1 || account.RealAnnualReturn <= -1 || account.PensionYears < 1)
                 {
                     _errors.Add(new ContentError($"{where}.jubilacion.cuenta_individual", "parte_a_la_cuenta y tasa_honorarios de 0 a 1, rentabilidad_real_anual mayor que -1 y anos_de_pension desde 1."));
+                }
+            }
+
+            PayAsYouGoPensionDefinition? payAsYouGo = pensions?.PayAsYouGo;
+            if (payAsYouGo != null)
+            {
+                if (account != null)
+                {
+                    _errors.Add(new ContentError($"{where}.jubilacion", "un país tiene cuenta_individual o reparto, no los dos."));
+                }
+
+                if (!economy.Payroll.Employee.Any(d => d.Id == payAsYouGo.Deduction))
+                {
+                    _errors.Add(new ContentError($"{where}.jubilacion.reparto", $"el descuento '{payAsYouGo.Deduction}' no está en liquidacion.dependiente."));
+                }
+
+                if (payAsYouGo.MinimumYears < 0 || payAsYouGo.SharePerYear < 0 || payAsYouGo.AverageYears < 1 || payAsYouGo.UniversalBase < 0 || payAsYouGo.Minimum < 0)
+                {
+                    _errors.Add(new ContentError($"{where}.jubilacion.reparto", "anos_minimos, porcentaje_por_ano, base_universal y minima no negativos; anos_promedio desde 1."));
                 }
             }
 
@@ -1180,6 +1209,10 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Los países contra los que se revisa lo que se está leyendo (ver <see cref="_checkedCountry"/>).</summary>
+        private IEnumerable<CountryDefinition> CheckedCountries() =>
+            _checkedCountry == null ? _countries.Values : new[] { _checkedCountry };
+
         private void CheckUnique(string where, string id, HashSet<string> seen)
         {
             if (!seen.Add(id))
@@ -1233,7 +1266,7 @@ namespace MistakesLife.Core.Content
             {
                 if (name == EventScope.RentFunction + "()")
                 {
-                    foreach (CommuneDefinition commune in _countries.Values.SelectMany(c => c.Cities).SelectMany(c => c.Communes).Where(c => c.Rent == null))
+                    foreach (CommuneDefinition commune in CheckedCountries().SelectMany(c => c.Cities).SelectMany(c => c.Communes).Where(c => c.Rent == null))
                     {
                         _errors.Add(new ContentError(where, $"arriendo(): la comuna {commune.Id} no define su arriendo. Toda comuna debe tenerlo si se usa."));
                     }
@@ -1241,7 +1274,7 @@ namespace MistakesLife.Core.Content
 
                 if (EventScope.SalaryNames.Contains(name))
                 {
-                    foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Salaries == null))
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Salaries == null))
                     {
                         _errors.Add(new ContentError(where, $"{name}: el país {country.Id} no define sus sueldos (economia.sueldos). Todo país debe tenerlos si un evento los usa."));
                     }
@@ -1269,7 +1302,7 @@ namespace MistakesLife.Core.Content
 
                 if (reference.Function == EventScope.LawFunction || reference.Function == EventScope.ChangeLawFunction)
                 {
-                    foreach (CountryDefinition country in _countries.Values.Where(c => !c.LawsJson.ContainsKey(reference.Argument)))
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => !c.LawsJson.ContainsKey(reference.Argument)))
                     {
                         _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): el país {country.Id} no define esa ley. Todo país debe definir las leyes que usan los eventos."));
                     }
@@ -1277,7 +1310,7 @@ namespace MistakesLife.Core.Content
 
                 if (reference.Function == EventScope.ChangeCycleFunction)
                 {
-                    foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Cycle?.Phase(reference.Argument) == null))
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Cycle?.Phase(reference.Argument) == null))
                     {
                         _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): el país {country.Id} no tiene esa fase del ciclo económico. Todo país debe definir las fases que usan los eventos."));
                     }
@@ -1285,7 +1318,7 @@ namespace MistakesLife.Core.Content
 
                 if (reference.Function == EventScope.ChangeInflationFunction)
                 {
-                    foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Inflation.Regime(reference.Argument) == null))
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Inflation.Regime(reference.Argument) == null))
                     {
                         _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): el país {country.Id} no tiene ese régimen de inflación. Todo país debe definir los regímenes que usan los eventos."));
                     }
@@ -1299,7 +1332,7 @@ namespace MistakesLife.Core.Content
 
                 if (reference.Function == "." + CharacterObject.BorrowMethod || reference.Function == "." + CharacterObject.DebtOfMethod)
                 {
-                    foreach (CountryDefinition country in _countries.Values.Where(c => c.Economy?.Debts?.Type(reference.Argument) == null))
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Debts?.Type(reference.Argument) == null))
                     {
                         _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): el país {country.Id} no tiene esa deuda. Todo país debe definir las deudas que usan los eventos."));
                     }

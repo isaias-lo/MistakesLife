@@ -106,6 +106,53 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void PaisConPesoCero_SoloSeNaceAhiSiSeElige()
+        {
+            var content = new ContentDatabase();
+            content.AddCountryJson("pack.aqui", "country.json", Country("pais.aqui"));
+            content.AddCountryJson("pack.alla", "country.json", Country("pais.alla", @", ""peso_nacimiento"": 0"));
+            content.Build();
+
+            for (ulong seed = 1; seed <= 50; seed++)
+            {
+                Assert.Equal("pais.aqui", WorldFactory.CreateNewLife(seed, content).Player.Residence!.CountryId);
+            }
+
+            Assert.Equal("pais.alla", new LifeSession(content, 1, "pais.alla").World.Player.Residence!.CountryId);
+        }
+
+        [Fact]
+        public void PaisConPesoNegativo_EsUnError()
+        {
+            var content = new ContentDatabase();
+            content.AddCountryJson("pack.aqui", "country.json", Country("pais.aqui", @", ""peso_nacimiento"": -1"));
+
+            var error = Assert.Throws<ContentLoadException>(() => content.Build());
+            Assert.Contains(error.Errors, e => e.Message.Contains("peso_nacimiento no puede ser negativo"));
+        }
+
+        [Fact]
+        public void EventoDeUnPais_SusLeyesSoloSeRevisanEnEsePais()
+        {
+            const string withLaw = @"[
+              { ""id"": ""evento.ley_local"", ""condiciones"": ""ley('ley.solo_aqui')"" }
+            ]";
+            var content = new ContentDatabase();
+            content.AddCountryJson("pack.aqui", "country.json", Country("pais.aqui", @", ""leyes"": { ""ley.solo_aqui"": true }"));
+            content.AddCountryJson("pack.alla", "country.json", Country("pais.alla"));
+            content.AddEventsJson("pack.aqui", "events/aqui.json", withLaw);
+            content.Build();
+
+            // En el paquete base, la misma ley tendría que estar en todos los países.
+            var shared = new ContentDatabase();
+            shared.AddCountryJson("pack.aqui", "country.json", Country("pais.aqui", @", ""leyes"": { ""ley.solo_aqui"": true }"));
+            shared.AddCountryJson("pack.alla", "country.json", Country("pais.alla"));
+            shared.AddEventsJson("pack.base", "events/base.json", withLaw);
+            var error = Assert.Throws<ContentLoadException>(() => shared.Build());
+            Assert.Contains(error.Errors, e => e.Message.Contains("el país pais.alla no define esa ley"));
+        }
+
+        [Fact]
         public void Partida_EnChile_HablaComoEnChile()
         {
             var session = new LifeSession(RepoPacks.Content, 1);

@@ -1,0 +1,185 @@
+{
+  "id": "pais.argentina",
+  "variantes_idioma": { "es": "es-AR" },
+  "moneda": "ARS",
+  "peso_nacimiento": 0,
+  "edad_madre_min": 18,
+  "edad_madre_max": 42,
+  "dos_apellidos": false,
+  "nombres": {
+    "femeninos": [
+      "Olivia", "Emma", "Isabella", "Martina", "Catalina", "Mía", "Delfina", "Alma", "Victoria", "Julia",
+      "Lola", "Emilia", "Renata", "Valentina", "Sofía", "Camila", "Lucía", "Agustina", "Florencia", "Micaela",
+      "Milagros", "Rocío", "Belén", "Carolina", "Daniela", "Paula", "Natalia", "Romina", "Gisela", "Mariana"
+    ],
+    "masculinos": [
+      "Mateo", "Benjamín", "Bautista", "Felipe", "Santino", "Thiago", "Joaquín", "Lorenzo", "Valentino", "Francisco",
+      "Juan Ignacio", "Tomás", "Lautaro", "Benicio", "Ciro", "Facundo", "Gonzalo", "Nicolás", "Agustín", "Matías",
+      "Martín", "Lucas", "Ezequiel", "Leandro", "Maximiliano", "Federico", "Pablo", "Diego", "Sergio", "Hernán"
+    ],
+    "apellidos": [
+      "González", "Rodríguez", "Gómez", "Fernández", "López", "Díaz", "Martínez", "Pérez", "García", "Sánchez",
+      "Romero", "Sosa", "Álvarez", "Torres", "Ruiz", "Ramírez", "Flores", "Acosta", "Benítez", "Medina",
+      "Suárez", "Herrera", "Aguirre", "Pereyra", "Gutiérrez", "Giménez", "Molina", "Silva", "Castro", "Rojas",
+      "Ojeda", "Ponce", "Vera", "Cabrera", "Ferreyra", "Ledesma", "Godoy", "Morales", "Domínguez", "Peralta"
+    ]
+  },
+  "ciudades": [
+    {
+      "id": "ciudad.buenos_aires",
+      "peso_nacimiento": 1,
+      "comunas": [
+        { "id": "comuna.la_matanza", "peso_nacimiento": 1838, "nivel_hogar_min": 10, "nivel_hogar_max": 60, "arriendo": 320000 }
+      ]
+    }
+  ],
+  "etapas_educacion": [
+    { "id": "etapa.argentina.jardin_maternal", "edad_desde": 0, "edad_hasta": 3 },
+    { "id": "etapa.argentina.sala_de_3", "edad_desde": 3, "edad_hasta": 4 },
+    { "id": "etapa.argentina.salas_de_4_y_5", "edad_desde": 4, "edad_hasta": 6, "obligatoria": true },
+    { "id": "etapa.argentina.primaria", "edad_desde": 6, "edad_hasta": 12, "obligatoria": true },
+    { "id": "etapa.argentina.secundaria", "edad_desde": 12, "edad_hasta": 18, "obligatoria": true }
+  ],
+  "mortalidad": [
+    { "edad": 0, "femenino": 0.0075, "masculino": 0.0092 },
+    { "edad": 1, "femenino": 0.00046, "masculino": 0.00045 },
+    { "edad": 5, "femenino": 0.00016, "masculino": 0.00018 },
+    { "edad": 10, "femenino": 0.00014, "masculino": 0.00015 },
+    { "edad": 15, "femenino": 0.00031, "masculino": 0.00062 },
+    { "edad": 20, "femenino": 0.00042, "masculino": 0.00122 },
+    { "edad": 25, "femenino": 0.00043, "masculino": 0.00143 },
+    { "edad": 30, "femenino": 0.00052, "masculino": 0.00152 },
+    { "edad": 35, "femenino": 0.00081, "masculino": 0.00203 },
+    { "edad": 40, "femenino": 0.00109, "masculino": 0.00256 },
+    { "edad": 45, "femenino": 0.00183, "masculino": 0.00356 },
+    { "edad": 50, "femenino": 0.00293, "masculino": 0.00521 },
+    { "edad": 55, "femenino": 0.00473, "masculino": 0.00802 },
+    { "edad": 60, "femenino": 0.00754, "masculino": 0.01309 },
+    { "edad": 65, "femenino": 0.01187, "masculino": 0.02094 },
+    { "edad": 70, "femenino": 0.01933, "masculino": 0.03197 },
+    { "edad": 75, "femenino": 0.03078, "masculino": 0.05205 },
+    { "edad": 80, "femenino": 0.05752, "masculino": 0.09354 },
+    { "edad": 85, "femenino": 0.10089, "masculino": 0.15517 },
+    { "edad": 90, "femenino": 0.169, "masculino": 0.247 },
+    { "edad": 95, "femenino": 0.273, "masculino": 0.377 },
+    { "edad": 100, "femenino": 0.429, "masculino": 0.546 },
+    { "edad": 105, "femenino": 0.5, "masculino": 0.58 },
+    { "edad": 110, "femenino": 1, "masculino": 1 }
+  ],
+  "leyes": {
+    "ley.mayoria_edad": 18,
+    "ley.edad_voto": 16,
+    "ley.voto_obligatorio": true,
+    "ley.divorcio": true,
+    "ley.matrimonio_igualitario": true,
+    "ley.adopcion_parejas_mismo_sexo": true,
+    "ley.identidad_genero_edad_min": 0,
+    "ley.aborto": "a_peticion",
+    "ley.edad_jubilacion_hombres": 65,
+    "ley.edad_jubilacion_mujeres": 60,
+    "ley.antidiscriminacion": true,
+    "ley.genero_registral_no_binario": true,
+    "ley.pension_garantizada_edad": 65
+  },
+  "economia": {
+    "inflacion": {
+      "regimen_inicial": "economia.inflacion.alta",
+      "regimenes": [
+        { "id": "economia.inflacion.estable", "anual_min": 0.05, "anual_max": 0.15, "variacion_mensual": 0.004,
+          "cambio_anual": { "economia.inflacion.alta": 0.3 } },
+        { "id": "economia.inflacion.alta", "anual_min": 0.2, "anual_max": 0.5, "variacion_mensual": 0.01,
+          "cambio_anual": { "economia.inflacion.estable": 0.12, "economia.inflacion.muy_alta": 0.15 } },
+        { "id": "economia.inflacion.muy_alta", "anual_min": 0.5, "anual_max": 1.2, "variacion_mensual": 0.02,
+          "cambio_anual": { "economia.inflacion.alta": 0.35, "economia.inflacion.hiper": 0.04 } },
+        { "id": "economia.inflacion.hiper", "anual_min": 1.5, "anual_max": 3, "variacion_mensual": 0.05,
+          "cambio_anual": { "economia.inflacion.alta": 0.8 } }
+      ]
+    },
+    "ciclo": {
+      "fase_inicial": "economia.ciclo.normal",
+      "fases": [
+        { "id": "economia.ciclo.normal", "cambio_anual": { "economia.ciclo.recesion": 0.2 } },
+        { "id": "economia.ciclo.recesion", "quiebras": 1.8,
+          "cambio_anual": { "economia.ciclo.normal": 0.5, "economia.ciclo.crisis": 0.15 } },
+        { "id": "economia.ciclo.crisis", "inflacion": "economia.inflacion.muy_alta", "quiebras": 3,
+          "cambio_anual": { "economia.ciclo.normal": 0.4 } }
+      ]
+    },
+    "sueldos": { "minimo": 271571, "tipico": 800000, "relativo_sin_titulo": 0.85, "reajuste_meses": 3 },
+    "liquidacion": {
+      "dependiente": [
+        { "id": "descuento.argentina.jubilacion", "tasa": 0.11, "tope": 2600000, "rebaja_impuesto": true },
+        { "id": "descuento.argentina.pami", "tasa": 0.03, "tope": 2600000, "rebaja_impuesto": true },
+        { "id": "descuento.argentina.obra_social", "tasa": 0.03, "tope": 2600000, "rebaja_impuesto": true }
+      ],
+      "honorarios": [
+        { "id": "descuento.argentina.monotributo", "tasa": 0.06 }
+      ],
+      "impuesto_mensual": [
+        { "desde": 0, "tasa": 0 },
+        { "desde": 1500000, "tasa": 0.05 },
+        { "desde": 1650000, "tasa": 0.09 },
+        { "desde": 1850000, "tasa": 0.12 },
+        { "desde": 2100000, "tasa": 0.15 },
+        { "desde": 2600000, "tasa": 0.19 },
+        { "desde": 3100000, "tasa": 0.23 },
+        { "desde": 3900000, "tasa": 0.27 },
+        { "desde": 5000000, "tasa": 0.31 },
+        { "desde": 7000000, "tasa": 0.35 }
+      ]
+    },
+    "gastos": {
+      "edad_desde": 18,
+      "felicidad_en_rojo": 1,
+      "categorias": [
+        { "id": "gasto.argentina.alquiler", "monto": "arriendo()", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+        { "id": "gasto.argentina.comida", "monto": "250000 + 120000 * jugador.hijos_menores", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+        { "id": "gasto.argentina.servicios", "monto": "80000", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+        { "id": "gasto.argentina.hijos", "monto": "150000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
+        { "id": "gasto.argentina.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
+        { "id": "gasto.argentina.transporte", "monto": "40000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
+        { "id": "gasto.argentina.celular", "monto": "20000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
+        { "id": "gasto.argentina.personales", "monto": "90000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" }
+      ]
+    },
+    "jubilacion": {
+      "reparto": {
+        "descuento": "descuento.argentina.jubilacion",
+        "anos_minimos": 30,
+        "porcentaje_por_ano": 0.015,
+        "anos_promedio": 10,
+        "base_universal": 112000,
+        "minima": 245000
+      },
+      "pension_universal": { "monto": 196000, "completa_hasta": 0, "sin_pension_desde": 1 }
+    },
+    "deudas": {
+      "meses_para_moroso": 3,
+      "meses_prescripcion": 60,
+      "tipos": [
+        { "id": "deuda.argentina.prestamo", "tasa_anual": 0.6, "cuotas": 24, "cuotas_repactacion": 36 },
+        { "id": "deuda.argentina.tarjeta", "tasa_anual": 0.8, "cuotas": 1, "pago_minimo": 0.05, "pago_minimo_monto": 15000,
+          "entrega_dinero": false, "cuotas_repactacion": 24 }
+      ]
+    },
+    "herencia": { "beneficio_inventario": true, "porciones_pareja": 1 },
+    "empresas": {
+      "misma_empresa": 0.5,
+      "tamanos": [
+        { "id": "empresa.tamano.micro", "peso": 0.2, "sueldo_relativo": 0.75, "cargo_maximo": 2, "quiebra_anual": 0.12, "crece_anual": 0.03, "achica_anual": 0 },
+        { "id": "empresa.tamano.pequena", "peso": 0.25, "sueldo_relativo": 0.9, "cargo_maximo": 3, "quiebra_anual": 0.06, "crece_anual": 0.03, "achica_anual": 0.06 },
+        { "id": "empresa.tamano.mediana", "peso": 0.15, "sueldo_relativo": 1.0, "cargo_maximo": 4, "quiebra_anual": 0.035, "crece_anual": 0.03, "achica_anual": 0.05 },
+        { "id": "empresa.tamano.grande", "peso": 0.4, "sueldo_relativo": 1.15, "quiebra_anual": 0.015, "achica_anual": 0.03 }
+      ]
+    }
+  },
+  "familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.06, "separacion_anual": 0.03, "adopcion_anual": 0.03, "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 },
+  "diversidad": {
+    "orientaciones": { "heterosexual": 910, "homosexual": 30, "bisexual": 50, "asexual": 10 },
+    "identidades": { "cis": 970, "trans": 10, "no_binario": 20 }
+  },
+  "vida_previa": [
+    { "edad": 18, "marcas": ["egresado_media", "decidio_futuro"] },
+    { "edad": 28, "marcas": ["vive_independiente"] }
+  ]
+}
