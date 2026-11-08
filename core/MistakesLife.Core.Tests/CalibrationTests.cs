@@ -46,6 +46,20 @@ namespace MistakesLife.Core.Tests
             Assert.InRange(report.PercentOfAlive(report.Working), 3, 30);
             Assert.True(report.PercentOfAlive(report.Retired) >= 90);
             Assert.True(report.FinalFlags.ContainsKey("jubilado_trabajando"), "Nadie se jubiló y siguió trabajando.");
+
+            // En Chile, la mayoría de los mayores que trabajan lo hacen sin contrato.
+            Assert.True(report.WorkingInformal > 0, "Ningún mayor trabaja informal.");
+        }
+
+        [Fact]
+        public void Simulador_ALos45_NoTodosTrabajan()
+        {
+            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 120, finalAge: 45);
+
+            // En Chile trabaja cerca del 75 % de quienes tienen entre 35 y 54 años: el resto
+            // cuida a los hijos o a un familiar, está enfermo o no encuentra trabajo.
+            Assert.InRange(report.PercentOfAlive(report.Working), 62, 82);
+            Assert.True(report.FinalFlags.ContainsKey("cuida_hijos_en_casa"), "Nadie se quedó en casa cuidando a los hijos.");
         }
 
         [Fact]

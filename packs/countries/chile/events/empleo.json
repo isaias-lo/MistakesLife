@@ -54,7 +54,7 @@
   },
   {
     "id": "evento.contrato_tras_informal",
-    "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo == 'informal'",
+    "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo == 'informal' && !jugador.jubilado",
     "probabilidad_anual": 0.08,
     "opciones": [
       {
@@ -76,7 +76,7 @@
   },
   {
     "id": "evento.fin_trabajo_informal",
-    "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo == 'informal'",
+    "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo == 'informal' && !jugador.jubilado",
     "probabilidad_anual": 0.2,
     "enfriamiento_semanas": 26,
     "opciones": [
@@ -133,7 +133,7 @@
   {
     "id": "evento.cuidar_hijos_en_casa",
     "condiciones": "jugador.tiene('trabajando') && jugador.hijos_menores > 0 && jugador.pareja != nada && jugador.edad < 55",
-    "probabilidad_anual": 0.08,
+    "probabilidad_anual": 0.2,
     "enfriamiento_semanas": 156,
     "dia_clave": true,
     "opciones": [
@@ -160,7 +160,7 @@
   {
     "id": "evento.volver_a_trabajar_tras_cuidar",
     "condiciones": "jugador.tiene('cuida_hijos_en_casa')",
-    "probabilidad_anual": 0.2,
+    "probabilidad_anual": 0.12,
     "opciones": [
       {
         "texto": "opcion.volver_a_trabajar_tras_cuidar.buscar",
@@ -173,9 +173,112 @@
       },
       {
         "texto": "opcion.volver_a_trabajar_tras_cuidar.esperar",
+        "condiciones": "jugador.hijos_menores > 0",
         "tendencia": "jugador.amabilidad / 2",
         "efectos": []
       }
+    ]
+  },
+  {
+    "id": "evento.cuidar_familiar",
+    "condiciones": "jugador.tiene('trabajando') && jugador.edad >= 30 && jugador.edad < 65 && ((jugador.madre != nada && jugador.madre.vivo && jugador.madre.edad >= 75 && jugador.madre.salud < 45) || (jugador.padre != nada && jugador.padre.vivo && jugador.padre.edad >= 75 && jugador.padre.salud < 45))",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.cuidar_familiar.dejar_trabajo",
+        "tendencia": "jugador.amabilidad / 2 + si(jugador.tipo_trabajo == 'informal', 20, 0) + si(jugador.pareja != nada, 10, 0)",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('cuida_familiar')",
+          "jugador.felicidad -= 2",
+          "diario('diario.cuidar_familiar')"
+        ]
+      },
+      {
+        "texto": "opcion.cuidar_familiar.pagar_cuidadora",
+        "tendencia": "jugador.responsabilidad / 2 + 30",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "jugador.salud -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.volver_a_trabajar_tras_cuidar_familiar",
+    "condiciones": "jugador.tiene('cuida_familiar') && ((jugador.madre == nada || !jugador.madre.vivo || jugador.madre.salud >= 45) && (jugador.padre == nada || !jugador.padre.vivo || jugador.padre.salud >= 45))",
+    "probabilidad_anual": 0.6,
+    "efectos": [
+      "jugador.desmarcar('cuida_familiar')",
+      "jugador.marcar('buscando_trabajo')"
+    ]
+  },
+  {
+    "id": "evento.dejar_trabajo_por_salud",
+    "condiciones": "jugador.tiene('trabajando') && jugador.edad >= 25 && jugador.edad < 65 && jugador.salud < 35",
+    "probabilidad_anual": 0.35,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.dejar_trabajo_por_salud.dejar",
+        "tendencia": "60 - jugador.salud + si(jugador.tipo_trabajo == 'informal', 15, 0)",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('sin_trabajar_por_salud')",
+          "jugador.felicidad -= 4",
+          "diario('diario.dejar_trabajo_por_salud')"
+        ]
+      },
+      {
+        "texto": "opcion.dejar_trabajo_por_salud.seguir",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.salud -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.volver_a_trabajar_tras_salud",
+    "condiciones": "jugador.tiene('sin_trabajar_por_salud') && jugador.salud >= 45",
+    "probabilidad_anual": 0.5,
+    "efectos": [
+      "jugador.desmarcar('sin_trabajar_por_salud')",
+      "jugador.marcar('buscando_trabajo')",
+      "jugador.felicidad += 2"
+    ]
+  },
+  {
+    "id": "evento.pololito_vejez",
+    "condiciones": "jugador.jubilado && !jugador.trabaja && !jugador.tiene('trabajando') && jugador.edad >= 61 && jugador.edad < 80 && jugador.salud >= 40",
+    "probabilidad_anual": 0.06,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.pololito_vejez.aceptar",
+        "tendencia": "25 + (60 - jugador.nivel_hogar) / 2 + jugador.meses_en_rojo * 10",
+        "efectos": [
+          "jugador.marcar('trabajando')",
+          "jugador.marcar('jubilado_trabajando')",
+          "jugador.trabajar(sueldo_minimo() * 0.5, 'informal')",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.pololito_vejez.rechazar",
+        "tendencia": "60 + (jugador.edad - 61) * 8"
+      }
+    ]
+  },
+  {
+    "id": "evento.dejar_de_buscar_jubilado",
+    "condiciones": "jugador.tiene('buscando_trabajo') && jugador.jubilado && !jugador.trabaja",
+    "probabilidad_anual": 0.8,
+    "efectos": [
+      "jugador.desmarcar('buscando_trabajo')"
     ]
   }
 ]
