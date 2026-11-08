@@ -16,6 +16,7 @@ namespace MistakesLife.Core.Content
     {
         private readonly SortedDictionary<string, EventDefinition> _events = new SortedDictionary<string, EventDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CareerDefinition> _careers = new SortedDictionary<string, CareerDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, CareerLevelDefinition> _careerLevels = new Dictionary<string, CareerLevelDefinition>(StringComparer.Ordinal);
@@ -35,6 +36,9 @@ namespace MistakesLife.Core.Content
         public IEnumerable<EventDefinition> Events => _events.Values;
 
         public IEnumerable<SeedTypeDefinition> SeedTypes => _seedTypes.Values;
+
+        /// <summary>Los objetos de la escena 3D que dependen de la vida del jugador, ordenados por id.</summary>
+        public IEnumerable<SceneObjectDefinition> SceneObjects => _sceneObjects.Values;
 
         public IEnumerable<CountryDefinition> Countries => _countries.Values;
 
@@ -183,6 +187,22 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega los objetos de la escena de un archivo JSON de scene/ (una lista).</summary>
+        public void AddSceneJson(string packId, string sourceName, string json)
+        {
+            foreach (SceneObjectDefinition definition in Deserialize<SceneObjectDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_sceneObjects.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de objeto de escena repetido."));
+                    continue;
+                }
+
+                _sceneObjects.Add(definition.Id, definition);
+            }
+        }
+
         /// <summary>Agrega un país desde su archivo country.json.</summary>
         public void AddCountryJson(string packId, string sourceName, string json)
         {
@@ -328,6 +348,25 @@ namespace MistakesLife.Core.Content
                 }
 
                 seed.CompiledConditions = CompileCondition(where, seed.Conditions);
+            }
+
+            foreach (SceneObjectDefinition scene in _sceneObjects.Values)
+            {
+                string where = $"objeto de escena {scene.Id}";
+                if (Array.IndexOf(SceneObjectDefinition.Places, scene.Place) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"lugar '{scene.Place}' no existe (usa {string.Join(", ", SceneObjectDefinition.Places)})."));
+                }
+                else
+                {
+                    CheckId(where, scene.Id, $"escena.{scene.Place}.");
+                }
+
+                scene.CompiledConditions = CompileCondition(where, scene.Conditions);
+                if (scene.CompiledConditions == null && string.IsNullOrWhiteSpace(scene.Conditions))
+                {
+                    _errors.Add(new ContentError(where, "falta la condición."));
+                }
             }
 
             foreach (EventDefinition ev in _events.Values)

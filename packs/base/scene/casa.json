@@ -1,0 +1,15 @@
+[
+  { "id": "escena.casa.libros", "lugar": "casa", "condiciones": "jugador.estudia != nada" },
+  { "id": "escena.casa.mochila", "lugar": "casa", "condiciones": "jugador.edad >= 6 && jugador.edad < 18" },
+  { "id": "escena.casa.diploma", "lugar": "casa", "condiciones": "jugador.titulado" },
+  { "id": "escena.casa.notebook", "lugar": "casa", "condiciones": "jugador.trabaja && jugador.tipo_trabajo != 'informal'" },
+  { "id": "escena.casa.avisos_trabajo", "lugar": "casa", "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.trabaja" },
+  { "id": "escena.casa.cuentas", "lugar": "casa", "condiciones": "jugador.moroso || jugador.meses_en_rojo >= 3" },
+  { "id": "escena.casa.remedios", "lugar": "casa", "condiciones": "jugador.salud < 40" },
+  { "id": "escena.casa.flores", "lugar": "casa", "condiciones": "jugador.felicidad >= 80" },
+  { "id": "escena.casa.desorden", "lugar": "casa", "condiciones": "jugador.felicidad < 30" },
+  { "id": "escena.casa.juguetes", "lugar": "casa", "condiciones": "jugador.hijos_menores > 0" },
+  { "id": "escena.casa.foto_pareja", "lugar": "casa", "condiciones": "jugador.pareja != nada" },
+  { "id": "escena.casa.foto_recuerdo", "lugar": "casa", "condiciones": "(jugador.madre != nada && !jugador.madre.vivo) || (jugador.padre != nada && !jugador.padre.vivo)" },
+  { "id": "escena.casa.mecedora", "lugar": "casa", "condiciones": "jugador.jubilado" }
+]

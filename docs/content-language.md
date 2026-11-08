@@ -482,6 +482,25 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 
 Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla se cierra al terminar el evento.
 
+## Objetos de la escena (scene/)
+
+Para que la escena 3D cambie con la vida, un paquete puede traer objetos en `scene/*.json` (una lista). Cada objeto aparece mientras su condición se cumpla para el jugador; no lleva texto para el jugador. La pantalla dibuja los ids que conoce (en Unity, `SceneObjectBuilder`) y salta los demás, así un objeto nuevo en un paquete nunca rompe el juego: solo no se ve hasta que se le da forma.
+
+```json
+[
+  { "id": "escena.casa.libros", "lugar": "casa", "condiciones": "jugador.estudia != nada" },
+  { "id": "escena.casa.cuentas", "lugar": "casa", "condiciones": "jugador.moroso || jugador.meses_en_rojo >= 3" }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Id estable: `escena.<lugar>.<nombre>` |
+| `lugar` | `casa`, `barrio` o `trabajo` |
+| `condiciones` | Cuándo se ve (obligatorio). Las decisiones se pueden conectar con marcas: un efecto `jugador.marcar('tiene_perro')` y un objeto con `jugador.tiene('tiene_perro')` |
+
+Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo y mecedora. Además, Unity nubla el cielo cuando la felicidad baja.
+
 ## El lenguaje de condiciones y efectos
 
 **Condiciones** (deben dar verdadero o falso): `jugador.edad >= 17 && !jugador.tiene('rindio_paes')`
