@@ -102,6 +102,7 @@ Siguen los bocetos de la fila 3, con las letras y los tamaños de la ronda 2. Ca
 - **Envejece:** crece de niño a adulto, cambia de ropa según la etapa, a los 70 tiene pelo gris, lentes y bastón si corresponde.
 - **Ropa amarilla** solo en el jugador.
 - **Gestos simples:** contento, cansado, triste, según el ánimo.
+- **Hecho en U18c** (`RoomBuilder.Person` y `Face`): la cara mira hacia la cámara de la pieza; la boca sale de `HomeMemberView.Mood` (contenta desde 60 de felicidad, triste bajo 35); lentes en la vejez y bastón desde los 80. Falta el cansancio (según la salud) y el retrato en la barra de arriba.
 
 ## 5. Luz, tiempo y etapas
 
