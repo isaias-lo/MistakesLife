@@ -308,7 +308,11 @@ namespace MistakesLife.Unity
         {
             for (int i = parent.childCount - 1; i >= 0; i--)
             {
-                Object.Destroy(parent.GetChild(i).gameObject);
+                // Se apaga antes de borrarlo: Unity borra al final del cuadro y,
+                // mientras tanto, el orden de la pantalla ya no lo cuenta.
+                GameObject child = parent.GetChild(i).gameObject;
+                child.SetActive(false);
+                Object.Destroy(child);
             }
         }
     }

@@ -630,6 +630,23 @@ namespace MistakesLife.Core.Presentation
                 : "ui.sentir.distanciados";
         }
 
+        /// <summary>Los tres estados que la pantalla muestra en palabras, sin números.</summary>
+        public static readonly string[] States = { "salud", "animo", "mente" };
+
+        /// <summary>
+        /// Un estado del jugador (salud, ánimo o mente) en palabras, sin números
+        /// (docs/diseno-app.md, "Pantalla de la vida"): "salud" usa la salud, "animo" la
+        /// felicidad y "mente" la inteligencia.
+        /// </summary>
+        public string StateWord(string state, int value) => T(StateWordKey(state, value));
+
+        /// <summary>La clave del texto de un estado: cinco tramos de 20 puntos, de 0 (lo peor) a 4 (lo mejor).</summary>
+        public static string StateWordKey(string state, int value)
+        {
+            int band = value >= 80 ? 4 : value >= 60 ? 3 : value >= 40 ? 2 : value >= 20 ? 1 : 0;
+            return $"ui.estado.{state}.{band}";
+        }
+
         /// <summary>Desde cuánto rencor (0 a 100) se nota en el trato; un rival recién conocido ya lo muestra.</summary>
         public const int VisibleResentment = 40;
 

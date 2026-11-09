@@ -30,13 +30,31 @@ namespace MistakesLife.Unity
         private ShapeKit _kit = null!;
         private SceneView _view = SceneView.Room;
         private RectTransform? _viewport;
+        private RectTransform? _focus;
         private string? _shown;
+
+        /// <summary>
+        /// Cuánto se ve a lo ancho: el ancho que tenía la ventana 3D de antes (1016 x 560 con 30°
+        /// de alto). Con la pantalla a lo alto se abre el ángulo vertical para que la pieza quepa
+        /// igual a lo ancho; en las capturas apaisadas queda exactamente como antes.
+        /// </summary>
+        private const float HalfWidthTan = 0.4849f;
 
         /// <summary>El rectángulo de la interfaz donde se ve la casa.</summary>
         public RectTransform? Viewport
         {
             get => _viewport;
             set => _viewport = value;
+        }
+
+        /// <summary>
+        /// La parte de la pantalla que queda libre entre la barra de arriba y la hoja de abajo:
+        /// la casa se centra ahí, aunque el 3D se dibuje en toda la pantalla.
+        /// </summary>
+        public RectTransform? Focus
+        {
+            get => _focus;
+            set => _focus = value;
         }
 
         /// <summary>Crea la escena (cámaras, luz y raíz de la pieza).</summary>
@@ -146,11 +164,12 @@ namespace MistakesLife.Unity
         /// Dibuja la vista actual en una imagen del tamaño pedido, sin pasar por la pantalla.
         /// Lo usan las capturas automáticas para revisar el diseño sin abrir el juego.
         /// </summary>
-        public Texture2D RenderToTexture(int width, int height)
+        public Texture2D RenderToTexture(int width, int height, float shift = 0f)
         {
             var target = new RenderTexture(width, height, 24);
             RenderTexture? previous = RenderTexture.active;
             _camera.targetTexture = target;
+            Fit(width / (float)height, shift);
             _camera.Render();
 
             RenderTexture.active = target;
@@ -160,6 +179,7 @@ namespace MistakesLife.Unity
 
             RenderTexture.active = previous;
             _camera.targetTexture = null;
+            _camera.ResetProjectionMatrix();
             target.Release();
             DestroyImmediate(target);
             return image;
@@ -180,6 +200,41 @@ namespace MistakesLife.Unity
             if (width > 1f && height > 1f)
             {
                 _camera.pixelRect = new Rect(corners[0].x, corners[0].y, width, height);
+                Fit(width / height, FocusShift(corners[0].y, height));
+            }
+        }
+
+        /// <summary>
+        /// Cuánto subir la imagen (de -1 a 1, en alto de pantalla) para que la casa quede al centro
+        /// del hueco libre (<see cref="Focus"/>) y no detrás de la barra o de la hoja.
+        /// </summary>
+        public float FocusShift(float viewportBottom, float viewportHeight)
+        {
+            if (_focus == null || viewportHeight <= 1f)
+            {
+                return 0f;
+            }
+
+            var corners = new Vector3[4];
+            _focus.GetWorldCorners(corners);
+            float center = ((corners[0].y + corners[2].y) / 2f) - viewportBottom;
+            return ((center / viewportHeight) * 2f) - 1f;
+        }
+
+        /// <summary>
+        /// Ajusta la cámara a la forma de la imagen: el ángulo vertical se abre para que a lo ancho
+        /// se vea lo mismo, y la imagen se corre hacia arriba o abajo según <paramref name="shift"/>.
+        /// </summary>
+        private void Fit(float aspect, float shift)
+        {
+            _camera.ResetProjectionMatrix();
+            _camera.aspect = aspect;
+            _camera.fieldOfView = Mathf.Clamp(2f * Mathf.Atan(HalfWidthTan / aspect) * Mathf.Rad2Deg, 30f, 100f);
+            if (Mathf.Abs(shift) > 0.001f)
+            {
+                Matrix4x4 projection = _camera.projectionMatrix;
+                projection[1, 2] = -shift;
+                _camera.projectionMatrix = projection;
             }
         }
 
