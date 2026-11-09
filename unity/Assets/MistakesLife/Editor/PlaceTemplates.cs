@@ -9,7 +9,8 @@ namespace MistakesLife.Unity.Editor
 {
     /// <summary>
     /// Menú para empezar a editar un lugar en el editor de Unity (docs/diseno-app.md, sección 7).
-    /// Crea Resources/Lugares/pieza.prefab con las anclas de siempre ("ancla.mesa", "ancla.cama"...),
+    /// Crea Resources/Lugares/&lt;lugar&gt;.prefab (pieza, barrio y los trabajos) con las anclas de
+    /// siempre ("ancla.mesa", "ancla.colegio"...),
     /// cada una con un cubito de guía para verla y moverla. Desde ese momento el juego usa
     /// las posiciones de ese archivo: mover un ancla mueve el mueble y los objetos que van en ella.
     /// No es parte del juego.
@@ -23,6 +24,22 @@ namespace MistakesLife.Unity.Editor
         {
             // Una pieza de nivel medio (ancho 8 m) como referencia.
             Save(RoomBuilder.Place, RoomBuilder.DefaultAnchors(50));
+        }
+
+        [MenuItem("MistakesLife/Crear anclas del barrio")]
+        public static void CreateNeighborhoodAnchors()
+        {
+            Save(NeighborhoodBuilder.Place, NeighborhoodBuilder.DefaultAnchors());
+        }
+
+        /// <summary>Un archivo por tipo de lugar de trabajo: oficina_abierta, oficina_cubiculos, consulta, oficina y local.</summary>
+        [MenuItem("MistakesLife/Crear anclas de los trabajos")]
+        public static void CreateWorkAnchors()
+        {
+            foreach (string place in OfficeBuilder.Places)
+            {
+                Save(place, OfficeBuilder.DefaultAnchors(place));
+            }
         }
 
         private static void Save(string place, IReadOnlyDictionary<string, Vector3> anchors)

@@ -151,13 +151,15 @@ Hoy cada objeto y cada lugar (pieza, oficina, barrio) está armado **en código*
    - Modelos de la Asset Store con cuidado: los paquetes muy usados se reconocen en muchos juegos.
    - Las capturas automáticas (`capturas.yml`) sirven para revisar cada cambio sin abrir Unity.
 
-### Cómo cambiar un objeto hoy (la pieza ya funciona así)
+### Cómo cambiar un objeto hoy (pieza, barrio y trabajos)
 
 - **Cambiar cómo se ve un objeto:** crea un prefab con el nombre de su id en `unity/Assets/MistakesLife/Resources/Modelos/`. Por ejemplo, `mueble.mesa.prefab` o `escena.casa.diploma.prefab`. El juego lo usa en vez de la forma simple. Si lo borras, vuelve la forma simple.
   - Muebles: `mueble.cama`, `mueble.cama_adulto`, `mueble.cama_doble`, `mueble.cuna`, `mueble.escritorio`, `mueble.mesa`, `mueble.sillon`, `mueble.tele`, `mueble.planta`, `mueble.alfombra`, `mueble.ventana`, `mueble.puerta`.
   - Objetos de escena: los ids de `packs/base/scene/casa.json` (`escena.casa.libros`, `escena.casa.diploma`...).
+  - Barrio: `barrio.casa_humilde`, `barrio.casa_media`, `barrio.casa_acomodada`, `barrio.colegio`, `barrio.almacen`, `barrio.plaza`, `barrio.paradero`, `barrio.arbol`, `barrio.auto`.
+  - Trabajos: `oficina_abierta.mesa`, `oficina_abierta.pizarra`, `oficina_abierta.puf`, `oficina_abierta.rincon`, `oficina_cubiculos.cubiculo`, `oficina_cubiculos.rincon`, `consulta.alfombra`, `consulta.sillon_terapeuta`, `consulta.sillon_paciente`, `consulta.mesa_centro`, `consulta.divan`, `consulta.libreria`, `consulta.titulo`, `oficina.escritorio`, `oficina.rincon`, `local.mostrador`, `local.estantes`. Comunes a todos: `trabajo.ventana`, `trabajo.ventana_grande`, `trabajo.planta`, `trabajo.archivador`, `trabajo.archivadores`, `trabajo.pantalla_extra`, `trabajo.letrero_mediano`, `trabajo.letrero_grande`.
   - El modelo se pone con su centro en el ancla y con la base en el piso (o en el muro, para cuadros y tele).
-- **Cambiar dónde va algo:** menú *MistakesLife > Crear anclas de la pieza*. Crea `Resources/Lugares/pieza.prefab` con un cubito por ancla. Muévelas, guarda, y el juego usa esas posiciones. Los objetos de la mesa (libros, cuentas, remedios...) siguen a `ancla.mesa`.
+- **Cambiar dónde va algo:** menú *MistakesLife > Crear anclas de la pieza* (o *del barrio*, o *de los trabajos*, que crea `oficina_abierta`, `oficina_cubiculos`, `consulta`, `oficina` y `local`). En los trabajos también se mueven el jugador (`ancla.jugador`) y los colegas (`ancla.colega_1`...). Crea `Resources/Lugares/pieza.prefab` con un cubito por ancla. Muévelas, guarda, y el juego usa esas posiciones. Los objetos de la mesa (libros, cuentas, remedios...) siguen a `ancla.mesa`.
 - **Cambiar un color o material de todo el juego:** abre `Resources/Materiales/` (`madera`, `madera_oscura`, `marco`, `papel`, `alarma`, `pantalla`, `piel`, `jugador`, `marca_jugador`) y cambia el color o el sombreado.
 
 ## 8. Orden sugerido para programarlo
