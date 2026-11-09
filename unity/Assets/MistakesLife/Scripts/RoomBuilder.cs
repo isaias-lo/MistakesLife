@@ -181,9 +181,22 @@ namespace MistakesLife.Unity
                 new Color(0.60f, 0.45f, 0.75f), new Color(0.45f, 0.65f, 0.70f),
             };
             Color shirt = shirts[index % shirts.Length];
-            Color hair = member.Stage == LifeStage.Elder ? new Color(0.85f, 0.85f, 0.85f) : new Color(0.25f, 0.18f, 0.12f);
+            // Cada persona con su color de pelo (fijo según su id); en la vejez, gris.
+            Color[] hairs =
+            {
+                new Color(0.25f, 0.18f, 0.12f), new Color(0.12f, 0.10f, 0.09f), new Color(0.45f, 0.28f, 0.16f),
+                new Color(0.62f, 0.48f, 0.32f), new Color(0.38f, 0.16f, 0.10f),
+            };
+            Color hair = member.Stage == LifeStage.Elder ? new Color(0.85f, 0.85f, 0.85f) : hairs[Mathf.Abs(member.Id) % hairs.Length];
 
-            float head = height * 0.22f;
+            // Como un juguete: mientras más chico, más grande la cabeza.
+            float head = height * (member.Stage switch
+            {
+                LifeStage.Baby => 0.34f,
+                LifeStage.Child => 0.30f,
+                LifeStage.Teen => 0.25f,
+                _ => 0.22f,
+            });
             float body = height - head;
             Vector3 torsoSize = new Vector3(body * 0.45f, body / 2f, body * 0.45f);
             GameObject torso = member.IsPlayer
@@ -194,7 +207,8 @@ namespace MistakesLife.Unity
 
             // Pelo como casco: cubre arriba y atrás de la cabeza y deja la cara libre.
             float hairSize = member.IsFemale ? head * 1.12f : head * 1.06f;
-            GameObject helmet = kit.Shape(PrimitiveType.Sphere, "Pelo", center + new Vector3(0f, head * 0.14f, head * 0.10f), new Vector3(hairSize, hairSize * 0.86f, hairSize), hair);
+            // Va arriba y hacia atrás, para no bajar hasta los ojos (sobre todo en los niños).
+            GameObject helmet = kit.Shape(PrimitiveType.Sphere, "Pelo", center + new Vector3(0f, head * 0.20f, head * 0.16f), new Vector3(hairSize, hairSize * 0.80f, hairSize * 0.96f), hair);
             helmet.transform.SetParent(torso.transform, true);
 
             Face(kit, torso.transform, member, center, head);
@@ -219,7 +233,7 @@ namespace MistakesLife.Unity
                 // Bolita amarilla justo sobre el pelo, proporcional a la estatura: se ve aunque
                 // un mueble tape el piso, sin quedar flotando lejos de la cabeza.
                 float dot = Mathf.Max(0.16f, height * 0.12f);
-                float top = body + (head * 0.64f) + (hairSize * 0.43f);
+                float top = body + (head * 0.70f) + (hairSize * 0.40f);
                 kit.Ball("Marca sobre la cabeza", feet + new Vector3(0f, top + (height * 0.06f) + (dot / 2f), 0f), dot, marker);
             }
         }
@@ -248,24 +262,24 @@ namespace MistakesLife.Unity
             }
 
             float eye = head * 0.12f;
-            Part(kit.Ball("Ojo izquierdo", At(-0.36f, 0.12f, -0.90f), eye, Paint), Quaternion.identity);
-            Part(kit.Ball("Ojo derecho", At(0.36f, 0.12f, -0.90f), eye, Paint), Quaternion.identity);
+            Part(kit.Ball("Ojo izquierdo", At(-0.34f, 0.22f, -0.90f), eye, Paint), Quaternion.identity);
+            Part(kit.Ball("Ojo derecho", At(0.34f, 0.22f, -0.90f), eye, Paint), Quaternion.identity);
             Vector3 cheek = new Vector3(head * 0.17f, head * 0.10f, head * 0.05f);
-            Part(kit.Shape(PrimitiveType.Sphere, "Mejilla izquierda", At(-0.56f, -0.18f, -0.80f), cheek, Cheek), Quaternion.identity);
-            Part(kit.Shape(PrimitiveType.Sphere, "Mejilla derecha", At(0.56f, -0.18f, -0.80f), cheek, Cheek), Quaternion.identity);
+            Part(kit.Shape(PrimitiveType.Sphere, "Mejilla izquierda", At(-0.54f, -0.02f, -0.82f), cheek, Cheek), Quaternion.identity);
+            Part(kit.Shape(PrimitiveType.Sphere, "Mejilla derecha", At(0.54f, -0.02f, -0.82f), cheek, Cheek), Quaternion.identity);
 
             // La boca son dos trazos: con las puntas arriba sonríe, abajo está triste, rectos queda seria.
             float tilt = member.Mood * 18f;
-            Vector3 stroke = new Vector3(head * 0.17f, head * 0.035f, head * 0.03f);
-            Part(kit.Box("Boca izquierda", At(-0.15f, -0.36f, -0.93f), stroke, Paint), Quaternion.Euler(0f, 0f, -tilt));
-            Part(kit.Box("Boca derecha", At(0.15f, -0.36f, -0.93f), stroke, Paint), Quaternion.Euler(0f, 0f, tilt));
+            Vector3 stroke = new Vector3(head * 0.17f, head * 0.045f, head * 0.03f);
+            Part(kit.Box("Boca izquierda", At(-0.15f, -0.16f, -0.96f), stroke, Paint), Quaternion.Euler(0f, 0f, -tilt));
+            Part(kit.Box("Boca derecha", At(0.15f, -0.16f, -0.96f), stroke, Paint), Quaternion.Euler(0f, 0f, tilt));
 
             if (member.Stage == LifeStage.Elder)
             {
                 // Lentes: el marco de arriba sobre los ojos y las patillas hacia atrás.
-                Part(kit.Box("Lentes", At(0f, 0.32f, -0.90f), new Vector3(head * 0.78f, head * 0.04f, head * 0.04f), Paint), Quaternion.identity);
-                Part(kit.Box("Patilla izquierda", At(-0.88f, 0.30f, -0.35f), new Vector3(head * 0.03f, head * 0.03f, head * 0.5f), Paint), Quaternion.identity);
-                Part(kit.Box("Patilla derecha", At(0.88f, 0.30f, -0.35f), new Vector3(head * 0.03f, head * 0.03f, head * 0.5f), Paint), Quaternion.identity);
+                Part(kit.Box("Lentes", At(0f, 0.40f, -0.88f), new Vector3(head * 0.78f, head * 0.04f, head * 0.04f), Paint), Quaternion.identity);
+                Part(kit.Box("Patilla izquierda", At(-0.90f, 0.38f, -0.30f), new Vector3(head * 0.03f, head * 0.03f, head * 0.5f), Paint), Quaternion.identity);
+                Part(kit.Box("Patilla derecha", At(0.90f, 0.38f, -0.30f), new Vector3(head * 0.03f, head * 0.03f, head * 0.5f), Paint), Quaternion.identity);
             }
         }
     }
