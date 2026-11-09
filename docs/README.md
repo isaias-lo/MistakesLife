@@ -10,3 +10,4 @@ En esta carpeta van los documentos que necesitan estar junto al código:
 - [`architecture.md`](architecture.md): resumen de la arquitectura para quien programe.
 - [`roadmap.md`](roadmap.md): fases y tareas, con su estado.
 - [`content-language.md`](content-language.md): cómo escribir eventos y semillas en los paquetes.
+- [`diseno-app.md`](diseno-app.md): cómo se ve y se siente la app (pantallas, colores, letras, personaje y 3D modificable). Léelo antes de programar en `unity/`.

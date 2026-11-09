@@ -83,6 +83,12 @@
 | U12 | Primera impresión: menú de inicio (continuar la vida en curso, nueva vida con aviso si se pierde la actual, cómo se juega); elegir entre 3 nacimientos posibles (nombre, lugar, hogar y padres, con `LifePresenter.Birth`); el evento como tarjeta ("Momento clave" en color cálido si es `dia_clave`, con `EventView.IsKeyMoment`); "Lo que pasó" después de cada toque con el tiempo que corrió y los cambios en verde o rojo (`LifePresenter.Summarize`, `StepSummary`); tutorial de 5 tarjetas la primera vez; botones y tarjetas con esquinas redondeadas | Hecha |
 | U13 | La escena 3D cambia con la vida: objetos definidos en los paquetes (`scene/`, con condición) que aparecen en la casa según lo que vive y decide el jugador (libros, diploma, cuentas impagas, remedios, juguetes, flores, desorden, foto del recuerdo, mecedora...), y el cielo se nubla cuando está triste; en el núcleo `SceneObjectDefinition` y `HomeView.SceneObjects`; vitrina con todos los objetos en las capturas | Hecha |
 | U14 | Ritmo del tiempo: dos botones, "Una semana" y "Seguir viviendo" (corre hasta que pase algo, ahora como mucho 1 año en vez de 5: `LifePresenter.MaxYearsPerStep`); "Lo que pasó" destaca lo que se anotó en el diario en ese paso (cumpleaños, logros, pérdidas) | En revisión |
+| U15 | Diseño de la app acordado con Isaias: la vida como maqueta viva, 3D a pantalla completa, cada tema como objeto de la vida, letras, colores y personaje (`docs/diseno-app.md`) | Hecha |
+| U16 | Base visual: TextMeshPro con las letras acordadas, colores y tamaños mínimos de `docs/diseno-app.md` | Pendiente |
+| U17 | 3D modificable: un modelo por id en `Resources/Modelos/` con la forma simple como reserva, pieza/oficina/barrio con anclas editables y materiales compartidos | Pendiente |
+| U18 | Pantalla de la vida nueva y personaje estilo juguete de madera que envejece | Pendiente |
+| U19 | Tu dinero (el mes en días, la mochila de deudas, tu historia) con sus datos en el núcleo | Pendiente |
+| U20 | Luz por etapa, hora y clima, y transición de cada objeto 3D a su pantalla | Pendiente |
 
 ## Lo que falta en el núcleo
 

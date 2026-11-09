@@ -7,6 +7,7 @@ Fuentes de verdad (léelas antes de decisiones de diseño):
 - Técnico: https://claude.ai/artifact/Rv74yh2pBA6kTHmLLQ7nSL
 - Resumen local: `docs/architecture.md` y `docs/roadmap.md`
 - Formato de eventos, semillas y lenguaje de condiciones: `docs/content-language.md` (actualízalo si agregas datos al lenguaje)
+- Diseño visual de la app (pantallas, colores, letras, 3D modificable): `docs/diseno-app.md` (léelo antes de tocar `unity/`)
 
 ## Mapa del repositorio
 
