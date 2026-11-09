@@ -115,10 +115,11 @@ namespace MistakesLife.Unity
             Clear();
 
             _kit.Parent = _room;
-            RoomBuilder.BuildRoom(_kit, home);
-            RoomBuilder.BuildFurniture(_kit, home);
+            Anchors anchors = RoomBuilder.CreateAnchors(_room, home);
+            RoomBuilder.BuildRoom(_kit, home, anchors);
+            RoomBuilder.BuildFurniture(_kit, home, anchors);
             RoomBuilder.BuildPeople(_kit, home.Members);
-            SceneObjectBuilder.BuildRoomObjects(_kit, home);
+            SceneObjectBuilder.BuildRoomObjects(_kit, home, anchors);
 
             _kit.Parent = _block;
             NeighborhoodBuilder.Build(_kit, home, place);

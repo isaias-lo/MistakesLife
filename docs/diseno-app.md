@@ -151,6 +151,15 @@ Hoy cada objeto y cada lugar (pieza, oficina, barrio) está armado **en código*
    - Modelos de la Asset Store con cuidado: los paquetes muy usados se reconocen en muchos juegos.
    - Las capturas automáticas (`capturas.yml`) sirven para revisar cada cambio sin abrir Unity.
 
+### Cómo cambiar un objeto hoy (la pieza ya funciona así)
+
+- **Cambiar cómo se ve un objeto:** crea un prefab con el nombre de su id en `unity/Assets/MistakesLife/Resources/Modelos/`. Por ejemplo, `mueble.mesa.prefab` o `escena.casa.diploma.prefab`. El juego lo usa en vez de la forma simple. Si lo borras, vuelve la forma simple.
+  - Muebles: `mueble.cama`, `mueble.cama_adulto`, `mueble.cama_doble`, `mueble.cuna`, `mueble.escritorio`, `mueble.mesa`, `mueble.sillon`, `mueble.tele`, `mueble.planta`, `mueble.alfombra`, `mueble.ventana`, `mueble.puerta`.
+  - Objetos de escena: los ids de `packs/base/scene/casa.json` (`escena.casa.libros`, `escena.casa.diploma`...).
+  - El modelo se pone con su centro en el ancla y con la base en el piso (o en el muro, para cuadros y tele).
+- **Cambiar dónde va algo:** menú *MistakesLife > Crear anclas de la pieza*. Crea `Resources/Lugares/pieza.prefab` con un cubito por ancla. Muévelas, guarda, y el juego usa esas posiciones. Los objetos de la mesa (libros, cuentas, remedios...) siguen a `ancla.mesa`.
+- **Cambiar un color o material de todo el juego:** abre `Resources/Materiales/` (`madera`, `madera_oscura`, `marco`, `papel`, `alarma`, `pantalla`, `piel`, `jugador`, `marca_jugador`) y cambia el color o el sombreado.
+
 ## 8. Orden sugerido para programarlo
 
 1. **Base visual:** TextMeshPro con las letras, colores de la sección 2, tamaños mínimos.
