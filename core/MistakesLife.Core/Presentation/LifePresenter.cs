@@ -211,6 +211,70 @@ namespace MistakesLife.Core.Presentation
         /// Volver al pasado: cargas que quedan y los momentos a los que se puede volver
         /// ahora (fotos del mundo permitidas por <see cref="TimeMachine.CanGoBackTo"/>).
         /// </summary>
+        /// <summary>
+        /// "El mes" de Tu dinero: los gastos del último mes contados en días de trabajo
+        /// (el sueldo líquido del mes repartido en <see cref="MonthView.WorkDaysPerMonth"/> días).
+        /// </summary>
+        public MonthView Month()
+        {
+            Character player = Session.World.Player;
+            decimal net = player.Job != null && player.LastPayslip != null ? Math.Max(0m, player.LastPayslip.Net) : 0m;
+            decimal dayPay = net / MonthView.WorkDaysPerMonth;
+            bool hasPay = dayPay > 0;
+
+            var expenses = player.LastExpenses
+                .OrderByDescending(l => l.Amount)
+                .Select(l =>
+                {
+                    double days = hasPay ? (double)(l.Amount / dayPay) : 0;
+                    return new MonthExpenseView(l.Id, T(l.Id), MoneyLabel(l.Amount), days, hasPay ? DaysLabel(days) : string.Empty);
+                })
+                .ToList();
+
+            decimal total = player.LastExpenses.Sum(l => l.Amount);
+            var tickets = new List<int>();
+            int borrowed = 0;
+            if (hasPay)
+            {
+                // Se reparten los días en orden: cada gasto se lleva los boletos hasta su total acumulado.
+                double spent = 0;
+                for (int i = 0; i < expenses.Count; i++)
+                {
+                    spent += expenses[i].Days;
+                    int until = (int)Math.Round(spent, MidpointRounding.AwayFromZero);
+                    while (tickets.Count < until)
+                    {
+                        tickets.Add(i);
+                    }
+                }
+
+                borrowed = Math.Max(0, tickets.Count - MonthView.WorkDaysPerMonth);
+                while (tickets.Count < MonthView.WorkDaysPerMonth)
+                {
+                    tickets.Add(MonthView.FreeTicket);
+                }
+            }
+
+            string headline = expenses.Count == 0
+                ? T("ui.mes.sin_gastos")
+                : hasPay
+                    ? Text("ui.mes.dias", tickets.Count(t => t != MonthView.FreeTicket))
+                    : Text("ui.mes.sin_sueldo", MoneyLabel(total));
+            string payLabel = hasPay ? Text("ui.mes.sueldo", MoneyLabel(net), MoneyLabel(dayPay)) : string.Empty;
+            int free = tickets.Count(t => t == MonthView.FreeTicket);
+            string footnote = !hasPay || expenses.Count == 0
+                ? string.Empty
+                : borrowed > 0 ? Text("ui.mes.prestados", borrowed) : Text("ui.mes.libres", free);
+            return new MonthView(headline, payLabel, hasPay, expenses, tickets, borrowed, footnote);
+        }
+
+        /// <summary>Días de trabajo en palabras: "menos de un día", "1 día", "3 días".</summary>
+        private string DaysLabel(double days)
+        {
+            int rounded = (int)Math.Round(days, MidpointRounding.AwayFromZero);
+            return days < 0.5 ? T("ui.mes.menos_de_un_dia") : rounded == 1 ? T("ui.mes.un_dia") : Text("ui.mes.n_dias", rounded);
+        }
+
         public TimeTravelView TimeTravel()
         {
             TimeMachine machine = Session.TimeMachine;

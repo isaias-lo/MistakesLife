@@ -271,6 +271,7 @@ namespace MistakesLife.Unity.Editor
             if (life.Phase == LifePhase.Living)
             {
                 count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-semana.png"));
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-dinero.png"), money: true);
             }
 
             // Hasta que aparezca un evento, para que se vea la tarjeta de papel.
@@ -320,12 +321,12 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, bool money = false)
         {
             var root = new GameObject("Captura de pantalla");
             try
             {
-                root.AddComponent<LifeScreen>().ShowForCapture(content, life, menu);
+                root.AddComponent<LifeScreen>().ShowForCapture(content, life, menu, money);
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));
                 return 1;
             }

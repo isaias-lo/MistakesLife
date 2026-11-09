@@ -479,6 +479,61 @@ namespace MistakesLife.Core.Tests
             Assert.Equal("Esto se recuerda", presenter.Text("ui.evento.se_recuerda"));
         }
 
+        private static LifePresenter WithMonth(decimal net, params (string Id, decimal Amount)[] expenses)
+        {
+            LifePresenter presenter = NewGame(3);
+            var player = presenter.Session.World.Player;
+            player.Job = new Job(JobKind.Employee, net, 1);
+            player.LastPayslip = new Payslip(presenter.Session.World.Date, JobKind.Employee, net, Array.Empty<PayslipLine>(), net);
+            player.LastExpenses = expenses.Select(e => new PayslipLine(e.Id, e.Amount)).ToList();
+            return presenter;
+        }
+
+        [Fact]
+        public void ElMes_CuentaLosGastosEnDiasDeTrabajo()
+        {
+            // 1.100.000 al mes son 50.000 por día (22 días hábiles).
+            MonthView month = WithMonth(1100000m, ("gasto.chile.transporte", 45000m), ("gasto.chile.arriendo", 300000m)).Month();
+
+            Assert.True(month.HasPay);
+            Assert.Equal("Este mes trabajaste 7 días para pagar tus gastos", month.Headline);
+            Assert.Equal("gasto.chile.arriendo", month.Expenses[0].Id); // el más caro primero
+            Assert.Equal("6 días", month.Expenses[0].DaysLabel);
+            Assert.Equal("1 día", month.Expenses[1].DaysLabel);
+            Assert.Equal(MonthView.WorkDaysPerMonth, month.Tickets.Count);
+            Assert.Equal(6, month.Tickets.Count(t => t == 0));
+            Assert.Equal(1, month.Tickets.Count(t => t == 1));
+            Assert.Equal(0, month.BorrowedDays);
+            Assert.Equal("Te quedaron 15 días de sueldo libres", month.Footnote);
+        }
+
+        [Fact]
+        public void ElMes_GastarDeMas_SonDiasPrestados()
+        {
+            MonthView month = WithMonth(1100000m, ("gasto.chile.arriendo", 1300000m)).Month();
+
+            Assert.Equal(26, month.Tickets.Count);
+            Assert.Equal(4, month.BorrowedDays);
+            Assert.DoesNotContain(MonthView.FreeTicket, month.Tickets);
+            Assert.Equal("4 días fueron prestados: los cubrió una deuda, con interés", month.Footnote);
+        }
+
+        [Fact]
+        public void ElMes_SinSueldoOSinGastos_LoDiceSinBoletos()
+        {
+            LifePresenter baby = NewGame(3);
+            Assert.Equal("Todavía no pagas cuentas propias", baby.Month().Headline);
+            Assert.Empty(baby.Month().Tickets);
+
+            LifePresenter presenter = WithMonth(1000m, ("gasto.chile.arriendo", 200000m));
+            presenter.Session.World.Player.Job = null;
+            MonthView month = presenter.Month();
+            Assert.False(month.HasPay);
+            Assert.Empty(month.Tickets);
+            Assert.StartsWith("Este mes se fueron $200", month.Headline);
+            Assert.Equal(string.Empty, month.Expenses[0].DaysLabel);
+        }
+
         [Fact]
         public void Familia_Viva_DiceComoEstaLaRelacion()
         {
