@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MistakesLife.Core.Scripting
 {
@@ -22,7 +23,59 @@ namespace MistakesLife.Core.Scripting
             _value = value;
         }
 
+        /// <summary>Nombre de la función que planta una semilla: <c>plantar('id')</c> o <c>plantar('id', persona)</c>.</summary>
+        public const string PlantFunction = "plantar";
+
         public string Source { get; }
+
+        /// <summary>Si este efecto planta una semilla: la elección se va a recordar años después.</summary>
+        public bool PlantsSeed => Plantings().Any();
+
+        /// <summary>
+        /// Los testigos que este efecto le pondría a sus semillas (el segundo dato de
+        /// <c>plantar</c>), calculados sin aplicar nada. Si un testigo no se puede calcular
+        /// (por ejemplo, la persona no existe), se salta.
+        /// </summary>
+        public IReadOnlyList<Value> Witnesses(IScriptScope scope)
+        {
+            var witnesses = new List<Value>();
+            foreach (FunctionNode plant in Plantings())
+            {
+                if (plant.Args.Count != 2)
+                {
+                    continue;
+                }
+
+                try
+                {
+                    witnesses.Add(plant.Args[1].Evaluate(scope));
+                }
+                catch (ScriptException)
+                {
+                    // Sin testigo que mostrar: al aplicarse, el efecto dará su propio error.
+                }
+            }
+
+            return witnesses;
+        }
+
+        private IEnumerable<FunctionNode> Plantings()
+        {
+            IEnumerable<Node> nodes = _value == null ? Walk(_target) : Walk(_target).Concat(Walk(_value));
+            return nodes.OfType<FunctionNode>().Where(f => f.Name == PlantFunction);
+        }
+
+        private static IEnumerable<Node> Walk(Node node)
+        {
+            yield return node;
+            foreach (Node child in node.Children)
+            {
+                foreach (Node inner in Walk(child))
+                {
+                    yield return inner;
+                }
+            }
+        }
 
         public static Effect Parse(string source)
         {

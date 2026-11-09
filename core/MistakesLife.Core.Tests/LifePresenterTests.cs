@@ -416,6 +416,53 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void Evento_SelloEstoSeRecuerda_SoloSiAlgunaOpcionDejaSemilla()
+        {
+            bool sawRemembered = false;
+            bool sawForgotten = false;
+            for (ulong seed = 1; seed <= 6; seed++)
+            {
+                LifePresenter presenter = NewGame(seed);
+                for (int step = 0; step < 15 && presenter.Phase != LifePhase.Over; step++)
+                {
+                    while (presenter.Phase == LifePhase.Living)
+                    {
+                        presenter.AdvanceUntilSomething();
+                    }
+
+                    if (presenter.Phase != LifePhase.Choosing)
+                    {
+                        break;
+                    }
+
+                    EventView view = presenter.Snapshot().PendingEvent!;
+                    PendingEvent pending = presenter.Session.Pending!;
+                    EventDefinition definition = RepoPacks.Content.GetEvent(pending.EventId);
+                    bool plants = pending.AvailableOptions.Any(i => definition.Options[i].Effects.Any(e => e.Contains("plantar(")));
+
+                    Assert.Equal(plants, view.Remembered);
+                    Assert.Equal(view.Options.Count, view.NoticedBy.Count);
+                    sawRemembered |= plants;
+                    sawForgotten |= !plants;
+                    presenter.Choose(0);
+                }
+            }
+
+            Assert.True(sawRemembered);
+            Assert.True(sawForgotten);
+        }
+
+        [Fact]
+        public void Evento_TextosDeTestigos_ExistenEnEspanol()
+        {
+            LifePresenter presenter = NewGame(1);
+
+            Assert.Equal("Lo va a notar Pedro", presenter.Text("ui.evento.lo_nota", "Pedro"));
+            Assert.Equal("Te miran: Pedro y Ana", presenter.Text("ui.evento.miran", "Pedro" + presenter.Text("ui.lista.y") + "Ana"));
+            Assert.Equal("Esto se recuerda", presenter.Text("ui.evento.se_recuerda"));
+        }
+
+        [Fact]
         public void Familia_Viva_DiceComoEstaLaRelacion()
         {
             LifeSnapshot snapshot = NewGame(7).Snapshot();

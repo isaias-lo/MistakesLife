@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
@@ -278,7 +279,42 @@ namespace MistakesLife.Unity.Editor
 
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-vida.png"));
             count += CaptureScreen(content, life, true, Path.Combine(folder, "pantalla-menu.png"));
+            count += WitnessCard(content, folder);
             return count;
+        }
+
+        /// <summary>
+        /// La carta de un evento que se recuerda y tiene testigo (el amigo que pide plata):
+        /// muestra el sello "ESTO SE RECUERDA" y la línea "Lo va a notar ..." bajo la opción.
+        /// Se juega eligiendo siempre la primera opción hasta que aparece una carta así.
+        /// </summary>
+        private static int WitnessCard(ContentDatabase content, string folder)
+        {
+            var life = new LifePresenter(new LifeSession(content, 1));
+            for (int step = 0; step < 400 && life.Phase != LifePhase.Over && life.Session.PlayerAgeInYears < 45; step++)
+            {
+                if (life.Phase == LifePhase.Living)
+                {
+                    life.AdvanceUntilSomething();
+                    continue;
+                }
+
+                if (life.Phase != LifePhase.Choosing)
+                {
+                    break;
+                }
+
+                EventView card = life.Snapshot().PendingEvent!;
+                if (card.Remembered && card.NoticedBy.Any(line => line.Length > 0))
+                {
+                    return CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-carta.png"));
+                }
+
+                life.Choose(0);
+            }
+
+            Debug.LogWarning("Capturas: no apareció una carta con testigo para pantalla-carta.png.");
+            return 0;
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú encima si se pide) y la borra.</summary>

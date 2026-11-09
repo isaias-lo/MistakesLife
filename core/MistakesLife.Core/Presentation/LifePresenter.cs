@@ -8,6 +8,8 @@ using MistakesLife.Core.Economy;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Life;
+using MistakesLife.Core.Scripting;
+using MistakesLife.Core.Seeds;
 using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
 
@@ -381,7 +383,38 @@ namespace MistakesLife.Core.Presentation
             int? previous = Session.TimeMachine.PreviousChoice(pending);
             int position = previous.HasValue ? IndexOf(pending.AvailableOptions, previous.Value) : -1;
             string textKey = definition.TextKeyFor(Session.World.TimesHappened(pending.EventId, pending.CharacterId));
-            return new EventView(pending.EventId, T(textKey), options, position >= 0 ? position : (int?)null, definition.KeyDay);
+
+            // Quién mira y quién lo va a notar: los testigos de las semillas, sin aplicar nada.
+            World world = Session.World;
+            Seed? seed = pending.SeedId.HasValue ? world.Seeds.Get(pending.SeedId.Value) : null;
+            var scope = new EventScope(world, Session.Content, world.GetCharacter(pending.CharacterId), seed, readOnly: true);
+            var effects = pending.AvailableOptions.Select(i => definition.Options[i].CompiledEffects).ToList();
+            bool remembered = effects.Any(list => list.Any(e => e.PlantsSeed));
+            var noticedBy = effects.Select(list => Names(list.SelectMany(e => e.Witnesses(scope))
+                    .Where(v => v.Kind == ValueKind.Object)
+                    .Select(v => (v.AsObject("testigo") as CharacterObject)?.Character)))
+                .Select(names => names.Length == 0 ? string.Empty : Text("ui.evento.lo_nota", names))
+                .ToList();
+            string watchers = seed == null ? string.Empty : Names(seed.Witnesses.Select(id => world.TryGetCharacter(id, out Character? c) ? c : null));
+            string? watching = watchers.Length == 0 ? null : Text("ui.evento.miran", watchers);
+
+            return new EventView(pending.EventId, T(textKey), options, position >= 0 ? position : (int?)null, definition.KeyDay, remembered, watching, noticedBy);
+        }
+
+        /// <summary>Los nombres de pila de las personas vivas, en una lista ("Pedro, Ana y Luis"); vacío si no hay.</summary>
+        private string Names(IEnumerable<Character?> people)
+        {
+            var names = people
+                .Where(p => p != null && p.IsAlive && p.Id != Session.World.Player.Id)
+                .Select(p => p!.FirstName)
+                .Distinct()
+                .ToList();
+            if (names.Count <= 1)
+            {
+                return names.Count == 0 ? string.Empty : names[0];
+            }
+
+            return string.Join(", ", names.Take(names.Count - 1)) + T("ui.lista.y") + names[names.Count - 1];
         }
 
         private string MomentLabel(WorldSnapshot snapshot) => snapshot.Kind == SnapshotKind.StageStart

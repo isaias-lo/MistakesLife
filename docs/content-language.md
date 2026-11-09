@@ -601,7 +601,7 @@ Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avi
 | `semilla('id').testigo` | El primer testigo vivo de la semilla (otra persona, vista desde el jugador: `semilla('id').testigo.rencor`), o `nada` |
 | `semilla('id').cerrar` | Cierra la semilla (solo efectos) |
 | `plantar('id')` | Planta una semilla nueva (solo efectos). Si el personaje ya tiene abierta una del mismo tipo, no planta otra: la existente gana la `fuerza` del tipo (máximo 100) |
-| `plantar('id', persona)` | Igual, con esa persona como testigo: `plantar('semilla.presto_plata_amigo', jugador.amigo)`. Así el evento de la semilla, años después, sabe de quién se trata (`semilla('id').testigo`) |
+| `plantar('id', persona)` | Igual, con esa persona como testigo: `plantar('semilla.presto_plata_amigo', jugador.amigo)`. Así el evento de la semilla, años después, sabe de quién se trata (`semilla('id').testigo`). La carta del evento lo muestra: bajo la opción dice "Lo va a notar Pedro" y, cuando la semilla despierta, "Te miran: Pedro". Si el evento tiene alguna opción con `plantar`, lleva el sello "Esto se recuerda" |
 | `diario('clave')` | Escribe en el diario (solo efectos) |
 | `ley('ley.x')` | Valor de una ley en el país del jugador (ver Leyes) |
 | `cambiar_ley('ley.x', valor)` | Cambia una ley del país del jugador durante la partida (solo efectos) |
