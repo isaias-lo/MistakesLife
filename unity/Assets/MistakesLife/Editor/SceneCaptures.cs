@@ -293,13 +293,19 @@ namespace MistakesLife.Unity.Editor
             return count;
         }
 
-        /// <summary>Dibuja todos los lienzos de la interfaz con una cámara propia y devuelve el PNG.</summary>
+        /// <summary>
+        /// Dibuja la pantalla como en el celular y devuelve el PNG: primero la casa 3D en su
+        /// ventana y después todos los lienzos de la interfaz encima, con una cámara propia.
+        /// Esa cámara se pone lejos de la maqueta para que los muebles no tapen la interfaz.
+        /// </summary>
         private static byte[] RenderInterface(int width, int height)
         {
             var target = new RenderTexture(width, height, 24);
             Camera camera = new GameObject("Camara de la captura").AddComponent<Camera>();
-            camera.clearFlags = CameraClearFlags.SolidColor;
-            camera.backgroundColor = UiFactory.Background;
+            camera.transform.position = new Vector3(0f, 10000f, 0f);
+            camera.nearClipPlane = 0.3f;
+            camera.farClipPlane = 20f;
+            camera.clearFlags = CameraClearFlags.Depth;
             camera.targetTexture = target;
             try
             {
@@ -318,6 +324,25 @@ namespace MistakesLife.Unity.Editor
                     {
                         UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)canvas.transform);
                     }
+                }
+
+                // Fondo de la interfaz y, encima, la casa en el hueco que le deja la pantalla.
+                RenderTexture.active = target;
+                GL.Clear(true, true, UiFactory.Background);
+                RenderTexture.active = null;
+                foreach (HomeScene home in UnityEngine.Object.FindObjectsByType<HomeScene>(FindObjectsSortMode.None))
+                {
+                    RectTransform? window = home.Viewport;
+                    if (window == null || !window.gameObject.activeInHierarchy)
+                    {
+                        continue;
+                    }
+
+                    var corners = new Vector3[4];
+                    window.GetWorldCorners(corners);
+                    Vector3 min = camera.WorldToScreenPoint(corners[0]);
+                    Vector3 max = camera.WorldToScreenPoint(corners[2]);
+                    home.RenderInto(target, new Rect(min.x, min.y, max.x - min.x, max.y - min.y));
                 }
 
                 camera.Render();

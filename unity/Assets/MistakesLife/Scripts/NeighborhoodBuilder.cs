@@ -198,7 +198,7 @@ namespace MistakesLife.Unity
             kit.Box("Puerta", new Vector3(x - 0.8f, 1.0f, z - (depth / 2f) - 0.02f), new Vector3(0.8f, 2.0f, 0.06f), new Color(0.45f, 0.32f, 0.22f));
             kit.Box("Ventana", new Vector3(x + 0.8f, 1.4f, z - (depth / 2f) - 0.02f), new Vector3(1.1f, 0.8f, 0.06f), new Color(0.62f, 0.80f, 0.92f));
 
-            Color roofColor = isPlayer ? UiFactory.Accent : level < 35 ? new Color(0.62f, 0.64f, 0.66f) : new Color(0.66f, 0.32f, 0.24f);
+            Color roofColor = isPlayer ? UiFactory.PlayerFigure : level < 35 ? new Color(0.62f, 0.64f, 0.66f) : new Color(0.66f, 0.32f, 0.24f);
             if (level < 35)
             {
                 kit.Box("Techo de zinc", new Vector3(x, height + 0.08f, z), new Vector3(width + 0.4f, 0.16f, depth + 0.4f), roofColor);

@@ -34,6 +34,12 @@ namespace MistakesLife.Unity
         public static readonly Color MutedInk = Hex(0xC3CBDD);
 
         /// <summary>Amarillo del jugador (#F5C842): solo lo tuyo (tu botón principal, lo que elegiste).</summary>
+        /// <summary>
+        /// Color del jugador en la maqueta 3D (polera y techo de su casa). Es aparte del amarillo
+        /// de la interfaz para que cambiar los colores de las pantallas no cambie la escena.
+        /// </summary>
+        public static readonly Color PlayerFigure = new Color(0.20f, 0.45f, 0.55f);
+
         public static readonly Color Accent = Hex(0xF5C842);
 
         /// <summary>Texto sobre el amarillo: la noche, para que se lea.</summary>
