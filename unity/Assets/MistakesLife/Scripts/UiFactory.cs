@@ -249,7 +249,8 @@ namespace MistakesLife.Unity
             layout.childControlWidth = true;
             layout.childControlHeight = true;
             layout.childForceExpandWidth = true;
-            layout.childForceExpandHeight = false;
+            // El texto ocupa todo el alto del botón, así queda centrado también de arriba abajo.
+            layout.childForceExpandHeight = true;
             rect.gameObject.AddComponent<LayoutElement>().minHeight = Mathf.Max(minHeight, MinButtonHeight);
 
             TextMeshProUGUI label = Label(rect, text, fontSize, textColor, FontStyles.Bold);
