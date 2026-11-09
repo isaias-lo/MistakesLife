@@ -81,6 +81,36 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void Plantar_ConTestigo_DiceQuienLoVaANotarSinAplicarNada()
+        {
+            World world = NewWorld();
+            new WeekCycle().AdvanceWeeks(world, 20 * GameDate.WeeksPerYear);
+            var scope = new EventScope(world, Content, world.Player, null, readOnly: true);
+            Effect plant = Effect.Parse("plantar('semilla.presto_plata_amigo', jugador.amigo)");
+
+            // Sin amigo todavía: el testigo es "nada".
+            Assert.True(plant.PlantsSeed);
+            Assert.Equal(ValueKind.Null, Assert.Single(plant.Witnesses(scope)).Kind);
+
+            Run(world, "jugador.conocer('amistad')");
+            Assert.Equal(ValueKind.Object, Assert.Single(plant.Witnesses(scope)).Kind);
+            Assert.DoesNotContain(world.Seeds.All, seed => seed.TypeId == "semilla.presto_plata_amigo");
+        }
+
+        [Fact]
+        public void Efecto_SinPlantar_NoSeRecuerdaNiTieneTestigos()
+        {
+            World world = NewWorld();
+            var scope = new EventScope(world, Content, world.Player, null, readOnly: true);
+
+            Effect effect = Effect.Parse("jugador.felicidad -= 5");
+            Assert.False(effect.PlantsSeed);
+            Assert.Empty(effect.Witnesses(scope));
+            Assert.True(Effect.Parse("plantar('semilla.presto_plata_amigo')").PlantsSeed);
+            Assert.Empty(Effect.Parse("plantar('semilla.presto_plata_amigo')").Witnesses(scope));
+        }
+
+        [Fact]
         public void Conocer_Amistad_CreaUnAmigoDelMismoLugarYEdadParecida()
         {
             World world = NewWorld();

@@ -33,6 +33,9 @@ namespace MistakesLife.Unity
         /// <summary>Cuánto se estiran los fondos de la barra y la hoja fuera de la pantalla.</summary>
         private const float Beyond = 400f;
 
+        /// <summary>Cuánto demora la carta del evento en subir.</summary>
+        private const float SlideSeconds = 0.35f;
+
         /// <summary>Ancho de los botones Casa, Barrio y Trabajo (angostos, para tapar poco la pieza).</summary>
         private const float ViewSwitchWidth = 180f;
 
@@ -50,6 +53,12 @@ namespace MistakesLife.Unity
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
         private float _sheetWidth;
+        private RectTransform _sheet = null!;
+
+        // La carta del evento sube desde abajo: cuándo empezó a subir (o -1 si está quieta)
+        // y de qué evento es, para animar solo cuando llega uno nuevo.
+        private float _slideStart = -1f;
+        private EventView? _shownEvent;
 
         /// <summary>Lo que pasó en el último toque (tiempo y cambios), o null si no hay nada que contar.</summary>
         private StepSummary? _lastStep;
@@ -255,6 +264,7 @@ namespace MistakesLife.Unity
             // La hoja de abajo, oscura para leer encima del 3D.
             RectTransform sheet = UiFactory.Column(page, "Hoja", 28, 16);
             Backdrop(sheet, UiFactory.Background, 0f, Beyond);
+            _sheet = sheet;
             // La hoja mide lo que tiene: todo el alto que sobra es para el 3D.
             sheet.gameObject.AddComponent<LayoutElement>().flexibleHeight = 0;
             _summary = UiFactory.Column(sheet, "Lo que paso", 0, 6);
@@ -510,6 +520,31 @@ namespace MistakesLife.Unity
             {
                 FitSheet();
             }
+
+            Slide();
+        }
+
+        /// <summary>
+        /// La hoja con la carta sube desde abajo en un tercio de segundo, frenando al final.
+        /// Solo mueve el dibujo: el orden de la pantalla la vuelve a poner en su lugar.
+        /// </summary>
+        private void Slide()
+        {
+            if (_slideStart < 0f || _sheet == null)
+            {
+                return;
+            }
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_page);
+            float t = Mathf.Clamp01((UnityEngine.Time.unscaledTime - _slideStart) / SlideSeconds);
+            float eased = 1f - ((1f - t) * (1f - t) * (1f - t));
+            Vector2 position = _sheet.anchoredPosition;
+            position.y -= (1f - eased) * _sheet.rect.height;
+            _sheet.anchoredPosition = position;
+            if (t >= 1f)
+            {
+                _slideStart = -1f;
+            }
         }
 
         /// <summary>Lo que va en la hoja: la semana (diario, estado y tus cosas), el evento, el legado o el final.</summary>
@@ -520,6 +555,11 @@ namespace MistakesLife.Unity
             {
                 DrawMoments(presenter);
                 return;
+            }
+
+            if (life.Phase != LifePhase.Choosing)
+            {
+                _shownEvent = null;
             }
 
             switch (life.Phase)
@@ -693,12 +733,41 @@ namespace MistakesLife.Unity
         private void DrawEventCard(LifePresenter presenter, LifeSnapshot life)
         {
             EventView pending = life.PendingEvent!;
+            if (_shownEvent == null || _shownEvent.EventId != pending.EventId || _shownEvent.Text != pending.Text)
+            {
+                // Llegó un evento nuevo: la carta sube desde abajo.
+                _slideStart = UnityEngine.Time.unscaledTime;
+            }
+
+            _shownEvent = pending;
+
             // El evento es una hoja de papel (docs/diseno-app.md, "Un momento").
             RectTransform card = UiFactory.Column(_sheetBody, "Evento", 36, 18, UiFactory.Paper);
 
+            // Arriba: la edad (y "MOMENTO CLAVE") a la izquierda y el sello "ESTO SE RECUERDA" a la derecha.
+            RectTransform head = UiFactory.Child(card, "Encabezado");
+            HorizontalLayoutGroup headRow = head.gameObject.AddComponent<HorizontalLayoutGroup>();
+            headRow.spacing = 16;
+            headRow.childAlignment = TextAnchor.MiddleLeft;
+            headRow.childControlWidth = true;
+            headRow.childControlHeight = true;
+            headRow.childForceExpandWidth = false;
+            headRow.childForceExpandHeight = false;
             string tag = pending.IsKeyMoment ? $"{life.AgeLabel} · {presenter.Text("ui.momento_clave")}" : life.AgeLabel;
-            UiFactory.Label(card, pending.IsKeyMoment ? tag.ToUpperInvariant() : tag, 34, pending.IsKeyMoment ? UiFactory.KeyInk : UiFactory.PaperMutedInk, FontStyles.Bold);
+            TextMeshProUGUI tagLabel = UiFactory.Label(head, pending.IsKeyMoment ? tag.ToUpperInvariant() : tag, 34, pending.IsKeyMoment ? UiFactory.KeyInk : UiFactory.PaperMutedInk, FontStyles.Bold);
+            tagLabel.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+            if (pending.Remembered)
+            {
+                Stamp(head, presenter.Text("ui.evento.se_recuerda").ToUpperInvariant());
+            }
+
             UiFactory.Label(card, pending.Text, 44, UiFactory.PaperInk, FontStyles.Normal, Face.Title);
+            if (pending.Watching != null)
+            {
+                // Los testigos de lo que hiciste antes: están aquí, mirando.
+                UiFactory.Label(card, pending.Watching, UiFactory.MinFontSize, UiFactory.KeyInk, FontStyles.Italic);
+            }
+
             for (int i = 0; i < pending.Options.Count; i++)
             {
                 int option = i;
@@ -706,9 +775,33 @@ namespace MistakesLife.Unity
                 // Después de volver al pasado, la opción de la otra vez se marca como intuición.
                 bool intuition = pending.IntuitionOption == i;
                 string text = intuition ? presenter.Text("ui.intuicion", pending.Options[i]) : pending.Options[i];
+                string noticed = pending.NoticedBy[i];
+                if (noticed.Length > 0)
+                {
+                    // Debajo, más chico: quién lo va a notar si eliges esto.
+                    text += $"\n<size=80%><i>{noticed}</i></size>";
+                }
+
                 Button button = UiFactory.MakeButton(card, text, intuition ? UiFactory.Accent : UiFactory.PaperOption, intuition ? UiFactory.AccentText : UiFactory.PaperInk, () => Choose(option));
-                button.GetComponentInChildren<TextMeshProUGUI>().alignment = TextAlignmentOptions.Left;
+                TextMeshProUGUI label = button.GetComponentInChildren<TextMeshProUGUI>();
+                label.alignment = TextAlignmentOptions.Left;
+                label.richText = true;
             }
+        }
+
+        /// <summary>El sello "ESTO SE RECUERDA": un timbre rojo, un poco chueco, como puesto a mano.</summary>
+        private static void Stamp(RectTransform parent, string text)
+        {
+            RectTransform stamp = UiFactory.Child(parent, "Sello");
+            UiFactory.RoundedImage(stamp.gameObject, UiFactory.KeyInk);
+            HorizontalLayoutGroup inner = stamp.gameObject.AddComponent<HorizontalLayoutGroup>();
+            inner.padding = new RectOffset(16, 16, 8, 8);
+            inner.childControlWidth = true;
+            inner.childControlHeight = true;
+            inner.childForceExpandWidth = false;
+            inner.childForceExpandHeight = false;
+            UiFactory.Label(stamp, text, 28, UiFactory.Paper, FontStyles.Bold);
+            stamp.localRotation = Quaternion.Euler(0f, 0f, 4f);
         }
 
         /// <summary>Una persona en una línea: relación, nombre, edad y, si está viva, cómo está la relación.</summary>

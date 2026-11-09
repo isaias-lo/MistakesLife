@@ -22,7 +22,7 @@ namespace MistakesLife.Core.Events
     public sealed class EventScope : IScriptScope
     {
         public const string SeedFunction = "semilla";
-        public const string PlantFunction = "plantar";
+        public const string PlantFunction = Effect.PlantFunction;
         public const string JournalFunction = "diario";
         public const string StudyFunction = "estudiar";
         public const string IfFunction = "si";
