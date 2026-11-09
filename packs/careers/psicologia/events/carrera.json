@@ -223,7 +223,9 @@
     "id": "evento.psicologia.agotamiento",
     "condiciones": "jugador.tiene('trabaja_psicologia') && jugador.tiene('trabajando')",
     "peso": 6,
-    "enfriamiento_semanas": 52,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 9,
+    "variantes": ["evento.psicologia.agotamiento.2", "evento.psicologia.agotamiento.3"],
     "opciones": [
       {
         "texto": "opcion.psicologia.agotamiento.apoyo",

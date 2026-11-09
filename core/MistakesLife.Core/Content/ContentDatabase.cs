@@ -393,6 +393,16 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, "enfriamiento_semanas no puede ser negativo."));
                 }
 
+                if (ev.MaxTimes.HasValue && ev.MaxTimes <= 0)
+                {
+                    _errors.Add(new ContentError(where, "veces_maximas debe ser mayor que 0."));
+                }
+
+                if (ev.Variants.Any(string.IsNullOrWhiteSpace) || ev.AllTextKeys.Distinct().Count() != ev.Variants.Count + 1)
+                {
+                    _errors.Add(new ContentError(where, "las variantes no pueden estar vacías ni repetir el texto principal u otra variante."));
+                }
+
                 if (ev.SeedType != null)
                 {
                     if (_seedTypes.TryGetValue(ev.SeedType, out SeedTypeDefinition? seedType))
@@ -1212,7 +1222,10 @@ namespace MistakesLife.Core.Content
             foreach (EventDefinition ev in _events.Values)
             {
                 string where = $"evento {ev.Id}";
-                yield return new KeyValuePair<string, string>(ev.ResolvedTextKey, where);
+                foreach (string key in ev.AllTextKeys)
+                {
+                    yield return new KeyValuePair<string, string>(key, where);
+                }
                 foreach (EventOptionDefinition option in ev.Options)
                 {
                     yield return new KeyValuePair<string, string>(option.TextKey, where);

@@ -18,6 +18,21 @@ namespace MistakesLife.Core.Content
         [JsonProperty("texto")]
         public string? TextKey { get; set; }
 
+        /// <summary>
+        /// Otras formas de contar la escena cuando el evento vuelve a pasar (claves de texto).
+        /// La primera vez se usa <see cref="TextKey"/>; la segunda, la primera variante; y así.
+        /// Cuando se acaban, se vuelve a empezar. Así un evento que se repite no se lee igual.
+        /// </summary>
+        [JsonProperty("variantes")]
+        public List<string> Variants { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Cuántas veces como máximo puede pasar en la vida del personaje (null = sin tope).
+        /// "unico": true es lo mismo que 1.
+        /// </summary>
+        [JsonProperty("veces_maximas")]
+        public int? MaxTimes { get; set; }
+
         /// <summary>Cuándo puede pasar (lenguaje de condiciones). Opcional.</summary>
         [JsonProperty("condiciones")]
         public string? Conditions { get; set; }
@@ -90,6 +105,35 @@ namespace MistakesLife.Core.Content
 
         [JsonIgnore]
         public string ResolvedTextKey => string.IsNullOrEmpty(TextKey) ? Id : TextKey!;
+
+        /// <summary>Todas las formas de contar la escena: la principal y sus variantes, en orden.</summary>
+        [JsonIgnore]
+        public IEnumerable<string> AllTextKeys
+        {
+            get
+            {
+                yield return ResolvedTextKey;
+                foreach (string variant in Variants)
+                {
+                    yield return variant;
+                }
+            }
+        }
+
+        /// <summary>
+        /// La clave del texto que toca mostrar, según cuántas veces le pasó antes
+        /// al personaje (0 = es la primera vez).
+        /// </summary>
+        public string TextKeyFor(int timesBefore)
+        {
+            if (Variants.Count == 0 || timesBefore <= 0)
+            {
+                return ResolvedTextKey;
+            }
+
+            int index = timesBefore % (Variants.Count + 1);
+            return index == 0 ? ResolvedTextKey : Variants[index - 1];
+        }
 
         [JsonIgnore]
         public Expression? CompiledConditions { get; set; }

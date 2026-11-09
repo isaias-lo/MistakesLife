@@ -47,15 +47,16 @@
     "id": "evento.juntarse_con_amigos",
     "condiciones": "jugador.amigo != nada && jugador.edad >= 12",
     "probabilidad_anual": 0.6,
-    "enfriamiento_semanas": 13,
+    "enfriamiento_semanas": 52,
+    "variantes": ["evento.juntarse_con_amigos.2", "evento.juntarse_con_amigos.3", "evento.juntarse_con_amigos.4", "evento.juntarse_con_amigos.5", "evento.juntarse_con_amigos.6"],
     "opciones": [
       {
         "texto": "opcion.juntarse_con_amigos.ir",
         "tendencia": "jugador.extraversion",
         "efectos": [
-          "jugador.amigo.carino += 5",
-          "jugador.amigo.confianza += 2",
-          "jugador.felicidad += 3",
+          "jugador.amigo.carino += 10",
+          "jugador.amigo.confianza += 4",
+          "jugador.felicidad += 6",
           "jugador.dinero -= si(jugador.edad >= 18, precio(10000), 0)"
         ]
       },
@@ -63,7 +64,7 @@
         "texto": "opcion.juntarse_con_amigos.no_ir",
         "tendencia": "(100 - jugador.extraversion) / 2",
         "efectos": [
-          "jugador.amigo.carino -= 2"
+          "jugador.amigo.carino -= 4"
         ]
       }
     ]
@@ -289,15 +290,16 @@
     "id": "evento.visitar_mama",
     "condiciones": "jugador.edad >= 20 && jugador.madre != nada && jugador.madre.vivo && jugador.madre.edad >= 50",
     "probabilidad_anual": 0.4,
-    "enfriamiento_semanas": 26,
+    "enfriamiento_semanas": 52,
+    "variantes": ["evento.visitar_mama.2", "evento.visitar_mama.3", "evento.visitar_mama.4"],
     "opciones": [
       {
         "texto": "opcion.visitar_mama.ir",
         "tendencia": "jugador.amabilidad",
         "efectos": [
-          "jugador.madre.carino += 5",
+          "jugador.madre.carino += 8",
           "jugador.madre.rencor -= 3",
-          "jugador.felicidad += 2"
+          "jugador.felicidad += 3"
         ]
       },
       {
@@ -314,15 +316,16 @@
     "id": "evento.visitar_papa",
     "condiciones": "jugador.edad >= 20 && jugador.padre != nada && jugador.padre.vivo && jugador.padre.edad >= 50",
     "probabilidad_anual": 0.3,
-    "enfriamiento_semanas": 26,
+    "enfriamiento_semanas": 52,
+    "variantes": ["evento.visitar_papa.2", "evento.visitar_papa.3", "evento.visitar_papa.4"],
     "opciones": [
       {
         "texto": "opcion.visitar_papa.ir",
         "tendencia": "jugador.amabilidad",
         "efectos": [
-          "jugador.padre.carino += 5",
+          "jugador.padre.carino += 8",
           "jugador.padre.rencor -= 3",
-          "jugador.felicidad += 2"
+          "jugador.felicidad += 3"
         ]
       },
       {
@@ -340,6 +343,8 @@
     "condiciones": "jugador.pareja != nada && jugador.meses_en_rojo >= 2",
     "probabilidad_anual": 0.6,
     "enfriamiento_semanas": 26,
+    "veces_maximas": 9,
+    "variantes": ["evento.discusion_plata_pareja.2", "evento.discusion_plata_pareja.3"],
     "opciones": [
       {
         "texto": "opcion.discusion_plata_pareja.conversar",
@@ -365,7 +370,8 @@
     "id": "evento.detalle_pareja",
     "condiciones": "jugador.pareja != nada",
     "probabilidad_anual": 0.4,
-    "enfriamiento_semanas": 26,
+    "enfriamiento_semanas": 52,
+    "variantes": ["evento.detalle_pareja.2", "evento.detalle_pareja.3", "evento.detalle_pareja.4"],
     "opciones": [
       {
         "texto": "opcion.detalle_pareja.sorprender",
@@ -374,7 +380,7 @@
           "jugador.pareja.carino += 5",
           "jugador.pareja.rencor -= 5",
           "jugador.dinero -= precio(20000)",
-          "jugador.felicidad += 2"
+          "jugador.felicidad += 3"
         ]
       },
       {

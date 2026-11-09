@@ -51,5 +51,21 @@
   "opcion.ex_escribe.responder": "Le respondes y conversan un rato.",
   "opcion.ex_escribe.ignorar": "Lo dejas en visto.",
   "diario.amigo_se_alejo": "Perdí a un amigo. No hubo una pelea: simplemente dejamos de hablarnos.",
-  "diario.pareja_se_fue": "Mi pareja se fue. Ya no aguantaba más."
+  "diario.pareja_se_fue": "Mi pareja se fue. Ya no aguantaba más.",
+  "evento.juntarse_con_amigos.2": "Un amigo arma un asado en su casa para ver el partido y te pregunta si vas.",
+  "evento.juntarse_con_amigos.3": "Te invitan a una cena larga, de esas que terminan a medianoche conversando de la vida.",
+  "evento.juntarse_con_amigos.4": "Hace semanas que no ves a tus amigos. Alguien propone en el grupo salir a comer algo el viernes.",
+  "evento.detalle_pareja.2": "Tu pareja anda cansada y desanimada esta semana. Un gesto tuyo le cambiaría el día.",
+  "evento.detalle_pareja.3": "Este fin de semana es el cumpleaños de tu pareja.",
+  "evento.visitar_mama.2": "Tu mamá te manda una foto de cuando eras bebé y te pregunta si vas a ir el domingo.",
+  "evento.visitar_mama.3": "Tu mamá te cuenta que anda con dolor de rodilla y que le cuesta hacer las compras sola.",
+  "evento.visitar_papa.2": "Tu papá te llama para contarte un chiste malo. Al final te dice que te echa de menos.",
+  "evento.visitar_papa.3": "Es el cumpleaños de tu papá. Dice que no quiere celebrar nada, pero se nota que le gustaría verte.",
+  "evento.discusion_plata_pareja.2": "Llega el estado de cuenta de la tarjeta y tu pareja lo deja encima de la mesa sin decir nada.",
+  "evento.discusion_plata_pareja.3": "Tu pareja quiere salir de vacaciones, pero tú sabes que no alcanza. La conversación se pone tensa.",
+  "evento.juntarse_con_amigos.5": "Un amigo se cambia de casa y pide ayuda con la mudanza. Promete pizza y cerveza al final.",
+  "evento.juntarse_con_amigos.6": "Alguien del grupo está de cumpleaños y arman una sorpresa en un bar del centro.",
+  "evento.visitar_mama.4": "Tu mamá cocinó tu comida favorita y te pregunta si pasas a buscar un poco o te quedas a almorzar.",
+  "evento.visitar_papa.4": "Tu papá necesita ayuda para arreglar algo en la casa y no quiere pedírselo a nadie más.",
+  "evento.detalle_pareja.4": "Tu pareja tuvo una semana terrible en el trabajo y llega a la casa sin ganas de hablar."
 }

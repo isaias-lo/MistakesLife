@@ -165,6 +165,7 @@
     "condiciones": "jugador.edad >= 9 && jugador.edad < 18",
     "peso": 8,
     "enfriamiento_semanas": 52,
+    "variantes": ["evento.prueba_dificil.2", "evento.prueba_dificil.3"],
     "opciones": [
       {
         "texto": "opcion.prueba.estudiar",
@@ -237,7 +238,7 @@
     "id": "evento.temblor",
     "condiciones": "jugador.edad >= 3 && jugador.edad < 18",
     "probabilidad_anual": 0.15,
-    "enfriamiento_semanas": 52,
+    "enfriamiento_semanas": 104,
     "efectos": [
       "jugador.felicidad -= 1",
       "diario('diario.temblor')"
@@ -247,7 +248,9 @@
     "id": "evento.temblor_adulto",
     "condiciones": "jugador.edad >= 18",
     "probabilidad_anual": 0.15,
-    "enfriamiento_semanas": 52,
+    "enfriamiento_semanas": 156,
+    "veces_maximas": 9,
+    "variantes": ["evento.temblor_adulto.2", "evento.temblor_adulto.3"],
     "opciones": [
       {
         "texto": "opcion.temblor_adulto.salir",
@@ -669,19 +672,20 @@
     "id": "evento.fiestas_patrias",
     "condiciones": "jugador.edad >= 4",
     "probabilidad_anual": 0.35,
-    "enfriamiento_semanas": 52,
+    "enfriamiento_semanas": 156,
+    "variantes": ["evento.fiestas_patrias.2", "evento.fiestas_patrias.3"],
     "opciones": [
       {
         "texto": "opcion.dieciocho.fonda",
         "efectos": [
-          "jugador.felicidad += 2",
+          "jugador.felicidad += 3",
           "jugador.salud -= 1"
         ]
       },
       {
         "texto": "opcion.dieciocho.asado",
         "efectos": [
-          "jugador.felicidad += 2"
+          "jugador.felicidad += 3"
         ]
       },
       {
@@ -883,7 +887,8 @@
     "id": "evento.temporal_lluvia",
     "condiciones": "jugador.edad >= 6",
     "probabilidad_anual": 0.25,
-    "enfriamiento_semanas": 52,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 5,
     "efectos": [
       "jugador.salud -= 1",
       "diario('diario.temporal_lluvia')"

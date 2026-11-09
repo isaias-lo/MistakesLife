@@ -41,5 +41,7 @@
   "opcion.psicologia.reclamo.asumir": "Asumes el error y pides disculpas.",
   "opcion.psicologia.reclamo.negar": "Dices que nunca contaste nada.",
   "evento.psicologia.paciente_agradecido": "En la feria, una señora te detiene: era tu paciente del CESFAM. Te dice que esas sesiones le cambiaron la vida.",
-  "diario.psicologia.paciente_agradecido": "Una ex paciente me dio las gracias en la feria. Por esto estudié psicología."
+  "diario.psicologia.paciente_agradecido": "Una ex paciente me dio las gracias en la feria. Por esto estudié psicología.",
+  "evento.psicologia.agotamiento.2": "Un paciente te cuenta algo muy duro y esa noche no puedes dormir pensando en eso.",
+  "evento.psicologia.agotamiento.3": "Te das cuenta de que ya no disfrutas tu trabajo como antes: escuchar a otros todo el día te está pasando la cuenta."
 }

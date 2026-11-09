@@ -30,6 +30,7 @@ Fuentes de verdad (léelas antes de decisiones de diseño):
 7. **Sin textos para el jugador en código ni en paquetes.** Usa claves (`opcion.reconocer_error`); las frases van en tablas de idioma. Idiomas de inicio: español (variantes de Chile y Argentina), inglés, portugués de Brasil.
 8. **Guardado versionado.** Si cambias cómo se guarda una partida, sube `CoreInfo.SaveFormatVersion` y agrega su migración en `core/MistakesLife.Core/Saving/SaveMigrations.cs`. Si agregas un dato al personaje o al mundo, guárdalo también en `Saving/WorldWriter.cs` y `Saving/WorldReader.cs` (la prueba `DatosNuevosDelPersonajeODelMundo_ObliganARevisarElGuardado` te lo recuerda).
 9. **Primero local, después nube.** El juego funciona completo sin internet.
+10. **Toda decisión que se pueda ver, se ve en 3D.** Si agregas algo al juego (un sistema, un evento, una marca) que se pueda mostrar con un objeto en la escena 3D, agrégale su objeto: una línea en `packs/*/scene/*.json` con su condición y su forma en `unity/.../SceneObjectBuilder.cs` (ver "Objetos de la escena" en `docs/content-language.md`). Así la escena se mantiene viva con las decisiones del jugador.
 
 ## Convenciones de código
 
