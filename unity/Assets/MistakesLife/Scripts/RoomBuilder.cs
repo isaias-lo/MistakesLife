@@ -187,7 +187,7 @@ namespace MistakesLife.Unity
                 new Color(0.25f, 0.18f, 0.12f), new Color(0.12f, 0.10f, 0.09f), new Color(0.45f, 0.28f, 0.16f),
                 new Color(0.62f, 0.48f, 0.32f), new Color(0.38f, 0.16f, 0.10f),
             };
-            Color hair = member.Stage == LifeStage.Elder ? new Color(0.85f, 0.85f, 0.85f) : hairs[Mathf.Abs(member.Id) % hairs.Length];
+            Color hair = member.Stage == LifeStage.Elder ? new Color(0.76f, 0.76f, 0.76f) : hairs[Mathf.Abs(member.Id) % hairs.Length];
 
             // Como un juguete: mientras más chico, más grande la cabeza.
             float head = height * (member.Stage switch
