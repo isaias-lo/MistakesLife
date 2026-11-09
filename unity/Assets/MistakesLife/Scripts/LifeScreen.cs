@@ -30,6 +30,9 @@ namespace MistakesLife.Unity
         /// <summary>Alto máximo de lo que va en la hoja de abajo; si es más largo, tiene scroll.</summary>
         private const float MaxSheetBody = 860f;
 
+        /// <summary>Cuánto se estiran los fondos de la barra y la hoja fuera de la pantalla.</summary>
+        private const float Beyond = 400f;
+
         private readonly List<JournalLine> _journal = new List<JournalLine>();
 
         /// <summary>Las líneas del diario que trajo el último paso (las más nuevas primero).</summary>
@@ -42,6 +45,8 @@ namespace MistakesLife.Unity
         private StartMenu? _menu;
         private Tutorial? _tutorial;
         private RectTransform _safe = null!;
+        private RectTransform _page = null!;
+        private float _sheetWidth;
 
         /// <summary>Lo que pasó en el último toque (tiempo y cambios), o null si no hay nada que contar.</summary>
         private StepSummary? _lastStep;
@@ -229,8 +234,10 @@ namespace MistakesLife.Unity
             _safe = safe;
             UiFactory.Stretch(safe);
             safe.gameObject.AddComponent<SafeArea>();
-            RectTransform page = UiFactory.Column(safe, "Pagina", 24, 16);
+            // La barra y la hoja llegan a los bordes: así no queda un marco de cielo alrededor.
+            RectTransform page = UiFactory.Column(safe, "Pagina", 0, 0);
             UiFactory.Stretch(page);
+            _page = page;
 
             BuildTopBar(page);
 
@@ -243,7 +250,8 @@ namespace MistakesLife.Unity
             BuildViewSwitch(focus);
 
             // La hoja de abajo, oscura para leer encima del 3D.
-            RectTransform sheet = UiFactory.Column(page, "Hoja", 28, 16, Translucent(UiFactory.Background, 0.94f));
+            RectTransform sheet = UiFactory.Column(page, "Hoja", 28, 16);
+            Backdrop(sheet, UiFactory.Background, 0f, Beyond);
             _summary = UiFactory.Column(sheet, "Lo que paso", 0, 6);
             _sheetBody = UiFactory.ScrollColumn(sheet, "Cuerpo", 0, 16);
             RectTransform scroll = (RectTransform)_sheetBody.parent!.parent!;
@@ -259,9 +267,9 @@ namespace MistakesLife.Unity
         private void BuildTopBar(RectTransform page)
         {
             RectTransform top = UiFactory.Child(page, "Arriba");
-            UiFactory.RoundedImage(top.gameObject, Translucent(UiFactory.Card, 0.92f));
+            Backdrop(top, UiFactory.Card, Beyond, 0f);
             HorizontalLayoutGroup row = top.gameObject.AddComponent<HorizontalLayoutGroup>();
-            row.padding = new RectOffset(20, 20, 20, 20);
+            row.padding = new RectOffset(24, 24, 20, 20);
             row.spacing = 20;
             row.childAlignment = TextAnchor.MiddleLeft;
             row.childControlWidth = true;
@@ -305,7 +313,7 @@ namespace MistakesLife.Unity
             buttons.anchorMin = new Vector2(1f, 1f);
             buttons.anchorMax = new Vector2(1f, 1f);
             buttons.pivot = new Vector2(1f, 1f);
-            buttons.anchoredPosition = new Vector2(-4f, -4f);
+            buttons.anchoredPosition = new Vector2(-16f, -16f);
             VerticalLayoutGroup column = buttons.gameObject.AddComponent<VerticalLayoutGroup>();
             column.spacing = 8;
             column.childControlWidth = true;
@@ -318,16 +326,18 @@ namespace MistakesLife.Unity
             SizeViewSwitch(3);
 
             RectTransform place = UiFactory.Child(window, "Lugar");
-            // A lo ancho del hueco y con espacio para dos líneas: empresa y cargo juntos son largos.
-            place.anchorMin = Vector2.zero;
-            place.anchorMax = new Vector2(1f, 0f);
-            place.pivot = new Vector2(0.5f, 0f);
-            place.anchoredPosition = new Vector2(0f, 4f);
-            place.sizeDelta = new Vector2(-8f, 100f);
+            // Arriba a la izquierda, al lado de los botones, para no tapar el piso de la pieza.
+            // Tiene espacio para dos líneas: empresa y cargo juntos son largos.
+            place.anchorMin = new Vector2(0f, 1f);
+            place.anchorMax = new Vector2(1f, 1f);
+            place.pivot = new Vector2(0f, 1f);
+            place.offsetMin = new Vector2(16f, -116f);
+            place.offsetMax = new Vector2(-252f, -16f);
             UiFactory.RoundedImage(place.gameObject, Translucent(UiFactory.Background, 0.85f));
             _placeLabel = UiFactory.Label(place, string.Empty, UiFactory.MinFontSize, UiFactory.Ink, FontStyles.Bold);
             UiFactory.Stretch(_placeLabel.rectTransform);
             _placeLabel.alignment = TextAlignmentOptions.Center;
+            _placeLabel.margin = new Vector4(12f, 4f, 12f, 4f);
             // Si no cabe en dos líneas, termina en "..." en vez de achicar la letra bajo el mínimo.
             _placeLabel.overflowMode = TextOverflowModes.Ellipsis;
             PaintViewSwitch();
@@ -367,6 +377,22 @@ namespace MistakesLife.Unity
             {
                 DrawHistory(_presenter, _presenter.Snapshot());
             }
+        }
+
+        /// <summary>
+        /// Fondo liso de la barra o de la hoja, que se estira hacia afuera de la pantalla
+        /// (arriba o abajo) para tapar también las zonas del notch y de la barra del teléfono.
+        /// </summary>
+        private static void Backdrop(RectTransform target, Color color, float up, float down)
+        {
+            RectTransform back = UiFactory.Child(target, "Fondo");
+            back.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
+            back.gameObject.AddComponent<Image>().color = color;
+            back.anchorMin = Vector2.zero;
+            back.anchorMax = Vector2.one;
+            back.offsetMin = new Vector2(-Beyond, -down);
+            back.offsetMax = new Vector2(Beyond, up);
+            back.SetAsFirstSibling();
         }
 
         private static Color Translucent(Color color, float alpha)
@@ -426,7 +452,8 @@ namespace MistakesLife.Unity
 
             LifeSnapshot life = presenter.Snapshot();
             _name.text = $"{life.PlayerName}, {life.AgeLabel}";
-            _details.text = $"{life.DateLabel} · {life.Place}";
+            // La fecha y el lugar en dos líneas, para que el lugar no se corte a la mitad.
+            _details.text = $"{life.DateLabel}\n{life.Place}";
             _initial.text = life.PlayerName.Length > 0 ? life.PlayerName.Substring(0, 1) : string.Empty;
             _menuButton.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.boton.menu");
 
@@ -460,10 +487,24 @@ namespace MistakesLife.Unity
         /// <summary>La hoja de abajo crece con lo que tiene, hasta un máximo; si es más, tiene scroll.</summary>
         private void FitSheet()
         {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_sheetBody);
+            // Primero se ordena la página entera, para que los textos sepan su ancho
+            // (sin ancho, cada palabra iría en su línea y la hoja saldría altísima).
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_page);
             float height = LayoutUtility.GetPreferredHeight(_sheetBody);
             _sheetSize.preferredHeight = Mathf.Min(height, MaxSheetBody);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_page);
             _sheetBody.anchoredPosition = Vector2.zero;
+            _sheetWidth = _sheetBody.rect.width;
+        }
+
+        /// <summary>Si cambia el ancho de la pantalla (girar, primer cuadro), la hoja se vuelve a medir.</summary>
+        private void LateUpdate()
+        {
+            if (_presenter != null && _sheetBody != null && Mathf.Abs(_sheetBody.rect.width - _sheetWidth) > 0.5f)
+            {
+                FitSheet();
+            }
         }
 
         /// <summary>Lo que va en la hoja: la semana (diario, estado y tus cosas), el evento, el legado o el final.</summary>
@@ -517,13 +558,38 @@ namespace MistakesLife.Unity
             State(states, presenter.Text("ui.mente"), presenter.StateWord("mente", life.Smarts));
 
             RectTransform things = Row(_sheetBody, "Tus cosas");
-            RectTransform money = UiFactory.Column(things, "Dinero", 16, 2, UiFactory.Card);
+            RectTransform money = UiFactory.Column(things, "Dinero", 0, 2);
             UiFactory.Label(money, presenter.Text("ui.dinero_titulo"), UiFactory.MinFontSize, UiFactory.MutedInk);
             UiFactory.Label(money, life.MoneyLabel, UiFactory.MinFontSize, UiFactory.Ink, FontStyles.Bold, Face.Mono);
             UiFactory.MakeButton(things, presenter.Text("ui.boton.tu_gente_diario"), UiFactory.Option, UiFactory.Ink, () => ShowHistory(true), UiFactory.MinFontSize, 0, 16);
             if (presenter.TimeTravel().CanGoBack)
             {
                 UiFactory.MakeButton(things, presenter.Text("ui.boton.volver_pasado"), UiFactory.Option, UiFactory.Ink, () => PickMoment(true), UiFactory.MinFontSize, 0, 16);
+            }
+            else
+            {
+                // Un hueco vacío, para que las tres columnas queden alineadas con las del estado.
+                UiFactory.Child(things, "Vacio");
+            }
+
+            Even(states);
+            Even(things);
+        }
+
+        /// <summary>Todas las cosas de la fila con el mismo ancho, como columnas.</summary>
+        private static void Even(RectTransform row)
+        {
+            for (int i = 0; i < row.childCount; i++)
+            {
+                GameObject item = row.GetChild(i).gameObject;
+                LayoutElement element = item.GetComponent<LayoutElement>();
+                if (element == null)
+                {
+                    element = item.AddComponent<LayoutElement>();
+                }
+                element.minWidth = 0;
+                element.preferredWidth = 0;
+                element.flexibleWidth = 1;
             }
         }
 
