@@ -36,9 +36,10 @@ namespace MistakesLife.Unity
         /// <summary>
         /// Cuánto se ve a lo ancho: el ancho que tenía la ventana 3D de antes (1016 x 560 con 30°
         /// de alto). Con la pantalla a lo alto se abre el ángulo vertical para que la pieza quepa
-        /// igual a lo ancho; en las capturas apaisadas queda exactamente como antes.
+        /// igual a lo ancho, un poco más cerca (sobraba cielo a los lados). En las capturas
+        /// apaisadas el ángulo no baja de 30°, así que quedan exactamente como antes.
         /// </summary>
-        private const float HalfWidthTan = 0.4849f;
+        private const float HalfWidthTan = 0.445f;
 
         /// <summary>El rectángulo de la interfaz donde se ve la casa.</summary>
         public RectTransform? Viewport

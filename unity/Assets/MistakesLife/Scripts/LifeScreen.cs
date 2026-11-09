@@ -33,6 +33,9 @@ namespace MistakesLife.Unity
         /// <summary>Cuánto se estiran los fondos de la barra y la hoja fuera de la pantalla.</summary>
         private const float Beyond = 400f;
 
+        /// <summary>Ancho de los botones Casa, Barrio y Trabajo (angostos, para tapar poco la pieza).</summary>
+        private const float ViewSwitchWidth = 180f;
+
         private readonly List<JournalLine> _journal = new List<JournalLine>();
 
         /// <summary>Las líneas del diario que trajo el último paso (las más nuevas primero).</summary>
@@ -252,6 +255,8 @@ namespace MistakesLife.Unity
             // La hoja de abajo, oscura para leer encima del 3D.
             RectTransform sheet = UiFactory.Column(page, "Hoja", 28, 16);
             Backdrop(sheet, UiFactory.Background, 0f, Beyond);
+            // La hoja mide lo que tiene: todo el alto que sobra es para el 3D.
+            sheet.gameObject.AddComponent<LayoutElement>().flexibleHeight = 0;
             _summary = UiFactory.Column(sheet, "Lo que paso", 0, 6);
             _sheetBody = UiFactory.ScrollColumn(sheet, "Cuerpo", 0, 16);
             RectTransform scroll = (RectTransform)_sheetBody.parent!.parent!;
@@ -332,7 +337,7 @@ namespace MistakesLife.Unity
             place.anchorMax = new Vector2(1f, 1f);
             place.pivot = new Vector2(0f, 1f);
             place.offsetMin = new Vector2(16f, -116f);
-            place.offsetMax = new Vector2(-252f, -16f);
+            place.offsetMax = new Vector2(-(ViewSwitchWidth + 32f), -16f);
             UiFactory.RoundedImage(place.gameObject, Translucent(UiFactory.Background, 0.85f));
             _placeLabel = UiFactory.Label(place, string.Empty, UiFactory.MinFontSize, UiFactory.Ink, FontStyles.Bold);
             UiFactory.Stretch(_placeLabel.rectTransform);
@@ -345,7 +350,7 @@ namespace MistakesLife.Unity
 
         private void SizeViewSwitch(int count)
         {
-            _viewButtons.sizeDelta = new Vector2(220f, (count * UiFactory.MinButtonHeight) + ((count - 1) * 8f));
+            _viewButtons.sizeDelta = new Vector2(ViewSwitchWidth, (count * UiFactory.MinButtonHeight) + ((count - 1) * 8f));
         }
 
         /// <summary>Tu gente y el diario completo: una hoja aparte, encima de todo, que se cierra con un botón.</summary>
@@ -751,7 +756,9 @@ namespace MistakesLife.Unity
             {
                 // Dos ritmos: una semana a la vez, o correr hasta que pase algo (como mucho un año).
                 RectTransform row = Row(_footer, "Avanzar");
-                row.GetComponent<HorizontalLayoutGroup>().childForceExpandWidth = false;
+                HorizontalLayoutGroup layout = row.GetComponent<HorizontalLayoutGroup>();
+                layout.childForceExpandWidth = false;
+                layout.childForceExpandHeight = false;
                 Button week = UiFactory.MakeButton(row, presenter.Text("ui.boton.una_semana"), UiFactory.Accent, UiFactory.AccentText, () => Advance(false));
                 week.GetComponent<LayoutElement>().flexibleWidth = 3;
                 Button jump = UiFactory.MakeButton(row, presenter.Text("ui.boton.seguir_viviendo"), UiFactory.Option, UiFactory.Ink, () => Advance(true));
