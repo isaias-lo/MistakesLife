@@ -1,6 +1,7 @@
 #nullable enable
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Events;
@@ -294,8 +295,8 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>
-        /// Dibuja la pantalla como en el celular y devuelve el PNG: primero la casa 3D en su
-        /// ventana y después todos los lienzos de la interfaz encima, con una cámara propia.
+        /// Dibuja la pantalla como en el celular y devuelve el PNG: todos los lienzos de la
+        /// interfaz con una cámara propia, y la casa 3D como imagen dentro de su ventana.
         /// Esa cámara se pone lejos de la maqueta para que los muebles no tapen la interfaz.
         /// </summary>
         private static byte[] RenderInterface(int width, int height)
@@ -305,8 +306,10 @@ namespace MistakesLife.Unity.Editor
             camera.transform.position = new Vector3(0f, 10000f, 0f);
             camera.nearClipPlane = 0.3f;
             camera.farClipPlane = 20f;
-            camera.clearFlags = CameraClearFlags.Depth;
+            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.backgroundColor = UiFactory.Background;
             camera.targetTexture = target;
+            var pictures = new List<Texture2D>();
             try
             {
                 foreach (Canvas canvas in UnityEngine.Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))
@@ -326,10 +329,8 @@ namespace MistakesLife.Unity.Editor
                     }
                 }
 
-                // Fondo de la interfaz y, encima, la casa en el hueco que le deja la pantalla.
-                RenderTexture.active = target;
-                GL.Clear(true, true, UiFactory.Background);
-                RenderTexture.active = null;
+                // La casa se dibuja aparte, del tamaño de su ventana, y se pone como imagen al fondo
+                // de esa ventana: así queda bajo los botones "Casa" y "Barrio", como en el celular.
                 foreach (HomeScene home in UnityEngine.Object.FindObjectsByType<HomeScene>(FindObjectsSortMode.None))
                 {
                     RectTransform? window = home.Viewport;
@@ -342,9 +343,18 @@ namespace MistakesLife.Unity.Editor
                     window.GetWorldCorners(corners);
                     Vector3 min = camera.WorldToScreenPoint(corners[0]);
                     Vector3 max = camera.WorldToScreenPoint(corners[2]);
-                    home.RenderInto(target, new Rect(min.x, min.y, max.x - min.x, max.y - min.y));
+                    int w = Mathf.Max(1, Mathf.RoundToInt(max.x - min.x));
+                    int h = Mathf.Max(1, Mathf.RoundToInt(max.y - min.y));
+                    Texture2D picture = home.RenderToTexture(w, h);
+                    pictures.Add(picture);
+
+                    RectTransform holder = UiFactory.Child(window, "Casa capturada");
+                    UiFactory.Stretch(holder);
+                    holder.SetAsFirstSibling();
+                    holder.gameObject.AddComponent<UnityEngine.UI.RawImage>().texture = picture;
                 }
 
+                Canvas.ForceUpdateCanvases();
                 camera.Render();
                 RenderTexture.active = target;
                 var image = new Texture2D(width, height, TextureFormat.RGB24, false);
@@ -357,6 +367,11 @@ namespace MistakesLife.Unity.Editor
             }
             finally
             {
+                foreach (Texture2D picture in pictures)
+                {
+                    UnityEngine.Object.DestroyImmediate(picture);
+                }
+
                 camera.targetTexture = null;
                 UnityEngine.Object.DestroyImmediate(camera.gameObject);
                 target.Release();

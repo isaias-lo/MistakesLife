@@ -164,24 +164,6 @@ namespace MistakesLife.Unity
             return image;
         }
 
-        /// <summary>
-        /// Dibuja la vista actual dentro de un rectángulo (en píxeles) de una imagen que ya
-        /// tiene otras cosas. Lo usan las capturas de la pantalla completa.
-        /// </summary>
-        public void RenderInto(RenderTexture target, Rect pixels)
-        {
-            // Se usa el rectángulo en proporciones (0 a 1) de la imagen: en el editor sin
-            // pantalla, los píxeles se medirían contra otra pantalla y la casa la llenaría entera.
-            Rect previous = _camera.rect;
-            _camera.targetTexture = target;
-            _camera.rect = new Rect(pixels.x / target.width, pixels.y / target.height, pixels.width / target.width, pixels.height / target.height);
-            _camera.ResetAspect();
-            _camera.Render();
-            _camera.targetTexture = null;
-            _camera.rect = previous;
-            _camera.ResetAspect();
-        }
-
         private void LateUpdate()
         {
             if (_viewport == null)
