@@ -1,0 +1,12 @@
+{
+  "evento.desalojo": "Llevas meses sin que te alcance para el arriendo y las cuentas. El dueño te dio plazo hasta fin de mes para irte.",
+  "opcion.desalojo.volver_familia": "Vuelves a la casa de tu familia mientras te ordenas.",
+  "opcion.desalojo.pieza": "Arriendas una pieza, más barata, en una casa compartida.",
+  "diario.desalojo.volver_familia": "Tuviste que dejar el lugar donde vivías y volver a la casa de tu familia. No es lo que soñabas, pero ahí no te falta un plato de comida.",
+  "diario.desalojo.pieza": "Te cambiaste a una pieza en una casa compartida. Es chica y el baño tiene fila, pero el arriendo ahora sí alcanza.",
+  "evento.dejar_la_pieza": "Las cuentas ya se ordenaron. Te ofrecen un departamento para ti solo, pero el arriendo es más del doble que la pieza.",
+  "opcion.dejar_la_pieza.arrendar": "Te cambias al departamento. Ya era hora de tener tu espacio.",
+  "opcion.dejar_la_pieza.ahorrar": "Te quedas en la pieza un tiempo más y ahorras la diferencia.",
+  "opcion.desalojo.allegado": "Te vas de allegado donde alguien que te tiende la mano, hasta que te pares de nuevo.",
+  "diario.desalojo.allegado": "Ahora vives de allegado, en la casa de alguien que te recibió. Duermes donde se puede y aportas con lo que tienes, pero tienes techo."
+}

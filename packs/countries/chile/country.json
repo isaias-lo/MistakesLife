@@ -128,10 +128,12 @@
     "gastos": {
       "edad_desde": 18,
       "felicidad_en_rojo": 1,
+      "cupo_deficit": 1500000,
+      "deuda_por_deficit": "deuda.chile.linea_credito",
       "categorias": [
-        { "id": "gasto.chile.arriendo", "monto": "arriendo()", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+        { "id": "gasto.chile.arriendo", "monto": "arriendo() * si(jugador.tiene('arrienda_pieza'), 0.4, 1)", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
         { "id": "gasto.chile.alimentacion", "monto": "160000 + 80000 * jugador.hijos_menores", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
-        { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+        { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.tiene('arrienda_pieza')", "compartido": true },
         { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.chile.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
         { "id": "gasto.chile.transporte", "monto": "45000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
@@ -174,6 +176,8 @@
         { "id": "deuda.chile.cae", "tasa_anual": 0.02, "cuotas": 180, "reajustable": true, "entrega_dinero": false, "se_extingue_al_morir": true,
           "condicion_pago": "jugador.estudia == nada" },
         { "id": "deuda.chile.consumo", "tasa_anual": 0.3, "cuotas": 36, "cuotas_repactacion": 48 },
+        { "id": "deuda.chile.linea_credito", "tasa_anual": 0.34, "cuotas": 1, "pago_minimo": 0.05, "pago_minimo_monto": 20000, "cuotas_repactacion": 36,
+          "se_paga_con_el_saldo": true },
         { "id": "deuda.chile.tarjeta", "tasa_anual": 0.4, "cuotas": 1, "pago_minimo": 0.05, "pago_minimo_monto": 20000,
           "entrega_dinero": false, "cuotas_repactacion": 36 }
       ]

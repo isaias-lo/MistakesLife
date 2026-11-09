@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Events;
@@ -12,13 +13,18 @@ namespace MistakesLife.Core.Economy
     /// Fase de sistemas, después de los sueldos: al empezar cada mes el jugador
     /// paga los gastos de su país ("economia.gastos") que le corresponden según
     /// su vida (con condiciones del lenguaje). Los gastos compartidos se dividen
-    /// con la pareja. Si el dinero queda en negativo, es un mes "en rojo": baja la
-    /// felicidad (estrés financiero) y los eventos pueden reaccionar.
+    /// con la pareja. Si el dinero no alcanza, es un mes "en rojo": baja la
+    /// felicidad (estrés financiero) y los eventos pueden reaccionar. Lo que falta
+    /// lo cubre la deuda del país para eso (la línea de crédito, con su interés):
+    /// así el saldo nunca queda en negativo sin explicación y el rojo cuesta.
     /// Por ahora solo el jugador lleva sus cuentas; los demás personajes no.
     /// </summary>
     public sealed class ExpenseSystem : IWeeklySystem
     {
         public const string SystemId = "sistema.gastos";
+
+        /// <summary>Diario: la primera vez que la línea de crédito cubre lo que falta.</summary>
+        public const string DeficitJournal = "diario.gastos.linea_credito";
 
         private readonly ContentDatabase _content;
 
@@ -74,10 +80,47 @@ namespace MistakesLife.Core.Economy
             {
                 player.MonthsInRed++;
                 player.Stats.Happiness -= rules.HappinessInRed;
+                CoverDeficit(world, player, rules, economy);
             }
             else
             {
                 player.MonthsInRed = 0;
+            }
+        }
+
+        /// <summary>
+        /// Lo que falta pasa a la deuda "deuda_por_deficit" del país (si tiene),
+        /// hasta su cupo, y el dinero queda en cero: lo que pasa del cupo son
+        /// cuentas que no se pagaron. Esa deuda suma su interés y cobra sus cuotas como
+        /// cualquier otra; si no se pagan, lleva al registro de morosos.
+        /// </summary>
+        private void CoverDeficit(World world, Character player, ExpensesDefinition rules, CountryEconomy economy)
+        {
+            DebtTypeDefinition? type = rules.DeficitDebt == null ? null : _content.GetCountry(player.Residence!.CountryId).Economy?.Debts?.Type(rules.DeficitDebt);
+            if (type == null)
+            {
+                return;
+            }
+
+            Debt? current = player.Debts.FirstOrDefault(d => d.TypeId == type.Id);
+            decimal covered = -player.Money;
+            if (rules.DeficitLimit.HasValue)
+            {
+                decimal room = PayrollCalculator.ToToday(rules.DeficitLimit.Value, economy.PriceIndex) - (current?.Balance ?? 0);
+                covered = Math.Max(0, Math.Min(covered, room));
+            }
+
+            player.Money = 0;
+            if (covered <= 0)
+            {
+                return;
+            }
+
+            DebtSystem.Borrow(player, type, covered, economy.PriceIndex);
+            player.Money = 0;
+            if (current == null)
+            {
+                world.WriteJournal(player.Id, DeficitJournal);
             }
         }
     }

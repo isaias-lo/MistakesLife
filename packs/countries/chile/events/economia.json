@@ -86,6 +86,7 @@
         "tendencia": "jugador.neuroticismo / 2",
         "efectos": [
           "jugador.desmarcar('vive_independiente')",
+          "jugador.desmarcar('arrienda_pieza')",
           "jugador.felicidad -= 5"
         ]
       },

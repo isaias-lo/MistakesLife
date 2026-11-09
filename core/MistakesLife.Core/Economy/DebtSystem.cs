@@ -17,6 +17,8 @@ namespace MistakesLife.Core.Economy
     ///   de lo que se debe). Si no hay dinero suficiente, la cuota queda sin pagar
     ///   y la deuda sigue creciendo.
     /// Las deudas rotativas (tarjetas) cobran un pago mínimo en vez de cuotas fijas.
+    /// Las que se pagan con el saldo (línea de crédito) se llevan todo el dinero
+    /// que haya, hasta lo que se debe.
     /// Con varios meses seguidos sin pagar, la persona queda en el registro de
     /// morosos; sale al ponerse al día. Si el país lo dice, tras muchos meses sin
     /// pagar la deuda prescribe y se borra.
@@ -108,6 +110,16 @@ namespace MistakesLife.Core.Economy
             decimal installment = type.MinimumPaymentRate.HasValue
                 ? MinimumPayment(debt.Balance, type, priceIndex)
                 : Installment(debt.Balance, type.AnnualRate, debt.RemainingInstallments);
+            if (type.PaysFromBalance)
+            {
+                // El banco se lleva todo lo que haya, aunque no alcance al mínimo.
+                decimal swept = Math.Min(character.Money, debt.Balance);
+                character.Money -= swept;
+                debt.Balance -= swept;
+                debt.MonthsLate = swept < installment ? debt.MonthsLate + 1 : 0;
+                return swept;
+            }
+
             if (character.Money < installment)
             {
                 debt.MonthsLate++;

@@ -38,6 +38,7 @@
   "opcion.compra_tarjeta.comprar": "Lo compras con la tarjeta. Total, después pagas el mínimo.",
   "opcion.compra_tarjeta.no_comprar": "Lo dejas pasar. No es el momento.",
   "deuda.chile.tarjeta": "Tarjeta de crédito",
+  "deuda.chile.linea_credito": "Línea de crédito",
   "evento.cobranza.2": "Llega una carta certificada: \"último aviso antes de iniciar acciones judiciales\". Con los intereses, la deuda ya es bastante más grande que al principio.",
   "evento.cobranza.3": "Te escriben por WhatsApp desde un número desconocido: es la cobranza, ahora con una \"oferta especial\" si pagas antes del viernes.",
   "evento.cobranza.4": "Quieres sacar un plan de celular y te lo rechazan: sigues en DICOM. La deuda te sigue hasta en lo más simple.",

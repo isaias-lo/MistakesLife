@@ -652,6 +652,16 @@ namespace MistakesLife.Core.Content
                         _errors.Add(new ContentError(expenseWhere, "falta el monto."));
                     }
                 }
+
+                if (expenses.DeficitLimit < 0 || (expenses.DeficitLimit.HasValue && expenses.DeficitDebt == null))
+                {
+                    _errors.Add(new ContentError($"{where}.gastos.cupo_deficit", "el cupo no puede ser negativo y necesita deuda_por_deficit."));
+                }
+
+                if (expenses.DeficitDebt != null && economy.Debts?.Type(expenses.DeficitDebt) == null)
+                {
+                    _errors.Add(new ContentError($"{where}.gastos.deuda_por_deficit", $"la deuda '{expenses.DeficitDebt}' no está en economia.deudas."));
+                }
             }
 
             PensionsDefinition? pensions = economy.Pensions;
@@ -1141,6 +1151,11 @@ namespace MistakesLife.Core.Content
                 foreach (DebtTypeDefinition debt in country.Economy?.Debts?.Types ?? new List<DebtTypeDefinition>())
                 {
                     yield return new KeyValuePair<string, string>(debt.Id, $"país {country.Id}");
+                }
+
+                if (country.Economy?.Expenses?.DeficitDebt != null)
+                {
+                    yield return new KeyValuePair<string, string>(Economy.ExpenseSystem.DeficitJournal, $"país {country.Id}");
                 }
 
                 if (country.Economy?.Debts != null)
