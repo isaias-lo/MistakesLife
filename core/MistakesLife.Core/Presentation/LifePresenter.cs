@@ -258,15 +258,18 @@ namespace MistakesLife.Core.Presentation
             string headline = expenses.Count == 0
                 ? T("ui.mes.sin_gastos")
                 : hasPay
-                    ? Text("ui.mes.dias", tickets.Count(t => t != MonthView.FreeTicket))
+                    ? Count("ui.mes.dia", "ui.mes.dias", tickets.Count(t => t != MonthView.FreeTicket))
                     : Text("ui.mes.sin_sueldo", MoneyLabel(total));
             string payLabel = hasPay ? Text("ui.mes.sueldo", MoneyLabel(net), MoneyLabel(dayPay)) : string.Empty;
             int free = tickets.Count(t => t == MonthView.FreeTicket);
             string footnote = !hasPay || expenses.Count == 0
                 ? string.Empty
-                : borrowed > 0 ? Text("ui.mes.prestados", borrowed) : Text("ui.mes.libres", free);
+                : borrowed > 0 ? Count("ui.mes.prestado", "ui.mes.prestados", borrowed) : Count("ui.mes.libre", "ui.mes.libres", free);
             return new MonthView(headline, payLabel, hasPay, expenses, tickets, borrowed, footnote);
         }
+
+        /// <summary>La frase en singular si es 1 ("1 día fue prestado") y en plural si no.</summary>
+        private string Count(string oneKey, string manyKey, int count) => count == 1 ? T(oneKey) : Text(manyKey, count);
 
         /// <summary>Días de trabajo en palabras: "menos de un día", "1 día", "3 días".</summary>
         private string DaysLabel(double days)

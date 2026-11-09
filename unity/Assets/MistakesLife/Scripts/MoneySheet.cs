@@ -45,12 +45,14 @@ namespace MistakesLife.Unity
             _close = UiFactory.MakeButton(header, string.Empty, UiFactory.Option, UiFactory.Ink, Hide, UiFactory.MinFontSize, 0, 12);
             LayoutElement close = _close.GetComponent<LayoutElement>();
             close.minWidth = close.preferredWidth = 200;
+            close.flexibleWidth = 0;
 
             // Pestañas: "La mochila" y "Tu historia" llegan después (U19b y U19c).
             RectTransform tabs = Row(_layer, "Pestanas", 12);
             _monthTab = UiFactory.MakeButton(tabs, string.Empty, UiFactory.Accent, UiFactory.AccentText, () => { }, UiFactory.MinFontSize, 0, 12);
             LayoutElement tab = _monthTab.GetComponent<LayoutElement>();
             tab.minWidth = tab.preferredWidth = 240;
+            tab.flexibleWidth = 0;
 
             _body = UiFactory.ScrollColumn(_layer, "Contenido", 28, 18);
             _layer.gameObject.SetActive(false);

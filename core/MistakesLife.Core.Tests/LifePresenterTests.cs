@@ -519,6 +519,17 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void ElMes_UnSoloDia_VaEnSingular()
+        {
+            // 23 días de gasto con 22 de sueldo: 1 día prestado.
+            MonthView month = WithMonth(1100000m, ("gasto.chile.arriendo", 1150000m)).Month();
+
+            Assert.Equal(1, month.BorrowedDays);
+            Assert.Equal("1 día fue prestado: lo cubrió una deuda, con interés", month.Footnote);
+            Assert.Equal("Este mes trabajaste 1 día para pagar tus gastos", WithMonth(1100000m, ("gasto.chile.celular", 50000m)).Month().Headline);
+        }
+
+        [Fact]
         public void ElMes_SinSueldoOSinGastos_LoDiceSinBoletos()
         {
             LifePresenter baby = NewGame(3);

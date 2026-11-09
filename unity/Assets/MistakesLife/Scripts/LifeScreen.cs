@@ -392,6 +392,7 @@ namespace MistakesLife.Unity
             _closeHistory = UiFactory.MakeButton(header, string.Empty, UiFactory.Option, UiFactory.Ink, () => ShowHistory(false), UiFactory.MinFontSize, 0, 12);
             LayoutElement close = _closeHistory.GetComponent<LayoutElement>();
             close.minWidth = close.preferredWidth = 200;
+            close.flexibleWidth = 0;
             _historyBody = UiFactory.ScrollColumn(_history, "Lista", 28, 14);
             _history.gameObject.SetActive(false);
         }
