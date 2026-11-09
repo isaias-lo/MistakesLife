@@ -2,7 +2,8 @@
   "name": "MistakesLife.Unity.Editor",
   "rootNamespace": "MistakesLife.Unity.Editor",
   "references": [
-    "MistakesLife.Unity"
+    "MistakesLife.Unity",
+    "Unity.TextMeshPro"
   ],
   "includePlatforms": [
     "Editor"

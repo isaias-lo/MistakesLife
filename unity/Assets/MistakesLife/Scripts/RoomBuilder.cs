@@ -116,7 +116,7 @@ namespace MistakesLife.Unity
                 new Color(0.85f, 0.45f, 0.40f), new Color(0.35f, 0.55f, 0.80f), new Color(0.50f, 0.70f, 0.45f),
                 new Color(0.80f, 0.65f, 0.30f), new Color(0.60f, 0.45f, 0.75f),
             };
-            Color shirt = member.IsPlayer ? UiFactory.Accent : shirts[index % shirts.Length];
+            Color shirt = member.IsPlayer ? UiFactory.PlayerFigure : shirts[index % shirts.Length];
             Color skin = new Color(0.86f, 0.68f, 0.55f);
             Color hair = member.Stage == LifeStage.Elder ? new Color(0.85f, 0.85f, 0.85f) : new Color(0.25f, 0.18f, 0.12f);
 

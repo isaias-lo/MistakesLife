@@ -1,5 +1,6 @@
 #nullable enable
 
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -14,26 +15,59 @@ namespace MistakesLife.Unity
     /// </summary>
     public static class UiFactory
     {
-        public static readonly Color Background = new Color(0.96f, 0.94f, 0.90f);
-        public static readonly Color Card = Color.white;
-        public static readonly Color Ink = new Color(0.16f, 0.15f, 0.14f);
-        public static readonly Color MutedInk = new Color(0.45f, 0.43f, 0.40f);
-        public static readonly Color Accent = new Color(0.20f, 0.45f, 0.55f);
-        public static readonly Color AccentText = Color.white;
-        public static readonly Color Option = new Color(0.90f, 0.93f, 0.95f);
-        public static readonly Color BarBack = new Color(0.88f, 0.86f, 0.83f);
-        public static readonly Color Health = new Color(0.36f, 0.62f, 0.40f);
-        public static readonly Color Happiness = new Color(0.90f, 0.66f, 0.25f);
-        public static readonly Color Smarts = new Color(0.38f, 0.48f, 0.78f);
+        // Colores acordados en docs/diseno-app.md (sección "Colores"). Para cambiar el
+        // estilo de toda la app, se cambian aquí.
 
-        /// <summary>Tarjeta de un momento clave: un tono cálido para que se note que pesa más.</summary>
-        public static readonly Color KeyCard = new Color(0.99f, 0.93f, 0.84f);
-        public static readonly Color KeyInk = new Color(0.72f, 0.38f, 0.10f);
+        /// <summary>Noche: el fondo de toda la interfaz (#141B2D).</summary>
+        public static readonly Color Background = Hex(0x141B2D);
 
-        /// <summary>Tarjeta de un evento normal.</summary>
-        public static readonly Color EventCard = new Color(0.93f, 0.96f, 0.97f);
-        public static readonly Color Good = new Color(0.20f, 0.52f, 0.28f);
-        public static readonly Color Bad = new Color(0.74f, 0.24f, 0.20f);
+        /// <summary>Noche 2: tarjetas y botones sobre el fondo (#1E2740).</summary>
+        public static readonly Color Card = Hex(0x1E2740);
+
+        /// <summary>Botones sobre una tarjeta, un poco más claros que ella.</summary>
+        public static readonly Color Option = Hex(0x2B3758);
+
+        /// <summary>Texto principal sobre la noche (#F3F5FA).</summary>
+        public static readonly Color Ink = Hex(0xF3F5FA);
+
+        /// <summary>Texto secundario (#C3CBDD); nunca más oscuro, para que se lea bien.</summary>
+        public static readonly Color MutedInk = Hex(0xC3CBDD);
+
+        /// <summary>Amarillo del jugador (#F5C842): solo lo tuyo (tu botón principal, lo que elegiste).</summary>
+        /// <summary>
+        /// Color del jugador en la maqueta 3D (polera y techo de su casa). Es aparte del amarillo
+        /// de la interfaz para que cambiar los colores de las pantallas no cambie la escena.
+        /// </summary>
+        public static readonly Color PlayerFigure = new Color(0.20f, 0.45f, 0.55f);
+
+        public static readonly Color Accent = Hex(0xF5C842);
+
+        /// <summary>Texto sobre el amarillo: la noche, para que se lea.</summary>
+        public static readonly Color AccentText = Hex(0x141B2D);
+
+        public static readonly Color BarBack = Hex(0x2B3758);
+        public static readonly Color Health = Hex(0x4FD1A5);
+        public static readonly Color Happiness = Hex(0xF2A65A);
+        public static readonly Color Smarts = Hex(0x7FA7FF);
+
+        /// <summary>Papel (#F4EFE4): tarjetas de eventos, boletas y hojas.</summary>
+        public static readonly Color Paper = Hex(0xF4EFE4);
+
+        /// <summary>Tinta sobre el papel (#1C2236).</summary>
+        public static readonly Color PaperInk = Hex(0x1C2236);
+
+        /// <summary>Tinta suave sobre el papel.</summary>
+        public static readonly Color PaperMutedInk = Hex(0x5A6178);
+
+        /// <summary>Botones sobre el papel: el mismo papel, un poco más oscuro.</summary>
+        public static readonly Color PaperOption = Hex(0xE6DCC8);
+
+        /// <summary>"Día clave": un rojo ladrillo, como timbre sobre el papel.</summary>
+        public static readonly Color KeyInk = Hex(0xB5462B);
+
+        /// <summary>Cambios buenos y malos (siempre acompañados de palabras).</summary>
+        public static readonly Color Good = Hex(0x4FD1A5);
+        public static readonly Color Bad = Hex(0xFF8A7A);
 
         /// <summary>Fondo oscuro y semitransparente detrás de un aviso (tutorial, confirmar).</summary>
         public static readonly Color Shade = new Color(0f, 0f, 0f, 0.6f);
@@ -41,8 +75,16 @@ namespace MistakesLife.Unity
         /// <summary>Radio de las esquinas redondeadas, en píxeles de la pantalla de referencia (1080 de ancho).</summary>
         private const int CornerRadius = 28;
 
-        private static Font? _font;
+        /// <summary>Tamaño mínimo de letra: 12 px en un celular de 390 de ancho (aquí la pantalla mide 1080).</summary>
+        public const int MinFontSize = 34;
+
+        /// <summary>Alto mínimo de un botón: 44 px en un celular de 390 de ancho.</summary>
+        public const int MinButtonHeight = 124;
+
         private static Sprite? _rounded;
+
+        /// <summary>Un color escrito como en la web (0xRRGGBB).</summary>
+        public static Color Hex(int rgb) => new Color(((rgb >> 16) & 0xFF) / 255f, ((rgb >> 8) & 0xFF) / 255f, (rgb & 0xFF) / 255f);
 
         /// <summary>
         /// Rectángulo blanco con esquinas redondeadas, dibujado por código (sin archivos de imagen).
@@ -107,9 +149,6 @@ namespace MistakesLife.Unity
             return rect;
         }
 
-        /// <summary>Fuente que viene con Unity, para no depender de archivos extra.</summary>
-        public static Font DefaultFont => _font ??= Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-
         /// <summary>Lienzo vertical transparente que se escala igual en cualquier celular, más el sistema de toques.</summary>
         public static RectTransform CreateCanvas(string name)
         {
@@ -168,24 +207,32 @@ namespace MistakesLife.Unity
             return rect;
         }
 
-        public static Text Label(Transform parent, string text, int size, Color color, FontStyle style = FontStyle.Normal)
+        /// <summary>
+        /// Un texto con TextMeshPro (nítido en cualquier pantalla), con la letra pedida.
+        /// Nunca más chico que <see cref="MinFontSize"/>.
+        /// </summary>
+        public static TextMeshProUGUI Label(Transform parent, string text, int size, Color color, FontStyles style = FontStyles.Normal, Face face = Face.Body)
         {
-            Text label = Child(parent, "Texto").gameObject.AddComponent<Text>();
-            label.font = DefaultFont;
+            TextMeshProUGUI label = Child(parent, "Texto").gameObject.AddComponent<TextMeshProUGUI>();
+            TMP_FontAsset? font = Fonts.Get(face);
+            if (font != null)
+            {
+                label.font = font;
+            }
+
             label.text = text;
-            label.fontSize = size;
+            label.fontSize = Mathf.Max(size, MinFontSize);
             label.fontStyle = style;
             label.color = color;
-            label.alignment = TextAnchor.UpperLeft;
-            label.horizontalOverflow = HorizontalWrapMode.Wrap;
-            label.verticalOverflow = VerticalWrapMode.Overflow;
-            label.supportRichText = false;
+            label.alignment = TextAlignmentOptions.TopLeft;
+            label.richText = false;
+            label.raycastTarget = false;
             return label;
         }
 
         public static Button MakeButton(Transform parent, string text, Color background, Color textColor, UnityAction onClick)
         {
-            return MakeButton(parent, text, background, textColor, onClick, 40, 120, 32);
+            return MakeButton(parent, text, background, textColor, onClick, 40, MinButtonHeight, 32);
         }
 
         /// <summary>Botón con tamaño de letra, alto mínimo y margen a elección (para botones chicos).</summary>
@@ -203,15 +250,18 @@ namespace MistakesLife.Unity
             layout.childControlHeight = true;
             layout.childForceExpandWidth = true;
             layout.childForceExpandHeight = false;
-            rect.gameObject.AddComponent<LayoutElement>().minHeight = minHeight;
+            // El texto queda al centro del botón también de arriba abajo. (No se estira el texto:
+            // eso haría que el botón pida todo el alto que sobra en la pantalla.)
+            layout.childAlignment = TextAnchor.MiddleCenter;
+            rect.gameObject.AddComponent<LayoutElement>().minHeight = Mathf.Max(minHeight, MinButtonHeight);
 
-            Text label = Label(rect, text, fontSize, textColor);
-            label.alignment = TextAnchor.MiddleCenter;
+            TextMeshProUGUI label = Label(rect, text, fontSize, textColor, FontStyles.Bold);
+            label.alignment = TextAlignmentOptions.Center;
             return button;
         }
 
         /// <summary>Barra de 0 a 100 con su nombre encima. Devuelve el relleno para actualizarlo.</summary>
-        public static RectTransform Bar(Transform parent, string title, Color color, out Text label)
+        public static RectTransform Bar(Transform parent, string title, Color color, out TextMeshProUGUI label)
         {
             RectTransform column = Column(parent, title, 0, 8);
             label = Label(column, string.Empty, 34, MutedInk);
