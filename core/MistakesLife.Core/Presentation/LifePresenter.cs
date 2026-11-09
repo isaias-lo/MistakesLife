@@ -222,32 +222,26 @@ namespace MistakesLife.Core.Presentation
             decimal dayPay = net / MonthView.WorkDaysPerMonth;
             bool hasPay = dayPay > 0;
 
-            var expenses = player.LastExpenses
-                .OrderByDescending(l => l.Amount)
-                .Select(l =>
-                {
-                    double days = hasPay ? (double)(l.Amount / dayPay) : 0;
-                    return new MonthExpenseView(l.Id, T(l.Id), MoneyLabel(l.Amount), days, hasPay ? DaysLabel(days) : string.Empty);
-                })
-                .ToList();
+            var lines = player.LastExpenses.OrderByDescending(l => l.Amount).ToList();
+            var exact = lines.Select(l => hasPay ? (double)(l.Amount / dayPay) : 0).ToList();
+            int[] whole = WholeDays(exact);
 
-            decimal total = player.LastExpenses.Sum(l => l.Amount);
+            var expenses = new List<MonthExpenseView>();
             var tickets = new List<int>();
+            for (int i = 0; i < lines.Count; i++)
+            {
+                // La lista dice los mismos días que boletos tiene cada gasto, para que cuadre.
+                expenses.Add(new MonthExpenseView(lines[i].Id, T(lines[i].Id), MoneyLabel(lines[i].Amount), exact[i], hasPay ? DaysLabel(whole[i]) : string.Empty));
+                for (int day = 0; day < whole[i]; day++)
+                {
+                    tickets.Add(i);
+                }
+            }
+
+            decimal total = lines.Sum(l => l.Amount);
             int borrowed = 0;
             if (hasPay)
             {
-                // Se reparten los días en orden: cada gasto se lleva los boletos hasta su total acumulado.
-                double spent = 0;
-                for (int i = 0; i < expenses.Count; i++)
-                {
-                    spent += expenses[i].Days;
-                    int until = (int)Math.Round(spent, MidpointRounding.AwayFromZero);
-                    while (tickets.Count < until)
-                    {
-                        tickets.Add(i);
-                    }
-                }
-
                 borrowed = Math.Max(0, tickets.Count - MonthView.WorkDaysPerMonth);
                 while (tickets.Count < MonthView.WorkDaysPerMonth)
                 {
@@ -271,11 +265,26 @@ namespace MistakesLife.Core.Presentation
         /// <summary>La frase en singular si es 1 ("1 día fue prestado") y en plural si no.</summary>
         private string Count(string oneKey, string manyKey, int count) => count == 1 ? T(oneKey) : Text(manyKey, count);
 
-        /// <summary>Días de trabajo en palabras: "menos de un día", "1 día", "3 días".</summary>
-        private string DaysLabel(double days)
+        /// <summary>Días enteros en palabras: "menos de un día" (0), "1 día", "3 días".</summary>
+        private string DaysLabel(int days) =>
+            days == 0 ? T("ui.mes.menos_de_un_dia") : days == 1 ? T("ui.mes.un_dia") : Text("ui.mes.n_dias", days);
+
+        /// <summary>
+        /// Reparte los días con decimales en días enteros sin que se pierda ni sobre ninguno
+        /// (método de los mayores restos): el total es la suma redondeada, cada gasto recibe
+        /// su parte entera y los días que faltan van a los que tenían más decimales.
+        /// </summary>
+        public static int[] WholeDays(IReadOnlyList<double> days)
         {
-            int rounded = (int)Math.Round(days, MidpointRounding.AwayFromZero);
-            return days < 0.5 ? T("ui.mes.menos_de_un_dia") : rounded == 1 ? T("ui.mes.un_dia") : Text("ui.mes.n_dias", rounded);
+            var whole = days.Select(d => (int)Math.Floor(d)).ToArray();
+            int total = (int)Math.Round(days.Sum(), MidpointRounding.AwayFromZero);
+            int missing = total - whole.Sum();
+            foreach (int i in Enumerable.Range(0, days.Count).OrderByDescending(i => days[i] - whole[i]).ThenBy(i => i).Take(Math.Max(0, missing)))
+            {
+                whole[i]++;
+            }
+
+            return whole;
         }
 
         public TimeTravelView TimeTravel()

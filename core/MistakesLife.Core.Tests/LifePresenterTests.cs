@@ -519,6 +519,18 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void ElMes_LosDiasDeLaListaSumanLosBoletos()
+        {
+            // 3,4 + 2,3 + 1,6 + 0,7 = 8 días: con mayores restos quedan 3, 2, 2 y 1 (redondear cada uno daría 9).
+            Assert.Equal(new[] { 3, 2, 2, 1 }, LifePresenter.WholeDays(new[] { 3.4, 2.3, 1.6, 0.7 }));
+            Assert.Equal(new[] { 0, 0, 1 }, LifePresenter.WholeDays(new[] { 0.3, 0.3, 0.6 }));
+
+            MonthView month = WithMonth(1100000m, ("gasto.chile.arriendo", 170000m), ("gasto.chile.cuentas", 115000m), ("gasto.chile.transporte", 80000m), ("gasto.chile.celular", 35000m)).Month();
+            Assert.Equal(new[] { "3 días", "2 días", "2 días", "1 día" }, month.Expenses.Select(e => e.DaysLabel));
+            Assert.Equal(8, month.Tickets.Count(t => t != MonthView.FreeTicket));
+        }
+
+        [Fact]
         public void ElMes_UnSoloDia_VaEnSingular()
         {
             // 23 días de gasto con 22 de sueldo: 1 día prestado.

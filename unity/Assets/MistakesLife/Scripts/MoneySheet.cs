@@ -126,11 +126,21 @@ namespace MistakesLife.Unity
                 number.alignment = TextAlignmentOptions.Center;
                 if (borrowed)
                 {
-                    // El pagaré va rayado: una línea cruzada, como un papel anulado.
+                    // El pagaré va rayado arriba (sin tapar el número) y lleva abajo una franja
+                    // del color del gasto que se lo llevó, para que calce con la lista.
                     RectTransform stripe = UiFactory.Child(ticket, "Raya");
                     stripe.gameObject.AddComponent<Image>().color = UiFactory.Background;
-                    stripe.sizeDelta = new Vector2(110f, 6f);
-                    stripe.localRotation = Quaternion.Euler(0f, 0f, 55f);
+                    stripe.anchoredPosition = new Vector2(0f, 34f);
+                    stripe.sizeDelta = new Vector2(64f, 4f);
+                    stripe.localRotation = Quaternion.Euler(0f, 0f, 20f);
+
+                    RectTransform band = UiFactory.Child(ticket, "Gasto");
+                    band.gameObject.AddComponent<Image>().color = ExpenseColors[expense % ExpenseColors.Length];
+                    band.anchorMin = new Vector2(0f, 0f);
+                    band.anchorMax = new Vector2(1f, 0f);
+                    band.pivot = new Vector2(0.5f, 0f);
+                    band.anchoredPosition = new Vector2(0f, 6f);
+                    band.sizeDelta = new Vector2(-12f, 16f);
                 }
             }
         }
