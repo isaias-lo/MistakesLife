@@ -466,6 +466,32 @@ namespace MistakesLife.Core.Tests
             Assert.Equal(expected, LifePresenter.FeelingKey(feelings));
         }
 
+        [Theory]
+        [InlineData(0, "ui.estado.salud.0")]
+        [InlineData(19, "ui.estado.salud.0")]
+        [InlineData(20, "ui.estado.salud.1")]
+        [InlineData(59, "ui.estado.salud.2")]
+        [InlineData(60, "ui.estado.salud.3")]
+        [InlineData(100, "ui.estado.salud.4")]
+        public void Estado_EnPalabras_UsaCincoTramosDeVeintePuntos(int value, string expected)
+        {
+            Assert.Equal(expected, LifePresenter.StateWordKey("salud", value));
+        }
+
+        [Fact]
+        public void Estado_EnPalabras_TieneTextoParaCadaTramoYEstado()
+        {
+            LifePresenter presenter = NewGame(7);
+            foreach (string state in LifePresenter.States)
+            {
+                for (int value = 0; value <= 100; value += 20)
+                {
+                    string word = presenter.StateWord(state, value);
+                    Assert.False(word.StartsWith("ui.", StringComparison.Ordinal), $"Falta el texto de {LifePresenter.StateWordKey(state, value)}");
+                }
+            }
+        }
+
         private static string PsychologyLevel(LifePresenter presenter) =>
             presenter.Session.Content.GetCareer("carrera.psicologia").Levels[0].Id;
     }

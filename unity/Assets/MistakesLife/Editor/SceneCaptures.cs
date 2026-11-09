@@ -262,36 +262,46 @@ namespace MistakesLife.Unity.Editor
                 return 0;
             }
 
+            int count = 0;
+
+            // Una semana tranquila: el diario, el estado en palabras y "Vivir la semana".
+            if (life.Phase == LifePhase.Living)
+            {
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-semana.png"));
+            }
+
             // Hasta que aparezca un evento, para que se vea la tarjeta de papel.
             for (int week = 0; week < 5 * 52 && life.Phase == LifePhase.Living; week++)
             {
                 life.Session.Advance(1);
             }
 
-            int count = 0;
-            foreach ((bool menu, string name) in new[] { (false, "pantalla-vida"), (true, "pantalla-menu") })
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-vida.png"));
+            count += CaptureScreen(content, life, true, Path.Combine(folder, "pantalla-menu.png"));
+            return count;
+        }
+
+        /// <summary>Saca una captura de la pantalla de la vida (con el menú encima si se pide) y la borra.</summary>
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file)
+        {
+            var root = new GameObject("Captura de pantalla");
+            try
             {
-                var root = new GameObject("Captura de pantalla");
-                try
+                root.AddComponent<LifeScreen>().ShowForCapture(content, life, menu);
+                File.WriteAllBytes(file, RenderInterface(1080, 1920));
+                return 1;
+            }
+            finally
+            {
+                // La pantalla crea su lienzo y su escena 3D en la raíz: se borra todo lo nuevo.
+                foreach (GameObject item in UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
                 {
-                    root.AddComponent<LifeScreen>().ShowForCapture(content, life, menu);
-                    File.WriteAllBytes(Path.Combine(folder, $"{name}.png"), RenderInterface(1080, 1920));
-                    count++;
-                }
-                finally
-                {
-                    // La pantalla crea su lienzo y su escena 3D en la raíz: se borra todo lo nuevo.
-                    foreach (GameObject item in UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+                    if (item != null && item.transform.parent == null && item.GetComponent<Camera>() == null)
                     {
-                        if (item != null && item.transform.parent == null && item.GetComponent<Camera>() == null)
-                        {
-                            UnityEngine.Object.DestroyImmediate(item);
-                        }
+                        UnityEngine.Object.DestroyImmediate(item);
                     }
                 }
             }
-
-            return count;
         }
 
         /// <summary>
@@ -345,7 +355,17 @@ namespace MistakesLife.Unity.Editor
                     Vector3 max = camera.WorldToScreenPoint(corners[2]);
                     int w = Mathf.Max(1, Mathf.RoundToInt(max.x - min.x));
                     int h = Mathf.Max(1, Mathf.RoundToInt(max.y - min.y));
-                    Texture2D picture = home.RenderToTexture(w, h);
+                    // La casa se centra en el hueco libre entre la barra de arriba y la hoja de abajo.
+                    float shift = 0f;
+                    if (home.Focus != null)
+                    {
+                        var focus = new Vector3[4];
+                        home.Focus.GetWorldCorners(focus);
+                        float center = (camera.WorldToScreenPoint(focus[0]).y + camera.WorldToScreenPoint(focus[2]).y) / 2f;
+                        shift = (((center - min.y) / h) * 2f) - 1f;
+                    }
+
+                    Texture2D picture = home.RenderToTexture(w, h, shift);
                     pictures.Add(picture);
 
                     RectTransform holder = UiFactory.Child(window, "Casa capturada");
