@@ -37,7 +37,7 @@ namespace MistakesLife.Unity
         public static Material Skin => Get("piel", new Color(0.86f, 0.68f, 0.55f));
 
         /// <summary>Ropa del jugador y techo de su casa.</summary>
-        public static Material Player => Get("jugador", new Color(0.20f, 0.45f, 0.55f));
+        public static Material Player => Get("jugador", new Color(0.96f, 0.78f, 0.26f));
 
         /// <summary>El amarillo que marca al jugador (círculo a sus pies y bolita sobre la cabeza).</summary>
         public static Material PlayerMark => Get("marca_jugador", new Color(0.98f, 0.82f, 0.25f));

@@ -618,7 +618,7 @@ namespace MistakesLife.Core.Presentation
         private HomeMemberView Member(Character character, string relation, bool isPlayer)
         {
             int age = character.AgeInYears(Session.World.Date);
-            return new HomeMemberView(character.Id, FullName(character), relation, age, StageOf(age), character.Sex == Sex.Female, isPlayer);
+            return new HomeMemberView(character.Id, FullName(character), relation, age, StageOf(age), character.Sex == Sex.Female, isPlayer, character.Stats.Happiness);
         }
 
         /// <summary>

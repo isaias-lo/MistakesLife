@@ -186,6 +186,23 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void Casa_CadaPersona_TraeSuFelicidadParaElGesto()
+        {
+            LifePresenter presenter = NewGame(7);
+            var world = presenter.Session.World;
+            world.Player.Stats.Happiness = 80;
+
+            HomeMemberView player = presenter.Snapshot().Home.Members[0];
+            Assert.Equal(80, player.Happiness);
+            Assert.Equal(1, player.Mood);
+
+            world.Player.Stats.Happiness = 50;
+            Assert.Equal(0, presenter.Snapshot().Home.Members[0].Mood);
+            world.Player.Stats.Happiness = 20;
+            Assert.Equal(-1, presenter.Snapshot().Home.Members[0].Mood);
+        }
+
+        [Fact]
         public void Casa_AlNacer_TieneAlJugadorPrimeroYASusPadres()
         {
             LifeSnapshot snapshot = NewGame(7).Snapshot();
