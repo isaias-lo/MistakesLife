@@ -1,7 +1,9 @@
 {
   "name": "MistakesLife.Unity",
   "rootNamespace": "MistakesLife.Unity",
-  "references": [],
+  "references": [
+    "Unity.TextMeshPro"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

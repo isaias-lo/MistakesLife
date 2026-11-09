@@ -54,6 +54,7 @@ namespace MistakesLife.Unity.Editor
             int saved = 0;
             try
             {
+                TextSetup.Ensure();
                 ContentDatabase content = CoreLoader.LoadContent();
                 foreach ((ulong seed, string? career) in Lives)
                 {
@@ -71,6 +72,7 @@ namespace MistakesLife.Unity.Editor
 
                 saved += Showcase(folder);
                 saved += RoomShowcase(content, folder);
+                saved += Screens(content, folder);
                 Debug.Log($"Capturas: {saved} imágenes en {folder}");
             }
             catch (Exception ex)
@@ -244,6 +246,97 @@ namespace MistakesLife.Unity.Editor
             }
 
             return count;
+        }
+
+        /// <summary>
+        /// Capturas de la interfaz (no solo del 3D): la pantalla de la vida con un evento
+        /// esperando respuesta y el menú de inicio, del tamaño de un celular (1080 x 1920).
+        /// Sirven para revisar letras, colores y tamaños sin abrir el juego.
+        /// </summary>
+        private static int Screens(ContentDatabase content, string folder)
+        {
+            var life = new LifePresenter(new LifeSession(content, 1));
+            if (!LiveUntil(life, content, "carrera.software.", 22))
+            {
+                return 0;
+            }
+
+            // Hasta que aparezca un evento, para que se vea la tarjeta de papel.
+            for (int week = 0; week < 5 * 52 && life.Phase == LifePhase.Living; week++)
+            {
+                life.Session.Advance(1);
+            }
+
+            int count = 0;
+            foreach ((bool menu, string name) in new[] { (false, "pantalla-vida"), (true, "pantalla-menu") })
+            {
+                var root = new GameObject("Captura de pantalla");
+                try
+                {
+                    root.AddComponent<LifeScreen>().ShowForCapture(content, life, menu);
+                    File.WriteAllBytes(Path.Combine(folder, $"{name}.png"), RenderInterface(1080, 1920));
+                    count++;
+                }
+                finally
+                {
+                    // La pantalla crea su lienzo y su escena 3D en la raíz: se borra todo lo nuevo.
+                    foreach (GameObject item in UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+                    {
+                        if (item != null && item.transform.parent == null && item.GetComponent<Camera>() == null)
+                        {
+                            UnityEngine.Object.DestroyImmediate(item);
+                        }
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        /// <summary>Dibuja todos los lienzos de la interfaz con una cámara propia y devuelve el PNG.</summary>
+        private static byte[] RenderInterface(int width, int height)
+        {
+            var target = new RenderTexture(width, height, 24);
+            Camera camera = new GameObject("Camara de la captura").AddComponent<Camera>();
+            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.backgroundColor = UiFactory.Background;
+            camera.targetTexture = target;
+            try
+            {
+                foreach (Canvas canvas in UnityEngine.Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))
+                {
+                    canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                    canvas.worldCamera = camera;
+                    canvas.planeDistance = 10f;
+                }
+
+                // Dos pasadas: la primera mide los textos y la segunda acomoda las columnas con esas medidas.
+                for (int pass = 0; pass < 2; pass++)
+                {
+                    Canvas.ForceUpdateCanvases();
+                    foreach (Canvas canvas in UnityEngine.Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))
+                    {
+                        UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)canvas.transform);
+                    }
+                }
+
+                camera.Render();
+                RenderTexture.active = target;
+                var image = new Texture2D(width, height, TextureFormat.RGB24, false);
+                image.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+                image.Apply();
+                RenderTexture.active = null;
+                byte[] png = image.EncodeToPNG();
+                UnityEngine.Object.DestroyImmediate(image);
+                return png;
+            }
+            finally
+            {
+                camera.targetTexture = null;
+                UnityEngine.Object.DestroyImmediate(camera.gameObject);
+                target.Release();
+                UnityEngine.Object.DestroyImmediate(target);
+            }
         }
 
         private static void Finish(bool ok)

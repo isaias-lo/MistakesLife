@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Presentation;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,8 +54,8 @@ namespace MistakesLife.Unity
         {
             LifeSnapshot? current = CurrentLife?.Invoke();
             RectTransform card = OpenLayer("Menu de inicio");
-            UiFactory.Label(card, Text("ui.inicio.titulo"), 84, UiFactory.Accent, FontStyle.Bold).alignment = TextAnchor.MiddleCenter;
-            UiFactory.Label(card, Text("ui.inicio.lema"), 36, UiFactory.MutedInk).alignment = TextAnchor.MiddleCenter;
+            UiFactory.Label(card, Text("ui.inicio.titulo"), 84, UiFactory.Ink, FontStyles.Normal, Face.Title).alignment = TextAlignmentOptions.Center;
+            UiFactory.Label(card, Text("ui.inicio.lema"), 36, UiFactory.MutedInk).alignment = TextAlignmentOptions.Center;
             Space(card, 24);
 
             bool canContinue = current != null && current.Phase != LifePhase.Over;
@@ -83,7 +84,7 @@ namespace MistakesLife.Unity
         private void ShowReplaceWarning()
         {
             RectTransform card = OpenLayer("Confirmar nueva vida");
-            UiFactory.Label(card, Text("ui.inicio.reemplazar"), 40, UiFactory.Ink, FontStyle.Bold);
+            UiFactory.Label(card, Text("ui.inicio.reemplazar"), 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
             Space(card, 12);
             UiFactory.MakeButton(card, Text("ui.inicio.reemplazar_si"), UiFactory.Bad, UiFactory.AccentText, ShowBirths);
             UiFactory.MakeButton(card, Text("ui.boton.cancelar"), UiFactory.Option, UiFactory.Ink, ShowMenu);
@@ -96,7 +97,7 @@ namespace MistakesLife.Unity
         public void ShowBirths()
         {
             RectTransform card = OpenLayer("Elegir vida");
-            UiFactory.Label(card, Text("ui.nacer.titulo"), 52, UiFactory.Ink, FontStyle.Bold);
+            UiFactory.Label(card, Text("ui.nacer.titulo"), 52, UiFactory.Ink, FontStyles.Normal, Face.Title);
             UiFactory.Label(card, Text("ui.nacer.ayuda"), 32, UiFactory.MutedInk);
 
             // Fuera de la simulación sí se puede usar el reloj: solo elige los números de partida.
@@ -112,8 +113,8 @@ namespace MistakesLife.Unity
                 DrawBirth(card, life);
             }
 
-            UiFactory.MakeButton(card, Text("ui.nacer.otras"), UiFactory.Option, UiFactory.Ink, ShowBirths, 34, 96, 20);
-            UiFactory.MakeButton(card, Text("ui.boton.cancelar"), UiFactory.Card, UiFactory.MutedInk, ShowMenu, 34, 96, 20);
+            UiFactory.MakeButton(card, Text("ui.nacer.otras"), UiFactory.Option, UiFactory.Ink, ShowBirths, 34, UiFactory.MinButtonHeight, 20);
+            UiFactory.MakeButton(card, Text("ui.boton.cancelar"), UiFactory.Card, UiFactory.MutedInk, ShowMenu, 34, UiFactory.MinButtonHeight, 20);
         }
 
         public void Close()
@@ -128,8 +129,8 @@ namespace MistakesLife.Unity
         private void DrawBirth(RectTransform parent, LifePresenter life)
         {
             BirthView birth = life.Birth();
-            RectTransform box = UiFactory.Column(parent, "Vida posible", 28, 6, UiFactory.EventCard);
-            UiFactory.Label(box, $"{birth.Name} · {birth.SexLabel}", 40, UiFactory.Ink, FontStyle.Bold);
+            RectTransform box = UiFactory.Column(parent, "Vida posible", 28, 6, UiFactory.Background);
+            UiFactory.Label(box, $"{birth.Name} · {birth.SexLabel}", 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
             UiFactory.Label(box, birth.Place, 30, UiFactory.MutedInk);
             UiFactory.Label(box, birth.HomeLabel, 30, UiFactory.Ink);
             foreach (PersonView person in birth.Parents)
@@ -138,7 +139,7 @@ namespace MistakesLife.Unity
             }
 
             Space(box, 6);
-            UiFactory.MakeButton(box, Text("ui.nacer.elegir"), UiFactory.Accent, UiFactory.AccentText, () => { Close(); LifeChosen?.Invoke(life); }, 34, 96, 20);
+            UiFactory.MakeButton(box, Text("ui.nacer.elegir"), UiFactory.Accent, UiFactory.AccentText, () => { Close(); LifeChosen?.Invoke(life); }, 34, UiFactory.MinButtonHeight, 20);
         }
 
         /// <summary>Abre una capa nueva (cerrando la anterior) con una columna centrada con scroll.</summary>

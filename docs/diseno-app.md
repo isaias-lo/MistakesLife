@@ -45,6 +45,7 @@ Cada tema tiene además **su material**: verde billetera `#1D4A3C`, azul libreta
 - **Cada personaje escribe a mano con su propia letra:** el diario del jugador con Gochi Hand, la mamá con Caveat y el profesor con Patrick Hand. Más adelante la letra del jugador puede ser la de Isaias, convertida en fuente.
 - Todas son de Google Fonts con licencia OFL (se pueden incluir en el juego).
 - En Unity se usan con **TextMeshPro**, no con el `Text` antiguo, que se ve borroso.
+- Los archivos `.ttf` están en `unity/Assets/MistakesLife/Resources/Fuentes` (y sus licencias en `Licencias`). Para cambiar una letra, se reemplaza su archivo con el mismo nombre; `Fonts.cs` dice qué archivo usa cada tipo de texto.
 - **Tamaño mínimo 12 px** (en el lienzo de 390 px de ancho) y botones de 44 px de alto como mínimo.
 
 ### Tono

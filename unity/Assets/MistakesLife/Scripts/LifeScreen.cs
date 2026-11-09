@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Presentation;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,15 +40,15 @@ namespace MistakesLife.Unity
         /// <summary>Lo que pasó en el último toque (tiempo y cambios), o null si no hay nada que contar.</summary>
         private StepSummary? _lastStep;
 
-        private Text _name = null!;
-        private Text _details = null!;
-        private Text _healthLabel = null!;
-        private Text _happinessLabel = null!;
-        private Text _smartsLabel = null!;
+        private TextMeshProUGUI _name = null!;
+        private TextMeshProUGUI _details = null!;
+        private TextMeshProUGUI _healthLabel = null!;
+        private TextMeshProUGUI _happinessLabel = null!;
+        private TextMeshProUGUI _smartsLabel = null!;
         private RectTransform _health = null!;
         private RectTransform _happiness = null!;
         private RectTransform _smarts = null!;
-        private Text _money = null!;
+        private TextMeshProUGUI _money = null!;
         private RectTransform _story = null!;
         private RectTransform _footer = null!;
         private HomeScene _home = null!;
@@ -57,7 +58,7 @@ namespace MistakesLife.Unity
         private RectTransform _viewButtons = null!;
         private string _placeCaption = string.Empty;
         private string? _workCaption;
-        private Text _placeLabel = null!;
+        private TextMeshProUGUI _placeLabel = null!;
         private Button _menuButton = null!;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -92,6 +93,30 @@ namespace MistakesLife.Unity
                 _name.text = "Error";
                 _details.text = ex.Message;
                 Debug.LogException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Solo para las capturas automáticas (SceneCaptures): arma la pantalla con una vida
+        /// ya avanzada, sin esperar al Play, y con el menú de inicio encima si se pide.
+        /// </summary>
+        public void ShowForCapture(ContentDatabase content, LifePresenter life, bool withMenu)
+        {
+            Build();
+            _content = content;
+            _menu = new StartMenu(_safe, content)
+            {
+                LifeChosen = StartLife,
+                ContinueChosen = Refresh,
+                CurrentLife = () => _presenter?.Snapshot(),
+            };
+            _tutorial = new Tutorial(_safe, content);
+            _presenter = life;
+            ReloadJournal();
+            Refresh();
+            if (withMenu)
+            {
+                _menu.ShowMenu();
             }
         }
 
@@ -195,9 +220,9 @@ namespace MistakesLife.Unity
             UiFactory.Stretch(page);
 
             RectTransform header = UiFactory.Column(page, "Personaje", 36, 8, UiFactory.Card);
-            _name = UiFactory.Label(header, string.Empty, 56, UiFactory.Ink, FontStyle.Bold);
+            _name = UiFactory.Label(header, string.Empty, 56, UiFactory.Ink, FontStyles.Normal, Face.Title);
             _details = UiFactory.Label(header, string.Empty, 32, UiFactory.MutedInk);
-            header.GetComponent<VerticalLayoutGroup>().padding.right = 36 + 190;
+            header.GetComponent<VerticalLayoutGroup>().padding.right = 36 + 210;
             BuildMenuButton(header);
 
             // Hueco transparente donde se ve la casa en 3D.
@@ -211,7 +236,7 @@ namespace MistakesLife.Unity
             _health = UiFactory.Bar(stats, "Salud", UiFactory.Health, out _healthLabel);
             _happiness = UiFactory.Bar(stats, "Felicidad", UiFactory.Happiness, out _happinessLabel);
             _smarts = UiFactory.Bar(stats, "Inteligencia", UiFactory.Smarts, out _smartsLabel);
-            _money = UiFactory.Label(stats, string.Empty, 36, UiFactory.Ink, FontStyle.Bold);
+            _money = UiFactory.Label(stats, string.Empty, 36, UiFactory.Ink, FontStyles.Bold);
 
             _story = UiFactory.ScrollColumn(page, "Historia", 36, 20);
             _footer = UiFactory.Column(page, "Acciones", 0, 16);
@@ -227,7 +252,7 @@ namespace MistakesLife.Unity
             rect.anchorMax = new Vector2(1f, 1f);
             rect.pivot = new Vector2(1f, 1f);
             rect.anchoredPosition = new Vector2(-20f, -20f);
-            rect.sizeDelta = new Vector2(170f, 72f);
+            rect.sizeDelta = new Vector2(190f, UiFactory.MinButtonHeight);
         }
 
         /// <summary>
@@ -242,7 +267,7 @@ namespace MistakesLife.Unity
             buttons.anchorMax = new Vector2(1f, 1f);
             buttons.pivot = new Vector2(1f, 1f);
             buttons.anchoredPosition = new Vector2(-16f, -16f);
-            buttons.sizeDelta = new Vector2(560f, 84f);
+            buttons.sizeDelta = new Vector2(560f, UiFactory.MinButtonHeight);
             HorizontalLayoutGroup row = buttons.gameObject.AddComponent<HorizontalLayoutGroup>();
             row.spacing = 8;
             row.childControlWidth = true;
@@ -259,14 +284,15 @@ namespace MistakesLife.Unity
             place.anchorMax = new Vector2(1f, 0f);
             place.pivot = new Vector2(0.5f, 0f);
             place.anchoredPosition = new Vector2(0f, 16f);
-            place.sizeDelta = new Vector2(-32f, 88f);
-            place.gameObject.AddComponent<Image>().color = new Color(1f, 1f, 1f, 0.85f);
-            _placeLabel = UiFactory.Label(place, string.Empty, 28, UiFactory.Ink, FontStyle.Bold);
+            place.sizeDelta = new Vector2(-32f, 100f);
+            Color shade = UiFactory.Background;
+            shade.a = 0.85f;
+            place.gameObject.AddComponent<Image>().color = shade;
+            _placeLabel = UiFactory.Label(place, string.Empty, UiFactory.MinFontSize, UiFactory.Ink, FontStyles.Bold);
             UiFactory.Stretch(_placeLabel.rectTransform);
-            _placeLabel.alignment = TextAnchor.MiddleCenter;
-            _placeLabel.resizeTextForBestFit = true;
-            _placeLabel.resizeTextMinSize = 18;
-            _placeLabel.resizeTextMaxSize = 28;
+            _placeLabel.alignment = TextAlignmentOptions.Center;
+            // Si no cabe en dos líneas, termina en "..." en vez de achicar la letra bajo el mínimo.
+            _placeLabel.overflowMode = TextOverflowModes.Ellipsis;
             PaintViewSwitch();
         }
 
@@ -294,7 +320,7 @@ namespace MistakesLife.Unity
         private static void Paint(Button button, bool active)
         {
             ((Image)button.targetGraphic).color = active ? UiFactory.Accent : UiFactory.Option;
-            button.GetComponentInChildren<Text>().color = active ? UiFactory.AccentText : UiFactory.Ink;
+            button.GetComponentInChildren<TextMeshProUGUI>().color = active ? UiFactory.AccentText : UiFactory.Ink;
         }
 
         /// <summary>Vuelve a dibujar todo con la foto actual de la partida.</summary>
@@ -323,7 +349,7 @@ namespace MistakesLife.Unity
             _name.text = $"{life.PlayerName}, {life.AgeLabel}";
             _details.text = $"{life.Place}\n{life.DateLabel} · {presenter.Text("ui.generacion", life.Generation)} · {presenter.Text("ui.partida", life.Seed)}";
 
-            _menuButton.GetComponentInChildren<Text>().text = presenter.Text("ui.boton.menu");
+            _menuButton.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.boton.menu");
             _healthLabel.text = $"{presenter.Text("ui.salud")}  {life.Health}";
             _happinessLabel.text = $"{presenter.Text("ui.felicidad")}  {life.Happiness}";
             _smartsLabel.text = $"{presenter.Text("ui.inteligencia")}  {life.Smarts}";
@@ -334,13 +360,13 @@ namespace MistakesLife.Unity
 
             _home.Show(life.Home, life.DailyPlace, life.Workplace);
             _home.SetMood(life.Happiness);
-            _roomButton.GetComponentInChildren<Text>().text = presenter.Text("ui.vista.casa");
-            _blockButton.GetComponentInChildren<Text>().text = presenter.Text("ui.vista.barrio");
-            _workButton.GetComponentInChildren<Text>().text = presenter.Text("ui.vista.trabajo");
+            _roomButton.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.vista.casa");
+            _blockButton.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.vista.barrio");
+            _workButton.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.vista.trabajo");
 
             // El botón Trabajo solo aparece si trabaja; si pierde el trabajo, se vuelve a la casa.
             _workButton.gameObject.SetActive(life.Workplace != null);
-            _viewButtons.sizeDelta = new Vector2(life.Workplace != null ? 560f : 380f, 84f);
+            _viewButtons.sizeDelta = new Vector2(life.Workplace != null ? 560f : 380f, UiFactory.MinButtonHeight);
             if (life.Workplace == null && _home.View == SceneView.Work)
             {
                 SetView(SceneView.Room);
@@ -373,7 +399,7 @@ namespace MistakesLife.Unity
                     DrawEventCard(presenter, life);
                     break;
                 case LifePhase.ChoosingHeir:
-                    UiFactory.Label(_story, presenter.Text("ui.legado"), 42, UiFactory.Ink, FontStyle.Bold);
+                    UiFactory.Label(_story, presenter.Text("ui.legado"), 42, UiFactory.Ink, FontStyles.Normal, Face.Title);
                     for (int i = 0; i < life.Heirs.Count; i++)
                     {
                         int heir = i;
@@ -383,13 +409,13 @@ namespace MistakesLife.Unity
 
                     break;
                 case LifePhase.Over:
-                    UiFactory.Label(_story, presenter.Text("ui.fin"), 42, UiFactory.Ink, FontStyle.Bold);
+                    UiFactory.Label(_story, presenter.Text("ui.fin"), 42, UiFactory.Ink, FontStyles.Normal, Face.Title);
                     break;
             }
 
             if (life.Family.Count > 0)
             {
-                UiFactory.Label(_story, presenter.Text("ui.familia"), 38, UiFactory.Accent, FontStyle.Bold);
+                UiFactory.Label(_story, presenter.Text("ui.familia"), 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
                 foreach (PersonView person in life.Family)
                 {
                     DrawPerson(presenter, person);
@@ -398,14 +424,14 @@ namespace MistakesLife.Unity
 
             if (life.People.Count > 0)
             {
-                UiFactory.Label(_story, presenter.Text("ui.gente"), 38, UiFactory.Accent, FontStyle.Bold);
+                UiFactory.Label(_story, presenter.Text("ui.gente"), 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
                 foreach (PersonView person in life.People)
                 {
                     DrawPerson(presenter, person);
                 }
             }
 
-            UiFactory.Label(_story, presenter.Text("ui.diario"), 38, UiFactory.Accent, FontStyle.Bold);
+            UiFactory.Label(_story, presenter.Text("ui.diario"), 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
             foreach (JournalLine line in _journal)
             {
                 UiFactory.Label(_story, $"{line.AgeLabel}: {line.Text}", 34, UiFactory.Ink);
@@ -430,7 +456,7 @@ namespace MistakesLife.Unity
                 title += " · " + _lastStep.ElapsedLabel;
             }
 
-            UiFactory.Label(box, title, 30, UiFactory.MutedInk, FontStyle.Bold);
+            UiFactory.Label(box, title, 34, UiFactory.MutedInk, FontStyles.Bold);
 
             // Avisos de lo importante: lo que quedó en el diario en este paso.
             foreach (JournalLine line in _lastNews)
@@ -455,8 +481,8 @@ namespace MistakesLife.Unity
                 parts.Add($"<color=#{color}>{change.Label}</color>");
             }
 
-            Text changes = UiFactory.Label(box, string.Join("     ", parts), 34, UiFactory.Ink, FontStyle.Bold);
-            changes.supportRichText = true;
+            TextMeshProUGUI changes = UiFactory.Label(box, string.Join("     ", parts), 34, UiFactory.Ink, FontStyles.Bold);
+            changes.richText = true;
         }
 
         /// <summary>
@@ -466,12 +492,12 @@ namespace MistakesLife.Unity
         private void DrawEventCard(LifePresenter presenter, LifeSnapshot life)
         {
             EventView pending = life.PendingEvent!;
-            Color background = pending.IsKeyMoment ? UiFactory.KeyCard : UiFactory.EventCard;
-            RectTransform card = UiFactory.Column(_story, "Evento", 36, 18, background);
+            // El evento es una hoja de papel (docs/diseno-app.md, "Un momento").
+            RectTransform card = UiFactory.Column(_story, "Evento", 36, 18, UiFactory.Paper);
 
             string tag = pending.IsKeyMoment ? $"{life.AgeLabel} · {presenter.Text("ui.momento_clave")}" : life.AgeLabel;
-            UiFactory.Label(card, tag, 30, pending.IsKeyMoment ? UiFactory.KeyInk : UiFactory.MutedInk, FontStyle.Bold);
-            UiFactory.Label(card, pending.Text, 44, UiFactory.Ink, FontStyle.Bold);
+            UiFactory.Label(card, pending.IsKeyMoment ? tag.ToUpperInvariant() : tag, 34, pending.IsKeyMoment ? UiFactory.KeyInk : UiFactory.PaperMutedInk, FontStyles.Bold);
+            UiFactory.Label(card, pending.Text, 44, UiFactory.PaperInk, FontStyles.Normal, Face.Title);
             for (int i = 0; i < pending.Options.Count; i++)
             {
                 int option = i;
@@ -479,8 +505,8 @@ namespace MistakesLife.Unity
                 // Después de volver al pasado, la opción de la otra vez se marca como intuición.
                 bool intuition = pending.IntuitionOption == i;
                 string text = intuition ? presenter.Text("ui.intuicion", pending.Options[i]) : pending.Options[i];
-                Button button = UiFactory.MakeButton(card, text, intuition ? UiFactory.Accent : UiFactory.Card, intuition ? UiFactory.AccentText : UiFactory.Ink, () => Choose(option));
-                button.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleLeft;
+                Button button = UiFactory.MakeButton(card, text, intuition ? UiFactory.Accent : UiFactory.PaperOption, intuition ? UiFactory.AccentText : UiFactory.PaperInk, () => Choose(option));
+                button.GetComponentInChildren<TextMeshProUGUI>().alignment = TextAlignmentOptions.Left;
             }
         }
 
@@ -496,7 +522,7 @@ namespace MistakesLife.Unity
         private void DrawMoments(LifePresenter presenter)
         {
             TimeTravelView travel = presenter.TimeTravel();
-            UiFactory.Label(_story, presenter.Text("ui.pasado.titulo"), 42, UiFactory.Ink, FontStyle.Bold);
+            UiFactory.Label(_story, presenter.Text("ui.pasado.titulo"), 42, UiFactory.Ink, FontStyles.Normal, Face.Title);
             UiFactory.Label(_story, travel.ChargesLabel, 34, UiFactory.MutedInk);
             for (int i = 0; i < travel.Moments.Count; i++)
             {

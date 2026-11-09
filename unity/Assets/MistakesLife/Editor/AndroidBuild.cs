@@ -29,6 +29,7 @@ namespace MistakesLife.Unity.Editor
         public static void Build()
         {
             EnsureMainScene();
+            TextSetup.Ensure();
 
             PlayerSettings.productName = "MistakesLife";
             PlayerSettings.companyName = "MistakesLife";
