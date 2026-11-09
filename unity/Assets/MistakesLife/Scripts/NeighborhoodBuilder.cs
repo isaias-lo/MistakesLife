@@ -19,7 +19,6 @@ namespace MistakesLife.Unity
         private const float SouthRowZ = -7f;
         private const float PlayerHouseX = -4f;
 
-        private static readonly Color Marker = new Color(0.98f, 0.82f, 0.25f);
 
         private static readonly Color[] HouseColors =
         {
@@ -198,7 +197,7 @@ namespace MistakesLife.Unity
             kit.Box("Puerta", new Vector3(x - 0.8f, 1.0f, z - (depth / 2f) - 0.02f), new Vector3(0.8f, 2.0f, 0.06f), new Color(0.45f, 0.32f, 0.22f));
             kit.Box("Ventana", new Vector3(x + 0.8f, 1.4f, z - (depth / 2f) - 0.02f), new Vector3(1.1f, 0.8f, 0.06f), new Color(0.62f, 0.80f, 0.92f));
 
-            Color roofColor = isPlayer ? UiFactory.PlayerFigure : level < 35 ? new Color(0.62f, 0.64f, 0.66f) : new Color(0.66f, 0.32f, 0.24f);
+            Color roofColor = isPlayer ? Palette.Player.color : level < 35 ? new Color(0.62f, 0.64f, 0.66f) : new Color(0.66f, 0.32f, 0.24f);
             if (level < 35)
             {
                 kit.Box("Techo de zinc", new Vector3(x, height + 0.08f, z), new Vector3(width + 0.4f, 0.16f, depth + 0.4f), roofColor);
@@ -220,12 +219,12 @@ namespace MistakesLife.Unity
 
             if (isPlayer)
             {
-                kit.Shape(PrimitiveType.Cylinder, "Tu casa", new Vector3(x, 0.05f, fenceZ - 0.9f), new Vector3(1.4f, 0.02f, 1.4f), Marker);
+                kit.Shape(PrimitiveType.Cylinder, "Tu casa", new Vector3(x, 0.05f, fenceZ - 0.9f), new Vector3(1.4f, 0.02f, 1.4f), Palette.PlayerMark);
 
                 // Alfiler amarillo sobre el techo: se ve desde lejos cuál es tu casa.
                 float top = height + (level < 35 ? 0.2f : (depth * 0.36f));
-                kit.Box("Alfiler", new Vector3(x, top + 0.8f, z), new Vector3(0.12f, 1.6f, 0.12f), Marker);
-                kit.Ball("Alfiler", new Vector3(x, top + 1.9f, z), 0.9f, Marker);
+                kit.Box("Alfiler", new Vector3(x, top + 0.8f, z), new Vector3(0.12f, 1.6f, 0.12f), Palette.PlayerMark);
+                kit.Ball("Alfiler", new Vector3(x, top + 1.9f, z), 0.9f, Palette.PlayerMark);
             }
         }
 
@@ -236,7 +235,7 @@ namespace MistakesLife.Unity
             kit.Box("Patio", at + new Vector3(0f, 0.02f, 3.6f), new Vector3(9f, 0.04f, 2.2f), new Color(0.75f, 0.72f, 0.66f));
             if (highlighted)
             {
-                kit.Shape(PrimitiveType.Cylinder, "Vas aqui", at + new Vector3(0f, 0.06f, 3.6f), new Vector3(1.4f, 0.02f, 1.4f), Marker);
+                kit.Shape(PrimitiveType.Cylinder, "Vas aqui", at + new Vector3(0f, 0.06f, 3.6f), new Vector3(1.4f, 0.02f, 1.4f), Palette.PlayerMark);
             }
         }
 
@@ -262,7 +261,7 @@ namespace MistakesLife.Unity
             kit.Box("Techo del paradero", at + new Vector3(0f, 2.25f, 0f), new Vector3(2.4f, 0.1f, 1.0f), new Color(0.85f, 0.30f, 0.25f));
             if (highlighted)
             {
-                kit.Shape(PrimitiveType.Cylinder, "Vas aqui", at + new Vector3(0f, 0.1f, 0f), new Vector3(1.4f, 0.02f, 1.4f), Marker);
+                kit.Shape(PrimitiveType.Cylinder, "Vas aqui", at + new Vector3(0f, 0.1f, 0f), new Vector3(1.4f, 0.02f, 1.4f), Palette.PlayerMark);
             }
         }
 
@@ -297,7 +296,7 @@ namespace MistakesLife.Unity
             int count = Mathf.Max(1, Mathf.RoundToInt(length / 0.9f));
             for (int i = 0; i <= count; i++)
             {
-                kit.Ball("Camino", Vector3.Lerp(from, to, i / (float)count), 0.3f, Marker);
+                kit.Ball("Camino", Vector3.Lerp(from, to, i / (float)count), 0.3f, Palette.PlayerMark);
             }
         }
     }
