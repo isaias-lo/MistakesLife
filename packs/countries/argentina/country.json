@@ -99,9 +99,9 @@
       "fase_inicial": "economia.ciclo.normal",
       "fases": [
         { "id": "economia.ciclo.normal", "cambio_anual": { "economia.ciclo.recesion": 0.2 } },
-        { "id": "economia.ciclo.recesion", "quiebras": 1.8,
+        { "id": "economia.ciclo.recesion", "quiebras": 1.8, "contratacion": 0.7,
           "cambio_anual": { "economia.ciclo.normal": 0.5, "economia.ciclo.crisis": 0.15 } },
-        { "id": "economia.ciclo.crisis", "inflacion": "economia.inflacion.muy_alta", "quiebras": 3,
+        { "id": "economia.ciclo.crisis", "inflacion": "economia.inflacion.muy_alta", "quiebras": 3, "contratacion": 0.45,
           "cambio_anual": { "economia.ciclo.normal": 0.4 } }
       ]
     },
@@ -175,6 +175,24 @@
         { "id": "empresa.tamano.mediana", "peso": 0.15, "sueldo_relativo": 1.0, "cargo_maximo": 4, "quiebra_anual": 0.035, "crece_anual": 0.03, "achica_anual": 0.05 },
         { "id": "empresa.tamano.grande", "peso": 0.4, "sueldo_relativo": 1.15, "quiebra_anual": 0.015, "achica_anual": 0.03 }
       ]
+    },
+    "busqueda_trabajo": {
+      "formas": [
+        { "id": "busqueda.forma.portales", "postulaciones_semana": 10, "entrevista_semanal": 0.08, "exito_extra": -0.08 },
+        { "id": "busqueda.forma.a_mano", "postulaciones_semana": 2, "entrevista_semanal": 0.045, "exito_extra": 0.1 },
+        { "id": "busqueda.forma.contactos", "postulaciones_semana": 1, "entrevista_semanal": 0.08, "exito_extra": 0.2, "necesita_contacto": true }
+      ],
+      "exito_entrevista": 0.35,
+      "factor_por_ano_experiencia": 0.05,
+      "tope_experiencia": 1.5,
+      "factor_titulo": 1.2,
+      "edad_dificil": 55,
+      "factor_edad": 0.8,
+      "semanas_cesantia_larga": 52,
+      "factor_cesantia_larga": 0.7,
+      "meses_para_sueldo_tipico": 12,
+      "carino_contacto": 50,
+      "negociacion": { "mejora": 0.08, "prob_mejora": 0.4, "prob_retiro": 0.1 }
     }
   },
   "familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.06, "separacion_anual": 0.03, "adopcion_anual": 0.03, "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 },

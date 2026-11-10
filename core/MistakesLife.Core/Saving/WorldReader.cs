@@ -70,6 +70,13 @@ namespace MistakesLife.Core.Saving
 
             foreach (PendingEventData p in data.PendingEvents)
             {
+                // Un evento que ya no está en los paquetes (se retiró) no se puede
+                // mostrar: se descarta y la vida sigue.
+                if (!content.TryGetEvent(p.EventId, out _))
+                {
+                    continue;
+                }
+
                 world.AddPendingEvent(new PendingEvent(p.EventId, p.CharacterId, Date(p.Week), p.SeedId, p.AvailableOptions.ToList()));
             }
 
@@ -135,6 +142,23 @@ namespace MistakesLife.Core.Saving
                 job.Performance = d.Job.Performance;
                 job.CompanyId = d.Job.CompanyId;
                 character.Job = job;
+            }
+
+            if (d.JobSearch != null)
+            {
+                character.JobSearch = new JobSearch(d.JobSearch.Target)
+                {
+                    Kind = Parse<JobKind>(d.JobSearch.Kind),
+                    MethodId = d.JobSearch.MethodId,
+                    ContactId = d.JobSearch.ContactId,
+                    Stage = Parse<JobSearchStage>(d.JobSearch.Stage),
+                    Weeks = d.JobSearch.Weeks,
+                    Applications = d.JobSearch.Applications,
+                    Interviews = d.JobSearch.Interviews,
+                    Rejections = d.JobSearch.Rejections,
+                    Negotiated = d.JobSearch.Negotiated,
+                    Raise = d.JobSearch.Raise,
+                };
             }
 
             if (d.LastAreaId != null && d.LastPositionId != null)

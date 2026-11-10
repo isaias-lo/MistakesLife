@@ -4,6 +4,8 @@
   { "id": "escena.casa.diploma", "lugar": "casa", "condiciones": "jugador.titulado" },
   { "id": "escena.casa.notebook", "lugar": "casa", "condiciones": "jugador.trabaja && jugador.tipo_trabajo != 'informal'" },
   { "id": "escena.casa.avisos_trabajo", "lugar": "casa", "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.trabaja" },
+  { "id": "escena.casa.cartas_rechazo", "lugar": "casa", "condiciones": "jugador.rechazos >= 2" },
+  { "id": "escena.casa.ropa_entrevista", "lugar": "casa", "condiciones": "jugador.entrevista_pendiente || jugador.tiene_oferta" },
   { "id": "escena.casa.cuentas", "lugar": "casa", "condiciones": "jugador.moroso || jugador.meses_en_rojo >= 3" },
   { "id": "escena.casa.remedios", "lugar": "casa", "condiciones": "jugador.salud < 40" },
   { "id": "escena.casa.flores", "lugar": "casa", "condiciones": "jugador.felicidad >= 80" },

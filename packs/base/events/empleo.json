@@ -102,6 +102,7 @@
         "tendencia": "jugador.neuroticismo / 2 + si(jugador.pareja != nada, 15, 0)",
         "efectos": [
           "jugador.desmarcar('buscando_trabajo')",
+          "jugador.dejar_de_buscar()",
           "jugador.marcar('sin_buscar_trabajo')",
           "jugador.felicidad -= 3"
         ]

@@ -154,46 +154,40 @@
   },
   {
     "id": "evento.psicologia.primer_trabajo",
-    "condiciones": "jugador.titulado_en('carrera.psicologia') && jugador.tiene('buscando_trabajo')",
-    "probabilidad_anual": 0.75,
+    "condiciones": "jugador.titulado_en('carrera.psicologia') && jugador.tiene('buscando_trabajo') && jugador.busca_en == nada",
+    "peso": 100,
+    "variantes": [
+      "evento.psicologia.primer_trabajo.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.psicologia.trabajo.cesfam",
         "condiciones": "jugador.tiene('practica_clinica')",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_psicologia')",
           "jugador.marcar('trabaja_honorarios')",
-          "jugador.trabajar_en('carrera.psicologia.area.clinica', 'honorarios')",
-          "jugador.felicidad += 3"
+          "jugador.postular_en('carrera.psicologia.area.clinica', 'honorarios')"
         ]
       },
       {
         "texto": "opcion.psicologia.trabajo.colegio",
         "condiciones": "jugador.tiene('practica_educacional')",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_psicologia')",
-          "jugador.trabajar_en('carrera.psicologia.area.educacional')",
-          "jugador.felicidad += 3"
+          "jugador.postular_en('carrera.psicologia.area.educacional')"
         ]
       },
       {
         "texto": "opcion.psicologia.trabajo.rrhh",
         "condiciones": "jugador.tiene('practica_organizacional')",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_psicologia')",
-          "jugador.trabajar_en('carrera.psicologia.area.organizacional')",
-          "jugador.felicidad += 2"
+          "jugador.postular_en('carrera.psicologia.area.organizacional')"
         ]
       },
       {
-        "texto": "opcion.psicologia.trabajo.esperar",
-        "tendencia": "15"
+        "texto": "opcion.psicologia.trabajo.cualquiera",
+        "tendencia": "15 + jugador.meses_en_rojo * 10",
+        "efectos": [
+          "jugador.postular_en('cualquier_trabajo')"
+        ]
       }
     ]
   },

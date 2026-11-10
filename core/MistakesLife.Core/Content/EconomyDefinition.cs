@@ -47,5 +47,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Tamaños de empresa y cómo viven. Si falta, los trabajos no tienen empresa.</summary>
         [JsonProperty("empresas")]
         public CompaniesDefinition? Companies { get; set; }
+
+        /// <summary>Cómo se busca trabajo en el país (formas de buscar, entrevistas y ofertas), o null.</summary>
+        [JsonProperty("busqueda_trabajo")]
+        public JobSearchDefinition? JobSearch { get; set; }
     }
 }

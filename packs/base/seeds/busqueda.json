@@ -1,0 +1,18 @@
+[
+  {
+    "id": "semilla.te_recomendo",
+    "tipo": "ambigua",
+    "fuerza": 55,
+    "vence_anios": 6,
+    "dormir_min_semanas": 26,
+    "condiciones": "semilla('semilla.te_recomendo').testigo != nada && jugador.trabaja"
+  },
+  {
+    "id": "semilla.mintio_en_cv",
+    "tipo": "negativa",
+    "fuerza": 20,
+    "vence_anios": 10,
+    "dormir_min_semanas": 12,
+    "condiciones": "jugador.trabaja && jugador.tiene('trabajando')"
+  }
+]

@@ -85,6 +85,11 @@ namespace MistakesLife.Core.Saving
                     character["pensionSalaryBase"] ??= 0;
                 }
             },
+
+            // 7 → 8: aparece la búsqueda de trabajo. Las partidas viejas no tenían
+            // ninguna: quien estaba buscando ("buscando_trabajo") elige ahora qué y
+            // cómo buscar con los eventos, como alguien que recién empieza.
+            [7] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

@@ -20,5 +20,7 @@
   "opcion.dejar_la_pieza.arrendar": "Te mudás al departamento. Ya era hora de tener tu espacio.",
   "opcion.dejar_la_pieza.ahorrar": "Te quedás en la habitación un tiempo más y ahorrás la diferencia.",
   "opcion.desalojo.allegado": "Te vas a vivir a la casa de alguien que te da una mano, hasta que te acomodes.",
-  "diario.desalojo.allegado": "Ahora vivís en la casa de alguien que te recibió. Dormís donde se puede y aportás con lo que tenés, pero tenés techo."
+  "diario.desalojo.allegado": "Ahora vivís en la casa de alguien que te recibió. Dormís donde se puede y aportás con lo que tenés, pero tenés techo.",
+  "evento.busqueda.cambiar_forma.2": "La búsqueda se alarga. En el asado del domingo alguien te pregunta \"¿y el laburo?\" y no sabés qué decir.",
+  "evento.busqueda.devolver_favor": "Quien te recomendó para tu trabajo te escribe: su sobrino está buscando laburo y te pregunta si podrías recomendarlo."
 }

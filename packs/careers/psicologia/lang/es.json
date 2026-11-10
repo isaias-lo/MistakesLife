@@ -25,11 +25,10 @@
   "opcion.psicologia.secreto.contar": "Le cuentas algo, solo para que se quede tranquilo.",
   "evento.psicologia.titulacion": "Te titulas de psicólogo después de defender tu memoria.",
   "diario.psicologia.titulacion": "Hoy me titulé de psicólogo. Cinco años y una memoria después.",
-  "evento.psicologia.primer_trabajo": "Después de semanas mandando currículums, por fin te llama alguien.",
-  "opcion.psicologia.trabajo.cesfam": "Psicólogo en un CESFAM, a honorarios.",
-  "opcion.psicologia.trabajo.colegio": "Psicólogo del programa de integración de un colegio.",
-  "opcion.psicologia.trabajo.rrhh": "Analista de selección en recursos humanos.",
-  "opcion.psicologia.trabajo.esperar": "Sigues buscando algo de tu área.",
+  "evento.psicologia.primer_trabajo": "Ya tienes tu título de psicología. Antes de mandar currículums, ¿a qué apuntas?",
+  "opcion.psicologia.trabajo.cesfam": "Postular a un CESFAM, aunque sea a honorarios.",
+  "opcion.psicologia.trabajo.colegio": "Postular al programa de integración de colegios.",
+  "opcion.psicologia.trabajo.rrhh": "Postular a selección en recursos humanos.",
   "evento.psicologia.honorarios": "Llevas meses a honorarios: sin vacaciones pagadas y retienen parte de tu boleta. Te ofrecen renovar igual.",
   "opcion.psicologia.honorarios.aceptar": "Aceptas; al menos es trabajo.",
   "opcion.psicologia.honorarios.contrato": "Pides un contrato y, para tu sorpresa, te lo dan.",
@@ -43,5 +42,7 @@
   "evento.psicologia.paciente_agradecido": "En la feria, una señora te detiene: era tu paciente del CESFAM. Te dice que esas sesiones le cambiaron la vida.",
   "diario.psicologia.paciente_agradecido": "Una ex paciente me dio las gracias en la feria. Por esto estudié psicología.",
   "evento.psicologia.agotamiento.2": "Un paciente te cuenta algo muy duro y esa noche no puedes dormir pensando en eso.",
-  "evento.psicologia.agotamiento.3": "Te das cuenta de que ya no disfrutas tu trabajo como antes: escuchar a otros todo el día te está pasando la cuenta."
+  "evento.psicologia.agotamiento.3": "Te das cuenta de que ya no disfrutas tu trabajo como antes: escuchar a otros todo el día te está pasando la cuenta.",
+  "evento.psicologia.primer_trabajo.2": "Otra vez buscando trabajo. ¿Dónde postulas ahora?",
+  "opcion.psicologia.trabajo.cualquiera": "Lo que salga, aunque no sea de lo tuyo."
 }

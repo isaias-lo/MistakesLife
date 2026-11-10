@@ -43,7 +43,9 @@ namespace MistakesLife.Core.Tests
             // áreas a las que pocas personas llegan.
             var simulator = new LifeSimulator(RepoPacks.Content);
             SimulationReport young = simulator.Run(lives: 1000, finalAge: 25);
-            SimulationReport old = simulator.Run(lives: 150, finalAge: 85);
+            // 300 hasta los 85: algunos eventos de adultos le pasan a cerca del 1 % de las vidas
+            // (por ejemplo, que la pareja se vaya por el rencor acumulado).
+            SimulationReport old = simulator.Run(lives: 300, finalAge: 85);
             var careers = CareerAreaLives.SeenEvents(RepoPacks.Content, livesPerArea: 6);
 
             string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).ToArray();
