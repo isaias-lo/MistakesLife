@@ -65,13 +65,6 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Cuántas personas fuera de la familia se muestran como máximo, para que la lista se pueda leer.</summary>
         public const int MaxPeople = 8;
 
-        /// <summary>
-        /// Edad hasta la que, sin pareja, se dibuja al jugador viviendo con sus padres.
-        /// En Chile la mayoría de los jóvenes se independiza cerca de los 28 años (CASEN).
-        /// Es solo para dibujar: cuando exista el sistema de vivienda, lo decidirá el núcleo.
-        /// </summary>
-        public const int LeavesHomeAge = 28;
-
         public LifePresenter(LifeSession session, string language = ContentDatabase.BaseLanguage)
         {
             Session = session ?? throw new ArgumentNullException(nameof(session));
@@ -483,10 +476,9 @@ namespace MistakesLife.Core.Presentation
         }
 
         /// <summary>
-        /// Quiénes están en la casa: el jugador, su pareja, sus hijos menores de edad
-        /// y sus padres mientras sea menor de edad o, sin pareja, menor de
-        /// <see cref="LeavesHomeAge"/> años. Es una aproximación para dibujar
-        /// hasta que el núcleo tenga un sistema de vivienda.
+        /// Quiénes están en la casa y cuál casa es: el jugador, su pareja, sus hijos
+        /// menores de edad y, mientras no viva por su cuenta (no arrienda ni se fue de la
+        /// casa en un evento), sus padres. Si arrienda, la casa es lo que arrendó.
         /// </summary>
         private HomeView Home(Character player)
         {
@@ -494,7 +486,7 @@ namespace MistakesLife.Core.Presentation
             int age = player.AgeInYears(world.Date);
             var members = new List<HomeMemberView> { Member(player, string.Empty, isPlayer: true) };
 
-            if (age < 18 || (!player.PartnerId.HasValue && age < LeavesHomeAge))
+            if (!player.HasFlag(HousingRules.LivesOnOwnFlag))
             {
                 AddIfAlive(members, player.MotherId, T("ui.relacion.madre"));
                 AddIfAlive(members, player.FatherId, T("ui.relacion.padre"));
@@ -506,7 +498,7 @@ namespace MistakesLife.Core.Presentation
                 members.Add(Member(child, ChildRelation(child), isPlayer: false));
             }
 
-            return new HomeView(player.Residence?.CommuneId ?? string.Empty, player.HouseholdLevel, StageOf(age), members, SceneObjects(player));
+            return new HomeView(player.Residence?.CommuneId ?? string.Empty, player.HouseholdLevel, StageOf(age), members, SceneObjects(player), player.Lease?.TypeId);
         }
 
         /// <summary>

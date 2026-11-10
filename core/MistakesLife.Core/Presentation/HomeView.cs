@@ -3,8 +3,8 @@ using System.Collections.Generic;
 namespace MistakesLife.Core.Presentation
 {
     /// <summary>
-    /// La casa del jugador lista para dibujar en 3D: quiénes están y qué tan acomodado es el hogar.
-    /// Mientras el núcleo no tenga un sistema de vivienda, la casa se deduce de la familia.
+    /// La casa del jugador lista para dibujar en 3D: quiénes están, qué tan acomodado es el
+    /// hogar y, si arrienda, qué arrendó (pieza, departamento o casa).
     /// </summary>
     public sealed class HomeView
     {
@@ -14,7 +14,13 @@ namespace MistakesLife.Core.Presentation
         }
 
         public HomeView(string communeId, int householdLevel, LifeStage playerStage, IReadOnlyList<HomeMemberView> members, IReadOnlyList<string> sceneObjects)
+            : this(communeId, householdLevel, playerStage, members, sceneObjects, null)
         {
+        }
+
+        public HomeView(string communeId, int householdLevel, LifeStage playerStage, IReadOnlyList<HomeMemberView> members, IReadOnlyList<string> sceneObjects, string? housingTypeId)
+        {
+            HousingTypeId = housingTypeId;
             SceneObjects = sceneObjects;
             CommuneId = communeId;
             HouseholdLevel = householdLevel;
@@ -27,6 +33,13 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>Nivel socioeconómico del hogar, de 0 a 100: más alto, casa más amplia y con más muebles.</summary>
         public int HouseholdLevel { get; }
+
+        /// <summary>
+        /// Lo que arrienda el jugador (id de <c>economia.vivienda</c>, por ejemplo
+        /// "vivienda.pieza"), o null si vive en la casa de su familia. La pantalla dibuja una
+        /// pieza chica, un departamento o una casa según esto.
+        /// </summary>
+        public string? HousingTypeId { get; }
 
         /// <summary>Etapa del jugador: decide cuna, cama o escritorio en su pieza.</summary>
         public LifeStage PlayerStage { get; }
@@ -49,7 +62,7 @@ namespace MistakesLife.Core.Presentation
         {
             get
             {
-                var parts = new List<string> { CommuneId, (HouseholdLevel / 10).ToString(), PlayerStage.ToString() };
+                var parts = new List<string> { CommuneId, (HouseholdLevel / 10).ToString(), PlayerStage.ToString(), HousingTypeId ?? "familia" };
                 foreach (HomeMemberView member in Members)
                 {
                     parts.Add(member.Id + ":" + member.Stage);

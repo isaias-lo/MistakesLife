@@ -58,7 +58,8 @@
 | E6b | Herencia: bienes y deudas que pasan a los hijos según la ley del país (beneficio de inventario, deudas que se extinguen al morir) | Hecha |
 | E6c | Tarjetas de crédito (pago mínimo) y repactar deudas | Hecha |
 | E7 | Ciclo económico del país (normal, recesión, crisis): cambia la inflación, golpea los fondos de pensión y trae despidos; `cambiar_ciclo()` para eventos | Hecha |
-| V1 | Vivienda que elige el jugador: contrato de arriendo (pieza, departamento o casa) con el precio de su comuna, garantía, plazo y reajuste (`economia.vivienda`, `jugador.arrendar()`); el arriendo deja de ser un gasto fijo. Primer módulo de "nada se inventa: los gastos los decide el jugador" | En revisión |
+| V1 | Vivienda que elige el jugador: contrato de arriendo (pieza, departamento o casa) con el precio de su comuna, garantía, plazo y reajuste (`economia.vivienda`, `jugador.arrendar()`); el arriendo deja de ser un gasto fijo. Primer módulo de "nada se inventa: los gastos los decide el jugador" | Hecha |
+| V1b | Lo que arriendas se ve en la casa 3D: sin los padres en escena, pieza chica con ropero, departamento con cocina, casa amplia con alfombra y planta, y el contrato firmado sobre la mesa (`escena.casa.contrato_arriendo`) | En revisión |
 
 ## Prototipo en Unity (Unity solo dibuja; todo lo demás es del núcleo)
 
