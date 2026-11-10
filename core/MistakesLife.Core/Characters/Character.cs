@@ -197,6 +197,12 @@ namespace MistakesLife.Core.Characters
         /// <summary>El contrato de arriendo que firmó, o null si no arrienda (vive con su familia o en casa propia).</summary>
         public Economy.Lease? Lease { get; set; }
 
+        /// <summary>
+        /// La compra de comida que eligió el jugador (id de "economia.supermercado"), o
+        /// null si todavía no la decide. Se cobra cada mes mientras vive por su cuenta.
+        /// </summary>
+        public string? GroceryBasketId { get; set; }
+
         /// <summary>Meses seguidos que terminó con el dinero en negativo (estrés financiero).</summary>
         public int MonthsInRed { get; set; }
 

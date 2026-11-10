@@ -41,6 +41,8 @@ namespace MistakesLife.Unity
             "escena.casa.cuentas" => "ancla.mesa",
             "escena.casa.remedios" => "ancla.mesa",
             "escena.casa.contrato_arriendo" => "ancla.mesa",
+            "escena.casa.bolsas_super" => "ancla.cocina",
+            "escena.casa.bebidas" => "ancla.cocina",
             "escena.casa.mochila" => "ancla.mochila",
             "escena.casa.diploma" => "ancla.cuadro_izquierda",
             "escena.casa.foto_pareja" => "ancla.cuadro_derecha",
@@ -92,6 +94,30 @@ namespace MistakesLife.Unity
                     contract.transform.localRotation = Quaternion.Euler(0f, 8f, 0f);
                     GameObject signature = kit.Box("Tu firma", new Vector3(-0.09f, 0.451f, -0.12f), new Vector3(0.12f, 0.004f, 0.02f), Palette.PlayerMark);
                     signature.transform.localRotation = Quaternion.Euler(0f, 8f, 0f);
+                    break;
+                case "escena.casa.bolsas_super":
+                    // Tu compra: dos bolsas de papel en el suelo, al lado de la cocina, con lo que compraste asomando.
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Vector3 bag = new Vector3(0.62f + (i * 0.34f), 0f, -0.12f - (i * 0.06f));
+                        GameObject paper = kit.Box("Bolsa del supermercado", bag + new Vector3(0f, 0.2f, 0f), new Vector3(0.3f, 0.4f, 0.2f), new Color(0.79f, 0.64f, 0.45f));
+                        paper.transform.localRotation = Quaternion.Euler(0f, -10f + (i * 22f), 0f);
+                    }
+
+                    kit.Ball("Lechuga", new Vector3(0.58f, 0.42f, -0.12f), 0.14f, new Color(0.44f, 0.70f, 0.42f));
+                    kit.Ball("Tomate", new Vector3(0.68f, 0.41f, -0.1f), 0.1f, new Color(0.91f, 0.42f, 0.36f));
+                    kit.Box("Pan", new Vector3(1.0f, 0.43f, -0.18f), new Vector3(0.16f, 0.08f, 0.1f), new Color(0.90f, 0.72f, 0.45f));
+                    break;
+                case "escena.casa.bebidas":
+                    // Compras con antojos: bebidas de dos litros junto a las bolsas.
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Vector3 bottle = new Vector3(1.28f + (i * 0.13f), 0.16f, -0.1f);
+                        kit.Shape(PrimitiveType.Cylinder, "Bebida", bottle, new Vector3(0.11f, 0.16f, 0.11f), new Color(0.35f, 0.18f, 0.12f));
+                        kit.Shape(PrimitiveType.Cylinder, "Etiqueta de la bebida", bottle, new Vector3(0.115f, 0.04f, 0.115f), Palette.Alarm);
+                        kit.Shape(PrimitiveType.Cylinder, "Tapa de la bebida", bottle + new Vector3(0f, 0.18f, 0f), new Vector3(0.04f, 0.02f, 0.04f), Color.white);
+                    }
+
                     break;
                 case "escena.casa.remedios":
                     for (int i = 0; i < 3; i++)

@@ -32,6 +32,10 @@ namespace MistakesLife.Core.Content
         [JsonProperty("vivienda")]
         public HousingDefinition? Housing { get; set; }
 
+        /// <summary>Las compras de comida que se pueden elegir al vivir por su cuenta. Si falta, la comida no se cobra aparte.</summary>
+        [JsonProperty("supermercado")]
+        public GroceriesDefinition? Groceries { get; set; }
+
         /// <summary>La declaración anual de impuestos. Si falta, nadie declara.</summary>
         [JsonProperty("declaracion_anual")]
         public AnnualTaxDefinition? AnnualTax { get; set; }

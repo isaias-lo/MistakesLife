@@ -1,0 +1,72 @@
+[
+  {
+    "id": "evento.armar_compra",
+    "condiciones": "jugador.tiene('vive_independiente') && jugador.compra == nada",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.armar_compra.justa",
+        "tendencia": "15 + jugador.responsabilidad / 3 + si(jugador.meses_en_rojo > 0, 30, 0)",
+        "efectos": [
+          "jugador.elegir_compra('compra.justa')"
+        ]
+      },
+      {
+        "texto": "opcion.armar_compra.basica",
+        "tendencia": "40",
+        "efectos": [
+          "jugador.elegir_compra('compra.basica')"
+        ]
+      },
+      {
+        "texto": "opcion.armar_compra.con_antojos",
+        "tendencia": "10 + jugador.extraversion / 4 + si(jugador.sueldo_liquido > sueldo_tipico(), 20, 0)",
+        "efectos": [
+          "jugador.elegir_compra('compra.con_antojos')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.revisar_compra",
+    "condiciones": "jugador.tiene('vive_independiente') && jugador.compra != nada",
+    "probabilidad_anual": 0.35,
+    "enfriamiento_semanas": 52,
+    "veces_maximas": 8,
+    "opciones": [
+      {
+        "texto": "opcion.revisar_compra.seguir",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 10, 50)",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.revisar_compra.justa",
+        "condiciones": "jugador.compra != 'compra.justa'",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 60, 5) + jugador.responsabilidad / 10",
+        "efectos": [
+          "jugador.elegir_compra('compra.justa')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_compra.basica",
+        "condiciones": "jugador.compra != 'compra.basica'",
+        "tendencia": "20",
+        "efectos": [
+          "jugador.elegir_compra('compra.basica')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_compra.con_antojos",
+        "condiciones": "jugador.compra != 'compra.con_antojos' && jugador.meses_en_rojo == 0",
+        "tendencia": "si(jugador.sueldo_liquido > sueldo_tipico(), 25, 3) + jugador.extraversion / 10",
+        "efectos": [
+          "jugador.elegir_compra('compra.con_antojos')"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.revisar_compra.2"
+    ]
+  }
+]

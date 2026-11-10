@@ -88,6 +88,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>Contrato de arriendo, o null si no arrienda.</summary>
         public LeaseData? Lease { get; set; }
 
+        /// <summary>La compra de comida que eligió, o null si no ha elegido.</summary>
+        public string? GroceryBasketId { get; set; }
+
         public List<DebtData> Debts { get; set; } = new List<DebtData>();
 
         public decimal LastDebtPayment { get; set; }

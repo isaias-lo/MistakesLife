@@ -120,6 +120,7 @@ namespace MistakesLife.Core.Saving
                 {
                     MonthsSinceAdjustment = d.Lease.MonthsSinceAdjustment,
                 },
+                GroceryBasketId = d.GroceryBasketId,
                 PensionFund = d.PensionFund,
                 ContributedMonths = d.ContributedMonths,
                 PensionSalaryBase = d.PensionSalaryBase,

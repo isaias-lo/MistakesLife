@@ -125,6 +125,21 @@ namespace MistakesLife.Core.Saving
             // ninguna: quien estaba buscando ("buscando_trabajo") elige ahora qué y
             // cómo buscar con los eventos, como alguien que recién empieza.
             [8] = save => { },
+
+            // 9 → 10: la comida deja de ser un monto fijo y sale de la compra que
+            // elige el jugador. Quien ya vivía por su cuenta sigue con la canasta
+            // básica (lo mínimo para comer bien) hasta que decida otra.
+            [9] = save =>
+            {
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    if (character["groceryBasketId"] == null && character["flags"] is JArray flags
+                        && flags.Any(f => (string?)f == Economy.HousingRules.LivesOnOwnFlag))
+                    {
+                        character["groceryBasketId"] = "compra.basica";
+                    }
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

@@ -148,6 +148,7 @@ namespace MistakesLife.Core.Saving
                     MonthsLeft = c.Lease.MonthsLeft,
                     Deposit = c.Lease.Deposit,
                 },
+                GroceryBasketId = c.GroceryBasketId,
                 PendingTaxReturn = c.PendingTaxReturn == null ? null : new TaxReturnData
                 {
                     Year = c.PendingTaxReturn.Year,
