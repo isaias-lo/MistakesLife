@@ -86,6 +86,20 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void Mundo_RecuerdaSoloLasNoticiasDeLosUltimos12Anios()
+        {
+            ContentDatabase content = TwoCountries();
+            World world = LifeIn(content, "pais.aqui");
+
+            Play(content, world, 14 * 52);
+
+            // Se olvida al llegar una noticia nueva: lo más viejo queda a 12 años de la última.
+            var newest = world.News[world.News.Count - 1].Date;
+            Assert.All(world.News, n => Assert.InRange(newest.WeeksSince(n.Date), 0, World.NewsMemoryWeeks));
+            Assert.True(world.News.Count >= 12 * 52 / 4);
+        }
+
+        [Fact]
         public void EventoQueLeeLaNoticia_PasaSoloDespuesDeElla()
         {
             const string events = @"[

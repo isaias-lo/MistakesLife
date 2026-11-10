@@ -1,6 +1,6 @@
 namespace MistakesLife.Core.Saving
 {
-    /// <summary>Una noticia del mundo guardada (desde la versión 9).</summary>
+    /// <summary>Una noticia del mundo guardada (desde la versión 10).</summary>
     internal sealed class NewsData
     {
         public int Week { get; set; }

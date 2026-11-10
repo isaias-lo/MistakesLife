@@ -16,8 +16,25 @@ namespace MistakesLife.Unity
         /// <summary>Nombre del lugar: las anclas editables van en Resources/Lugares/pieza.prefab.</summary>
         public const string Place = "pieza";
 
-        /// <summary>El ancho de la pieza crece con el nivel del hogar (de 6 a 10 metros).</summary>
+        /// <summary>Ids de lo que se puede arrendar (economia.vivienda en los paquetes de país).</summary>
+        public const string RentedRoom = "vivienda.pieza";
+        public const string RentedFlat = "vivienda.departamento";
+        public const string RentedHouse = "vivienda.casa";
+
+        /// <summary>El ancho de la pieza en la casa de la familia crece con el nivel del hogar (de 6 a 10 metros).</summary>
         public static float Width(int level) => 6f + (level / 25f);
+
+        /// <summary>
+        /// El ancho de lo que se ve: en la casa de la familia, según el nivel del hogar; si
+        /// arrienda, según lo que arrendó (la pieza es lo más chico, la casa lo más amplio).
+        /// </summary>
+        public static float Width(HomeView home) => home.HousingTypeId switch
+        {
+            RentedRoom => 6f,
+            RentedFlat => 7f,
+            RentedHouse => 9f,
+            _ => Width(home.HouseholdLevel),
+        };
 
         private const float Depth = 5f;
 
@@ -25,9 +42,11 @@ namespace MistakesLife.Unity
         /// Dónde va cada cosa si nadie movió las anclas. Las del muro lateral y la ventana
         /// dependen del ancho de la pieza; las demás son fijas.
         /// </summary>
-        public static IReadOnlyDictionary<string, Vector3> DefaultAnchors(int level)
+        public static IReadOnlyDictionary<string, Vector3> DefaultAnchors(int level) => DefaultAnchors(Width(level));
+
+        /// <summary>Las anclas de siempre para una pieza de ese ancho.</summary>
+        public static IReadOnlyDictionary<string, Vector3> DefaultAnchors(float width)
         {
-            float width = Width(level);
             return new Dictionary<string, Vector3>
             {
                 ["ancla.cama"] = new Vector3(-2.4f, 0f, 1.4f),
@@ -45,20 +64,22 @@ namespace MistakesLife.Unity
                 ["ancla.mochila"] = new Vector3(-1.45f, 0f, 0.3f),
                 ["ancla.piso"] = new Vector3(0f, 0f, -1.6f),
                 ["ancla.mecedora"] = new Vector3(2.6f, 0f, -1.7f),
+                // Cocina americana contra el muro del fondo, entre la cama y la tele (departamento y casa).
+                ["ancla.cocina"] = new Vector3(-0.75f, 0f, 2.15f),
+                // Ropero de la pieza arrendada, en el rincón donde otras casas tienen la planta.
+                ["ancla.ropero"] = new Vector3(2.5f, 0f, 1.95f),
             };
         }
 
         /// <summary>Crea las anclas de la pieza (las de siempre, o las movidas en el editor).</summary>
         public static Anchors CreateAnchors(Transform room, HomeView home) =>
-            Anchors.Create(room, Place, DefaultAnchors(home.HouseholdLevel));
+            Anchors.Create(room, Place, DefaultAnchors(Width(home)));
 
         public static void BuildRoom(ShapeKit kit, HomeView home, Anchors anchors)
         {
             int level = home.HouseholdLevel;
-            float width = Width(level);
-
-            Color floor = level < 35 ? new Color(0.62f, 0.62f, 0.60f) : new Color(0.66f, 0.50f, 0.34f);
-            Color wall = level < 35 ? new Color(0.86f, 0.74f, 0.60f) : level < 65 ? new Color(0.86f, 0.80f, 0.68f) : new Color(0.90f, 0.88f, 0.82f);
+            float width = Width(home);
+            (Color floor, Color wall) = Colors(home);
 
             kit.Box("Piso", new Vector3(0f, -0.05f, 0f), new Vector3(width, 0.1f, Depth), floor);
             kit.Box("Muro del fondo", new Vector3(0f, 1.3f, (Depth / 2f) + 0.05f), new Vector3(width, 2.6f, 0.1f), wall);
@@ -69,11 +90,34 @@ namespace MistakesLife.Unity
             Models.Place(kit, anchors["ancla.puerta"], "mueble.puerta", k =>
                 k.Box("Puerta", new Vector3(0.01f, 1.0f, 0f), new Vector3(0.04f, 2.0f, 0.9f), Palette.DarkWood));
 
-            if (level >= 50)
+            if (home.HousingTypeId == RentedHouse || (home.HousingTypeId == null && level >= 50))
             {
                 Models.Place(kit, anchors["ancla.alfombra"], "mueble.alfombra", k =>
                     k.Box("Alfombra", new Vector3(0f, 0.01f, 0f), new Vector3(2.4f, 0.02f, 1.6f), new Color(0.70f, 0.42f, 0.36f)));
             }
+        }
+
+        /// <summary>
+        /// Piso y muros: en la casa de la familia según el nivel del hogar; la pieza arrendada
+        /// con muro gastado y piso flotante gris, el departamento blanco con piso claro y la casa
+        /// arrendada con muros cálidos y piso de madera.
+        /// </summary>
+        private static (Color floor, Color wall) Colors(HomeView home)
+        {
+            switch (home.HousingTypeId)
+            {
+                case RentedRoom:
+                    return (new Color(0.58f, 0.58f, 0.57f), new Color(0.80f, 0.74f, 0.66f));
+                case RentedFlat:
+                    return (new Color(0.76f, 0.66f, 0.52f), new Color(0.92f, 0.91f, 0.87f));
+                case RentedHouse:
+                    return (new Color(0.62f, 0.46f, 0.31f), new Color(0.90f, 0.82f, 0.66f));
+            }
+
+            int level = home.HouseholdLevel;
+            Color floor = level < 35 ? new Color(0.62f, 0.62f, 0.60f) : new Color(0.66f, 0.50f, 0.34f);
+            Color wall = level < 35 ? new Color(0.86f, 0.74f, 0.60f) : level < 65 ? new Color(0.86f, 0.80f, 0.68f) : new Color(0.90f, 0.88f, 0.82f);
+            return (floor, wall);
         }
 
         public static void BuildFurniture(ShapeKit kit, HomeView home, Anchors anchors)
@@ -118,25 +162,52 @@ namespace MistakesLife.Unity
                 k.Box("Pata de la mesa", new Vector3(0f, 0.2f, 0f), new Vector3(0.12f, 0.4f, 0.12f), Palette.DarkWood);
             });
 
-            if (level >= 25)
+            string? rented = home.HousingTypeId;
+            bool sofa = rented == RentedFlat || rented == RentedHouse || (rented == null && level >= 25);
+            bool tv = rented == RentedFlat || rented == RentedHouse || (rented == null && level >= 40);
+            bool plant = rented == RentedHouse || (rented == null && level >= 60);
+
+            if (sofa)
             {
                 // A un costado, a lo largo: delante de la familia tapaba medio cuerpo a la cámara.
                 Models.Place(kit, anchors["ancla.sillon"], "mueble.sillon", k =>
                     k.Box("Sillon", new Vector3(0f, 0.3f, 0f), new Vector3(0.7f, 0.6f, 1.6f), new Color(0.35f, 0.45f, 0.40f)));
             }
 
-            if (level >= 40)
+            if (tv)
             {
                 Models.Place(kit, anchors["ancla.tele"], "mueble.tele", k =>
                     k.Box("Tele", Vector3.zero, new Vector3(1.2f, 0.7f, 0.06f), Palette.Screen));
             }
 
-            if (level >= 60)
+            if (plant)
             {
                 Models.Place(kit, anchors["ancla.planta"], "mueble.planta", k =>
                 {
                     k.Box("Macetero", new Vector3(0f, 0.25f, 0f), new Vector3(0.4f, 0.5f, 0.4f), new Color(0.60f, 0.38f, 0.26f));
                     k.Ball("Planta", new Vector3(0f, 0.8f, 0f), 0.7f, new Color(0.30f, 0.55f, 0.30f));
+                });
+            }
+
+            if (rented == RentedFlat || rented == RentedHouse)
+            {
+                // Lo propio de vivir por tu cuenta: una cocina que tú llenas.
+                Models.Place(kit, anchors["ancla.cocina"], "mueble.cocina", k =>
+                {
+                    k.Box("Mueble de cocina", new Vector3(0f, 0.45f, 0f), new Vector3(0.9f, 0.9f, 0.55f), new Color(0.88f, 0.88f, 0.86f));
+                    k.Box("Cubierta de la cocina", new Vector3(0f, 0.91f, 0f), new Vector3(0.94f, 0.04f, 0.58f), new Color(0.32f, 0.32f, 0.34f));
+                    k.Shape(PrimitiveType.Cylinder, "Quemador", new Vector3(-0.2f, 0.935f, 0f), new Vector3(0.18f, 0.01f, 0.18f), Palette.Screen);
+                    k.Shape(PrimitiveType.Cylinder, "Quemador", new Vector3(0.2f, 0.935f, 0f), new Vector3(0.18f, 0.01f, 0.18f), Palette.Screen);
+                });
+            }
+
+            if (rented == RentedRoom)
+            {
+                // La pieza arrendada: lo tuyo cabe en un ropero.
+                Models.Place(kit, anchors["ancla.ropero"], "mueble.ropero", k =>
+                {
+                    k.Box("Ropero", new Vector3(0f, 0.9f, 0f), new Vector3(0.9f, 1.8f, 0.5f), Palette.Wood);
+                    k.Box("Puerta del ropero", new Vector3(0f, 0.9f, -0.26f), new Vector3(0.02f, 1.7f, 0.02f), Palette.DarkWood);
                 });
             }
         }

@@ -105,6 +105,20 @@ namespace MistakesLife.Core.Saving
                     Performance = c.Job.Performance,
                     CompanyId = c.Job.CompanyId,
                 },
+                JobSearch = c.JobSearch == null ? null : new JobSearchData
+                {
+                    Target = c.JobSearch.Target,
+                    Kind = c.JobSearch.Kind.ToString(),
+                    MethodId = c.JobSearch.MethodId,
+                    ContactId = c.JobSearch.ContactId,
+                    Stage = c.JobSearch.Stage.ToString(),
+                    Weeks = c.JobSearch.Weeks,
+                    Applications = c.JobSearch.Applications,
+                    Interviews = c.JobSearch.Interviews,
+                    Rejections = c.JobSearch.Rejections,
+                    Negotiated = c.JobSearch.Negotiated,
+                    Raise = c.JobSearch.Raise,
+                },
                 LastAreaId = c.LastPosition?.AreaId,
                 LastPositionId = c.LastPosition?.PositionId,
                 LastPayslip = c.LastPayslip == null ? null : new PayslipData

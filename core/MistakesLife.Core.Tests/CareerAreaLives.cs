@@ -71,6 +71,37 @@ namespace MistakesLife.Core.Tests
             return seen;
         }
 
+        /// <summary>
+        /// Vidas de personas que trabajan con la salud muy baja a los 40 años, para los eventos
+        /// de dejar el trabajo por salud y volver al recuperarse, que en una vida al azar le
+        /// pasan a cerca del 1 %.
+        /// </summary>
+        public static HashSet<string> SickWorkerEvents(ContentDatabase content, int lives, int startAge = 40, int finalAge = 55)
+        {
+            var seen = new HashSet<string>();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 700 + (ulong)i);
+                Play(session, startAge);
+                if (!session.World.Player.IsAlive)
+                {
+                    continue;
+                }
+
+                var scope = new EventScope(session.World, content, session.World.Player, null, readOnly: false);
+                foreach (string effect in new[] { "jugador.desmarcar('buscando_trabajo')", "jugador.marcar('trabajando')", "jugador.trabajar(sueldo_titulo())", "jugador.salud = 30" })
+                {
+                    Effect.Parse(effect).Apply(scope);
+                }
+
+                int before = session.World.EventHistory.Count;
+                Play(session, finalAge);
+                seen.UnionWith(session.World.EventHistory.Skip(before).Select(r => r.EventId));
+            }
+
+            return seen;
+        }
+
         private static void Play(LifeSession session, int age)
         {
             var decider = new AutoDecider(session.Content);

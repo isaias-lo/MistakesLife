@@ -505,27 +505,6 @@
     ]
   },
   {
-    "id": "evento.trabajo_sin_titulo",
-    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad < 26 && mundo.ciclo != 'economia.ciclo.crisis'",
-    "probabilidad_anual": 0.6,
-    "opciones": [
-      {
-        "texto": "opcion.trabajo.aceptar",
-        "tendencia": "60 + (100 - jugador.nivel_hogar) / 3",
-        "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.trabajar(sueldo_minimo())",
-          "jugador.felicidad += 2"
-        ]
-      },
-      {
-        "texto": "opcion.trabajo.rechazar",
-        "tendencia": "jugador.nivel_hogar / 4"
-      }
-    ]
-  },
-  {
     "id": "evento.amigo_de_la_infancia",
     "semilla": "semilla.compartio_juguete",
     "peso": 10,

@@ -146,30 +146,24 @@
   },
   {
     "id": "evento.contabilidad.primer_trabajo",
-    "condiciones": "jugador.titulado_en('carrera.contabilidad') && jugador.tiene('buscando_trabajo')",
-    "probabilidad_anual": 0.9,
+    "condiciones": "jugador.titulado_en('carrera.contabilidad') && jugador.tiene('buscando_trabajo') && jugador.busca_en == nada",
+    "peso": 100,
+    "variantes": [
+      "evento.contabilidad.primer_trabajo.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.contabilidad.trabajo.auditor",
         "condiciones": "jugador.tiene('practica_auditora') && jugador.puede_trabajar_en('carrera.contabilidad.area.auditoria')",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_contabilidad')",
           "jugador.marcar('trabaja_auditoria')",
-          "jugador.trabajar_en('carrera.contabilidad.area.auditoria')",
-          "jugador.felicidad += 4",
-          "jugador.salud -= 2"
+          "jugador.postular_en('carrera.contabilidad.area.auditoria')"
         ]
       },
       {
         "texto": "opcion.contabilidad.trabajo.asistente",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_contabilidad')",
-          "jugador.trabajar_en('carrera.contabilidad.area.general')",
-          "jugador.felicidad += 4"
+          "jugador.postular_en('carrera.contabilidad.area.general')"
         ]
       },
       {
@@ -177,11 +171,7 @@
         "condiciones": "jugador.puede_trabajar_en('carrera.contabilidad.area.impuestos')",
         "tendencia": "jugador.responsabilidad / 2",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_contabilidad')",
-          "jugador.trabajar_en('carrera.contabilidad.area.impuestos')",
-          "jugador.felicidad += 4"
+          "jugador.postular_en('carrera.contabilidad.area.impuestos')"
         ]
       },
       {
@@ -189,16 +179,15 @@
         "condiciones": "jugador.puede_trabajar_en('carrera.contabilidad.area.remuneraciones')",
         "tendencia": "jugador.amabilidad / 3",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_contabilidad')",
-          "jugador.trabajar_en('carrera.contabilidad.area.remuneraciones')",
-          "jugador.felicidad += 4"
+          "jugador.postular_en('carrera.contabilidad.area.remuneraciones')"
         ]
       },
       {
-        "texto": "opcion.contabilidad.trabajo.esperar",
-        "tendencia": "15"
+        "texto": "opcion.contabilidad.trabajo.cualquiera",
+        "tendencia": "15 + jugador.meses_en_rojo * 10",
+        "efectos": [
+          "jugador.postular_en('cualquier_trabajo')"
+        ]
       }
     ]
   },

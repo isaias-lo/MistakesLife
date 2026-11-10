@@ -121,7 +121,17 @@ namespace MistakesLife.Core.Worlds
             return count;
         }
 
-        internal void AddNews(NewsRecord record) => _news.Add(record);
+        /// <summary>
+        /// Semanas que el mundo recuerda las noticias (12 años): más que la espera más
+        /// larga de una noticia (10 años), y así el guardado de una vida larga sigue liviano.
+        /// </summary>
+        public const int NewsMemoryWeeks = 12 * Time.GameDate.WeeksPerYear;
+
+        internal void AddNews(NewsRecord record)
+        {
+            _news.Add(record);
+            _news.RemoveAll(n => record.Date.WeeksSince(n.Date) > NewsMemoryWeeks);
+        }
 
         internal void AddPendingEvent(PendingEvent pending) => _pendingEvents.Add(pending);
 

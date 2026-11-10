@@ -26,10 +26,9 @@
   "opcion.contabilidad.boleta.preguntar": "Le preguntas al contador senior qué hacer.",
   "evento.contabilidad.titulacion": "Te titulas. Ya puedes firmar balances.",
   "diario.contabilidad.titulacion": "Hoy me titulé. Mi mamá lloró en la ceremonia.",
-  "evento.contabilidad.primer_trabajo": "Te llegan ofertas de trabajo.",
-  "opcion.contabilidad.trabajo.auditor": "Auditor junior en la auditora donde hiciste la práctica.",
-  "opcion.contabilidad.trabajo.asistente": "Asistente contable en un estudio que lleva pymes.",
-  "opcion.contabilidad.trabajo.esperar": "Esperas una oferta mejor.",
+  "evento.contabilidad.primer_trabajo": "Ya tienes tu título de contabilidad. Toca buscar trabajo y decidir dónde quieres entrar.",
+  "opcion.contabilidad.trabajo.auditor": "Postular a auditor junior en la auditora donde hiciste la práctica.",
+  "opcion.contabilidad.trabajo.asistente": "Postular a asistente contable en estudios que llevan pymes.",
   "evento.contabilidad.cierre_anual": "Cierre contable de fin de año: todos se quedan hasta las diez de la noche.",
   "opcion.contabilidad.cierre.quedarse": "Te quedas hasta que todo cuadre.",
   "opcion.contabilidad.cierre.irse": "Te vas a tu hora; ya avanzarás mañana.",
@@ -39,8 +38,10 @@
   "evento.contabilidad.cliente_recomendado": "Tu tía la de las sopaipillas le contó a medio barrio que le hiciste la renta. El dueño del almacén de la esquina quiere que le lleves la contabilidad.",
   "opcion.contabilidad.cliente.aceptar": "Aceptas: tu primer cliente propio.",
   "opcion.contabilidad.cliente.rechazar": "Le dices que no tienes tiempo.",
-  "opcion.contabilidad.trabajo.impuestos": "Entras a un estudio a llevar impuestos.",
-  "opcion.contabilidad.trabajo.remuneraciones": "Entras a llevar remuneraciones en una empresa.",
+  "opcion.contabilidad.trabajo.impuestos": "Postular a estudios que llevan impuestos.",
+  "opcion.contabilidad.trabajo.remuneraciones": "Postular a llevar remuneraciones en una empresa.",
   "evento.contabilidad.cierre_anual.2": "Diciembre de nuevo: balances, conciliaciones y el jefe pidiendo todo \"para ayer\". Este cierre viene peor que el anterior.",
-  "evento.contabilidad.cierre_anual.3": "Cierre de año con un cliente nuevo que llegó con la contabilidad hecha un desastre. Nadie se va temprano."
+  "evento.contabilidad.cierre_anual.3": "Cierre de año con un cliente nuevo que llegó con la contabilidad hecha un desastre. Nadie se va temprano.",
+  "evento.contabilidad.primer_trabajo.2": "De nuevo buscando trabajo. ¿A qué tipo de puesto postulas esta vez?",
+  "opcion.contabilidad.trabajo.cualquiera": "Lo que salga, aunque no sea de lo tuyo."
 }

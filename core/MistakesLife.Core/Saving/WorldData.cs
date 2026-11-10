@@ -44,7 +44,7 @@ namespace MistakesLife.Core.Saving
 
         public int NextCompanyId { get; set; } = 1;
 
-        /// <summary>Las noticias del mundo (desde la versión 9).</summary>
+        /// <summary>Las noticias del mundo (desde la versión 10).</summary>
         public List<NewsData> News { get; set; } = new List<NewsData>();
     }
 }
