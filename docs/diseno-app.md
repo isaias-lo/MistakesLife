@@ -12,7 +12,7 @@ Antes de programar una pantalla nueva en `unity/`, léelo. Si una pantalla nueva
 
 | Tema | Objeto en 3D (se toca para abrir) | Pantalla 2D (su material) |
 |---|---|---|
-| Tu dinero | Alcancía en la repisa, sobres de cuentas en la mesa, carta de cobranza bajo la puerta | Billetera de cuero verde con un talonario de boletos (días de sueldo) y una mochila con piedras (deudas) |
+| Tu dinero | La mesa de la cocina a fin de mes, con los gastos del mes como objetos (contrato, bolsas del súper, tarjeta del metro); alcancía en la repisa, carta de cobranza bajo la puerta | La cartola del banco: cada movimiento con la decisión que lo causó |
 | Estudios | Libreta y cuadernos en el escritorio, mochila del colegio | Libreta de notas chilena (1,0 a 7,0, rojo bajo 4,0), asistencia y PAES |
 | Trabajo / buscar pega | Diario con avisos o notebook | Diario mural de corcho con las postulaciones como fichas (postulaste, entrevista, oferta, no quedaste) |
 | Redes | Celular en el velador o en el escritorio | El celular del personaje con sus apps parodia (Instante, Mensajito, Flechazo, Sonar, MiTubo) |
@@ -77,21 +77,15 @@ Cada tema tiene además **su material**: verde billetera `#1D4A3C`, azul libreta
   - la intuición de "volver al pasado" con letra a mano.
 
 ### Tu dinero
-Hay tres pestañas: **El mes**, **La mochila** y **Tu historia**.
-- **El mes:**
-  - frase grande con los días de trabajo que costó el mes;
-  - un talonario de boletos, un boleto por día de sueldo, con el color del gasto;
-  - los días prestados son pagarés rayados en rojo;
-  - debajo, a qué se fue cada día, el pagaré que explica qué cubrió la línea de crédito y botones de "lo que puedes cambiar" (decisiones con su efecto en días).
-- **La mochila:**
-  - las deudas son piedras: el tamaño es lo que debes y el color, el interés;
-  - al tocar una se ve como boleta: debes, interés, cuota, estado y la lección con tus números;
-  - abajo están las tres marcas antes de DICOM.
-- **Tu historia:** la línea del ahorro menos las deudas desde los 18 años (de la propuesta original: https://claude.ai/artifact/RgYBVLLFBL3T9vhg9eoEV5).
-- **Por edad:**
-  - de 0 a 12 años no hay pantalla, solo se nota en la casa;
-  - de 13 a 17, la mesada y la alcancía en tu pieza;
-  - en la jubilación, el mes se mide con la pensión.
+Acordado el 2026-11-10 (bocetos en el lienzo, fila 5: "C. La mesa de la cocina" y "A. La cartola del banco"). Reemplaza la idea anterior de los boletos y la mochila.
+
+**Regla de Isaias: nada se inventa.** Todo gasto nace de una decisión del jugador (un contrato que firmó, una compra, una rutina que armó) con el precio real de su país. Si no decide nada, no aparece un cobro: aparece la consecuencia (la despensa vacía, la luz cortada, el aviso de desalojo). Por eso primero van los módulos de gastos (vivienda, supermercado, transporte, cuentas, celular, gastos personales, hijos) y Tu dinero se programa después, mostrando solo lo que existe.
+
+- **Pantalla principal: la mesa de la cocina (3D).** A fin de mes, sobre la mesa aparecen los gastos como objetos: el contrato del arriendo con tu firma, las bolsas del súper, la tarjeta del metro, el celular, un regalo de una salida, el sobre del sueldo. Tu personaje está al lado. Arriba, cuánto te queda.
+- Al tocar un objeto sube una hoja: qué es, de qué decisión viene ("Elegiste ir en metro en abril"), lo que costó este mes, tu rutina, cuántos días de sueldo es, y dos botones para cambiar esa decisión.
+- **Detalle: la cartola del banco.** Un papel que sale del cajero con cada movimiento por fecha y su motivo ("Contrato que firmaste en marzo"); tocar una línea lleva a la decisión que la causó.
+- Las rutinas (decidir una vez y que se repita, por ejemplo la compra de la semana) se ven y se cambian aquí; si el precio sube, la rutina avisa.
+- **Por edad:** de 0 a 12 años no hay pantalla, solo se nota en la casa; de 13 a 17, la mesada y la alcancía en tu pieza; en la jubilación, el mes se mide con la pensión.
 
 ### Estudios, Buscar pega, Redes y Juzgado
 Siguen los bocetos de la fila 3, con las letras y los tamaños de la ronda 2. Cada una comparte la barra de arriba (volver a tu casa, título, quién eres) y el amarillo para lo tuyo. Se programan cuando el núcleo tenga sus datos.
@@ -168,6 +162,6 @@ Hoy cada objeto y cada lugar (pieza, oficina, barrio) está armado **en código*
 1. **Base visual:** TextMeshPro con las letras, colores de la sección 2, tamaños mínimos.
 2. **3D modificable** (sección 7): modelo por id con reserva, lugares con anclas y materiales compartidos. Va antes de rehacer pantallas para que todo lo nuevo nazca modificable.
 3. **Pantalla de la vida nueva** (sección 3) y el personaje estilo juguete de madera (sección 4).
-4. **Tu dinero**, junto con los datos que necesita del núcleo: gastos del mes, deudas con cuota, interés y estado, meses atrasados e historia.
+4. **Módulos de gastos que decide el jugador** (V1 vivienda primero, luego supermercado, transporte, cuentas, celular, personales e hijos) y después **Tu dinero**: la mesa de la cocina con la cartola de detalle.
 5. **Luz por etapa, hora y clima** (sección 5) y las transiciones del 3D al 2D (sección 6).
 6. **Estudios, Buscar pega, Redes y Juzgado**, cada uno cuando el núcleo tenga sus sistemas.

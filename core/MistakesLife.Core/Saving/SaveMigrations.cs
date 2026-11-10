@@ -86,10 +86,45 @@ namespace MistakesLife.Core.Saving
                 }
             },
 
-            // 7 → 8: aparece la búsqueda de trabajo. Las partidas viejas no tenían
+            // 7 → 8: el arriendo sale de un contrato que eligió el jugador (antes era
+            // un gasto fijo con las marcas vive_independiente y arrienda_pieza). Quien
+            // vivía por su cuenta recibe su contrato (pieza o departamento) sin
+            // garantía; el arriendo toma el precio de su comuna el primer mes.
+            [7] = save =>
+            {
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    if (!(character["flags"] is JArray flags))
+                    {
+                        continue;
+                    }
+
+                    bool room = flags.Any(f => (string?)f == "arrienda_pieza");
+                    foreach (JToken old in flags.Where(f => (string?)f == "arrienda_pieza").ToList())
+                    {
+                        old.Remove();
+                    }
+
+                    if (character["lease"] == null && flags.Any(f => (string?)f == Economy.HousingRules.LivesOnOwnFlag) && character["communeId"] != null)
+                    {
+                        character["lease"] = new JObject
+                        {
+                            ["typeId"] = room ? "vivienda.pieza" : "vivienda.departamento",
+                            ["communeId"] = character["communeId"],
+                            ["baseRent"] = 0,
+                            ["adjustedPriceIndex"] = 1,
+                            ["monthsSinceAdjustment"] = 0,
+                            ["monthsLeft"] = 12,
+                            ["deposit"] = 0,
+                        };
+                    }
+                }
+            },
+
+            // 8 → 9: aparece la búsqueda de trabajo. Las partidas viejas no tenían
             // ninguna: quien estaba buscando ("buscando_trabajo") elige ahora qué y
             // cómo buscar con los eventos, como alguien que recién empieza.
-            [7] = save => { },
+            [8] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

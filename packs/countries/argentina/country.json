@@ -29,7 +29,7 @@
       "id": "ciudad.buenos_aires",
       "peso_nacimiento": 1,
       "comunas": [
-        { "id": "comuna.la_matanza", "peso_nacimiento": 1838, "nivel_hogar_min": 10, "nivel_hogar_max": 60, "arriendo": 320000 }
+        { "id": "comuna.la_matanza", "peso_nacimiento": 1838, "nivel_hogar_min": 10, "nivel_hogar_max": 60, "arriendos": {"vivienda.pieza": 170000, "vivienda.departamento": 320000, "vivienda.casa": 480000} }
       ]
     }
   ],
@@ -128,15 +128,19 @@
         { "desde": 7000000, "tasa": 0.35 }
       ]
     },
-    "gastos": {
+    "vivienda": {"plazo_meses": 24, "garantia_meses": 1, "reajuste_meses": 3, "tipos": [
+        { "id": "vivienda.pieza", "incluye_cuentas": true },
+        { "id": "vivienda.departamento" },
+        { "id": "vivienda.casa" }
+      ] },
+      "gastos": {
       "edad_desde": 18,
       "felicidad_en_rojo": 1,
       "cupo_deficit": 1600000,
       "deuda_por_deficit": "deuda.argentina.descubierto",
       "categorias": [
-        { "id": "gasto.argentina.alquiler", "monto": "arriendo() * si(jugador.tiene('arrienda_pieza'), 0.4, 1)", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
         { "id": "gasto.argentina.comida", "monto": "250000 + 120000 * jugador.hijos_menores", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
-        { "id": "gasto.argentina.servicios", "monto": "80000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.tiene('arrienda_pieza')", "compartido": true },
+        { "id": "gasto.argentina.servicios", "monto": "80000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
         { "id": "gasto.argentina.hijos", "monto": "150000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.argentina.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
         { "id": "gasto.argentina.transporte", "monto": "40000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
@@ -202,6 +206,6 @@
   },
   "vida_previa": [
     { "edad": 18, "marcas": ["egresado_media", "decidio_futuro"] },
-    { "edad": 28, "marcas": ["vive_independiente"] }
+    { "edad": 28, "marcas": ["vive_independiente"], "vivienda": "vivienda.departamento" }
   ]
 }

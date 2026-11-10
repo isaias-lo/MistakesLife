@@ -1,6 +1,6 @@
 namespace MistakesLife.Core.Saving
 {
-    /// <summary>Una búsqueda de trabajo guardada (desde la versión 8).</summary>
+    /// <summary>Una búsqueda de trabajo guardada (desde la versión 9).</summary>
     internal sealed class JobSearchData
     {
         public string Target { get; set; } = string.Empty;

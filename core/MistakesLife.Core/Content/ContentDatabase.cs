@@ -499,7 +499,7 @@ namespace MistakesLife.Core.Content
                         _errors.Add(new ContentError(communeWhere, "peso_nacimiento debe ser mayor que 0."));
                     }
 
-                    if (commune.Rent < 0)
+                    if (commune.Rents.Values.Any(r => r < 0))
                     {
                         _errors.Add(new ContentError(communeWhere, "el arriendo no puede ser negativo."));
                     }
@@ -553,6 +553,11 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError($"{where}, vida_previa edad {prior.Age}", "la edad no puede ser negativa y debe tener al menos una marca no vacía."));
                 }
+
+                if (prior.Housing != null && country.Economy?.Housing?.Type(prior.Housing) == null)
+                {
+                    _errors.Add(new ContentError($"{where}, vida_previa edad {prior.Age}", $"la vivienda '{prior.Housing}' no está en economia.vivienda.tipos."));
+                }
             }
 
             foreach (KeyValuePair<string, Newtonsoft.Json.Linq.JToken> law in country.LawsJson)
@@ -580,6 +585,7 @@ namespace MistakesLife.Core.Content
                 }
 
                 ValidatePayroll($"{where}, economia", country.Economy);
+                ValidateHousing($"{where}, economia.vivienda", country);
                 if (country.Economy.Companies != null)
                 {
                     ValidateCompanies($"{where}, economia.empresas", country.Economy.Companies);
@@ -598,6 +604,49 @@ namespace MistakesLife.Core.Content
                 if (badRate || family.PartnerMinAge < 12 || family.FertileMaxAge < family.PartnerMinAge || family.MaxChildren < 0)
                 {
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));
+                }
+            }
+        }
+
+        private void ValidateHousing(string where, CountryDefinition country)
+        {
+            HousingDefinition? housing = country.Economy?.Housing;
+            List<CommuneDefinition> communes = country.Cities.SelectMany(c => c.Communes).ToList();
+            if (housing == null)
+            {
+                if (communes.Any(c => c.Rents.Count > 0))
+                {
+                    _errors.Add(new ContentError(where, "las comunas tienen arriendos pero el país no define economia.vivienda."));
+                }
+
+                return;
+            }
+
+            if (housing.TermMonths < 1 || housing.DepositMonths < 0 || housing.AdjustEveryMonths < 1)
+            {
+                _errors.Add(new ContentError(where, "plazo_meses y reajuste_meses desde 1; garantia_meses no negativo."));
+            }
+
+            var seenTypes = new HashSet<string>();
+            foreach (HousingTypeDefinition type in housing.Types)
+            {
+                CheckId($"{where}, {type.Id}", type.Id, "vivienda.");
+                if (!seenTypes.Add(type.Id))
+                {
+                    _errors.Add(new ContentError($"{where}, {type.Id}", "tipo de vivienda repetido."));
+                }
+            }
+
+            foreach (CommuneDefinition commune in communes)
+            {
+                foreach (HousingTypeDefinition type in housing.Types.Where(t => commune.RentOf(t.Id) == null))
+                {
+                    _errors.Add(new ContentError($"{where}, {commune.Id}", $"la comuna no tiene el arriendo de {type.Id}. Toda comuna debe tener el precio de cada tipo de vivienda."));
+                }
+
+                foreach (string unknown in commune.Rents.Keys.Where(k => housing.Type(k) == null))
+                {
+                    _errors.Add(new ContentError($"{where}, {commune.Id}", $"el arriendo de '{unknown}' no es un tipo de economia.vivienda.tipos."));
                 }
             }
         }
@@ -1185,6 +1234,11 @@ namespace MistakesLife.Core.Content
                     yield return new KeyValuePair<string, string>(expense.Id, $"país {country.Id}");
                 }
 
+                foreach (HousingTypeDefinition housingType in country.Economy?.Housing?.Types ?? new List<HousingTypeDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>(housingType.Id, $"país {country.Id}");
+                }
+
                 foreach (DebtTypeDefinition debt in country.Economy?.Debts?.Types ?? new List<DebtTypeDefinition>())
                 {
                     yield return new KeyValuePair<string, string>(debt.Id, $"país {country.Id}");
@@ -1381,14 +1435,6 @@ namespace MistakesLife.Core.Content
         {
             foreach (string name in names.Distinct())
             {
-                if (name == EventScope.RentFunction + "()")
-                {
-                    foreach (CommuneDefinition commune in CheckedCountries().SelectMany(c => c.Cities).SelectMany(c => c.Communes).Where(c => c.Rent == null))
-                    {
-                        _errors.Add(new ContentError(where, $"arriendo(): la comuna {commune.Id} no define su arriendo. Toda comuna debe tenerlo si se usa."));
-                    }
-                }
-
                 if (EventScope.SalaryNames.Contains(name))
                 {
                     foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Salaries == null))
@@ -1445,6 +1491,15 @@ namespace MistakesLife.Core.Content
                     && !Life.RelationshipRules.BondKeys.Contains(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese lazo no existe; usa 'amistad', 'colega' o 'rival'."));
+                }
+
+                if (reference.Function == "." + CharacterObject.RentMethod || reference.Function == EventScope.RentFunction)
+                {
+                    string name = reference.Function.TrimStart('.');
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Housing?.Type(reference.Argument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene ese tipo de vivienda. Todo país debe definir en economia.vivienda los tipos que usan los eventos."));
+                    }
                 }
 
                 if (reference.Function == "." + CharacterObject.BorrowMethod || reference.Function == "." + CharacterObject.DebtOfMethod)

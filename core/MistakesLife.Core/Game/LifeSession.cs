@@ -298,6 +298,11 @@ namespace MistakesLife.Core.Game
                 {
                     heir.SetFlag(flag);
                 }
+
+                if (prior.Housing != null && heir.Lease == null)
+                {
+                    Economy.HousingRules.AssumeLease(World, Content, heir, prior.Housing);
+                }
             }
         }
 

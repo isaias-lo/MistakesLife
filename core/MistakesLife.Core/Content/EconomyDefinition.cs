@@ -28,6 +28,10 @@ namespace MistakesLife.Core.Content
         [JsonProperty("gastos")]
         public ExpensesDefinition? Expenses { get; set; }
 
+        /// <summary>Cómo se arrienda una vivienda (tipos, plazo, garantía y reajuste). Si falta, nadie arrienda.</summary>
+        [JsonProperty("vivienda")]
+        public HousingDefinition? Housing { get; set; }
+
         /// <summary>La declaración anual de impuestos. Si falta, nadie declara.</summary>
         [JsonProperty("declaracion_anual")]
         public AnnualTaxDefinition? AnnualTax { get; set; }

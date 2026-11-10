@@ -138,6 +138,16 @@ namespace MistakesLife.Core.Saving
                 }).ToList(),
                 LastExpenses = WriteLines(c.LastExpenses),
                 MonthsInRed = c.MonthsInRed,
+                Lease = c.Lease == null ? null : new LeaseData
+                {
+                    TypeId = c.Lease.TypeId,
+                    CommuneId = c.Lease.CommuneId,
+                    BaseRent = c.Lease.BaseRent,
+                    AdjustedPriceIndex = c.Lease.AdjustedPriceIndex,
+                    MonthsSinceAdjustment = c.Lease.MonthsSinceAdjustment,
+                    MonthsLeft = c.Lease.MonthsLeft,
+                    Deposit = c.Lease.Deposit,
+                },
                 PendingTaxReturn = c.PendingTaxReturn == null ? null : new TaxReturnData
                 {
                     Year = c.PendingTaxReturn.Year,
