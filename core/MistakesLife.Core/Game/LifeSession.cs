@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
+using MistakesLife.Core.Devices;
 using MistakesLife.Core.Economy;
 using MistakesLife.Core.Education;
 using MistakesLife.Core.Events;
@@ -77,7 +78,8 @@ namespace MistakesLife.Core.Game
                 .Register(new RelationshipSystem())
                 .Register(new SeedSystem(seedRules))
                 .Register(Events)
-                .Register(new BirthdaySystem());
+                .Register(new BirthdaySystem())
+                .Register(new MailSystem(content));
         }
 
         private static World NewWorld(ContentDatabase content, ulong seed, string? countryId)
@@ -312,6 +314,17 @@ namespace MistakesLife.Core.Game
             PendingEvent pending = Pending ?? throw new InvalidOperationException("No hay un evento pendiente.");
             Events.Choose(World, pending, optionIndex);
             TakeSnapshots();
+        }
+
+        /// <summary>
+        /// El jugador abre un correo de su bandeja (la posición en
+        /// <see cref="MailAccount.Messages"/>): queda leído. Leer no cambia la vida;
+        /// lo que importa del correo ya pasó o lo pregunta un evento.
+        /// </summary>
+        public void ReadMail(int index)
+        {
+            MailAccount mail = World.Player.Mail ?? throw new InvalidOperationException("El jugador no tiene correo.");
+            mail.MarkRead(index);
         }
 
         /// <summary>Entradas nuevas del diario del jugador desde la última vez que se pidieron.</summary>

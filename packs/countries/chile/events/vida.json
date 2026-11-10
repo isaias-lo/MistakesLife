@@ -680,7 +680,7 @@
   },
   {
     "id": "evento.robo_celular",
-    "condiciones": "jugador.edad >= 12",
+    "condiciones": "jugador.edad >= 12 && jugador.tiene_celular",
     "probabilidad_anual": 0.04,
     "opciones": [
       {
@@ -688,6 +688,7 @@
         "tendencia": "jugador.extraversion / 2 + (100 - jugador.neuroticismo) / 4",
         "efectos": [
           "jugador.salud -= 3",
+          "jugador.perder_celular()",
           "diario('diario.robo_celular')"
         ]
       },
@@ -696,6 +697,7 @@
         "tendencia": "jugador.neuroticismo / 2 + 30",
         "efectos": [
           "jugador.felicidad -= 2",
+          "jugador.perder_celular()",
           "diario('diario.robo_celular')"
         ]
       }

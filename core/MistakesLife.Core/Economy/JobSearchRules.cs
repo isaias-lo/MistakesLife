@@ -27,6 +27,7 @@ namespace MistakesLife.Core.Economy
         public const string RejectionJournal = "diario.busqueda.rechazo";
         public const string WithdrawnJournal = "diario.busqueda.oferta_retirada";
         public const string HiredJournal = "diario.busqueda.nuevo_trabajo";
+        public const string InterviewJournal = "diario.busqueda.llamado";
 
         /// <summary>Edades en que un conocido puede recomendar a alguien en su trabajo.</summary>
         public const int ContactMinAge = 18;

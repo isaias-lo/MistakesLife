@@ -125,6 +125,10 @@ namespace MistakesLife.Core.Saving
             // ninguna: quien estaba buscando ("buscando_trabajo") elige ahora qué y
             // cómo buscar con los eventos, como alguien que recién empieza.
             [8] = save => { },
+
+            // 9 → 10: aparecen el celular y el correo. En las partidas viejas nadie
+            // tiene: los eventos se los dan (los papás, comprarlo, crear el correo).
+            [9] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

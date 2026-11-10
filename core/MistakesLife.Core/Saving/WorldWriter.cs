@@ -118,6 +118,17 @@ namespace MistakesLife.Core.Saving
                     Negotiated = c.JobSearch.Negotiated,
                     Raise = c.JobSearch.Raise,
                 },
+                Phone = c.Phone == null ? null : new PhoneData
+                {
+                    SinceWeek = c.Phone.Since.TotalWeeks,
+                    Apps = c.Phone.Apps.ToList(),
+                },
+                Mail = c.Mail == null ? null : new MailData
+                {
+                    SinceWeek = c.Mail.Since.TotalWeeks,
+                    JournalCursor = c.Mail.JournalCursor,
+                    Messages = c.Mail.Messages.Select(m => new MailMessageData { Week = m.Date.TotalWeeks, MailId = m.MailId, Read = m.Read }).ToList(),
+                },
                 LastAreaId = c.LastPosition?.AreaId,
                 LastPositionId = c.LastPosition?.PositionId,
                 LastPayslip = c.LastPayslip == null ? null : new PayslipData
