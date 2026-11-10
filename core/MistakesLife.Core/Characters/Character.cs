@@ -188,6 +188,9 @@ namespace MistakesLife.Core.Characters
         /// <summary>Lo que pagó en gastos el último mes, línea por línea.</summary>
         public IReadOnlyList<Economy.PayslipLine> LastExpenses { get; set; } = Array.Empty<Economy.PayslipLine>();
 
+        /// <summary>El contrato de arriendo que firmó, o null si no arrienda (vive con su familia o en casa propia).</summary>
+        public Economy.Lease? Lease { get; set; }
+
         /// <summary>Meses seguidos que terminó con el dinero en negativo (estrés financiero).</summary>
         public int MonthsInRed { get; set; }
 

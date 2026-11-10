@@ -58,6 +58,7 @@
 | E6b | Herencia: bienes y deudas que pasan a los hijos según la ley del país (beneficio de inventario, deudas que se extinguen al morir) | Hecha |
 | E6c | Tarjetas de crédito (pago mínimo) y repactar deudas | Hecha |
 | E7 | Ciclo económico del país (normal, recesión, crisis): cambia la inflación, golpea los fondos de pensión y trae despidos; `cambiar_ciclo()` para eventos | Hecha |
+| V1 | Vivienda que elige el jugador: contrato de arriendo (pieza, departamento o casa) con el precio de su comuna, garantía, plazo y reajuste (`economia.vivienda`, `jugador.arrendar()`); el arriendo deja de ser un gasto fijo. Primer módulo de "nada se inventa: los gastos los decide el jugador" | En revisión |
 
 ## Prototipo en Unity (Unity solo dibuja; todo lo demás es del núcleo)
 
@@ -89,8 +90,8 @@
 | U17b | 3D modificable, trabajos y barrio: cada edificio del barrio (`barrio.colegio`, `barrio.casa_media`...) y cada mueble de los cinco lugares de trabajo (`oficina_abierta.mesa`, `consulta.divan`, `trabajo.planta`...) con su modelo por id y su ancla; anclas en `Resources/Lugares/barrio.prefab` y `<trabajo>.prefab` (menús "Crear anclas del barrio" y "de los trabajos"); en los trabajos también el jugador y los colegas tienen ancla | Hecha |
 | U18a | Pantalla de la vida nueva: la casa 3D a pantalla completa (centrada en el hueco libre), barra de arriba con retrato, nombre, fecha y Menú, y una hoja de abajo con la última línea del diario a mano, el estado en palabras (salud, ánimo, mente, sin números; `LifePresenter.StateWord`), tus cosas (dinero, "Tu gente y diario" en hoja aparte, volver al pasado) y "Vivir la semana" | Hecha |
 | U18b | La carta del evento sube desde abajo; sello "esto se recuerda" si alguna opción deja semilla (sin decir cuál); "Te miran: ..." con los testigos de la semilla que despertó el evento; en cada opción, quién lo va a notar (el testigo de `plantar`) | Hecha |
-| U18c | Personaje estilo juguete de madera: cara pintada (ojos de punto, mejillas, boca que sonríe, queda seria o se pone triste según la felicidad de cada uno, `HomeMemberView.Mood`), pelo como casco, ropa amarilla solo del jugador (material `jugador`), en la vejez pelo gris y lentes, y bastón desde los 80. El retrato de la barra sigue con la inicial (queda para después) | En revisión |
-| U19 | Tu dinero (el mes en días, la mochila de deudas, tu historia) con sus datos en el núcleo | Pendiente |
+| U18c | Personaje estilo juguete de madera: cara pintada (ojos de punto, mejillas, boca que sonríe, queda seria o se pone triste según la felicidad de cada uno, `HomeMemberView.Mood`), pelo como casco, ropa amarilla solo del jugador (material `jugador`), en la vejez pelo gris y lentes, y bastón desde los 80. El retrato de la barra sigue con la inicial (queda para después) | Hecha |
+| U19 | Tu dinero, rehecho tras la regla "nada se inventa": la mesa de la cocina en 3D con los gastos del mes como objetos (cada uno dice de qué decisión viene y lleva a cambiarla), y la cartola del banco como detalle por fecha (bocetos en el lienzo, fila 5). Va después de los módulos de gastos (V1 vivienda y los siguientes) | Pendiente |
 | U20 | Luz por etapa, hora y clima, y transición de cada objeto 3D a su pantalla | Pendiente |
 
 ## Lo que falta en el núcleo

@@ -109,6 +109,10 @@ namespace MistakesLife.Core.Saving
                 HouseholdLevel = d.HouseholdLevel,
                 Money = d.Money,
                 MonthsInRed = d.MonthsInRed,
+                Lease = d.Lease == null ? null : new Lease(d.Lease.TypeId, d.Lease.CommuneId, d.Lease.BaseRent, d.Lease.AdjustedPriceIndex, d.Lease.MonthsLeft, d.Lease.Deposit)
+                {
+                    MonthsSinceAdjustment = d.Lease.MonthsSinceAdjustment,
+                },
                 PensionFund = d.PensionFund,
                 ContributedMonths = d.ContributedMonths,
                 PensionSalaryBase = d.PensionSalaryBase,

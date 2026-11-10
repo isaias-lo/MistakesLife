@@ -82,6 +82,9 @@ namespace MistakesLife.Core.Saving
 
         public decimal LastPensionPayment { get; set; }
 
+        /// <summary>Contrato de arriendo, o null si no arrienda.</summary>
+        public LeaseData? Lease { get; set; }
+
         public List<DebtData> Debts { get; set; } = new List<DebtData>();
 
         public decimal LastDebtPayment { get; set; }

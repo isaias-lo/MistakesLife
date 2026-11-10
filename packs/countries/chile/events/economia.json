@@ -37,20 +37,30 @@
     "opciones": [
       {
         "texto": "opcion.irse.arrendar",
-        "condiciones": "jugador.pareja == nada",
-        "tendencia": "si(jugador.sueldo_liquido > precio(900000), 70, 15) + jugador.extraversion / 5",
+        "condiciones": "(jugador.pareja == nada) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.departamento'))",
+        "tendencia": "si(jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5, 60, 5) + jugador.extraversion / 5",
         "efectos": [
-          "jugador.marcar('vive_independiente')",
+          "jugador.arrendar('vivienda.departamento')",
           "jugador.felicidad += 5",
           "diario('diario.irse_de_la_casa')"
         ]
       },
       {
+        "texto": "opcion.irse.pieza",
+        "condiciones": "(jugador.pareja == nada) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.pieza'))",
+        "tendencia": "si(jugador.sueldo_liquido > precio(arriendo('vivienda.pieza')) * 2, 40, 8) + jugador.extraversion / 6",
+        "efectos": [
+          "jugador.arrendar('vivienda.pieza')",
+          "jugador.felicidad += 3",
+          "diario('diario.irse_de_la_casa.pieza')"
+        ]
+      },
+      {
         "texto": "opcion.irse.con_pareja",
-        "condiciones": "jugador.pareja != nada",
+        "condiciones": "(jugador.pareja != nada) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.departamento'))",
         "tendencia": "70",
         "efectos": [
-          "jugador.marcar('vive_independiente')",
+          "jugador.arrendar('vivienda.departamento')",
           "jugador.felicidad += 6",
           "diario('diario.irse_de_la_casa')"
         ]
@@ -69,7 +79,10 @@
     "condiciones": "jugador.meses_en_rojo >= 2",
     "probabilidad_anual": 1,
     "enfriamiento_semanas": 52,
-    "variantes": ["evento.fin_de_mes_en_rojo.2", "evento.fin_de_mes_en_rojo.3"],
+    "variantes": [
+      "evento.fin_de_mes_en_rojo.2",
+      "evento.fin_de_mes_en_rojo.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.rojo.pedir_familia",
@@ -82,11 +95,10 @@
       },
       {
         "texto": "opcion.rojo.volver_casa",
-        "condiciones": "jugador.tiene('vive_independiente') && jugador.madre != nada && jugador.madre.vivo",
+        "condiciones": "jugador.vivienda != nada && jugador.madre != nada && jugador.madre.vivo",
         "tendencia": "jugador.neuroticismo / 2",
         "efectos": [
-          "jugador.desmarcar('vive_independiente')",
-          "jugador.desmarcar('arrienda_pieza')",
+          "jugador.dejar_arriendo()",
           "jugador.felicidad -= 5"
         ]
       },
@@ -113,7 +125,11 @@
     "condiciones": "jugador.moroso",
     "probabilidad_anual": 1,
     "enfriamiento_semanas": 52,
-    "variantes": ["evento.cobranza.2", "evento.cobranza.3", "evento.cobranza.4"],
+    "variantes": [
+      "evento.cobranza.2",
+      "evento.cobranza.3",
+      "evento.cobranza.4"
+    ],
     "opciones": [
       {
         "texto": "opcion.cobranza.repactar",
@@ -158,7 +174,10 @@
     "probabilidad_anual": 0.35,
     "enfriamiento_semanas": 78,
     "veces_maximas": 9,
-    "variantes": ["evento.compra_tarjeta.2", "evento.compra_tarjeta.3"],
+    "variantes": [
+      "evento.compra_tarjeta.2",
+      "evento.compra_tarjeta.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.compra_tarjeta.comprar",

@@ -11,8 +11,9 @@ namespace MistakesLife.Core.Economy
 {
     /// <summary>
     /// Fase de sistemas, después de los sueldos: al empezar cada mes el jugador
-    /// paga los gastos de su país ("economia.gastos") que le corresponden según
-    /// su vida (con condiciones del lenguaje). Los gastos compartidos se dividen
+    /// paga el arriendo del contrato que firmó (si arrienda) y los gastos de su
+    /// país ("economia.gastos") que le corresponden según su vida (con condiciones
+    /// del lenguaje). Los gastos compartidos se dividen
     /// con la pareja. Si el dinero no alcanza, es un mes "en rojo": baja la
     /// felicidad (estrés financiero) y los eventos pueden reaccionar. Lo que falta
     /// lo cubre la deuda del país para eso (la línea de crédito, con su interés):
@@ -54,6 +55,23 @@ namespace MistakesLife.Core.Economy
             var lines = new List<PayslipLine>();
             var scope = new EventScope(world, _content, player, null, readOnly: true);
             bool hasPartner = player.PartnerId.HasValue && world.TryGetCharacter(player.PartnerId.Value, out Character? partner) && partner.IsAlive;
+            HousingDefinition? housing = HousingRules.RulesFor(_content, player);
+            if (player.Lease != null && housing != null)
+            {
+                // El arriendo sale del contrato que firmó el jugador; con pareja se divide.
+                decimal rent = HousingRules.MonthlyRent(_content, player, housing, economy.PriceIndex);
+                if (hasPartner)
+                {
+                    rent = Math.Round(rent / 2, MidpointRounding.AwayFromZero);
+                }
+
+                if (rent > 0)
+                {
+                    lines.Add(new PayslipLine(player.Lease.TypeId, rent));
+                    player.Money -= rent;
+                }
+            }
+
             foreach (ExpenseDefinition expense in rules.Categories)
             {
                 if (expense.CompiledConditions != null && !expense.CompiledConditions.IsTrue(scope))

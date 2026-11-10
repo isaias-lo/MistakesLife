@@ -21,7 +21,8 @@ Primera versión (A2). **Todos los valores son de memoria y están por verificar
 | Monotributo: cuota fija según la categoría | AFIP/ARCA | Simplificado como 6 % de lo facturado |
 | Salario Mínimo, Vital y Móvil cerca de $271.571 (fines de 2024); sueldo típico registrado cerca de $800.000 brutos | Consejo del Salario; INDEC, de memoria | Ajustes cada 3 meses (`reajuste_meses`). Por verificar |
 | Inflación alta y persistente (20 % a 50 % la mayor parte de 2007-2017, más de 100 % en 2023) e hiperinflación de 1989-1990 | INDEC, IPC, de memoria | Regímenes `estable` (5 % a 15 %), `alta` (20 % a 50 %, inicial), `muy_alta` (50 % a 120 %) y `hiper` (150 % a 300 %, rara). Recesiones más frecuentes que en Chile |
-| Alquiler en La Matanza: cerca de $320.000 al mes por un departamento de 2 ambientes | Portales de alquiler (2024), de memoria | Por verificar |
+| Alquiler en La Matanza: cerca de $320.000 al mes por un departamento de 2 ambientes; la habitación ($170.000) y la casa ($480.000) se estimaron con la misma proporción que en Puente Alto | Portales de alquiler (2024), de memoria | `arriendos` de la comuna. Por verificar con avisos reales |
+| Contrato de alquiler: 24 meses, un mes de depósito y ajuste cada 3 meses (desde 2023 el contrato es libre y esto es lo más común) | De memoria | `economia.vivienda`. Por verificar |
 | Gastos del mes en pesos (comida, servicios, transporte con SUBE, hijos) | Canasta básica del INDEC, de memoria | Estimaciones por calibrar |
 | Deudas: préstamo personal y tarjeta de crédito con tasas muy altas (60 % y 80 % al año); figurar en el Veraz | Banco Central (BCRA), de memoria | Tasas nominales: con la inflación, la tasa real es más baja. Prescripción de 5 años (Código Civil y Comercial, art. 2560) |
 | Herencia: se responde por las deudas solo con lo heredado | Código Civil y Comercial, art. 2317 | `beneficio_inventario` true. La porción de la pareja es igual a la de cada hijo (`porciones_pareja` 1) |
