@@ -282,48 +282,6 @@ namespace MistakesLife.Unity.Editor
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-vida.png"));
             count += CaptureScreen(content, life, true, Path.Combine(folder, "pantalla-menu.png"));
             count += WitnessCard(content, folder);
-            count += MoneyScreens(content, folder);
-            return count;
-        }
-
-        /// <summary>
-        /// "Tu dinero" con sueldo y gastos (pantalla-dinero.png) y, más adelante en la misma vida,
-        /// un mes con días prestados (pantalla-dinero-prestado.png). Se juega eligiendo siempre
-        /// la primera opción y mirando el mes cada cuatro semanas.
-        /// </summary>
-        private static int MoneyScreens(ContentDatabase content, string folder)
-        {
-            var life = new LifePresenter(new LifeSession(content, 3));
-            int count = 0;
-            bool paid = false;
-            for (int step = 0; step < 3000 && life.Phase != LifePhase.Over && life.Session.PlayerAgeInYears < 60; step++)
-            {
-                if (life.Phase == LifePhase.Choosing)
-                {
-                    life.Choose(0);
-                    continue;
-                }
-
-                if (life.Phase != LifePhase.Living)
-                {
-                    break;
-                }
-
-                life.Session.Advance(4);
-                MonthView month = life.Month();
-                if (!paid && month.HasPay && month.Expenses.Count >= 3)
-                {
-                    count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-dinero.png"), money: true);
-                    paid = true;
-                }
-
-                if (month.HasPay && month.BorrowedDays > 0)
-                {
-                    return count + CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-dinero-prestado.png"), money: true);
-                }
-            }
-
-            Debug.LogWarning("Capturas: no apareció un mes con días prestados para pantalla-dinero-prestado.png.");
             return count;
         }
 
@@ -362,12 +320,12 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, bool money = false)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file)
         {
             var root = new GameObject("Captura de pantalla");
             try
             {
-                root.AddComponent<LifeScreen>().ShowForCapture(content, life, menu, money);
+                root.AddComponent<LifeScreen>().ShowForCapture(content, life, menu);
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));
                 return 1;
             }

@@ -71,7 +71,6 @@ namespace MistakesLife.Unity
         private LayoutElement _sheetSize = null!;
         private RectTransform _footer = null!;
         private RectTransform _history = null!;
-        private MoneySheet _money = null!;
         private RectTransform _historyBody = null!;
         private TextMeshProUGUI _historyTitle = null!;
         private Button _closeHistory = null!;
@@ -124,11 +123,7 @@ namespace MistakesLife.Unity
         /// Solo para las capturas automáticas (SceneCaptures): arma la pantalla con una vida
         /// ya avanzada, sin esperar al Play, y con el menú de inicio encima si se pide.
         /// </summary>
-        public void ShowForCapture(ContentDatabase content, LifePresenter life, bool withMenu) =>
-            ShowForCapture(content, life, withMenu, false);
-
-        /// <summary>Igual, y con "Tu dinero" abierto si se pide (para su captura).</summary>
-        public void ShowForCapture(ContentDatabase content, LifePresenter life, bool withMenu, bool withMoney)
+        public void ShowForCapture(ContentDatabase content, LifePresenter life, bool withMenu)
         {
             Build();
             _content = content;
@@ -145,11 +140,6 @@ namespace MistakesLife.Unity
             if (withMenu)
             {
                 _menu.ShowMenu();
-            }
-
-            if (withMoney)
-            {
-                _money.Show(life);
             }
         }
 
@@ -286,7 +276,6 @@ namespace MistakesLife.Unity
             _footer = UiFactory.Column(sheet, "Acciones", 0, 12);
 
             BuildHistory(safe);
-            _money = new MoneySheet(safe);
         }
 
         /// <summary>Arriba: retrato con anillo amarillo, nombre y edad, la fecha y el lugar; el botón Menú a la derecha.</summary>
@@ -392,7 +381,6 @@ namespace MistakesLife.Unity
             _closeHistory = UiFactory.MakeButton(header, string.Empty, UiFactory.Option, UiFactory.Ink, () => ShowHistory(false), UiFactory.MinFontSize, 0, 12);
             LayoutElement close = _closeHistory.GetComponent<LayoutElement>();
             close.minWidth = close.preferredWidth = 200;
-            close.flexibleWidth = 0;
             _historyBody = UiFactory.ScrollColumn(_history, "Lista", 28, 14);
             _history.gameObject.SetActive(false);
         }
@@ -509,11 +497,6 @@ namespace MistakesLife.Unity
             {
                 DrawHistory(presenter, life);
             }
-
-            if (_money.IsOpen)
-            {
-                _money.Draw(presenter);
-            }
         }
 
         /// <summary>La hoja de abajo crece con lo que tiene, hasta un máximo; si es más, tiene scroll.</summary>
@@ -620,9 +603,7 @@ namespace MistakesLife.Unity
             State(states, presenter.Text("ui.mente"), presenter.StateWord("mente", life.Smarts));
 
             RectTransform things = Row(_sheetBody, "Tus cosas");
-            // El dinero se toca para abrir "Tu dinero" (el mes en días de trabajo).
-            RectTransform money = UiFactory.Column(things, "Dinero", 16, 2, UiFactory.Option);
-            money.gameObject.AddComponent<Button>().onClick.AddListener(() => _money.Show(presenter));
+            RectTransform money = UiFactory.Column(things, "Dinero", 0, 2);
             UiFactory.Label(money, presenter.Text("ui.dinero_titulo"), UiFactory.MinFontSize, UiFactory.MutedInk);
             UiFactory.Label(money, life.MoneyLabel, UiFactory.MinFontSize, UiFactory.Ink, FontStyles.Bold, Face.Mono);
             UiFactory.MakeButton(things, presenter.Text("ui.boton.tu_gente_diario"), UiFactory.Option, UiFactory.Ink, () => ShowHistory(true), UiFactory.MinFontSize, 0, 16);
