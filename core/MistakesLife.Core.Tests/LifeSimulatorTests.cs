@@ -38,17 +38,17 @@ namespace MistakesLife.Core.Tests
         {
             // Muchas vidas jóvenes (1000, como el revisor de equilibrio), para los eventos que le pasan a pocas personas
             // (por ejemplo, a quienes son asexuales, cerca del 1 %), y menos vidas
-            // hasta los 85, para los eventos de adultos y de vejez (por ejemplo, jubilar).
+            // hasta los 85, para los eventos de adultos y de vejez (por ejemplo, jubilar, o dejar de trabajar por salud, cerca del 1 %).
             // Y vidas que trabajan en cada área de cada carrera, para los eventos de
             // áreas a las que pocas personas llegan.
             var simulator = new LifeSimulator(RepoPacks.Content);
             SimulationReport young = simulator.Run(lives: 1000, finalAge: 25);
-            SimulationReport old = simulator.Run(lives: 150, finalAge: 85);
+            SimulationReport old = simulator.Run(lives: 300, finalAge: 85);
             var careers = CareerAreaLives.SeenEvents(RepoPacks.Content, livesPerArea: 6);
 
             string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).ToArray();
 
-            Assert.Empty(never);
+            Assert.True(never.Length == 0, string.Join(", ", never));
         }
 
         [Fact]

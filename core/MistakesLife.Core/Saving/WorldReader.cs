@@ -68,6 +68,11 @@ namespace MistakesLife.Core.Saving
                 world.RestoreJournal(new JournalEntry(Date(j.Week), j.CharacterId, j.TextKey));
             }
 
+            foreach (NewsData n in data.News)
+            {
+                world.AddNews(new NewsRecord(Date(n.Week), n.NewsId, n.CountryId, n.CityId, n.TextKey));
+            }
+
             foreach (PendingEventData p in data.PendingEvents)
             {
                 world.AddPendingEvent(new PendingEvent(p.EventId, p.CharacterId, Date(p.Week), p.SeedId, p.AvailableOptions.ToList()));

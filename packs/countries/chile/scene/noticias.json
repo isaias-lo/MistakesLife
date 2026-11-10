@@ -1,0 +1,6 @@
+[
+  { "id": "escena.casa.mochila_emergencia", "lugar": "casa", "condiciones": "jugador.tiene('mochila_emergencia')" },
+  { "id": "escena.casa.grietas", "lugar": "casa", "condiciones": "jugador.tiene('casa_con_grietas')" },
+  { "id": "escena.casa.velas", "lugar": "casa", "condiciones": "noticia_reciente('noticia.chile.sistema_frontal', 2)" },
+  { "id": "escena.barrio.escombros", "lugar": "barrio", "condiciones": "noticia_reciente('noticia.chile.terremoto', 12)" }
+]

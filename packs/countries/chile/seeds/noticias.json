@@ -1,0 +1,25 @@
+[
+  {
+    "id": "semilla.subsidio_reconstruccion",
+    "tipo": "positiva",
+    "fuerza": 70,
+    "vence_anios": 3,
+    "dormir_min_semanas": 26
+  },
+  {
+    "id": "semilla.voluntarios_juntos",
+    "tipo": "positiva",
+    "fuerza": 60,
+    "vence_anios": 15,
+    "dormir_min_semanas": 104,
+    "condiciones": "semilla('semilla.voluntarios_juntos').testigo != nada"
+  },
+  {
+    "id": "semilla.marcharon_juntos",
+    "tipo": "positiva",
+    "fuerza": 50,
+    "vence_anios": 15,
+    "dormir_min_semanas": 156,
+    "condiciones": "semilla('semilla.marcharon_juntos').testigo != nada"
+  }
+]

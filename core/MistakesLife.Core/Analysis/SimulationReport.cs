@@ -25,6 +25,9 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Eventos del contenido que no aparecieron en ninguna vida.</summary>
         public List<string> NeverSeenEvents { get; } = new List<string>();
 
+        /// <summary>Cuántas veces salió cada noticia en total (en el país y la ciudad de cada vida).</summary>
+        public SortedDictionary<string, int> NewsCount { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
         /// <summary>Semillas por tipo: plantadas, despertadas, resueltas y olvidadas.</summary>
         public SortedDictionary<string, SeedStats> Seeds { get; } = new SortedDictionary<string, SeedStats>(StringComparer.Ordinal);
 
@@ -210,11 +213,28 @@ namespace MistakesLife.Core.Analysis
 
             sb.AppendLine("## Eventos");
             sb.AppendLine();
-            sb.AppendLine("| Evento | Vidas donde aparece | % | Veces en total |");
-            sb.AppendLine("|---|---:|---:|---:|");
+            sb.AppendLine("| Evento | Vidas donde aparece | % | Veces en total | Veces por vida (donde aparece) |");
+            sb.AppendLine("|---|---:|---:|---:|---:|");
             foreach (var ev in LivesWithEvent.OrderByDescending(e => e.Value).ThenBy(e => e.Key, StringComparer.Ordinal))
             {
-                sb.AppendLine($"| {ev.Key} | {ev.Value} | {Percent(ev.Value).ToString("0.0", ci)} | {EventCount[ev.Key]} |");
+                sb.AppendLine($"| {ev.Key} | {ev.Value} | {Percent(ev.Value).ToString("0.0", ci)} | {EventCount[ev.Key]} | {((double)EventCount[ev.Key] / ev.Value).ToString("0.0", ci)} |");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("## Noticias");
+            sb.AppendLine();
+            if (NewsCount.Count == 0)
+            {
+                sb.AppendLine("No salió ninguna noticia.");
+            }
+            else
+            {
+                sb.AppendLine("| Noticia | Veces en total | Veces por vida |");
+                sb.AppendLine("|---|---:|---:|");
+                foreach (var news in NewsCount.OrderByDescending(n => n.Value).ThenBy(n => n.Key, StringComparer.Ordinal))
+                {
+                    sb.AppendLine($"| {news.Key} | {news.Value} | {((double)news.Value / Math.Max(1, Lives)).ToString("0.0", ci)} |");
+                }
             }
 
             sb.AppendLine();

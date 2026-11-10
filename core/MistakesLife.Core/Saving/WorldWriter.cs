@@ -40,6 +40,7 @@ namespace MistakesLife.Core.Saving
                 NextCompanyId = world.NextCompanyIdValue,
                 LawChanges = world.LawChanges.OrderBy(l => l.Key, System.StringComparer.Ordinal).Select(l => WriteLaw(l.Key, l.Value)).ToList(),
                 Journal = world.Journal.Select(j => new JournalData { Week = j.Date.TotalWeeks, CharacterId = j.CharacterId, TextKey = j.TextKey }).ToList(),
+                News = world.News.Select(n => new NewsData { Week = n.Date.TotalWeeks, NewsId = n.NewsId, CountryId = n.CountryId, CityId = n.CityId, TextKey = n.TextKey }).ToList(),
                 PendingEvents = world.PendingEvents.Select(p => new PendingEventData
                 {
                     EventId = p.EventId,

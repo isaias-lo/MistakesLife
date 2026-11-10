@@ -16,6 +16,7 @@ namespace MistakesLife.Core.Content
     {
         private readonly SortedDictionary<string, EventDefinition> _events = new SortedDictionary<string, EventDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, NewsDefinition> _news = new SortedDictionary<string, NewsDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CareerDefinition> _careers = new SortedDictionary<string, CareerDefinition>(StringComparer.Ordinal);
@@ -39,6 +40,11 @@ namespace MistakesLife.Core.Content
 
         /// <summary>Los objetos de la escena 3D que dependen de la vida del jugador, ordenados por id.</summary>
         public IEnumerable<SceneObjectDefinition> SceneObjects => _sceneObjects.Values;
+
+        /// <summary>Las noticias del mundo, ordenadas por id.</summary>
+        public IEnumerable<NewsDefinition> News => _news.Values;
+
+        public bool TryGetNews(string id, out NewsDefinition? definition) => _news.TryGetValue(id, out definition);
 
         public IEnumerable<CountryDefinition> Countries => _countries.Values;
 
@@ -187,6 +193,22 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega las noticias de un archivo JSON de news/ (una lista).</summary>
+        public void AddNewsJson(string packId, string sourceName, string json)
+        {
+            foreach (NewsDefinition definition in Deserialize<NewsDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_news.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de noticia repetido."));
+                    continue;
+                }
+
+                _news.Add(definition.Id, definition);
+            }
+        }
+
         /// <summary>Agrega los objetos de la escena de un archivo JSON de scene/ (una lista).</summary>
         public void AddSceneJson(string packId, string sourceName, string json)
         {
@@ -324,6 +346,12 @@ namespace MistakesLife.Core.Content
                 ev.CountryId = countryOfPack.TryGetValue(ev.PackId, out string? countryId) ? countryId : null;
             }
 
+            foreach (NewsDefinition news in _news.Values)
+            {
+                news.CountryId = countryOfPack.TryGetValue(news.PackId, out string? countryId) ? countryId : null;
+                ValidateNews(news);
+            }
+
             foreach (SeedTypeDefinition seed in _seedTypes.Values)
             {
                 string where = $"semilla {seed.Id}";
@@ -447,6 +475,58 @@ namespace MistakesLife.Core.Content
 
             _built = true;
             return this;
+        }
+
+        /// <summary>Lo que se usa en una noticia: solo el mundo, nunca el jugador.</summary>
+        private static readonly string[] NewsEffectNames =
+        {
+            EventScope.ChangeCycleFunction + "()", EventScope.ChangeInflationFunction + "()", EventScope.ChangeLawFunction + "()", EventScope.IfFunction + "()", EventScope.LawFunction + "()", "mundo",
+        };
+
+        private void ValidateNews(NewsDefinition news)
+        {
+            string where = $"noticia {news.Id}";
+            CheckId(where, news.Id, "noticia.");
+            if (Array.IndexOf(NewsDefinition.Topics, news.Topic) < 0)
+            {
+                _errors.Add(new ContentError(where, $"tema '{news.Topic}' no existe (usa {string.Join(", ", NewsDefinition.Topics)})."));
+            }
+
+            if (news.AnnualProbability <= 0 || news.AnnualProbability > 1)
+            {
+                _errors.Add(new ContentError(where, "probabilidad_anual debe ser mayor que 0 y como máximo 1."));
+            }
+
+            if (news.CooldownWeeks < 0)
+            {
+                _errors.Add(new ContentError(where, "enfriamiento_semanas no puede ser negativo."));
+            }
+
+            if (news.Variants.Any(string.IsNullOrWhiteSpace) || news.AllTextKeys.Distinct().Count() != news.Variants.Count + 1)
+            {
+                _errors.Add(new ContentError(where, "las variantes no pueden estar vacías ni repetir el titular u otra variante."));
+            }
+
+            IEnumerable<CountryDefinition> countries = news.CountryId == null ? _countries.Values : new[] { _countries[news.CountryId] };
+            foreach (string city in news.Cities.Where(c => !countries.Any(country => country.Cities.Any(k => k.Id == c))))
+            {
+                _errors.Add(new ContentError(where, $"la ciudad '{city}' no existe en {(news.CountryId ?? "ningún país")}."));
+            }
+
+            _checkedCountry = news.CountryId == null ? null : _countries[news.CountryId];
+            news.CompiledConditions = CompileCondition(where, news.Conditions);
+            if (news.CompiledConditions != null && news.CompiledConditions.Names().Contains("jugador"))
+            {
+                _errors.Add(new ContentError(where, "una noticia no depende del jugador: sus condiciones solo pueden leer el mundo (mundo.mes, mundo.ciclo, ley(...), noticia_reciente(...))."));
+            }
+
+            CompileEffects(where, news.Effects, news.CompiledEffects);
+            foreach (string name in news.CompiledEffects.SelectMany(e => e.Names()).Distinct().Where(n => Array.IndexOf(NewsEffectNames, n) < 0))
+            {
+                _errors.Add(new ContentError(where, $"una noticia solo cambia el país (cambiar_ciclo, cambiar_inflacion, cambiar_ley), no '{name}': lo que le pasa al jugador va en un evento que lee noticia_reciente()."));
+            }
+
+            _checkedCountry = null;
         }
 
         private void ValidateCountry(CountryDefinition country)
@@ -1273,6 +1353,14 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            foreach (NewsDefinition news in _news.Values)
+            {
+                foreach (string key in news.AllTextKeys)
+                {
+                    yield return new KeyValuePair<string, string>(key, $"noticia {news.Id}");
+                }
+            }
+
             foreach (EventDefinition ev in _events.Values)
             {
                 string where = $"evento {ev.Id}";
@@ -1470,6 +1558,11 @@ namespace MistakesLife.Core.Content
                     && !_careerPositions.ContainsKey(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese cargo no existe."));
+                }
+
+                if (reference.Function == EventScope.RecentNewsFunction && !_news.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): esa noticia no existe."));
                 }
 
                 if (reference.Function == EventScope.StudyFunction && !_careerLevels.ContainsKey(reference.Argument))

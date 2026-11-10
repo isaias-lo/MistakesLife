@@ -1,0 +1,9 @@
+[
+  {
+    "id": "semilla.sin_vacuna_influenza",
+    "tipo": "negativa",
+    "fuerza": 40,
+    "vence_anios": 1,
+    "dormir_min_semanas": 2
+  }
+]

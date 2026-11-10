@@ -16,7 +16,8 @@ namespace MistakesLife.Core.Events
     /// Raíces: jugador, mundo.
     /// Funciones: semilla('id'), plantar('id') o plantar('id', persona), diario('clave'), estudiar('nivel'),
     /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor),
-    /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo(), arriendo('tipo de vivienda').
+    /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo(), arriendo('tipo de vivienda'),
+    /// noticia_reciente('noticia.x') o noticia_reciente('noticia.x', semanas).
     /// Ver docs/content-language.md para la lista completa.
     /// </summary>
     public sealed class EventScope : IScriptScope
@@ -35,6 +36,10 @@ namespace MistakesLife.Core.Events
         public const string TypicalSalaryFunction = "sueldo_tipico";
         public const string DegreeSalaryFunction = "sueldo_titulo";
         public const string RentFunction = "arriendo";
+        public const string RecentNewsFunction = "noticia_reciente";
+
+        /// <summary>Semanas que una noticia cuenta como reciente si no se dice otra cosa.</summary>
+        public const int DefaultRecentNewsWeeks = 8;
 
         /// <summary>Funciones que leen los sueldos del país: todo país debe tener "economia.sueldos" si un evento las usa.</summary>
         public static readonly IReadOnlyCollection<string> SalaryNames = new[]
@@ -48,6 +53,7 @@ namespace MistakesLife.Core.Events
             "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
             PriceFunction + "()", ChangeInflationFunction + "()", ChangeCycleFunction + "()",
             MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()", RentFunction + "()",
+            RecentNewsFunction + "()",
         };
 
         /// <summary>Nombres que cambian el mundo: no se permiten en condiciones.</summary>
@@ -166,6 +172,8 @@ namespace MistakesLife.Core.Events
                     RequireWritable(name);
                     ChangeCycle(SingleText(name, args));
                     return Value.Null;
+                case RecentNewsFunction:
+                    return Value.FromBool(RecentNews(name, args));
                 case JournalFunction:
                     RequireWritable(name);
                     World.WriteJournal(Subject.Id, SingleText(name, args));
@@ -210,6 +218,28 @@ namespace MistakesLife.Core.Events
             }
 
             return country.TryGetLaw(lawId, out Value value) ? value : throw new ScriptException($"ley('{lawId}'): el país {country.Id} no define esa ley.");
+        }
+
+        /// <summary>
+        /// noticia_reciente('noticia.x', semanas): si esa noticia salió en el país del
+        /// personaje (del país entero o de su ciudad) hace menos de esas semanas.
+        /// </summary>
+        private bool RecentNews(string name, Value[] args)
+        {
+            if (args.Length < 1 || args.Length > 2)
+            {
+                throw new ScriptException("noticia_reciente() necesita la noticia y, si quieres, las semanas: noticia_reciente('noticia.x', 8).");
+            }
+
+            string newsId = args[0].AsText(name + "()");
+            int weeks = args.Length == 2 ? (int)args[1].AsNumber(name + "()") : DefaultRecentNewsWeeks;
+            if (Subject.Residence == null)
+            {
+                return false;
+            }
+
+            NewsRecord? last = World.LastNews(newsId, Subject.Residence.CountryId, Subject.Residence.CityId);
+            return last != null && World.Date.WeeksSince(last.Date) < weeks;
         }
 
         private SalaryDefinition Salaries()

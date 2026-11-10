@@ -368,7 +368,7 @@ namespace MistakesLife.Core.Tests
             string[] world =
             {
                 "Seed", "Random", "Date", "PlayerId", "Player", "Characters", "Journal", "Seeds", "PendingEvents", "EventHistory",
-                "FormerPlayers", "Economies", "Generation", "Companies",
+                "FormerPlayers", "Economies", "Generation", "Companies", "News",
             };
 
             Assert.Equal(character.OrderBy(n => n), PublicProperties(typeof(Characters.Character)));

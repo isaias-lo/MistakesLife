@@ -119,3 +119,10 @@ Diagnóstico completo (2026-11-03): [Qué le falta al núcleo de MistakesLife](h
 | A2 | País Argentina: Buenos Aires (La Matanza), colegios (jardín, primaria, secundaria), leyes, mortalidad, nombres, inflación alta (con hiperinflación posible), sueldos, recibo de sueldo (jubilación, PAMI, obra social, Ganancias), gastos, deudas y jubilación de reparto (ANSES) con PUAM, nueva en el núcleo. Textos generales de la economía pasan al paquete base. Nadie nace en Argentina por azar hasta A3 (`peso_nacimiento: 0`); se juega eligiéndola (`--pais pais.argentina`). Valores de memoria, por verificar en A4 | En revisión |
 | A3 | Eventos y carreras de Argentina: ingreso a la universidad (CBC de la UBA), universidad pública gratis, terciarios, monotributo, trabajo en negro, textos `es-AR` | Pendiente |
 | A4 | Calibrar Argentina con la EPH del INDEC | Pendiente |
+
+## El mundo vivo: noticias y eventos frescos
+
+| # | Tarea | Estado |
+|---|---|---|
+| M1 | Diario de noticias del mundo (`news/` en los paquetes, `NewsSystem`, `noticia_reciente()`, guardado versión 9): temblores, terremoto, temporales, cortes de agua, incendios, olas de calor, Fiestas Patrias, protestas, elecciones, Mundial, crisis, inflación, influenza y virales, por país o ciudad. La noticia no toca al jugador; los eventos que la siguen dependen de lo que él decidió (mochila de emergencia, reparar o no la casa, votar, vacunarse, ir de voluntario con un amigo que queda de testigo). Temblores, temporal y Fiestas Patrias ahora pasan cuando sale la noticia (y en su mes). En Unity: `LifePresenter.News()` y `TakeNewNews()` para el diario mural, y 4 objetos de escena nuevos (falta darles forma en el hilo 3D) | En revisión |
+| M2 | Contenido fresco para lo que más se repite (amigos, pareja, visitas a los padres): situaciones nuevas por etapa de la vida, con testigos | Pendiente |

@@ -70,6 +70,7 @@
     "ley.mayoria_edad": 18,
     "ley.edad_voto": 16,
     "ley.voto_obligatorio": true,
+    "ley.elecciones_mes": 10,
     "ley.divorcio": true,
     "ley.matrimonio_igualitario": true,
     "ley.adopcion_parejas_mismo_sexo": true,
