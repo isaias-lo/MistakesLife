@@ -31,5 +31,10 @@
   "diario.impuestos.multa": "Se te pasó el plazo de la Operación Renta y debías plata. Te llegó el giro de Tesorería con multa e intereses.",
   "diario.deudas.moroso": "Llevas meses sin pagar tus cuotas: quedaste en DICOM.",
   "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de DICOM.",
-  "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de DICOM, pero ningún banco lo olvida."
+  "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de DICOM, pero ningún banco lo olvida.",
+  "evento.busqueda.cambiar_forma.2": "La búsqueda se alarga. Alguien en la once te pregunta \"¿y la pega?\" y no sabes qué decir.",
+  "evento.busqueda.devolver_favor": "Quien te recomendó para tu trabajo te escribe: su sobrino está buscando pega y le pregunta si podrías recomendarlo a él.",
+  "opcion.busqueda.como_buscar.omil": "Vas a la OMIL de la municipalidad a inscribirte en la bolsa de empleo.",
+  "busqueda.forma.omil": "OMIL de la municipalidad",
+  "opcion.busqueda.oferta.aceptar": "Aceptas. El lunes firmas contrato y empiezas."
 }

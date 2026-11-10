@@ -120,3 +120,16 @@ En Chile, cerca de 1 de cada 4 personas de 25 a 59 años no trabaja. La mayoría
 
 Queda pendiente: pensiones (Superintendencia de Pensiones) y mortalidad (tabla del INE más reciente).
 
+
+## Buscar trabajo (N11, 2026-11-10)
+
+El trabajo con contrato ya no llega solo: se busca (`economia.busqueda_trabajo` en `country.json`, eventos en `packs/base/events/busqueda.json`). Lo que sale de datos y lo que es estimación:
+
+| Dato real | Fuente | Cómo se usa |
+|---|---|---|
+| Quienes buscan trabajo llevan en promedio unos 7 meses buscando | OCEC UDP, Informe 77 (2026), con datos de la ENE | Las probabilidades de entrevista se ajustaron para que encontrar trabajo tome ~5 meses (21 a 25 semanas en el simulador). El promedio de quienes *siguen* buscando es más largo que el de quienes ya encontraron, porque cuenta más a los que demoran |
+| Los contactos personales pesan mucho en Chile: el 49 % de los jóvenes que trabajan consiguió su último trabajo por "contactos"; en las contrataciones, los portales son cerca del 39 % y las recomendaciones el 27 % | INJUV y Cadem, Sondeo 6 (2016); Randstad (citado por la prensa) | La forma "recomendación de un conocido" es la que más ayuda en la entrevista (`exito_extra` 0,2), pero exige una amistad o colega que te quiera (cariño 50 o más) |
+| Existe la OMIL, oficina municipal de intermediación laboral | Municipalidades y SENCE | Forma `busqueda.forma.omil`, solo en Chile |
+| Revisar el DICOM para contratar está prohibido desde 2012 | Ley 20.575 | Las deudas no cambian la probabilidad de entrevista |
+
+Estimaciones por revisar: probabilidad de entrevista por semana (portales 0,08, a mano 0,045, contactos 0,08, OMIL 0,05), probabilidad base de quedar (0,35), lo que suma cada año de experiencia (5 %, hasta 50 % más), el título (20 % más), desde los 55 años (20 % menos), una cesantía de más de un año (30 % menos) y la fase del ciclo (`contratacion` 0,7 en recesión y 0,45 en crisis), y la negociación (40 % de que suban el sueldo 8 %, 10 % de que retiren la oferta). Sin título y con menos de 12 meses cotizados se entra con el sueldo mínimo.

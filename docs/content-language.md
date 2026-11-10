@@ -262,6 +262,7 @@ y en cada comuna, el arriendo típico de cada tipo (en dinero del inicio del mun
 - Al empezar una fase: el jugador que vive ahí lo lee en su diario (`diario.` + id, texto obligatorio); si tiene `inflacion`, el país pasa a ese régimen; si tiene `golpe_fondos`, los fondos de pensión de todos los que viven ahí cambian de una vez (-0.2 = caen 20 %).
 - Los efectos en el empleo los ponen los eventos del país, con condiciones sobre `mundo.ciclo` (por ejemplo, despidos solo en recesión o crisis).
 - Con `quiebras` (opcional, por defecto 1), la fase multiplica las quiebras de empresas del país (2 = el doble que en un año normal).
+- Con `contratacion` (opcional, por defecto 1), la fase multiplica las llamadas a entrevista de quienes buscan trabajo (0.6 = 40 % menos).
 - Opcional: un país sin `ciclo` no tiene crisis.
 
 #### Deudas (`economia.deudas`)
@@ -306,6 +307,35 @@ y en cada comuna, el arriendo típico de cada tipo (en dinero del inicio del mun
 - Si quiebra la empresa del jugador, el tiempo se detiene y `jugador.empresa_quebro` queda verdadero hasta que un evento del país le quite el trabajo (en Chile, `evento.empresa.quiebra`). Si el país no tiene ese evento, lo pierde al año siguiente. Los demás personajes lo pierden de una vez.
 - El `id` empieza con `empresa.tamano.` y es la clave de su texto. Textos obligatorios del diario: `diario.empresa.quiebra`, `diario.empresa.crece` y `diario.empresa.achica`.
 - Opcional: en un país sin `empresas`, los trabajos no tienen empresa (sin tope de cargo ni sueldo por tamaño).
+
+#### Búsqueda de trabajo (`economia.busqueda_trabajo`)
+
+Ningún trabajo con contrato llega solo: el jugador lo busca. Primero dice qué busca (en su carrera, con `jugador.postular_en('área')`, o `postular_en('cualquier_trabajo')`) y después cómo (`jugador.buscar_trabajo('forma')`). Cada semana manda postulaciones y puede llegar una llamada a entrevista; en la entrevista elige cómo ir (`jugador.dar_entrevista(puntos)`) y, si queda, recibe una oferta que acepta, negocia o rechaza.
+
+```json
+"busqueda_trabajo": {
+  "formas": [
+    { "id": "busqueda.forma.portales", "postulaciones_semana": 10, "entrevista_semanal": 0.08, "exito_extra": -0.08 },
+    { "id": "busqueda.forma.contactos", "postulaciones_semana": 1, "entrevista_semanal": 0.08, "exito_extra": 0.2, "necesita_contacto": true }
+  ],
+  "exito_entrevista": 0.35,
+  "factor_por_ano_experiencia": 0.05, "tope_experiencia": 1.5,
+  "factor_titulo": 1.2,
+  "edad_dificil": 50, "factor_edad": 0.65,
+  "semanas_cesantia_larga": 52, "factor_cesantia_larga": 0.7,
+  "meses_para_sueldo_tipico": 12,
+  "carino_contacto": 50,
+  "negociacion": { "mejora": 0.08, "prob_mejora": 0.4, "prob_retiro": 0.1 }
+}
+```
+
+- **Formas de buscar** (`formas`): cada país trae las suyas (en Chile también la OMIL de la municipalidad). El `id` empieza con `busqueda.forma.` y es la clave de su texto. `entrevista_semanal` es la probabilidad de que lo llamen cada semana; `exito_extra` suma o resta a la probabilidad de quedar después de la entrevista (postular a todo da más llamadas pero peores; una recomendación ayuda mucho). Con `necesita_contacto`, solo se puede si tiene una amistad o un colega de 18 a 70 años que le tenga al menos `carino_contacto` de cariño: esa persona queda como `jugador.contacto`.
+- **Lo que cambia la llamada:** cada año cotizado suma `factor_por_ano_experiencia` (hasta `tope_experiencia`), un título multiplica por `factor_titulo`, desde `edad_dificil` años por `factor_edad`, después de `semanas_cesantia_larga` buscando por `factor_cesantia_larga`, y la fase del ciclo por su `contratacion`.
+- **La entrevista:** quedar es `exito_entrevista` + `exito_extra` + los puntos de la opción (10 = 10 % más) + un poco por la extraversión, entre 5 % y 95 %. Si no queda, lo anota en el diario (`diario.busqueda.rechazo`).
+- **La oferta:** en su área entra como con `trabajar_en` (empresa, cargo y sueldo), con el contrato que pidió en `postular_en` y la `marca_trabajo` de su carrera. Fuera de su carrera entra con contrato: con el sueldo mínimo si no tiene título y cotizó menos de `meses_para_sueldo_tipico` meses, y si no con lo de `sueldo_titulo()`. Al aceptar pierde la marca `buscando_trabajo`, gana `trabajando` y se anota `diario.busqueda.nuevo_trabajo`.
+- **Negociar** (`negociacion`): con `prob_mejora` le suben el sueldo de la oferta en `mejora`; con `prob_retiro` la retiran (`diario.busqueda.oferta_retirada`) y sigue buscando; si no, la mantienen igual.
+- La búsqueda dura mientras tenga la marca `buscando_trabajo`; al quitarla se borra sola.
+- Textos obligatorios: el de cada forma y los tres del diario. Opcional: un país sin `busqueda_trabajo` no tiene formas de buscar (nadie consigue trabajo buscando).
 
 #### Herencia (`economia.herencia`)
 
@@ -394,6 +424,7 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 |---|---|
 | `id` | Empieza con `carrera.`; es también la clave de su nombre en `lang/` |
 | `lugar_de_trabajo` | Opcional. Cómo se dibuja donde trabaja quien tiene el título: `lugar_trabajo.oficina_abierta` (mesas compartidas con pantallas), `lugar_trabajo.oficina_cubiculos` (cubículos y archivadores) o `lugar_trabajo.consulta` (sillones frente a frente). Sin él, una oficina común. Un tipo nuevo hay que dibujarlo en Unity |
+| `marca_trabajo` | Opcional. Marca que recibe quien entra a trabajar en esta carrera al aceptar una oferta (por ejemplo `trabaja_software`), para los eventos de la carrera |
 | `nombres_empresa` | Opcional. Claves de texto (empiezan con `empresa.`) para los nombres de las empresas de esta carrera. Cada empresa nueva toma uno que no use otra empresa abierta. Ver `economia.empresas` en country.json |
 | `niveles[].id` | Empieza con el id de la carrera + `.nivel.`. Su texto es la opción ("Analista programador en un instituto…") y `<id>.titulo` el nombre del título |
 | `niveles[].institucion` | `cft`, `instituto` o `universidad` |
@@ -402,7 +433,7 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 | `niveles[].tendencia` | Qué tan atractivo es el nivel para quien decide solo (como `tendencia` en las opciones). Opcional |
 | `niveles[].sueldo_relativo` | Cuánto gana un titulado de este nivel frente al sueldo típico de su país (`2.0` = el doble). Lo usa `sueldo_titulo()`. Si falta, 1 |
 
-Lo que pasa mientras se estudia (ramos, práctica, titulación, primer trabajo) va en los eventos del paquete. La titulación la decide un evento con `jugador.titularse()`: así cada carrera pone sus requisitos (por ejemplo, la práctica). La duración real suele ser mayor que la formal: un evento puede restar semestres con `jugador.semestres_aprobados -= 1`.
+Lo que pasa mientras se estudia (ramos, práctica, titulación) va en los eventos del paquete. Al titularse, el evento de la carrera pregunta a qué área postular (`jugador.postular_en('área')`); el trabajo llega después, buscándolo (ver `economia.busqueda_trabajo`). La titulación la decide un evento con `jugador.titularse()`: así cada carrera pone sus requisitos (por ejemplo, la práctica). La duración real suele ser mayor que la formal: un evento puede restar semestres con `jugador.semestres_aprobados -= 1`.
 
 ### Áreas y cargos (campos `areas` y `cargos` de career.json)
 
@@ -529,7 +560,7 @@ Para que la escena 3D cambie con la vida, un paquete puede traer objetos en `sce
 | `lugar` | `casa`, `barrio` o `trabajo` |
 | `condiciones` | Cuándo se ve (obligatorio). Las decisiones se pueden conectar con marcas: un efecto `jugador.marcar('tiene_perro')` y un objeto con `jugador.tiene('tiene_perro')` |
 
-Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo y mecedora. Además, Unity nubla el cielo cuando la felicidad baja.
+Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cartas de rechazo (desde 2 entrevistas sin quedar), ropa de entrevista (con una entrevista u oferta pendiente), cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo y mecedora. Además, Unity nubla el cielo cuando la felicidad baja.
 
 ## El lenguaje de condiciones y efectos
 
@@ -619,6 +650,17 @@ Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avi
 | `jugador.tope_de_empresa` | Si está en el cargo más alto que existe en su empresa, aunque su escalera sigue |
 | `jugador.empresa_quebro` | Si su empresa quebró y todavía no deja ese trabajo |
 | `jugador.cambiar_de_empresa()` | Se va a una empresa más grande de su carrera (o a otra del mismo tamaño si ya es grande), en la misma área y cargo, con el sueldo de allá (solo efectos) |
+| `jugador.postular_en('área')`, `postular_en('área', 'honorarios')`, `postular_en('cualquier_trabajo')` | Dice qué trabajo va a buscar: en un área de su carrera (tiene que cumplir sus requisitos) o cualquiera (solo efectos) |
+| `jugador.buscar_trabajo('forma')` | Empieza a buscar de esa forma de su país (`'busqueda.forma.portales'`). Si no dijo qué busca, busca cualquier trabajo. Con una forma que necesita contacto, ese conocido queda en `jugador.contacto` (solo efectos) |
+| `jugador.puede_buscar_con('forma')` | Si esa forma existe en su país y, si necesita contacto, si tiene a alguien que lo recomiende |
+| `jugador.busqueda`, `jugador.busca_en` | La forma con que busca y lo que busca (un área o `'cualquier_trabajo'`), o `nada` |
+| `jugador.semanas_buscando`, `.postulaciones`, `.entrevistas`, `.rechazos` | Cómo le va en la búsqueda (0 si no busca) |
+| `jugador.entrevista_pendiente`, `jugador.dar_entrevista(puntos)` | Si lo llamaron a una entrevista, y va a ella: los puntos (10 = 10 % más) dicen cómo se preparó (solo efectos) |
+| `jugador.tiene_oferta`, `jugador.oferta_area` | Si le ofrecieron un trabajo, y de qué área (`nada` si es fuera de su carrera) |
+| `jugador.aceptar_oferta()`, `jugador.negociar_oferta()`, `jugador.rechazar_oferta()` | Acepta (entra a trabajar), pide más sueldo o la rechaza y sigue buscando (solo efectos) |
+| `jugador.oferta_negociada`, `jugador.oferta_mejorada` | Si ya pidió más sueldo por esta oferta, y si se lo subieron |
+| `jugador.contacto` | Quien lo recomienda (otra persona, vista desde el jugador), o `nada` |
+| `jugador.dejar_de_buscar()` | Borra la búsqueda (solo efectos). También se borra sola al quitar la marca `buscando_trabajo` |
 | `jugador.meses_cotizados` | Meses en que cotizó para su pensión (con contrato). Los meses sin trabajo o informales no suman |
 | `jugador.sueldo`, `jugador.sueldo_liquido` | Sueldo bruto de hoy y líquido de la última liquidación (0 si no trabaja) |
 | `sueldo_minimo()`, `sueldo_tipico()` | Sueldos de referencia del país del jugador, en dinero del inicio del mundo (para usar en `trabajar`) |

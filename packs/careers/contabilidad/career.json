@@ -1,5 +1,6 @@
 {
   "id": "carrera.contabilidad",
+  "marca_trabajo": "trabaja_contabilidad",
   "lugar_de_trabajo": "lugar_trabajo.oficina_cubiculos",
   "nombres_empresa": [
     "empresa.contabilidad.balance_andino",

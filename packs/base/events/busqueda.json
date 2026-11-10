@@ -1,0 +1,213 @@
+[
+  {
+    "id": "evento.busqueda.como_buscar",
+    "condiciones": "jugador.tiene('buscando_trabajo') && jugador.busqueda == nada && jugador.edad >= 15 && (!jugador.titulado || jugador.busca_en != nada)",
+    "peso": 100,
+    "variantes": ["evento.busqueda.como_buscar.2", "evento.busqueda.como_buscar.3"],
+    "opciones": [
+      {
+        "texto": "opcion.busqueda.como_buscar.portales",
+        "tendencia": "45 + jugador.apertura / 5",
+        "efectos": ["jugador.buscar_trabajo('busqueda.forma.portales')"]
+      },
+      {
+        "texto": "opcion.busqueda.como_buscar.a_mano",
+        "tendencia": "15 + jugador.responsabilidad / 2",
+        "efectos": ["jugador.buscar_trabajo('busqueda.forma.a_mano')"]
+      },
+      {
+        "texto": "opcion.busqueda.como_buscar.contactos",
+        "condiciones": "jugador.puede_buscar_con('busqueda.forma.contactos')",
+        "tendencia": "30 + jugador.extraversion / 2",
+        "efectos": ["jugador.buscar_trabajo('busqueda.forma.contactos')"]
+      },
+      {
+        "texto": "opcion.busqueda.como_buscar.omil",
+        "condiciones": "jugador.puede_buscar_con('busqueda.forma.omil')",
+        "tendencia": "10 + (60 - jugador.nivel_hogar) / 2",
+        "efectos": ["jugador.buscar_trabajo('busqueda.forma.omil')"]
+      }
+    ]
+  },
+  {
+    "id": "evento.busqueda.cambiar_forma",
+    "condiciones": "jugador.busqueda != nada && jugador.semanas_buscando >= 20 && !jugador.entrevista_pendiente && !jugador.tiene_oferta",
+    "peso": 30,
+    "enfriamiento_semanas": 26,
+    "variantes": ["evento.busqueda.cambiar_forma.2"],
+    "opciones": [
+      {
+        "texto": "opcion.busqueda.cambiar_forma.seguir",
+        "tendencia": "30 + jugador.responsabilidad / 3",
+        "efectos": ["jugador.felicidad -= 2"]
+      },
+      {
+        "texto": "opcion.busqueda.como_buscar.portales",
+        "condiciones": "jugador.busqueda != 'busqueda.forma.portales'",
+        "tendencia": "35",
+        "efectos": ["jugador.buscar_trabajo('busqueda.forma.portales')", "jugador.felicidad -= 1"]
+      },
+      {
+        "texto": "opcion.busqueda.como_buscar.a_mano",
+        "condiciones": "jugador.busqueda != 'busqueda.forma.a_mano'",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": ["jugador.buscar_trabajo('busqueda.forma.a_mano')", "jugador.felicidad -= 1"]
+      },
+      {
+        "texto": "opcion.busqueda.cambiar_forma.pedir_ayuda",
+        "condiciones": "jugador.busqueda != 'busqueda.forma.contactos' && jugador.puede_buscar_con('busqueda.forma.contactos')",
+        "tendencia": "25 + jugador.extraversion / 2",
+        "efectos": ["jugador.buscar_trabajo('busqueda.forma.contactos')"]
+      },
+      {
+        "texto": "opcion.busqueda.como_buscar.omil",
+        "condiciones": "jugador.busqueda != 'busqueda.forma.omil' && jugador.puede_buscar_con('busqueda.forma.omil')",
+        "tendencia": "10 + (60 - jugador.nivel_hogar) / 2",
+        "efectos": ["jugador.buscar_trabajo('busqueda.forma.omil')"]
+      }
+    ]
+  },
+  {
+    "id": "evento.busqueda.entrevista",
+    "condiciones": "jugador.entrevista_pendiente",
+    "peso": 100,
+    "variantes": ["evento.busqueda.entrevista.2", "evento.busqueda.entrevista.3", "evento.busqueda.entrevista.4"],
+    "opciones": [
+      {
+        "texto": "opcion.busqueda.entrevista.preparar",
+        "tendencia": "20 + jugador.responsabilidad / 2",
+        "efectos": ["jugador.dar_entrevista(12)", "jugador.salud -= 1"]
+      },
+      {
+        "texto": "opcion.busqueda.entrevista.natural",
+        "tendencia": "15 + jugador.extraversion / 2",
+        "efectos": ["jugador.dar_entrevista(0)"]
+      },
+      {
+        "texto": "opcion.busqueda.entrevista.inflar",
+        "tendencia": "(100 - jugador.amabilidad) / 7 + (100 - jugador.responsabilidad) / 10",
+        "efectos": ["jugador.dar_entrevista(18)", "plantar('semilla.mintio_en_cv')"]
+      }
+    ]
+  },
+  {
+    "id": "evento.busqueda.oferta",
+    "condiciones": "jugador.tiene_oferta && !jugador.oferta_negociada",
+    "peso": 100,
+    "variantes": ["evento.busqueda.oferta.2", "evento.busqueda.oferta.3"],
+    "opciones": [
+      {
+        "texto": "opcion.busqueda.oferta.aceptar",
+        "condiciones": "jugador.contacto == nada",
+        "tendencia": "60 + jugador.meses_en_rojo * 10 + jugador.semanas_buscando / 2",
+        "efectos": ["jugador.aceptar_oferta()", "jugador.felicidad += 6"]
+      },
+      {
+        "texto": "opcion.busqueda.oferta.agradecer",
+        "condiciones": "jugador.contacto != nada",
+        "tendencia": "60 + jugador.meses_en_rojo * 10 + jugador.semanas_buscando / 2",
+        "efectos": ["plantar('semilla.te_recomendo', jugador.contacto)", "jugador.contacto.carino += 3", "jugador.aceptar_oferta()", "jugador.felicidad += 6"]
+      },
+      {
+        "texto": "opcion.busqueda.oferta.negociar",
+        "tendencia": "jugador.extraversion / 3 + (100 - jugador.amabilidad) / 5",
+        "efectos": ["jugador.negociar_oferta()"]
+      },
+      {
+        "texto": "opcion.busqueda.oferta.rechazar",
+        "tendencia": "jugador.nivel_hogar / 6 + 3",
+        "efectos": ["jugador.rechazar_oferta()", "jugador.felicidad -= 1"]
+      }
+    ]
+  },
+  {
+    "id": "evento.busqueda.contraoferta_mejor",
+    "condiciones": "jugador.tiene_oferta && jugador.oferta_negociada && jugador.oferta_mejorada",
+    "peso": 100,
+    "opciones": [
+      {
+        "texto": "opcion.busqueda.contraoferta.aceptar",
+        "condiciones": "jugador.contacto == nada",
+        "tendencia": "90",
+        "efectos": ["jugador.aceptar_oferta()", "jugador.felicidad += 8"]
+      },
+      {
+        "texto": "opcion.busqueda.oferta.agradecer",
+        "condiciones": "jugador.contacto != nada",
+        "tendencia": "90",
+        "efectos": ["plantar('semilla.te_recomendo', jugador.contacto)", "jugador.contacto.carino += 3", "jugador.aceptar_oferta()", "jugador.felicidad += 8"]
+      },
+      {
+        "texto": "opcion.busqueda.oferta.rechazar",
+        "tendencia": "5",
+        "efectos": ["jugador.rechazar_oferta()"]
+      }
+    ]
+  },
+  {
+    "id": "evento.busqueda.contraoferta_igual",
+    "condiciones": "jugador.tiene_oferta && jugador.oferta_negociada && !jugador.oferta_mejorada",
+    "peso": 100,
+    "opciones": [
+      {
+        "texto": "opcion.busqueda.contraoferta.aceptar_igual",
+        "condiciones": "jugador.contacto == nada",
+        "tendencia": "70",
+        "efectos": ["jugador.aceptar_oferta()", "jugador.felicidad += 4"]
+      },
+      {
+        "texto": "opcion.busqueda.oferta.agradecer",
+        "condiciones": "jugador.contacto != nada",
+        "tendencia": "70",
+        "efectos": ["plantar('semilla.te_recomendo', jugador.contacto)", "jugador.contacto.carino += 3", "jugador.aceptar_oferta()", "jugador.felicidad += 4"]
+      },
+      {
+        "texto": "opcion.busqueda.oferta.rechazar",
+        "tendencia": "10 + jugador.nivel_hogar / 6",
+        "efectos": ["jugador.rechazar_oferta()", "jugador.felicidad -= 1"]
+      }
+    ]
+  },
+  {
+    "id": "evento.busqueda.devolver_favor",
+    "semilla": "semilla.te_recomendo",
+    "condiciones": "semilla('semilla.te_recomendo').testigo != nada && jugador.trabaja",
+    "peso": 20,
+    "opciones": [
+      {
+        "texto": "opcion.busqueda.devolver_favor.recomendar",
+        "tendencia": "30 + jugador.amabilidad / 2",
+        "efectos": ["semilla('semilla.te_recomendo').testigo.carino += 10", "semilla('semilla.te_recomendo').testigo.confianza += 5", "jugador.felicidad += 2"]
+      },
+      {
+        "texto": "opcion.busqueda.devolver_favor.excusarse",
+        "tendencia": "jugador.responsabilidad / 3 + (100 - jugador.amabilidad) / 4",
+        "efectos": ["semilla('semilla.te_recomendo').testigo.carino -= 8", "semilla('semilla.te_recomendo').testigo.rencor += 12"]
+      }
+    ]
+  },
+  {
+    "id": "evento.busqueda.cv_descubierto",
+    "semilla": "semilla.mintio_en_cv",
+    "condiciones": "jugador.trabaja && jugador.tiene('trabajando')",
+    "peso": 20,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.busqueda.cv_descubierto.confesar",
+        "tendencia": "20 + jugador.amabilidad / 2",
+        "efectos": ["jugador.felicidad -= 5"]
+      },
+      {
+        "texto": "opcion.busqueda.cv_descubierto.sostener",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + jugador.neuroticismo / 5",
+        "efectos": ["jugador.felicidad -= 2", "jugador.salud -= 1"]
+      },
+      {
+        "texto": "opcion.busqueda.cv_descubierto.renunciar",
+        "tendencia": "jugador.neuroticismo / 4",
+        "efectos": ["jugador.desmarcar('trabajando')", "jugador.dejar_trabajo()", "jugador.marcar('buscando_trabajo')", "jugador.felicidad -= 8"]
+      }
+    ]
+  }
+]

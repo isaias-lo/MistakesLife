@@ -1,5 +1,6 @@
 {
   "id": "carrera.software",
+  "marca_trabajo": "trabaja_software",
   "lugar_de_trabajo": "lugar_trabajo.oficina_abierta",
   "nombres_empresa": [
     "empresa.software.cordillera_digital",
