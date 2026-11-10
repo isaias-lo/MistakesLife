@@ -29,28 +29,6 @@
     ]
   },
   {
-    "id": "evento.trabajo_adulto",
-    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad >= 26 && jugador.edad < 65 && jugador.estudia == nada && mundo.ciclo != 'economia.ciclo.crisis'",
-    "probabilidad_anual": 0.6,
-    "opciones": [
-      {
-        "texto": "opcion.trabajo_adulto.aceptar",
-        "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.trabajar(sueldo_titulo())",
-          "jugador.felicidad += 6"
-        ]
-      },
-      {
-        "texto": "opcion.trabajo_adulto.esperar",
-        "efectos": [
-          "jugador.felicidad -= 2"
-        ]
-      }
-    ]
-  },
-  {
     "id": "evento.crisis_mediana_edad",
     "condiciones": "jugador.edad >= 40 && jugador.edad <= 52",
     "probabilidad_anual": 0.1,

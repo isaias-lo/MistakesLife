@@ -52,6 +52,9 @@ namespace MistakesLife.Core.Saving
 
         public JobData? Job { get; set; }
 
+        /// <summary>Su búsqueda de trabajo, o null (desde la versión 9).</summary>
+        public JobSearchData? JobSearch { get; set; }
+
         /// <summary>Área del último cargo de su carrera que ya no tiene, o null.</summary>
         public string? LastAreaId { get; set; }
 

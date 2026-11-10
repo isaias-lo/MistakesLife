@@ -123,69 +123,55 @@
   },
   {
     "id": "evento.software.primer_trabajo",
-    "condiciones": "jugador.titulado_en('carrera.software') && jugador.tiene('buscando_trabajo')",
-    "probabilidad_anual": 0.9,
+    "condiciones": "jugador.titulado_en('carrera.software') && jugador.tiene('buscando_trabajo') && jugador.busca_en == nada",
+    "peso": 100,
+    "variantes": [
+      "evento.software.primer_trabajo.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.software.trabajo.desarrollo",
         "tendencia": "jugador.apertura / 2 + 30",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_software')",
-          "jugador.trabajar_en('carrera.software.area.desarrollo')",
-          "jugador.felicidad += 5"
+          "jugador.postular_en('carrera.software.area.desarrollo')"
         ]
       },
       {
         "texto": "opcion.software.trabajo.soporte",
         "tendencia": "jugador.amabilidad / 2",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_software')",
-          "jugador.trabajar_en('carrera.software.area.soporte')",
-          "jugador.felicidad += 5"
+          "jugador.postular_en('carrera.software.area.soporte')"
         ]
       },
       {
         "texto": "opcion.software.trabajo.qa",
         "tendencia": "jugador.responsabilidad / 2",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_software')",
-          "jugador.trabajar_en('carrera.software.area.qa')",
-          "jugador.felicidad += 5"
+          "jugador.postular_en('carrera.software.area.qa')"
         ]
       },
       {
         "texto": "opcion.software.trabajo.ciberseguridad",
         "tendencia": "jugador.inteligencia / 3",
+        "condiciones": "jugador.puede_trabajar_en('carrera.software.area.ciberseguridad')",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_software')",
-          "jugador.trabajar_en('carrera.software.area.ciberseguridad')",
-          "jugador.felicidad += 5"
-        ],
-        "condiciones": "jugador.puede_trabajar_en('carrera.software.area.ciberseguridad')"
+          "jugador.postular_en('carrera.software.area.ciberseguridad')"
+        ]
       },
       {
         "texto": "opcion.software.trabajo.datos",
         "tendencia": "jugador.inteligencia / 3",
+        "condiciones": "jugador.puede_trabajar_en('carrera.software.area.datos')",
         "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.marcar('trabaja_software')",
-          "jugador.trabajar_en('carrera.software.area.datos')",
-          "jugador.felicidad += 5"
-        ],
-        "condiciones": "jugador.puede_trabajar_en('carrera.software.area.datos')"
+          "jugador.postular_en('carrera.software.area.datos')"
+        ]
       },
       {
-        "texto": "opcion.software.trabajo.esperar",
-        "tendencia": "15"
+        "texto": "opcion.software.trabajo.cualquiera",
+        "tendencia": "15 + jugador.meses_en_rojo * 10",
+        "efectos": [
+          "jugador.postular_en('cualquier_trabajo')"
+        ]
       }
     ]
   },

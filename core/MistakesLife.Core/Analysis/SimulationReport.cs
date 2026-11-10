@@ -69,6 +69,15 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Vidas que terminan buscando trabajo: no trabajan, no estudian y no se jubilaron, pero quieren trabajar.</summary>
         public int Unemployed { get; internal set; }
 
+        /// <summary>Cuántas veces se encontró trabajo buscándolo (aceptando una oferta), sumando todas las vidas.</summary>
+        public int JobSearchHires { get; internal set; }
+
+        /// <summary>Semanas buscando, en promedio, hasta aceptar una oferta.</summary>
+        public double AverageSearchWeeks { get; internal set; }
+
+        /// <summary>Entrevistas, en promedio, por cada trabajo encontrado.</summary>
+        public double AverageInterviewsPerHire { get; internal set; }
+
         /// <summary>
         /// Promedio, entre las vidas que llegan a los 65, de la parte de los meses
         /// desde los 18 en que cotizó para su pensión (densidad de cotización).
@@ -156,6 +165,7 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Estudian al final: {PercentOfAlive(Studying).ToString("0.0", ci)} %");
             sb.AppendLine($"- Trabajan al final: {PercentOfAlive(Working).ToString("0.0", ci)} % (informales: {PercentOfAlive(WorkingInformal).ToString("0.0", ci)} %); sueldo bruto mediano (en dinero del inicio): {MedianRealSalary.ToString("N0", ci)}");
             sb.AppendLine($"- Buscan trabajo al final: {PercentOfAlive(Unemployed).ToString("0.0", ci)} %; desempleo (buscan / trabajan + buscan): {(Working + Unemployed == 0 ? 0 : 100.0 * Unemployed / (Working + Unemployed)).ToString("0.0", ci)} %");
+            sb.AppendLine($"- Trabajos encontrados buscando: {JobSearchHires} ({(Lives == 0 ? 0 : (double)JobSearchHires / Lives).ToString("0.00", ci)} por vida); semanas buscando hasta aceptar (promedio): {AverageSearchWeeks.ToString("0.0", ci)}; entrevistas por trabajo: {AverageInterviewsPerHire.ToString("0.0", ci)}");
             if (AverageContributionDensity > 0)
             {
                 sb.AppendLine($"- Meses con cotización para la pensión, de los 18 a los 65 (promedio): {(AverageContributionDensity * 100).ToString("0", ci)} %");

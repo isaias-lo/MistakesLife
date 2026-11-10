@@ -590,6 +590,11 @@ namespace MistakesLife.Core.Content
                 {
                     ValidateCompanies($"{where}, economia.empresas", country.Economy.Companies);
                 }
+
+                if (country.Economy.JobSearch != null)
+                {
+                    ValidateJobSearch($"{where}, economia.busqueda_trabajo", country.Economy.JobSearch);
+                }
             }
 
             FamilyRatesDefinition? family = country.NonPlayedFamily;
@@ -896,6 +901,38 @@ namespace MistakesLife.Core.Content
             if (inflation.Regime(inflation.InitialRegime) == null)
             {
                 _errors.Add(new ContentError(where, $"regimen_inicial '{inflation.InitialRegime}' no es uno de sus regímenes."));
+            }
+        }
+
+        private void ValidateJobSearch(string where, JobSearchDefinition search)
+        {
+            if (search.Methods.Count == 0)
+            {
+                _errors.Add(new ContentError(where, "debe tener al menos una forma de buscar."));
+            }
+
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (JobSearchMethodDefinition method in search.Methods)
+            {
+                string methodWhere = $"{where}, {method.Id}";
+                CheckId(methodWhere, method.Id, "busqueda.forma.");
+                if (!seen.Add(method.Id))
+                {
+                    _errors.Add(new ContentError(methodWhere, "forma repetida."));
+                }
+
+                if (method.WeeklyInterview < 0 || method.WeeklyInterview > 1 || method.ApplicationsPerWeek < 0)
+                {
+                    _errors.Add(new ContentError(methodWhere, "entrevista_semanal entre 0 y 1, y postulaciones_semana desde 0."));
+                }
+            }
+
+            JobNegotiationDefinition n = search.Negotiation;
+            bool badChance = new[] { search.InterviewSuccess, n.RaiseChance, n.WithdrawChance }.Any(p => p < 0 || p > 1) || n.RaiseChance + n.WithdrawChance > 1;
+            bool badFactor = new[] { search.DegreeFactor, search.AgeFactor, search.LongSearchFactor, search.ExperienceCap }.Any(f => f < 0) || search.PerYearOfExperience < 0 || n.Raise < 0;
+            if (badChance || badFactor || search.ContactAffection < 0 || search.ContactAffection > 100 || search.MonthsForTypicalSalary < 0)
+            {
+                _errors.Add(new ContentError(where, "probabilidades entre 0 y 1 (prob_mejora + prob_retiro hasta 1), factores no negativos y carino_contacto entre 0 y 100."));
             }
         }
 
@@ -1233,6 +1270,19 @@ namespace MistakesLife.Core.Content
                     }
                 }
 
+                if (country.Economy?.JobSearch != null)
+                {
+                    foreach (JobSearchMethodDefinition method in country.Economy.JobSearch.Methods)
+                    {
+                        yield return new KeyValuePair<string, string>(method.Id, $"país {country.Id}");
+                    }
+
+                    foreach (string key in new[] { Economy.JobSearchRules.RejectionJournal, Economy.JobSearchRules.WithdrawnJournal, Economy.JobSearchRules.HiredJournal })
+                    {
+                        yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
+                    }
+                }
+
                 if (country.Economy?.Inheritance != null)
                 {
                     yield return new KeyValuePair<string, string>(Economy.InheritanceSettlement.ReceivedJournal, $"país {country.Id}");
@@ -1464,6 +1514,18 @@ namespace MistakesLife.Core.Content
                     && !_careerAreas.ContainsKey(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): esa área de carrera no existe."));
+                }
+
+                if (reference.Function == "." + CharacterObject.PostulateMethod
+                    && reference.Argument != Economy.JobSearch.AnyJob && !_careerAreas.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): esa área de carrera no existe (o usa '{Economy.JobSearch.AnyJob}')."));
+                }
+
+                if ((reference.Function == "." + CharacterObject.SearchJobMethod || reference.Function == "." + CharacterObject.CanSearchWithMethod)
+                    && !_countries.Values.Any(c => c.Economy?.JobSearch?.Method(reference.Argument) != null))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ningún país tiene esa forma de buscar trabajo (economia.busqueda_trabajo.formas)."));
                 }
 
                 if ((reference.Function == "." + CharacterObject.PromoteMethod || reference.Function == "." + CharacterObject.CanPromoteToMethod)

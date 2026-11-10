@@ -120,6 +120,11 @@ namespace MistakesLife.Core.Saving
                     }
                 }
             },
+
+            // 8 → 9: aparece la búsqueda de trabajo. Las partidas viejas no tenían
+            // ninguna: quien estaba buscando ("buscando_trabajo") elige ahora qué y
+            // cómo buscar con los eventos, como alguien que recién empieza.
+            [8] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

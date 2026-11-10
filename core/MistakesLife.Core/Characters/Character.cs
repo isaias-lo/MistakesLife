@@ -149,6 +149,12 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public Economy.CareerPosition? LastPosition { get; internal set; }
 
+        /// <summary>
+        /// Su búsqueda de trabajo (qué busca, cómo y cómo le va), o null si no está
+        /// buscando. Ver <see cref="Economy.JobSearchRules"/>.
+        /// </summary>
+        public Economy.JobSearch? JobSearch { get; set; }
+
         /// <summary>Su última liquidación de sueldo, o null si nunca ha recibido sueldo.</summary>
         public Economy.Payslip? LastPayslip { get; set; }
 

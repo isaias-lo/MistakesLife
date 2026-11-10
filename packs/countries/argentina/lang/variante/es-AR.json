@@ -30,5 +30,7 @@
   "opcion.fin_contrato.departamento": "Buscás un departamento en el barrio y te mudás.",
   "opcion.fin_contrato.casa": "Alquilan una casa, con patio y lugar para todos.",
   "opcion.fin_contrato.volver_familia": "Devolvés las llaves y volvés a la casa de tu familia.",
-  "evento.fin_contrato_arriendo.2": "Te llega el aviso del dueño: el contrato vence a fin de mes. Mirás la casa, las cuentas y lo que gastás en viajar al trabajo, y pensás si te quedás o te mudás."
+  "evento.fin_contrato_arriendo.2": "Te llega el aviso del dueño: el contrato vence a fin de mes. Mirás la casa, las cuentas y lo que gastás en viajar al trabajo, y pensás si te quedás o te mudás.",
+  "evento.busqueda.cambiar_forma.2": "La búsqueda se alarga. En el asado del domingo alguien te pregunta \"¿y el laburo?\" y no sabés qué decir.",
+  "evento.busqueda.devolver_favor": "Quien te recomendó para tu trabajo te escribe: su sobrino está buscando laburo y te pregunta si podrías recomendarlo."
 }

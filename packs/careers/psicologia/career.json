@@ -1,5 +1,6 @@
 {
   "id": "carrera.psicologia",
+  "marca_trabajo": "trabaja_psicologia",
   "lugar_de_trabajo": "lugar_trabajo.consulta",
   "nombres_empresa": [
     "empresa.psicologia.centro_alerce",

@@ -54,6 +54,14 @@ namespace MistakesLife.Core.Content
         [JsonProperty("nombres_empresa")]
         public List<string> CompanyNames { get; set; } = new List<string>();
 
+        /// <summary>
+        /// Marca que recibe quien entra a trabajar en esta carrera al aceptar una
+        /// oferta (por ejemplo "trabaja_software"), para los eventos de la carrera.
+        /// Opcional.
+        /// </summary>
+        [JsonProperty("marca_trabajo")]
+        public string? WorkFlag { get; set; }
+
         [JsonIgnore]
         public string PackId { get; internal set; } = string.Empty;
     }
