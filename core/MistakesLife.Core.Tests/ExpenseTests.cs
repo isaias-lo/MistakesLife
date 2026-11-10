@@ -16,8 +16,11 @@ namespace MistakesLife.Core.Tests
         /// <summary>Semanas hasta pasar la primera semana del segundo mes (dos cobros: mes 1 y mes 2).</summary>
         private const int TwoMonths = 6;
 
-        /// <summary>País de prueba sin inflación: arriendo de la comuna (si vive independiente, compartido) y comida por hijo.</summary>
-        private static ContentDatabase Content(int fromAge = 0, string rent = @", ""arriendo"": 300000") => Build(fromAge, rent);
+        /// <summary>Arriendos de prueba de cada comuna: un departamento y una pieza con las cuentas incluidas.</summary>
+        private const string Rents = @", ""arriendos"": { ""vivienda.departamento"": 300000, ""vivienda.pieza"": 120000 }";
+
+        /// <summary>País de prueba sin inflación: arriendo del contrato (compartido con la pareja) y comida por hijo.</summary>
+        private static ContentDatabase Content(int fromAge = 0, string rent = Rents) => Build(fromAge, rent);
 
         /// <summary>Línea de crédito de prueba, sin interés: cubre lo que falta hasta 150.000 y se paga con el saldo.</summary>
         private const string CreditLine = @", ""deuda_por_deficit"": ""deuda.prueba.linea"", ""cupo_deficit"": 150000";
@@ -33,8 +36,9 @@ namespace MistakesLife.Core.Tests
             string economy = @", ""economia"": {
               ""inflacion"": { ""regimen_inicial"": ""economia.inflacion.cero"",
                 ""regimenes"": [ { ""id"": ""economia.inflacion.cero"", ""anual_min"": 0, ""anual_max"": 0 } ] },
+              ""vivienda"": { ""plazo_meses"": 12, ""garantia_meses"": 1, ""reajuste_meses"": 12, ""tipos"": [
+                { ""id"": ""vivienda.departamento"" }, { ""id"": ""vivienda.pieza"", ""incluye_cuentas"": true } ] },
               ""gastos"": { ""edad_desde"": " + fromAge + @", ""felicidad_en_rojo"": 5" + line + @", ""categorias"": [
-                { ""id"": ""gasto.prueba.arriendo"", ""monto"": ""arriendo()"", ""condiciones"": ""jugador.tiene('vive_independiente')"", ""compartido"": true },
                 { ""id"": ""gasto.prueba.comida"", ""monto"": ""100000 + 50000 * jugador.hijos_menores"" }
               ] }" + debts + " } }";
             var content = new ContentDatabase();
@@ -74,12 +78,13 @@ namespace MistakesLife.Core.Tests
             ContentDatabase content = Content();
             World world = new LifeSession(content, 1).World;
             Run(world, content, "jugador.dinero += 1000000");
-            Run(world, content, "jugador.marcar('vive_independiente')");
+            Run(world, content, "jugador.arrendar('vivienda.departamento')");
             Run(world, content, "jugador.formar_pareja()");
 
             Advance(world, content, 1);
 
-            Assert.Equal(1000000m - 150000 - 100000, world.Player.Money);
+            // Garantía de un mes al firmar, y después la mitad del arriendo más la comida.
+            Assert.Equal(1000000m - 300000 - 150000 - 100000, world.Player.Money);
         }
 
         [Fact]
@@ -128,7 +133,7 @@ namespace MistakesLife.Core.Tests
         {
             var ex = Assert.Throws<ContentLoadException>(() => Content(rent: string.Empty));
 
-            Assert.Contains(ex.Errors, e => e.Message.Contains("no define su arriendo"));
+            Assert.Contains(ex.Errors, e => e.Message.Contains("no tiene el arriendo de vivienda.departamento"));
         }
 
         [Fact]
@@ -139,11 +144,9 @@ namespace MistakesLife.Core.Tests
             ContentDatabase content = RepoPacks.Content;
             ExpensesDefinition rules = content.GetCountry("pais.chile").Economy!.Expenses!;
             World world = new LifeSession(content, 1).World;
-            Run(world, content, "jugador.marcar('vive_independiente')");
+            Run(world, content, "jugador.arrendar('vivienda.departamento')");
             Run(world, content, "jugador.trabajar(sueldo_tipico())");
-            var scope = new EventScope(world, content, world.Player, null, readOnly: true);
-            double alone = rules.Categories.Where(c => c.CompiledConditions == null || c.CompiledConditions.IsTrue(scope))
-                .Sum(c => c.CompiledAmount!.Evaluate(scope).AsNumber("prueba"));
+            double alone = Monthly(world, content, rules);
 
             Assert.True(alone > 617500, $"Viviendo solo gasta {alone}, más que el líquido típico.");
         }
@@ -151,7 +154,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void SinPlata_LaLineaDeCreditoCubreLoQueFalta_YElDineroNoQuedaEnNegativo()
         {
-            ContentDatabase content = Build(0, @", ""arriendo"": 300000", CreditLine, Debts);
+            ContentDatabase content = Build(0, Rents, CreditLine, Debts);
             World world = new LifeSession(content, 1).World;
 
             AdvanceWithDebts(world, content, 1);
@@ -165,7 +168,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void LineaDeCredito_NoPasaDeSuCupo_YLoDemasQuedaSinPagar()
         {
-            ContentDatabase content = Build(0, @", ""arriendo"": 300000", CreditLine, Debts);
+            ContentDatabase content = Build(0, Rents, CreditLine, Debts);
             World world = new LifeSession(content, 1).World;
 
             AdvanceWithDebts(world, content, 14);
@@ -178,7 +181,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void LineaDeCredito_AlLlegarPlata_SePagaSolaConElSaldo()
         {
-            ContentDatabase content = Build(0, @", ""arriendo"": 300000", CreditLine, Debts);
+            ContentDatabase content = Build(0, Rents, CreditLine, Debts);
             World world = new LifeSession(content, 1).World;
             AdvanceWithDebts(world, content, 1);
 
@@ -194,7 +197,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void SinLineaDeCredito_ElDineroQuedaEnNegativoComoAntes()
         {
-            ContentDatabase content = Build(0, @", ""arriendo"": 300000", debts: Debts);
+            ContentDatabase content = Build(0, Rents, debts: Debts);
             World world = new LifeSession(content, 1).World;
 
             AdvanceWithDebts(world, content, 1);
@@ -206,7 +209,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void LineaDeCredito_QueNoExisteEnLasDeudas_EsUnErrorDeContenido()
         {
-            var ex = Assert.Throws<ContentLoadException>(() => Build(0, @", ""arriendo"": 300000", CreditLine));
+            var ex = Assert.Throws<ContentLoadException>(() => Build(0, Rents, CreditLine));
 
             Assert.Contains(ex.Errors, e => e.Message.Contains("no está en economia.deudas"));
         }
@@ -219,20 +222,21 @@ namespace MistakesLife.Core.Tests
             ContentDatabase content = RepoPacks.Content;
             ExpensesDefinition rules = content.GetCountry(countryId).Economy!.Expenses!;
             World world = new LifeSession(content, 1).World;
-            Run(world, content, "jugador.marcar('vive_independiente')");
+            Run(world, content, "jugador.arrendar('vivienda.departamento')");
             double alone = Monthly(world, content, rules);
 
-            Run(world, content, "jugador.marcar('arrienda_pieza')");
+            Run(world, content, "jugador.arrendar('vivienda.pieza')");
             double room = Monthly(world, content, rules);
 
             Assert.NotNull(rules.DeficitDebt);
-            Assert.True(room < alone * 0.7, $"En pieza gasta {room}, viviendo solo {alone}.");
+            // La pieza ahorra arriendo y cuentas; la comida y la micro cuestan lo mismo.
+            Assert.True(room < alone * 0.8, $"En pieza gasta {room}, viviendo solo {alone}.");
         }
 
         private static double Monthly(World world, ContentDatabase content, ExpensesDefinition rules)
         {
             var scope = new EventScope(world, content, world.Player, null, readOnly: true);
-            return rules.Categories.Where(c => c.CompiledConditions == null || c.CompiledConditions.IsTrue(scope))
+            return Eval(world, content, "jugador.arriendo") + rules.Categories.Where(c => c.CompiledConditions == null || c.CompiledConditions.IsTrue(scope))
                 .Sum(c => c.CompiledAmount!.Evaluate(scope).AsNumber("prueba"));
         }
     }

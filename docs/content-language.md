@@ -158,19 +158,43 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
   "deuda_por_deficit": "deuda.chile.linea_credito",
   "cupo_deficit": 1500000,
   "categorias": [
-    { "id": "gasto.chile.arriendo", "monto": "arriendo()", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
+    { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
     { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores" }
   ]
 }
 ```
 
 - Al empezar cada mes, después del sueldo, el jugador paga cada gasto cuyas `condiciones` se cumplan (desde `edad_desde`; antes los pagan sus padres). Por ahora solo el jugador lleva sus cuentas.
-- `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o `arriendo()`.
+- `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o una función como `arriendo('vivienda.pieza')`. El arriendo **no** es un gasto: sale del contrato que firmó el jugador (ver Vivienda).
 - `compartido`: se divide en dos si tiene pareja.
 - El `id` empieza con `gasto.` y es la clave de su nombre en `lang/`.
 - Cada mes en que los gastos son más que el dinero suma uno a `jugador.meses_en_rojo` y resta `felicidad_en_rojo` (estrés financiero). Al alcanzar de nuevo, vuelve a 0.
 - `deuda_por_deficit` (opcional): la deuda de `economia.deudas` que cubre lo que falta, como la línea de crédito del banco. El dinero queda en 0 y lo que faltó pasa a esa deuda, con su interés (diario `diario.gastos.linea_credito` la primera vez). `cupo_deficit` (en dinero del inicio del mundo) es hasta cuánto llega: lo que pasa del cupo no se paga, son cuentas atrasadas. Sin `deuda_por_deficit`, el dinero queda en negativo.
-- Las comunas pueden traer su `arriendo` mensual típico (en dinero del inicio del mundo), que lee `arriendo()`. Si se usa `arriendo()`, toda comuna debe tenerlo.
+
+#### Vivienda (`economia.vivienda`)
+
+Nada se cobra si el jugador no lo eligió: el arriendo sale de un **contrato** que firma en un evento (`jugador.arrendar('vivienda.pieza')`), con el precio de su comuna ese día.
+
+```json
+"vivienda": { "plazo_meses": 12, "garantia_meses": 1, "reajuste_meses": 6, "tipos": [
+  { "id": "vivienda.pieza", "incluye_cuentas": true },
+  { "id": "vivienda.departamento" },
+  { "id": "vivienda.casa" }
+] }
+```
+
+y en cada comuna, el arriendo típico de cada tipo (en dinero del inicio del mundo):
+
+```json
+{ "id": "comuna.puente_alto", "arriendos": { "vivienda.pieza": 250000, "vivienda.departamento": 420000, "vivienda.casa": 650000 } }
+```
+
+- Al firmar deja `garantia_meses` de arriendo de garantía (se devuelve al dejar el arriendo o al cambiarse) y queda con la marca `vive_independiente`.
+- Cada mes paga el arriendo del contrato (la mitad si tiene pareja), como primera línea de sus gastos, con el id del tipo (`vivienda.pieza`, que es también su clave en `lang/`).
+- El arriendo no cambia entre reajustes: cada `reajuste_meses` sube con la inflación del país.
+- El contrato dura `plazo_meses`; en 0 sigue mes a mes hasta que el jugador lo renueve o lo deje (el evento `evento.fin_contrato_arriendo` le pregunta).
+- `incluye_cuentas`: el arriendo ya trae luz, agua e internet (`jugador.cuentas_incluidas`), como casi siempre en una pieza.
+- Toda comuna del país debe tener el precio de cada tipo, y todo tipo que use un evento debe existir en todo país.
 
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
 
@@ -304,7 +328,7 @@ En el legado, el jugador puede seguir con un hijo que ya es adulto y que nadie j
 ]
 ```
 
-Al seguir con el hijo, recibe las marcas de todas las filas con `edad` menor o igual a la suya.
+Al seguir con el hijo, recibe las marcas de todas las filas con `edad` menor o igual a la suya. Una fila puede traer `"vivienda": "vivienda.departamento"`: el hijo ya arrienda eso, con un contrato al precio de hoy de su comuna y sin volver a pagar la garantía.
 
 ### Familia no jugada (campo `familia_no_jugada` de country.json)
 
@@ -563,7 +587,10 @@ Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avi
 | `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')`, `jugador.trabajar(sueldo, 'informal')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero del inicio del mundo; sin tipo es `'dependiente'` (con contrato). `'informal'` es sin contrato: recibe todo el sueldo, pero no cotiza ni paga impuesto, y esos meses no suman a su pensión (lagunas). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
 | `jugador.hijos_menores` | Cuántos hijos vivos menores de 18 tiene |
 | `jugador.gastos`, `jugador.meses_en_rojo` | Lo que pagó en gastos el último mes, y cuántos meses seguidos terminó con el dinero en negativo |
-| `arriendo()` | Arriendo mensual típico de la comuna donde vive, en dinero del inicio del mundo |
+| `arriendo('vivienda.pieza')` | Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5`) |
+| `jugador.arrendar('tipo')` | Firma un contrato de ese tipo de vivienda en su comuna: deja la garantía (y recupera la del contrato anterior, si tenía) y vive por su cuenta (solo efectos) |
+| `jugador.renovar_arriendo()`, `jugador.dejar_arriendo()` | Renueva el contrato por otro plazo, o lo deja: recupera la garantía y vuelve a vivir con su familia (solo efectos) |
+| `jugador.vivienda`, `jugador.arriendo`, `jugador.meses_contrato`, `jugador.cuentas_incluidas` | Tipo de vivienda que arrienda (o `nada`), lo que paga al mes a precios de hoy, los meses que le quedan al contrato y si el arriendo trae las cuentas |
 | `jugador.declaracion_pendiente`, `jugador.declaracion_saldo` | Si tiene una declaración de impuestos por aceptar, y su saldo (positivo: devolución; negativo: a pagar) |
 | `jugador.declarar()` | Acepta la declaración pendiente: recibe la devolución o paga (solo efectos) |
 | `jugador.fondo_pension`, `jugador.pension_estimada` | Lo ahorrado en su cuenta de pensión y la pensión mensual que recibiría si se jubilara hoy, a precios de hoy |

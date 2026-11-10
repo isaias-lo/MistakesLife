@@ -16,7 +16,7 @@ namespace MistakesLife.Core.Events
     /// Raíces: jugador, mundo.
     /// Funciones: semilla('id'), plantar('id') o plantar('id', persona), diario('clave'), estudiar('nivel'),
     /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor),
-    /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo(), arriendo().
+    /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo(), arriendo('tipo de vivienda').
     /// Ver docs/content-language.md para la lista completa.
     /// </summary>
     public sealed class EventScope : IScriptScope
@@ -157,8 +157,7 @@ namespace MistakesLife.Core.Events
                     NoArgs(name, args);
                     return Value.FromNumber(DegreeSalary());
                 case RentFunction:
-                    NoArgs(name, args);
-                    return Value.FromNumber((double)Rent());
+                    return Value.FromNumber((double)Economy.HousingRules.MarketRent(Content, Subject, SingleText(name, args)));
                 case ChangeInflationFunction:
                     RequireWritable(name);
                     ChangeInflation(SingleText(name, args));
@@ -211,25 +210,6 @@ namespace MistakesLife.Core.Events
             }
 
             return country.TryGetLaw(lawId, out Value value) ? value : throw new ScriptException($"ley('{lawId}'): el país {country.Id} no define esa ley.");
-        }
-
-        /// <summary>Arriendo típico de la comuna donde vive el personaje, en dinero del inicio del mundo.</summary>
-        private decimal Rent()
-        {
-            CountryDefinition country = SubjectCountry();
-            string communeId = Subject.Residence!.CommuneId;
-            foreach (CityDefinition city in country.Cities)
-            {
-                foreach (CommuneDefinition commune in city.Communes)
-                {
-                    if (commune.Id == communeId)
-                    {
-                        return commune.Rent ?? throw new ScriptException($"arriendo(): la comuna {communeId} no define su arriendo.");
-                    }
-                }
-            }
-
-            throw new ScriptException($"arriendo(): la comuna {communeId} no existe en {country.Id}.");
         }
 
         private SalaryDefinition Salaries()

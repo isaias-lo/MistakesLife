@@ -15,6 +15,7 @@ namespace MistakesLife.Core.Events
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
     /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo,
+    /// vivienda, arriendo, meses_contrato, cuentas_incluidas,
     /// fondo_pension, pension_estimada, meses_cotizados, jubilado, pension, pension_universal,
     /// deuda, cuotas_deudas, moroso, puede_repactar, amigos, amigo, colega, rival, ex,
     /// area, cargo, cargo_anterior, ultimo_cargo, meses_en_cargo, desempeno (se puede cambiar),
@@ -27,6 +28,7 @@ namespace MistakesLife.Core.Events
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
     /// cambiar_genero('género'), cambiar_nombre(), adoptar(),
     /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo(), declarar(),
+    /// arrendar('vivienda.pieza'), renovar_arriendo(), dejar_arriendo(),
     /// jubilarse(), recibir_pension_universal(), endeudarse('tipo', monto), deuda_de('tipo'), repactar(),
     /// conocer('amistad' | 'colega' | 'rival'); en otra persona, vincular('lazo') y alejarse(),
     /// trabajar_en('área') o trabajar_en('área', 'honorarios'), puede_trabajar_en('área'),
@@ -34,6 +36,9 @@ namespace MistakesLife.Core.Events
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
+        /// <summary>Método para arrendar: la validación revisa que el tipo de vivienda exista con su precio en toda comuna.</summary>
+        public const string RentMethod = "arrendar";
+
         /// <summary>Método para endeudarse: la validación revisa que el tipo de deuda exista en todo país.</summary>
         public const string BorrowMethod = "endeudarse";
 
@@ -160,6 +165,15 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber((double)_character.LastExpenses.Sum(l => l.Amount));
                 case "meses_en_rojo":
                     return Value.FromNumber(_character.MonthsInRed);
+                case "vivienda":
+                    return TextOrNull(_character.Lease?.TypeId);
+                case "arriendo":
+                    return Value.FromNumber((double)(_character.Lease?.MonthlyRent ?? 0));
+                case "meses_contrato":
+                    return Value.FromNumber(_character.Lease?.MonthsLeft ?? 0);
+                case "cuentas_incluidas":
+                    return Value.FromBool(_character.Lease != null
+                        && (Economy.HousingRules.RulesFor(((EventScope)scope).Content, _character)?.Type(_character.Lease.TypeId)?.IncludesBills ?? false));
                 case "declaracion_pendiente":
                     return Value.FromBool(_character.PendingTaxReturn != null);
                 case "declaracion_saldo":
@@ -480,6 +494,22 @@ namespace MistakesLife.Core.Events
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.recibir_pension_universal");
                     _character.ReceivesUniversalPension = true;
+                    return Value.Null;
+                case RentMethod:
+                    string housingType = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Economy.HousingRules.Sign(((EventScope)scope).World, ((EventScope)scope).Content, _character, housingType);
+                    return Value.Null;
+                case "renovar_arriendo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.renovar_arriendo");
+                    Economy.HousingRules.Renew(_character, Economy.HousingRules.RulesFor(((EventScope)scope).Content, _character)
+                        ?? throw new ScriptException("jugador.renovar_arriendo(): en su país no se arrienda."));
+                    return Value.Null;
+                case "dejar_arriendo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.dejar_arriendo");
+                    Economy.HousingRules.Leave(_character);
                     return Value.Null;
                 case BorrowMethod:
                     ((EventScope)scope).RequireWritable("jugador." + BorrowMethod);

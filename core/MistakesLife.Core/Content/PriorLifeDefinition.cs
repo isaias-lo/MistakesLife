@@ -19,5 +19,13 @@ namespace MistakesLife.Core.Content
         /// <summary>Marcas que recibe, por ejemplo "egresado_media".</summary>
         [JsonProperty("marcas", Required = Required.Always)]
         public List<string> Flags { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Tipo de vivienda que ya arrienda a esa edad (de "economia.vivienda"), o
+        /// null. Quien sigue con un hijo de 30 años lo recibe con su contrato al
+        /// precio de su comuna, sin volver a pagar la garantía.
+        /// </summary>
+        [JsonProperty("vivienda")]
+        public string? Housing { get; set; }
     }
 }

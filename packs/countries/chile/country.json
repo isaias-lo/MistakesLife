@@ -29,7 +29,7 @@
       "id": "ciudad.santiago",
       "peso_nacimiento": 1,
       "comunas": [
-        { "id": "comuna.puente_alto", "peso_nacimiento": 568, "nivel_hogar_min": 10, "nivel_hogar_max": 65, "arriendo": 380000 }
+        { "id": "comuna.puente_alto", "peso_nacimiento": 568, "nivel_hogar_min": 10, "nivel_hogar_max": 65, "arriendos": {"vivienda.pieza": 250000, "vivienda.departamento": 420000, "vivienda.casa": 650000} }
       ]
     }
   ],
@@ -125,15 +125,19 @@
         { "desde": 21390000, "tasa": 0.4 }
       ]
     },
-    "gastos": {
+    "vivienda": {"plazo_meses": 12, "garantia_meses": 1, "reajuste_meses": 6, "tipos": [
+        { "id": "vivienda.pieza", "incluye_cuentas": true },
+        { "id": "vivienda.departamento" },
+        { "id": "vivienda.casa" }
+      ] },
+      "gastos": {
       "edad_desde": 18,
       "felicidad_en_rojo": 1,
       "cupo_deficit": 1500000,
       "deuda_por_deficit": "deuda.chile.linea_credito",
       "categorias": [
-        { "id": "gasto.chile.arriendo", "monto": "arriendo() * si(jugador.tiene('arrienda_pieza'), 0.4, 1)", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
         { "id": "gasto.chile.alimentacion", "monto": "160000 + 80000 * jugador.hijos_menores", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
-        { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.tiene('arrienda_pieza')", "compartido": true },
+        { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
         { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.chile.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
         { "id": "gasto.chile.transporte", "monto": "45000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
@@ -200,6 +204,6 @@
   },
   "vida_previa": [
     { "edad": 18, "marcas": ["egresado_media", "decidio_futuro"] },
-    { "edad": 28, "marcas": ["vive_independiente"] }
+    { "edad": 28, "marcas": ["vive_independiente"], "vivienda": "vivienda.departamento" }
   ]
 }
