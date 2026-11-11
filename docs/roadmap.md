@@ -62,7 +62,8 @@
 | V1b | Lo que arriendas se ve en la casa 3D: sin los padres en escena, pieza chica con ropero, departamento con cocina, casa amplia con alfombra y planta, y el contrato firmado sobre la mesa (`escena.casa.contrato_arriendo`) | Hecha |
 | V2 | La comida sale de la compra que elige el jugador (lo justo, la canasta básica o con antojos), con el valor de la canasta básica oficial de cada país; se paga por todos los de la casa y se ve en 3D (bolsas del súper y, con antojos, bebidas) | Hecha |
 | V2b | Formas 3D de lo que trajeron otros PRs (regla 10): cartas de rechazo y ropa para la entrevista (buscar trabajo, #79); mochila de emergencia, grietas en el muro, velas por el temporal y escombros en el barrio (noticias, #81) | Hecha |
-| V3 | Servicios que contrata el jugador (`economia.servicios`, `jugador.contratar()`), empezando por el plan del celular: prepago, plan mensual o gigas libres, con precios de las compañías; el prepago solo se paga si tiene celular | En revisión |
+| V3 | Servicios que contrata el jugador (`economia.servicios`, `jugador.contratar()`), empezando por el plan del celular: prepago, plan mensual o gigas libres, con precios de las compañías; el prepago solo se paga si tiene celular | Hecha |
+| V3b | Formas 3D de los momentos nuevos (regla 10, #85): la foto del bautizo del ahijado y la postal del amigo que se fue lejos en el muro lateral, y la foto del viaje con la pareja (playa) junto a la foto de la pareja | En revisión |
 
 ## Prototipo en Unity (Unity solo dibuja; todo lo demás es del núcleo)
 
