@@ -55,6 +55,9 @@ namespace MistakesLife.Unity
             "escena.casa.desorden" => "ancla.piso",
             "escena.casa.juguetes" => "ancla.piso",
             "escena.casa.foto_recuerdo" => "ancla.muro_lateral",
+            "escena.casa.foto_ahijado" => "ancla.muro_lateral",
+            "escena.casa.postal_amigo_lejos" => "ancla.muro_lateral",
+            "escena.casa.foto_viaje_pareja" => "ancla.cuadro_derecha",
             "escena.casa.mecedora" => "ancla.mecedora",
             _ => null,
         };
@@ -209,6 +212,27 @@ namespace MistakesLife.Unity
                     GameObject ribbon = kit.Box("Cinta negra", new Vector3(0.06f, 1.88f, 0.15f), new Vector3(0.02f, 0.05f, 0.22f), Color.black);
                     ribbon.transform.localRotation = Quaternion.Euler(45f, 0f, 0f);
                     kit.Shape(PrimitiveType.Cylinder, "Vela", new Vector3(0.25f, 0.15f, 0f), new Vector3(0.08f, 0.15f, 0.08f), Palette.Paper);
+                    break;
+                case "escena.casa.foto_ahijado":
+                    // Aceptaste ser padrino o madrina: la foto del bautizo en el muro lateral, con la guagua de blanco.
+                    kit.Box("Foto del bautizo", new Vector3(0.03f, 1.7f, 0.45f), new Vector3(0.04f, 0.36f, 0.3f), Palette.Frame);
+                    kit.Box("Foto del bautizo (lámina)", new Vector3(0.05f, 1.7f, 0.45f), new Vector3(0.02f, 0.29f, 0.24f), new Color(0.72f, 0.84f, 0.95f));
+                    kit.Ball("Guagua de blanco", new Vector3(0.065f, 1.66f, 0.45f), 0.12f, Color.white);
+                    kit.Ball("Cara de la guagua", new Vector3(0.07f, 1.75f, 0.45f), 0.06f, new Color(0.95f, 0.80f, 0.68f));
+                    break;
+                case "escena.casa.postal_amigo_lejos":
+                    // La postal que te mandó tu amigo que se fue lejos, clavada con una chinche.
+                    GameObject postcard = kit.Box("Postal de tu amigo", new Vector3(0.03f, 1.25f, 0.45f), new Vector3(0.01f, 0.14f, 0.2f), new Color(0.40f, 0.70f, 0.85f));
+                    postcard.transform.localRotation = Quaternion.Euler(-6f, 0f, 0f);
+                    kit.Box("Paisaje de la postal", new Vector3(0.036f, 1.22f, 0.45f), new Vector3(0.005f, 0.05f, 0.18f), new Color(0.90f, 0.80f, 0.50f));
+                    kit.Ball("Chinche", new Vector3(0.045f, 1.3f, 0.45f), 0.025f, Palette.Alarm);
+                    break;
+                case "escena.casa.foto_viaje_pareja":
+                    // El viaje con tu pareja: una foto de playa (cielo, mar y arena) al lado de la foto de la pareja.
+                    kit.Box("Foto del viaje", new Vector3(-0.55f, -0.1f, 0f), new Vector3(0.36f, 0.28f, 0.04f), Palette.Frame);
+                    kit.Box("Cielo del viaje", new Vector3(-0.55f, -0.04f, -0.025f), new Vector3(0.3f, 0.1f, 0.02f), new Color(0.62f, 0.82f, 0.95f));
+                    kit.Box("Mar del viaje", new Vector3(-0.55f, -0.12f, -0.025f), new Vector3(0.3f, 0.06f, 0.02f), new Color(0.20f, 0.50f, 0.75f));
+                    kit.Box("Arena del viaje", new Vector3(-0.55f, -0.18f, -0.025f), new Vector3(0.3f, 0.06f, 0.02f), new Color(0.93f, 0.83f, 0.60f));
                     break;
                 case "escena.casa.mecedora":
                     RockingChair(kit, Vector3.zero);
