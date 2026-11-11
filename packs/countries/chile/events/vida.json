@@ -236,9 +236,10 @@
   },
   {
     "id": "evento.temblor",
-    "condiciones": "jugador.edad >= 3 && jugador.edad < 18",
-    "probabilidad_anual": 0.15,
-    "enfriamiento_semanas": 104,
+    "condiciones": "noticia_reciente('noticia.chile.temblor', 2) && jugador.edad >= 3 && jugador.edad < 18",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 156,
+    "veces_maximas": 3,
     "efectos": [
       "jugador.felicidad -= 1",
       "diario('diario.temblor')"
@@ -246,10 +247,10 @@
   },
   {
     "id": "evento.temblor_adulto",
-    "condiciones": "jugador.edad >= 18",
-    "probabilidad_anual": 0.15,
-    "enfriamiento_semanas": 156,
-    "veces_maximas": 9,
+    "condiciones": "noticia_reciente('noticia.chile.temblor', 2) && jugador.edad >= 18",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 260,
+    "veces_maximas": 5,
     "variantes": ["evento.temblor_adulto.2", "evento.temblor_adulto.3"],
     "opciones": [
       {
@@ -504,27 +505,6 @@
     ]
   },
   {
-    "id": "evento.trabajo_sin_titulo",
-    "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.titulado && jugador.edad < 26 && mundo.ciclo != 'economia.ciclo.crisis'",
-    "probabilidad_anual": 0.6,
-    "opciones": [
-      {
-        "texto": "opcion.trabajo.aceptar",
-        "tendencia": "60 + (100 - jugador.nivel_hogar) / 3",
-        "efectos": [
-          "jugador.desmarcar('buscando_trabajo')",
-          "jugador.marcar('trabajando')",
-          "jugador.trabajar(sueldo_minimo())",
-          "jugador.felicidad += 2"
-        ]
-      },
-      {
-        "texto": "opcion.trabajo.rechazar",
-        "tendencia": "jugador.nivel_hogar / 4"
-      }
-    ]
-  },
-  {
     "id": "evento.amigo_de_la_infancia",
     "semilla": "semilla.compartio_juguete",
     "peso": 10,
@@ -670,10 +650,11 @@
   },
   {
     "id": "evento.fiestas_patrias",
-    "condiciones": "jugador.edad >= 4",
-    "probabilidad_anual": 0.35,
-    "enfriamiento_semanas": 156,
-    "variantes": ["evento.fiestas_patrias.2", "evento.fiestas_patrias.3"],
+    "condiciones": "noticia_reciente('noticia.chile.fiestas_patrias', 3) && jugador.edad >= 4",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 260,
+    "veces_maximas": 5,
+    "variantes": ["evento.fiestas_patrias.2", "evento.fiestas_patrias.3", "evento.fiestas_patrias.4", "evento.fiestas_patrias.5"],
     "opciones": [
       {
         "texto": "opcion.dieciocho.fonda",
@@ -701,7 +682,7 @@
   },
   {
     "id": "evento.robo_celular",
-    "condiciones": "jugador.edad >= 12",
+    "condiciones": "jugador.edad >= 12 && jugador.tiene_celular",
     "probabilidad_anual": 0.04,
     "opciones": [
       {
@@ -709,6 +690,7 @@
         "tendencia": "jugador.extraversion / 2 + (100 - jugador.neuroticismo) / 4",
         "efectos": [
           "jugador.salud -= 3",
+          "jugador.perder_celular()",
           "diario('diario.robo_celular')"
         ]
       },
@@ -717,6 +699,7 @@
         "tendencia": "jugador.neuroticismo / 2 + 30",
         "efectos": [
           "jugador.felicidad -= 2",
+          "jugador.perder_celular()",
           "diario('diario.robo_celular')"
         ]
       }
@@ -803,8 +786,8 @@
   },
   {
     "id": "evento.primera_votacion",
-    "condiciones": "jugador.edad >= ley('ley.edad_voto') && jugador.edad < ley('ley.edad_voto') + 2",
-    "peso": 4,
+    "condiciones": "noticia_reciente('noticia.elecciones_presidenciales', 2) && jugador.edad >= ley('ley.edad_voto') && jugador.edad < ley('ley.edad_voto') + 4",
+    "probabilidad_anual": 1,
     "unico": true,
     "dia_clave": true,
     "opciones": [
@@ -832,6 +815,23 @@
     "efectos": [
       "jugador.felicidad -= 2",
       "diario('diario.citacion_policia_local')"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.citacion_policia_local.pagar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.dinero -= precio(33000)"
+        ]
+      },
+      {
+        "texto": "opcion.citacion_policia_local.ignorar",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.marcar('multa_impaga')",
+          "diario('diario.multa_impaga')"
+        ]
+      }
     ]
   },
   {
@@ -885,13 +885,31 @@
   },
   {
     "id": "evento.temporal_lluvia",
-    "condiciones": "jugador.edad >= 6",
-    "probabilidad_anual": 0.25,
-    "enfriamiento_semanas": 104,
-    "veces_maximas": 5,
+    "condiciones": "noticia_reciente('noticia.chile.sistema_frontal', 2) && jugador.edad >= 6",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 156,
+    "veces_maximas": 3,
+    "variantes": ["evento.temporal_lluvia.2", "evento.temporal_lluvia.3"],
     "efectos": [
       "jugador.salud -= 1",
       "diario('diario.temporal_lluvia')"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.temporal_lluvia.ayudar_vecino",
+        "condiciones": "jugador.edad >= 12",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.salud -= 1",
+          "jugador.felicidad += 2",
+          "jugador.conocer('amistad')"
+        ]
+      },
+      {
+        "texto": "opcion.temporal_lluvia.adentro",
+        "tendencia": "40",
+        "efectos": []
+      }
     ]
   }
 ]

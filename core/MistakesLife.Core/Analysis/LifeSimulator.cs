@@ -72,6 +72,7 @@ namespace MistakesLife.Core.Analysis
             var realMoney = new List<double>();
             var realPensions = new List<double>();
             var realDebts = new List<double>();
+            long searchWeeks = 0, searchInterviews = 0;
 
             for (int i = 0; i < lives; i++)
             {
@@ -87,7 +88,17 @@ namespace MistakesLife.Core.Analysis
                     PendingEvent? pending = session.Pending;
                     if (pending != null)
                     {
+                        JobSearch? search = session.World.Player.JobSearch;
+                        int weeks = search?.Weeks ?? 0, interviews = search?.Interviews ?? 0;
                         session.Choose(decider.Choose(session.World, pending, chooser));
+                        if (search != null && session.World.Player.JobSearch == null && session.World.Player.Job != null)
+                        {
+                            // Encontró trabajo buscándolo: cuánto demoró y a cuántas entrevistas fue.
+                            report.JobSearchHires++;
+                            searchWeeks += weeks;
+                            searchInterviews += interviews;
+                        }
+
                         continue;
                     }
 
@@ -125,6 +136,22 @@ namespace MistakesLife.Core.Analysis
                     if (player.IsAlive && player.Delinquent)
                     {
                         report.Delinquent++;
+                    }
+
+                    if (player.Phone != null)
+                    {
+                        report.WithPhone++;
+                    }
+
+                    if (player.Mail != null)
+                    {
+                        report.WithMail++;
+                        report.MailsReceived += player.Mail.Messages.Count;
+                    }
+
+                    if (session.World.Journal.Any(j => j.CharacterId == player.Id && j.TextKey == "diario.correo.estafa"))
+                    {
+                        report.ScamVictims++;
                     }
 
                     if (player.IsAlive && player.Pension.HasValue)
@@ -214,6 +241,11 @@ namespace MistakesLife.Core.Analysis
                 happiness += player.Stats.Happiness;
                 smarts += player.Stats.Smarts;
 
+                foreach (var news in session.World.News)
+                {
+                    report.NewsCount[news.NewsId] = report.NewsCount.TryGetValue(news.NewsId, out int k) ? k + 1 : 1;
+                }
+
                 var lived = session.World.EventHistory.Where(r => r.CharacterId == player.Id).ToList();
                 totalEvents += lived.Count;
                 foreach (var group in lived.GroupBy(r => r.EventId))
@@ -274,6 +306,8 @@ namespace MistakesLife.Core.Analysis
             report.AverageAnnualInflation = inflationLives == 0 ? 0 : inflation / inflationLives;
             report.AverageContributionDensity = densityLives == 0 ? 0 : density / densityLives;
             report.AverageFriends = lives == 0 ? 0 : (double)totalFriends / lives;
+            report.AverageSearchWeeks = report.JobSearchHires == 0 ? 0 : (double)searchWeeks / report.JobSearchHires;
+            report.AverageInterviewsPerHire = report.JobSearchHires == 0 ? 0 : (double)searchInterviews / report.JobSearchHires;
             int inCareer = report.FinalPositions.Values.Sum();
             report.AveragePromotions = inCareer == 0 ? 0 : (double)promotions / inCareer;
             report.AverageMotherAffection = mothers == 0 ? 0 : motherAffection / mothers;

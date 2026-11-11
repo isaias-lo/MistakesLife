@@ -38,5 +38,12 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("quiebras")]
         public double BankruptcyFactor { get; set; } = 1;
+
+        /// <summary>
+        /// Cuántas veces más (o menos) llaman a entrevistas durante esta fase,
+        /// comparado con un año normal (0.6 = 40 % menos). Si falta, 1.
+        /// </summary>
+        [JsonProperty("contratacion")]
+        public double HiringFactor { get; set; } = 1;
     }
 }

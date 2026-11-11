@@ -1,0 +1,15 @@
+{
+  "compra.justa": "Supermercado: lo justo",
+  "compra.basica": "Supermercado: la canasta básica",
+  "compra.con_antojos": "Supermercado: con antojos",
+  "evento.armar_compra": "Es tu primera compra grande viviendo por tu cuenta. Con el carro vacío en la entrada del supermercado, decides cómo vas a comprar cada semana.",
+  "opcion.armar_compra.justa": "Lo justo: arroz, legumbres, verduras, pan y algo de carne. Nada de galletas, bebidas ni comida hecha.",
+  "opcion.armar_compra.basica": "La canasta básica: lo que se necesita para comer bien, con algún gusto de vez en cuando.",
+  "opcion.armar_compra.con_antojos": "Como compra casi todo el mundo: también bebidas, snacks, completos y almuerzos afuera.",
+  "evento.revisar_compra": "Revisas la boleta del supermercado del mes. Los precios cambian y tu vida también: ¿sigues comprando igual?",
+  "evento.revisar_compra.2": "Ordenando las bolsas del súper, te preguntas si lo que compras cada semana sigue siendo lo que quieres gastar.",
+  "opcion.revisar_compra.seguir": "Sigues comprando igual.",
+  "opcion.revisar_compra.justa": "Te ajustas: compras lo justo y dejas los gustos para otro momento.",
+  "opcion.revisar_compra.basica": "Vuelves a la canasta básica: comer bien sin pasarte.",
+  "opcion.revisar_compra.con_antojos": "Te das gustos: bebidas, picoteo y comer afuera de vez en cuando."
+}

@@ -33,6 +33,6 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     m_Colors:
-    - _Color: {r: 0.2, g: 0.45, b: 0.55, a: 1}
+    - _Color: {r: 0.96, g: 0.78, b: 0.26, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

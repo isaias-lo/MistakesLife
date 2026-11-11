@@ -28,6 +28,14 @@ namespace MistakesLife.Core.Content
         [JsonProperty("gastos")]
         public ExpensesDefinition? Expenses { get; set; }
 
+        /// <summary>Cómo se arrienda una vivienda (tipos, plazo, garantía y reajuste). Si falta, nadie arrienda.</summary>
+        [JsonProperty("vivienda")]
+        public HousingDefinition? Housing { get; set; }
+
+        /// <summary>Las compras de comida que se pueden elegir al vivir por su cuenta. Si falta, la comida no se cobra aparte.</summary>
+        [JsonProperty("supermercado")]
+        public GroceriesDefinition? Groceries { get; set; }
+
         /// <summary>La declaración anual de impuestos. Si falta, nadie declara.</summary>
         [JsonProperty("declaracion_anual")]
         public AnnualTaxDefinition? AnnualTax { get; set; }
@@ -47,5 +55,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Tamaños de empresa y cómo viven. Si falta, los trabajos no tienen empresa.</summary>
         [JsonProperty("empresas")]
         public CompaniesDefinition? Companies { get; set; }
+
+        /// <summary>Cómo se busca trabajo en el país (formas de buscar, entrevistas y ofertas), o null.</summary>
+        [JsonProperty("busqueda_trabajo")]
+        public JobSearchDefinition? JobSearch { get; set; }
     }
 }

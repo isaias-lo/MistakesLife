@@ -186,6 +186,23 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void Casa_CadaPersona_TraeSuFelicidadParaElGesto()
+        {
+            LifePresenter presenter = NewGame(7);
+            var world = presenter.Session.World;
+            world.Player.Stats.Happiness = 80;
+
+            HomeMemberView player = presenter.Snapshot().Home.Members[0];
+            Assert.Equal(80, player.Happiness);
+            Assert.Equal(1, player.Mood);
+
+            world.Player.Stats.Happiness = 50;
+            Assert.Equal(0, presenter.Snapshot().Home.Members[0].Mood);
+            world.Player.Stats.Happiness = 20;
+            Assert.Equal(-1, presenter.Snapshot().Home.Members[0].Mood);
+        }
+
+        [Fact]
         public void Casa_AlNacer_TieneAlJugadorPrimeroYASusPadres()
         {
             LifeSnapshot snapshot = NewGame(7).Snapshot();
@@ -199,24 +216,34 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void Casa_DeAdultoMayorDeLaEdadDeIrse_NoIncluyeALosPadres()
+        public void Casa_SiArrienda_NoEstanLosPadres_YLaCasaEsLoQueArrendo()
         {
             LifePresenter presenter = NewGame(7);
-            while (presenter.Snapshot().AgeInYears < 30 && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir)
-            {
-                if (presenter.Phase == LifePhase.Choosing)
-                {
-                    presenter.Choose(0);
-                }
-                else
-                {
-                    presenter.AdvanceUntilSomething();
-                }
-            }
+            var world = presenter.Session.World;
+            Effect.Parse("jugador.arrendar('vivienda.departamento')").Apply(new EventScope(world, presenter.Session.Content, world.Player, null, readOnly: false));
 
             HomeView home = presenter.Snapshot().Home;
+
+            Assert.Equal("vivienda.departamento", home.HousingTypeId);
             Assert.DoesNotContain(home.Members, m => m.Relation == "Mamá" || m.Relation == "Papá");
-            Assert.All(home.Members.Where(m => !m.IsPlayer && m.Relation != "Pareja"), m => Assert.True(m.AgeInYears < 18));
+            Assert.Contains("escena.casa.contrato_arriendo", home.SceneObjects);
+        }
+
+        [Fact]
+        public void Casa_AlDejarElArriendo_VuelveALaCasaDeSuFamilia()
+        {
+            LifePresenter presenter = NewGame(7);
+            var world = presenter.Session.World;
+            var scope = new EventScope(world, presenter.Session.Content, world.Player, null, readOnly: false);
+            Effect.Parse("jugador.arrendar('vivienda.pieza')").Apply(scope);
+            string renting = presenter.Snapshot().Home.Signature;
+
+            Effect.Parse("jugador.dejar_arriendo()").Apply(scope);
+
+            HomeView home = presenter.Snapshot().Home;
+            Assert.Null(home.HousingTypeId);
+            Assert.Contains(home.Members, m => m.Relation == "Mamá");
+            Assert.NotEqual(renting, home.Signature);
         }
 
         [Fact]

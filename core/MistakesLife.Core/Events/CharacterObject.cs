@@ -15,10 +15,13 @@ namespace MistakesLife.Core.Events
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
     /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo,
+    /// vivienda, arriendo, meses_contrato, cuentas_incluidas, compra,
     /// fondo_pension, pension_estimada, meses_cotizados, jubilado, pension, pension_universal,
     /// deuda, cuotas_deudas, moroso, puede_repactar, amigos, amigo, colega, rival, ex,
     /// area, cargo, cargo_anterior, ultimo_cargo, meses_en_cargo, desempeno (se puede cambiar),
-    /// puede_ascender, caminos_ascenso, en_la_cima.
+    /// puede_ascender, caminos_ascenso, en_la_cima, busqueda, busca_en, semanas_buscando,
+    /// postulaciones, entrevistas, rechazos, entrevista_pendiente, tiene_oferta, oferta_area,
+    /// oferta_negociada, oferta_mejorada, contacto.
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada).
@@ -27,13 +30,23 @@ namespace MistakesLife.Core.Events
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
     /// cambiar_genero('género'), cambiar_nombre(), adoptar(),
     /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo(), declarar(),
+    /// arrendar('vivienda.pieza'), renovar_arriendo(), dejar_arriendo(),
     /// jubilarse(), recibir_pension_universal(), endeudarse('tipo', monto), deuda_de('tipo'), repactar(),
     /// conocer('amistad' | 'colega' | 'rival'); en otra persona, vincular('lazo') y alejarse(),
     /// trabajar_en('área') o trabajar_en('área', 'honorarios'), puede_trabajar_en('área'),
-    /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo(), cambiar_de_empresa().
+    /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo(), cambiar_de_empresa(),
+    /// postular_en('área' o 'cualquier_trabajo'), buscar_trabajo('forma'), puede_buscar_con('forma'),
+    /// dar_entrevista(puntos), aceptar_oferta(), negociar_oferta(), rechazar_oferta(), dejar_de_buscar(),
+    /// dar_celular(), perder_celular(), instalar_app('app'), desinstalar_app('app'), tiene_app('app'),
+    /// crear_correo(), recibir_correo('correo').
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
+        /// <summary>Método para arrendar: la validación revisa que el tipo de vivienda exista con su precio en toda comuna.</summary>
+        public const string RentMethod = "arrendar";
+
+        public const string ChooseGroceriesMethod = "elegir_compra";
+
         /// <summary>Método para endeudarse: la validación revisa que el tipo de deuda exista en todo país.</summary>
         public const string BorrowMethod = "endeudarse";
 
@@ -57,6 +70,27 @@ namespace MistakesLife.Core.Events
 
         /// <summary>Método que pregunta si puede ascender ahora a ese cargo.</summary>
         public const string CanPromoteToMethod = "puede_ascender_a";
+
+        /// <summary>Método que dice qué trabajo busca: postular_en('carrera.software.area.qa') o postular_en('cualquier_trabajo').</summary>
+        public const string PostulateMethod = "postular_en";
+
+        /// <summary>Método que elige cómo buscar trabajo: buscar_trabajo('busqueda.forma.portales').</summary>
+        public const string SearchJobMethod = "buscar_trabajo";
+
+        /// <summary>Método que pregunta si puede buscar de esa forma en su país (y si tiene un contacto, cuando hace falta).</summary>
+        public const string CanSearchWithMethod = "puede_buscar_con";
+
+        /// <summary>Método que instala una app en el celular: la validación revisa que la app exista.</summary>
+        public const string InstallAppMethod = "instalar_app";
+
+        /// <summary>Método que desinstala una app del celular.</summary>
+        public const string UninstallAppMethod = "desinstalar_app";
+
+        /// <summary>Método que pregunta si tiene esa app en el celular.</summary>
+        public const string HasAppMethod = "tiene_app";
+
+        /// <summary>Método que hace llegar un correo a su bandeja: la validación revisa que el correo exista.</summary>
+        public const string ReceiveMailMethod = "recibir_correo";
 
         private readonly Character _character;
 
@@ -160,6 +194,17 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber((double)_character.LastExpenses.Sum(l => l.Amount));
                 case "meses_en_rojo":
                     return Value.FromNumber(_character.MonthsInRed);
+                case "vivienda":
+                    return TextOrNull(_character.Lease?.TypeId);
+                case "arriendo":
+                    return Value.FromNumber((double)(_character.Lease?.MonthlyRent ?? 0));
+                case "meses_contrato":
+                    return Value.FromNumber(_character.Lease?.MonthsLeft ?? 0);
+                case "compra":
+                    return TextOrNull(_character.GroceryBasketId);
+                case "cuentas_incluidas":
+                    return Value.FromBool(_character.Lease != null
+                        && (Economy.HousingRules.RulesFor(((EventScope)scope).Content, _character)?.Type(_character.Lease.TypeId)?.IncludesBills ?? false));
                 case "declaracion_pendiente":
                     return Value.FromBool(_character.PendingTaxReturn != null);
                 case "declaracion_saldo":
@@ -235,6 +280,40 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(Economy.CompanyRules.AtCompanyTop(((EventScope)scope).World, ((EventScope)scope).Content, _character));
                 case "en_la_cima":
                     return Value.FromBool(_character.Job?.Position != null && ((EventScope)scope).Content.GetCareerPosition(_character.Job.Position.PositionId).IsTop);
+                case "busqueda":
+                    return TextOrNull(_character.JobSearch?.MethodId);
+                case "busca_en":
+                    return TextOrNull(_character.JobSearch?.Target);
+                case "semanas_buscando":
+                    return Value.FromNumber(_character.JobSearch?.Weeks ?? 0);
+                case "postulaciones":
+                    return Value.FromNumber(_character.JobSearch?.Applications ?? 0);
+                case "entrevistas":
+                    return Value.FromNumber(_character.JobSearch?.Interviews ?? 0);
+                case "rechazos":
+                    return Value.FromNumber(_character.JobSearch?.Rejections ?? 0);
+                case "entrevista_pendiente":
+                    return Value.FromBool(_character.JobSearch?.Stage == Economy.JobSearchStage.Interview);
+                case "tiene_oferta":
+                    return Value.FromBool(_character.JobSearch?.Stage == Economy.JobSearchStage.Offer);
+                case "oferta_area":
+                    return _character.JobSearch?.Stage == Economy.JobSearchStage.Offer && _character.JobSearch.TargetsArea
+                        ? Value.FromText(_character.JobSearch.Target)
+                        : Value.Null;
+                case "oferta_negociada":
+                    return Value.FromBool(_character.JobSearch?.Stage == Economy.JobSearchStage.Offer && _character.JobSearch.Negotiated);
+                case "oferta_mejorada":
+                    return Value.FromBool(_character.JobSearch?.Stage == Economy.JobSearchStage.Offer && _character.JobSearch.Raise > 0);
+                case "contacto":
+                    return Relative(_character.JobSearch?.ContactId, scope);
+                case "tiene_celular":
+                    return Value.FromBool(_character.Phone != null);
+                case "tiene_correo":
+                    return Value.FromBool(_character.Mail != null);
+                case "correos":
+                    return Value.FromNumber(_character.Mail?.Messages.Count ?? 0);
+                case "correos_sin_leer":
+                    return Value.FromNumber(_character.Mail?.UnreadCount ?? 0);
                 default:
                     throw new ScriptException($"jugador.{member} no existe.");
             }
@@ -481,6 +560,27 @@ namespace MistakesLife.Core.Events
                     ((EventScope)scope).RequireWritable("jugador.recibir_pension_universal");
                     _character.ReceivesUniversalPension = true;
                     return Value.Null;
+                case RentMethod:
+                    string housingType = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Economy.HousingRules.Sign(((EventScope)scope).World, ((EventScope)scope).Content, _character, housingType);
+                    return Value.Null;
+                case ChooseGroceriesMethod:
+                    string basket = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Economy.GroceryRules.Choose(((EventScope)scope).Content, _character, basket);
+                    return Value.Null;
+                case "renovar_arriendo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.renovar_arriendo");
+                    Economy.HousingRules.Renew(_character, Economy.HousingRules.RulesFor(((EventScope)scope).Content, _character)
+                        ?? throw new ScriptException("jugador.renovar_arriendo(): en su país no se arrienda."));
+                    return Value.Null;
+                case "dejar_arriendo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.dejar_arriendo");
+                    Economy.HousingRules.Leave(_character);
+                    return Value.Null;
                 case BorrowMethod:
                     ((EventScope)scope).RequireWritable("jugador." + BorrowMethod);
                     Borrow((EventScope)scope, args);
@@ -540,6 +640,100 @@ namespace MistakesLife.Core.Events
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.bajar_cargo");
                     Demote((EventScope)scope);
+                    return Value.Null;
+                case PostulateMethod:
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Postulate((EventScope)scope, args);
+                    return Value.Null;
+                case SearchJobMethod:
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    SearchJob((EventScope)scope, EventScope.SingleText("jugador." + method, args));
+                    return Value.Null;
+                case CanSearchWithMethod:
+                    return Value.FromBool(CanSearchWith((EventScope)scope, EventScope.SingleText("jugador." + method, args)));
+                case "dar_entrevista":
+                    if (args.Length != 1)
+                    {
+                        throw new ScriptException("jugador.dar_entrevista() necesita los puntos de cómo le fue: dar_entrevista(10).");
+                    }
+
+                    ((EventScope)scope).RequireWritable("jugador.dar_entrevista");
+                    if (_character.JobSearch?.Stage != Economy.JobSearchStage.Interview)
+                    {
+                        throw new ScriptException("jugador.dar_entrevista(): no tiene una entrevista pendiente (revisa jugador.entrevista_pendiente).");
+                    }
+
+                    Economy.JobSearchRules.Interview(((EventScope)scope).World, ((EventScope)scope).Content, _character, args[0].AsNumber("jugador.dar_entrevista()"));
+                    return Value.Null;
+                case "aceptar_oferta":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.aceptar_oferta");
+                    AcceptOffer((EventScope)scope);
+                    return Value.Null;
+                case "negociar_oferta":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.negociar_oferta");
+                    RequireOffer(method);
+                    Economy.JobSearchRules.Negotiate(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+                    return Value.Null;
+                case "rechazar_oferta":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.rechazar_oferta");
+                    RequireOffer(method);
+                    Economy.JobSearchRules.Reject(_character);
+                    return Value.Null;
+                case "dejar_de_buscar":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.dejar_de_buscar");
+                    _character.JobSearch = null;
+                    return Value.Null;
+                case "dar_celular":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.dar_celular");
+                    Devices.PhoneRules.GivePhone(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+                    return Value.Null;
+                case "perder_celular":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.perder_celular");
+                    Devices.PhoneRules.LosePhone(_character);
+                    return Value.Null;
+                case InstallAppMethod:
+                case UninstallAppMethod:
+                    string appId = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    if (((EventScope)scope).Content.App(appId) == null)
+                    {
+                        throw new ScriptException($"jugador.{method}('{appId}'): esa app no existe.");
+                    }
+
+                    Devices.Phone phone = _character.Phone
+                        ?? throw new ScriptException($"jugador.{method}('{appId}'): no tiene celular (revisa jugador.tiene_celular).");
+                    if (method == InstallAppMethod)
+                    {
+                        phone.Install(appId);
+                    }
+                    else
+                    {
+                        phone.Uninstall(appId);
+                    }
+
+                    return Value.Null;
+                case HasAppMethod:
+                    return Value.FromBool(_character.Phone?.Has(EventScope.SingleText("jugador." + method, args)) ?? false);
+                case "crear_correo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.crear_correo");
+                    Devices.PhoneRules.CreateMail(((EventScope)scope).World, _character);
+                    return Value.Null;
+                case ReceiveMailMethod:
+                    string mailId = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    if (((EventScope)scope).Content.Mail(mailId) == null)
+                    {
+                        throw new ScriptException($"jugador.{method}('{mailId}'): ese correo no existe.");
+                    }
+
+                    Devices.PhoneRules.Receive(((EventScope)scope).World, _character, mailId);
                     return Value.Null;
                 case "titulado_en":
                     string career = EventScope.SingleText("jugador." + method, args);
@@ -614,6 +808,122 @@ namespace MistakesLife.Core.Events
             Economy.JobKind kind = args.Length == 2 ? ParseJobKind("jugador.trabajar()", args[1].AsText("jugador.trabajar()")) : Economy.JobKind.Employee;
             decimal baseSalary = Math.Round((decimal)salary, MidpointRounding.AwayFromZero);
             _character.Job = new Economy.Job(kind, baseSalary, PriceIndex(scope));
+        }
+
+        /// <summary>
+        /// postular_en('área' o 'cualquier_trabajo'), o postular_en('área', 'honorarios'):
+        /// dice qué trabajo va a buscar (y con qué contrato, en un área). Para un área
+        /// tiene que cumplir sus requisitos. Si ya buscaba, cambia lo que busca y sigue
+        /// con lo que llevaba.
+        /// </summary>
+        private void Postulate(EventScope scope, Value[] args)
+        {
+            if (args.Length < 1 || args.Length > 2)
+            {
+                throw new ScriptException("jugador.postular_en() necesita el área (o 'cualquier_trabajo') y, si quieres, el tipo: postular_en('carrera.psicologia.area.clinica', 'honorarios').");
+            }
+
+            string target = args[0].AsText("jugador.postular_en()");
+            Economy.JobKind kind = args.Length == 2 ? ParseJobKind("jugador.postular_en()", args[1].AsText("jugador.postular_en()")) : Economy.JobKind.Employee;
+            if (target != Economy.JobSearch.AnyJob)
+            {
+                Content.CareerAreaDefinition area = Area(scope, target);
+                if (!Economy.CareerLadder.CanEnter(scope.Content, _character, area, scope))
+                {
+                    throw new ScriptException($"jugador.postular_en('{target}'): no cumple los requisitos de esa área (revisa jugador.puede_trabajar_en('{target}')).");
+                }
+            }
+
+            if (_character.JobSearch == null)
+            {
+                _character.JobSearch = new Economy.JobSearch(target);
+            }
+            else
+            {
+                _character.JobSearch.Target = target;
+            }
+
+            _character.JobSearch.Kind = kind;
+        }
+
+        /// <summary>
+        /// buscar_trabajo('forma'): empieza a buscar de esa forma (si no dijo qué busca,
+        /// busca cualquier trabajo). Con una forma que necesita contacto, ese conocido
+        /// queda como quien lo recomienda (jugador.contacto).
+        /// </summary>
+        private void SearchJob(EventScope scope, string methodId)
+        {
+            Content.JobSearchMethodDefinition method = Economy.JobSearchRules.Definition(scope.Content, _character)?.Method(methodId)
+                ?? throw new ScriptException($"jugador.buscar_trabajo('{methodId}'): esa forma de buscar no existe en el país donde vive (revisa jugador.puede_buscar_con('{methodId}')).");
+            int? contactId = null;
+            if (method.NeedsContact)
+            {
+                Character contact = Contact(scope)
+                    ?? throw new ScriptException($"jugador.buscar_trabajo('{methodId}'): no tiene un conocido que lo recomiende (revisa jugador.puede_buscar_con('{methodId}')).");
+                contactId = contact.Id;
+            }
+
+            Economy.JobSearch search = _character.JobSearch ?? new Economy.JobSearch(Economy.JobSearch.AnyJob);
+            search.MethodId = method.Id;
+            search.ContactId = contactId;
+            _character.JobSearch = search;
+        }
+
+        private bool CanSearchWith(EventScope scope, string methodId)
+        {
+            Content.JobSearchMethodDefinition? method = Economy.JobSearchRules.Definition(scope.Content, _character)?.Method(methodId);
+            return method != null && (!method.NeedsContact || Contact(scope) != null);
+        }
+
+        private Character? Contact(EventScope scope)
+        {
+            Content.JobSearchDefinition? rules = Economy.JobSearchRules.Definition(scope.Content, _character);
+            return rules == null ? null : Economy.JobSearchRules.FindContact(scope.World, _character, rules.ContactAffection);
+        }
+
+        private void RequireOffer(string method)
+        {
+            if (_character.JobSearch?.Stage != Economy.JobSearchStage.Offer)
+            {
+                throw new ScriptException($"jugador.{method}(): no tiene una oferta de trabajo (revisa jugador.tiene_oferta).");
+            }
+        }
+
+        /// <summary>
+        /// aceptar_oferta(): entra a trabajar con contrato. Si buscaba en un área de su
+        /// carrera, en esa área (empresa, cargo y sueldo como trabajar_en); si no, con el
+        /// sueldo de <see cref="Economy.JobSearchRules.GeneralSalary"/>. Lo que haya
+        /// conseguido al negociar se suma al sueldo. Deja de buscar.
+        /// </summary>
+        private void AcceptOffer(EventScope scope)
+        {
+            RequireOffer("aceptar_oferta");
+            Economy.JobSearch search = _character.JobSearch!;
+            decimal raise = 1 + (decimal)search.Raise;
+            if (search.TargetsArea)
+            {
+                Content.CareerAreaDefinition area = Area(scope, search.Target);
+                Content.CareerDefinition career = scope.Content.GetCareer(area.CareerId);
+                Economy.Company? company = Economy.CompanyRules.Hire(scope.World, scope.Content, _character, career);
+                Content.CareerPositionDefinition position = Economy.CareerLadder.StartingPosition(scope.Content, _character, area);
+                Place(scope, search.Kind, area, position, company, raise);
+                if (career.WorkFlag != null)
+                {
+                    _character.SetFlag(career.WorkFlag);
+                }
+            }
+            else
+            {
+                Content.JobSearchDefinition rules = Economy.JobSearchRules.Definition(scope.Content, _character) ?? new Content.JobSearchDefinition();
+                Content.SalaryDefinition? salaries = _character.Residence == null ? null : scope.Content.GetCountry(_character.Residence.CountryId).Economy?.Salaries;
+                decimal salary = salaries == null ? 0 : Economy.JobSearchRules.GeneralSalary(rules, salaries, _character, scope.DegreeSalaryOf(_character));
+                _character.Job = new Economy.Job(Economy.JobKind.Employee, Math.Round(salary * raise, MidpointRounding.AwayFromZero), PriceIndex(scope));
+            }
+
+            _character.JobSearch = null;
+            _character.ClearFlag(Economy.JobSearchRules.SearchingFlag);
+            _character.SetFlag(Economy.JobSearchRules.WorkingFlag);
+            scope.World.WriteJournal(_character.Id, Economy.JobSearchRules.HiredJournal);
         }
 
         private static Content.CareerAreaDefinition Area(IScriptScope scope, string areaId)
@@ -698,7 +1008,11 @@ namespace MistakesLife.Core.Events
         /// Lo pone en ese cargo en esa empresa: si la empresa es chica y el cargo no existe
         /// ahí, en el más alto que exista; el sueldo es el del cargo por lo que paga la empresa.
         /// </summary>
-        private void Place(EventScope scope, Economy.JobKind kind, Content.CareerAreaDefinition area, Content.CareerPositionDefinition position, Economy.Company? company)
+        private void Place(EventScope scope, Economy.JobKind kind, Content.CareerAreaDefinition area, Content.CareerPositionDefinition position, Economy.Company? company) =>
+            Place(scope, kind, area, position, company, 1);
+
+        /// <summary>Igual, con el sueldo multiplicado por <paramref name="raise"/> (lo conseguido al negociar).</summary>
+        private void Place(EventScope scope, Economy.JobKind kind, Content.CareerAreaDefinition area, Content.CareerPositionDefinition position, Economy.Company? company, decimal raise)
         {
             Content.CompanySizeDefinition? size = company == null ? null : scope.Content.GetCountry(company.CountryId).Economy?.Companies?.Size(company.SizeId);
             position = Economy.CompanyRules.Cap(position, size?.MaxPositionDepth);
@@ -707,6 +1021,8 @@ namespace MistakesLife.Core.Events
             {
                 salary = Math.Round(salary * (decimal)size.SalaryRelative, MidpointRounding.AwayFromZero);
             }
+
+            salary = Math.Round(salary * raise, MidpointRounding.AwayFromZero);
 
             Economy.Job job = Economy.CareerLadder.Place(_character, kind, salary, PriceIndex(scope), area, position);
             job.CompanyId = company?.Id;

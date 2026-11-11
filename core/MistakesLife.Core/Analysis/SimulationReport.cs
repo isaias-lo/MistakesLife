@@ -25,6 +25,9 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Eventos del contenido que no aparecieron en ninguna vida.</summary>
         public List<string> NeverSeenEvents { get; } = new List<string>();
 
+        /// <summary>Cuántas veces salió cada noticia en los últimos 12 años de cada vida (lo que el mundo recuerda).</summary>
+        public SortedDictionary<string, int> NewsCount { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
         /// <summary>Semillas por tipo: plantadas, despertadas, resueltas y olvidadas.</summary>
         public SortedDictionary<string, SeedStats> Seeds { get; } = new SortedDictionary<string, SeedStats>(StringComparer.Ordinal);
 
@@ -68,6 +71,15 @@ namespace MistakesLife.Core.Analysis
 
         /// <summary>Vidas que terminan buscando trabajo: no trabajan, no estudian y no se jubilaron, pero quieren trabajar.</summary>
         public int Unemployed { get; internal set; }
+
+        /// <summary>Cuántas veces se encontró trabajo buscándolo (aceptando una oferta), sumando todas las vidas.</summary>
+        public int JobSearchHires { get; internal set; }
+
+        /// <summary>Semanas buscando, en promedio, hasta aceptar una oferta.</summary>
+        public double AverageSearchWeeks { get; internal set; }
+
+        /// <summary>Entrevistas, en promedio, por cada trabajo encontrado.</summary>
+        public double AverageInterviewsPerHire { get; internal set; }
 
         /// <summary>
         /// Promedio, entre las vidas que llegan a los 65, de la parte de los meses
@@ -117,6 +129,18 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Vidas que terminan con alguna deuda.</summary>
         public int WithDebt { get; internal set; }
 
+        /// <summary>Vidas que terminan con celular.</summary>
+        public int WithPhone { get; internal set; }
+
+        /// <summary>Vidas que terminan con cuenta de correo.</summary>
+        public int WithMail { get; internal set; }
+
+        /// <summary>Correos en las bandejas al final, sumando todas las vidas con correo.</summary>
+        public int MailsReceived { get; internal set; }
+
+        /// <summary>Vidas que cayeron alguna vez en una estafa por correo.</summary>
+        public int ScamVictims { get; internal set; }
+
         /// <summary>Vidas que siguen al final en el registro de morosos (DICOM).</summary>
         public int Delinquent { get; internal set; }
 
@@ -156,6 +180,7 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Estudian al final: {PercentOfAlive(Studying).ToString("0.0", ci)} %");
             sb.AppendLine($"- Trabajan al final: {PercentOfAlive(Working).ToString("0.0", ci)} % (informales: {PercentOfAlive(WorkingInformal).ToString("0.0", ci)} %); sueldo bruto mediano (en dinero del inicio): {MedianRealSalary.ToString("N0", ci)}");
             sb.AppendLine($"- Buscan trabajo al final: {PercentOfAlive(Unemployed).ToString("0.0", ci)} %; desempleo (buscan / trabajan + buscan): {(Working + Unemployed == 0 ? 0 : 100.0 * Unemployed / (Working + Unemployed)).ToString("0.0", ci)} %");
+            sb.AppendLine($"- Trabajos encontrados buscando: {JobSearchHires} ({(Lives == 0 ? 0 : (double)JobSearchHires / Lives).ToString("0.00", ci)} por vida); semanas buscando hasta aceptar (promedio): {AverageSearchWeeks.ToString("0.0", ci)}; entrevistas por trabajo: {AverageInterviewsPerHire.ToString("0.0", ci)}");
             if (AverageContributionDensity > 0)
             {
                 sb.AppendLine($"- Meses con cotización para la pensión, de los 18 a los 65 (promedio): {(AverageContributionDensity * 100).ToString("0", ci)} %");
@@ -163,6 +188,7 @@ namespace MistakesLife.Core.Analysis
 
             sb.AppendLine($"- Siguen vivos con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano de los vivos (en dinero del inicio): {MedianRealMoney.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan jubilados: {PercentOfAlive(Retired).ToString("0.0", ci)} %; pensión mediana al mes, propia + del Estado (en dinero del inicio): {MedianRealPension.ToString("N0", ci)}");
+            sb.AppendLine($"- Terminan con celular: {Percent(WithPhone).ToString("0.0", ci)} %; con correo: {Percent(WithMail).ToString("0.0", ci)} % (correos en la bandeja, promedio: {(WithMail == 0 ? 0 : (double)MailsReceived / WithMail).ToString("0.0", ci)}); cayeron en una estafa por correo: {Percent(ScamVictims).ToString("0.0", ci)} %");
             sb.AppendLine($"- Terminan con deudas: {Percent(WithDebt).ToString("0.0", ci)} %; deuda mediana (en dinero del inicio): {MedianRealDebt.ToString("N0", ci)}; morosos: {Percent(Delinquent).ToString("0.0", ci)} %");
             sb.AppendLine($"- Terminan con amigos: {Percent(WithFriends).ToString("0.0", ci)} % (promedio {AverageFriends.ToString("0.0", ci)}); con un rival: {Percent(WithRival).ToString("0.0", ci)} %; tuvieron una expareja: {Percent(WithEx).ToString("0.0", ci)} %");
             sb.AppendLine($"- Cariño de la madre (si vive) / rencor de la pareja (si hay), promedio al final: {AverageMotherAffection.ToString("0", ci)} / {AveragePartnerResentment.ToString("0", ci)}");
@@ -210,11 +236,28 @@ namespace MistakesLife.Core.Analysis
 
             sb.AppendLine("## Eventos");
             sb.AppendLine();
-            sb.AppendLine("| Evento | Vidas donde aparece | % | Veces en total |");
-            sb.AppendLine("|---|---:|---:|---:|");
+            sb.AppendLine("| Evento | Vidas donde aparece | % | Veces en total | Veces por vida (donde aparece) |");
+            sb.AppendLine("|---|---:|---:|---:|---:|");
             foreach (var ev in LivesWithEvent.OrderByDescending(e => e.Value).ThenBy(e => e.Key, StringComparer.Ordinal))
             {
-                sb.AppendLine($"| {ev.Key} | {ev.Value} | {Percent(ev.Value).ToString("0.0", ci)} | {EventCount[ev.Key]} |");
+                sb.AppendLine($"| {ev.Key} | {ev.Value} | {Percent(ev.Value).ToString("0.0", ci)} | {EventCount[ev.Key]} | {((double)EventCount[ev.Key] / ev.Value).ToString("0.0", ci)} |");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("## Noticias (los últimos 12 años de cada vida, lo que el mundo recuerda)");
+            sb.AppendLine();
+            if (NewsCount.Count == 0)
+            {
+                sb.AppendLine("No salió ninguna noticia.");
+            }
+            else
+            {
+                sb.AppendLine("| Noticia | Veces en total | Veces por vida |");
+                sb.AppendLine("|---|---:|---:|");
+                foreach (var news in NewsCount.OrderByDescending(n => n.Value).ThenBy(n => n.Key, StringComparer.Ordinal))
+                {
+                    sb.AppendLine($"| {news.Key} | {news.Value} | {((double)news.Value / Math.Max(1, Lives)).ToString("0.0", ci)} |");
+                }
             }
 
             sb.AppendLine();

@@ -52,6 +52,15 @@ namespace MistakesLife.Core.Saving
 
         public JobData? Job { get; set; }
 
+        /// <summary>Su búsqueda de trabajo, o null (desde la versión 9).</summary>
+        public JobSearchData? JobSearch { get; set; }
+
+        /// <summary>Su celular, o null (desde la versión 12).</summary>
+        public PhoneData? Phone { get; set; }
+
+        /// <summary>Su cuenta de correo, o null (desde la versión 12).</summary>
+        public MailData? Mail { get; set; }
+
         /// <summary>Área del último cargo de su carrera que ya no tiene, o null.</summary>
         public string? LastAreaId { get; set; }
 
@@ -81,6 +90,12 @@ namespace MistakesLife.Core.Saving
         public bool ReceivesUniversalPension { get; set; }
 
         public decimal LastPensionPayment { get; set; }
+
+        /// <summary>Contrato de arriendo, o null si no arrienda.</summary>
+        public LeaseData? Lease { get; set; }
+
+        /// <summary>La compra de comida que eligió, o null si no ha elegido.</summary>
+        public string? GroceryBasketId { get; set; }
 
         public List<DebtData> Debts { get; set; } = new List<DebtData>();
 

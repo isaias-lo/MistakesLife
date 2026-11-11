@@ -29,7 +29,7 @@
       "id": "ciudad.santiago",
       "peso_nacimiento": 1,
       "comunas": [
-        { "id": "comuna.puente_alto", "peso_nacimiento": 568, "nivel_hogar_min": 10, "nivel_hogar_max": 65, "arriendo": 380000 }
+        { "id": "comuna.puente_alto", "peso_nacimiento": 568, "nivel_hogar_min": 10, "nivel_hogar_max": 65, "arriendos": {"vivienda.pieza": 250000, "vivienda.departamento": 420000, "vivienda.casa": 650000} }
       ]
     }
   ],
@@ -71,6 +71,7 @@
     "ley.mayoria_edad": 18,
     "ley.edad_voto": 18,
     "ley.voto_obligatorio": true,
+    "ley.elecciones_mes": 11,
     "ley.divorcio": true,
     "ley.matrimonio_igualitario": true,
     "ley.adopcion_parejas_mismo_sexo": true,
@@ -98,9 +99,9 @@
       "fase_inicial": "economia.ciclo.normal",
       "fases": [
         { "id": "economia.ciclo.normal", "cambio_anual": { "economia.ciclo.recesion": 0.1 } },
-        { "id": "economia.ciclo.recesion", "golpe_fondos": -0.08, "quiebras": 1.8,
+        { "id": "economia.ciclo.recesion", "golpe_fondos": -0.08, "quiebras": 1.8, "contratacion": 0.7,
           "cambio_anual": { "economia.ciclo.normal": 0.6, "economia.ciclo.crisis": 0.1 } },
-        { "id": "economia.ciclo.crisis", "inflacion": "economia.inflacion.alta", "golpe_fondos": -0.2, "quiebras": 3,
+        { "id": "economia.ciclo.crisis", "inflacion": "economia.inflacion.alta", "golpe_fondos": -0.2, "quiebras": 3, "contratacion": 0.45,
           "cambio_anual": { "economia.ciclo.normal": 0.5 } }
       ]
     },
@@ -125,15 +126,23 @@
         { "desde": 21390000, "tasa": 0.4 }
       ]
     },
-    "gastos": {
+    "vivienda": {"plazo_meses": 12, "garantia_meses": 1, "reajuste_meses": 6, "tipos": [
+        { "id": "vivienda.pieza", "incluye_cuentas": true },
+        { "id": "vivienda.departamento" },
+        { "id": "vivienda.casa" }
+      ] },
+    "supermercado": {"factor_hijo": 1, "compras": [
+        { "id": "compra.justa", "costo_persona": 73152 },
+        { "id": "compra.basica", "costo_persona": 90384 },
+        { "id": "compra.con_antojos", "costo_persona": 107616 }
+      ] },
+      "gastos": {
       "edad_desde": 18,
       "felicidad_en_rojo": 1,
       "cupo_deficit": 1500000,
       "deuda_por_deficit": "deuda.chile.linea_credito",
       "categorias": [
-        { "id": "gasto.chile.arriendo", "monto": "arriendo() * si(jugador.tiene('arrienda_pieza'), 0.4, 1)", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
-        { "id": "gasto.chile.alimentacion", "monto": "160000 + 80000 * jugador.hijos_menores", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true },
-        { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.tiene('arrienda_pieza')", "compartido": true },
+        { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
         { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.chile.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
         { "id": "gasto.chile.transporte", "monto": "45000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
@@ -191,6 +200,25 @@
         { "id": "empresa.tamano.mediana", "peso": 0.15, "sueldo_relativo": 1.0, "cargo_maximo": 4, "quiebra_anual": 0.03, "crece_anual": 0.03, "achica_anual": 0.04 },
         { "id": "empresa.tamano.grande", "peso": 0.5, "sueldo_relativo": 1.15, "quiebra_anual": 0.015, "achica_anual": 0.02 }
       ]
+    },
+    "busqueda_trabajo": {
+      "formas": [
+        { "id": "busqueda.forma.portales", "postulaciones_semana": 10, "entrevista_semanal": 0.08, "exito_extra": -0.08 },
+        { "id": "busqueda.forma.a_mano", "postulaciones_semana": 2, "entrevista_semanal": 0.045, "exito_extra": 0.1 },
+        { "id": "busqueda.forma.contactos", "postulaciones_semana": 1, "entrevista_semanal": 0.08, "exito_extra": 0.2, "necesita_contacto": true },
+        { "id": "busqueda.forma.omil", "postulaciones_semana": 2, "entrevista_semanal": 0.05 }
+      ],
+      "exito_entrevista": 0.35,
+      "factor_por_ano_experiencia": 0.05,
+      "tope_experiencia": 1.5,
+      "factor_titulo": 1.2,
+      "edad_dificil": 55,
+      "factor_edad": 0.8,
+      "semanas_cesantia_larga": 52,
+      "factor_cesantia_larga": 0.7,
+      "meses_para_sueldo_tipico": 12,
+      "carino_contacto": 50,
+      "negociacion": { "mejora": 0.08, "prob_mejora": 0.4, "prob_retiro": 0.1 }
     }
   },
   "familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03, "adopcion_anual": 0.03, "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 },
@@ -200,6 +228,6 @@
   },
   "vida_previa": [
     { "edad": 18, "marcas": ["egresado_media", "decidio_futuro"] },
-    { "edad": 28, "marcas": ["vive_independiente"] }
+    { "edad": 28, "marcas": ["vive_independiente"], "vivienda": "vivienda.departamento", "compra": "compra.basica" }
   ]
 }

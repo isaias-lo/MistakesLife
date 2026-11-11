@@ -68,8 +68,20 @@ namespace MistakesLife.Core.Saving
                 world.RestoreJournal(new JournalEntry(Date(j.Week), j.CharacterId, j.TextKey));
             }
 
+            foreach (NewsData n in data.News)
+            {
+                world.AddNews(new NewsRecord(Date(n.Week), n.NewsId, n.CountryId, n.CityId, n.TextKey));
+            }
+
             foreach (PendingEventData p in data.PendingEvents)
             {
+                // Un evento que ya no está en los paquetes (se retiró) no se puede
+                // mostrar: se descarta y la vida sigue.
+                if (!content.TryGetEvent(p.EventId, out _))
+                {
+                    continue;
+                }
+
                 world.AddPendingEvent(new PendingEvent(p.EventId, p.CharacterId, Date(p.Week), p.SeedId, p.AvailableOptions.ToList()));
             }
 
@@ -109,6 +121,11 @@ namespace MistakesLife.Core.Saving
                 HouseholdLevel = d.HouseholdLevel,
                 Money = d.Money,
                 MonthsInRed = d.MonthsInRed,
+                Lease = d.Lease == null ? null : new Lease(d.Lease.TypeId, d.Lease.CommuneId, d.Lease.BaseRent, d.Lease.AdjustedPriceIndex, d.Lease.MonthsLeft, d.Lease.Deposit)
+                {
+                    MonthsSinceAdjustment = d.Lease.MonthsSinceAdjustment,
+                },
+                GroceryBasketId = d.GroceryBasketId,
                 PensionFund = d.PensionFund,
                 ContributedMonths = d.ContributedMonths,
                 PensionSalaryBase = d.PensionSalaryBase,
@@ -135,6 +152,45 @@ namespace MistakesLife.Core.Saving
                 job.Performance = d.Job.Performance;
                 job.CompanyId = d.Job.CompanyId;
                 character.Job = job;
+            }
+
+            if (d.JobSearch != null)
+            {
+                character.JobSearch = new JobSearch(d.JobSearch.Target)
+                {
+                    Kind = Parse<JobKind>(d.JobSearch.Kind),
+                    MethodId = d.JobSearch.MethodId,
+                    ContactId = d.JobSearch.ContactId,
+                    Stage = Parse<JobSearchStage>(d.JobSearch.Stage),
+                    Weeks = d.JobSearch.Weeks,
+                    Applications = d.JobSearch.Applications,
+                    Interviews = d.JobSearch.Interviews,
+                    Rejections = d.JobSearch.Rejections,
+                    Negotiated = d.JobSearch.Negotiated,
+                    Raise = d.JobSearch.Raise,
+                };
+            }
+
+            if (d.Phone != null)
+            {
+                var phone = new Devices.Phone(Date(d.Phone.SinceWeek));
+                foreach (string app in d.Phone.Apps)
+                {
+                    phone.Install(app);
+                }
+
+                character.Phone = phone;
+            }
+
+            if (d.Mail != null)
+            {
+                var mail = new Devices.MailAccount(Date(d.Mail.SinceWeek), d.Mail.JournalCursor);
+                foreach (MailMessageData message in d.Mail.Messages)
+                {
+                    mail.Add(new Devices.MailMessage(Date(message.Week), message.MailId, message.Read));
+                }
+
+                character.Mail = mail;
             }
 
             if (d.LastAreaId != null && d.LastPositionId != null)

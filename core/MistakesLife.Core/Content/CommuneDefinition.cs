@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace MistakesLife.Core.Content
@@ -22,10 +23,14 @@ namespace MistakesLife.Core.Content
         public int HouseholdLevelMax { get; set; } = 100;
 
         /// <summary>
-        /// Arriendo mensual típico de una vivienda en la comuna, en dinero del inicio
-        /// del mundo. Lo lee la función arriendo(). Opcional.
+        /// Arriendo mensual típico de cada tipo de vivienda en la comuna (por id de
+        /// "economia.vivienda.tipos"), en dinero del inicio del mundo. Es el precio de
+        /// un contrato nuevo; lo lee la función arriendo('vivienda.pieza').
         /// </summary>
-        [JsonProperty("arriendo")]
-        public decimal? Rent { get; set; }
+        [JsonProperty("arriendos")]
+        public Dictionary<string, decimal> Rents { get; set; } = new Dictionary<string, decimal>();
+
+        /// <summary>El arriendo típico de ese tipo de vivienda aquí, o null si la comuna no lo tiene.</summary>
+        public decimal? RentOf(string typeId) => Rents.TryGetValue(typeId, out decimal rent) ? rent : (decimal?)null;
     }
 }

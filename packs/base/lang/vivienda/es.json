@@ -4,9 +4,19 @@
   "opcion.desalojo.pieza": "Arriendas una pieza, más barata, en una casa compartida.",
   "diario.desalojo.volver_familia": "Tuviste que dejar el lugar donde vivías y volver a la casa de tu familia. No es lo que soñabas, pero ahí no te falta un plato de comida.",
   "diario.desalojo.pieza": "Te cambiaste a una pieza en una casa compartida. Es chica y el baño tiene fila, pero el arriendo ahora sí alcanza.",
-  "evento.dejar_la_pieza": "Las cuentas ya se ordenaron. Te ofrecen un departamento para ti solo, pero el arriendo es más del doble que la pieza.",
+  "evento.dejar_la_pieza": "Las cuentas ya se ordenaron. Te ofrecen un departamento para ti solo, pero el arriendo es bastante más alto y las cuentas de la luz y el agua corren por tu lado.",
   "opcion.dejar_la_pieza.arrendar": "Te cambias al departamento. Ya era hora de tener tu espacio.",
   "opcion.dejar_la_pieza.ahorrar": "Te quedas en la pieza un tiempo más y ahorras la diferencia.",
   "opcion.desalojo.allegado": "Te vas de allegado donde alguien que te tiende la mano, hasta que te pares de nuevo.",
-  "diario.desalojo.allegado": "Ahora vives de allegado, en la casa de alguien que te recibió. Duermes donde se puede y aportas con lo que tienes, pero tienes techo."
+  "diario.desalojo.allegado": "Ahora vives de allegado, en la casa de alguien que te recibió. Duermes donde se puede y aportas con lo que tienes, pero tienes techo.",
+  "vivienda.pieza": "Arriendo de la pieza",
+  "vivienda.departamento": "Arriendo del departamento",
+  "vivienda.casa": "Arriendo de la casa",
+  "evento.fin_contrato_arriendo": "Se cumplió el plazo de tu contrato de arriendo. El dueño pregunta si renuevas por otro período o si te vas.",
+  "opcion.fin_contrato.renovar": "Renuevas el contrato y te quedas donde estás.",
+  "opcion.fin_contrato.pieza": "Te cambias a una pieza más barata, con las cuentas incluidas.",
+  "opcion.fin_contrato.departamento": "Buscas un departamento en la comuna y te cambias.",
+  "opcion.fin_contrato.casa": "Arriendan una casa, con patio y espacio para todos.",
+  "opcion.fin_contrato.volver_familia": "Entregas las llaves y vuelves a la casa de tu familia.",
+  "evento.fin_contrato_arriendo.2": "Llega el aviso del dueño: el contrato vence a fin de mes. Miras la casa, las cuentas y lo que gastas en llegar al trabajo, y piensas si te quedas o te mueves."
 }

@@ -16,7 +16,11 @@ namespace MistakesLife.Core.Content
     {
         private readonly SortedDictionary<string, EventDefinition> _events = new SortedDictionary<string, EventDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, NewsDefinition> _news = new SortedDictionary<string, NewsDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, MailDefinition> _mails = new SortedDictionary<string, MailDefinition>(StringComparer.Ordinal);
+        private readonly Dictionary<string, List<MailDefinition>> _mailsByJournal = new Dictionary<string, List<MailDefinition>>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CareerDefinition> _careers = new SortedDictionary<string, CareerDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, CareerLevelDefinition> _careerLevels = new Dictionary<string, CareerLevelDefinition>(StringComparer.Ordinal);
@@ -40,7 +44,28 @@ namespace MistakesLife.Core.Content
         /// <summary>Los objetos de la escena 3D que dependen de la vida del jugador, ordenados por id.</summary>
         public IEnumerable<SceneObjectDefinition> SceneObjects => _sceneObjects.Values;
 
+        /// <summary>Las noticias del mundo, ordenadas por id.</summary>
+        public IEnumerable<NewsDefinition> News => _news.Values;
+
+        public bool TryGetNews(string id, out NewsDefinition? definition) => _news.TryGetValue(id, out definition);
+
         public IEnumerable<CountryDefinition> Countries => _countries.Values;
+
+        /// <summary>Las apps del celular, ordenadas por id.</summary>
+        public IEnumerable<AppDefinition> Apps => _apps.Values;
+
+        /// <summary>Los correos que pueden llegar, ordenados por id.</summary>
+        public IEnumerable<MailDefinition> Mails => _mails.Values;
+
+        /// <summary>La app con ese id, o null.</summary>
+        public AppDefinition? App(string id) => _apps.TryGetValue(id, out AppDefinition? app) ? app : null;
+
+        /// <summary>El correo con ese id, o null.</summary>
+        public MailDefinition? Mail(string id) => _mails.TryGetValue(id, out MailDefinition? mail) ? mail : null;
+
+        /// <summary>Los correos que llegan cuando se anota esa línea en el diario (ordenados por id).</summary>
+        public IReadOnlyList<MailDefinition> MailsForJournal(string journalKey) =>
+            _mailsByJournal.TryGetValue(journalKey, out List<MailDefinition>? mails) ? mails : (IReadOnlyList<MailDefinition>)Array.Empty<MailDefinition>();
 
         /// <summary>Las carreras, ordenadas por id.</summary>
         public IEnumerable<CareerDefinition> Careers => _careers.Values;
@@ -187,6 +212,22 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega las noticias de un archivo JSON de news/ (una lista).</summary>
+        public void AddNewsJson(string packId, string sourceName, string json)
+        {
+            foreach (NewsDefinition definition in Deserialize<NewsDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_news.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de noticia repetido."));
+                    continue;
+                }
+
+                _news.Add(definition.Id, definition);
+            }
+        }
+
         /// <summary>Agrega los objetos de la escena de un archivo JSON de scene/ (una lista).</summary>
         public void AddSceneJson(string packId, string sourceName, string json)
         {
@@ -200,6 +241,38 @@ namespace MistakesLife.Core.Content
                 }
 
                 _sceneObjects.Add(definition.Id, definition);
+            }
+        }
+
+        /// <summary>Agrega las apps del celular de un archivo JSON de apps/ (una lista).</summary>
+        public void AddAppsJson(string packId, string sourceName, string json)
+        {
+            foreach (AppDefinition definition in Deserialize<AppDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_apps.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de app repetido."));
+                    continue;
+                }
+
+                _apps.Add(definition.Id, definition);
+            }
+        }
+
+        /// <summary>Agrega los correos de un archivo JSON de mail/ (una lista).</summary>
+        public void AddMailJson(string packId, string sourceName, string json)
+        {
+            foreach (MailDefinition definition in Deserialize<MailDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_mails.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de correo repetido."));
+                    continue;
+                }
+
+                _mails.Add(definition.Id, definition);
             }
         }
 
@@ -324,6 +397,12 @@ namespace MistakesLife.Core.Content
                 ev.CountryId = countryOfPack.TryGetValue(ev.PackId, out string? countryId) ? countryId : null;
             }
 
+            foreach (NewsDefinition news in _news.Values)
+            {
+                news.CountryId = countryOfPack.TryGetValue(news.PackId, out string? countryId) ? countryId : null;
+                ValidateNews(news);
+            }
+
             foreach (SeedTypeDefinition seed in _seedTypes.Values)
             {
                 string where = $"semilla {seed.Id}";
@@ -349,6 +428,13 @@ namespace MistakesLife.Core.Content
 
                 seed.CompiledConditions = CompileCondition(where, seed.Conditions);
             }
+
+            foreach (AppDefinition app in _apps.Values)
+            {
+                CheckId($"app {app.Id}", app.Id, "app.");
+            }
+
+            ValidateMails();
 
             foreach (SceneObjectDefinition scene in _sceneObjects.Values)
             {
@@ -449,6 +535,58 @@ namespace MistakesLife.Core.Content
             return this;
         }
 
+        /// <summary>Lo que se usa en una noticia: solo el mundo, nunca el jugador.</summary>
+        private static readonly string[] NewsEffectNames =
+        {
+            EventScope.ChangeCycleFunction + "()", EventScope.ChangeInflationFunction + "()", EventScope.ChangeLawFunction + "()", EventScope.IfFunction + "()", EventScope.LawFunction + "()", "mundo",
+        };
+
+        private void ValidateNews(NewsDefinition news)
+        {
+            string where = $"noticia {news.Id}";
+            CheckId(where, news.Id, "noticia.");
+            if (Array.IndexOf(NewsDefinition.Topics, news.Topic) < 0)
+            {
+                _errors.Add(new ContentError(where, $"tema '{news.Topic}' no existe (usa {string.Join(", ", NewsDefinition.Topics)})."));
+            }
+
+            if (news.AnnualProbability <= 0 || news.AnnualProbability > 1)
+            {
+                _errors.Add(new ContentError(where, "probabilidad_anual debe ser mayor que 0 y como máximo 1."));
+            }
+
+            if (news.CooldownWeeks < 0)
+            {
+                _errors.Add(new ContentError(where, "enfriamiento_semanas no puede ser negativo."));
+            }
+
+            if (news.Variants.Any(string.IsNullOrWhiteSpace) || news.AllTextKeys.Distinct().Count() != news.Variants.Count + 1)
+            {
+                _errors.Add(new ContentError(where, "las variantes no pueden estar vacías ni repetir el titular u otra variante."));
+            }
+
+            IEnumerable<CountryDefinition> countries = news.CountryId == null ? _countries.Values : new[] { _countries[news.CountryId] };
+            foreach (string city in news.Cities.Where(c => !countries.Any(country => country.Cities.Any(k => k.Id == c))))
+            {
+                _errors.Add(new ContentError(where, $"la ciudad '{city}' no existe en {(news.CountryId ?? "ningún país")}."));
+            }
+
+            _checkedCountry = news.CountryId == null ? null : _countries[news.CountryId];
+            news.CompiledConditions = CompileCondition(where, news.Conditions);
+            if (news.CompiledConditions != null && news.CompiledConditions.Names().Contains("jugador"))
+            {
+                _errors.Add(new ContentError(where, "una noticia no depende del jugador: sus condiciones solo pueden leer el mundo (mundo.mes, mundo.ciclo, ley(...), noticia_reciente(...))."));
+            }
+
+            CompileEffects(where, news.Effects, news.CompiledEffects);
+            foreach (string name in news.CompiledEffects.SelectMany(e => e.Names()).Distinct().Where(n => Array.IndexOf(NewsEffectNames, n) < 0))
+            {
+                _errors.Add(new ContentError(where, $"una noticia solo cambia el país (cambiar_ciclo, cambiar_inflacion, cambiar_ley), no '{name}': lo que le pasa al jugador va en un evento que lee noticia_reciente()."));
+            }
+
+            _checkedCountry = null;
+        }
+
         private void ValidateCountry(CountryDefinition country)
         {
             string where = $"país {country.Id}";
@@ -499,7 +637,7 @@ namespace MistakesLife.Core.Content
                         _errors.Add(new ContentError(communeWhere, "peso_nacimiento debe ser mayor que 0."));
                     }
 
-                    if (commune.Rent < 0)
+                    if (commune.Rents.Values.Any(r => r < 0))
                     {
                         _errors.Add(new ContentError(communeWhere, "el arriendo no puede ser negativo."));
                     }
@@ -553,6 +691,16 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError($"{where}, vida_previa edad {prior.Age}", "la edad no puede ser negativa y debe tener al menos una marca no vacía."));
                 }
+
+                if (prior.Housing != null && country.Economy?.Housing?.Type(prior.Housing) == null)
+                {
+                    _errors.Add(new ContentError($"{where}, vida_previa edad {prior.Age}", $"la vivienda '{prior.Housing}' no está en economia.vivienda.tipos."));
+                }
+
+                if (prior.GroceryBasket != null && country.Economy?.Groceries?.Basket(prior.GroceryBasket) == null)
+                {
+                    _errors.Add(new ContentError($"{where}, vida_previa edad {prior.Age}", $"la compra '{prior.GroceryBasket}' no está en economia.supermercado.compras."));
+                }
             }
 
             foreach (KeyValuePair<string, Newtonsoft.Json.Linq.JToken> law in country.LawsJson)
@@ -580,9 +728,16 @@ namespace MistakesLife.Core.Content
                 }
 
                 ValidatePayroll($"{where}, economia", country.Economy);
+                ValidateHousing($"{where}, economia.vivienda", country);
+                ValidateGroceries($"{where}, economia.supermercado", country.Economy.Groceries);
                 if (country.Economy.Companies != null)
                 {
                     ValidateCompanies($"{where}, economia.empresas", country.Economy.Companies);
+                }
+
+                if (country.Economy.JobSearch != null)
+                {
+                    ValidateJobSearch($"{where}, economia.busqueda_trabajo", country.Economy.JobSearch);
                 }
             }
 
@@ -593,6 +748,77 @@ namespace MistakesLife.Core.Content
                 if (badRate || family.PartnerMinAge < 12 || family.FertileMaxAge < family.PartnerMinAge || family.MaxChildren < 0)
                 {
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));
+                }
+            }
+        }
+
+        private void ValidateGroceries(string where, GroceriesDefinition? groceries)
+        {
+            if (groceries == null)
+            {
+                return;
+            }
+
+            if (groceries.ChildFactor < 0 || groceries.ChildFactor > 2)
+            {
+                _errors.Add(new ContentError(where, "factor_hijo va de 0 a 2 (1 = un hijo come lo mismo que un adulto)."));
+            }
+
+            var seen = new HashSet<string>();
+            foreach (GroceryBasketDefinition basket in groceries.Baskets)
+            {
+                CheckId($"{where}, {basket.Id}", basket.Id, "compra.");
+                if (!seen.Add(basket.Id))
+                {
+                    _errors.Add(new ContentError($"{where}, {basket.Id}", "compra repetida."));
+                }
+
+                if (basket.PerPerson < 0)
+                {
+                    _errors.Add(new ContentError($"{where}, {basket.Id}", "costo_persona no puede ser negativo."));
+                }
+            }
+        }
+
+        private void ValidateHousing(string where, CountryDefinition country)
+        {
+            HousingDefinition? housing = country.Economy?.Housing;
+            List<CommuneDefinition> communes = country.Cities.SelectMany(c => c.Communes).ToList();
+            if (housing == null)
+            {
+                if (communes.Any(c => c.Rents.Count > 0))
+                {
+                    _errors.Add(new ContentError(where, "las comunas tienen arriendos pero el país no define economia.vivienda."));
+                }
+
+                return;
+            }
+
+            if (housing.TermMonths < 1 || housing.DepositMonths < 0 || housing.AdjustEveryMonths < 1)
+            {
+                _errors.Add(new ContentError(where, "plazo_meses y reajuste_meses desde 1; garantia_meses no negativo."));
+            }
+
+            var seenTypes = new HashSet<string>();
+            foreach (HousingTypeDefinition type in housing.Types)
+            {
+                CheckId($"{where}, {type.Id}", type.Id, "vivienda.");
+                if (!seenTypes.Add(type.Id))
+                {
+                    _errors.Add(new ContentError($"{where}, {type.Id}", "tipo de vivienda repetido."));
+                }
+            }
+
+            foreach (CommuneDefinition commune in communes)
+            {
+                foreach (HousingTypeDefinition type in housing.Types.Where(t => commune.RentOf(t.Id) == null))
+                {
+                    _errors.Add(new ContentError($"{where}, {commune.Id}", $"la comuna no tiene el arriendo de {type.Id}. Toda comuna debe tener el precio de cada tipo de vivienda."));
+                }
+
+                foreach (string unknown in commune.Rents.Keys.Where(k => housing.Type(k) == null))
+                {
+                    _errors.Add(new ContentError($"{where}, {commune.Id}", $"el arriendo de '{unknown}' no es un tipo de economia.vivienda.tipos."));
                 }
             }
         }
@@ -850,6 +1076,38 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        private void ValidateJobSearch(string where, JobSearchDefinition search)
+        {
+            if (search.Methods.Count == 0)
+            {
+                _errors.Add(new ContentError(where, "debe tener al menos una forma de buscar."));
+            }
+
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (JobSearchMethodDefinition method in search.Methods)
+            {
+                string methodWhere = $"{where}, {method.Id}";
+                CheckId(methodWhere, method.Id, "busqueda.forma.");
+                if (!seen.Add(method.Id))
+                {
+                    _errors.Add(new ContentError(methodWhere, "forma repetida."));
+                }
+
+                if (method.WeeklyInterview < 0 || method.WeeklyInterview > 1 || method.ApplicationsPerWeek < 0)
+                {
+                    _errors.Add(new ContentError(methodWhere, "entrevista_semanal entre 0 y 1, y postulaciones_semana desde 0."));
+                }
+            }
+
+            JobNegotiationDefinition n = search.Negotiation;
+            bool badChance = new[] { search.InterviewSuccess, n.RaiseChance, n.WithdrawChance }.Any(p => p < 0 || p > 1) || n.RaiseChance + n.WithdrawChance > 1;
+            bool badFactor = new[] { search.DegreeFactor, search.AgeFactor, search.LongSearchFactor, search.ExperienceCap }.Any(f => f < 0) || search.PerYearOfExperience < 0 || n.Raise < 0;
+            if (badChance || badFactor || search.ContactAffection < 0 || search.ContactAffection > 100 || search.MonthsForTypicalSalary < 0)
+            {
+                _errors.Add(new ContentError(where, "probabilidades entre 0 y 1 (prob_mejora + prob_retiro hasta 1), factores no negativos y carino_contacto entre 0 y 100."));
+            }
+        }
+
         private void ValidateCompanies(string where, CompaniesDefinition companies)
         {
             if (companies.Sizes.Count == 0 || companies.Sizes.Sum(s => s.Weight) <= 0 || companies.SameCompany < 0 || companies.SameCompany > 1)
@@ -1101,6 +1359,22 @@ namespace MistakesLife.Core.Content
                 yield return new KeyValuePair<string, string>(key, "núcleo");
             }
 
+            foreach (AppDefinition app in _apps.Values)
+            {
+                yield return new KeyValuePair<string, string>(app.Id, $"app {app.Id}");
+            }
+
+            foreach (MailDefinition mail in _mails.Values)
+            {
+                yield return new KeyValuePair<string, string>(mail.Id, $"correo {mail.Id}");
+                yield return new KeyValuePair<string, string>(mail.SubjectKey, $"correo {mail.Id}");
+                yield return new KeyValuePair<string, string>(mail.Sender, $"correo {mail.Id}");
+                foreach (string key in mail.OnJournal)
+                {
+                    yield return new KeyValuePair<string, string>(key, $"correo {mail.Id}, al_anotar");
+                }
+            }
+
             foreach (CountryDefinition country in _countries.Values)
             {
                 foreach (EducationStageDefinition stage in country.EducationStages)
@@ -1148,6 +1422,16 @@ namespace MistakesLife.Core.Content
                     yield return new KeyValuePair<string, string>(expense.Id, $"país {country.Id}");
                 }
 
+                foreach (HousingTypeDefinition housingType in country.Economy?.Housing?.Types ?? new List<HousingTypeDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>(housingType.Id, $"país {country.Id}");
+                }
+
+                foreach (GroceryBasketDefinition basket in country.Economy?.Groceries?.Baskets ?? new List<GroceryBasketDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>(basket.Id, $"país {country.Id}");
+                }
+
                 foreach (DebtTypeDefinition debt in country.Economy?.Debts?.Types ?? new List<DebtTypeDefinition>())
                 {
                     yield return new KeyValuePair<string, string>(debt.Id, $"país {country.Id}");
@@ -1174,6 +1458,19 @@ namespace MistakesLife.Core.Content
                 if (country.Economy?.Companies != null)
                 {
                     foreach (string key in new[] { Economy.CompanySystem.BankruptcyJournal, Economy.CompanySystem.GrowthJournal, Economy.CompanySystem.ShrinkJournal })
+                    {
+                        yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
+                    }
+                }
+
+                if (country.Economy?.JobSearch != null)
+                {
+                    foreach (JobSearchMethodDefinition method in country.Economy.JobSearch.Methods)
+                    {
+                        yield return new KeyValuePair<string, string>(method.Id, $"país {country.Id}");
+                    }
+
+                    foreach (string key in new[] { Economy.JobSearchRules.RejectionJournal, Economy.JobSearchRules.WithdrawnJournal, Economy.JobSearchRules.HiredJournal, Economy.JobSearchRules.InterviewJournal })
                     {
                         yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
                     }
@@ -1216,6 +1513,14 @@ namespace MistakesLife.Core.Content
                 foreach (CareerPositionDefinition position in career.Positions.Concat(career.Areas.SelectMany(a => a.Positions ?? new List<CareerPositionDefinition>())))
                 {
                     yield return new KeyValuePair<string, string>(position.Id, $"carrera {career.Id}");
+                }
+            }
+
+            foreach (NewsDefinition news in _news.Values)
+            {
+                foreach (string key in news.AllTextKeys)
+                {
+                    yield return new KeyValuePair<string, string>(key, $"noticia {news.Id}");
                 }
             }
 
@@ -1331,14 +1636,6 @@ namespace MistakesLife.Core.Content
         {
             foreach (string name in names.Distinct())
             {
-                if (name == EventScope.RentFunction + "()")
-                {
-                    foreach (CommuneDefinition commune in CheckedCountries().SelectMany(c => c.Cities).SelectMany(c => c.Communes).Where(c => c.Rent == null))
-                    {
-                        _errors.Add(new ContentError(where, $"arriendo(): la comuna {commune.Id} no define su arriendo. Toda comuna debe tenerlo si se usa."));
-                    }
-                }
-
                 if (EventScope.SalaryNames.Contains(name))
                 {
                     foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Salaries == null))
@@ -1397,6 +1694,24 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese lazo no existe; usa 'amistad', 'colega' o 'rival'."));
                 }
 
+                if (reference.Function == "." + CharacterObject.RentMethod || reference.Function == EventScope.RentFunction)
+                {
+                    string name = reference.Function.TrimStart('.');
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Housing?.Type(reference.Argument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene ese tipo de vivienda. Todo país debe definir en economia.vivienda los tipos que usan los eventos."));
+                    }
+                }
+
+                if (reference.Function == "." + CharacterObject.ChooseGroceriesMethod || reference.Function == EventScope.GroceriesFunction)
+                {
+                    string name = reference.Function.TrimStart('.');
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Groceries?.Basket(reference.Argument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene esa compra. Todo país debe definir en economia.supermercado las compras que usan los eventos."));
+                    }
+                }
+
                 if (reference.Function == "." + CharacterObject.BorrowMethod || reference.Function == "." + CharacterObject.DebtOfMethod)
                 {
                     foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Debts?.Type(reference.Argument) == null))
@@ -1411,15 +1726,81 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): esa área de carrera no existe."));
                 }
 
+                if (reference.Function == "." + CharacterObject.PostulateMethod
+                    && reference.Argument != Economy.JobSearch.AnyJob && !_careerAreas.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): esa área de carrera no existe (o usa '{Economy.JobSearch.AnyJob}')."));
+                }
+
+                if ((reference.Function == "." + CharacterObject.SearchJobMethod || reference.Function == "." + CharacterObject.CanSearchWithMethod)
+                    && !_countries.Values.Any(c => c.Economy?.JobSearch?.Method(reference.Argument) != null))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ningún país tiene esa forma de buscar trabajo (economia.busqueda_trabajo.formas)."));
+                }
+
                 if ((reference.Function == "." + CharacterObject.PromoteMethod || reference.Function == "." + CharacterObject.CanPromoteToMethod)
                     && !_careerPositions.ContainsKey(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese cargo no existe."));
                 }
 
+                if ((reference.Function == "." + CharacterObject.InstallAppMethod || reference.Function == "." + CharacterObject.UninstallAppMethod
+                        || reference.Function == "." + CharacterObject.HasAppMethod)
+                    && !_apps.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): esa app no existe (packs/*/apps/)."));
+                }
+
+                if (reference.Function == "." + CharacterObject.ReceiveMailMethod && !_mails.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese correo no existe (packs/*/mail/)."));
+                }
+
+                if (reference.Function == EventScope.RecentNewsFunction && !_news.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): esa noticia no existe."));
+                }
+
                 if (reference.Function == EventScope.StudyFunction && !_careerLevels.ContainsKey(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): ese nivel de carrera no existe."));
+                }
+            }
+        }
+
+        /// <summary>Revisa los correos y arma la lista de qué correo llega con cada línea del diario.</summary>
+        private void ValidateMails()
+        {
+            foreach (MailDefinition mail in _mails.Values)
+            {
+                string where = $"correo {mail.Id}";
+                CheckId(where, mail.Id, "correo.");
+                CheckId(where, mail.Sender, "remitente.");
+                if (Array.IndexOf(MailDefinition.Topics, mail.Topic) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"tema '{mail.Topic}' no existe (usa {string.Join(", ", MailDefinition.Topics)})."));
+                }
+
+                if (mail.OnJournal.Count != mail.OnJournal.Distinct().Count())
+                {
+                    _errors.Add(new ContentError(where, "al_anotar repite una línea del diario."));
+                }
+
+                foreach (string key in mail.OnJournal)
+                {
+                    if (!key.StartsWith("diario.", StringComparison.Ordinal))
+                    {
+                        _errors.Add(new ContentError(where, $"al_anotar: '{key}' no es una línea del diario (empiezan con 'diario.')."));
+                        continue;
+                    }
+
+                    if (!_mailsByJournal.TryGetValue(key, out List<MailDefinition>? list))
+                    {
+                        list = new List<MailDefinition>();
+                        _mailsByJournal.Add(key, list);
+                    }
+
+                    list.Add(mail);
                 }
             }
         }

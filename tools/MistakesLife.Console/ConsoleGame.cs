@@ -26,6 +26,7 @@ namespace MistakesLife.ConsoleGame
         private readonly TextReader _input;
         private readonly TextWriter _output;
         private readonly string _savePath;
+        private int _newsRead;
 
         /// <summary>Archivo donde se guarda la partida con "g", si no se indica otro.</summary>
         public const string DefaultSavePath = "partida.json";
@@ -66,7 +67,7 @@ namespace MistakesLife.ConsoleGame
                 }
 
                 _output.WriteLine();
-                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta que pase algo | s: una semana | a: un año | e: estado | d: diario | g: guardar | v: volver al pasado | q: salir");
+                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta que pase algo | s: una semana | a: un año | e: estado | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
                 _output.Write("> ");
                 string? command = _input.ReadLine();
                 if (command == null)
@@ -91,6 +92,9 @@ namespace MistakesLife.ConsoleGame
                     case "d":
                         PrintFullJournal();
                         break;
+                    case "c":
+                        PrintMail();
+                        break;
                     case "g":
                         File.WriteAllText(_savePath, _session.SaveToText());
                         _output.WriteLine($"Partida guardada en {Path.GetFullPath(_savePath)}. Para seguirla: --cargar {_savePath}");
@@ -102,7 +106,7 @@ namespace MistakesLife.ConsoleGame
                         _output.WriteLine("Hasta pronto.");
                         return;
                     default:
-                        _output.WriteLine("No entendí. Usa Enter, s, a, e, d, g, v o q.");
+                        _output.WriteLine("No entendí. Usa Enter, s, a, e, d, c, g, v o q.");
                         break;
                 }
             }
@@ -391,6 +395,25 @@ namespace MistakesLife.ConsoleGame
             {
                 _output.WriteLine($"  Diario ({AgeLabel(entry.Date)}): {_session.Text(entry.TextKey)}");
             }
+
+            PrintNews();
+        }
+
+        /// <summary>Los titulares nuevos del diario de noticias del país (y la ciudad) del jugador.</summary>
+        private void PrintNews()
+        {
+            var news = _session.World.News;
+            Residence? home = _session.World.Player.Residence;
+            for (int i = System.Math.Min(_newsRead, news.Count); i < news.Count; i++)
+            {
+                NewsRecord record = news[i];
+                if (home != null && record.CountryId == home.CountryId && (record.CityId == null || record.CityId == home.CityId))
+                {
+                    _output.WriteLine($"  Noticias ({AgeLabel(record.Date)}): {_session.Text(record.TextKey)}");
+                }
+            }
+
+            _newsRead = news.Count;
         }
 
         private void PrintFullJournal()
@@ -398,6 +421,33 @@ namespace MistakesLife.ConsoleGame
             foreach (JournalEntry entry in _session.World.Journal.Where(e => e.CharacterId == _session.World.PlayerId))
             {
                 _output.WriteLine($"  {AgeLabel(entry.Date)}: {_session.Text(entry.TextKey)}");
+            }
+        }
+
+        /// <summary>Muestra la bandeja de correo (los últimos 15) y los deja leídos.</summary>
+        private void PrintMail()
+        {
+            Character player = _session.World.Player;
+            if (player.Mail == null)
+            {
+                _output.WriteLine(player.Phone == null ? "No tienes celular ni correo." : "Tienes celular, pero todavía no tienes correo.");
+                return;
+            }
+
+            var messages = player.Mail.Messages;
+            _output.WriteLine($"Correo: {messages.Count} correos, {player.Mail.UnreadCount} sin leer.");
+            for (int i = Math.Max(0, messages.Count - 15); i < messages.Count; i++)
+            {
+                MistakesLife.Core.Devices.MailMessage message = messages[i];
+                MailDefinition? definition = _session.Content.Mail(message.MailId);
+                string from = definition == null ? "?" : _session.Text(definition.Sender);
+                string subject = definition == null ? message.MailId : _session.Text(definition.SubjectKey);
+                _output.WriteLine($"  {(message.Read ? " " : "*")} {AgeLabel(message.Date)} · {from}: {subject}");
+                if (!message.Read)
+                {
+                    _output.WriteLine($"      {_session.Text(message.MailId)}");
+                    _session.ReadMail(i);
+                }
             }
         }
 

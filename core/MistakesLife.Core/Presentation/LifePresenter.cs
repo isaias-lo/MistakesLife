@@ -65,13 +65,6 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Cuántas personas fuera de la familia se muestran como máximo, para que la lista se pueda leer.</summary>
         public const int MaxPeople = 8;
 
-        /// <summary>
-        /// Edad hasta la que, sin pareja, se dibuja al jugador viviendo con sus padres.
-        /// En Chile la mayoría de los jóvenes se independiza cerca de los 28 años (CASEN).
-        /// Es solo para dibujar: cuando exista el sistema de vivienda, lo decidirá el núcleo.
-        /// </summary>
-        public const int LeavesHomeAge = 28;
-
         public LifePresenter(LifeSession session, string language = ContentDatabase.BaseLanguage)
         {
             Session = session ?? throw new ArgumentNullException(nameof(session));
@@ -256,6 +249,64 @@ namespace MistakesLife.Core.Presentation
         /// <summary>El diario completo del jugador actual.</summary>
         public IReadOnlyList<JournalLine> FullJournal() =>
             Session.World.Journal.Where(e => e.CharacterId == Session.World.PlayerId).Select(Line).ToList();
+
+        /// <summary>
+        /// El diario de noticias: lo último que salió en el país del jugador (y en su
+        /// ciudad), de la más nueva a la más vieja, como mucho <paramref name="max"/>.
+        /// </summary>
+        public IReadOnlyList<NewsView> News(int max = 12)
+        {
+            World world = Session.World;
+            Residence? residence = world.Player.Residence;
+            var views = new List<NewsView>();
+            if (residence == null)
+            {
+                return views;
+            }
+
+            for (int i = world.News.Count - 1; i >= 0 && views.Count < max; i--)
+            {
+                NewsRecord record = world.News[i];
+                if (record.CountryId == residence.CountryId && (record.CityId == null || record.CityId == residence.CityId))
+                {
+                    views.Add(NewsOf(record));
+                }
+            }
+
+            return views;
+        }
+
+        /// <summary>
+        /// Las noticias que salieron desde la última vez que se pidieron (para "Lo que
+        /// pasó"), de la más vieja a la más nueva, solo las del país y la ciudad del jugador.
+        /// </summary>
+        public IReadOnlyList<NewsView> TakeNewNews()
+        {
+            World world = Session.World;
+            Residence? residence = world.Player.Residence;
+            int from = Math.Min(_newsRead, world.News.Count);
+            _newsRead = world.News.Count;
+            return world.News.Skip(from)
+                .Where(n => residence != null && n.CountryId == residence.CountryId && (n.CityId == null || n.CityId == residence.CityId))
+                .Select(NewsOf)
+                .ToList();
+        }
+
+        private int _newsRead;
+
+        private NewsView NewsOf(NewsRecord record)
+        {
+            World world = Session.World;
+            string topic = Session.Content.TryGetNews(record.NewsId, out NewsDefinition? definition) ? definition!.Topic : string.Empty;
+            return new NewsView(
+                record.NewsId,
+                T(record.TextKey),
+                topic,
+                string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), record.Date.Year, record.Date.WeekOfYear),
+                AgeLabel(world.Player, record.Date),
+                world.Date.WeeksSince(record.Date),
+                record.CityId != null);
+        }
 
         /// <summary>
         /// Un texto de la pantalla (botones, títulos) en el idioma del jugador.
@@ -483,10 +534,9 @@ namespace MistakesLife.Core.Presentation
         }
 
         /// <summary>
-        /// Quiénes están en la casa: el jugador, su pareja, sus hijos menores de edad
-        /// y sus padres mientras sea menor de edad o, sin pareja, menor de
-        /// <see cref="LeavesHomeAge"/> años. Es una aproximación para dibujar
-        /// hasta que el núcleo tenga un sistema de vivienda.
+        /// Quiénes están en la casa y cuál casa es: el jugador, su pareja, sus hijos
+        /// menores de edad y, mientras no viva por su cuenta (no arrienda ni se fue de la
+        /// casa en un evento), sus padres. Si arrienda, la casa es lo que arrendó.
         /// </summary>
         private HomeView Home(Character player)
         {
@@ -494,7 +544,7 @@ namespace MistakesLife.Core.Presentation
             int age = player.AgeInYears(world.Date);
             var members = new List<HomeMemberView> { Member(player, string.Empty, isPlayer: true) };
 
-            if (age < 18 || (!player.PartnerId.HasValue && age < LeavesHomeAge))
+            if (!player.HasFlag(HousingRules.LivesOnOwnFlag))
             {
                 AddIfAlive(members, player.MotherId, T("ui.relacion.madre"));
                 AddIfAlive(members, player.FatherId, T("ui.relacion.padre"));
@@ -506,7 +556,7 @@ namespace MistakesLife.Core.Presentation
                 members.Add(Member(child, ChildRelation(child), isPlayer: false));
             }
 
-            return new HomeView(player.Residence?.CommuneId ?? string.Empty, player.HouseholdLevel, StageOf(age), members, SceneObjects(player));
+            return new HomeView(player.Residence?.CommuneId ?? string.Empty, player.HouseholdLevel, StageOf(age), members, SceneObjects(player), player.Lease?.TypeId);
         }
 
         /// <summary>
@@ -618,7 +668,7 @@ namespace MistakesLife.Core.Presentation
         private HomeMemberView Member(Character character, string relation, bool isPlayer)
         {
             int age = character.AgeInYears(Session.World.Date);
-            return new HomeMemberView(character.Id, FullName(character), relation, age, StageOf(age), character.Sex == Sex.Female, isPlayer);
+            return new HomeMemberView(character.Id, FullName(character), relation, age, StageOf(age), character.Sex == Sex.Female, isPlayer, character.Stats.Happiness);
         }
 
         /// <summary>

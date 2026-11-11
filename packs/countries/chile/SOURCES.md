@@ -34,8 +34,12 @@
 | Operación Renta en abril; impuesto global complementario con los mismos tramos que el impuesto único, en UTA (12 UTM, $828.000) | Ley sobre Impuesto a la Renta, arts. 52 y 65, [SII](https://www.sii.cl) | `economia.declaracion_anual`. Quien solo tiene un empleador no está obligado a declarar |
 | Honorarios: gastos presuntos de 30 % con tope de 15 UTA; cotizan sobre el 80 % de lo boleteado, y las cotizaciones se pagan con lo retenido | Ley sobre Impuesto a la Renta, art. 50; Ley 21.133 | La tasa de cotización de 17 % (AFP, comisión, salud, seguro de invalidez y accidentes) es una estimación |
 | Multa por declarar tarde con impuesto a pagar: 10 %, que sube con los meses, más intereses | Código Tributario, art. 97 n° 2 | `multa_atraso` 0.1, simplificada. Si no declaras, la devolución queda retenida (en el juego, se pierde) |
-| Arriendo típico en Puente Alto: cerca de $380.000 al mes por un departamento de 2 dormitorios | Portales de arriendo (2025), de memoria | `arriendo` de la comuna en `country.json`. Por verificar |
-| Gastos del mes (`economia.gastos`): supermercado y feria $160.000 por adulto y $80.000 por hijo; cuentas $100.000; gastos de los hijos $110.000 cada uno; micro y metro $45.000; celular $15.000; gastos personales $60.000; aporte a la casa de los papás $80.000 | Estimaciones de memoria, guiadas por la Encuesta de Presupuestos Familiares (INE, IX EPF) y la canasta básica del Ministerio de Desarrollo Social | Por calibrar con la EPF. Con estos montos, vivir solo en Puente Alto con el sueldo típico no alcanza, y en pareja sí |
+| Arriendo en Puente Alto: pieza cerca de $250.000 al mes con luz, agua e internet incluidos; departamento de 2 dormitorios entre $365.000 y $480.000 (se usa $420.000); casa de 3 dormitorios la mayoría entre $600.000 y $830.000 (se usa $650.000) | Avisos de [Trovit](https://casas.trovit.cl/arriendo-pieza-puente-alto) y [Mitula](https://casas.mitula.cl/casas/arriendo-departamentos-puente-alto), revisados el 2026-11-10 (pocos avisos: 1 pieza, 3 departamentos, unas 19 casas) | `arriendos` de la comuna en `country.json`. Por afinar con más avisos |
+| Contrato de arriendo: 12 meses, un mes de garantía que se devuelve al irse y reajuste por IPC cada 6 meses | Práctica habitual de los contratos en Chile, de memoria | `economia.vivienda`. Por verificar |
+| Gastos del mes (`economia.gastos`): cuentas $100.000; gastos de los hijos $110.000 cada uno; micro y metro $45.000; celular $15.000; gastos personales $60.000; aporte a la casa de los papás $80.000 | Estimaciones de memoria, guiadas por la Encuesta de Presupuestos Familiares (INE, IX EPF) y la canasta básica del Ministerio de Desarrollo Social | Por calibrar con la EPF. Con estos montos, vivir solo en Puente Alto con el sueldo típico no alcanza, y en pareja sí |
+| Supermercado: canasta básica de alimentos $90.384 por persona al mes (abril de 2026, 2.000 kcal al día, consumo del primer quintil) | [Informe CBA abril 2026](https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/cba/nueva_serie/2026/Informe_CBA_2026_04.pdf), Ministerio de Desarrollo Social y Familia (metodología 2024, IX EPF) | `compra.basica` en `economia.supermercado` |
+| "Lo justo" ($73.152) y "con antojos" ($107.616) | Del mismo informe (Anexo 2): los ultraprocesados y la comida comprada fuera suman $12.754 de los $66.896 de la canasta (19,1 %, a precios de marzo de 2022), y la canasta ya los recortó a la mitad. "Lo justo" es la canasta sin ellos; "con antojos" les devuelve la mitad recortada (como compra de verdad la gente del primer quintil). Ambos llevados a abril de 2026 con la misma proporción | `compra.justa` y `compra.con_antojos`. Aproximación: el informe ajusta después a 2.000 kcal |
+| Hijos en la compra: comen lo mismo que un adulto | La canasta chilena es por persona, sin distinguir edad | `factor_hijo: 1` |
 | Cuenta en la AFP: el 10 % del sueldo va al fondo; el resto del descuento (cerca de 1,15 %) es comisión y seguro de invalidez | DL 3.500, [Superintendencia de Pensiones](https://www.spensiones.cl) | `parte_a_la_cuenta` 0.897 (10 / 11,15). Honorarios cotizan 10 % para la pensión sobre el 80 % de lo boleteado (Ley 21.133) |
 | Rentabilidad real de los fondos: entre 3 % y 5 % al año en promedio desde 2000, según el fondo | Superintendencia de Pensiones, de memoria | `rentabilidad_real_anual` 0.035. Por verificar |
 | Pensión Garantizada Universal: $224.004 al mes (febrero 2025), completa con pensión base hasta $789.139 y nada desde $1.252.602 | Ley 21.419, [ChileAtiende](https://www.chileatiende.gob.cl), de memoria | `pension_universal`. La reforma de 2025 (Ley 21.735) la sube a $250.275, primero para mayores de 82. Falta el requisito de no estar en el 10 % más rico. Por verificar |
@@ -119,3 +123,41 @@ En Chile, cerca de 1 de cada 4 personas de 25 a 59 años no trabaja. La mayoría
 
 Queda pendiente: pensiones (Superintendencia de Pensiones) y mortalidad (tabla del INE más reciente).
 
+
+## Buscar trabajo (N11, 2026-11-10)
+
+El trabajo con contrato ya no llega solo: se busca (`economia.busqueda_trabajo` en `country.json`, eventos en `packs/base/events/busqueda.json`). Lo que sale de datos y lo que es estimación:
+
+| Dato real | Fuente | Cómo se usa |
+|---|---|---|
+| Quienes buscan trabajo llevan en promedio unos 7 meses buscando | OCEC UDP, Informe 77 (2026), con datos de la ENE | Las probabilidades de entrevista se ajustaron para que encontrar trabajo tome ~5 meses (21 a 25 semanas en el simulador). El promedio de quienes *siguen* buscando es más largo que el de quienes ya encontraron, porque cuenta más a los que demoran |
+| Los contactos personales pesan mucho en Chile: el 49 % de los jóvenes que trabajan consiguió su último trabajo por "contactos"; en las contrataciones, los portales son cerca del 39 % y las recomendaciones el 27 % | INJUV y Cadem, Sondeo 6 (2016); Randstad (citado por la prensa) | La forma "recomendación de un conocido" es la que más ayuda en la entrevista (`exito_extra` 0,2), pero exige una amistad o colega que te quiera (cariño 50 o más) |
+| Existe la OMIL, oficina municipal de intermediación laboral | Municipalidades y SENCE | Forma `busqueda.forma.omil`, solo en Chile |
+| Revisar el DICOM para contratar está prohibido desde 2012 | Ley 20.575 | Las deudas no cambian la probabilidad de entrevista |
+
+Estimaciones por revisar: probabilidad de entrevista por semana (portales 0,08, a mano 0,045, contactos 0,08, OMIL 0,05), probabilidad base de quedar (0,35), lo que suma cada año de experiencia (5 %, hasta 50 % más), el título (20 % más), desde los 55 años (20 % menos), una cesantía de más de un año (30 % menos) y la fase del ciclo (`contratacion` 0,7 en recesión y 0,45 en crisis), y la negociación (40 % de que suban el sueldo 8 %, 10 % de que retiren la oferta). Sin título y con menos de 12 meses cotizados se entra con el sueldo mínimo.
+
+## Noticias del mundo (`news/chile.json`, 2026-11-10)
+
+Estimaciones de orden de magnitud, por afinar con datos:
+
+- **Temblor fuerte sentido en Santiago** (`noticia.chile.temblor`, 0,6 al año): el Centro Sismológico Nacional registra cada año varios sismos de magnitud 5 o más en la zona central; se cuenta solo el que la gente comenta al otro día.
+- **Terremoto en la zona central** (`noticia.chile.terremoto`, 0,04 al año, uno cada ~25 años): Santiago vivió los de 1985 (M7,8) y 2010 (M8,8).
+- **Sistemas frontales en Santiago** (`noticia.chile.sistema_frontal`): entre mayo y agosto; en promedio 1 o 2 temporales fuertes por invierno (Dirección Meteorológica de Chile).
+- **Cortes masivos de agua por turbiedad del Maipo** (`noticia.chile.corte_de_agua`): 2013, 2016 y 2017, con lluvias de verano en la cordillera.
+- **Incendios forestales grandes** (`noticia.chile.incendios_forestales`): casi todos los veranos (diciembre a marzo); megaincendios en 2017, 2023 y 2024 (CONAF).
+- **Olas de calor en Santiago** (`noticia.chile.ola_de_calor`): diciembre a febrero, casi todos los años.
+- **Elecciones presidenciales**: cada 4 años en noviembre (`ley.elecciones_mes: 11`); voto obligatorio con multa de 0,5 a 1,5 UTM (Ley 21.524), aquí media UTM (~33.000 pesos).
+- **Protestas masivas** (`noticia.chile.protestas`, 0,03 al año): como 2011 o 2019.
+
+## El celular y el correo (N12, 2026-11-10)
+
+El celular y el correo están en `packs/base` (`apps/`, `mail/`, `events/celular.json`); lo de Chile es el robo de celular (`evento.robo_celular`, que ahora se lleva el celular).
+
+| Dato real | Fuente | Cómo se usa |
+|---|---|---|
+| La edad promedio del primer celular con internet bajó de 11 años (2016) a 8,9 años (2022); el 87 % de los niños de 9 a 17 años tiene celular propio | [Kids Online Chile 2022](https://uc.cl/noticias/revelan-principales-resultados-del-estudio-kids-online-en-chile/) (CEPPE UC, CIAE U. de Chile, MINEDUC y UNICEF); [UNICEF Chile](https://www.unicef.org/chile/comunicados-prensa/se-adelanta-los-89-anos-el-acceso-al-celular-con-internet-y-crece-su-uso-para) | `evento.celular.primero`: desde los 8 años, 0,45 al año (en promedio llega a los ~9,5 y casi todos lo tienen a los 12) |
+| Otro estudio da 8,1 años para el primer smartphone | Radiografía Digital 2024, citada por [El Mostrador](https://www.elmostrador.cl/agenda-pais/agenda-digital/2024/04/03/nina-y-ninos-chilenos-reciben-a-los-8-anos-su-primer-telefono-movil/) | Confirma el rango de 8 a 9 años |
+| Cada hora de uso del celular puede bajar las notas hasta tres décimas | Estudio citado por [BioBioChile](https://www.biobiochile.cl/noticias/ciencia-y-tecnologia/moviles-y-computacion/2018/04/06/alumnos-bajan-hasta-tres-decimas-sus-notas-por-cada-hora-de-uso-del-movil-segun-estudio.shtml) (2018) | `evento.celular.pantalla`: seguir mirando el celular de noche baja salud e inteligencia; con reglas de los papás pasa menos hasta los 15 |
+
+Estimaciones por revisar: el precio de un celular (nuevo de gama media, medio sueldo mínimo; usado, 15 % del sueldo mínimo), la probabilidad de una estafa por correo (5 % al año, como máximo 3 en la vida) y lo que se pierde al caer (40 % del saldo; en Chile la Ley 21.234 obliga al banco a devolver en muchos fraudes, lo que todavía no está en el juego).

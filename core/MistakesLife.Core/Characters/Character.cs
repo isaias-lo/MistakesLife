@@ -149,6 +149,18 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public Economy.CareerPosition? LastPosition { get; internal set; }
 
+        /// <summary>
+        /// Su búsqueda de trabajo (qué busca, cómo y cómo le va), o null si no está
+        /// buscando. Ver <see cref="Economy.JobSearchRules"/>.
+        /// </summary>
+        public Economy.JobSearch? JobSearch { get; set; }
+
+        /// <summary>Su celular, o null si no tiene. Ver <see cref="Devices.PhoneRules"/>.</summary>
+        public Devices.Phone? Phone { get; set; }
+
+        /// <summary>Su cuenta de correo, o null si no tiene. Ver <see cref="Devices.MailSystem"/>.</summary>
+        public Devices.MailAccount? Mail { get; set; }
+
         /// <summary>Su última liquidación de sueldo, o null si nunca ha recibido sueldo.</summary>
         public Economy.Payslip? LastPayslip { get; set; }
 
@@ -187,6 +199,15 @@ namespace MistakesLife.Core.Characters
 
         /// <summary>Lo que pagó en gastos el último mes, línea por línea.</summary>
         public IReadOnlyList<Economy.PayslipLine> LastExpenses { get; set; } = Array.Empty<Economy.PayslipLine>();
+
+        /// <summary>El contrato de arriendo que firmó, o null si no arrienda (vive con su familia o en casa propia).</summary>
+        public Economy.Lease? Lease { get; set; }
+
+        /// <summary>
+        /// La compra de comida que eligió el jugador (id de "economia.supermercado"), o
+        /// null si todavía no la decide. Se cobra cada mes mientras vive por su cuenta.
+        /// </summary>
+        public string? GroceryBasketId { get; set; }
 
         /// <summary>Meses seguidos que terminó con el dinero en negativo (estrés financiero).</summary>
         public int MonthsInRed { get; set; }

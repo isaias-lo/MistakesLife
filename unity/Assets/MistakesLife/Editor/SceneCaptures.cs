@@ -215,8 +215,6 @@ namespace MistakesLife.Unity.Editor
         /// </summary>
         private static int RoomShowcase(ContentDatabase content, string folder)
         {
-            var player = new HomeMemberView(1, string.Empty, string.Empty, 40, LifeStage.Adult, false, true);
-            var partner = new HomeMemberView(2, string.Empty, string.Empty, 40, LifeStage.Adult, true, false);
             var objects = new System.Collections.Generic.List<string>();
             foreach (SceneObjectDefinition item in content.SceneObjects)
             {
@@ -227,9 +225,18 @@ namespace MistakesLife.Unity.Editor
             }
 
             int count = 0;
-            foreach ((int level, int happiness, string name) in new[] { (30, 90, "casa-todo-nivel30"), (75, 15, "casa-todo-nivel75-triste") })
+            // La tercera es la vejez: pareja de 85 y 78 años (pelo gris, lentes y, a los 85, bastón).
+            // Las últimas tres son lo que se puede arrendar: pieza, departamento y casa.
+            foreach ((int level, int happiness, int age, string name, string? housing) in new (int, int, int, string, string?)[]
             {
-                var home = new HomeView("comuna.puente_alto", level, LifeStage.Adult, new[] { player, partner }, objects);
+                (30, 90, 40, "casa-todo-nivel30", null), (75, 15, 40, "casa-todo-nivel75-triste", null), (50, 70, 85, "casa-vejez", null),
+                (40, 70, 26, "arriendo-pieza", "vivienda.pieza"), (40, 70, 30, "arriendo-departamento", "vivienda.departamento"), (40, 70, 34, "arriendo-casa", "vivienda.casa"),
+            })
+            {
+                LifeStage stage = age >= 65 ? LifeStage.Elder : LifeStage.Adult;
+                var player = new HomeMemberView(1, string.Empty, string.Empty, age, stage, false, true, happiness);
+                var partner = new HomeMemberView(2, string.Empty, string.Empty, age - 7, stage, true, false, happiness);
+                var home = new HomeView("comuna.puente_alto", level, stage, new[] { player, partner }, objects, housing);
                 HomeScene scene = HomeScene.Create();
                 try
                 {

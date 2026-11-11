@@ -303,6 +303,62 @@ namespace MistakesLife.Core.Tests
             loaded.Advance(GameDate.WeeksPerYear);
         }
 
+        [Fact]
+        public void Cargar_UnGuardadoDeLaVersion7_QuienViviaSoloRecibeSuContratoDeArriendo()
+        {
+            var session = new LifeSession(RepoPacks.Content, 6);
+            PlayUntilAge(session, 30);
+            using var reader = new Newtonsoft.Json.JsonTextReader(new System.IO.StringReader(session.SaveToText()))
+            {
+                FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Decimal,
+            };
+            var json = Newtonsoft.Json.Linq.JObject.Load(reader);
+
+            // Así era un guardado de la versión 7: el jugador vivía en una pieza solo con marcas, sin contrato.
+            json["version"] = 7;
+            int playerId = session.World.PlayerId;
+            var player = json.SelectTokens("world.characters[*]").OfType<Newtonsoft.Json.Linq.JObject>().Single(c => (int)c["id"]! == playerId);
+            player.Remove("lease");
+            var flags = (Newtonsoft.Json.Linq.JArray)player["flags"]!;
+            flags.Add("vive_independiente");
+            flags.Add("arrienda_pieza");
+
+            LifeSession loaded = LifeSession.Load(RepoPacks.Content, json.ToString());
+
+            Assert.Equal("vivienda.pieza", loaded.World.Player.Lease!.TypeId);
+            Assert.False(loaded.World.Player.HasFlag("arrienda_pieza"));
+            Assert.Equal(session.World.Player.Money, loaded.World.Player.Money);
+            loaded.Advance(GameDate.WeeksPerYear);
+        }
+
+        [Fact]
+        public void Cargar_UnGuardadoDeLaVersion10_QuienViviaSoloSigueConLaCanastaBasica()
+        {
+            var session = new LifeSession(RepoPacks.Content, 6);
+            PlayUntilAge(session, 30);
+            using var reader = new Newtonsoft.Json.JsonTextReader(new System.IO.StringReader(session.SaveToText()))
+            {
+                FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Decimal,
+            };
+            var json = Newtonsoft.Json.Linq.JObject.Load(reader);
+
+            // Así era un guardado de la versión 10: la comida era un monto fijo y nadie elegía su compra.
+            json["version"] = 10;
+            int playerId = session.World.PlayerId;
+            var player = json.SelectTokens("world.characters[*]").OfType<Newtonsoft.Json.Linq.JObject>().Single(c => (int)c["id"]! == playerId);
+            player.Remove("groceryBasketId");
+            var flags = (Newtonsoft.Json.Linq.JArray)player["flags"]!;
+            if (!flags.Any(f => (string?)f == "vive_independiente"))
+            {
+                flags.Add("vive_independiente");
+            }
+
+            LifeSession loaded = LifeSession.Load(RepoPacks.Content, json.ToString());
+
+            Assert.Equal("compra.basica", loaded.World.Player.GroceryBasketId);
+            loaded.Advance(GameDate.WeeksPerYear);
+        }
+
         [Theory]
         [InlineData("esto no es un guardado")]
         [InlineData("{\"nombre\": \"otra cosa\"}")]
@@ -332,15 +388,15 @@ namespace MistakesLife.Core.Tests
             {
                 "Id", "FirstName", "LastName", "Sex", "Gender", "GenderIdentity", "Orientation", "BirthDate", "Personality", "Stats",
                 "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "Residence", "HouseholdLevel", "Money", "Job",
-                "LastPayslip", "LastExpenses", "MonthsInRed", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
+                "LastPayslip", "LastExpenses", "MonthsInRed", "Lease", "GroceryBasketId", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
                 "LastPensionPayment", "ContributedMonths", "PensionSalaryBase", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
-                "Relationships", "LastPosition",
+                "Relationships", "LastPosition", "JobSearch", "Phone", "Mail",
                 "IsAlive", "DeathDate", "DeathCauseId",
             };
             string[] world =
             {
                 "Seed", "Random", "Date", "PlayerId", "Player", "Characters", "Journal", "Seeds", "PendingEvents", "EventHistory",
-                "FormerPlayers", "Economies", "Generation", "Companies",
+                "FormerPlayers", "Economies", "Generation", "Companies", "News",
             };
 
             Assert.Equal(character.OrderBy(n => n), PublicProperties(typeof(Characters.Character)));

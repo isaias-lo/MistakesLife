@@ -40,6 +40,7 @@ namespace MistakesLife.Core.Saving
                 NextCompanyId = world.NextCompanyIdValue,
                 LawChanges = world.LawChanges.OrderBy(l => l.Key, System.StringComparer.Ordinal).Select(l => WriteLaw(l.Key, l.Value)).ToList(),
                 Journal = world.Journal.Select(j => new JournalData { Week = j.Date.TotalWeeks, CharacterId = j.CharacterId, TextKey = j.TextKey }).ToList(),
+                News = world.News.Select(n => new NewsData { Week = n.Date.TotalWeeks, NewsId = n.NewsId, CountryId = n.CountryId, CityId = n.CityId, TextKey = n.TextKey }).ToList(),
                 PendingEvents = world.PendingEvents.Select(p => new PendingEventData
                 {
                     EventId = p.EventId,
@@ -104,6 +105,31 @@ namespace MistakesLife.Core.Saving
                     Performance = c.Job.Performance,
                     CompanyId = c.Job.CompanyId,
                 },
+                JobSearch = c.JobSearch == null ? null : new JobSearchData
+                {
+                    Target = c.JobSearch.Target,
+                    Kind = c.JobSearch.Kind.ToString(),
+                    MethodId = c.JobSearch.MethodId,
+                    ContactId = c.JobSearch.ContactId,
+                    Stage = c.JobSearch.Stage.ToString(),
+                    Weeks = c.JobSearch.Weeks,
+                    Applications = c.JobSearch.Applications,
+                    Interviews = c.JobSearch.Interviews,
+                    Rejections = c.JobSearch.Rejections,
+                    Negotiated = c.JobSearch.Negotiated,
+                    Raise = c.JobSearch.Raise,
+                },
+                Phone = c.Phone == null ? null : new PhoneData
+                {
+                    SinceWeek = c.Phone.Since.TotalWeeks,
+                    Apps = c.Phone.Apps.ToList(),
+                },
+                Mail = c.Mail == null ? null : new MailData
+                {
+                    SinceWeek = c.Mail.Since.TotalWeeks,
+                    JournalCursor = c.Mail.JournalCursor,
+                    Messages = c.Mail.Messages.Select(m => new MailMessageData { Week = m.Date.TotalWeeks, MailId = m.MailId, Read = m.Read }).ToList(),
+                },
                 LastAreaId = c.LastPosition?.AreaId,
                 LastPositionId = c.LastPosition?.PositionId,
                 LastPayslip = c.LastPayslip == null ? null : new PayslipData
@@ -124,6 +150,17 @@ namespace MistakesLife.Core.Saving
                 }).ToList(),
                 LastExpenses = WriteLines(c.LastExpenses),
                 MonthsInRed = c.MonthsInRed,
+                Lease = c.Lease == null ? null : new LeaseData
+                {
+                    TypeId = c.Lease.TypeId,
+                    CommuneId = c.Lease.CommuneId,
+                    BaseRent = c.Lease.BaseRent,
+                    AdjustedPriceIndex = c.Lease.AdjustedPriceIndex,
+                    MonthsSinceAdjustment = c.Lease.MonthsSinceAdjustment,
+                    MonthsLeft = c.Lease.MonthsLeft,
+                    Deposit = c.Lease.Deposit,
+                },
+                GroceryBasketId = c.GroceryBasketId,
                 PendingTaxReturn = c.PendingTaxReturn == null ? null : new TaxReturnData
                 {
                     Year = c.PendingTaxReturn.Year,

@@ -8,8 +8,6 @@
   "opcion.renta.declarar_devolucion": "Entras al sitio del SII, revisas la propuesta y la aceptas. Te toca devolución.",
   "opcion.renta.declarar_pagar": "Entras al sitio del SII y aceptas la propuesta. Esta vez te toca pagar: lo retenido no alcanzó para las cotizaciones y el impuesto.",
   "opcion.renta.despues": "Lo dejas para después. Todavía queda plazo… ¿o no?",
-  "gasto.chile.arriendo": "Arriendo",
-  "gasto.chile.alimentacion": "Supermercado y feria",
   "gasto.chile.cuentas": "Cuentas (luz, agua, gas e internet)",
   "gasto.chile.hijos": "Gastos de los hijos (colegio, ropa, salud)",
   "gasto.chile.aporte_casa": "Aporte a la casa de tus papás",
@@ -45,5 +43,7 @@
   "evento.fin_de_mes_en_rojo.2": "Faltan diez días para el sueldo y ya no queda nada. Buscas monedas en los bolsillos para la micro.",
   "evento.fin_de_mes_en_rojo.3": "Llega el aviso de corte de la luz por una boleta impaga. Tienes que elegir qué cuenta pagar y cuál dejar para después.",
   "evento.compra_tarjeta.2": "Llega el Cyberday y te llenan el correo de ofertas \"imperdibles\". Hay una que te tienta de verdad.",
-  "evento.compra_tarjeta.3": "Se te echó a perder el refrigerador. En la tienda te ofrecen uno nuevo en doce cuotas \"precio contado\"."
+  "evento.compra_tarjeta.3": "Se te echó a perder el refrigerador. En la tienda te ofrecen uno nuevo en doce cuotas \"precio contado\".",
+  "opcion.irse.pieza": "Arriendas una pieza en una casa compartida. Es chica, pero la luz y el agua vienen incluidas.",
+  "diario.irse_de_la_casa.pieza": "Te fuiste a una pieza en una casa compartida. Tu primer espacio propio, aunque el baño tenga fila."
 }
