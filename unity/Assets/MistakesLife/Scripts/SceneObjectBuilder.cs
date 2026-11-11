@@ -44,6 +44,8 @@ namespace MistakesLife.Unity
             "escena.casa.bolsas_super" => "ancla.cocina",
             "escena.casa.cartas_rechazo" => "ancla.mesa",
             "escena.casa.velas" => "ancla.mesa",
+            "escena.casa.celular" => "ancla.mesa",
+            "escena.casa.celular_avisos" => "ancla.mesa",
             "escena.casa.ropa_entrevista" => "ancla.ropero",
             "escena.casa.mochila_emergencia" => "ancla.puerta",
             "escena.casa.grietas" => "ancla.muro_lateral",
@@ -109,6 +111,19 @@ namespace MistakesLife.Unity
                     }
 
                     kit.Box("Timbre rojo", new Vector3(0.53f, 0.464f, -0.07f), new Vector3(0.05f, 0.002f, 0.04f), Palette.Alarm);
+                    break;
+                case "escena.casa.celular":
+                    // Tu celular sobre la mesa: el material oscuro del celular con su pantalla apagada.
+                    GameObject phone = kit.Box("Celular", new Vector3(0f, 0.449f, 0.36f), new Vector3(0.09f, 0.012f, 0.17f), new Color(0.043f, 0.059f, 0.102f));
+                    phone.transform.localRotation = Quaternion.Euler(0f, 12f, 0f);
+                    GameObject off = kit.Box("Pantalla del celular", new Vector3(0f, 0.4555f, 0.36f), new Vector3(0.078f, 0.002f, 0.15f), Palette.Screen);
+                    off.transform.localRotation = Quaternion.Euler(0f, 12f, 0f);
+                    break;
+                case "escena.casa.celular_avisos":
+                    // Llegaron correos sin leer: la pantalla del celular se ilumina y aparece el punto rojo.
+                    GameObject lit = kit.Box("Pantalla encendida", new Vector3(0f, 0.457f, 0.36f), new Vector3(0.078f, 0.002f, 0.15f), new Color(0.62f, 0.84f, 1f));
+                    lit.transform.localRotation = Quaternion.Euler(0f, 12f, 0f);
+                    kit.Ball("Aviso del correo", new Vector3(0.02f, 0.466f, 0.42f), 0.03f, new Color(1f, 0.54f, 0.48f));
                     break;
                 case "escena.casa.velas":
                     // Hubo temporal y se cortó la luz: dos velas encendidas en la mesa.
