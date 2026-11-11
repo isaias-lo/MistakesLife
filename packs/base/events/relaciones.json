@@ -46,7 +46,7 @@
   {
     "id": "evento.juntarse_con_amigos",
     "condiciones": "jugador.amigo != nada && jugador.edad >= 12",
-    "probabilidad_anual": 0.6,
+    "probabilidad_anual": 0.45,
     "enfriamiento_semanas": 52,
     "variantes": ["evento.juntarse_con_amigos.2", "evento.juntarse_con_amigos.3", "evento.juntarse_con_amigos.4", "evento.juntarse_con_amigos.5", "evento.juntarse_con_amigos.6"],
     "opciones": [
@@ -289,7 +289,7 @@
   {
     "id": "evento.visitar_mama",
     "condiciones": "jugador.edad >= 20 && jugador.madre != nada && jugador.madre.vivo && jugador.madre.edad >= 50",
-    "probabilidad_anual": 0.4,
+    "probabilidad_anual": 0.3,
     "enfriamiento_semanas": 52,
     "variantes": ["evento.visitar_mama.2", "evento.visitar_mama.3", "evento.visitar_mama.4"],
     "opciones": [
@@ -315,7 +315,7 @@
   {
     "id": "evento.visitar_papa",
     "condiciones": "jugador.edad >= 20 && jugador.padre != nada && jugador.padre.vivo && jugador.padre.edad >= 50",
-    "probabilidad_anual": 0.3,
+    "probabilidad_anual": 0.25,
     "enfriamiento_semanas": 52,
     "variantes": ["evento.visitar_papa.2", "evento.visitar_papa.3", "evento.visitar_papa.4"],
     "opciones": [
@@ -369,7 +369,7 @@
   {
     "id": "evento.detalle_pareja",
     "condiciones": "jugador.pareja != nada",
-    "probabilidad_anual": 0.4,
+    "probabilidad_anual": 0.3,
     "enfriamiento_semanas": 52,
     "variantes": ["evento.detalle_pareja.2", "evento.detalle_pareja.3", "evento.detalle_pareja.4"],
     "opciones": [
