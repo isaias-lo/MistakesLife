@@ -15,7 +15,7 @@ namespace MistakesLife.Core.Events
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
     /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo,
-    /// vivienda, arriendo, meses_contrato, cuentas_incluidas,
+    /// vivienda, arriendo, meses_contrato, cuentas_incluidas, compra,
     /// fondo_pension, pension_estimada, meses_cotizados, jubilado, pension, pension_universal,
     /// deuda, cuotas_deudas, moroso, puede_repactar, amigos, amigo, colega, rival, ex,
     /// area, cargo, cargo_anterior, ultimo_cargo, meses_en_cargo, desempeno (se puede cambiar),
@@ -44,6 +44,8 @@ namespace MistakesLife.Core.Events
     {
         /// <summary>Método para arrendar: la validación revisa que el tipo de vivienda exista con su precio en toda comuna.</summary>
         public const string RentMethod = "arrendar";
+
+        public const string ChooseGroceriesMethod = "elegir_compra";
 
         /// <summary>Método para endeudarse: la validación revisa que el tipo de deuda exista en todo país.</summary>
         public const string BorrowMethod = "endeudarse";
@@ -198,6 +200,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber((double)(_character.Lease?.MonthlyRent ?? 0));
                 case "meses_contrato":
                     return Value.FromNumber(_character.Lease?.MonthsLeft ?? 0);
+                case "compra":
+                    return TextOrNull(_character.GroceryBasketId);
                 case "cuentas_incluidas":
                     return Value.FromBool(_character.Lease != null
                         && (Economy.HousingRules.RulesFor(((EventScope)scope).Content, _character)?.Type(_character.Lease.TypeId)?.IncludesBills ?? false));
@@ -560,6 +564,11 @@ namespace MistakesLife.Core.Events
                     string housingType = EventScope.SingleText("jugador." + method, args);
                     ((EventScope)scope).RequireWritable("jugador." + method);
                     Economy.HousingRules.Sign(((EventScope)scope).World, ((EventScope)scope).Content, _character, housingType);
+                    return Value.Null;
+                case ChooseGroceriesMethod:
+                    string basket = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Economy.GroceryRules.Choose(((EventScope)scope).Content, _character, basket);
                     return Value.Null;
                 case "renovar_arriendo":
                     NoArguments(method, args);

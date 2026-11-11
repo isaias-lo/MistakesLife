@@ -11,7 +11,8 @@ namespace MistakesLife.Core.Economy
 {
     /// <summary>
     /// Fase de sistemas, después de los sueldos: al empezar cada mes el jugador
-    /// paga el arriendo del contrato que firmó (si arrienda) y los gastos de su
+    /// paga el arriendo del contrato que firmó (si arrienda), la compra de comida
+    /// que eligió (si vive por su cuenta) y los gastos de su
     /// país ("economia.gastos") que le corresponden según su vida (con condiciones
     /// del lenguaje). Los gastos compartidos se dividen
     /// con la pareja. Si el dinero no alcanza, es un mes "en rojo": baja la
@@ -69,6 +70,17 @@ namespace MistakesLife.Core.Economy
                 {
                     lines.Add(new PayslipLine(player.Lease.TypeId, rent));
                     player.Money -= rent;
+                }
+            }
+
+            if (player.GroceryBasketId != null && player.HasFlag(HousingRules.LivesOnOwnFlag) && GroceryRules.RulesFor(_content, player)?.Basket(player.GroceryBasketId) != null)
+            {
+                // La comida sale de la compra que eligió el jugador, para todos los de su casa.
+                decimal food = PayrollCalculator.ToToday(GroceryRules.MonthlyShare(world, _content, player, player.GroceryBasketId), economy.PriceIndex);
+                if (food > 0)
+                {
+                    lines.Add(new PayslipLine(player.GroceryBasketId, food));
+                    player.Money -= food;
                 }
             }
 

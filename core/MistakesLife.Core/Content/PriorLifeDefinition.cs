@@ -27,5 +27,9 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("vivienda")]
         public string? Housing { get; set; }
+
+        /// <summary>La compra de comida que ya hace a esa edad (de "economia.supermercado"), o null.</summary>
+        [JsonProperty("compra")]
+        public string? GroceryBasket { get; set; }
     }
 }

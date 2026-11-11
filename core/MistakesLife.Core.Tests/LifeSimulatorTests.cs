@@ -41,7 +41,8 @@ namespace MistakesLife.Core.Tests
             // hasta los 85, para los eventos de adultos y de vejez (por ejemplo, jubilar).
             // Y vidas que trabajan en cada área de cada carrera, para los eventos de
             // áreas a las que pocas personas llegan, y vidas que trabajan enfermas (dejar
-            // el trabajo por salud y volver), que en una vida al azar son cerca del 1 %.
+            // el trabajo por salud y volver), que en una vida al azar son cerca del 1 %,
+            // y vidas que ascendieron y andan mal en el trabajo (bajar de cargo).
             var simulator = new LifeSimulator(RepoPacks.Content);
             SimulationReport young = simulator.Run(lives: 1000, finalAge: 25);
             // 300 hasta los 85: algunos eventos de adultos le pasan a cerca del 1 % de las vidas
@@ -49,8 +50,11 @@ namespace MistakesLife.Core.Tests
             SimulationReport old = simulator.Run(lives: 300, finalAge: 85);
             var careers = CareerAreaLives.SeenEvents(RepoPacks.Content, livesPerArea: 6);
             var sick = CareerAreaLives.SickWorkerEvents(RepoPacks.Content, lives: 12);
+            // Y vidas que ascendieron y andan mal en el trabajo, para bajar de cargo
+            // (en vidas al azar, menos del 1 %).
+            var struggling = CareerAreaLives.StrugglingWorkerEvents(RepoPacks.Content, lives: 8);
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).ToArray();
 
             Assert.Empty(never);
         }

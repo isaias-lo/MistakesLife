@@ -1,6 +1,6 @@
 namespace MistakesLife.Core.Saving
 {
-    /// <summary>Un correo de la bandeja, guardado (desde la versión 11).</summary>
+    /// <summary>Un correo de la bandeja, guardado (desde la versión 12).</summary>
     internal sealed class MailMessageData
     {
         public int Week { get; set; }

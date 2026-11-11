@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace MistakesLife.Core.Saving
 {
-    /// <summary>Un celular guardado (desde la versión 11).</summary>
+    /// <summary>Un celular guardado (desde la versión 12).</summary>
     internal sealed class PhoneData
     {
         public int SinceWeek { get; set; }
