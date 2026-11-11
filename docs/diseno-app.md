@@ -90,6 +90,8 @@ Acordado el 2026-11-10 (bocetos en el lienzo, fila 5: "C. La mesa de la cocina" 
 ### Estudios, Buscar pega, Redes y Juzgado
 Siguen los bocetos de la fila 3, con las letras y los tamaños de la ronda 2. Cada una comparte la barra de arriba (volver a tu casa, título, quién eres) y el amarillo para lo tuyo. Se programan cuando el núcleo tenga sus datos.
 
+- **Redes, hecho en U21** (`PhoneScreen`): el botón "Celular" en tus cosas (con el número y el punto rojo si hay correos sin leer) abre el celular encima de la vida, en su material `#0B0F1A`: arriba Volver, el título y Cerrar; adentro las apps en filas de tres (el correo con su punto rojo; las otras dicen "Todavía no hay nada aquí" hasta que tengan su capa). La bandeja muestra quién manda, el asunto y hace cuánto, los sin leer en negrita con punto rojo; un correo se abre en papel y queda leído. En la casa, el celular está sobre la mesa y su pantalla se ilumina con un punto rojo mientras haya correos sin leer (`escena.casa.celular` y `escena.casa.celular_avisos`). Capturas `pantalla-celular.png` y `pantalla-correo.png`.
+
 ## 4. El personaje
 
 - **Estilo "juguete de madera":** cabeza redonda, cara pintada (ojos de punto, mejillas, boca de una línea), pelo como casco y cuerpo de una pieza.

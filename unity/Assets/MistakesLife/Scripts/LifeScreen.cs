@@ -50,6 +50,7 @@ namespace MistakesLife.Unity
         private LifePresenter? _presenter;
         private StartMenu? _menu;
         private Tutorial? _tutorial;
+        private PhoneScreen _phone = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
         private float _sheetWidth;
@@ -141,6 +142,12 @@ namespace MistakesLife.Unity
             {
                 _menu.ShowMenu();
             }
+        }
+
+        /// <summary>Abre el celular encima de la vida (en sus apps o en el correo), para las capturas.</summary>
+        public void OpenPhoneForCapture(bool mail)
+        {
+            _phone.Show(_presenter!, mail);
         }
 
         /// <summary>El menú de inicio, encima de la vida en curso (si hay una, se puede continuar).</summary>
@@ -276,6 +283,20 @@ namespace MistakesLife.Unity
             _footer = UiFactory.Column(sheet, "Acciones", 0, 12);
 
             BuildHistory(safe);
+            _phone = new PhoneScreen(safe) { Changed = MailRead };
+        }
+
+        /// <summary>
+        /// Se leyó un correo: se vuelve a dibujar la casa (el celular deja de brillar si ya no
+        /// quedan sin leer) y la hoja (el número del botón Celular), sin tocar "Lo que pasó".
+        /// </summary>
+        private void MailRead()
+        {
+            LifePresenter presenter = _presenter!;
+            LifeSnapshot life = presenter.Snapshot();
+            _home.Show(life.Home, life.DailyPlace, life.Workplace);
+            DrawSheet(presenter, life);
+            FitSheet();
         }
 
         /// <summary>Arriba: retrato con anillo amarillo, nombre y edad, la fecha y el lugar; el botón Menú a la derecha.</summary>
@@ -607,9 +628,21 @@ namespace MistakesLife.Unity
             UiFactory.Label(money, presenter.Text("ui.dinero_titulo"), UiFactory.MinFontSize, UiFactory.MutedInk);
             UiFactory.Label(money, life.MoneyLabel, UiFactory.MinFontSize, UiFactory.Ink, FontStyles.Bold, Face.Mono);
             UiFactory.MakeButton(things, presenter.Text("ui.boton.tu_gente_diario"), UiFactory.Option, UiFactory.Ink, () => ShowHistory(true), UiFactory.MinFontSize, 0, 16);
-            if (presenter.TimeTravel().CanGoBack)
+            PhoneView phone = presenter.Phone();
+            if (phone.HasPhone || phone.HasMail)
             {
-                UiFactory.MakeButton(things, presenter.Text("ui.boton.volver_pasado"), UiFactory.Option, UiFactory.Ink, () => PickMoment(true), UiFactory.MinFontSize, 0, 16);
+                // El celular: con el número y el punto rojo si llegaron correos sin leer.
+                string label = presenter.Text("ui.boton.celular");
+                if (phone.UnreadMail > 0)
+                {
+                    label = $"{label} ({phone.UnreadMail})";
+                }
+
+                Button open = UiFactory.MakeButton(things, label, UiFactory.Option, UiFactory.Ink, () => _phone.Show(presenter), UiFactory.MinFontSize, 0, 16);
+                if (phone.UnreadMail > 0)
+                {
+                    PhoneScreen.RedDot(open.transform);
+                }
             }
             else
             {
@@ -619,6 +652,15 @@ namespace MistakesLife.Unity
 
             Even(states);
             Even(things);
+
+            if (presenter.TimeTravel().CanGoBack)
+            {
+                RectTransform more = Row(_sheetBody, "Mas cosas");
+                UiFactory.MakeButton(more, presenter.Text("ui.boton.volver_pasado"), UiFactory.Option, UiFactory.Ink, () => PickMoment(true), UiFactory.MinFontSize, 0, 16);
+                UiFactory.Child(more, "Vacio");
+                UiFactory.Child(more, "Vacio");
+                Even(more);
+            }
         }
 
         /// <summary>Todas las cosas de la fila con el mismo ancho, como columnas.</summary>
