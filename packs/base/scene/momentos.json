@@ -1,0 +1,5 @@
+[
+  { "id": "escena.casa.foto_ahijado", "lugar": "casa", "condiciones": "jugador.tiene('padrino_de_un_ahijado')" },
+  { "id": "escena.casa.foto_viaje_pareja", "lugar": "casa", "condiciones": "jugador.tiene('foto_viaje_pareja') && jugador.pareja != nada" },
+  { "id": "escena.casa.postal_amigo_lejos", "lugar": "casa", "condiciones": "jugador.tiene('postal_amigo_lejos')" }
+]
