@@ -125,6 +125,17 @@ namespace MistakesLife.Core.Saving
             // ninguna: quien estaba buscando ("buscando_trabajo") elige ahora qué y
             // cómo buscar con los eventos, como alguien que recién empieza.
             [8] = save => { },
+
+            // 9 → 10: aparecen las noticias del mundo (temblores, temporales, crisis,
+            // elecciones). Las partidas viejas no tenían ninguna: el diario de
+            // noticias empieza vacío y se llena desde la semana siguiente.
+            [9] = save =>
+            {
+                if (save["world"] is JObject world)
+                {
+                    world["news"] ??= new JArray();
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

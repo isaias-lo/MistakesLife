@@ -251,6 +251,64 @@ namespace MistakesLife.Core.Presentation
             Session.World.Journal.Where(e => e.CharacterId == Session.World.PlayerId).Select(Line).ToList();
 
         /// <summary>
+        /// El diario de noticias: lo último que salió en el país del jugador (y en su
+        /// ciudad), de la más nueva a la más vieja, como mucho <paramref name="max"/>.
+        /// </summary>
+        public IReadOnlyList<NewsView> News(int max = 12)
+        {
+            World world = Session.World;
+            Residence? residence = world.Player.Residence;
+            var views = new List<NewsView>();
+            if (residence == null)
+            {
+                return views;
+            }
+
+            for (int i = world.News.Count - 1; i >= 0 && views.Count < max; i--)
+            {
+                NewsRecord record = world.News[i];
+                if (record.CountryId == residence.CountryId && (record.CityId == null || record.CityId == residence.CityId))
+                {
+                    views.Add(NewsOf(record));
+                }
+            }
+
+            return views;
+        }
+
+        /// <summary>
+        /// Las noticias que salieron desde la última vez que se pidieron (para "Lo que
+        /// pasó"), de la más vieja a la más nueva, solo las del país y la ciudad del jugador.
+        /// </summary>
+        public IReadOnlyList<NewsView> TakeNewNews()
+        {
+            World world = Session.World;
+            Residence? residence = world.Player.Residence;
+            int from = Math.Min(_newsRead, world.News.Count);
+            _newsRead = world.News.Count;
+            return world.News.Skip(from)
+                .Where(n => residence != null && n.CountryId == residence.CountryId && (n.CityId == null || n.CityId == residence.CityId))
+                .Select(NewsOf)
+                .ToList();
+        }
+
+        private int _newsRead;
+
+        private NewsView NewsOf(NewsRecord record)
+        {
+            World world = Session.World;
+            string topic = Session.Content.TryGetNews(record.NewsId, out NewsDefinition? definition) ? definition!.Topic : string.Empty;
+            return new NewsView(
+                record.NewsId,
+                T(record.TextKey),
+                topic,
+                string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), record.Date.Year, record.Date.WeekOfYear),
+                AgeLabel(world.Player, record.Date),
+                world.Date.WeeksSince(record.Date),
+                record.CityId != null);
+        }
+
+        /// <summary>
         /// Un texto de la pantalla (botones, títulos) en el idioma del jugador.
         /// Los {0}, {1}... se reemplazan por los valores dados.
         /// </summary>
