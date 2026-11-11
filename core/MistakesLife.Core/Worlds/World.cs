@@ -20,6 +20,7 @@ namespace MistakesLife.Core.Worlds
         private readonly List<PendingEvent> _pendingEvents = new List<PendingEvent>();
         private readonly List<EventRecord> _eventHistory = new List<EventRecord>();
         private readonly List<int> _formerPlayers = new List<int>();
+        private readonly List<NewsRecord> _news = new List<NewsRecord>();
         private readonly Dictionary<string, Scripting.Value> _lawChanges = new Dictionary<string, Scripting.Value>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, Economy.CountryEconomy> _economies = new SortedDictionary<string, Economy.CountryEconomy>(StringComparer.Ordinal);
         private int _nextCharacterId = 1;
@@ -82,6 +83,54 @@ namespace MistakesLife.Core.Worlds
             }
 
             return count;
+        }
+
+        /// <summary>Las noticias del mundo, de la más antigua a la más nueva.</summary>
+        public IReadOnlyList<NewsRecord> News => _news;
+
+        /// <summary>
+        /// La última vez que pasó una noticia en un país, vista desde una ciudad: cuenta
+        /// la del país entero y la de esa ciudad (no la de otra ciudad). Null si nunca pasó.
+        /// </summary>
+        public NewsRecord? LastNews(string newsId, string countryId, string? cityId)
+        {
+            for (int i = _news.Count - 1; i >= 0; i--)
+            {
+                NewsRecord record = _news[i];
+                if (record.NewsId == newsId && record.CountryId == countryId && (record.CityId == null || record.CityId == cityId))
+                {
+                    return record;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>Cuántas veces pasó una noticia en un país (para elegir otro titular cuando se repite).</summary>
+        public int TimesNews(string newsId, string countryId)
+        {
+            int count = 0;
+            foreach (NewsRecord record in _news)
+            {
+                if (record.NewsId == newsId && record.CountryId == countryId)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// Semanas que el mundo recuerda las noticias (12 años): más que la espera más
+        /// larga de una noticia (10 años), y así el guardado de una vida larga sigue liviano.
+        /// </summary>
+        public const int NewsMemoryWeeks = 12 * Time.GameDate.WeeksPerYear;
+
+        internal void AddNews(NewsRecord record)
+        {
+            _news.Add(record);
+            _news.RemoveAll(n => record.Date.WeeksSince(n.Date) > NewsMemoryWeeks);
         }
 
         internal void AddPendingEvent(PendingEvent pending) => _pendingEvents.Add(pending);

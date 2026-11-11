@@ -68,6 +68,11 @@ namespace MistakesLife.Core.Saving
                 world.RestoreJournal(new JournalEntry(Date(j.Week), j.CharacterId, j.TextKey));
             }
 
+            foreach (NewsData n in data.News)
+            {
+                world.AddNews(new NewsRecord(Date(n.Week), n.NewsId, n.CountryId, n.CityId, n.TextKey));
+            }
+
             foreach (PendingEventData p in data.PendingEvents)
             {
                 // Un evento que ya no está en los paquetes (se retiró) no se puede

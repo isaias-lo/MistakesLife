@@ -1,0 +1,88 @@
+[
+  {
+    "id": "noticia.chile.temblor",
+    "tema": "sismo",
+    "probabilidad_anual": 0.6,
+    "enfriamiento_semanas": 6,
+    "variantes": [
+      "noticia.chile.temblor.2",
+      "noticia.chile.temblor.3",
+      "noticia.chile.temblor.4"
+    ]
+  },
+  {
+    "id": "noticia.chile.terremoto",
+    "tema": "sismo",
+    "probabilidad_anual": 0.025,
+    "enfriamiento_semanas": 520,
+    "variantes": [
+      "noticia.chile.terremoto.2"
+    ]
+  },
+  {
+    "id": "noticia.chile.sistema_frontal",
+    "tema": "clima",
+    "probabilidad_anual": 0.99,
+    "enfriamiento_semanas": 4,
+    "ciudades": [
+      "ciudad.santiago"
+    ],
+    "condiciones": "mundo.mes >= 5 && mundo.mes <= 8",
+    "variantes": [
+      "noticia.chile.sistema_frontal.2",
+      "noticia.chile.sistema_frontal.3"
+    ]
+  },
+  {
+    "id": "noticia.chile.corte_de_agua",
+    "tema": "clima",
+    "probabilidad_anual": 0.08,
+    "enfriamiento_semanas": 52,
+    "ciudades": [
+      "ciudad.santiago"
+    ],
+    "condiciones": "mundo.mes <= 4"
+  },
+  {
+    "id": "noticia.chile.incendios_forestales",
+    "tema": "clima",
+    "probabilidad_anual": 0.95,
+    "enfriamiento_semanas": 40,
+    "condiciones": "mundo.mes >= 12 || mundo.mes <= 3",
+    "variantes": [
+      "noticia.chile.incendios_forestales.2",
+      "noticia.chile.incendios_forestales.3"
+    ]
+  },
+  {
+    "id": "noticia.chile.ola_de_calor",
+    "tema": "clima",
+    "probabilidad_anual": 0.9,
+    "enfriamiento_semanas": 20,
+    "ciudades": [
+      "ciudad.santiago"
+    ],
+    "condiciones": "mundo.mes >= 12 || mundo.mes <= 2",
+    "variantes": [
+      "noticia.chile.ola_de_calor.2"
+    ]
+  },
+  {
+    "id": "noticia.chile.fiestas_patrias",
+    "tema": "sociedad",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 40,
+    "condiciones": "mundo.mes == 9",
+    "variantes": [
+      "noticia.chile.fiestas_patrias.2",
+      "noticia.chile.fiestas_patrias.3",
+      "noticia.chile.fiestas_patrias.4"
+    ]
+  },
+  {
+    "id": "noticia.chile.protestas",
+    "tema": "sociedad",
+    "probabilidad_anual": 0.03,
+    "enfriamiento_semanas": 520
+  }
+]

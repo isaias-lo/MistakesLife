@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace MistakesLife.Core.Saving
 {
-    /// <summary>Una cuenta de correo guardada (desde la versión 10).</summary>
+    /// <summary>Una cuenta de correo guardada (desde la versión 11).</summary>
     internal sealed class MailData
     {
         public int SinceWeek { get; set; }

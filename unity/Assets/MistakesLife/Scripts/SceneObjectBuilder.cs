@@ -40,6 +40,7 @@ namespace MistakesLife.Unity
             "escena.casa.avisos_trabajo" => "ancla.mesa",
             "escena.casa.cuentas" => "ancla.mesa",
             "escena.casa.remedios" => "ancla.mesa",
+            "escena.casa.contrato_arriendo" => "ancla.mesa",
             "escena.casa.mochila" => "ancla.mochila",
             "escena.casa.diploma" => "ancla.cuadro_izquierda",
             "escena.casa.foto_pareja" => "ancla.cuadro_derecha",
@@ -84,6 +85,13 @@ namespace MistakesLife.Unity
                         bill.transform.localRotation = Quaternion.Euler(0f, i * 17f, 0f);
                     }
 
+                    break;
+                case "escena.casa.contrato_arriendo":
+                    // El contrato que firmaste: una hoja sobre la mesa con tu firma en amarillo.
+                    GameObject contract = kit.Box("Contrato de arriendo", new Vector3(-0.1f, 0.446f, -0.02f), new Vector3(0.22f, 0.006f, 0.3f), Palette.Paper);
+                    contract.transform.localRotation = Quaternion.Euler(0f, 8f, 0f);
+                    GameObject signature = kit.Box("Tu firma", new Vector3(-0.09f, 0.451f, -0.12f), new Vector3(0.12f, 0.004f, 0.02f), Palette.PlayerMark);
+                    signature.transform.localRotation = Quaternion.Euler(0f, 8f, 0f);
                     break;
                 case "escena.casa.remedios":
                     for (int i = 0; i < 3; i++)

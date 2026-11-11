@@ -1,0 +1,37 @@
+[
+  {
+    "id": "noticia.argentina.sudestada",
+    "tema": "clima",
+    "probabilidad_anual": 0.5,
+    "enfriamiento_semanas": 20,
+    "ciudades": [
+      "ciudad.buenos_aires"
+    ],
+    "variantes": [
+      "noticia.argentina.sudestada.2"
+    ]
+  },
+  {
+    "id": "noticia.argentina.ola_de_calor",
+    "tema": "clima",
+    "probabilidad_anual": 0.9,
+    "enfriamiento_semanas": 20,
+    "ciudades": [
+      "ciudad.buenos_aires"
+    ],
+    "condiciones": "mundo.mes >= 12 || mundo.mes <= 2",
+    "variantes": [
+      "noticia.argentina.ola_de_calor.2"
+    ]
+  },
+  {
+    "id": "noticia.argentina.devaluacion",
+    "tema": "economia",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 104,
+    "condiciones": "mundo.regimen_inflacion == 'economia.inflacion.alta'",
+    "efectos": [
+      "cambiar_inflacion('economia.inflacion.muy_alta')"
+    ]
+  }
+]

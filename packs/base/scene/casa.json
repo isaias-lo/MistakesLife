@@ -15,5 +15,6 @@
   { "id": "escena.casa.juguetes", "lugar": "casa", "condiciones": "jugador.hijos_menores > 0" },
   { "id": "escena.casa.foto_pareja", "lugar": "casa", "condiciones": "jugador.pareja != nada" },
   { "id": "escena.casa.foto_recuerdo", "lugar": "casa", "condiciones": "(jugador.madre != nada && !jugador.madre.vivo) || (jugador.padre != nada && !jugador.padre.vivo)" },
-  { "id": "escena.casa.mecedora", "lugar": "casa", "condiciones": "jugador.jubilado" }
+  { "id": "escena.casa.mecedora", "lugar": "casa", "condiciones": "jugador.jubilado" },
+  { "id": "escena.casa.contrato_arriendo", "lugar": "casa", "condiciones": "jugador.vivienda != nada" }
 ]

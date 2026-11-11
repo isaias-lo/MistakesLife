@@ -8,6 +8,7 @@ packs/<paquete>/
   country.json    ← solo en paquetes de país
   seeds/*.json    ← lista de tipos de semilla
   events/*.json   ← lista de eventos
+  news/*.json     ← noticias del mundo (temblores, temporales, crisis, elecciones)
   lang/es.json    ← textos que ve el jugador (clave → texto), uno por idioma
 ```
 
@@ -543,6 +544,36 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 
 Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla se cierra al terminar el evento.
 
+## Noticias (news/)
+
+El diario de noticias cuenta lo que le pasa al **país** (o a una ciudad): un temblor, un temporal, una crisis, unas elecciones, algo que se vuelve viral. Una noticia **no toca al jugador**: no le baja la salud ni le cobra nada. Solo puede cambiar lo del país (el ciclo económico, la inflación, una ley) y queda en el diario de noticias (en Unity, el diario mural). Lo que le pase al jugador lo decide un **evento** que lee la noticia con `noticia_reciente(...)`, y sus opciones dependen de lo que él eligió antes (si armó la mochila de emergencia, si arrienda, si tiene hijos). Así se cumple la regla de que nada se inventa: el mundo pasa, y lo que te pasa a ti es consecuencia de tus decisiones.
+
+Las noticias de un paquete de país solo salen en ese país; las del paquete base, en cualquiera (deben usar solo leyes y datos que todos los países tengan). Cada semana, cada noticia tiene su propia oportunidad según su `probabilidad_anual`, sin quitarle el lugar a los eventos. El mundo recuerda las noticias de los últimos 12 años (así el guardado sigue liviano): una espera o un `noticia_reciente` más largo que eso no sirve.
+
+```json
+[
+  { "id": "noticia.chile.sistema_frontal", "tema": "clima", "probabilidad_anual": 0.99, "enfriamiento_semanas": 4,
+    "ciudades": ["ciudad.santiago"], "condiciones": "mundo.mes >= 5 && mundo.mes <= 8",
+    "variantes": ["noticia.chile.sistema_frontal.2"] },
+  { "id": "noticia.argentina.devaluacion", "tema": "economia", "probabilidad_anual": 0.15,
+    "condiciones": "mundo.regimen_inflacion == 'economia.inflacion.alta'", "efectos": ["cambiar_inflacion('economia.inflacion.muy_alta')"] }
+]
+```
+
+| Campo | Qué es | Por defecto |
+|---|---|---|
+| `id` | Id estable, empieza con `noticia.` | obligatorio |
+| `texto` | Clave del titular | el mismo id |
+| `variantes` | Otros titulares para cuando vuelve a salir en el mismo país (como en los eventos) | — |
+| `tema` | `sismo`, `clima`, `economia`, `politica`, `sociedad`, `viral` o `salud`: la pantalla lo usa para el dibujo | obligatorio |
+| `probabilidad_anual` | Probabilidad real de que pase en un año (mayor que 0, máximo 1). Ojo: con una condición de temporada (4 meses), la oportunidad semanal es la misma, así que pasa menos en el año; `1` hace que salga la primera semana en que se cumple la condición | obligatorio |
+| `condiciones` | Cuándo puede pasar. **Solo puede leer el mundo** (`mundo.mes`, `mundo.ciclo`, `mundo.inflacion`, `ley(...)`, `noticia_reciente(...)`): usar `jugador` es un error | siempre |
+| `enfriamiento_semanas` | Semanas mínimas antes de que vuelva a salir en el mismo país | 0 |
+| `ciudades` | Si se pone, solo sale para quien vive en esas ciudades (un temporal en Santiago). Si no, es de todo el país | todo el país |
+| `efectos` | Solo `cambiar_ciclo`, `cambiar_inflacion` o `cambiar_ley`. Cambiar al jugador es un error | — |
+
+**Un evento que sigue a la noticia:** `"condiciones": "noticia_reciente('noticia.chile.terremoto', 2) && jugador.edad >= 4"` con `"probabilidad_anual": 1` pasa la primera semana después de la noticia. Para que pase un tiempo después (una semana después del temblor, en la tele recomiendan armar la mochila): `noticia_reciente('noticia.chile.temblor', 6) && !noticia_reciente('noticia.chile.temblor', 1)`. Lo rutinario (un temblor más, otras Fiestas Patrias) puede quedar solo en el diario de noticias: el evento personal lleva `veces_maximas` y la noticia sigue saliendo.
+
 ## Objetos de la escena (scene/)
 
 Para que la escena 3D cambie con la vida, un paquete puede traer objetos en `scene/*.json` (una lista). Cada objeto aparece mientras su condición se cumpla para el jugador; no lleva texto para el jugador. La pantalla dibuja los ids que conoce (en Unity, `SceneObjectBuilder`) y salta los demás, así un objeto nuevo en un paquete nunca rompe el juego: solo no se ve hasta que se le da forma.
@@ -559,6 +590,8 @@ Para que la escena 3D cambie con la vida, un paquete puede traer objetos en `sce
 | `id` | Id estable: `escena.<lugar>.<nombre>` |
 | `lugar` | `casa`, `barrio` o `trabajo` |
 | `condiciones` | Cuándo se ve (obligatorio). Las decisiones se pueden conectar con marcas: un efecto `jugador.marcar('tiene_perro')` y un objeto con `jugador.tiene('tiene_perro')` |
+
+Los objetos que vienen de las noticias (paquete de Chile): `escena.casa.mochila_emergencia` (armó la mochila), `escena.casa.grietas` (dejó la casa sin reparar después del terremoto), `escena.casa.velas` (temporal de las últimas 2 semanas) y `escena.barrio.escombros` (terremoto de los últimos 3 meses).
 
 Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cartas de rechazo (desde 2 entrevistas sin quedar), ropa de entrevista (con una entrevista u oferta pendiente), celular (si tiene) y su aviso encendido (`escena.casa.celular_avisos`, con correos sin leer), cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo y mecedora. Además, Unity nubla el cielo cuando la felicidad baja.
 
@@ -711,6 +744,7 @@ Lo que pasó antes de tener correo nunca llega. Sin cuenta, los correos no llega
 | `jugador.instalar_app('app.x')`, `jugador.desinstalar_app('app.x')` | Instala o borra una app; sin celular es un error (solo efectos) |
 | `jugador.tiene_correo`, `jugador.correos`, `jugador.correos_sin_leer` | Si tiene cuenta de correo, cuántos correos tiene y cuántos no ha leído |
 | `jugador.crear_correo()`, `jugador.recibir_correo('correo.x')` | Crea su cuenta de correo, y le hace llegar un correo (sin cuenta, no llega) (solo efectos) |
+| `noticia_reciente('noticia.x')`, `noticia_reciente('noticia.x', semanas)` | Si esa noticia salió en el país del jugador (de todo el país o de su ciudad) hace menos de esas semanas (8 si no se dice). Sirve en eventos, semillas y objetos de la escena |
 | `ley('ley.x')` | Valor de una ley en el país del jugador (ver Leyes) |
 | `cambiar_ley('ley.x', valor)` | Cambia una ley del país del jugador durante la partida (solo efectos) |
 
