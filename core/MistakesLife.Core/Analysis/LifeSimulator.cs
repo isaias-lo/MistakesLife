@@ -138,6 +138,22 @@ namespace MistakesLife.Core.Analysis
                         report.Delinquent++;
                     }
 
+                    if (player.Phone != null)
+                    {
+                        report.WithPhone++;
+                    }
+
+                    if (player.Mail != null)
+                    {
+                        report.WithMail++;
+                        report.MailsReceived += player.Mail.Messages.Count;
+                    }
+
+                    if (session.World.Journal.Any(j => j.CharacterId == player.Id && j.TextKey == "diario.correo.estafa"))
+                    {
+                        report.ScamVictims++;
+                    }
+
                     if (player.IsAlive && player.Pension.HasValue)
                     {
                         report.Retired++;

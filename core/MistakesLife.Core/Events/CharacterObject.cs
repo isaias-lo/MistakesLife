@@ -36,7 +36,9 @@ namespace MistakesLife.Core.Events
     /// trabajar_en('área') o trabajar_en('área', 'honorarios'), puede_trabajar_en('área'),
     /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo(), cambiar_de_empresa(),
     /// postular_en('área' o 'cualquier_trabajo'), buscar_trabajo('forma'), puede_buscar_con('forma'),
-    /// dar_entrevista(puntos), aceptar_oferta(), negociar_oferta(), rechazar_oferta(), dejar_de_buscar().
+    /// dar_entrevista(puntos), aceptar_oferta(), negociar_oferta(), rechazar_oferta(), dejar_de_buscar(),
+    /// dar_celular(), perder_celular(), instalar_app('app'), desinstalar_app('app'), tiene_app('app'),
+    /// crear_correo(), recibir_correo('correo').
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -77,6 +79,18 @@ namespace MistakesLife.Core.Events
 
         /// <summary>Método que pregunta si puede buscar de esa forma en su país (y si tiene un contacto, cuando hace falta).</summary>
         public const string CanSearchWithMethod = "puede_buscar_con";
+
+        /// <summary>Método que instala una app en el celular: la validación revisa que la app exista.</summary>
+        public const string InstallAppMethod = "instalar_app";
+
+        /// <summary>Método que desinstala una app del celular.</summary>
+        public const string UninstallAppMethod = "desinstalar_app";
+
+        /// <summary>Método que pregunta si tiene esa app en el celular.</summary>
+        public const string HasAppMethod = "tiene_app";
+
+        /// <summary>Método que hace llegar un correo a su bandeja: la validación revisa que el correo exista.</summary>
+        public const string ReceiveMailMethod = "recibir_correo";
 
         private readonly Character _character;
 
@@ -292,6 +306,14 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(_character.JobSearch?.Stage == Economy.JobSearchStage.Offer && _character.JobSearch.Raise > 0);
                 case "contacto":
                     return Relative(_character.JobSearch?.ContactId, scope);
+                case "tiene_celular":
+                    return Value.FromBool(_character.Phone != null);
+                case "tiene_correo":
+                    return Value.FromBool(_character.Mail != null);
+                case "correos":
+                    return Value.FromNumber(_character.Mail?.Messages.Count ?? 0);
+                case "correos_sin_leer":
+                    return Value.FromNumber(_character.Mail?.UnreadCount ?? 0);
                 default:
                     throw new ScriptException($"jugador.{member} no existe.");
             }
@@ -664,6 +686,54 @@ namespace MistakesLife.Core.Events
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.dejar_de_buscar");
                     _character.JobSearch = null;
+                    return Value.Null;
+                case "dar_celular":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.dar_celular");
+                    Devices.PhoneRules.GivePhone(((EventScope)scope).World, ((EventScope)scope).Content, _character);
+                    return Value.Null;
+                case "perder_celular":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.perder_celular");
+                    Devices.PhoneRules.LosePhone(_character);
+                    return Value.Null;
+                case InstallAppMethod:
+                case UninstallAppMethod:
+                    string appId = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    if (((EventScope)scope).Content.App(appId) == null)
+                    {
+                        throw new ScriptException($"jugador.{method}('{appId}'): esa app no existe.");
+                    }
+
+                    Devices.Phone phone = _character.Phone
+                        ?? throw new ScriptException($"jugador.{method}('{appId}'): no tiene celular (revisa jugador.tiene_celular).");
+                    if (method == InstallAppMethod)
+                    {
+                        phone.Install(appId);
+                    }
+                    else
+                    {
+                        phone.Uninstall(appId);
+                    }
+
+                    return Value.Null;
+                case HasAppMethod:
+                    return Value.FromBool(_character.Phone?.Has(EventScope.SingleText("jugador." + method, args)) ?? false);
+                case "crear_correo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.crear_correo");
+                    Devices.PhoneRules.CreateMail(((EventScope)scope).World, _character);
+                    return Value.Null;
+                case ReceiveMailMethod:
+                    string mailId = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    if (((EventScope)scope).Content.Mail(mailId) == null)
+                    {
+                        throw new ScriptException($"jugador.{method}('{mailId}'): ese correo no existe.");
+                    }
+
+                    Devices.PhoneRules.Receive(((EventScope)scope).World, _character, mailId);
                     return Value.Null;
                 case "titulado_en":
                     string career = EventScope.SingleText("jugador." + method, args);

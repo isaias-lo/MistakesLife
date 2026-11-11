@@ -1,0 +1,10 @@
+[
+  {
+    "id": "semilla.correo_apodo",
+    "tipo": "negativa",
+    "fuerza": 40,
+    "vence_anios": 15,
+    "dormir_min_semanas": 52,
+    "condiciones": "jugador.tiene('buscando_trabajo') && jugador.edad >= 18"
+  }
+]

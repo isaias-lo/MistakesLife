@@ -18,6 +18,9 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, NewsDefinition> _news = new SortedDictionary<string, NewsDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, MailDefinition> _mails = new SortedDictionary<string, MailDefinition>(StringComparer.Ordinal);
+        private readonly Dictionary<string, List<MailDefinition>> _mailsByJournal = new Dictionary<string, List<MailDefinition>>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CareerDefinition> _careers = new SortedDictionary<string, CareerDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, CareerLevelDefinition> _careerLevels = new Dictionary<string, CareerLevelDefinition>(StringComparer.Ordinal);
@@ -47,6 +50,22 @@ namespace MistakesLife.Core.Content
         public bool TryGetNews(string id, out NewsDefinition? definition) => _news.TryGetValue(id, out definition);
 
         public IEnumerable<CountryDefinition> Countries => _countries.Values;
+
+        /// <summary>Las apps del celular, ordenadas por id.</summary>
+        public IEnumerable<AppDefinition> Apps => _apps.Values;
+
+        /// <summary>Los correos que pueden llegar, ordenados por id.</summary>
+        public IEnumerable<MailDefinition> Mails => _mails.Values;
+
+        /// <summary>La app con ese id, o null.</summary>
+        public AppDefinition? App(string id) => _apps.TryGetValue(id, out AppDefinition? app) ? app : null;
+
+        /// <summary>El correo con ese id, o null.</summary>
+        public MailDefinition? Mail(string id) => _mails.TryGetValue(id, out MailDefinition? mail) ? mail : null;
+
+        /// <summary>Los correos que llegan cuando se anota esa línea en el diario (ordenados por id).</summary>
+        public IReadOnlyList<MailDefinition> MailsForJournal(string journalKey) =>
+            _mailsByJournal.TryGetValue(journalKey, out List<MailDefinition>? mails) ? mails : (IReadOnlyList<MailDefinition>)Array.Empty<MailDefinition>();
 
         /// <summary>Las carreras, ordenadas por id.</summary>
         public IEnumerable<CareerDefinition> Careers => _careers.Values;
@@ -225,6 +244,38 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega las apps del celular de un archivo JSON de apps/ (una lista).</summary>
+        public void AddAppsJson(string packId, string sourceName, string json)
+        {
+            foreach (AppDefinition definition in Deserialize<AppDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_apps.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de app repetido."));
+                    continue;
+                }
+
+                _apps.Add(definition.Id, definition);
+            }
+        }
+
+        /// <summary>Agrega los correos de un archivo JSON de mail/ (una lista).</summary>
+        public void AddMailJson(string packId, string sourceName, string json)
+        {
+            foreach (MailDefinition definition in Deserialize<MailDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_mails.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de correo repetido."));
+                    continue;
+                }
+
+                _mails.Add(definition.Id, definition);
+            }
+        }
+
         /// <summary>Agrega un país desde su archivo country.json.</summary>
         public void AddCountryJson(string packId, string sourceName, string json)
         {
@@ -377,6 +428,13 @@ namespace MistakesLife.Core.Content
 
                 seed.CompiledConditions = CompileCondition(where, seed.Conditions);
             }
+
+            foreach (AppDefinition app in _apps.Values)
+            {
+                CheckId($"app {app.Id}", app.Id, "app.");
+            }
+
+            ValidateMails();
 
             foreach (SceneObjectDefinition scene in _sceneObjects.Values)
             {
@@ -1301,6 +1359,22 @@ namespace MistakesLife.Core.Content
                 yield return new KeyValuePair<string, string>(key, "núcleo");
             }
 
+            foreach (AppDefinition app in _apps.Values)
+            {
+                yield return new KeyValuePair<string, string>(app.Id, $"app {app.Id}");
+            }
+
+            foreach (MailDefinition mail in _mails.Values)
+            {
+                yield return new KeyValuePair<string, string>(mail.Id, $"correo {mail.Id}");
+                yield return new KeyValuePair<string, string>(mail.SubjectKey, $"correo {mail.Id}");
+                yield return new KeyValuePair<string, string>(mail.Sender, $"correo {mail.Id}");
+                foreach (string key in mail.OnJournal)
+                {
+                    yield return new KeyValuePair<string, string>(key, $"correo {mail.Id}, al_anotar");
+                }
+            }
+
             foreach (CountryDefinition country in _countries.Values)
             {
                 foreach (EducationStageDefinition stage in country.EducationStages)
@@ -1396,7 +1470,7 @@ namespace MistakesLife.Core.Content
                         yield return new KeyValuePair<string, string>(method.Id, $"país {country.Id}");
                     }
 
-                    foreach (string key in new[] { Economy.JobSearchRules.RejectionJournal, Economy.JobSearchRules.WithdrawnJournal, Economy.JobSearchRules.HiredJournal })
+                    foreach (string key in new[] { Economy.JobSearchRules.RejectionJournal, Economy.JobSearchRules.WithdrawnJournal, Economy.JobSearchRules.HiredJournal, Economy.JobSearchRules.InterviewJournal })
                     {
                         yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
                     }
@@ -1670,6 +1744,18 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese cargo no existe."));
                 }
 
+                if ((reference.Function == "." + CharacterObject.InstallAppMethod || reference.Function == "." + CharacterObject.UninstallAppMethod
+                        || reference.Function == "." + CharacterObject.HasAppMethod)
+                    && !_apps.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): esa app no existe (packs/*/apps/)."));
+                }
+
+                if (reference.Function == "." + CharacterObject.ReceiveMailMethod && !_mails.ContainsKey(reference.Argument))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese correo no existe (packs/*/mail/)."));
+                }
+
                 if (reference.Function == EventScope.RecentNewsFunction && !_news.ContainsKey(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): esa noticia no existe."));
@@ -1678,6 +1764,43 @@ namespace MistakesLife.Core.Content
                 if (reference.Function == EventScope.StudyFunction && !_careerLevels.ContainsKey(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): ese nivel de carrera no existe."));
+                }
+            }
+        }
+
+        /// <summary>Revisa los correos y arma la lista de qué correo llega con cada línea del diario.</summary>
+        private void ValidateMails()
+        {
+            foreach (MailDefinition mail in _mails.Values)
+            {
+                string where = $"correo {mail.Id}";
+                CheckId(where, mail.Id, "correo.");
+                CheckId(where, mail.Sender, "remitente.");
+                if (Array.IndexOf(MailDefinition.Topics, mail.Topic) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"tema '{mail.Topic}' no existe (usa {string.Join(", ", MailDefinition.Topics)})."));
+                }
+
+                if (mail.OnJournal.Count != mail.OnJournal.Distinct().Count())
+                {
+                    _errors.Add(new ContentError(where, "al_anotar repite una línea del diario."));
+                }
+
+                foreach (string key in mail.OnJournal)
+                {
+                    if (!key.StartsWith("diario.", StringComparison.Ordinal))
+                    {
+                        _errors.Add(new ContentError(where, $"al_anotar: '{key}' no es una línea del diario (empiezan con 'diario.')."));
+                        continue;
+                    }
+
+                    if (!_mailsByJournal.TryGetValue(key, out List<MailDefinition>? list))
+                    {
+                        list = new List<MailDefinition>();
+                        _mailsByJournal.Add(key, list);
+                    }
+
+                    list.Add(mail);
                 }
             }
         }

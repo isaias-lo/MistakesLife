@@ -151,6 +151,10 @@ namespace MistakesLife.Core.Saving
                     }
                 }
             },
+
+            // 11 → 12: aparecen el celular y el correo. En las partidas viejas nadie
+            // tiene: los eventos se los dan (los papás, comprarlo, crear el correo).
+            [11] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

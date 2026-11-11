@@ -36,5 +36,7 @@
   "evento.busqueda.devolver_favor": "Quien te recomendó para tu trabajo te escribe: su sobrino está buscando pega y le pregunta si podrías recomendarlo a él.",
   "opcion.busqueda.como_buscar.omil": "Vas a la OMIL de la municipalidad a inscribirte en la bolsa de empleo.",
   "busqueda.forma.omil": "OMIL de la municipalidad",
-  "opcion.busqueda.oferta.aceptar": "Aceptas. El lunes firmas contrato y empiezas."
+  "opcion.busqueda.oferta.aceptar": "Aceptas. El lunes firmas contrato y empiezas.",
+  "remitente.impuestos": "Servicio de impuestos (SII)",
+  "correo.estado.herencia.asunto": "Posesión efectiva"
 }

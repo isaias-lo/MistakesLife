@@ -149,3 +149,15 @@ Estimaciones de orden de magnitud, por afinar con datos:
 - **Olas de calor en Santiago** (`noticia.chile.ola_de_calor`): diciembre a febrero, casi todos los años.
 - **Elecciones presidenciales**: cada 4 años en noviembre (`ley.elecciones_mes: 11`); voto obligatorio con multa de 0,5 a 1,5 UTM (Ley 21.524), aquí media UTM (~33.000 pesos).
 - **Protestas masivas** (`noticia.chile.protestas`, 0,03 al año): como 2011 o 2019.
+
+## El celular y el correo (N12, 2026-11-10)
+
+El celular y el correo están en `packs/base` (`apps/`, `mail/`, `events/celular.json`); lo de Chile es el robo de celular (`evento.robo_celular`, que ahora se lleva el celular).
+
+| Dato real | Fuente | Cómo se usa |
+|---|---|---|
+| La edad promedio del primer celular con internet bajó de 11 años (2016) a 8,9 años (2022); el 87 % de los niños de 9 a 17 años tiene celular propio | [Kids Online Chile 2022](https://uc.cl/noticias/revelan-principales-resultados-del-estudio-kids-online-en-chile/) (CEPPE UC, CIAE U. de Chile, MINEDUC y UNICEF); [UNICEF Chile](https://www.unicef.org/chile/comunicados-prensa/se-adelanta-los-89-anos-el-acceso-al-celular-con-internet-y-crece-su-uso-para) | `evento.celular.primero`: desde los 8 años, 0,45 al año (en promedio llega a los ~9,5 y casi todos lo tienen a los 12) |
+| Otro estudio da 8,1 años para el primer smartphone | Radiografía Digital 2024, citada por [El Mostrador](https://www.elmostrador.cl/agenda-pais/agenda-digital/2024/04/03/nina-y-ninos-chilenos-reciben-a-los-8-anos-su-primer-telefono-movil/) | Confirma el rango de 8 a 9 años |
+| Cada hora de uso del celular puede bajar las notas hasta tres décimas | Estudio citado por [BioBioChile](https://www.biobiochile.cl/noticias/ciencia-y-tecnologia/moviles-y-computacion/2018/04/06/alumnos-bajan-hasta-tres-decimas-sus-notas-por-cada-hora-de-uso-del-movil-segun-estudio.shtml) (2018) | `evento.celular.pantalla`: seguir mirando el celular de noche baja salud e inteligencia; con reglas de los papás pasa menos hasta los 15 |
+
+Estimaciones por revisar: el precio de un celular (nuevo de gama media, medio sueldo mínimo; usado, 15 % del sueldo mínimo), la probabilidad de una estafa por correo (5 % al año, como máximo 3 en la vida) y lo que se pierde al caer (40 % del saldo; en Chile la Ley 21.234 obliga al banco a devolver en muchos fraudes, lo que todavía no está en el juego).

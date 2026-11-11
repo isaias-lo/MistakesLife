@@ -354,7 +354,7 @@ Ningún trabajo con contrato llega solo: el jugador lo busca. Primero dice qué 
 - **La oferta:** en su área entra como con `trabajar_en` (empresa, cargo y sueldo), con el contrato que pidió en `postular_en` y la `marca_trabajo` de su carrera. Fuera de su carrera entra con contrato: con el sueldo mínimo si no tiene título y cotizó menos de `meses_para_sueldo_tipico` meses, y si no con lo de `sueldo_titulo()`. Al aceptar pierde la marca `buscando_trabajo`, gana `trabajando` y se anota `diario.busqueda.nuevo_trabajo`.
 - **Negociar** (`negociacion`): con `prob_mejora` le suben el sueldo de la oferta en `mejora`; con `prob_retiro` la retiran (`diario.busqueda.oferta_retirada`) y sigue buscando; si no, la mantienen igual.
 - La búsqueda dura mientras tenga la marca `buscando_trabajo`; al quitarla se borra sola.
-- Textos obligatorios: el de cada forma y los tres del diario. Opcional: un país sin `busqueda_trabajo` no tiene formas de buscar (nadie consigue trabajo buscando).
+- Textos obligatorios: el de cada forma y los cuatro del diario (`diario.busqueda.llamado` se anota cuando lo llaman a entrevista). Opcional: un país sin `busqueda_trabajo` no tiene formas de buscar (nadie consigue trabajo buscando).
 
 #### Herencia (`economia.herencia`)
 
@@ -611,7 +611,41 @@ Para que la escena 3D cambie con la vida, un paquete puede traer objetos en `sce
 
 Los objetos que vienen de las noticias (paquete de Chile): `escena.casa.mochila_emergencia` (armó la mochila), `escena.casa.grietas` (dejó la casa sin reparar después del terremoto), `escena.casa.velas` (temporal de las últimas 2 semanas) y `escena.barrio.escombros` (terremoto de los últimos 3 meses).
 
-Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cartas de rechazo (desde 2 entrevistas sin quedar), ropa de entrevista (con una entrevista u oferta pendiente), cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo y mecedora. Además, Unity nubla el cielo cuando la felicidad baja.
+Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cartas de rechazo (desde 2 entrevistas sin quedar), ropa de entrevista (con una entrevista u oferta pendiente), celular (si tiene) y su aviso encendido (`escena.casa.celular_avisos`, con correos sin leer), cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo y mecedora. Además, Unity nubla el cielo cuando la felicidad baja.
+
+## Celular y correo (apps/ y mail/)
+
+El celular es un objeto de la vida: alguien se lo da (los papás, con `jugador.dar_celular()`), se compra, se pierde o se lo roban (`jugador.perder_celular()`). Adentro tiene apps; las de un paquete van en `apps/*.json` (una lista) y siempre son parodias, nunca una marca real:
+
+```json
+[
+  { "id": "app.correo", "de_fabrica": true },
+  { "id": "app.instante" }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Id estable: `app.<nombre>`. Es también la clave del nombre de la app en lang/ |
+| `de_fabrica` | Si viene en todo celular nuevo (las demás se instalan con `jugador.instalar_app('app.x')`) |
+
+El **correo** es una cuenta, no está en el aparato: si pierde el celular, el correo sigue. Se crea con `jugador.crear_correo()` y desde ese día le llegan los avisos de su vida. Los correos de un paquete van en `mail/*.json` (una lista):
+
+```json
+[
+  { "id": "correo.busqueda.rechazo", "remitente": "remitente.seleccion", "tema": "trabajo", "al_anotar": ["diario.busqueda.rechazo"] },
+  { "id": "correo.estafa.banco", "remitente": "remitente.banco_falso", "tema": "estafa" }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Id estable: `correo.<tema>.<nombre>`. Es la clave del cuerpo del correo; el asunto es `id + ".asunto"` |
+| `remitente` | Clave de texto de quien lo manda: `remitente.<nombre>` |
+| `tema` | `trabajo`, `estudio`, `banco`, `estado`, `juzgado`, `personal`, `publicidad` o `estafa` (la pantalla le pone su ícono) |
+| `al_anotar` | Líneas del diario que lo hacen llegar. Así ningún sistema ni evento necesita saber del correo: cuando algo anota `diario.busqueda.rechazo`, al final de esa semana llega el correo de rechazo a quien tiene cuenta. Si falta, solo llega con `jugador.recibir_correo('id')` |
+
+Lo que pasó antes de tener correo nunca llega. Sin cuenta, los correos no llegan (pero el diario sí se escribe). La bandeja guarda los últimos 300 correos. Unity marca un correo como leído con `LifeSession.ReadMail(posición)`.
 
 ## El lenguaje de condiciones y efectos
 
@@ -726,6 +760,11 @@ Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avi
 | `plantar('id')` | Planta una semilla nueva (solo efectos). Si el personaje ya tiene abierta una del mismo tipo, no planta otra: la existente gana la `fuerza` del tipo (máximo 100) |
 | `plantar('id', persona)` | Igual, con esa persona como testigo: `plantar('semilla.presto_plata_amigo', jugador.amigo)`. Así el evento de la semilla, años después, sabe de quién se trata (`semilla('id').testigo`). La carta del evento lo muestra: bajo la opción dice "Lo va a notar Pedro" y, cuando la semilla despierta, "Te miran: Pedro". Si el evento tiene alguna opción con `plantar`, lleva el sello "Esto se recuerda" |
 | `diario('clave')` | Escribe en el diario (solo efectos) |
+| `jugador.tiene_celular`, `jugador.tiene_app('app.x')` | Si tiene celular, y si tiene esa app instalada |
+| `jugador.dar_celular()`, `jugador.perder_celular()` | Recibe un celular nuevo con las apps de fábrica (reemplaza al que tenía), o lo pierde con sus apps (solo efectos) |
+| `jugador.instalar_app('app.x')`, `jugador.desinstalar_app('app.x')` | Instala o borra una app; sin celular es un error (solo efectos) |
+| `jugador.tiene_correo`, `jugador.correos`, `jugador.correos_sin_leer` | Si tiene cuenta de correo, cuántos correos tiene y cuántos no ha leído |
+| `jugador.crear_correo()`, `jugador.recibir_correo('correo.x')` | Crea su cuenta de correo, y le hace llegar un correo (sin cuenta, no llega) (solo efectos) |
 | `noticia_reciente('noticia.x')`, `noticia_reciente('noticia.x', semanas)` | Si esa noticia salió en el país del jugador (de todo el país o de su ciudad) hace menos de esas semanas (8 si no se dice). Sirve en eventos, semillas y objetos de la escena |
 | `ley('ley.x')` | Valor de una ley en el país del jugador (ver Leyes) |
 | `cambiar_ley('ley.x', valor)` | Cambia una ley del país del jugador durante la partida (solo efectos) |

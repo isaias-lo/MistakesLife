@@ -155,6 +155,12 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public Economy.JobSearch? JobSearch { get; set; }
 
+        /// <summary>Su celular, o null si no tiene. Ver <see cref="Devices.PhoneRules"/>.</summary>
+        public Devices.Phone? Phone { get; set; }
+
+        /// <summary>Su cuenta de correo, o null si no tiene. Ver <see cref="Devices.MailSystem"/>.</summary>
+        public Devices.MailAccount? Mail { get; set; }
+
         /// <summary>Su última liquidación de sueldo, o null si nunca ha recibido sueldo.</summary>
         public Economy.Payslip? LastPayslip { get; set; }
 

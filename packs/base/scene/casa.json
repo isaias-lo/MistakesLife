@@ -6,6 +6,8 @@
   { "id": "escena.casa.avisos_trabajo", "lugar": "casa", "condiciones": "jugador.tiene('buscando_trabajo') && !jugador.trabaja" },
   { "id": "escena.casa.cartas_rechazo", "lugar": "casa", "condiciones": "jugador.rechazos >= 2" },
   { "id": "escena.casa.ropa_entrevista", "lugar": "casa", "condiciones": "jugador.entrevista_pendiente || jugador.tiene_oferta" },
+  { "id": "escena.casa.celular", "lugar": "casa", "condiciones": "jugador.tiene_celular" },
+  { "id": "escena.casa.celular_avisos", "lugar": "casa", "condiciones": "jugador.tiene_celular && jugador.correos_sin_leer > 0" },
   { "id": "escena.casa.cuentas", "lugar": "casa", "condiciones": "jugador.moroso || jugador.meses_en_rojo >= 3" },
   { "id": "escena.casa.remedios", "lugar": "casa", "condiciones": "jugador.salud < 40" },
   { "id": "escena.casa.flores", "lugar": "casa", "condiciones": "jugador.felicidad >= 80" },
