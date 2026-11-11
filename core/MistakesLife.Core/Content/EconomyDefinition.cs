@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace MistakesLife.Core.Content
@@ -35,6 +36,10 @@ namespace MistakesLife.Core.Content
         /// <summary>Las compras de comida que se pueden elegir al vivir por su cuenta. Si falta, la comida no se cobra aparte.</summary>
         [JsonProperty("supermercado")]
         public GroceriesDefinition? Groceries { get; set; }
+
+        /// <summary>Servicios que el jugador puede contratar (el plan del celular...). Si falta, no hay.</summary>
+        [JsonProperty("servicios")]
+        public List<ServiceDefinition> Services { get; set; } = new List<ServiceDefinition>();
 
         /// <summary>La declaración anual de impuestos. Si falta, nadie declara.</summary>
         [JsonProperty("declaracion_anual")]

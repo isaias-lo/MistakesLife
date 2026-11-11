@@ -1,0 +1,71 @@
+[
+  {
+    "id": "evento.pagar_tu_celular",
+    "condiciones": "jugador.tiene_celular && jugador.servicio('servicio.celular') == nada && jugador.edad >= 18 && (jugador.trabaja || jugador.tiene('vive_independiente'))",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.pagar_tu_celular.prepago",
+        "tendencia": "25 + jugador.responsabilidad / 3 + si(jugador.meses_en_rojo > 0, 30, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.celular.prepago')"
+        ]
+      },
+      {
+        "texto": "opcion.pagar_tu_celular.plan",
+        "tendencia": "35",
+        "efectos": [
+          "jugador.contratar('servicio.celular.plan')"
+        ]
+      },
+      {
+        "texto": "opcion.pagar_tu_celular.plan_ilimitado",
+        "tendencia": "10 + jugador.extraversion / 4 + si(jugador.sueldo_liquido > sueldo_tipico(), 15, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.celular.plan_ilimitado')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.revisar_plan_celular",
+    "condiciones": "jugador.servicio('servicio.celular') != nada",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 52,
+    "veces_maximas": 6,
+    "opciones": [
+      {
+        "texto": "opcion.revisar_plan_celular.seguir",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 10, 50)",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.revisar_plan_celular.prepago",
+        "condiciones": "jugador.servicio('servicio.celular') != 'servicio.celular.prepago'",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 60, 5) + jugador.responsabilidad / 10",
+        "efectos": [
+          "jugador.contratar('servicio.celular.prepago')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_plan_celular.plan",
+        "condiciones": "jugador.servicio('servicio.celular') != 'servicio.celular.plan'",
+        "tendencia": "15",
+        "efectos": [
+          "jugador.contratar('servicio.celular.plan')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_plan_celular.plan_ilimitado",
+        "condiciones": "jugador.servicio('servicio.celular') != 'servicio.celular.plan_ilimitado' && jugador.meses_en_rojo == 0",
+        "tendencia": "si(jugador.sueldo_liquido > sueldo_tipico(), 20, 3) + jugador.extraversion / 10",
+        "efectos": [
+          "jugador.contratar('servicio.celular.plan_ilimitado')"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.revisar_plan_celular.2"
+    ]
+  }
+]

@@ -97,6 +97,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>La compra de comida que eligió, o null si no ha elegido.</summary>
         public string? GroceryBasketId { get; set; }
 
+        /// <summary>Servicios contratados: id del servicio → opción.</summary>
+        public Dictionary<string, string> Services { get; set; } = new Dictionary<string, string>();
+
         public List<DebtData> Debts { get; set; } = new List<DebtData>();
 
         public decimal LastDebtPayment { get; set; }

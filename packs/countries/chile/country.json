@@ -136,6 +136,13 @@
         { "id": "compra.basica", "costo_persona": 90384 },
         { "id": "compra.con_antojos", "costo_persona": 107616 }
       ] },
+    "servicios": [
+      { "id": "servicio.celular", "condiciones": "jugador.tiene_celular || jugador.servicio('servicio.celular') != 'servicio.celular.prepago'", "opciones": [
+        { "id": "servicio.celular.prepago", "precio": 5990 },
+        { "id": "servicio.celular.plan", "precio": 12990 },
+        { "id": "servicio.celular.plan_ilimitado", "precio": 20990 }
+      ] }
+    ],
       "gastos": {
       "edad_desde": 18,
       "felicidad_en_rojo": 1,
@@ -146,7 +153,6 @@
         { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.chile.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
         { "id": "gasto.chile.transporte", "monto": "45000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
-        { "id": "gasto.chile.celular", "monto": "15000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
         { "id": "gasto.chile.personales", "monto": "60000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" }
       ]
     },

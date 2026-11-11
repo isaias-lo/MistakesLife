@@ -161,6 +161,7 @@ namespace MistakesLife.Core.Saving
                     Deposit = c.Lease.Deposit,
                 },
                 GroceryBasketId = c.GroceryBasketId,
+                Services = new Dictionary<string, string>(c.Services),
                 PendingTaxReturn = c.PendingTaxReturn == null ? null : new TaxReturnData
                 {
                     Year = c.PendingTaxReturn.Year,

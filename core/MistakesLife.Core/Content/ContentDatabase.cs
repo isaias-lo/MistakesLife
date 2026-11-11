@@ -730,6 +730,7 @@ namespace MistakesLife.Core.Content
                 ValidatePayroll($"{where}, economia", country.Economy);
                 ValidateHousing($"{where}, economia.vivienda", country);
                 ValidateGroceries($"{where}, economia.supermercado", country.Economy.Groceries);
+                ValidateServices($"{where}, economia.servicios", country.Economy.Services);
                 if (country.Economy.Companies != null)
                 {
                     ValidateCompanies($"{where}, economia.empresas", country.Economy.Companies);
@@ -748,6 +749,44 @@ namespace MistakesLife.Core.Content
                 if (badRate || family.PartnerMinAge < 12 || family.FertileMaxAge < family.PartnerMinAge || family.MaxChildren < 0)
                 {
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));
+                }
+            }
+        }
+
+        private void ValidateServices(string where, List<ServiceDefinition> services)
+        {
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (ServiceDefinition service in services)
+            {
+                string serviceWhere = $"{where}, {service.Id}";
+                CheckId(serviceWhere, service.Id, "servicio.");
+                if (!seen.Add(service.Id))
+                {
+                    _errors.Add(new ContentError(serviceWhere, "servicio repetido."));
+                }
+
+                service.CompiledConditions = CompileCondition(serviceWhere, service.Conditions);
+                if (service.Options.Count == 0)
+                {
+                    _errors.Add(new ContentError(serviceWhere, "un servicio necesita al menos una opción."));
+                }
+
+                foreach (ServiceOptionDefinition option in service.Options)
+                {
+                    if (!option.Id.StartsWith(service.Id + ".", StringComparison.Ordinal))
+                    {
+                        _errors.Add(new ContentError($"{serviceWhere}, {option.Id}", $"el id de la opción debe empezar con '{service.Id}.'."));
+                    }
+
+                    if (!seen.Add(option.Id))
+                    {
+                        _errors.Add(new ContentError($"{serviceWhere}, {option.Id}", "opción repetida."));
+                    }
+
+                    if (option.Price < 0)
+                    {
+                        _errors.Add(new ContentError($"{serviceWhere}, {option.Id}", "el precio no puede ser negativo."));
+                    }
                 }
             }
         }
@@ -1427,6 +1466,11 @@ namespace MistakesLife.Core.Content
                     yield return new KeyValuePair<string, string>(housingType.Id, $"país {country.Id}");
                 }
 
+                foreach (ServiceOptionDefinition option in (country.Economy?.Services ?? new List<ServiceDefinition>()).SelectMany(s => s.Options))
+                {
+                    yield return new KeyValuePair<string, string>(option.Id, $"país {country.Id}");
+                }
+
                 foreach (GroceryBasketDefinition basket in country.Economy?.Groceries?.Baskets ?? new List<GroceryBasketDefinition>())
                 {
                     yield return new KeyValuePair<string, string>(basket.Id, $"país {country.Id}");
@@ -1701,6 +1745,21 @@ namespace MistakesLife.Core.Content
                     {
                         _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene ese tipo de vivienda. Todo país debe definir en economia.vivienda los tipos que usan los eventos."));
                     }
+                }
+
+                if (reference.Function == "." + CharacterObject.ContractMethod || reference.Function == EventScope.FeeFunction)
+                {
+                    string name = reference.Function.TrimStart('.');
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => (c.Economy?.Services ?? new List<ServiceDefinition>()).All(s => s.Option(reference.Argument) == null)))
+                    {
+                        _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene esa opción en economia.servicios. Todo país debe definir los servicios que usan los eventos."));
+                    }
+                }
+
+                if ((reference.Function == "." + CharacterObject.ServiceMethod || reference.Function == "." + CharacterObject.CancelServiceMethod)
+                    && CheckedCountries().Any(c => (c.Economy?.Services ?? new List<ServiceDefinition>()).All(s => s.Id != reference.Argument)))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.TrimStart('.')}('{reference.Argument}'): ese servicio no está en economia.servicios de todos los países."));
                 }
 
                 if (reference.Function == "." + CharacterObject.ChooseGroceriesMethod || reference.Function == EventScope.GroceriesFunction)
