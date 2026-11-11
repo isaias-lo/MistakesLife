@@ -72,6 +72,55 @@ namespace MistakesLife.Core.Tests
         }
 
         /// <summary>
+        /// Una vida por carrera que se titula a los 25 con todas las semillas de su carrera
+        /// plantadas (por ejemplo, haber roto la confidencialidad de un paciente en la
+        /// práctica). Sirve para los eventos que vienen de una semilla que se planta en
+        /// cerca del 1 % de las vidas: sin esto, que aparezcan depende de la suerte.
+        /// </summary>
+        public static HashSet<string> CareerSeedEvents(ContentDatabase content, int startAge = 25, int finalAge = 40)
+        {
+            var seen = new HashSet<string>();
+            ulong lifeSeed = 900;
+            foreach (CareerDefinition career in content.Careers)
+            {
+                var session = new LifeSession(content, lifeSeed++);
+                Play(session, startAge);
+                if (!session.World.Player.IsAlive)
+                {
+                    continue;
+                }
+
+                CareerLevelDefinition best = career.Levels.OrderByDescending(l => l.SalaryRelative).First();
+                string shortName = career.Id.Substring("carrera.".Length);
+                var effects = new List<string>();
+                if (session.World.Player.Studies != null)
+                {
+                    effects.Add("jugador.desertar()");
+                }
+
+                effects.Add($"estudiar('{best.Id}')");
+                effects.Add("jugador.titularse()");
+                effects.Add("jugador.desmarcar('buscando_trabajo')");
+                effects.Add("jugador.marcar('trabajando')");
+                effects.Add($"jugador.marcar('trabaja_{shortName}')");
+                effects.Add($"jugador.trabajar_en('{career.Areas[0].Id}')");
+                effects.AddRange(content.SeedTypes
+                    .Where(s => s.Id.StartsWith("semilla." + shortName + "."))
+                    .Select(s => $"plantar('{s.Id}')"));
+                var scope = new EventScope(session.World, content, session.World.Player, null, readOnly: false);
+                foreach (string effect in effects)
+                {
+                    Effect.Parse(effect).Apply(scope);
+                }
+
+                Play(session, finalAge);
+                seen.UnionWith(session.World.EventHistory.Select(r => r.EventId));
+            }
+
+            return seen;
+        }
+
+        /// <summary>
         /// Vidas de personas que trabajan con la salud muy baja a los 40 años, para los eventos
         /// de dejar el trabajo por salud y volver al recuperarse, que en una vida al azar le
         /// pasan a cerca del 1 %.

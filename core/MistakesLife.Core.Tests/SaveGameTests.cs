@@ -388,7 +388,7 @@ namespace MistakesLife.Core.Tests
             {
                 "Id", "FirstName", "LastName", "Sex", "Gender", "GenderIdentity", "Orientation", "BirthDate", "Personality", "Stats",
                 "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "Residence", "HouseholdLevel", "Money", "Job",
-                "LastPayslip", "LastExpenses", "MonthsInRed", "Lease", "GroceryBasketId", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
+                "LastPayslip", "LastExpenses", "MonthsInRed", "Lease", "GroceryBasketId", "Services", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
                 "LastPensionPayment", "ContributedMonths", "PensionSalaryBase", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
                 "Relationships", "LastPosition", "JobSearch", "Phone", "Mail",
                 "IsAlive", "DeathDate", "DeathCauseId",

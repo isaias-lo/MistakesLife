@@ -1,0 +1,26 @@
+[
+  {
+    "id": "semilla.testigo_matrimonio",
+    "tipo": "positiva",
+    "fuerza": 50,
+    "vence_anios": 10,
+    "dormir_min_semanas": 78,
+    "condiciones": "semilla('semilla.testigo_matrimonio').testigo != nada"
+  },
+  {
+    "id": "semilla.amigo_lejos",
+    "tipo": "ambigua",
+    "fuerza": 70,
+    "vence_anios": 15,
+    "dormir_min_semanas": 104,
+    "condiciones": "semilla('semilla.amigo_lejos').testigo != nada"
+  },
+  {
+    "id": "semilla.negocio_con_amigo",
+    "tipo": "ambigua",
+    "fuerza": 95,
+    "vence_anios": 4,
+    "dormir_min_semanas": 52,
+    "condiciones": "semilla('semilla.negocio_con_amigo').testigo != nada"
+  }
+]

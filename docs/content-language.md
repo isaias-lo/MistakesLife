@@ -215,6 +215,26 @@ La comida tampoco es un monto fijo: el jugador **elige su compra** en un evento 
 - Solo se cobra mientras vive por su cuenta (`vive_independiente`); en la casa de su familia, la comida va en el aporte a la casa. Si todavía no elige, no se cobra: el evento `evento.armar_compra` le pregunta apenas se va a vivir solo, y `evento.revisar_compra` le pregunta de vez en cuando si sigue igual.
 - Todo país debe tener las compras que usan los eventos. El `id` empieza con `compra.`.
 
+#### Servicios que contrata el jugador (`economia.servicios`)
+
+Lo que se paga cada mes porque el jugador lo **contrató** (el plan del celular; después internet, el gimnasio...). Nada se cobra si no lo contrató: lo elige en un evento con `jugador.contratar('servicio.celular.prepago')`, y lo puede cambiar (contratar otra opción del mismo servicio) o cancelar (`jugador.cancelar_servicio('servicio.celular')`).
+
+```json
+"servicios": [
+  { "id": "servicio.celular", "condiciones": "jugador.tiene_celular || jugador.servicio('servicio.celular') != 'servicio.celular.prepago'", "opciones": [
+    { "id": "servicio.celular.prepago", "precio": 5990 },
+    { "id": "servicio.celular.plan", "precio": 12990 },
+    { "id": "servicio.celular.plan_ilimitado", "precio": 20990 }
+  ] }
+]
+```
+
+- `precio`: lo que cuesta al mes, en dinero del inicio del mundo (con fuente en `SOURCES.md`). Cada mes es una línea de los gastos con el id de la opción, que es también su clave en `lang/`.
+- El id del servicio empieza con `servicio.` y el de cada opción, con el id de su servicio (`servicio.celular.plan`).
+- `condiciones` (opcional): cuándo se cobra lo contratado. En el celular, el prepago solo se paga si tiene celular (si se lo robaron, no carga), pero un plan sigue llegando en la boleta.
+- `compartido` (opcional): se divide en dos si tiene pareja.
+- Todo país debe tener los servicios y opciones que usan los eventos.
+
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
 
 ```json
@@ -706,6 +726,9 @@ Lo que pasó antes de tener correo nunca llega. Sin cuenta, los correos no llega
 | `arriendo('vivienda.pieza')` | Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5`) |
 | `compra('compra.basica')` | Lo que le tocaría pagar al mes por esa compra, para los de su casa y a medias si tiene pareja, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(compra('compra.con_antojos')) * 5`) |
 | `jugador.elegir_compra('compra')` | Desde ahora hace esa compra de comida cada mes (solo efectos) |
+| `tarifa('servicio.celular.plan')` | Lo que cuesta al mes esa opción de un servicio, en dinero del inicio del mundo |
+| `jugador.contratar('opción')`, `jugador.cancelar_servicio('servicio')` | Contrata esa opción (cambia la que tenía del mismo servicio) o deja de pagar el servicio (solo efectos) |
+| `jugador.servicio('servicio.celular')` | La opción que tiene contratada de ese servicio, o `nada` |
 | `jugador.compra` | La compra de comida que eligió, o `nada` si todavía no decide |
 | `jugador.arrendar('tipo')` | Firma un contrato de ese tipo de vivienda en su comuna: deja la garantía (y recupera la del contrato anterior, si tenía) y vive por su cuenta (solo efectos) |
 | `jugador.renovar_arriendo()`, `jugador.dejar_arriendo()` | Renueva el contrato por otro plazo, o lo deja: recupera la garantía y vuelve a vivir con su familia (solo efectos) |

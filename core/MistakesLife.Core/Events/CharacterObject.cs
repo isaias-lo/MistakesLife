@@ -47,6 +47,12 @@ namespace MistakesLife.Core.Events
 
         public const string ChooseGroceriesMethod = "elegir_compra";
 
+        public const string ContractMethod = "contratar";
+
+        public const string ServiceMethod = "servicio";
+
+        public const string CancelServiceMethod = "cancelar_servicio";
+
         /// <summary>Método para endeudarse: la validación revisa que el tipo de deuda exista en todo país.</summary>
         public const string BorrowMethod = "endeudarse";
 
@@ -564,6 +570,19 @@ namespace MistakesLife.Core.Events
                     string housingType = EventScope.SingleText("jugador." + method, args);
                     ((EventScope)scope).RequireWritable("jugador." + method);
                     Economy.HousingRules.Sign(((EventScope)scope).World, ((EventScope)scope).Content, _character, housingType);
+                    return Value.Null;
+                case ContractMethod:
+                    string option = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Economy.ServiceRules.Contract(((EventScope)scope).Content, _character, option);
+                    return Value.Null;
+                case ServiceMethod:
+                    string serviceId = EventScope.SingleText("jugador." + method, args);
+                    return _character.Services.TryGetValue(serviceId, out string? contracted) ? Value.FromText(contracted) : Value.Null;
+                case CancelServiceMethod:
+                    string cancelled = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Economy.ServiceRules.Cancel(_character, cancelled);
                     return Value.Null;
                 case ChooseGroceriesMethod:
                     string basket = EventScope.SingleText("jugador." + method, args);

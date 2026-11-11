@@ -53,8 +53,11 @@ namespace MistakesLife.Core.Tests
             // Y vidas que ascendieron y andan mal en el trabajo, para bajar de cargo
             // (en vidas al azar, menos del 1 %).
             var struggling = CareerAreaLives.StrugglingWorkerEvents(RepoPacks.Content, lives: 8);
+            // Y una vida por carrera con las semillas de su carrera ya plantadas, para los
+            // eventos que vienen de una semilla rara (por ejemplo, un reclamo de ética).
+            var careerSeeds = CareerAreaLives.CareerSeedEvents(RepoPacks.Content);
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).ToArray();
 
             Assert.Empty(never);
         }

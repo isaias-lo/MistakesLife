@@ -17,7 +17,7 @@ namespace MistakesLife.Core.Events
     /// Funciones: semilla('id'), plantar('id') o plantar('id', persona), diario('clave'), estudiar('nivel'),
     /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor),
     /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo(), arriendo('tipo de vivienda'),
-    /// compra('compra') (lo que le tocaría pagar al mes por esa compra),
+    /// compra('compra') (lo que le tocaría pagar al mes por esa compra), tarifa('servicio.x.opcion'),
     /// noticia_reciente('noticia.x') o noticia_reciente('noticia.x', semanas).
     /// Ver docs/content-language.md para la lista completa.
     /// </summary>
@@ -44,6 +44,8 @@ namespace MistakesLife.Core.Events
 
         public const string GroceriesFunction = "compra";
 
+        public const string FeeFunction = "tarifa";
+
         /// <summary>Funciones que leen los sueldos del país: todo país debe tener "economia.sueldos" si un evento las usa.</summary>
         public static readonly IReadOnlyCollection<string> SalaryNames = new[]
         {
@@ -55,7 +57,7 @@ namespace MistakesLife.Core.Events
         {
             "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
             PriceFunction + "()", ChangeInflationFunction + "()", ChangeCycleFunction + "()",
-            MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()", RentFunction + "()", GroceriesFunction + "()",
+            MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()", RentFunction + "()", GroceriesFunction + "()", FeeFunction + "()",
             RecentNewsFunction + "()",
         };
 
@@ -167,6 +169,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(DegreeSalary());
                 case RentFunction:
                     return Value.FromNumber((double)Economy.HousingRules.MarketRent(Content, Subject, SingleText(name, args)));
+                case FeeFunction:
+                    return Value.FromNumber((double)Economy.ServiceRules.Price(Content, Subject, SingleText(name, args), name));
                 case GroceriesFunction:
                     return Value.FromNumber((double)Economy.GroceryRules.MonthlyShare(World, Content, Subject, SingleText(name, args)));
                 case ChangeInflationFunction:

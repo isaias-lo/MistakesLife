@@ -1,0 +1,15 @@
+{
+  "servicio.celular.prepago": "Celular: prepago con recargas",
+  "servicio.celular.plan": "Celular: plan mensual",
+  "servicio.celular.plan_ilimitado": "Celular: plan con gigas libres",
+  "evento.pagar_tu_celular": "Ya no es la cuenta de tus papás: ahora el celular lo pagas tú. En la tienda de la compañía te muestran las opciones.",
+  "opcion.pagar_tu_celular.prepago": "Prepago: cargas un paquete cada mes y, si un mes no hay plata, no cargas.",
+  "opcion.pagar_tu_celular.plan": "Un plan mensual con harto internet, que llega en la boleta.",
+  "opcion.pagar_tu_celular.plan_ilimitado": "El plan con gigas libres y roaming: más caro, pero no te preocupas de nada.",
+  "evento.revisar_plan_celular": "Te llega un mensaje de la compañía con ofertas para cambiar de plan. ¿Te quedas con el que tienes?",
+  "evento.revisar_plan_celular.2": "Revisando la boleta del celular, te preguntas si estás pagando lo que de verdad usas.",
+  "opcion.revisar_plan_celular.seguir": "Te quedas con el plan que tienes.",
+  "opcion.revisar_plan_celular.prepago": "Te pasas a prepago: cargas solo cuando lo necesitas.",
+  "opcion.revisar_plan_celular.plan": "Te cambias a un plan mensual normal.",
+  "opcion.revisar_plan_celular.plan_ilimitado": "Te cambias al plan con gigas libres."
+}
