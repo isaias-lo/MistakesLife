@@ -49,8 +49,11 @@ namespace MistakesLife.Core.Tests
             SimulationReport old = simulator.Run(lives: 300, finalAge: 85);
             var careers = CareerAreaLives.SeenEvents(RepoPacks.Content, livesPerArea: 6);
             var sick = CareerAreaLives.SickWorkerEvents(RepoPacks.Content, lives: 12);
+            // Y una vida por carrera con las semillas de su carrera ya plantadas, para los
+            // eventos que vienen de una semilla rara (por ejemplo, un reclamo de ética).
+            var careerSeeds = CareerAreaLives.CareerSeedEvents(RepoPacks.Content);
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(careerSeeds).ToArray();
 
             Assert.Empty(never);
         }

@@ -348,7 +348,8 @@
         "texto": "opcion.pareja_y_suegra.madre",
         "tendencia": "30",
         "efectos": [
-          "jugador.pareja.rencor += 10",
+          "jugador.pareja.rencor += 15",
+          "jugador.pareja.carino -= 3",
           "jugador.madre.carino += 4"
         ]
       },
@@ -391,7 +392,8 @@
         "texto": "opcion.celos.enojarse",
         "tendencia": "(100 - jugador.amabilidad) / 3",
         "efectos": [
-          "jugador.pareja.rencor += 10",
+          "jugador.pareja.rencor += 15",
+          "jugador.pareja.carino -= 5",
           "jugador.felicidad -= 3"
         ]
       }
