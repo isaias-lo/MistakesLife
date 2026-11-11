@@ -304,6 +304,11 @@ namespace MistakesLife.Core.Game
                 {
                     Economy.HousingRules.AssumeLease(World, Content, heir, prior.Housing);
                 }
+
+                if (prior.GroceryBasket != null && heir.GroceryBasketId == null)
+                {
+                    heir.GroceryBasketId = prior.GroceryBasket;
+                }
             }
         }
 

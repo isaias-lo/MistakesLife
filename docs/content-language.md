@@ -166,7 +166,7 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 ```
 
 - Al empezar cada mes, después del sueldo, el jugador paga cada gasto cuyas `condiciones` se cumplan (desde `edad_desde`; antes los pagan sus padres). Por ahora solo el jugador lleva sus cuentas.
-- `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o una función como `arriendo('vivienda.pieza')`. El arriendo **no** es un gasto: sale del contrato que firmó el jugador (ver Vivienda).
+- `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o una función como `arriendo('vivienda.pieza')`. El arriendo y la comida **no** son gastos: salen del contrato que firmó el jugador (ver Vivienda) y de la compra que eligió (ver Supermercado).
 - `compartido`: se divide en dos si tiene pareja.
 - El `id` empieza con `gasto.` y es la clave de su nombre en `lang/`.
 - Cada mes en que los gastos son más que el dinero suma uno a `jugador.meses_en_rojo` y resta `felicidad_en_rojo` (estrés financiero). Al alcanzar de nuevo, vuelve a 0.
@@ -196,6 +196,24 @@ y en cada comuna, el arriendo típico de cada tipo (en dinero del inicio del mun
 - El contrato dura `plazo_meses`; en 0 sigue mes a mes hasta que el jugador lo renueve o lo deje (el evento `evento.fin_contrato_arriendo` le pregunta).
 - `incluye_cuentas`: el arriendo ya trae luz, agua e internet (`jugador.cuentas_incluidas`), como casi siempre en una pieza.
 - Toda comuna del país debe tener el precio de cada tipo, y todo tipo que use un evento debe existir en todo país.
+
+#### Supermercado (`economia.supermercado`)
+
+La comida tampoco es un monto fijo: el jugador **elige su compra** en un evento (`jugador.elegir_compra('compra.basica')`) y cada mes paga esa compra para todos los que comen en su casa.
+
+```json
+"supermercado": { "factor_hijo": 1, "compras": [
+  { "id": "compra.justa", "costo_persona": 73152 },
+  { "id": "compra.basica", "costo_persona": 90384 },
+  { "id": "compra.con_antojos", "costo_persona": 107616 }
+] }
+```
+
+- `costo_persona`: lo que cuesta esa compra al mes para una persona, en dinero del inicio del mundo. Sale de la canasta básica oficial del país (ver `SOURCES.md`).
+- Cada mes paga `costo_persona × (1 + pareja + hijos menores × factor_hijo)`, la mitad si tiene pareja, como una línea de sus gastos con el id de la compra (que es también su clave en `lang/`).
+- `factor_hijo`: cuánto come un hijo menor comparado con un adulto (1 = lo mismo; en Argentina la canasta se mide por "adulto equivalente" y un niño come menos).
+- Solo se cobra mientras vive por su cuenta (`vive_independiente`); en la casa de su familia, la comida va en el aporte a la casa. Si todavía no elige, no se cobra: el evento `evento.armar_compra` le pregunta apenas se va a vivir solo, y `evento.revisar_compra` le pregunta de vez en cuando si sigue igual.
+- Todo país debe tener las compras que usan los eventos. El `id` empieza con `compra.`.
 
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
 
@@ -652,6 +670,9 @@ Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avi
 | `jugador.hijos_menores` | Cuántos hijos vivos menores de 18 tiene |
 | `jugador.gastos`, `jugador.meses_en_rojo` | Lo que pagó en gastos el último mes, y cuántos meses seguidos terminó con el dinero en negativo |
 | `arriendo('vivienda.pieza')` | Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5`) |
+| `compra('compra.basica')` | Lo que le tocaría pagar al mes por esa compra, para los de su casa y a medias si tiene pareja, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(compra('compra.con_antojos')) * 5`) |
+| `jugador.elegir_compra('compra')` | Desde ahora hace esa compra de comida cada mes (solo efectos) |
+| `jugador.compra` | La compra de comida que eligió, o `nada` si todavía no decide |
 | `jugador.arrendar('tipo')` | Firma un contrato de ese tipo de vivienda en su comuna: deja la garantía (y recupera la del contrato anterior, si tenía) y vive por su cuenta (solo efectos) |
 | `jugador.renovar_arriendo()`, `jugador.dejar_arriendo()` | Renueva el contrato por otro plazo, o lo deja: recupera la garantía y vuelve a vivir con su familia (solo efectos) |
 | `jugador.vivienda`, `jugador.arriendo`, `jugador.meses_contrato`, `jugador.cuentas_incluidas` | Tipo de vivienda que arrienda (o `nada`), lo que paga al mes a precios de hoy, los meses que le quedan al contrato y si el arriendo trae las cuentas |

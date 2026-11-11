@@ -638,6 +638,11 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError($"{where}, vida_previa edad {prior.Age}", $"la vivienda '{prior.Housing}' no está en economia.vivienda.tipos."));
                 }
+
+                if (prior.GroceryBasket != null && country.Economy?.Groceries?.Basket(prior.GroceryBasket) == null)
+                {
+                    _errors.Add(new ContentError($"{where}, vida_previa edad {prior.Age}", $"la compra '{prior.GroceryBasket}' no está en economia.supermercado.compras."));
+                }
             }
 
             foreach (KeyValuePair<string, Newtonsoft.Json.Linq.JToken> law in country.LawsJson)
@@ -666,6 +671,7 @@ namespace MistakesLife.Core.Content
 
                 ValidatePayroll($"{where}, economia", country.Economy);
                 ValidateHousing($"{where}, economia.vivienda", country);
+                ValidateGroceries($"{where}, economia.supermercado", country.Economy.Groceries);
                 if (country.Economy.Companies != null)
                 {
                     ValidateCompanies($"{where}, economia.empresas", country.Economy.Companies);
@@ -684,6 +690,34 @@ namespace MistakesLife.Core.Content
                 if (badRate || family.PartnerMinAge < 12 || family.FertileMaxAge < family.PartnerMinAge || family.MaxChildren < 0)
                 {
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));
+                }
+            }
+        }
+
+        private void ValidateGroceries(string where, GroceriesDefinition? groceries)
+        {
+            if (groceries == null)
+            {
+                return;
+            }
+
+            if (groceries.ChildFactor < 0 || groceries.ChildFactor > 2)
+            {
+                _errors.Add(new ContentError(where, "factor_hijo va de 0 a 2 (1 = un hijo come lo mismo que un adulto)."));
+            }
+
+            var seen = new HashSet<string>();
+            foreach (GroceryBasketDefinition basket in groceries.Baskets)
+            {
+                CheckId($"{where}, {basket.Id}", basket.Id, "compra.");
+                if (!seen.Add(basket.Id))
+                {
+                    _errors.Add(new ContentError($"{where}, {basket.Id}", "compra repetida."));
+                }
+
+                if (basket.PerPerson < 0)
+                {
+                    _errors.Add(new ContentError($"{where}, {basket.Id}", "costo_persona no puede ser negativo."));
                 }
             }
         }
@@ -1319,6 +1353,11 @@ namespace MistakesLife.Core.Content
                     yield return new KeyValuePair<string, string>(housingType.Id, $"país {country.Id}");
                 }
 
+                foreach (GroceryBasketDefinition basket in country.Economy?.Groceries?.Baskets ?? new List<GroceryBasketDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>(basket.Id, $"país {country.Id}");
+                }
+
                 foreach (DebtTypeDefinition debt in country.Economy?.Debts?.Types ?? new List<DebtTypeDefinition>())
                 {
                     yield return new KeyValuePair<string, string>(debt.Id, $"país {country.Id}");
@@ -1587,6 +1626,15 @@ namespace MistakesLife.Core.Content
                     foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Housing?.Type(reference.Argument) == null))
                     {
                         _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene ese tipo de vivienda. Todo país debe definir en economia.vivienda los tipos que usan los eventos."));
+                    }
+                }
+
+                if (reference.Function == "." + CharacterObject.ChooseGroceriesMethod || reference.Function == EventScope.GroceriesFunction)
+                {
+                    string name = reference.Function.TrimStart('.');
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Groceries?.Basket(reference.Argument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene esa compra. Todo país debe definir en economia.supermercado las compras que usan los eventos."));
                     }
                 }
 

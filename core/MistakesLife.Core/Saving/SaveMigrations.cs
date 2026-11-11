@@ -136,6 +136,21 @@ namespace MistakesLife.Core.Saving
                     world["news"] ??= new JArray();
                 }
             },
+
+            // 10 → 11: la comida deja de ser un monto fijo y sale de la compra que
+            // elige el jugador. Quien ya vivía por su cuenta sigue con la canasta
+            // básica (lo mínimo para comer bien) hasta que decida otra.
+            [10] = save =>
+            {
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    if (character["groceryBasketId"] == null && character["flags"] is JArray flags
+                        && flags.Any(f => (string?)f == Economy.HousingRules.LivesOnOwnFlag))
+                    {
+                        character["groceryBasketId"] = "compra.basica";
+                    }
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

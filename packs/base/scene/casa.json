@@ -14,5 +14,7 @@
   { "id": "escena.casa.foto_pareja", "lugar": "casa", "condiciones": "jugador.pareja != nada" },
   { "id": "escena.casa.foto_recuerdo", "lugar": "casa", "condiciones": "(jugador.madre != nada && !jugador.madre.vivo) || (jugador.padre != nada && !jugador.padre.vivo)" },
   { "id": "escena.casa.mecedora", "lugar": "casa", "condiciones": "jugador.jubilado" },
-  { "id": "escena.casa.contrato_arriendo", "lugar": "casa", "condiciones": "jugador.vivienda != nada" }
+  { "id": "escena.casa.contrato_arriendo", "lugar": "casa", "condiciones": "jugador.vivienda != nada" },
+  { "id": "escena.casa.bolsas_super", "lugar": "casa", "condiciones": "jugador.tiene('vive_independiente') && jugador.compra != nada" },
+  { "id": "escena.casa.bebidas", "lugar": "casa", "condiciones": "jugador.tiene('vive_independiente') && jugador.compra == 'compra.con_antojos'" }
 ]
