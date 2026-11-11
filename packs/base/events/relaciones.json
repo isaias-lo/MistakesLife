@@ -395,7 +395,7 @@
   },
   {
     "id": "evento.pareja_se_va",
-    "condiciones": "jugador.pareja != nada && jugador.pareja.rencor >= 35 && jugador.pareja.carino < 70",
+    "condiciones": "jugador.pareja != nada && jugador.pareja.rencor >= 30 && jugador.pareja.carino < 70",
     "probabilidad_anual": 0.6,
     "enfriamiento_semanas": 26,
     "dia_clave": true,

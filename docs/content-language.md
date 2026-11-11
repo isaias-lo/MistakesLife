@@ -166,7 +166,7 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 ```
 
 - Al empezar cada mes, después del sueldo, el jugador paga cada gasto cuyas `condiciones` se cumplan (desde `edad_desde`; antes los pagan sus padres). Por ahora solo el jugador lleva sus cuentas.
-- `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o una función como `arriendo('vivienda.pieza')`. El arriendo **no** es un gasto: sale del contrato que firmó el jugador (ver Vivienda).
+- `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o una función como `arriendo('vivienda.pieza')`. El arriendo y la comida **no** son gastos: salen del contrato que firmó el jugador (ver Vivienda) y de la compra que eligió (ver Supermercado).
 - `compartido`: se divide en dos si tiene pareja.
 - El `id` empieza con `gasto.` y es la clave de su nombre en `lang/`.
 - Cada mes en que los gastos son más que el dinero suma uno a `jugador.meses_en_rojo` y resta `felicidad_en_rojo` (estrés financiero). Al alcanzar de nuevo, vuelve a 0.
@@ -196,6 +196,24 @@ y en cada comuna, el arriendo típico de cada tipo (en dinero del inicio del mun
 - El contrato dura `plazo_meses`; en 0 sigue mes a mes hasta que el jugador lo renueve o lo deje (el evento `evento.fin_contrato_arriendo` le pregunta).
 - `incluye_cuentas`: el arriendo ya trae luz, agua e internet (`jugador.cuentas_incluidas`), como casi siempre en una pieza.
 - Toda comuna del país debe tener el precio de cada tipo, y todo tipo que use un evento debe existir en todo país.
+
+#### Supermercado (`economia.supermercado`)
+
+La comida tampoco es un monto fijo: el jugador **elige su compra** en un evento (`jugador.elegir_compra('compra.basica')`) y cada mes paga esa compra para todos los que comen en su casa.
+
+```json
+"supermercado": { "factor_hijo": 1, "compras": [
+  { "id": "compra.justa", "costo_persona": 73152 },
+  { "id": "compra.basica", "costo_persona": 90384 },
+  { "id": "compra.con_antojos", "costo_persona": 107616 }
+] }
+```
+
+- `costo_persona`: lo que cuesta esa compra al mes para una persona, en dinero del inicio del mundo. Sale de la canasta básica oficial del país (ver `SOURCES.md`).
+- Cada mes paga `costo_persona × (1 + pareja + hijos menores × factor_hijo)`, la mitad si tiene pareja, como una línea de sus gastos con el id de la compra (que es también su clave en `lang/`).
+- `factor_hijo`: cuánto come un hijo menor comparado con un adulto (1 = lo mismo; en Argentina la canasta se mide por "adulto equivalente" y un niño come menos).
+- Solo se cobra mientras vive por su cuenta (`vive_independiente`); en la casa de su familia, la comida va en el aporte a la casa. Si todavía no elige, no se cobra: el evento `evento.armar_compra` le pregunta apenas se va a vivir solo, y `evento.revisar_compra` le pregunta de vez en cuando si sigue igual.
+- Todo país debe tener las compras que usan los eventos. El `id` empieza con `compra.`.
 
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
 
@@ -336,7 +354,7 @@ Ningún trabajo con contrato llega solo: el jugador lo busca. Primero dice qué 
 - **La oferta:** en su área entra como con `trabajar_en` (empresa, cargo y sueldo), con el contrato que pidió en `postular_en` y la `marca_trabajo` de su carrera. Fuera de su carrera entra con contrato: con el sueldo mínimo si no tiene título y cotizó menos de `meses_para_sueldo_tipico` meses, y si no con lo de `sueldo_titulo()`. Al aceptar pierde la marca `buscando_trabajo`, gana `trabajando` y se anota `diario.busqueda.nuevo_trabajo`.
 - **Negociar** (`negociacion`): con `prob_mejora` le suben el sueldo de la oferta en `mejora`; con `prob_retiro` la retiran (`diario.busqueda.oferta_retirada`) y sigue buscando; si no, la mantienen igual.
 - La búsqueda dura mientras tenga la marca `buscando_trabajo`; al quitarla se borra sola.
-- Textos obligatorios: el de cada forma y los tres del diario. Opcional: un país sin `busqueda_trabajo` no tiene formas de buscar (nadie consigue trabajo buscando).
+- Textos obligatorios: el de cada forma y los cuatro del diario (`diario.busqueda.llamado` se anota cuando lo llaman a entrevista). Opcional: un país sin `busqueda_trabajo` no tiene formas de buscar (nadie consigue trabajo buscando).
 
 #### Herencia (`economia.herencia`)
 
@@ -593,7 +611,41 @@ Para que la escena 3D cambie con la vida, un paquete puede traer objetos en `sce
 
 Los objetos que vienen de las noticias (paquete de Chile): `escena.casa.mochila_emergencia` (armó la mochila), `escena.casa.grietas` (dejó la casa sin reparar después del terremoto), `escena.casa.velas` (temporal de las últimas 2 semanas) y `escena.barrio.escombros` (terremoto de los últimos 3 meses).
 
-Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cartas de rechazo (desde 2 entrevistas sin quedar), ropa de entrevista (con una entrevista u oferta pendiente), cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo y mecedora. Además, Unity nubla el cielo cuando la felicidad baja.
+Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cartas de rechazo (desde 2 entrevistas sin quedar), ropa de entrevista (con una entrevista u oferta pendiente), celular (si tiene) y su aviso encendido (`escena.casa.celular_avisos`, con correos sin leer), cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo y mecedora. Además, Unity nubla el cielo cuando la felicidad baja.
+
+## Celular y correo (apps/ y mail/)
+
+El celular es un objeto de la vida: alguien se lo da (los papás, con `jugador.dar_celular()`), se compra, se pierde o se lo roban (`jugador.perder_celular()`). Adentro tiene apps; las de un paquete van en `apps/*.json` (una lista) y siempre son parodias, nunca una marca real:
+
+```json
+[
+  { "id": "app.correo", "de_fabrica": true },
+  { "id": "app.instante" }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Id estable: `app.<nombre>`. Es también la clave del nombre de la app en lang/ |
+| `de_fabrica` | Si viene en todo celular nuevo (las demás se instalan con `jugador.instalar_app('app.x')`) |
+
+El **correo** es una cuenta, no está en el aparato: si pierde el celular, el correo sigue. Se crea con `jugador.crear_correo()` y desde ese día le llegan los avisos de su vida. Los correos de un paquete van en `mail/*.json` (una lista):
+
+```json
+[
+  { "id": "correo.busqueda.rechazo", "remitente": "remitente.seleccion", "tema": "trabajo", "al_anotar": ["diario.busqueda.rechazo"] },
+  { "id": "correo.estafa.banco", "remitente": "remitente.banco_falso", "tema": "estafa" }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Id estable: `correo.<tema>.<nombre>`. Es la clave del cuerpo del correo; el asunto es `id + ".asunto"` |
+| `remitente` | Clave de texto de quien lo manda: `remitente.<nombre>` |
+| `tema` | `trabajo`, `estudio`, `banco`, `estado`, `juzgado`, `personal`, `publicidad` o `estafa` (la pantalla le pone su ícono) |
+| `al_anotar` | Líneas del diario que lo hacen llegar. Así ningún sistema ni evento necesita saber del correo: cuando algo anota `diario.busqueda.rechazo`, al final de esa semana llega el correo de rechazo a quien tiene cuenta. Si falta, solo llega con `jugador.recibir_correo('id')` |
+
+Lo que pasó antes de tener correo nunca llega. Sin cuenta, los correos no llegan (pero el diario sí se escribe). La bandeja guarda los últimos 300 correos. Unity marca un correo como leído con `LifeSession.ReadMail(posición)`.
 
 ## El lenguaje de condiciones y efectos
 
@@ -652,6 +704,9 @@ Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avi
 | `jugador.hijos_menores` | Cuántos hijos vivos menores de 18 tiene |
 | `jugador.gastos`, `jugador.meses_en_rojo` | Lo que pagó en gastos el último mes, y cuántos meses seguidos terminó con el dinero en negativo |
 | `arriendo('vivienda.pieza')` | Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5`) |
+| `compra('compra.basica')` | Lo que le tocaría pagar al mes por esa compra, para los de su casa y a medias si tiene pareja, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(compra('compra.con_antojos')) * 5`) |
+| `jugador.elegir_compra('compra')` | Desde ahora hace esa compra de comida cada mes (solo efectos) |
+| `jugador.compra` | La compra de comida que eligió, o `nada` si todavía no decide |
 | `jugador.arrendar('tipo')` | Firma un contrato de ese tipo de vivienda en su comuna: deja la garantía (y recupera la del contrato anterior, si tenía) y vive por su cuenta (solo efectos) |
 | `jugador.renovar_arriendo()`, `jugador.dejar_arriendo()` | Renueva el contrato por otro plazo, o lo deja: recupera la garantía y vuelve a vivir con su familia (solo efectos) |
 | `jugador.vivienda`, `jugador.arriendo`, `jugador.meses_contrato`, `jugador.cuentas_incluidas` | Tipo de vivienda que arrienda (o `nada`), lo que paga al mes a precios de hoy, los meses que le quedan al contrato y si el arriendo trae las cuentas |
@@ -705,6 +760,11 @@ Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avi
 | `plantar('id')` | Planta una semilla nueva (solo efectos). Si el personaje ya tiene abierta una del mismo tipo, no planta otra: la existente gana la `fuerza` del tipo (máximo 100) |
 | `plantar('id', persona)` | Igual, con esa persona como testigo: `plantar('semilla.presto_plata_amigo', jugador.amigo)`. Así el evento de la semilla, años después, sabe de quién se trata (`semilla('id').testigo`). La carta del evento lo muestra: bajo la opción dice "Lo va a notar Pedro" y, cuando la semilla despierta, "Te miran: Pedro". Si el evento tiene alguna opción con `plantar`, lleva el sello "Esto se recuerda" |
 | `diario('clave')` | Escribe en el diario (solo efectos) |
+| `jugador.tiene_celular`, `jugador.tiene_app('app.x')` | Si tiene celular, y si tiene esa app instalada |
+| `jugador.dar_celular()`, `jugador.perder_celular()` | Recibe un celular nuevo con las apps de fábrica (reemplaza al que tenía), o lo pierde con sus apps (solo efectos) |
+| `jugador.instalar_app('app.x')`, `jugador.desinstalar_app('app.x')` | Instala o borra una app; sin celular es un error (solo efectos) |
+| `jugador.tiene_correo`, `jugador.correos`, `jugador.correos_sin_leer` | Si tiene cuenta de correo, cuántos correos tiene y cuántos no ha leído |
+| `jugador.crear_correo()`, `jugador.recibir_correo('correo.x')` | Crea su cuenta de correo, y le hace llegar un correo (sin cuenta, no llega) (solo efectos) |
 | `noticia_reciente('noticia.x')`, `noticia_reciente('noticia.x', semanas)` | Si esa noticia salió en el país del jugador (de todo el país o de su ciudad) hace menos de esas semanas (8 si no se dice). Sirve en eventos, semillas y objetos de la escena |
 | `ley('ley.x')` | Valor de una ley en el país del jugador (ver Leyes) |
 | `cambiar_ley('ley.x', valor)` | Cambia una ley del país del jugador durante la partida (solo efectos) |

@@ -32,5 +32,9 @@
   "opcion.fin_contrato.volver_familia": "Devolvés las llaves y volvés a la casa de tu familia.",
   "evento.fin_contrato_arriendo.2": "Te llega el aviso del dueño: el contrato vence a fin de mes. Mirás la casa, las cuentas y lo que gastás en viajar al trabajo, y pensás si te quedás o te mudás.",
   "evento.busqueda.cambiar_forma.2": "La búsqueda se alarga. En el asado del domingo alguien te pregunta \"¿y el laburo?\" y no sabés qué decir.",
-  "evento.busqueda.devolver_favor": "Quien te recomendó para tu trabajo te escribe: su sobrino está buscando laburo y te pregunta si podrías recomendarlo."
+  "evento.busqueda.devolver_favor": "Quien te recomendó para tu trabajo te escribe: su sobrino está buscando laburo y te pregunta si podrías recomendarlo.",
+  "correo.estado.herencia.asunto": "Declaratoria de herederos",
+  "correo.estado.herencia": "Te informamos que terminó la sucesión y lo que te corresponde, con sus bienes y sus deudas.",
+  "opcion.celular.comprar.prestado": "Alguien de la familia te pasa su celular viejo. Tiene la pantalla rota, pero anda.",
+  "evento.celular.primero": "Llegan tus viejos con una caja chiquita. Adentro hay un celular, y es tuyo. \"Pero con condiciones\", te dicen."
 }

@@ -56,7 +56,9 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Simulador_ALos45_NoTodosTrabajan()
         {
-            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 120, finalAge: 45);
+            // 300 vidas: con 120, un cambio de contenido que solo mueve el azar movía el
+            // resultado hasta 7 puntos (de 76 % a 83 %), sin que cambiara nada de verdad.
+            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 300, finalAge: 45);
 
             // En Chile trabaja cerca del 75 % de quienes tienen entre 35 y 54 años: el resto
             // cuida a los hijos o a un familiar, está enfermo o no encuentra trabajo.

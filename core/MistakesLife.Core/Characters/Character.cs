@@ -155,6 +155,12 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public Economy.JobSearch? JobSearch { get; set; }
 
+        /// <summary>Su celular, o null si no tiene. Ver <see cref="Devices.PhoneRules"/>.</summary>
+        public Devices.Phone? Phone { get; set; }
+
+        /// <summary>Su cuenta de correo, o null si no tiene. Ver <see cref="Devices.MailSystem"/>.</summary>
+        public Devices.MailAccount? Mail { get; set; }
+
         /// <summary>Su última liquidación de sueldo, o null si nunca ha recibido sueldo.</summary>
         public Economy.Payslip? LastPayslip { get; set; }
 
@@ -196,6 +202,12 @@ namespace MistakesLife.Core.Characters
 
         /// <summary>El contrato de arriendo que firmó, o null si no arrienda (vive con su familia o en casa propia).</summary>
         public Economy.Lease? Lease { get; set; }
+
+        /// <summary>
+        /// La compra de comida que eligió el jugador (id de "economia.supermercado"), o
+        /// null si todavía no la decide. Se cobra cada mes mientras vive por su cuenta.
+        /// </summary>
+        public string? GroceryBasketId { get; set; }
 
         /// <summary>Meses seguidos que terminó con el dinero en negativo (estrés financiero).</summary>
         public int MonthsInRed { get; set; }

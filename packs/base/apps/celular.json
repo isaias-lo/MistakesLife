@@ -1,0 +1,10 @@
+[
+  { "id": "app.correo", "de_fabrica": true },
+  { "id": "app.mensajito" },
+  { "id": "app.instante" },
+  { "id": "app.flechazo" },
+  { "id": "app.mitubo" },
+  { "id": "app.sonar" },
+  { "id": "app.banco" },
+  { "id": "app.mercado" }
+]

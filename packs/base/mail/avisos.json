@@ -1,0 +1,32 @@
+[
+  { "id": "correo.bienvenida", "remitente": "remitente.correo", "tema": "personal" },
+
+  { "id": "correo.busqueda.llamado", "remitente": "remitente.seleccion", "tema": "trabajo", "al_anotar": ["diario.busqueda.llamado"] },
+  { "id": "correo.busqueda.rechazo", "remitente": "remitente.seleccion", "tema": "trabajo", "al_anotar": ["diario.busqueda.rechazo"] },
+  { "id": "correo.busqueda.oferta_retirada", "remitente": "remitente.seleccion", "tema": "trabajo", "al_anotar": ["diario.busqueda.oferta_retirada"] },
+  { "id": "correo.busqueda.contrato", "remitente": "remitente.recursos_humanos", "tema": "trabajo", "al_anotar": ["diario.busqueda.nuevo_trabajo"] },
+  { "id": "correo.trabajo.ascenso", "remitente": "remitente.recursos_humanos", "tema": "trabajo", "al_anotar": ["diario.ascenso"] },
+  { "id": "correo.trabajo.desvinculacion", "remitente": "remitente.recursos_humanos", "tema": "trabajo", "al_anotar": ["diario.despido_por_desempeno", "diario.empresa.quiebra"] },
+  { "id": "correo.trabajo.reclutador", "remitente": "remitente.reclutador", "tema": "trabajo", "al_anotar": ["diario.software.reclutador"] },
+
+  { "id": "correo.estudio.resultados_admision", "remitente": "remitente.admision", "tema": "estudio", "al_anotar": ["diario.paes_media", "diario.paes_alta"] },
+  { "id": "correo.estudio.ramo_reprobado", "remitente": "remitente.universidad", "tema": "estudio",
+    "al_anotar": ["diario.estudios.ramo_reprobado", "diario.software.ramo_reprobado", "diario.contabilidad.ramo_reprobado", "diario.psicologia.ramo_reprobado"] },
+  { "id": "correo.estudio.titulacion", "remitente": "remitente.universidad", "tema": "estudio",
+    "al_anotar": ["diario.software.titulacion", "diario.contabilidad.titulacion", "diario.psicologia.titulacion"] },
+
+  { "id": "correo.banco.linea_credito", "remitente": "remitente.banco", "tema": "banco", "al_anotar": ["diario.gastos.linea_credito"] },
+  { "id": "correo.banco.cobranza", "remitente": "remitente.cobranza", "tema": "banco", "al_anotar": ["diario.deudas.moroso"] },
+  { "id": "correo.banco.deuda_pagada", "remitente": "remitente.banco", "tema": "banco", "al_anotar": ["diario.deudas.pagada"] },
+  { "id": "correo.banco.fuera_registro", "remitente": "remitente.banco", "tema": "banco", "al_anotar": ["diario.deudas.fuera_registro"] },
+  { "id": "correo.banco.credito_estudios", "remitente": "remitente.cobranza", "tema": "banco", "al_anotar": ["diario.cobranza_cae"] },
+
+  { "id": "correo.estado.devolucion", "remitente": "remitente.impuestos", "tema": "estado", "al_anotar": ["diario.impuestos.devolucion"] },
+  { "id": "correo.estado.pago_impuestos", "remitente": "remitente.impuestos", "tema": "estado", "al_anotar": ["diario.impuestos.pago"] },
+  { "id": "correo.estado.multa_impuestos", "remitente": "remitente.impuestos", "tema": "estado", "al_anotar": ["diario.impuestos.multa"] },
+  { "id": "correo.estado.herencia", "remitente": "remitente.notaria", "tema": "estado", "al_anotar": ["diario.herencia.recibida", "diario.herencia.deudas"] },
+
+  { "id": "correo.juzgado.citacion", "remitente": "remitente.juzgado", "tema": "juzgado", "al_anotar": ["diario.citacion_policia_local"] },
+
+  { "id": "correo.estafa.banco", "remitente": "remitente.banco_falso", "tema": "estafa" }
+]

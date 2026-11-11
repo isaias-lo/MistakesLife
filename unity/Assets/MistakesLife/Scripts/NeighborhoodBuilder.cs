@@ -1,6 +1,7 @@
 #nullable enable
 
 using System.Collections.Generic;
+using System.Linq;
 using MistakesLife.Core.Presentation;
 using UnityEngine;
 
@@ -30,6 +31,9 @@ namespace MistakesLife.Unity
         private static readonly float[] NorthHouses = { -16f, -10f, PlayerHouseX, 2f, 8f, 14f };
 
         private const string PlayerHouse = "ancla.casa_3";
+
+        /// <summary>Objeto de escena de las noticias: escombros en la calle después de un terremoto.</summary>
+        private const string Rubble = "escena.barrio.escombros";
 
         /// <summary>Dónde va cada edificio si nadie movió las anclas.</summary>
         public static IReadOnlyDictionary<string, Vector3> DefaultAnchors()
@@ -81,6 +85,12 @@ namespace MistakesLife.Unity
             }
 
             Path(kit, anchors, place);
+            if (home.SceneObjects.Contains(Rubble))
+            {
+                // Hubo un terremoto hace poco: escombros en la vereda y la calle.
+                Models.Place(kit, Spot(kit, "Lugar de los escombros", new Vector3(-1.2f, 0f, 3.8f)), Rubble, RubblePile);
+                Models.Place(kit, Spot(kit, "Lugar de los escombros", new Vector3(6.5f, 0f, 3.2f)), Rubble, RubblePile);
+            }
 
             // Lo que cambia de una vida a otra y con los años: quién está en la calle y qué autos hay.
             int seed = Seed(home);
@@ -191,6 +201,23 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>Un punto suelto (sin ancla editable) para poner un modelo: autos y árboles.</summary>
+        /// <summary>Un montón de ladrillos y trozos de muro caídos.</summary>
+        private static void RubblePile(ShapeKit kit)
+        {
+            Color[] tones = { new Color(0.62f, 0.60f, 0.58f), new Color(0.72f, 0.40f, 0.30f), new Color(0.55f, 0.53f, 0.50f) };
+            for (int i = 0; i < 7; i++)
+            {
+                float x = ((i * 37) % 9 - 4) * 0.12f;
+                float z = ((i * 53) % 7 - 3) * 0.12f;
+                float y = i < 4 ? 0.09f : 0.24f;
+                GameObject piece = kit.Box("Escombro", new Vector3(x, y, z), new Vector3(0.36f, 0.18f, 0.22f), tones[i % tones.Length]);
+                piece.transform.localRotation = Quaternion.Euler(i * 11f, i * 47f, i * 7f);
+            }
+
+            GameObject wall = kit.Box("Trozo de muro", new Vector3(0.7f, 0.12f, 0.1f), new Vector3(0.9f, 0.08f, 0.5f), new Color(0.80f, 0.76f, 0.70f));
+            wall.transform.localRotation = Quaternion.Euler(0f, 25f, 12f);
+        }
+
         private static Transform Spot(ShapeKit kit, string name, Vector3 at)
         {
             Transform spot = new GameObject(name).transform;

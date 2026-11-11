@@ -151,6 +151,71 @@ namespace MistakesLife.Core.Tests
             return seen;
         }
 
+        /// <summary>
+        /// Vidas de personas que ya ascendieron una vez y andan mal en el trabajo (desempeño
+        /// bajo y en la mira de su jefatura) después de ascender, para el evento de bajar de cargo,
+        /// que en una vida al azar le pasa a menos del 1 %.
+        /// </summary>
+        public static HashSet<string> StrugglingWorkerEvents(ContentDatabase content, int lives, int startAge = 30, int finalAge = 42)
+        {
+            var seen = new HashSet<string>();
+            CareerDefinition career = content.Careers.First();
+            CareerLevelDefinition best = career.Levels.OrderByDescending(l => l.SalaryRelative).First();
+            string shortName = career.Id.Substring("carrera.".Length);
+            CareerAreaDefinition area = career.Areas.First();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 800 + (ulong)i);
+                Play(session, startAge);
+                if (!session.World.Player.IsAlive)
+                {
+                    continue;
+                }
+
+                var effects = new List<string>();
+                if (session.World.Player.Studies != null)
+                {
+                    effects.Add("jugador.desertar()");
+                }
+
+                effects.Add($"estudiar('{best.Id}')");
+                effects.Add("jugador.titularse()");
+                effects.Add("jugador.desmarcar('buscando_trabajo')");
+                effects.Add("jugador.marcar('trabajando')");
+                effects.Add($"jugador.marcar('trabaja_{shortName}')");
+                effects.Add($"jugador.trabajar_en('{area.Id}')");
+                Apply(session, effects);
+
+                // Trabaja bien unos años, hasta que puede ascender; después de ascender, le va mal.
+                for (int year = startAge + 1; year < finalAge && session.World.Player.IsAlive && session.World.Player.Job?.Position != null; year++)
+                {
+                    Apply(session, new[] { "jugador.desempeno = 95" });
+                    Play(session, year);
+                    var check = new EventScope(session.World, content, session.World.Player, null, readOnly: true);
+                    if (session.World.Player.IsAlive && session.World.Player.Job?.Position != null
+                        && Expression.Parse("jugador.puede_ascender").Evaluate(check).AsBool("prueba"))
+                    {
+                        Apply(session, new[] { "jugador.ascender()", "jugador.desempeno = 30", "jugador.marcar('en_la_mira')" });
+                        int before = session.World.EventHistory.Count;
+                        Play(session, finalAge);
+                        seen.UnionWith(session.World.EventHistory.Skip(before).Select(r => r.EventId));
+                        break;
+                    }
+                }
+            }
+
+            return seen;
+        }
+
+        private static void Apply(LifeSession session, IEnumerable<string> effects)
+        {
+            var scope = new EventScope(session.World, session.Content, session.World.Player, null, readOnly: false);
+            foreach (string effect in effects)
+            {
+                Effect.Parse(effect).Apply(scope);
+            }
+        }
+
         private static void Play(LifeSession session, int age)
         {
             var decider = new AutoDecider(session.Content);

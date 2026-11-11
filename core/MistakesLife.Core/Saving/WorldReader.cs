@@ -125,6 +125,7 @@ namespace MistakesLife.Core.Saving
                 {
                     MonthsSinceAdjustment = d.Lease.MonthsSinceAdjustment,
                 },
+                GroceryBasketId = d.GroceryBasketId,
                 PensionFund = d.PensionFund,
                 ContributedMonths = d.ContributedMonths,
                 PensionSalaryBase = d.PensionSalaryBase,
@@ -168,6 +169,28 @@ namespace MistakesLife.Core.Saving
                     Negotiated = d.JobSearch.Negotiated,
                     Raise = d.JobSearch.Raise,
                 };
+            }
+
+            if (d.Phone != null)
+            {
+                var phone = new Devices.Phone(Date(d.Phone.SinceWeek));
+                foreach (string app in d.Phone.Apps)
+                {
+                    phone.Install(app);
+                }
+
+                character.Phone = phone;
+            }
+
+            if (d.Mail != null)
+            {
+                var mail = new Devices.MailAccount(Date(d.Mail.SinceWeek), d.Mail.JournalCursor);
+                foreach (MailMessageData message in d.Mail.Messages)
+                {
+                    mail.Add(new Devices.MailMessage(Date(message.Week), message.MailId, message.Read));
+                }
+
+                character.Mail = mail;
             }
 
             if (d.LastAreaId != null && d.LastPositionId != null)

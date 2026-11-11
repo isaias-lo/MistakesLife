@@ -1,0 +1,131 @@
+[
+  {
+    "id": "evento.celular.primero",
+    "condiciones": "!jugador.tiene_celular && !jugador.tiene('tuvo_celular') && jugador.edad >= 8 && jugador.edad < 18",
+    "probabilidad_anual": 0.45,
+    "opciones": [
+      {
+        "texto": "opcion.celular.primero.reglas",
+        "tendencia": "20 + jugador.responsabilidad / 2",
+        "efectos": ["jugador.dar_celular()", "jugador.instalar_app('app.mensajito')", "jugador.marcar('tuvo_celular')", "jugador.marcar('celular_con_reglas')", "jugador.felicidad += 1", "diario('diario.celular.primero')"]
+      },
+      {
+        "texto": "opcion.celular.primero.libre",
+        "tendencia": "15 + (100 - jugador.responsabilidad) / 3 + jugador.extraversion / 4",
+        "efectos": ["jugador.dar_celular()", "jugador.instalar_app('app.mensajito')", "jugador.instalar_app('app.mitubo')", "jugador.marcar('tuvo_celular')", "jugador.felicidad += 2", "diario('diario.celular.primero')"]
+      }
+    ]
+  },
+  {
+    "id": "evento.celular.comprar",
+    "condiciones": "!jugador.tiene_celular && (jugador.tiene('tuvo_celular') || jugador.edad >= 18)",
+    "peso": 40,
+    "enfriamiento_semanas": 8,
+    "variantes": ["evento.celular.comprar.2"],
+    "opciones": [
+      {
+        "texto": "opcion.celular.comprar.nuevo",
+        "condiciones": "jugador.dinero >= precio(sueldo_minimo() * 0.5)",
+        "tendencia": "10 + jugador.apertura / 4 + jugador.nivel_hogar / 4",
+        "efectos": ["jugador.dinero -= precio(sueldo_minimo() * 0.5)", "jugador.dar_celular()", "jugador.instalar_app('app.mensajito')", "jugador.marcar('tuvo_celular')", "jugador.felicidad += 1", "diario('diario.celular.nuevo')"]
+      },
+      {
+        "texto": "opcion.celular.comprar.usado",
+        "condiciones": "jugador.dinero >= precio(sueldo_minimo() * 0.15)",
+        "tendencia": "25 + jugador.responsabilidad / 3",
+        "efectos": ["jugador.dinero -= precio(sueldo_minimo() * 0.15)", "jugador.dar_celular()", "jugador.instalar_app('app.mensajito')", "jugador.marcar('tuvo_celular')", "diario('diario.celular.nuevo')"]
+      },
+      {
+        "texto": "opcion.celular.comprar.prestado",
+        "tendencia": "20 + jugador.amabilidad / 4",
+        "efectos": ["jugador.dar_celular()", "jugador.instalar_app('app.mensajito')", "jugador.marcar('tuvo_celular')", "jugador.felicidad -= 1", "diario('diario.celular.nuevo')"]
+      },
+      {
+        "texto": "opcion.celular.comprar.sin_celular",
+        "tendencia": "5 + jugador.edad / 10",
+        "efectos": ["jugador.felicidad -= 1"]
+      }
+    ]
+  },
+  {
+    "id": "evento.celular.pantalla",
+    "condiciones": "jugador.tiene_celular && jugador.edad >= 11 && jugador.edad < 18 && (!jugador.tiene('celular_con_reglas') || jugador.edad >= 15)",
+    "probabilidad_anual": 0.35,
+    "veces_maximas": 3,
+    "variantes": ["evento.celular.pantalla.2", "evento.celular.pantalla.3"],
+    "opciones": [
+      {
+        "texto": "opcion.celular.pantalla.afuera",
+        "tendencia": "15 + jugador.responsabilidad / 2",
+        "efectos": ["jugador.salud += 1", "jugador.felicidad -= 1"]
+      },
+      {
+        "texto": "opcion.celular.pantalla.seguir",
+        "tendencia": "25 + (100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 4",
+        "efectos": ["jugador.salud -= 2", "jugador.inteligencia -= 1"]
+      }
+    ]
+  },
+  {
+    "id": "evento.correo.crear",
+    "condiciones": "!jugador.tiene_correo && jugador.edad >= 10 && (jugador.estudia != nada || jugador.tiene('buscando_trabajo') || jugador.edad >= 18)",
+    "peso": 30,
+    "variantes": ["evento.correo.crear.2"],
+    "opciones": [
+      {
+        "texto": "opcion.correo.crear.nombre",
+        "tendencia": "20 + jugador.responsabilidad / 2 + jugador.edad",
+        "efectos": ["jugador.crear_correo()", "jugador.recibir_correo('correo.bienvenida')"]
+      },
+      {
+        "texto": "opcion.correo.crear.apodo",
+        "tendencia": "10 + jugador.extraversion / 3 + (100 - jugador.responsabilidad) / 4",
+        "condiciones": "jugador.edad < 25",
+        "efectos": ["jugador.crear_correo()", "jugador.recibir_correo('correo.bienvenida')", "plantar('semilla.correo_apodo')"]
+      }
+    ]
+  },
+  {
+    "id": "evento.correo.apodo_en_postulacion",
+    "semilla": "semilla.correo_apodo",
+    "condiciones": "jugador.tiene('buscando_trabajo') && jugador.edad >= 18",
+    "peso": 30,
+    "opciones": [
+      {
+        "texto": "opcion.correo.apodo.serio",
+        "tendencia": "30 + jugador.responsabilidad / 2",
+        "efectos": ["jugador.felicidad -= 1"]
+      },
+      {
+        "texto": "opcion.correo.apodo.asi",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.extraversion / 5",
+        "efectos": ["jugador.felicidad -= 3"]
+      }
+    ]
+  },
+  {
+    "id": "evento.correo.estafa",
+    "condiciones": "jugador.tiene_correo && jugador.edad >= 15 && jugador.dinero > 0",
+    "probabilidad_anual": 0.05,
+    "veces_maximas": 3,
+    "variantes": ["evento.correo.estafa.2"],
+    "efectos": ["jugador.recibir_correo('correo.estafa.banco')"],
+    "opciones": [
+      {
+        "texto": "opcion.correo.estafa.entrar",
+        "tendencia": "5 + jugador.neuroticismo / 6 + jugador.edad / 5",
+        "efectos": ["jugador.dinero -= jugador.dinero * 0.4", "jugador.felicidad -= 6", "diario('diario.correo.estafa')"]
+      },
+      {
+        "texto": "opcion.correo.estafa.borrar",
+        "tendencia": "30 + jugador.responsabilidad / 3",
+        "efectos": ["diario('diario.correo.estafa_evitada')"]
+      },
+      {
+        "texto": "opcion.correo.estafa.avisar",
+        "tendencia": "10 + jugador.amabilidad / 4",
+        "efectos": ["jugador.felicidad += 1", "diario('diario.correo.estafa_evitada')"]
+      }
+    ]
+  }
+]

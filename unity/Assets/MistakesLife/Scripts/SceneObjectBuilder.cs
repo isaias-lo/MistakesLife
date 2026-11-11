@@ -41,6 +41,13 @@ namespace MistakesLife.Unity
             "escena.casa.cuentas" => "ancla.mesa",
             "escena.casa.remedios" => "ancla.mesa",
             "escena.casa.contrato_arriendo" => "ancla.mesa",
+            "escena.casa.bolsas_super" => "ancla.cocina",
+            "escena.casa.cartas_rechazo" => "ancla.mesa",
+            "escena.casa.velas" => "ancla.mesa",
+            "escena.casa.ropa_entrevista" => "ancla.ropero",
+            "escena.casa.mochila_emergencia" => "ancla.puerta",
+            "escena.casa.grietas" => "ancla.muro_lateral",
+            "escena.casa.bebidas" => "ancla.cocina",
             "escena.casa.mochila" => "ancla.mochila",
             "escena.casa.diploma" => "ancla.cuadro_izquierda",
             "escena.casa.foto_pareja" => "ancla.cuadro_derecha",
@@ -92,6 +99,79 @@ namespace MistakesLife.Unity
                     contract.transform.localRotation = Quaternion.Euler(0f, 8f, 0f);
                     GameObject signature = kit.Box("Tu firma", new Vector3(-0.09f, 0.451f, -0.12f), new Vector3(0.12f, 0.004f, 0.02f), Palette.PlayerMark);
                     signature.transform.localRotation = Quaternion.Euler(0f, 8f, 0f);
+                    break;
+                case "escena.casa.cartas_rechazo":
+                    // Las respuestas de las postulaciones que no resultaron: sobres abiertos con un timbre rojo.
+                    for (int i = 0; i < 3; i++)
+                    {
+                        GameObject letter = kit.Box("Carta de rechazo", new Vector3(0.48f + (i * 0.02f), 0.446f + (i * 0.006f), -0.1f + (i * 0.015f)), new Vector3(0.2f, 0.005f, 0.12f), Palette.Paper);
+                        letter.transform.localRotation = Quaternion.Euler(0f, -14f + (i * 13f), 0f);
+                    }
+
+                    kit.Box("Timbre rojo", new Vector3(0.53f, 0.464f, -0.07f), new Vector3(0.05f, 0.002f, 0.04f), Palette.Alarm);
+                    break;
+                case "escena.casa.velas":
+                    // Hubo temporal y se cortó la luz: dos velas encendidas en la mesa.
+                    foreach (float z in new[] { 0.2f, 0.36f })
+                    {
+                        kit.Shape(PrimitiveType.Cylinder, "Vela", new Vector3(0.63f, 0.51f, z), new Vector3(0.05f, 0.07f, 0.05f), Palette.Paper);
+                        kit.Ball("Llama", new Vector3(0.63f, 0.6f, z), 0.035f, new Color(1f, 0.72f, 0.25f));
+                    }
+
+                    break;
+                case "escena.casa.ropa_entrevista":
+                    // La ropa para la entrevista lista en un colgador: camisa, chaqueta y corbata.
+                    kit.Shape(PrimitiveType.Cylinder, "Pie del colgador", new Vector3(-0.75f, 0.8f, -0.35f), new Vector3(0.04f, 0.8f, 0.04f), Palette.DarkWood);
+                    kit.Shape(PrimitiveType.Cylinder, "Base del colgador", new Vector3(-0.75f, 0.02f, -0.35f), new Vector3(0.36f, 0.02f, 0.36f), Palette.DarkWood);
+                    kit.Box("Chaqueta", new Vector3(-0.75f, 1.25f, -0.45f), new Vector3(0.46f, 0.6f, 0.06f), new Color(0.22f, 0.26f, 0.36f));
+                    kit.Box("Camisa", new Vector3(-0.75f, 1.32f, -0.485f), new Vector3(0.14f, 0.44f, 0.02f), Color.white);
+                    kit.Box("Corbata", new Vector3(-0.75f, 1.3f, -0.5f), new Vector3(0.05f, 0.34f, 0.01f), Palette.PlayerMark);
+                    break;
+                case "escena.casa.mochila_emergencia":
+                    // La mochila de emergencia que armaste, lista junto a la puerta.
+                    kit.Box("Mochila de emergencia", new Vector3(0.35f, 0.22f, 0.65f), new Vector3(0.3f, 0.44f, 0.4f), new Color(0.95f, 0.50f, 0.15f));
+                    kit.Box("Franja reflectante", new Vector3(0.505f, 0.28f, 0.65f), new Vector3(0.01f, 0.05f, 0.4f), new Color(0.85f, 0.88f, 0.90f));
+                    kit.Shape(PrimitiveType.Cylinder, "Linterna", new Vector3(0.35f, 0.47f, 0.55f), new Vector3(0.06f, 0.05f, 0.06f), new Color(0.20f, 0.20f, 0.22f));
+                    break;
+                case "escena.casa.grietas":
+                    // No reparaste la casa después del terremoto: grietas en zigzag en el muro.
+                    Vector3[] crack =
+                    {
+                        new Vector3(0.06f, 2.3f, 0.8f), new Vector3(0.06f, 2.0f, 0.95f), new Vector3(0.06f, 1.7f, 0.82f),
+                        new Vector3(0.06f, 1.4f, 1.0f), new Vector3(0.06f, 1.1f, 0.9f),
+                    };
+                    for (int i = 0; i < crack.Length - 1; i++)
+                    {
+                        Vector3 from = crack[i];
+                        Vector3 to = crack[i + 1];
+                        GameObject piece = kit.Box("Grieta", (from + to) / 2f, new Vector3(0.01f, Vector3.Distance(from, to), 0.025f), new Color(0.18f, 0.16f, 0.15f));
+                        piece.transform.localRotation = Quaternion.Euler(Mathf.Atan2(to.z - from.z, to.y - from.y) * Mathf.Rad2Deg, 0f, 0f);
+                    }
+
+                    break;
+                case "escena.casa.bolsas_super":
+                    // Tu compra: dos bolsas de papel en el suelo, al lado de la cocina, con lo que compraste asomando.
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Vector3 bag = new Vector3(0.62f + (i * 0.34f), 0f, -0.12f - (i * 0.06f));
+                        GameObject paper = kit.Box("Bolsa del supermercado", bag + new Vector3(0f, 0.2f, 0f), new Vector3(0.3f, 0.4f, 0.2f), new Color(0.79f, 0.64f, 0.45f));
+                        paper.transform.localRotation = Quaternion.Euler(0f, -10f + (i * 22f), 0f);
+                    }
+
+                    kit.Ball("Lechuga", new Vector3(0.58f, 0.42f, -0.12f), 0.14f, new Color(0.44f, 0.70f, 0.42f));
+                    kit.Ball("Tomate", new Vector3(0.68f, 0.41f, -0.1f), 0.1f, new Color(0.91f, 0.42f, 0.36f));
+                    kit.Box("Pan", new Vector3(1.0f, 0.43f, -0.18f), new Vector3(0.16f, 0.08f, 0.1f), new Color(0.90f, 0.72f, 0.45f));
+                    break;
+                case "escena.casa.bebidas":
+                    // Compras con antojos: bebidas de dos litros junto a las bolsas.
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Vector3 bottle = new Vector3(1.28f + (i * 0.13f), 0.16f, -0.1f);
+                        kit.Shape(PrimitiveType.Cylinder, "Bebida", bottle, new Vector3(0.11f, 0.16f, 0.11f), new Color(0.35f, 0.18f, 0.12f));
+                        kit.Shape(PrimitiveType.Cylinder, "Etiqueta de la bebida", bottle, new Vector3(0.115f, 0.04f, 0.115f), Palette.Alarm);
+                        kit.Shape(PrimitiveType.Cylinder, "Tapa de la bebida", bottle + new Vector3(0f, 0.18f, 0f), new Vector3(0.04f, 0.02f, 0.04f), Color.white);
+                    }
+
                     break;
                 case "escena.casa.remedios":
                     for (int i = 0; i < 3; i++)
