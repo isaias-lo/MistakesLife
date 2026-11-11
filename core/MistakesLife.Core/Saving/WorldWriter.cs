@@ -41,6 +41,11 @@ namespace MistakesLife.Core.Saving
                 LawChanges = world.LawChanges.OrderBy(l => l.Key, System.StringComparer.Ordinal).Select(l => WriteLaw(l.Key, l.Value)).ToList(),
                 Journal = world.Journal.Select(j => new JournalData { Week = j.Date.TotalWeeks, CharacterId = j.CharacterId, TextKey = j.TextKey }).ToList(),
                 News = world.News.Select(n => new NewsData { Week = n.Date.TotalWeeks, NewsId = n.NewsId, CountryId = n.CountryId, CityId = n.CityId, TextKey = n.TextKey }).ToList(),
+                CourtCases = world.CourtCases.Select(c => new CourtCaseData
+                {
+                    Id = c.Id, TypeId = c.TypeId, Rit = c.Rit, OwnerId = c.OwnerId, OtherPartyId = c.OtherPartyId, OpenedWeek = c.Opened.TotalWeeks,
+                    StageIndex = c.StageIndex, StageStartedWeek = c.StageStarted.TotalWeeks, ClosedWeek = c.Closed?.TotalWeeks, Outcome = c.Outcome, Amount = c.Amount,
+                }).ToList(),
                 PendingEvents = world.PendingEvents.Select(p => new PendingEventData
                 {
                     EventId = p.EventId,
@@ -88,6 +93,8 @@ namespace MistakesLife.Core.Saving
                 SecondParentId = c.SecondParentId,
                 Adopted = c.Adopted,
                 PartnerId = c.PartnerId,
+                SpouseId = c.SpouseId,
+                UnionTypeId = c.UnionTypeId,
                 CountryId = c.Residence?.CountryId,
                 CityId = c.Residence?.CityId,
                 CommuneId = c.Residence?.CommuneId,

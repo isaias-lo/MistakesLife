@@ -1,0 +1,6 @@
+[
+  { "id": "correo.juzgado.causa_nueva", "remitente": "remitente.poder_judicial", "tema": "juzgado",
+    "al_anotar": ["diario.chile.demanda_cobro", "diario.chile.divorcio_presentado"] },
+  { "id": "correo.juzgado.sentencia_divorcio", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.divorcio"] },
+  { "id": "correo.juzgado.remate", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.cobro_remate"] }
+]

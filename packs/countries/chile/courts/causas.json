@@ -1,0 +1,73 @@
+[
+  {
+    "id": "causa.chile.cobro_deuda",
+    "tribunal": "tribunal.chile.civil",
+    "prefijo_rit": "C",
+    "etapas": [
+      {
+        "id": "demanda",
+        "semanas": 6
+      },
+      {
+        "id": "requerimiento",
+        "semanas": 1,
+        "espera": true
+      },
+      {
+        "id": "excepciones",
+        "semanas": 16,
+        "espera": true
+      },
+      {
+        "id": "embargo",
+        "semanas": 2,
+        "espera": true
+      },
+      {
+        "id": "remate",
+        "semanas": 12
+      }
+    ],
+    "resultados": [
+      "avenimiento",
+      "pago",
+      "terminada"
+    ]
+  },
+  {
+    "id": "causa.chile.divorcio",
+    "tribunal": "tribunal.chile.familia",
+    "prefijo_rit": "C",
+    "etapas": [
+      {
+        "id": "demanda",
+        "semanas": 2
+      },
+      {
+        "id": "notificacion",
+        "semanas": 4
+      },
+      {
+        "id": "audiencia_preparatoria",
+        "semanas": 8,
+        "espera": true
+      },
+      {
+        "id": "audiencia_juicio",
+        "semanas": 10,
+        "espera": true
+      },
+      {
+        "id": "sentencia",
+        "semanas": 3,
+        "espera": true
+      }
+    ],
+    "resultados": [
+      "divorcio",
+      "desistida",
+      "fallecimiento"
+    ],
+    "termina_si_muere_la_otra_parte": true
+  }
+]

@@ -73,6 +73,13 @@ namespace MistakesLife.Core.Saving
                 world.AddNews(new NewsRecord(Date(n.Week), n.NewsId, n.CountryId, n.CityId, n.TextKey));
             }
 
+            foreach (CourtCaseData c in data.CourtCases)
+            {
+                var courtCase = new Courts.CourtCase(c.Id, c.TypeId, c.Rit, c.OwnerId, c.OtherPartyId, Date(c.OpenedWeek));
+                courtCase.Restore(c.StageIndex, Date(c.StageStartedWeek), c.ClosedWeek.HasValue ? Date(c.ClosedWeek.Value) : (GameDate?)null, c.Outcome, c.Amount);
+                world.AddCourtCase(courtCase);
+            }
+
             foreach (PendingEventData p in data.PendingEvents)
             {
                 // Un evento que ya no está en los paquetes (se retiró) no se puede
@@ -118,6 +125,8 @@ namespace MistakesLife.Core.Saving
                 SecondParentId = d.SecondParentId,
                 Adopted = d.Adopted,
                 PartnerId = d.PartnerId,
+                SpouseId = d.SpouseId,
+                UnionTypeId = d.UnionTypeId,
                 HouseholdLevel = d.HouseholdLevel,
                 Money = d.Money,
                 MonthsInRed = d.MonthsInRed,
