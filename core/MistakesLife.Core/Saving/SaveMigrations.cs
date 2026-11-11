@@ -126,10 +126,21 @@ namespace MistakesLife.Core.Saving
             // cómo buscar con los eventos, como alguien que recién empieza.
             [8] = save => { },
 
-            // 9 → 10: la comida deja de ser un monto fijo y sale de la compra que
+            // 9 → 10: aparecen las noticias del mundo (temblores, temporales, crisis,
+            // elecciones). Las partidas viejas no tenían ninguna: el diario de
+            // noticias empieza vacío y se llena desde la semana siguiente.
+            [9] = save =>
+            {
+                if (save["world"] is JObject world)
+                {
+                    world["news"] ??= new JArray();
+                }
+            },
+
+            // 10 → 11: la comida deja de ser un monto fijo y sale de la compra que
             // elige el jugador. Quien ya vivía por su cuenta sigue con la canasta
             // básica (lo mínimo para comer bien) hasta que decida otra.
-            [9] = save =>
+            [10] = save =>
             {
                 foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
                 {

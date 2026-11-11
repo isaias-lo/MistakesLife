@@ -332,7 +332,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void Cargar_UnGuardadoDeLaVersion9_QuienViviaSoloSigueConLaCanastaBasica()
+        public void Cargar_UnGuardadoDeLaVersion10_QuienViviaSoloSigueConLaCanastaBasica()
         {
             var session = new LifeSession(RepoPacks.Content, 6);
             PlayUntilAge(session, 30);
@@ -342,8 +342,8 @@ namespace MistakesLife.Core.Tests
             };
             var json = Newtonsoft.Json.Linq.JObject.Load(reader);
 
-            // Así era un guardado de la versión 9: la comida era un monto fijo y nadie elegía su compra.
-            json["version"] = 9;
+            // Así era un guardado de la versión 10: la comida era un monto fijo y nadie elegía su compra.
+            json["version"] = 10;
             int playerId = session.World.PlayerId;
             var player = json.SelectTokens("world.characters[*]").OfType<Newtonsoft.Json.Linq.JObject>().Single(c => (int)c["id"]! == playerId);
             player.Remove("groceryBasketId");
@@ -396,7 +396,7 @@ namespace MistakesLife.Core.Tests
             string[] world =
             {
                 "Seed", "Random", "Date", "PlayerId", "Player", "Characters", "Journal", "Seeds", "PendingEvents", "EventHistory",
-                "FormerPlayers", "Economies", "Generation", "Companies",
+                "FormerPlayers", "Economies", "Generation", "Companies", "News",
             };
 
             Assert.Equal(character.OrderBy(n => n), PublicProperties(typeof(Characters.Character)));

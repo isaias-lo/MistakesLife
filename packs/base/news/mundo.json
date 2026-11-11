@@ -1,0 +1,93 @@
+[
+  {
+    "id": "noticia.elecciones_presidenciales",
+    "tema": "politica",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 200,
+    "condiciones": "mundo.mes == ley('ley.elecciones_mes')",
+    "variantes": [
+      "noticia.elecciones_presidenciales.2",
+      "noticia.elecciones_presidenciales.3"
+    ]
+  },
+  {
+    "id": "noticia.economia.recesion",
+    "tema": "economia",
+    "probabilidad_anual": 0.9,
+    "enfriamiento_semanas": 26,
+    "condiciones": "mundo.ciclo == 'economia.ciclo.recesion'",
+    "variantes": [
+      "noticia.economia.recesion.2"
+    ]
+  },
+  {
+    "id": "noticia.economia.crisis",
+    "tema": "economia",
+    "probabilidad_anual": 0.95,
+    "enfriamiento_semanas": 13,
+    "condiciones": "mundo.ciclo == 'economia.ciclo.crisis'",
+    "variantes": [
+      "noticia.economia.crisis.2",
+      "noticia.economia.crisis.3"
+    ]
+  },
+  {
+    "id": "noticia.economia.inflacion_alta",
+    "tema": "economia",
+    "probabilidad_anual": 0.8,
+    "enfriamiento_semanas": 26,
+    "condiciones": "mundo.inflacion >= 8",
+    "variantes": [
+      "noticia.economia.inflacion_alta.2"
+    ]
+  },
+  {
+    "id": "noticia.salud.brote_influenza",
+    "tema": "salud",
+    "probabilidad_anual": 0.99,
+    "enfriamiento_semanas": 40,
+    "condiciones": "mundo.mes >= 5 && mundo.mes <= 8",
+    "variantes": [
+      "noticia.salud.brote_influenza.2",
+      "noticia.salud.brote_influenza.3"
+    ]
+  },
+  {
+    "id": "noticia.sociedad.mundial_futbol",
+    "tema": "sociedad",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 200,
+    "condiciones": "mundo.mes == 6",
+    "variantes": [
+      "noticia.sociedad.mundial_futbol.2"
+    ]
+  },
+  {
+    "id": "noticia.viral.estafa_mensajes",
+    "tema": "viral",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "variantes": [
+      "noticia.viral.estafa_mensajes.2"
+    ]
+  },
+  {
+    "id": "noticia.viral.baile",
+    "tema": "viral",
+    "probabilidad_anual": 0.4,
+    "enfriamiento_semanas": 26,
+    "variantes": [
+      "noticia.viral.baile.2",
+      "noticia.viral.baile.3"
+    ]
+  },
+  {
+    "id": "noticia.viral.perro_callejero",
+    "tema": "viral",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 52,
+    "variantes": [
+      "noticia.viral.perro_callejero.2"
+    ]
+  }
+]

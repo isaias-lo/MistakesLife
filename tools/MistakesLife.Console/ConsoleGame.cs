@@ -26,6 +26,7 @@ namespace MistakesLife.ConsoleGame
         private readonly TextReader _input;
         private readonly TextWriter _output;
         private readonly string _savePath;
+        private int _newsRead;
 
         /// <summary>Archivo donde se guarda la partida con "g", si no se indica otro.</summary>
         public const string DefaultSavePath = "partida.json";
@@ -391,6 +392,25 @@ namespace MistakesLife.ConsoleGame
             {
                 _output.WriteLine($"  Diario ({AgeLabel(entry.Date)}): {_session.Text(entry.TextKey)}");
             }
+
+            PrintNews();
+        }
+
+        /// <summary>Los titulares nuevos del diario de noticias del país (y la ciudad) del jugador.</summary>
+        private void PrintNews()
+        {
+            var news = _session.World.News;
+            Residence? home = _session.World.Player.Residence;
+            for (int i = System.Math.Min(_newsRead, news.Count); i < news.Count; i++)
+            {
+                NewsRecord record = news[i];
+                if (home != null && record.CountryId == home.CountryId && (record.CityId == null || record.CityId == home.CityId))
+                {
+                    _output.WriteLine($"  Noticias ({AgeLabel(record.Date)}): {_session.Text(record.TextKey)}");
+                }
+            }
+
+            _newsRead = news.Count;
         }
 
         private void PrintFullJournal()

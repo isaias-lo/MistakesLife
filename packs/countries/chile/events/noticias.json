@@ -1,0 +1,386 @@
+[
+  {
+    "id": "evento.votar",
+    "condiciones": "noticia_reciente('noticia.elecciones_presidenciales', 2) && jugador.edad >= ley('ley.edad_voto') + 4",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 400,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.votar.2",
+      "evento.votar.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.votar_otra_vez.ir",
+        "tendencia": "40 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "jugador.marcar('vota')",
+          "diario('diario.votar')"
+        ]
+      },
+      {
+        "texto": "opcion.votar_otra_vez.no_ir",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "plantar('semilla.multa_no_votar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.terremoto",
+    "dia_clave": true,
+    "condiciones": "noticia_reciente('noticia.chile.terremoto', 2) && jugador.edad >= 4",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.terremoto.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.terremoto.mochila",
+        "condiciones": "jugador.tiene('mochila_emergencia')",
+        "tendencia": "80",
+        "efectos": [
+          "jugador.felicidad -= 3",
+          "jugador.marcar('vivio_terremoto')",
+          "diario('diario.terremoto_preparado')"
+        ]
+      },
+      {
+        "texto": "opcion.terremoto.oscuras",
+        "condiciones": "jugador.edad >= 12 && !jugador.tiene('mochila_emergencia')",
+        "tendencia": "50",
+        "efectos": [
+          "jugador.salud -= 4",
+          "jugador.felicidad -= 8",
+          "jugador.marcar('vivio_terremoto')",
+          "diario('diario.terremoto_a_oscuras')"
+        ]
+      },
+      {
+        "texto": "opcion.terremoto.hijos",
+        "condiciones": "jugador.hijos_menores > 0",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.felicidad -= 5",
+          "jugador.marcar('vivio_terremoto')",
+          "diario('diario.terremoto_hijos')"
+        ]
+      },
+      {
+        "texto": "opcion.terremoto.nino",
+        "condiciones": "jugador.edad < 12",
+        "tendencia": "50",
+        "efectos": [
+          "jugador.felicidad -= 6",
+          "jugador.marcar('vivio_terremoto')",
+          "diario('diario.terremoto_nino')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.terremoto_danos",
+    "condiciones": "noticia_reciente('noticia.chile.terremoto', 10) && !noticia_reciente('noticia.chile.terremoto', 1) && jugador.edad >= 18",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.terremoto_danos.reparar",
+        "condiciones": "jugador.dinero >= precio(300000)",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.dinero -= precio(300000)",
+          "jugador.felicidad -= 2",
+          "diario('diario.terremoto_reparar')"
+        ]
+      },
+      {
+        "texto": "opcion.terremoto_danos.dueno",
+        "condiciones": "jugador.vivienda != nada",
+        "tendencia": "60",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.terremoto_danos.subsidio",
+        "condiciones": "jugador.vivienda == nada",
+        "tendencia": "40 + jugador.responsabilidad / 4",
+        "efectos": [
+          "plantar('semilla.subsidio_reconstruccion')",
+          "diario('diario.terremoto_subsidio')"
+        ]
+      },
+      {
+        "texto": "opcion.terremoto_danos.dejar",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.marcar('casa_con_grietas')",
+          "jugador.felicidad -= 4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.subsidio_reconstruccion",
+    "semilla": "semilla.subsidio_reconstruccion",
+    "efectos": [
+      "jugador.dinero += precio(250000)",
+      "jugador.felicidad += 3",
+      "diario('diario.subsidio_llego')"
+    ]
+  },
+  {
+    "id": "evento.reparar_grietas",
+    "condiciones": "jugador.tiene('casa_con_grietas') && jugador.dinero >= precio(400000)",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.reparar_grietas.arreglar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.dinero -= precio(350000)",
+          "jugador.desmarcar('casa_con_grietas')",
+          "jugador.felicidad += 3",
+          "diario('diario.grietas_arregladas')"
+        ]
+      },
+      {
+        "texto": "opcion.reparar_grietas.seguir",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.mochila_emergencia",
+    "condiciones": "noticia_reciente('noticia.chile.temblor', 6) && !noticia_reciente('noticia.chile.temblor', 1) && jugador.edad >= 18 && !jugador.tiene('mochila_emergencia')",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 260,
+    "veces_maximas": 3,
+    "variantes": [
+      "evento.mochila_emergencia.2",
+      "evento.mochila_emergencia.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.mochila_emergencia.armar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.neuroticismo / 3",
+        "efectos": [
+          "jugador.dinero -= precio(25000)",
+          "jugador.marcar('mochila_emergencia')",
+          "diario('diario.mochila_emergencia')"
+        ]
+      },
+      {
+        "texto": "opcion.mochila_emergencia.despues",
+        "tendencia": "(100 - jugador.responsabilidad) / 2 + 15",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.goteras",
+    "condiciones": "noticia_reciente('noticia.chile.sistema_frontal', 2) && jugador.vivienda != nada",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 2,
+    "opciones": [
+      {
+        "texto": "opcion.goteras.dueno",
+        "tendencia": "50",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.goteras.arreglar",
+        "condiciones": "jugador.dinero >= precio(30000)",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.dinero -= precio(30000)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.incendio_ayuda",
+    "condiciones": "noticia_reciente('noticia.chile.incendios_forestales', 4) && jugador.edad >= 16",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 156,
+    "veces_maximas": 3,
+    "variantes": [
+      "evento.incendio_ayuda.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.incendio_ayuda.voluntario",
+        "condiciones": "jugador.amigo != nada && jugador.edad >= 18 && jugador.edad < 70",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 3",
+        "efectos": [
+          "plantar('semilla.voluntarios_juntos', jugador.amigo)",
+          "jugador.amigo.carino += 10",
+          "jugador.amigo.confianza += 5",
+          "jugador.salud -= 2",
+          "jugador.felicidad += 4",
+          "diario('diario.incendio_voluntario')"
+        ]
+      },
+      {
+        "texto": "opcion.incendio_ayuda.donar",
+        "condiciones": "jugador.edad >= 18 && jugador.dinero >= precio(15000)",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.dinero -= precio(15000)",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.incendio_ayuda.nada",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.voluntarios_recuerdo",
+    "semilla": "semilla.voluntarios_juntos",
+    "condiciones": "semilla('semilla.voluntarios_juntos').testigo != nada",
+    "efectos": [
+      "semilla('semilla.voluntarios_juntos').testigo.carino += 8",
+      "jugador.felicidad += 3",
+      "diario('diario.voluntarios_recuerdo')"
+    ]
+  },
+  {
+    "id": "evento.ola_de_calor",
+    "condiciones": "noticia_reciente('noticia.chile.ola_de_calor', 2) && jugador.edad >= 18",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 156,
+    "veces_maximas": 2,
+    "opciones": [
+      {
+        "texto": "opcion.ola_de_calor.adentro",
+        "condiciones": "jugador.edad >= 65",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.ola_de_calor.feria",
+        "condiciones": "jugador.edad >= 65",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.salud -= 6",
+          "diario('diario.ola_de_calor_feria')"
+        ]
+      },
+      {
+        "texto": "opcion.ola_de_calor.piscina",
+        "condiciones": "jugador.edad < 65 && jugador.hijos_menores > 0",
+        "tendencia": "jugador.amabilidad / 2 + 20",
+        "efectos": [
+          "jugador.dinero -= precio(6000)",
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.ola_de_calor.aguantar",
+        "condiciones": "jugador.edad < 65",
+        "tendencia": "40",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.protestas",
+    "condiciones": "noticia_reciente('noticia.chile.protestas', 6) && jugador.edad >= 15",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 260,
+    "opciones": [
+      {
+        "texto": "opcion.protestas.marchar",
+        "condiciones": "jugador.amigo != nada",
+        "tendencia": "jugador.apertura / 2 + jugador.extraversion / 3",
+        "efectos": [
+          "plantar('semilla.marcharon_juntos', jugador.amigo)",
+          "jugador.amigo.carino += 6",
+          "jugador.felicidad += 2",
+          "jugador.salud -= 1",
+          "diario('diario.protestas_marchar')"
+        ]
+      },
+      {
+        "texto": "opcion.protestas.cacerolear",
+        "tendencia": "jugador.apertura / 3 + 10",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "diario('diario.protestas_cacerola')"
+        ]
+      },
+      {
+        "texto": "opcion.protestas.tele",
+        "tendencia": "(100 - jugador.extraversion) / 3 + 10",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.protestas.molesto",
+        "tendencia": "(100 - jugador.apertura) / 3",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.marcharon_juntos_recuerdo",
+    "semilla": "semilla.marcharon_juntos",
+    "condiciones": "semilla('semilla.marcharon_juntos').testigo != nada",
+    "efectos": [
+      "semilla('semilla.marcharon_juntos').testigo.carino += 6",
+      "jugador.felicidad += 2",
+      "diario('diario.marcharon_juntos_recuerdo')"
+    ]
+  },
+  {
+    "id": "evento.corte_de_agua",
+    "condiciones": "noticia_reciente('noticia.chile.corte_de_agua', 2) && jugador.edad >= 18",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.corte_de_agua.bidones",
+        "condiciones": "jugador.dinero >= precio(8000)",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.dinero -= precio(8000)"
+        ]
+      },
+      {
+        "texto": "opcion.corte_de_agua.ollas",
+        "tendencia": "40",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.corte_de_agua.mama",
+        "condiciones": "jugador.vivienda != nada && jugador.madre != nada && jugador.madre.vivo",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.madre.carino += 3"
+        ]
+      }
+    ],
+    "veces_maximas": 2
+  }
+]

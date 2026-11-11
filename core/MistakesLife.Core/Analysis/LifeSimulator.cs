@@ -225,6 +225,11 @@ namespace MistakesLife.Core.Analysis
                 happiness += player.Stats.Happiness;
                 smarts += player.Stats.Smarts;
 
+                foreach (var news in session.World.News)
+                {
+                    report.NewsCount[news.NewsId] = report.NewsCount.TryGetValue(news.NewsId, out int k) ? k + 1 : 1;
+                }
+
                 var lived = session.World.EventHistory.Where(r => r.CharacterId == player.Id).ToList();
                 totalEvents += lived.Count;
                 foreach (var group in lived.GroupBy(r => r.EventId))

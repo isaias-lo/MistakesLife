@@ -1,0 +1,116 @@
+[
+  {
+    "id": "evento.estafa_mensaje",
+    "condiciones": "jugador.edad >= 25 && jugador.dinero > precio(200000)",
+    "probabilidad_anual": 0.1,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 3,
+    "variantes": [
+      "evento.estafa_mensaje.2",
+      "evento.estafa_mensaje.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.estafa_mensaje.transferir",
+        "tendencia": "si(jugador.edad >= 70, 35, 10) + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.dinero -= precio(150000)",
+          "jugador.felicidad -= 6",
+          "diario('diario.estafa_caiste')"
+        ]
+      },
+      {
+        "texto": "opcion.estafa_mensaje.noticia",
+        "condiciones": "noticia_reciente('noticia.viral.estafa_mensajes', 52)",
+        "tendencia": "70",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "diario('diario.estafa_noticia')"
+        ]
+      },
+      {
+        "texto": "opcion.estafa_mensaje.llamar",
+        "condiciones": "jugador.hijos > 0 || (jugador.madre != nada && jugador.madre.vivo)",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.estafa_mensaje.borrar",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.vacuna_influenza",
+    "condiciones": "noticia_reciente('noticia.salud.brote_influenza', 4) && (jugador.edad >= 60 || jugador.hijos_menores > 0)",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 40,
+    "veces_maximas": 3,
+    "variantes": [
+      "evento.vacuna_influenza.2",
+      "evento.vacuna_influenza.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.vacuna_influenza.vacunarse",
+        "tendencia": "30 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.vacuna_influenza.no",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "plantar('semilla.sin_vacuna_influenza')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.influenza_fuerte",
+    "semilla": "semilla.sin_vacuna_influenza",
+    "efectos": [
+      "jugador.salud -= si(jugador.edad >= 70, 12, 6)",
+      "jugador.felicidad -= 3",
+      "diario('diario.influenza_fuerte')"
+    ]
+  },
+  {
+    "id": "evento.mundial_futbol",
+    "condiciones": "noticia_reciente('noticia.sociedad.mundial_futbol', 5) && jugador.edad >= 6",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 400,
+    "veces_maximas": 3,
+    "variantes": [
+      "evento.mundial_futbol.2",
+      "evento.mundial_futbol.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.mundial_futbol.amigos",
+        "condiciones": "jugador.amigo != nada",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "jugador.amigo.carino += 6",
+          "jugador.felicidad += 4",
+          "jugador.dinero -= si(jugador.edad >= 18, precio(8000), 0)"
+        ]
+      },
+      {
+        "texto": "opcion.mundial_futbol.familia",
+        "condiciones": "jugador.hijos > 0 || (jugador.madre != nada && jugador.madre.vivo)",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.mundial_futbol.nada",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": []
+      }
+    ]
+  }
+]

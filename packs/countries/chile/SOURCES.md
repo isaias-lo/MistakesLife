@@ -136,3 +136,16 @@ El trabajo con contrato ya no llega solo: se busca (`economia.busqueda_trabajo` 
 | Revisar el DICOM para contratar está prohibido desde 2012 | Ley 20.575 | Las deudas no cambian la probabilidad de entrevista |
 
 Estimaciones por revisar: probabilidad de entrevista por semana (portales 0,08, a mano 0,045, contactos 0,08, OMIL 0,05), probabilidad base de quedar (0,35), lo que suma cada año de experiencia (5 %, hasta 50 % más), el título (20 % más), desde los 55 años (20 % menos), una cesantía de más de un año (30 % menos) y la fase del ciclo (`contratacion` 0,7 en recesión y 0,45 en crisis), y la negociación (40 % de que suban el sueldo 8 %, 10 % de que retiren la oferta). Sin título y con menos de 12 meses cotizados se entra con el sueldo mínimo.
+
+## Noticias del mundo (`news/chile.json`, 2026-11-10)
+
+Estimaciones de orden de magnitud, por afinar con datos:
+
+- **Temblor fuerte sentido en Santiago** (`noticia.chile.temblor`, 0,6 al año): el Centro Sismológico Nacional registra cada año varios sismos de magnitud 5 o más en la zona central; se cuenta solo el que la gente comenta al otro día.
+- **Terremoto en la zona central** (`noticia.chile.terremoto`, 0,04 al año, uno cada ~25 años): Santiago vivió los de 1985 (M7,8) y 2010 (M8,8).
+- **Sistemas frontales en Santiago** (`noticia.chile.sistema_frontal`): entre mayo y agosto; en promedio 1 o 2 temporales fuertes por invierno (Dirección Meteorológica de Chile).
+- **Cortes masivos de agua por turbiedad del Maipo** (`noticia.chile.corte_de_agua`): 2013, 2016 y 2017, con lluvias de verano en la cordillera.
+- **Incendios forestales grandes** (`noticia.chile.incendios_forestales`): casi todos los veranos (diciembre a marzo); megaincendios en 2017, 2023 y 2024 (CONAF).
+- **Olas de calor en Santiago** (`noticia.chile.ola_de_calor`): diciembre a febrero, casi todos los años.
+- **Elecciones presidenciales**: cada 4 años en noviembre (`ley.elecciones_mes: 11`); voto obligatorio con multa de 0,5 a 1,5 UTM (Ley 21.524), aquí media UTM (~33.000 pesos).
+- **Protestas masivas** (`noticia.chile.protestas`, 0,03 al año): como 2011 o 2019.
