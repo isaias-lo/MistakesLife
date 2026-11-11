@@ -209,6 +209,12 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public string? GroceryBasketId { get; set; }
 
+        /// <summary>
+        /// Los servicios que contrató: id del servicio → opción elegida
+        /// ("servicio.celular" → "servicio.celular.prepago"). Se cobran cada mes.
+        /// </summary>
+        public SortedDictionary<string, string> Services { get; } = new SortedDictionary<string, string>(StringComparer.Ordinal);
+
         /// <summary>Meses seguidos que terminó con el dinero en negativo (estrés financiero).</summary>
         public int MonthsInRed { get; set; }
 
