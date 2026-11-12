@@ -50,6 +50,7 @@ namespace MistakesLife.Unity
             "escena.casa.mochila_emergencia" => "ancla.puerta",
             "escena.casa.tarjeta_transporte" => "ancla.puerta",
             "escena.casa.zapatillas" => "ancla.puerta",
+            "escena.casa.router" => "ancla.tele",
             "escena.casa.grietas" => "ancla.muro_lateral",
             "escena.casa.bebidas" => "ancla.cocina",
             "escena.casa.mochila" => "ancla.mochila",
@@ -165,6 +166,20 @@ namespace MistakesLife.Unity
                     {
                         kit.Box("Zapatilla", new Vector3(0.32f, 0.05f, z), new Vector3(0.28f, 0.1f, 0.11f), new Color(0.85f, 0.85f, 0.88f));
                         kit.Box("Suela de la zapatilla", new Vector3(0.32f, 0.008f, z), new Vector3(0.29f, 0.016f, 0.115f), new Color(0.30f, 0.30f, 0.32f));
+                    }
+
+                    break;
+                case "escena.casa.router":
+                    // Contrataste internet: el router de la fibra en el muro, al lado de la tele, con sus luces verdes.
+                    kit.Box("Router", new Vector3(0.78f, -0.25f, 0.1f), new Vector3(0.24f, 0.16f, 0.05f), Color.white);
+                    foreach (float x in new[] { 0.7f, 0.86f })
+                    {
+                        kit.Box("Antena del router", new Vector3(x, -0.1f, 0.1f), new Vector3(0.015f, 0.16f, 0.015f), new Color(0.20f, 0.20f, 0.22f));
+                    }
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        kit.Ball("Luz del router", new Vector3(0.72f + (i * 0.06f), -0.29f, 0.07f), 0.018f, new Color(0.30f, 0.90f, 0.40f));
                     }
 
                     break;

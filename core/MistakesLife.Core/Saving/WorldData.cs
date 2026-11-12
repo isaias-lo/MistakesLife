@@ -46,5 +46,8 @@ namespace MistakesLife.Core.Saving
 
         /// <summary>Las noticias del mundo (desde la versión 10).</summary>
         public List<NewsData> News { get; set; } = new List<NewsData>();
+
+        /// <summary>Las causas judiciales (desde la versión 14).</summary>
+        public List<CourtCaseData> CourtCases { get; set; } = new List<CourtCaseData>();
     }
 }

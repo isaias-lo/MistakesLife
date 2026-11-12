@@ -98,6 +98,9 @@ namespace MistakesLife.Core.Events
         /// <summary>Método que hace llegar un correo a su bandeja: la validación revisa que el correo exista.</summary>
         public const string ReceiveMailMethod = "recibir_correo";
 
+        /// <summary>Método que une ante la ley a la persona con su pareja: la validación revisa que algún país tenga esa unión.</summary>
+        public const string UniteMethod = "unirse";
+
         private readonly Character _character;
 
         /// <summary>
@@ -184,6 +187,16 @@ namespace MistakesLife.Core.Events
                     return Relative(_character.FatherId, scope);
                 case "pareja":
                     return Relative(_character.PartnerId, scope);
+                case "union":
+                    return LivingSpouse(scope) == null ? Value.Null : Value.FromText(_character.UnionTypeId!);
+                case "conyuge":
+                    Character? spouse = LivingSpouse(scope);
+                    return spouse == null ? Value.Null : Value.FromObject(new CharacterObject(spouse, _character));
+                case "separado":
+                    // Unido ante la ley con alguien que ya no es su pareja (separado de hecho).
+                    return Value.FromBool(LivingSpouse(scope) != null && _character.PartnerId != _character.SpouseId);
+                case "viudo":
+                    return Value.FromBool(_character.SpouseId.HasValue && ((EventScope)scope).World.TryGetCharacter(_character.SpouseId.Value, out Character? late) && !late.IsAlive);
                 case "adoptado":
                     return Value.FromBool(_character.Adopted);
                 case "dinero":
@@ -349,6 +362,55 @@ namespace MistakesLife.Core.Events
 
         private static Value TextOrNull(string? text) => text == null ? Value.Null : Value.FromText(text);
 
+        /// <summary>
+        /// jugador.unirse('union.chile.matrimonio'): se casa (o firma la unión civil) con su
+        /// pareja actual, en ambos sentidos. La unión debe existir en su país y no puede
+        /// estar unido con otra persona (primero se divorcia).
+        /// </summary>
+        private void Unite(EventScope scope, string unionId)
+        {
+            scope.RequireWritable("jugador." + UniteMethod);
+            if (_character.Residence == null || !scope.Content.GetCountry(_character.Residence.CountryId).CivilUnions.Contains(unionId))
+            {
+                throw new ScriptException($"jugador.unirse('{unionId}'): esa unión no existe en el país donde vive (uniones_civiles).");
+            }
+
+            if (!_character.PartnerId.HasValue || !scope.World.TryGetCharacter(_character.PartnerId.Value, out Character? partner))
+            {
+                throw new ScriptException("jugador.unirse(): no tiene pareja; revisa jugador.pareja != nada antes.");
+            }
+
+            if (LivingSpouse(scope) != null && _character.SpouseId != partner.Id)
+            {
+                throw new ScriptException("jugador.unirse(): ya está unido con otra persona; revisa jugador.union == nada antes.");
+            }
+
+            _character.SpouseId = partner.Id;
+            _character.UnionTypeId = unionId;
+            partner.SpouseId = _character.Id;
+            partner.UnionTypeId = unionId;
+        }
+
+        /// <summary>jugador.terminar_union(): termina la unión ante la ley (la sentencia de divorcio, el aviso de término), para los dos.</summary>
+        private void EndUnion(EventScope scope)
+        {
+            if (_character.SpouseId.HasValue && scope.World.TryGetCharacter(_character.SpouseId.Value, out Character? spouse) && spouse.SpouseId == _character.Id)
+            {
+                spouse.SpouseId = null;
+                spouse.UnionTypeId = null;
+            }
+
+            _character.SpouseId = null;
+            _character.UnionTypeId = null;
+        }
+
+        /// <summary>Con quién está unido ante la ley, si sigue vivo (si murió, ya no hay unión: quedó viudo).</summary>
+        private Character? LivingSpouse(IScriptScope scope) =>
+            _character.SpouseId.HasValue && _character.UnionTypeId != null
+            && ((EventScope)scope).World.TryGetCharacter(_character.SpouseId.Value, out Character? spouse) && spouse.IsAlive
+                ? spouse
+                : null;
+
         private Value Relative(int? id, IScriptScope scope)
         {
             if (id.HasValue && ((EventScope)scope).World.TryGetCharacter(id.Value, out Character? relative))
@@ -509,6 +571,14 @@ namespace MistakesLife.Core.Events
                     }
 
                     FamilyFactory.EndPartnership(((EventScope)scope).World, _character);
+                    return Value.Null;
+                case UniteMethod:
+                    Unite((EventScope)scope, EventScope.SingleText("jugador." + method, args));
+                    return Value.Null;
+                case "terminar_union":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.terminar_union");
+                    EndUnion((EventScope)scope);
                     return Value.Null;
                 case "tener_hijo":
                     NoArguments(method, args);

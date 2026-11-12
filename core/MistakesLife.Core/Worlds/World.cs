@@ -21,6 +21,7 @@ namespace MistakesLife.Core.Worlds
         private readonly List<EventRecord> _eventHistory = new List<EventRecord>();
         private readonly List<int> _formerPlayers = new List<int>();
         private readonly List<NewsRecord> _news = new List<NewsRecord>();
+        private readonly List<Courts.CourtCase> _courtCases = new List<Courts.CourtCase>();
         private readonly Dictionary<string, Scripting.Value> _lawChanges = new Dictionary<string, Scripting.Value>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, Economy.CountryEconomy> _economies = new SortedDictionary<string, Economy.CountryEconomy>(StringComparer.Ordinal);
         private int _nextCharacterId = 1;
@@ -132,6 +133,48 @@ namespace MistakesLife.Core.Worlds
             _news.Add(record);
             _news.RemoveAll(n => record.Date.WeeksSince(n.Date) > NewsMemoryWeeks);
         }
+
+        /// <summary>Las causas judiciales del mundo (abiertas y terminadas), de la más antigua a la más nueva.</summary>
+        public IReadOnlyList<Courts.CourtCase> CourtCases => _courtCases;
+
+        /// <summary>
+        /// La causa de ese tipo de un personaje: la abierta si hay, si no la última que
+        /// terminó. Null si nunca tuvo una.
+        /// </summary>
+        public Courts.CourtCase? CourtCaseOf(int ownerId, string typeId)
+        {
+            Courts.CourtCase? last = null;
+            foreach (Courts.CourtCase courtCase in _courtCases)
+            {
+                if (courtCase.OwnerId == ownerId && courtCase.TypeId == typeId)
+                {
+                    if (courtCase.IsOpen)
+                    {
+                        return courtCase;
+                    }
+
+                    last = courtCase;
+                }
+            }
+
+            return last;
+        }
+
+        /// <summary>
+        /// Abre una causa con un RIT nuevo: la letra del tribunal, un número que crece
+        /// con cada causa de la partida y el año en que entró, como "C-1532-81".
+        /// </summary>
+        internal Courts.CourtCase OpenCourtCase(string typeId, string ritPrefix, int ownerId, int? otherPartyId)
+        {
+            int id = _courtCases.Count == 0 ? 1 : _courtCases[_courtCases.Count - 1].Id + 1;
+            string rit = $"{ritPrefix}-{1000 + (id * 137) % 9000}-{Date.Year}";
+            var courtCase = new Courts.CourtCase(id, typeId, rit, ownerId, otherPartyId, Date);
+            _courtCases.Add(courtCase);
+            return courtCase;
+        }
+
+        /// <summary>Para leer un guardado.</summary>
+        internal void AddCourtCase(Courts.CourtCase courtCase) => _courtCases.Add(courtCase);
 
         internal void AddPendingEvent(PendingEvent pending) => _pendingEvents.Add(pending);
 

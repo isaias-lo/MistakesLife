@@ -61,16 +61,17 @@ Cada tema tiene además **su material**: verde billetera `#1D4A3C`, azul libreta
 - **Arriba:** retrato del personaje con anillo amarillo, nombre y edad, y el día, la hora y el clima ("miércoles 19:40 · llovizna, 9°"). A la derecha está el botón Menú.
 - **Opcional arriba:** la tira de la semana (L a D, con lo que pasa cada día: "pega", "pago", "asado", "mamá"). Viene del boceto de la ronda 1.
 - **Cambiar de lugar:** Casa, Barrio y Pega a la derecha. Más adelante el barrio será un recorrido.
+- **Girar la maqueta (U22):** arrastrar el dedo de lado sobre el 3D gira la cámara alrededor (todo el ancho de la pantalla es una vuelta de 360°). Los muros que quedan entre la cámara y la pieza se esconden, como en una maqueta a la que se le saca una pared. Al cambiar de lugar la cámara vuelve a su vista de siempre. La primera vez se ve el aviso "Arrastra para girar". Tocar sin arrastrar abre el objeto que está ahí: la mesa (y el contrato, las bolsas del súper, las cuentas o la tarjeta de transporte encima) abre Tu dinero, el celular abre el celular y las fotos o la postal abren tu gente (`HomeScene.Pick`, `LifeScreen.TapScene`).
 - **Abajo, en orden:**
   - una línea del diario, con la letra del jugador;
   - Salud, Ánimo y Mente en palabras;
-  - la fila "tus cosas": Dinero, Pega, Salir, Celular y Tu gente, con punto rojo si hay algo nuevo;
+  - la fila "tus cosas": Dinero, Pega, Salir, Celular y Tu gente, con punto rojo si hay algo nuevo. **Hecho en U22** (`Things.cs`): cada cosa es un objeto dibujado, no un botón con su nombre: la billetera verde con un billete asomado y lo que tienes abajo (sin billete y en rojo si debes), el celular chueco con la pantalla que se enciende y el número de correos sin leer, dos fotos de papel para tu gente y el diario, y un reloj para volver al pasado. Para cambiar cómo se ve una cosa se cambia solo su método en `Things.cs`;
   - el botón amarillo "Vivir la semana" y, al lado, "Seguir viviendo".
 - **La casa guarda recuerdos:** trofeos, fotos, la planta que se secó, la caja de la mamá. Son objetos de escena con condición en `packs/*/scene/` que se van sumando a lo largo de la vida.
 
 ### Un momento (evento)
 - La cámara 3D se acerca al lugar donde pasa (la oficina, la casa) y aparecen los nombres de quienes miran (los testigos de las semillas).
-- La tarjeta es de papel y sube desde abajo:
+- La tarjeta es de papel y sube desde abajo (aparece de a poco mientras sube; se mueve justo antes de dibujar, para que nunca se vea primero arriba y después abajo):
   - "DÍA CLAVE" si es `dia_clave`, y el sello "ESTO SE RECUERDA" si deja semilla;
   - título y texto;
   - opciones grandes, cada una con una línea de quién lo va a notar;
@@ -86,6 +87,7 @@ Acordado el 2026-11-10 (bocetos en el lienzo, fila 5: "C. La mesa de la cocina" 
 - **Detalle: la cartola del banco.** Un papel que sale del cajero con cada movimiento por fecha y su motivo ("Contrato que firmaste en marzo"); tocar una línea lleva a la decisión que la causó.
 - Las rutinas (decidir una vez y que se repita, por ejemplo la compra de la semana) se ven y se cambian aquí; si el precio sube, la rutina avisa.
 - **Por edad:** de 0 a 12 años no hay pantalla, solo se nota en la casa; de 13 a 17, la mesada y la alcancía en tu pieza; en la jubilación, el mes se mide con la pensión.
+- **Hecho en U19a (2D)** (`MoneyScreen.cs`, `LifePresenter.Money()`): la billetera de tus cosas (o tocar la mesa en la casa) abre la billetera verde con el papel del cajero adentro: lo que tienes en la cuenta, los movimientos del último mes (sueldo líquido, cada gasto que el núcleo cobró con el nombre de lo que lo causó y cuántos días de sueldo es, las cuotas de las deudas), cuánto salió en total y "El mes te costó N días de sueldo" con la letra a mano, y al final lo que debes. Solo sale lo que de verdad se movió. Falta: la mesa de la cocina en 3D con los gastos como objetos y los botones para cambiar cada decisión desde aquí.
 
 ### Estudios, Buscar pega, Redes y Juzgado
 Siguen los bocetos de la fila 3, con las letras y los tamaños de la ronda 2. Cada una comparte la barra de arriba (volver a tu casa, título, quién eres) y el amarillo para lo tuyo. Se programan cuando el núcleo tenga sus datos.

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "semilla.chile.separados",
+    "tipo": "ambigua",
+    "fuerza": 60,
+    "vence_anios": 30,
+    "dormir_min_semanas": 52,
+    "condiciones": "jugador.separado && !causa('causa.chile.divorcio').abierta"
+  },
+  {
+    "id": "semilla.chile.separados_largo",
+    "tipo": "ambigua",
+    "fuerza": 60,
+    "vence_anios": 30,
+    "dormir_min_semanas": 104,
+    "condiciones": "jugador.separado && !causa('causa.chile.divorcio').abierta"
+  }
+]

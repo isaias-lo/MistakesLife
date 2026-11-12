@@ -49,6 +49,9 @@ namespace MistakesLife.Core.Presentation
             "ui.inicio.reemplazar", "ui.inicio.reemplazar_si", "ui.nacer.titulo", "ui.nacer.ayuda", "ui.nacer.elegir", "ui.nacer.otras",
             "ui.boton.menu", "ui.boton.una_semana", "ui.boton.siguiente", "ui.boton.entendido",
             "ui.tutorial.1", "ui.tutorial.2", "ui.tutorial.3", "ui.tutorial.4", "ui.tutorial.5",
+            "ui.dinero.titulo", "ui.dinero.tienes", "ui.dinero.movimientos", "ui.dinero.sin_movimientos", "ui.dinero.sueldo", "ui.dinero.cuotas",
+            "ui.dinero.salio", "ui.dinero.mes_en_dias", "ui.dinero.dias", "ui.dinero.un_dia", "ui.dinero.menos_de_un_dia", "ui.dinero.debes", "ui.dinero.atrasada",
+            "ui.cosas.tu_gente", "ui.cosas.volver", "ui.vista.girar",
         };
 
         /// <summary>
@@ -294,6 +297,44 @@ namespace MistakesLife.Core.Presentation
 
         private int _newsRead;
 
+        /// <summary>
+        /// La carpeta del juzgado: las causas del jugador, primero las abiertas y después
+        /// las que terminaron, de la más nueva a la más vieja.
+        /// </summary>
+        public IReadOnlyList<CourtCaseView> CourtCases()
+        {
+            World world = Session.World;
+            var views = new List<CourtCaseView>();
+            foreach (Courts.CourtCase courtCase in world.CourtCases.Where(c => c.OwnerId == world.PlayerId).OrderByDescending(c => c.IsOpen).ThenByDescending(c => c.Id))
+            {
+                if (!Session.Content.TryGetCourtCase(courtCase.TypeId, out CourtCaseDefinition? definition))
+                {
+                    continue;
+                }
+
+                var stages = new List<CourtStageView>();
+                for (int i = 0; i < definition!.Stages.Count; i++)
+                {
+                    CourtStageDefinition stage = definition.Stages[i];
+                    bool done = !courtCase.IsOpen ? i <= courtCase.StageIndex : i < courtCase.StageIndex;
+                    stages.Add(new CourtStageView(stage.Id, T(stage.TextKey(definition.Id)), stage.Weeks, done, courtCase.IsOpen && i == courtCase.StageIndex));
+                }
+
+                views.Add(new CourtCaseView(
+                    courtCase.TypeId,
+                    courtCase.Rit,
+                    T(definition.Id),
+                    T(definition.CourtKey),
+                    string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), courtCase.Opened.Year, courtCase.Opened.WeekOfYear),
+                    courtCase.IsOpen,
+                    courtCase.Outcome == null ? null : T(definition.OutcomeTextKey(courtCase.Outcome)),
+                    stages,
+                    courtCase.IsOpen ? world.Date.WeeksSince(courtCase.StageStarted) : 0));
+            }
+
+            return views;
+        }
+
         /// <summary>El celular del jugador: si tiene, sus apps y los correos sin leer.</summary>
         public PhoneView Phone()
         {
@@ -307,6 +348,67 @@ namespace MistakesLife.Core.Presentation
 
             return new PhoneView(player.Phone != null, player.Mail != null, unread, apps);
         }
+
+        /// <summary>Días de un mes de sueldo: un gasto se cuenta como parte de 30 días pagados.</summary>
+        public const int PaidDaysPerMonth = 30;
+
+        /// <summary>
+        /// Tu dinero (docs/diseno-app.md): lo que tienes, la cartola del último mes y lo que debes.
+        /// Solo se lee lo que el núcleo ya cobró y pagó (la liquidación, los gastos del mes y las
+        /// cuotas de las deudas); nada se calcula aparte ni se inventa.
+        /// </summary>
+        public MoneyView Money()
+        {
+            Character player = Session.World.Player;
+            decimal net = player.Job != null && player.LastPayslip != null ? Math.Max(0, player.LastPayslip.Net) : 0;
+            decimal perDay = net / PaidDaysPerMonth;
+            var lines = new List<MoneyLineView>();
+            if (net > 0)
+            {
+                lines.Add(new MoneyLineView("ui.dinero.sueldo", T("ui.dinero.sueldo"), "+" + MoneyLabel(net), true, string.Empty));
+            }
+
+            decimal spent = 0;
+            foreach (PayslipLine line in player.LastExpenses)
+            {
+                if (line.Amount > 0)
+                {
+                    lines.Add(Outgoing(line.Id, T(line.Id), line.Amount, perDay));
+                    spent += line.Amount;
+                }
+            }
+
+            if (player.LastDebtPayment > 0)
+            {
+                lines.Add(Outgoing("ui.dinero.cuotas", T("ui.dinero.cuotas"), player.LastDebtPayment, perDay));
+                spent += player.LastDebtPayment;
+            }
+
+            var debts = player.Debts
+                .Where(d => d.Balance > 0)
+                .Select(d => new MoneyLineView(d.TypeId, T(d.TypeId), MoneyLabel(d.Balance), false, d.MonthsLate > 0 ? Text("ui.dinero.atrasada", d.MonthsLate) : string.Empty))
+                .ToList();
+
+            return new MoneyView(
+                MoneyLabel(player.Money),
+                lines,
+                spent > 0 ? "-" + MoneyLabel(spent) : string.Empty,
+                spent > 0 && perDay > 0 ? Text("ui.dinero.mes_en_dias", DaysOf(spent, perDay)) : string.Empty,
+                debts);
+        }
+
+        private MoneyLineView Outgoing(string id, string label, decimal amount, decimal perDay) =>
+            new MoneyLineView(id, label, "-" + MoneyLabel(amount), false, perDay > 0 ? DaysLabel(amount, perDay) : string.Empty);
+
+        /// <summary>"menos de un día de sueldo", "1 día de sueldo", "6 días de sueldo".</summary>
+        private string DaysLabel(decimal amount, decimal perDay)
+        {
+            int days = DaysOf(amount, perDay);
+            return days == 0 ? T("ui.dinero.menos_de_un_dia") : days == 1 ? T("ui.dinero.un_dia") : Text("ui.dinero.dias", days);
+        }
+
+        private static int DaysOf(decimal amount, decimal perDay) =>
+            (int)Math.Round(amount / perDay, 0, MidpointRounding.AwayFromZero);
 
         /// <summary>
         /// La bandeja de correo del jugador, del más nuevo al más viejo, como mucho
