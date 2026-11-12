@@ -21,6 +21,7 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, MailDefinition> _mails = new SortedDictionary<string, MailDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, List<MailDefinition>> _mailsByJournal = new Dictionary<string, List<MailDefinition>>(StringComparer.Ordinal);
+        private readonly List<MailDefinition> _periodicMails = new List<MailDefinition>();
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CareerDefinition> _careers = new SortedDictionary<string, CareerDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, CareerLevelDefinition> _careerLevels = new Dictionary<string, CareerLevelDefinition>(StringComparer.Ordinal);
@@ -64,6 +65,9 @@ namespace MistakesLife.Core.Content
         public MailDefinition? Mail(string id) => _mails.TryGetValue(id, out MailDefinition? mail) ? mail : null;
 
         /// <summary>Los correos que llegan cuando se anota esa línea en el diario (ordenados por id).</summary>
+        /// <summary>Los correos periódicos (con "cada"), en orden de id.</summary>
+        public IReadOnlyList<MailDefinition> PeriodicMails => _periodicMails;
+
         public IReadOnlyList<MailDefinition> MailsForJournal(string journalKey) =>
             _mailsByJournal.TryGetValue(journalKey, out List<MailDefinition>? mails) ? mails : (IReadOnlyList<MailDefinition>)Array.Empty<MailDefinition>();
 
@@ -1838,6 +1842,32 @@ namespace MistakesLife.Core.Content
                 if (Array.IndexOf(MailDefinition.Topics, mail.Topic) < 0)
                 {
                     _errors.Add(new ContentError(where, $"tema '{mail.Topic}' no existe (usa {string.Join(", ", MailDefinition.Topics)})."));
+                }
+
+                mail.CompiledConditions = string.IsNullOrWhiteSpace(mail.Conditions) ? null : CompileCondition(where, mail.Conditions);
+                if (mail.Every != null)
+                {
+                    if (Array.IndexOf(MailDefinition.Periods, mail.Every) < 0)
+                    {
+                        _errors.Add(new ContentError(where, $"cada '{mail.Every}' no existe (usa {string.Join(", ", MailDefinition.Periods)})."));
+                    }
+
+                    if (string.IsNullOrWhiteSpace(mail.Conditions))
+                    {
+                        _errors.Add(new ContentError(where, "un correo con 'cada' necesita condiciones: tiene que venir de algo que el personaje tiene (nada se inventa)."));
+                    }
+
+                    if (mail.OnJournal.Count > 0)
+                    {
+                        _errors.Add(new ContentError(where, "usa 'cada' o 'al_anotar', no los dos."));
+                    }
+
+                    _periodicMails.Add(mail);
+                }
+
+                if (mail.InMonth.HasValue && (mail.Every != "anio" || mail.InMonth < 1 || mail.InMonth > 12))
+                {
+                    _errors.Add(new ContentError(where, "en_mes va de 1 a 12 y solo sirve con \"cada\": \"anio\"."));
                 }
 
                 if (mail.OnJournal.Count != mail.OnJournal.Distinct().Count())
