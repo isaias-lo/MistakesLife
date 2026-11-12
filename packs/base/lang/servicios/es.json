@@ -24,5 +24,17 @@
   "opcion.revisar_transporte.seguir": "Sigues viajando como siempre.",
   "opcion.revisar_transporte.caminando": "Empiezas a irte caminando para ahorrarte los pasajes.",
   "opcion.revisar_transporte.bus": "Te mueves solo en micro o colectivo.",
-  "opcion.revisar_transporte.bus_y_metro": "Vuelves a combinar micro y metro (o subte) para llegar más rápido."
+  "opcion.revisar_transporte.bus_y_metro": "Vuelves a combinar micro y metro (o subte) para llegar más rápido.",
+  "servicio.internet.basico": "Internet de la casa: fibra básica",
+  "servicio.internet.rapido": "Internet de la casa: fibra rápida",
+  "evento.contratar_internet": "En tu nueva casa no hay internet. Pasa un vendedor de fibra óptica por el edificio con sus planes.",
+  "opcion.contratar_internet.basico": "El plan básico: alcanza para ver series y trabajar desde la casa.",
+  "opcion.contratar_internet.rapido": "El plan rápido, de un giga: más caro, pero nunca se corta.",
+  "opcion.contratar_internet.sin_internet": "No contratas nada: te arreglas con los datos del celular.",
+  "evento.revisar_internet": "Llega la boleta del internet de la casa y te pones a pensar si te conviene lo que tienes.",
+  "evento.revisar_internet.2": "Un vecino te cuenta cuánto paga él por internet. ¿Cambias algo?",
+  "opcion.revisar_internet.seguir": "Lo dejas como está.",
+  "opcion.revisar_internet.basico": "Te quedas con el plan básico de fibra.",
+  "opcion.revisar_internet.rapido": "Te cambias al plan rápido.",
+  "opcion.revisar_internet.cortar": "Das de baja el internet de la casa para ahorrar."
 }

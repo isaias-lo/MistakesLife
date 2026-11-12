@@ -233,7 +233,7 @@ Lo que se paga cada mes porque el jugador lo **contrató** (el plan del celular;
 - El id del servicio empieza con `servicio.` y el de cada opción, con el id de su servicio (`servicio.celular.plan`).
 - `condiciones` (opcional): cuándo se cobra lo contratado. En el celular, el prepago solo se paga si tiene celular (si se lo robaron, no carga), pero un plan sigue llegando en la boleta.
 - `compartido` (opcional): se divide en dos si tiene pareja.
-- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) y `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes).
+- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) y `servicio.internet` (basico, rapido; compartido).
 - Todo país debe tener los servicios y opciones que usan los eventos.
 
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
