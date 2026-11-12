@@ -187,5 +187,15 @@ namespace MistakesLife.Core.Tests
             Assert.Equal(795m * 44, transport.Option("servicio.transporte.bus")!.Price);
             Assert.Equal(895m * 44, transport.Option("servicio.transporte.bus_y_metro")!.Price);
         }
+        [Theory]
+        [InlineData("pais.chile")]
+        [InlineData("pais.argentina")]
+        public void Internet_LoContrataElJugador_SeComparteConLaPareja_YLaFibraRapidaCuestaMas(string countryId)
+        {
+            ServiceDefinition internet = RepoPacks.Content.GetCountry(countryId).Economy!.Services.Single(s => s.Id == "servicio.internet");
+
+            Assert.True(internet.Shared);
+            Assert.True(internet.Option("servicio.internet.basico")!.Price < internet.Option("servicio.internet.rapido")!.Price);
+        }
     }
 }

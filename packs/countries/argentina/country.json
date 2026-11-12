@@ -149,6 +149,10 @@
         { "id": "servicio.transporte.caminando", "precio": 0 },
         { "id": "servicio.transporte.bus", "precio": 46759 },
         { "id": "servicio.transporte.bus_y_metro", "precio": 83066 }
+      ] },
+      { "id": "servicio.internet", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true, "opciones": [
+        { "id": "servicio.internet.basico", "precio": 21000 },
+        { "id": "servicio.internet.rapido", "precio": 33696 }
       ] }
     ],
       "gastos": {
@@ -157,7 +161,7 @@
       "cupo_deficit": 1600000,
       "deuda_por_deficit": "deuda.argentina.descubierto",
       "categorias": [
-        { "id": "gasto.argentina.servicios", "monto": "80000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
+        { "id": "gasto.argentina.servicios", "monto": "59000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
         { "id": "gasto.argentina.hijos", "monto": "150000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.argentina.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
         { "id": "gasto.argentina.personales", "monto": "90000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" }

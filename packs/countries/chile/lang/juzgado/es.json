@@ -1,0 +1,92 @@
+{
+  "union.chile.matrimonio": "Matrimonio",
+  "union.chile.auc": "Acuerdo de Unión Civil",
+
+  "tribunal.chile.civil": "Juzgado Civil",
+  "tribunal.chile.familia": "Juzgado de Familia",
+
+  "causa.chile.cobro_deuda": "Juicio ejecutivo de cobro",
+  "causa.chile.cobro_deuda.etapa.demanda": "Demanda del banco",
+  "causa.chile.cobro_deuda.etapa.requerimiento": "Notificación y requerimiento de pago",
+  "causa.chile.cobro_deuda.etapa.excepciones": "Excepciones (tu defensa)",
+  "causa.chile.cobro_deuda.etapa.embargo": "Embargo",
+  "causa.chile.cobro_deuda.etapa.remate": "Remate",
+  "causa.chile.cobro_deuda.resultado.avenimiento": "Terminada por avenimiento: repactaste la deuda",
+  "causa.chile.cobro_deuda.resultado.pago": "Terminada: la deuda quedó al día",
+  "causa.chile.cobro_deuda.resultado.terminada": "Terminada con el remate de tus bienes",
+
+  "causa.chile.divorcio": "Divorcio",
+  "causa.chile.divorcio.etapa.demanda": "Demanda de divorcio",
+  "causa.chile.divorcio.etapa.notificacion": "Notificación a tu cónyuge",
+  "causa.chile.divorcio.etapa.audiencia_preparatoria": "Audiencia preparatoria",
+  "causa.chile.divorcio.etapa.audiencia_juicio": "Audiencia de juicio",
+  "causa.chile.divorcio.etapa.sentencia": "Sentencia y subinscripción en el Registro Civil",
+  "causa.chile.divorcio.resultado.divorcio": "Divorcio decretado",
+  "causa.chile.divorcio.resultado.desistida": "Te desististe: siguen casados",
+  "causa.chile.divorcio.resultado.fallecimiento": "Terminada: tu cónyuge falleció",
+
+  "evento.chile.casarse": "Llevan tiempo juntos y la conversación aparece sola en la once: ¿y si lo hacemos oficial?",
+  "opcion.chile.casarse.matrimonio": "Casarnos por el civil (y una fiesta chica con la familia)",
+  "opcion.chile.casarse.auc": "Firmar el Acuerdo de Unión Civil en el Registro Civil",
+  "opcion.chile.casarse.seguir_asi": "Estamos bien así, sin papeles",
+  "diario.chile.matrimonio": "Nos casamos en el Registro Civil.",
+  "diario.chile.auc": "Firmamos el Acuerdo de Unión Civil.",
+
+  "evento.chile.separacion_de_hecho": "Ya no viven juntos, pero ante la ley siguen casados. Para divorciarse, la ley pide al menos un año de separación.",
+  "diario.chile.separacion_de_hecho": "Nos separamos. Seguimos casados ante la ley.",
+
+  "evento.chile.pensar_divorcio": "Ya pasó más de un año desde la separación. Tu cónyuge y tú podrían pedir el divorcio de común acuerdo, con un acuerdo sobre la plata y los hijos.",
+  "opcion.chile.divorcio.mutuo_acuerdo": "Pedir el divorcio de común acuerdo (con abogado)",
+  "opcion.chile.divorcio.esperar": "Todavía no: dejarlo así por ahora",
+  "diario.chile.divorcio_presentado": "Presentamos la demanda de divorcio en el Juzgado de Familia.",
+
+  "evento.chile.divorcio_unilateral": "Ya son tres años separados. La ley permite pedir el divorcio aunque tu cónyuge no quiera.",
+  "opcion.chile.divorcio.unilateral": "Demandar el divorcio",
+  "opcion.chile.divorcio.casado_de_papel": "Seguir casados en el papel",
+
+  "evento.chile.divorcio_audiencia_preparatoria": "Audiencia preparatoria en el Juzgado de Familia. La jueza pregunta si hay acuerdo.",
+  "opcion.chile.divorcio.presentar_acuerdo": "Presentar el acuerdo completo y suficiente",
+  "opcion.chile.divorcio.ir_a_juicio": "No hay acuerdo: seguir al juicio",
+  "opcion.chile.divorcio.desistirse": "Retirar la demanda",
+
+  "evento.chile.divorcio_audiencia_juicio": "Audiencia de juicio. Si uno de los dos dejó de trabajar para cuidar a los hijos, la jueza puede fijar una compensación económica.",
+  "opcion.chile.divorcio.escuchar_sentencia": "Escuchar lo que decide la jueza",
+
+  "evento.chile.divorcio_sentencia": "Quedó firme la sentencia y se anotó en el Registro Civil: están divorciados.",
+  "diario.chile.divorcio": "Nos divorciamos.",
+
+  "evento.chile.terminar_auc": "Ya no viven juntos y siguen con el Acuerdo de Unión Civil firmado. Se puede terminar en el Registro Civil, sin juicio.",
+  "opcion.chile.terminar_auc.registro_civil": "Ir al Registro Civil a terminarlo",
+  "opcion.chile.terminar_auc.despues": "Dejarlo para después",
+  "diario.chile.fin_auc": "Terminamos el Acuerdo de Unión Civil.",
+
+  "evento.chile.demanda_cobro": "Te llaman de cobranza: \"Su deuda pasó a cobranza judicial\". El banco presentó una demanda en el Juzgado Civil.",
+  "diario.chile.demanda_cobro": "El banco me demandó por la deuda.",
+
+  "evento.chile.cobro_requerimiento": "Un receptor judicial toca la puerta, te nombra y te deja la demanda: tienes unos días para pagar o defenderte.",
+  "opcion.chile.cobro.repactar": "Llegar a un acuerdo con el banco y repactar",
+  "opcion.chile.cobro.defenderse": "Defenderte con la Corporación de Asistencia Judicial (gratis)",
+  "opcion.chile.cobro.no_hacer_nada": "No hacer nada",
+  "diario.chile.cobro_avenimiento": "Llegué a un acuerdo con el banco y se cerró el juicio.",
+
+  "evento.chile.cobro_excepciones": "El tribunal rechazó tus excepciones: la deuda es real y está firmada. El juicio sigue.",
+  "opcion.chile.cobro.aceptar_fallo": "Aceptar lo que viene",
+
+  "evento.chile.cobro_embargo": "Vuelve el receptor, esta vez a embargar. Anota el televisor, el computador y el living: no son tuyos para vender mientras siga el juicio.",
+  "opcion.chile.cobro.repactar_ultimo": "Repactar a última hora para frenar el embargo",
+  "opcion.chile.cobro.dejar_remate": "No hay cómo pagar: que sigan",
+
+  "evento.chile.cobro_remate": "Se llevaron y remataron lo embargado. Lo que sacaron va a la deuda; lo que falta lo sigues debiendo.",
+  "diario.chile.cobro_remate": "Remataron mis cosas por la deuda.",
+
+  "evento.chile.cobro_sin_deuda": "Tu deuda quedó al día y el banco avisó al tribunal: el juicio se archiva.",
+  "diario.chile.cobro_pagado": "Se cerró el juicio del banco.",
+
+  "remitente.poder_judicial": "Poder Judicial - Oficina Judicial Virtual",
+  "correo.juzgado.causa_nueva.asunto": "Nueva causa en la que eres parte",
+  "correo.juzgado.causa_nueva": "Se ingresó una causa en la que figuras como parte. Puedes revisar el RIT, el tribunal y cada resolución en la Oficina Judicial Virtual.",
+  "correo.juzgado.sentencia_divorcio.asunto": "Sentencia de divorcio ejecutoriada",
+  "correo.juzgado.sentencia_divorcio": "La sentencia que decreta el divorcio quedó firme y se envió al Registro Civil para la subinscripción.",
+  "correo.juzgado.remate.asunto": "Resultado del remate",
+  "correo.juzgado.remate": "Se realizó el remate de los bienes embargados en tu causa. El monto obtenido se abonó a la deuda."
+}
