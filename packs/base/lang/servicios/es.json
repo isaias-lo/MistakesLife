@@ -11,5 +11,18 @@
   "opcion.revisar_plan_celular.seguir": "Te quedas con el plan que tienes.",
   "opcion.revisar_plan_celular.prepago": "Te pasas a prepago: cargas solo cuando lo necesitas.",
   "opcion.revisar_plan_celular.plan": "Te cambias a un plan mensual normal.",
-  "opcion.revisar_plan_celular.plan_ilimitado": "Te cambias al plan con gigas libres."
+  "opcion.revisar_plan_celular.plan_ilimitado": "Te cambias al plan con gigas libres.",
+  "servicio.transporte.caminando": "Transporte: a pie",
+  "servicio.transporte.bus": "Transporte: micro o colectivo",
+  "servicio.transporte.bus_y_metro": "Transporte: micro y metro (o subte)",
+  "evento.elegir_transporte": "Ahora te mueves solo todos los días, ida y vuelta. ¿Cómo vas a hacer el viaje?",
+  "opcion.elegir_transporte.bus_y_metro": "Micro y metro (o subte): llegas más rápido, pero el pasaje en hora punta es el más caro.",
+  "opcion.elegir_transporte.bus": "Solo micro o colectivo: más barato, aunque a veces se demora.",
+  "opcion.elegir_transporte.caminando": "Te vas caminando: no pagas pasaje, pero sales mucho más temprano.",
+  "evento.revisar_transporte": "Sacas la cuenta de lo que gastas en pasajes al mes. ¿Sigues viajando igual?",
+  "evento.revisar_transporte.2": "Otra vez subieron los pasajes. Te preguntas si te conviene cambiar cómo te mueves.",
+  "opcion.revisar_transporte.seguir": "Sigues viajando como siempre.",
+  "opcion.revisar_transporte.caminando": "Empiezas a irte caminando para ahorrarte los pasajes.",
+  "opcion.revisar_transporte.bus": "Te mueves solo en micro o colectivo.",
+  "opcion.revisar_transporte.bus_y_metro": "Vuelves a combinar micro y metro (o subte) para llegar más rápido."
 }

@@ -146,7 +146,8 @@ namespace MistakesLife.Core.Tests
             World world = new LifeSession(content, 1).World;
             Run(world, content, "jugador.arrendar('vivienda.departamento')");
             Run(world, content, "jugador.trabajar(sueldo_tipico())");
-            double alone = Monthly(world, content, rules);
+            // El pasaje ya no es un gasto fijo: se suma el que elige quien viaja en micro y metro.
+            double alone = Monthly(world, content, rules) + Eval(world, content, "tarifa('servicio.transporte.bus_y_metro')");
 
             Assert.True(alone > 617500, $"Viviendo solo gasta {alone}, más que el líquido típico.");
         }

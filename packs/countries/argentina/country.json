@@ -144,6 +144,11 @@
         { "id": "servicio.celular.prepago", "precio": 8000 },
         { "id": "servicio.celular.plan", "precio": 18300 },
         { "id": "servicio.celular.plan_ilimitado", "precio": 70406 }
+      ] },
+      { "id": "servicio.transporte", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')", "opciones": [
+        { "id": "servicio.transporte.caminando", "precio": 0 },
+        { "id": "servicio.transporte.bus", "precio": 46759 },
+        { "id": "servicio.transporte.bus_y_metro", "precio": 83066 }
       ] }
     ],
       "gastos": {
@@ -155,7 +160,6 @@
         { "id": "gasto.argentina.servicios", "monto": "80000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
         { "id": "gasto.argentina.hijos", "monto": "150000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.argentina.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
-        { "id": "gasto.argentina.transporte", "monto": "40000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
         { "id": "gasto.argentina.personales", "monto": "90000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" }
       ]
     },
