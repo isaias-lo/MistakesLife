@@ -157,6 +157,20 @@ namespace MistakesLife.Unity.Editor
                     File.WriteAllBytes(Path.Combine(folder, $"{name}-{view.ToString().ToLowerInvariant()}.png"), image.EncodeToPNG());
                     UnityEngine.Object.DestroyImmediate(image);
                     count++;
+
+                    if (view == SceneView.Room && name.EndsWith("22anos", StringComparison.Ordinal))
+                    {
+                        // La misma pieza girada (giro de 360°): desde el otro lado, con los muros de adelante escondidos.
+                        foreach (int degrees in new[] { 120, 220 })
+                        {
+                            scene.Orbit(degrees);
+                            Texture2D turned = scene.RenderToTexture(Width, Height);
+                            File.WriteAllBytes(Path.Combine(folder, $"{name}-room-giro{degrees}.png"), turned.EncodeToPNG());
+                            UnityEngine.Object.DestroyImmediate(turned);
+                            scene.Orbit(-degrees);
+                            count++;
+                        }
+                    }
                 }
             }
             finally
@@ -287,6 +301,9 @@ namespace MistakesLife.Unity.Editor
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-celular.png"), phone: PhoneCapture.Home);
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-correo.png"), phone: PhoneCapture.Mail);
 
+            // Tu dinero: el papel del cajero con los movimientos del último mes.
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-dinero.png"), money: true);
+
             // Hasta que aparezca un evento, para que se vea la tarjeta de papel.
             for (int week = 0; week < 5 * 52 && life.Phase == LifePhase.Living; week++)
             {
@@ -342,7 +359,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -352,6 +369,11 @@ namespace MistakesLife.Unity.Editor
                 if (phone != PhoneCapture.None)
                 {
                     screen.OpenPhoneForCapture(phone == PhoneCapture.Mail);
+                }
+
+                if (money)
+                {
+                    screen.OpenMoneyForCapture();
                 }
 
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));
