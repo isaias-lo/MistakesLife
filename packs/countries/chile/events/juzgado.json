@@ -1,0 +1,302 @@
+[
+  {
+    "id": "evento.chile.casarse",
+    "condiciones": "jugador.pareja != nada && jugador.union == nada && jugador.edad >= 20 && jugador.pareja.edad >= 18 && jugador.pareja.carino >= 60",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 4,
+    "opciones": [
+      {
+        "texto": "opcion.chile.casarse.matrimonio",
+        "tendencia": "20 + jugador.responsabilidad / 3 + (100 - jugador.apertura) / 5",
+        "efectos": [
+          "jugador.unirse('union.chile.matrimonio')",
+          "jugador.dinero -= precio(350000)",
+          "jugador.pareja.carino += 10",
+          "jugador.felicidad += 8",
+          "diario('diario.chile.matrimonio')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.casarse.auc",
+        "tendencia": "15 + jugador.apertura / 4",
+        "efectos": [
+          "jugador.unirse('union.chile.auc')",
+          "jugador.pareja.carino += 5",
+          "jugador.felicidad += 4",
+          "diario('diario.chile.auc')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.casarse.seguir_asi",
+        "tendencia": "30 + jugador.apertura / 4",
+        "efectos": [
+          "jugador.pareja.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.separacion_de_hecho",
+    "condiciones": "jugador.separado && jugador.union == 'union.chile.matrimonio' && !jugador.tiene('separado_de_hecho')",
+    "probabilidad_anual": 1,
+    "efectos": [
+      "jugador.marcar('separado_de_hecho')",
+      "plantar('semilla.chile.separados', jugador.conyuge)",
+      "diario('diario.chile.separacion_de_hecho')"
+    ]
+  },
+  {
+    "id": "evento.chile.pensar_divorcio",
+    "semilla": "semilla.chile.separados",
+    "condiciones": "jugador.conyuge != nada",
+    "opciones": [
+      {
+        "texto": "opcion.chile.divorcio.mutuo_acuerdo",
+        "condiciones": "jugador.conyuge.rencor < 50",
+        "tendencia": "40 + jugador.amabilidad / 3",
+        "efectos": [
+          "abrir_causa('causa.chile.divorcio', jugador.conyuge)",
+          "jugador.marcar('divorcio_mutuo_acuerdo')",
+          "jugador.dinero -= precio(450000)",
+          "diario('diario.chile.divorcio_presentado')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.divorcio.esperar",
+        "tendencia": "30 + jugador.neuroticismo / 4",
+        "efectos": [
+          "plantar('semilla.chile.separados_largo', jugador.conyuge)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.divorcio_unilateral",
+    "semilla": "semilla.chile.separados_largo",
+    "condiciones": "jugador.conyuge != nada",
+    "opciones": [
+      {
+        "texto": "opcion.chile.divorcio.unilateral",
+        "tendencia": "45 + jugador.responsabilidad / 4",
+        "efectos": [
+          "abrir_causa('causa.chile.divorcio', jugador.conyuge)",
+          "jugador.dinero -= precio(600000)",
+          "jugador.conyuge.rencor += 10",
+          "diario('diario.chile.divorcio_presentado')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.divorcio.casado_de_papel",
+        "tendencia": "25",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.divorcio_audiencia_preparatoria",
+    "condiciones": "causa_en('causa.chile.divorcio', 'audiencia_preparatoria') && jugador.conyuge != nada",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.chile.divorcio.presentar_acuerdo",
+        "condiciones": "jugador.tiene('divorcio_mutuo_acuerdo')",
+        "tendencia": "70",
+        "efectos": [
+          "causa('causa.chile.divorcio').ir_a('sentencia')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.divorcio.ir_a_juicio",
+        "condiciones": "!jugador.tiene('divorcio_mutuo_acuerdo')",
+        "tendencia": "60",
+        "efectos": [
+          "causa('causa.chile.divorcio').avanzar()",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.chile.divorcio.desistirse",
+        "tendencia": "8 + jugador.neuroticismo / 10",
+        "efectos": [
+          "causa('causa.chile.divorcio').cerrar('desistida')",
+          "jugador.desmarcar('divorcio_mutuo_acuerdo')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.divorcio_audiencia_juicio",
+    "condiciones": "causa_en('causa.chile.divorcio', 'audiencia_juicio') && jugador.conyuge != nada",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.chile.divorcio.escuchar_sentencia",
+        "tendencia": "60",
+        "efectos": [
+          "jugador.dinero -= si(jugador.trabaja && !jugador.conyuge.trabaja && jugador.hijos > 0, precio(1800000), 0)",
+          "jugador.dinero += si(!jugador.trabaja && jugador.conyuge.trabaja && jugador.hijos > 0, precio(1800000), 0)",
+          "causa('causa.chile.divorcio').avanzar()"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.divorcio_sentencia",
+    "condiciones": "causa_en('causa.chile.divorcio', 'sentencia')",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.terminar_union()",
+      "causa('causa.chile.divorcio').cerrar('divorcio')",
+      "jugador.desmarcar('separado_de_hecho')",
+      "jugador.desmarcar('divorcio_mutuo_acuerdo')",
+      "jugador.felicidad += 2",
+      "diario('diario.chile.divorcio')"
+    ]
+  },
+  {
+    "id": "evento.chile.terminar_auc",
+    "condiciones": "jugador.separado && jugador.union == 'union.chile.auc'",
+    "probabilidad_anual": 0.6,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.chile.terminar_auc.registro_civil",
+        "tendencia": "50 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.terminar_union()",
+          "diario('diario.chile.fin_auc')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.terminar_auc.despues",
+        "tendencia": "(100 - jugador.responsabilidad) / 3"
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.demanda_cobro",
+    "condiciones": "jugador.moroso && jugador.deuda >= precio(300000) && !causa('causa.chile.cobro_deuda').abierta",
+    "probabilidad_anual": 0.12,
+    "enfriamiento_semanas": 156,
+    "efectos": [
+      "abrir_causa('causa.chile.cobro_deuda')",
+      "jugador.felicidad -= 3",
+      "diario('diario.chile.demanda_cobro')"
+    ]
+  },
+  {
+    "id": "evento.chile.cobro_requerimiento",
+    "condiciones": "causa_en('causa.chile.cobro_deuda', 'requerimiento')",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.chile.cobro.repactar",
+        "condiciones": "jugador.puede_repactar",
+        "tendencia": "20 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.repactar()",
+          "causa('causa.chile.cobro_deuda').cerrar('avenimiento')",
+          "diario('diario.chile.cobro_avenimiento')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cobro.defenderse",
+        "tendencia": "15 + jugador.apertura / 4",
+        "efectos": [
+          "causa('causa.chile.cobro_deuda').ir_a('excepciones')",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cobro.no_hacer_nada",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "causa('causa.chile.cobro_deuda').ir_a('embargo')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.cobro_excepciones",
+    "condiciones": "causa_en('causa.chile.cobro_deuda', 'excepciones')",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.chile.cobro.repactar",
+        "condiciones": "jugador.puede_repactar",
+        "tendencia": "30 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.repactar()",
+          "causa('causa.chile.cobro_deuda').cerrar('avenimiento')",
+          "diario('diario.chile.cobro_avenimiento')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cobro.aceptar_fallo",
+        "tendencia": "40",
+        "efectos": [
+          "causa('causa.chile.cobro_deuda').ir_a('embargo')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.cobro_embargo",
+    "condiciones": "causa_en('causa.chile.cobro_deuda', 'embargo')",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "efectos": [
+      "jugador.marcar('bienes_embargados')",
+      "jugador.felicidad -= 5"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.chile.cobro.repactar_ultimo",
+        "condiciones": "jugador.puede_repactar",
+        "tendencia": "40 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.repactar()",
+          "jugador.desmarcar('bienes_embargados')",
+          "causa('causa.chile.cobro_deuda').cerrar('avenimiento')",
+          "diario('diario.chile.cobro_avenimiento')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cobro.dejar_remate",
+        "tendencia": "30",
+        "efectos": [
+          "causa('causa.chile.cobro_deuda').avanzar()"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.cobro_remate",
+    "condiciones": "causa('causa.chile.cobro_deuda').resultado == 'terminada' && jugador.tiene('bienes_embargados')",
+    "probabilidad_anual": 1,
+    "efectos": [
+      "jugador.desmarcar('bienes_embargados')",
+      "jugador.marcar('remataron_bienes')",
+      "jugador.felicidad -= 4",
+      "diario('diario.chile.cobro_remate')"
+    ]
+  },
+  {
+    "id": "evento.chile.cobro_sin_deuda",
+    "condiciones": "causa('causa.chile.cobro_deuda').abierta && !jugador.moroso",
+    "probabilidad_anual": 1,
+    "efectos": [
+      "causa('causa.chile.cobro_deuda').cerrar('pago')",
+      "jugador.desmarcar('bienes_embargados')",
+      "diario('diario.chile.cobro_pagado')"
+    ]
+  }
+]

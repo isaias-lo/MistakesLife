@@ -294,6 +294,44 @@ namespace MistakesLife.Core.Presentation
 
         private int _newsRead;
 
+        /// <summary>
+        /// La carpeta del juzgado: las causas del jugador, primero las abiertas y después
+        /// las que terminaron, de la más nueva a la más vieja.
+        /// </summary>
+        public IReadOnlyList<CourtCaseView> CourtCases()
+        {
+            World world = Session.World;
+            var views = new List<CourtCaseView>();
+            foreach (Courts.CourtCase courtCase in world.CourtCases.Where(c => c.OwnerId == world.PlayerId).OrderByDescending(c => c.IsOpen).ThenByDescending(c => c.Id))
+            {
+                if (!Session.Content.TryGetCourtCase(courtCase.TypeId, out CourtCaseDefinition? definition))
+                {
+                    continue;
+                }
+
+                var stages = new List<CourtStageView>();
+                for (int i = 0; i < definition!.Stages.Count; i++)
+                {
+                    CourtStageDefinition stage = definition.Stages[i];
+                    bool done = !courtCase.IsOpen ? i <= courtCase.StageIndex : i < courtCase.StageIndex;
+                    stages.Add(new CourtStageView(stage.Id, T(stage.TextKey(definition.Id)), stage.Weeks, done, courtCase.IsOpen && i == courtCase.StageIndex));
+                }
+
+                views.Add(new CourtCaseView(
+                    courtCase.TypeId,
+                    courtCase.Rit,
+                    T(definition.Id),
+                    T(definition.CourtKey),
+                    string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), courtCase.Opened.Year, courtCase.Opened.WeekOfYear),
+                    courtCase.IsOpen,
+                    courtCase.Outcome == null ? null : T(definition.OutcomeTextKey(courtCase.Outcome)),
+                    stages,
+                    courtCase.IsOpen ? world.Date.WeeksSince(courtCase.StageStarted) : 0));
+            }
+
+            return views;
+        }
+
         /// <summary>El celular del jugador: si tiene, sus apps y los correos sin leer.</summary>
         public PhoneView Phone()
         {

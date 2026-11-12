@@ -668,6 +668,35 @@ El **correo** es una cuenta, no está en el aparato: si pierde el celular, el co
 
 Lo que pasó antes de tener correo nunca llega. Sin cuenta, los correos no llegan (pero el diario sí se escribe). La bandeja guarda los últimos 300 correos. Unity marca un correo como leído con `LifeSession.ReadMail(posición)`.
 
+## Juzgados (courts/) y vida civil
+
+Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `C-1532-81`), un tribunal y etapas con sus plazos, como la carpeta de cartulina del juzgado. Una causa **nunca empieza sola**: la abre un evento con `abrir_causa('causa.x')` por algo que hizo el jugador (dejó de pagar una deuda, se casó y se separó). Los tipos de causa van en `courts/*.json` del paquete de **un país** (cada país tiene sus tribunales y plazos):
+
+```json
+[
+  { "id": "causa.chile.cobro_deuda", "tribunal": "tribunal.chile.civil", "prefijo_rit": "C",
+    "etapas": [
+      { "id": "demanda", "semanas": 6 },
+      { "id": "requerimiento", "semanas": 1, "espera": true },
+      { "id": "remate", "semanas": 12 }
+    ],
+    "resultados": ["avenimiento", "pago", "terminada"] }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Id estable: `causa.<país>.<nombre>`. Es también la clave de su nombre en lang/ |
+| `tribunal` | Clave del nombre del tribunal: `tribunal.<país>.<nombre>` |
+| `prefijo_rit` | Letra con que empieza su RIT o rol (`C` en lo civil y familia) |
+| `etapas` | En orden; la causa empieza en la primera. `semanas` es su plazo. Si `espera` es false, al cumplirse el plazo pasa sola a la siguiente (o, si es la última, la causa termina como `terminada`). Si es true, se queda ahí hasta que un evento la mueva. El nombre de cada etapa es `<id de la causa>.etapa.<id de la etapa>` |
+| `resultados` | Cómo puede terminar. Su texto es `<id de la causa>.resultado.<resultado>`. Si la última etapa no espera, debe estar `terminada` |
+| `termina_si_muere_la_otra_parte` | Si la causa se cierra sola cuando muere la otra parte (un divorcio), como `fallecimiento` (que debe estar en `resultados`; su texto queda en el diario) |
+
+**Un evento que sigue a la causa:** `"condiciones": "causa_en('causa.chile.divorcio', 'audiencia_preparatoria')"` con `"probabilidad_anual": 1` pasa la primera semana en que la causa está en esa etapa y ya se cumplió su plazo. Sus opciones mueven la causa (`causa('causa.x').avanzar()`, `.ir_a('sentencia')`) o la cierran (`.cerrar('divorcio')`).
+
+**Vida civil:** `uniones_civiles` en country.json lista las uniones que reconoce la ley del país (en Chile, `union.chile.matrimonio` y `union.chile.auc`). `jugador.unirse('union.x')` une al jugador con su pareja, en ambos sentidos. Si después se separan (`jugador.terminar_pareja()`), **siguen unidos ante la ley** (`jugador.separado` es true) hasta que algo la termine con `jugador.terminar_union()`: la sentencia de divorcio, el aviso en el Registro Civil. Si muere el cónyuge, la unión deja de existir (`jugador.viudo`).
+
 ## El lenguaje de condiciones y efectos
 
 **Condiciones** (deben dar verdadero o falso): `jugador.edad >= 17 && !jugador.tiene('rindio_paes')`
@@ -790,6 +819,13 @@ Lo que pasó antes de tener correo nunca llega. Sin cuenta, los correos no llega
 | `jugador.tiene_correo`, `jugador.correos`, `jugador.correos_sin_leer` | Si tiene cuenta de correo, cuántos correos tiene y cuántos no ha leído |
 | `jugador.crear_correo()`, `jugador.recibir_correo('correo.x')` | Crea su cuenta de correo, y le hace llegar un correo (sin cuenta, no llega) (solo efectos) |
 | `noticia_reciente('noticia.x')`, `noticia_reciente('noticia.x', semanas)` | Si esa noticia salió en el país del jugador (de todo el país o de su ciudad) hace menos de esas semanas (8 si no se dice). Sirve en eventos, semillas y objetos de la escena |
+| `abrir_causa('causa.x')`, `abrir_causa('causa.x', persona)` | Abre una causa del país del jugador en su primera etapa, con esa persona como la otra parte (la expareja). Si ya hay una abierta de ese tipo, no abre otra (solo efectos) |
+| `causa('causa.x')` | La causa de ese tipo del jugador (la abierta, o la última que terminó). Datos: `existe`, `abierta`, `etapa` (id, o `''`), `semanas_en_etapa`, `lista` (se cumplió el plazo de la etapa), `resultado` (o `nada`), `monto` (se puede cambiar), `rit`, `contraparte` (la otra persona, o `nada`). Acciones: `avanzar()`, `ir_a('etapa')`, `cerrar('resultado')` |
+| `causa_en('causa.x', 'etapa')` | Si la causa está abierta, en esa etapa, y ya se cumplió su plazo |
+| `causas_abiertas()` | Cuántas causas abiertas tiene el jugador (para la carta del tribunal en la escena) |
+| `jugador.union`, `jugador.conyuge` | La unión ante la ley (`'union.chile.matrimonio'`...) y con quién, o `nada` |
+| `jugador.separado`, `jugador.viudo` | Unido ante la ley con alguien que ya no es su pareja; su cónyuge murió |
+| `jugador.unirse('union.x')`, `jugador.terminar_union()` | Se casa o firma la unión civil con su pareja (la unión debe estar en `uniones_civiles` de su país y no puede estar unido con otra persona); termina la unión ante la ley, para los dos (solo efectos) |
 | `ley('ley.x')` | Valor de una ley en el país del jugador (ver Leyes) |
 | `cambiar_ley('ley.x', valor)` | Cambia una ley del país del jugador durante la partida (solo efectos) |
 

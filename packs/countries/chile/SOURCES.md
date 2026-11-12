@@ -165,3 +165,12 @@ El celular y el correo están en `packs/base` (`apps/`, `mail/`, `events/celular
 | Cada hora de uso del celular puede bajar las notas hasta tres décimas | Estudio citado por [BioBioChile](https://www.biobiochile.cl/noticias/ciencia-y-tecnologia/moviles-y-computacion/2018/04/06/alumnos-bajan-hasta-tres-decimas-sus-notas-por-cada-hora-de-uso-del-movil-segun-estudio.shtml) (2018) | `evento.celular.pantalla`: seguir mirando el celular de noche baja salud e inteligencia; con reglas de los papás pasa menos hasta los 15 |
 
 Estimaciones por revisar: el precio de un celular (nuevo de gama media, medio sueldo mínimo; usado, 15 % del sueldo mínimo), la probabilidad de una estafa por correo (5 % al año, como máximo 3 en la vida) y lo que se pierde al caer (40 % del saldo; en Chile la Ley 21.234 obliga al banco a devolver en muchos fraudes, lo que todavía no está en el juego).
+
+## Juzgados y vida civil (courts/, events/juzgado.json)
+
+- Matrimonio y divorcio: Ley 19.947 de Matrimonio Civil (2004). Divorcio de común acuerdo con al menos 1 año de cese de convivencia y un acuerdo "completo y suficiente" (art. 55 inc. 1); unilateral con 3 años (art. 55 inc. 3). Compensación económica para el cónyuge que no pudo trabajar o trabajó menos por cuidar a los hijos o el hogar (art. 61). Se ve en el Juzgado de Familia (Ley 19.968): audiencia preparatoria y audiencia de juicio. La sentencia firme se subinscribe en el Registro Civil.
+- Matrimonio entre personas del mismo sexo: Ley 21.400 (2021, vigente desde marzo de 2022). Edad mínima para casarse: 18 años (Ley 21.515, 2022).
+- Acuerdo de Unión Civil: Ley 20.830 (2015). Termina por mutuo acuerdo o por voluntad de uno, por escritura pública o acta ante el Registro Civil, sin juicio (art. 26).
+- Juicio ejecutivo de cobro: Código de Procedimiento Civil, arts. 434 y siguientes. El receptor judicial notifica y requiere de pago; hay 4 días hábiles para oponer excepciones (8 si se notificó en otra comuna del territorio), y si no se paga se embargan bienes y se rematan. Bienes inembargables (cama, ropa, útiles de trabajo, entre otros): art. 445. La defensa gratuita la da la Corporación de Asistencia Judicial.
+- Plazos de cada etapa: estimaciones a partir de la duración típica de las causas (meses, no años); por calibrar.
+- Costos de abogado de un divorcio de común acuerdo (~$450.000) y unilateral (~$600.000) y de una ceremonia sencilla con fiesta chica (~$350.000): estimaciones de precios publicados por estudios jurídicos y del arancel del Registro Civil; por calibrar.

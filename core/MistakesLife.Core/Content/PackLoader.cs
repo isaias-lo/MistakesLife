@@ -81,6 +81,11 @@ namespace MistakesLife.Core.Content
                 content.AddNewsJson(packId, Source(packDirectory, file.Substring(prefix.Length)), bundle.Files[file]);
             }
 
+            foreach (string file in JsonFiles(bundle, prefix, "courts"))
+            {
+                content.AddCourtCasesJson(packId, Source(packDirectory, file.Substring(prefix.Length)), bundle.Files[file]);
+            }
+
             foreach (string file in JsonFiles(bundle, prefix, "events"))
             {
                 content.AddEventsJson(packId, Source(packDirectory, file.Substring(prefix.Length)), bundle.Files[file]);
