@@ -93,5 +93,14 @@
   "evento.correo.estafa.2": "Un correo urgente dice que te ganaste un premio del banco. Solo tienes que ingresar tus datos.",
   "opcion.correo.estafa.entrar": "Te asustas, entras al enlace y pones tus datos.",
   "opcion.correo.estafa.borrar": "Algo no cuadra. Lo borras sin abrir el enlace.",
-  "opcion.correo.estafa.avisar": "Llamas al banco para avisar. Te confirman que es una estafa."
+  "opcion.correo.estafa.avisar": "Llamas al banco para avisar. Te confirman que es una estafa.",
+  "ui.boton.celular": "Celular",
+  "ui.celular.titulo": "Tu celular",
+  "ui.celular.sin_nada": "No tienes celular ni correo.",
+  "ui.celular.solo_correo": "No tienes celular, pero sí tienes correo.",
+  "ui.celular.app_vacia": "Todavía no hay nada aquí.",
+  "ui.correo.titulo": "Correo",
+  "ui.correo.vacio": "No tienes correos.",
+  "ui.correo.sin_leer": "{0} sin leer",
+  "ui.boton.volver": "Volver"
 }
