@@ -278,6 +278,15 @@ namespace MistakesLife.Unity.Editor
                 count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-semana.png"));
             }
 
+            // El celular con sus apps y la bandeja del correo, a los 22 años.
+            if (!life.Phone().HasPhone)
+            {
+                Debug.LogWarning("Capturas: a los 22 la vida no tiene celular; pantalla-celular.png sale sin apps.");
+            }
+
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-celular.png"), phone: PhoneCapture.Home);
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-correo.png"), phone: PhoneCapture.Mail);
+
             // Hasta que aparezca un evento, para que se vea la tarjeta de papel.
             for (int week = 0; week < 5 * 52 && life.Phase == LifePhase.Living; week++)
             {
@@ -324,13 +333,27 @@ namespace MistakesLife.Unity.Editor
             return 0;
         }
 
-        /// <summary>Saca una captura de la pantalla de la vida (con el menú encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file)
+        /// <summary>Qué parte del celular se abre encima de la vida en una captura.</summary>
+        private enum PhoneCapture
+        {
+            None,
+            Home,
+            Mail,
+        }
+
+        /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None)
         {
             var root = new GameObject("Captura de pantalla");
             try
             {
-                root.AddComponent<LifeScreen>().ShowForCapture(content, life, menu);
+                LifeScreen screen = root.AddComponent<LifeScreen>();
+                screen.ShowForCapture(content, life, menu);
+                if (phone != PhoneCapture.None)
+                {
+                    screen.OpenPhoneForCapture(phone == PhoneCapture.Mail);
+                }
+
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));
                 return 1;
             }

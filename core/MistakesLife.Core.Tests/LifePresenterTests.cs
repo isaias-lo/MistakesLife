@@ -568,5 +568,87 @@ namespace MistakesLife.Core.Tests
 
         private static string PsychologyLevel(LifePresenter presenter) =>
             presenter.Session.Content.GetCareer("carrera.psicologia").Levels[0].Id;
-    }
+    
+        private static void Run(LifeSession session, string effect) =>
+            Effect.Parse(effect).Apply(new EventScope(session.World, session.Content, session.World.Player, null, readOnly: false));
+
+        [Fact]
+        public void Celular_SinCelularNiCorreo_NoMuestraApps()
+        {
+            LifePresenter presenter = NewGame(5);
+
+            PhoneView phone = presenter.Phone();
+
+            Assert.False(phone.HasPhone);
+            Assert.False(phone.HasMail);
+            Assert.Empty(phone.Apps);
+            Assert.Empty(presenter.Mail());
+        }
+
+        [Fact]
+        public void Celular_ConCorreoSinLeer_MuestraLasAppsConNombreYElNumeroEnElCorreo()
+        {
+            LifePresenter presenter = NewGame(5);
+            Run(presenter.Session, "jugador.dar_celular()");
+            Run(presenter.Session, "jugador.instalar_app('app.instante')");
+            Run(presenter.Session, "jugador.crear_correo()");
+            Run(presenter.Session, "jugador.recibir_correo('correo.bienvenida')");
+
+            PhoneView phone = presenter.Phone();
+
+            Assert.True(phone.HasPhone);
+            Assert.Equal(1, phone.UnreadMail);
+            AppView mail = Assert.Single(phone.Apps, app => app.IsMail);
+            Assert.Equal(1, mail.Unread);
+            AppView other = Assert.Single(phone.Apps, app => !app.IsMail);
+            Assert.Equal(0, other.Unread);
+            Assert.All(phone.Apps, app => Assert.False(string.IsNullOrWhiteSpace(app.Name)));
+            Assert.All(phone.Apps, app => Assert.NotEqual(app.AppId, app.Name));
+        }
+
+        [Fact]
+        public void Bandeja_MuestraElMasNuevoPrimero_ConTextosTraducidos_YAlLeerloBajaElNumero()
+        {
+            LifePresenter presenter = NewGame(5);
+            Run(presenter.Session, "jugador.dar_celular()");
+            Run(presenter.Session, "jugador.crear_correo()");
+            Run(presenter.Session, "jugador.recibir_correo('correo.bienvenida')");
+            presenter.Session.Advance(1);
+            Run(presenter.Session, "jugador.recibir_correo('correo.estafa.banco')");
+
+            var mail = presenter.Mail();
+
+            Assert.Equal(2, mail.Count);
+            Assert.Equal("correo.estafa.banco", mail[0].MailId);
+            Assert.Equal("correo.bienvenida", mail[1].MailId);
+            Assert.All(mail, m =>
+            {
+                Assert.False(m.Read);
+                Assert.False(string.IsNullOrWhiteSpace(m.Sender));
+                Assert.NotEqual(m.MailId, m.Subject);
+                Assert.NotEqual(m.MailId, m.Body);
+                Assert.False(string.IsNullOrWhiteSpace(m.DateLabel));
+            });
+
+            presenter.ReadMail(mail[0].Index);
+
+            Assert.True(presenter.Mail()[0].Read);
+            Assert.False(presenter.Mail()[1].Read);
+            Assert.Equal(1, presenter.Phone().UnreadMail);
+        }
+
+        [Fact]
+        public void TextosDeLaPantallaDelCelular_ExistenEnEspanol()
+        {
+            LifePresenter presenter = NewGame(5);
+            string[] keys =
+            {
+                "ui.boton.celular", "ui.celular.titulo", "ui.celular.sin_nada", "ui.celular.solo_correo",
+                "ui.celular.app_vacia", "ui.correo.titulo", "ui.correo.vacio", "ui.correo.sin_leer",
+                "ui.boton.volver", "ui.boton.cerrar",
+            };
+
+            Assert.All(keys, key => Assert.NotEqual(key, presenter.Text(key)));
+        }
+}
 }

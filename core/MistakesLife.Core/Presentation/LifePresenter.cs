@@ -294,6 +294,56 @@ namespace MistakesLife.Core.Presentation
 
         private int _newsRead;
 
+        /// <summary>El celular del jugador: si tiene, sus apps y los correos sin leer.</summary>
+        public PhoneView Phone()
+        {
+            Character player = Session.World.Player;
+            int unread = player.Mail?.UnreadCount ?? 0;
+            var apps = new List<AppView>();
+            foreach (string appId in player.Phone?.Apps ?? (IReadOnlyList<string>)Array.Empty<string>())
+            {
+                apps.Add(new AppView(appId, T(appId), appId == AppView.MailAppId && player.Mail != null ? unread : 0));
+            }
+
+            return new PhoneView(player.Phone != null, player.Mail != null, unread, apps);
+        }
+
+        /// <summary>
+        /// La bandeja de correo del jugador, del más nuevo al más viejo, como mucho
+        /// <paramref name="max"/>. Vacía si no tiene correo.
+        /// </summary>
+        public IReadOnlyList<MailView> Mail(int max = 40)
+        {
+            Character player = Session.World.Player;
+            var views = new List<MailView>();
+            if (player.Mail == null)
+            {
+                return views;
+            }
+
+            IReadOnlyList<Devices.MailMessage> messages = player.Mail.Messages;
+            for (int i = messages.Count - 1; i >= 0 && views.Count < max; i--)
+            {
+                Devices.MailMessage message = messages[i];
+                MailDefinition? definition = Session.Content.Mail(message.MailId);
+                views.Add(new MailView(
+                    i,
+                    message.MailId,
+                    definition == null ? string.Empty : T(definition.Sender),
+                    definition == null ? message.MailId : T(definition.SubjectKey),
+                    T(message.MailId),
+                    definition?.Topic ?? string.Empty,
+                    string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), message.Date.Year, message.Date.WeekOfYear),
+                    AgeLabel(player, message.Date),
+                    message.Read));
+            }
+
+            return views;
+        }
+
+        /// <summary>El jugador abre un correo (su <see cref="MailView.Index"/>): queda leído.</summary>
+        public void ReadMail(int index) => Session.ReadMail(index);
+
         private NewsView NewsOf(NewsRecord record)
         {
             World world = Session.World;
