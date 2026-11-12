@@ -161,10 +161,41 @@ namespace MistakesLife.Core.Tests
             World world = new LifeSession(content, 1).World;
 
             Run(world, content, "jugador.contratar('servicio.celular.prepago')");
-            Assert.False(content.GetCountry("pais.chile").Economy!.Services.Single().CompiledConditions!.IsTrue(new EventScope(world, content, world.Player, null, readOnly: true)));
+            Assert.False(content.GetCountry("pais.chile").Economy!.Services.Single(x => x.Id == "servicio.celular").CompiledConditions!.IsTrue(new EventScope(world, content, world.Player, null, readOnly: true)));
 
             Run(world, content, "jugador.contratar('servicio.celular.plan')");
-            Assert.True(content.GetCountry("pais.chile").Economy!.Services.Single().CompiledConditions!.IsTrue(new EventScope(world, content, world.Player, null, readOnly: true)));
+            Assert.True(content.GetCountry("pais.chile").Economy!.Services.Single(x => x.Id == "servicio.celular").CompiledConditions!.IsTrue(new EventScope(world, content, world.Player, null, readOnly: true)));
+        }
+        [Theory]
+        [InlineData("pais.chile")]
+        [InlineData("pais.argentina")]
+        public void Transporte_YaNoEsUnGastoFijo_ElJugadorEligeComoSeMueve(string countryId)
+        {
+            CountryDefinition country = RepoPacks.Content.GetCountry(countryId);
+            ServiceDefinition transport = country.Economy!.Services.Single(s => s.Id == "servicio.transporte");
+
+            Assert.DoesNotContain(country.Economy.Expenses!.Categories, e => e.Id.EndsWith(".transporte"));
+            Assert.Equal(0m, transport.Option("servicio.transporte.caminando")!.Price);
+            Assert.True(transport.Option("servicio.transporte.bus")!.Price < transport.Option("servicio.transporte.bus_y_metro")!.Price);
+        }
+
+        [Fact]
+        public void Chile_ElPasajeDelMes_EsElPasajeRealPor44Viajes()
+        {
+            ServiceDefinition transport = RepoPacks.Content.GetCountry("pais.chile").Economy!.Services.Single(s => s.Id == "servicio.transporte");
+
+            Assert.Equal(795m * 44, transport.Option("servicio.transporte.bus")!.Price);
+            Assert.Equal(895m * 44, transport.Option("servicio.transporte.bus_y_metro")!.Price);
+        }
+        [Theory]
+        [InlineData("pais.chile")]
+        [InlineData("pais.argentina")]
+        public void Internet_LoContrataElJugador_SeComparteConLaPareja_YLaFibraRapidaCuestaMas(string countryId)
+        {
+            ServiceDefinition internet = RepoPacks.Content.GetCountry(countryId).Economy!.Services.Single(s => s.Id == "servicio.internet");
+
+            Assert.True(internet.Shared);
+            Assert.True(internet.Option("servicio.internet.basico")!.Price < internet.Option("servicio.internet.rapido")!.Price);
         }
     }
 }

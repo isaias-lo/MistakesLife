@@ -67,5 +67,146 @@
     "variantes": [
       "evento.revisar_plan_celular.2"
     ]
+  },
+  {
+    "id": "evento.elegir_transporte",
+    "condiciones": "jugador.servicio('servicio.transporte') == nada && jugador.edad >= 18 && (jugador.trabaja || jugador.tiene('vive_independiente'))",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.elegir_transporte.bus_y_metro",
+        "tendencia": "45",
+        "efectos": [
+          "jugador.contratar('servicio.transporte.bus_y_metro')"
+        ]
+      },
+      {
+        "texto": "opcion.elegir_transporte.bus",
+        "tendencia": "30 + si(jugador.meses_en_rojo > 0, 20, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.transporte.bus')"
+        ]
+      },
+      {
+        "texto": "opcion.elegir_transporte.caminando",
+        "tendencia": "5 + si(jugador.meses_en_rojo > 0, 25, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.transporte.caminando')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.revisar_transporte",
+    "condiciones": "jugador.servicio('servicio.transporte') != nada && (jugador.trabaja || jugador.tiene('vive_independiente'))",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "veces_maximas": 5,
+    "opciones": [
+      {
+        "texto": "opcion.revisar_transporte.seguir",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 15, 55)",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.revisar_transporte.caminando",
+        "condiciones": "jugador.servicio('servicio.transporte') != 'servicio.transporte.caminando'",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 45, 5)",
+        "efectos": [
+          "jugador.contratar('servicio.transporte.caminando')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_transporte.bus",
+        "condiciones": "jugador.servicio('servicio.transporte') != 'servicio.transporte.bus'",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 25, 10)",
+        "efectos": [
+          "jugador.contratar('servicio.transporte.bus')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_transporte.bus_y_metro",
+        "condiciones": "jugador.servicio('servicio.transporte') != 'servicio.transporte.bus_y_metro' && jugador.meses_en_rojo == 0",
+        "tendencia": "20",
+        "efectos": [
+          "jugador.contratar('servicio.transporte.bus_y_metro')"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.revisar_transporte.2"
+    ]
+  },
+  {
+    "id": "evento.contratar_internet",
+    "condiciones": "jugador.tiene('vive_independiente') && jugador.servicio('servicio.internet') == nada && !jugador.tiene('sin_internet_casa')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.contratar_internet.basico",
+        "tendencia": "45 + si(jugador.meses_en_rojo > 0, 10, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.internet.basico')"
+        ]
+      },
+      {
+        "texto": "opcion.contratar_internet.rapido",
+        "tendencia": "20 + si(jugador.sueldo_liquido > sueldo_tipico(), 15, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.internet.rapido')"
+        ]
+      },
+      {
+        "texto": "opcion.contratar_internet.sin_internet",
+        "tendencia": "8 + si(jugador.meses_en_rojo > 0, 30, 0)",
+        "efectos": [
+          "jugador.marcar('sin_internet_casa')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.revisar_internet",
+    "condiciones": "jugador.tiene('vive_independiente') && (jugador.servicio('servicio.internet') != nada || jugador.tiene('sin_internet_casa'))",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "veces_maximas": 5,
+    "opciones": [
+      {
+        "texto": "opcion.revisar_internet.seguir",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 15, 55)",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.revisar_internet.basico",
+        "condiciones": "jugador.servicio('servicio.internet') != 'servicio.internet.basico'",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 30, 10) + si(jugador.tiene('sin_internet_casa'), 20, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.internet.basico')",
+          "jugador.desmarcar('sin_internet_casa')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_internet.rapido",
+        "condiciones": "jugador.servicio('servicio.internet') != 'servicio.internet.rapido' && jugador.meses_en_rojo == 0",
+        "tendencia": "si(jugador.sueldo_liquido > sueldo_tipico(), 20, 5)",
+        "efectos": [
+          "jugador.contratar('servicio.internet.rapido')",
+          "jugador.desmarcar('sin_internet_casa')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_internet.cortar",
+        "condiciones": "jugador.servicio('servicio.internet') != nada",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 40, 2)",
+        "efectos": [
+          "jugador.cancelar_servicio('servicio.internet')",
+          "jugador.marcar('sin_internet_casa')"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.revisar_internet.2"
+    ]
   }
 ]
