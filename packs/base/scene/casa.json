@@ -20,5 +20,6 @@
   { "id": "escena.casa.bolsas_super", "lugar": "casa", "condiciones": "jugador.tiene('vive_independiente') && jugador.compra != nada" },
   { "id": "escena.casa.bebidas", "lugar": "casa", "condiciones": "jugador.tiene('vive_independiente') && jugador.compra == 'compra.con_antojos'" },
   { "id": "escena.casa.tarjeta_transporte", "lugar": "casa", "condiciones": "jugador.servicio('servicio.transporte') == 'servicio.transporte.bus' || jugador.servicio('servicio.transporte') == 'servicio.transporte.bus_y_metro'" },
-  { "id": "escena.casa.zapatillas", "lugar": "casa", "condiciones": "jugador.servicio('servicio.transporte') == 'servicio.transporte.caminando'" }
+  { "id": "escena.casa.zapatillas", "lugar": "casa", "condiciones": "jugador.servicio('servicio.transporte') == 'servicio.transporte.caminando'" },
+  { "id": "escena.casa.router", "lugar": "casa", "condiciones": "jugador.tiene('vive_independiente') && jugador.servicio('servicio.internet') != nada" }
 ]

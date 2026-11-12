@@ -146,6 +146,10 @@
         { "id": "servicio.transporte.caminando", "precio": 0 },
         { "id": "servicio.transporte.bus", "precio": 34980 },
         { "id": "servicio.transporte.bus_y_metro", "precio": 39380 }
+      ] },
+      { "id": "servicio.internet", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true, "opciones": [
+        { "id": "servicio.internet.basico", "precio": 14990 },
+        { "id": "servicio.internet.rapido", "precio": 19990 }
       ] }
     ],
       "gastos": {
@@ -154,7 +158,7 @@
       "cupo_deficit": 1500000,
       "deuda_por_deficit": "deuda.chile.linea_credito",
       "categorias": [
-        { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
+        { "id": "gasto.chile.cuentas", "monto": "85000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
         { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.chile.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
         { "id": "gasto.chile.personales", "monto": "60000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" }
