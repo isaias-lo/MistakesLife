@@ -48,6 +48,8 @@ namespace MistakesLife.Unity
             "escena.casa.celular_avisos" => "ancla.mesa",
             "escena.casa.ropa_entrevista" => "ancla.ropero",
             "escena.casa.mochila_emergencia" => "ancla.puerta",
+            "escena.casa.tarjeta_transporte" => "ancla.puerta",
+            "escena.casa.zapatillas" => "ancla.puerta",
             "escena.casa.grietas" => "ancla.muro_lateral",
             "escena.casa.bebidas" => "ancla.cocina",
             "escena.casa.mochila" => "ancla.mochila",
@@ -150,6 +152,21 @@ namespace MistakesLife.Unity
                     kit.Box("Mochila de emergencia", new Vector3(0.35f, 0.22f, 0.65f), new Vector3(0.3f, 0.44f, 0.4f), new Color(0.95f, 0.50f, 0.15f));
                     kit.Box("Franja reflectante", new Vector3(0.505f, 0.28f, 0.65f), new Vector3(0.01f, 0.05f, 0.4f), new Color(0.85f, 0.88f, 0.90f));
                     kit.Shape(PrimitiveType.Cylinder, "Linterna", new Vector3(0.35f, 0.47f, 0.55f), new Vector3(0.06f, 0.05f, 0.06f), new Color(0.20f, 0.20f, 0.22f));
+                    break;
+                case "escena.casa.tarjeta_transporte":
+                    // Te mueves en micro o metro: la tarjeta del pasaje colgada de un gancho junto a la puerta.
+                    kit.Box("Gancho de la puerta", new Vector3(0.03f, 1.35f, 0.7f), new Vector3(0.04f, 0.04f, 0.04f), Palette.DarkWood);
+                    kit.Box("Cordón de la tarjeta", new Vector3(0.04f, 1.25f, 0.7f), new Vector3(0.01f, 0.18f, 0.01f), Palette.Alarm);
+                    kit.Box("Tarjeta del transporte", new Vector3(0.045f, 1.13f, 0.7f), new Vector3(0.008f, 0.08f, 0.13f), new Color(0.20f, 0.45f, 0.80f));
+                    break;
+                case "escena.casa.zapatillas":
+                    // Te vas caminando: las zapatillas gastadas listas al lado de la puerta.
+                    foreach (float z in new[] { -0.62f, -0.76f })
+                    {
+                        kit.Box("Zapatilla", new Vector3(0.32f, 0.05f, z), new Vector3(0.28f, 0.1f, 0.11f), new Color(0.85f, 0.85f, 0.88f));
+                        kit.Box("Suela de la zapatilla", new Vector3(0.32f, 0.008f, z), new Vector3(0.29f, 0.016f, 0.115f), new Color(0.30f, 0.30f, 0.32f));
+                    }
+
                     break;
                 case "escena.casa.grietas":
                     // No reparaste la casa después del terremoto: grietas en zigzag en el muro.
