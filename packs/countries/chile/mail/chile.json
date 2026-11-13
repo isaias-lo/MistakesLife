@@ -1,0 +1,4 @@
+[
+  { "id": "correo.chile.cartola_afp", "remitente": "remitente.afp", "tema": "banco", "cada": "cuatrimestre",
+    "condiciones": "jugador.pais == 'pais.chile' && jugador.meses_cotizados > 0" }
+]

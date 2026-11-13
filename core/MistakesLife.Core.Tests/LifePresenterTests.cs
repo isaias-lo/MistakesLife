@@ -645,10 +645,35 @@ namespace MistakesLife.Core.Tests
             {
                 "ui.boton.celular", "ui.celular.titulo", "ui.celular.sin_nada", "ui.celular.solo_correo",
                 "ui.celular.app_vacia", "ui.correo.titulo", "ui.correo.vacio", "ui.correo.sin_leer",
-                "ui.boton.volver", "ui.boton.cerrar",
+                "ui.boton.volver", "ui.boton.cerrar", "ui.correo.recibidos", "ui.correo.para_ti",
+                "ui.hace.esta_semana", "ui.hace.semana_pasada", "ui.hace.semanas", "ui.hace.meses", "ui.hace.un_ano", "ui.hace.anos",
             };
 
             Assert.All(keys, key => Assert.NotEqual(key, presenter.Text(key)));
+        }
+
+        [Theory]
+        [InlineData(0, "Esta semana")]
+        [InlineData(1, "La semana pasada")]
+        [InlineData(5, "Hace 5 semanas")]
+        [InlineData(13, "Hace 3 meses")]
+        [InlineData(52, "Hace un año")]
+        [InlineData(160, "Hace 3 años")]
+        public void HaceCuanto_SeDiceComoEnUnCorreoDeVerdad(int weeks, string expected)
+        {
+            Assert.Equal(expected, NewGame(5).WhenLabel(weeks));
+        }
+
+        [Fact]
+        public void VistaPreviaDelCorreo_SeCortaEnUnaPalabra()
+        {
+            string body = "Ya puedes inscribir tus asignaturas del primer semestre en el portal del estudiante. Los cupos se llenan rápido.";
+            var view = new MailView(0, "correo.x", "Tu casa de estudios", "Asunto", body, "estudio", "fecha", "20 años", "Esta semana", false);
+
+            Assert.True(view.Preview.Length <= MailView.PreviewLength + 3);
+            Assert.EndsWith("...", view.Preview);
+            Assert.StartsWith(view.Preview.Substring(0, view.Preview.Length - 3), body);
+            Assert.Equal("Corto.", new MailView(0, "correo.x", "a", "b", "Corto.", "estudio", "f", "e", "w", false).Preview);
         }
 }
 }

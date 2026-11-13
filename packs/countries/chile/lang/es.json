@@ -145,5 +145,8 @@
   "evento.temblor_adulto.2": "Tiembla justo cuando te estás quedando dormido. La lámpara se balancea y escuchas a los vecinos abriendo las puertas.",
   "evento.temblor_adulto.3": "Un temblor largo a las tres de la mañana. Se corta la luz y el celular se llena de mensajes preguntando si estás bien.",
   "evento.prueba_dificil.2": "Mañana hay control de lectura del libro que no alcanzaste a leer.",
-  "evento.prueba_dificil.3": "La profe avisa que la prueba de ciencias vale doble. Es mañana y no has abierto el cuaderno."
+  "evento.prueba_dificil.3": "La profe avisa que la prueba de ciencias vale doble. Es mañana y no has abierto el cuaderno.",
+  "remitente.afp": "Tu AFP",
+  "correo.chile.cartola_afp.asunto": "Tu cartola cuatrimestral de la AFP",
+  "correo.chile.cartola_afp": "Ya está disponible tu cartola de los últimos cuatro meses: las cotizaciones que pagó tu empleador, la rentabilidad de tu fondo y tu saldo. Revisa que no falte ningún mes: si falta uno, tu empleador no pagó tu cotización."
 }
