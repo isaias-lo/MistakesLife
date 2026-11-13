@@ -171,6 +171,33 @@ namespace MistakesLife.Core.Saving
                     world["courtCases"] ??= new JArray();
                 }
             },
+
+            // 14 → 15: aparece con quién viven los hijos de papás separados (el cuidado
+            // personal): las partidas viejas no lo habían decidido. Y el monto de las
+            // causas pasa a guardarse en dinero del inicio del mundo (para que una
+            // pensión se reajuste con los precios): se divide por el índice de precios
+            // del país donde vive el dueño de la causa.
+            [14] = save =>
+            {
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    character["livesWithId"] ??= JValue.CreateNull();
+                    character["sharedCustody"] ??= false;
+                }
+
+                foreach (JObject courtCase in save.SelectTokens("world.courtCases[*]").OfType<JObject>())
+                {
+                    int owner = courtCase.Value<int?>("ownerId") ?? 0;
+                    string? country = save.SelectTokens("world.characters[*]").OfType<JObject>()
+                        .FirstOrDefault(c => c.Value<int?>("id") == owner)?.Value<string?>("countryId");
+                    double index = save.SelectTokens("world.economies[*]").OfType<JObject>()
+                        .FirstOrDefault(e => e.Value<string?>("countryId") == country)?.Value<double?>("priceIndex") ?? 1;
+                    if (index > 0)
+                    {
+                        courtCase["amount"] = (courtCase.Value<decimal?>("amount") ?? 0) / (decimal)index;
+                    }
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

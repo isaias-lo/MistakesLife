@@ -22,7 +22,7 @@ namespace MistakesLife.Core.Economy
 
         /// <summary>
         /// Lo que le toca pagar al mes por esa compra, en dinero del inicio del mundo:
-        /// el costo por persona por los que comen en su casa (los hijos con el factor
+        /// el costo por persona por los que comen en su casa (los hijos que viven con él, con el factor
         /// del país), dividido a medias si tiene pareja.
         /// </summary>
         public static decimal MonthlyShare(World world, ContentDatabase content, Character character, string basketId)
@@ -30,7 +30,7 @@ namespace MistakesLife.Core.Economy
             GroceryBasketDefinition basket = Basket(content, character, basketId, "compra");
             GroceriesDefinition rules = RulesFor(content, character)!;
             bool hasPartner = character.PartnerId.HasValue && world.TryGetCharacter(character.PartnerId.Value, out Character? partner) && partner.IsAlive;
-            int children = world.ChildrenOf(character.Id).Count(c => c.IsAlive && c.AgeInYears(world.Date) < 18);
+            int children = Life.CustodyRules.ChildrenAtHome(world, character);
             decimal eaters = 1 + (hasPartner ? 1 : 0) + (children * rules.ChildFactor);
             decimal total = basket.PerPerson * eaters;
             return Math.Round(hasPartner ? total / 2 : total, MidpointRounding.AwayFromZero);
