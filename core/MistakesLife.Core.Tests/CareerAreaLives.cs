@@ -230,6 +230,15 @@ namespace MistakesLife.Core.Tests
         {
             var session = new LifeSession(content, lifeSeed);
             Play(session, startAge);
+            // Si quedó un evento por decidir (por ejemplo, con la pareja), se decide antes de
+            // separarse: si no, su opción hablaría de una pareja que ya no está.
+            var decider = new AutoDecider(content);
+            var chooser = new GameRandom(session.World.Seed).Fork("prueba.separados");
+            while (session.World.Player.IsAlive && session.Pending != null)
+            {
+                session.Choose(decider.Choose(session.World, session.Pending, chooser));
+            }
+
             if (!session.World.Player.IsAlive || session.World.Player.Residence?.CountryId != "pais.chile")
             {
                 return new HashSet<string>();
