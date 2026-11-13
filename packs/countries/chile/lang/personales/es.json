@@ -1,0 +1,15 @@
+{
+  "servicio.personales.austero": "Gastos personales: lo justo",
+  "servicio.personales.normal": "Gastos personales: ropa, salidas y cuidado personal",
+  "servicio.personales.gustos": "Gastos personales: con gustos",
+  "evento.chile.tus_gastos_personales": "Ahora la ropa, las salidas, el pelo y los carretes los pagas tú. ¿Cómo vas a gastar en ti?",
+  "opcion.tus_gastos_personales.austero": "Lo justo: ropa cuando se rompe, salidas de vez en cuando y la feria antes que el mall.",
+  "opcion.tus_gastos_personales.normal": "Como cualquiera: algo de ropa, salir con los amigos y alguna comida afuera.",
+  "opcion.tus_gastos_personales.gustos": "Te das tus gustos: ropa de marca, restoranes y panoramas todos los fines de semana.",
+  "evento.chile.revisar_gastos_personales": "Revisas la cartola y ves cuánto se fue en ropa y salidas este mes. ¿Cambias algo?",
+  "evento.chile.revisar_gastos_personales.2": "Tus amigos arman otro panorama para el fin de semana. Te pones a pensar en cuánto estás gastando en ti.",
+  "opcion.revisar_gastos_personales.seguir": "Sigues igual.",
+  "opcion.revisar_gastos_personales.austero": "Te aprietas el cinturón: solo lo justo por un tiempo.",
+  "opcion.revisar_gastos_personales.normal": "Vuelves a gastar como cualquiera.",
+  "opcion.revisar_gastos_personales.gustos": "Te das más gustos: para eso trabajas."
+}

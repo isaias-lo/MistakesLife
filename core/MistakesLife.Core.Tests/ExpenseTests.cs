@@ -149,7 +149,8 @@ namespace MistakesLife.Core.Tests
             // El pasaje, el internet y las cuentas ya no son gastos fijos: se suma lo que elige quien
             // viaja en micro y metro, contrata la fibra básica y usa la casa como un hogar normal.
             double alone = Monthly(world, content, rules) + Eval(world, content, "tarifa('servicio.transporte.bus_y_metro')")
-                + Eval(world, content, "tarifa('servicio.internet.basico')") + Eval(world, content, "tarifa('servicio.cuentas.normal')");
+                + Eval(world, content, "tarifa('servicio.internet.basico')") + Eval(world, content, "tarifa('servicio.cuentas.normal')")
+                + Eval(world, content, "tarifa('servicio.personales.normal')");
 
             Assert.True(alone > 617500, $"Viviendo solo gasta {alone}, más que el líquido típico.");
         }
