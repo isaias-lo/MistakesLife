@@ -175,9 +175,10 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void PensionQueSeRecibe_EntraCadaMes_YNoEsUnGasto()
+        public void PensionQueSeRecibe_EntraCadaMes_YSeVeEnTuDinero()
         {
-            World world = SeparatedWithTwoChildren(out _).World;
+            LifeSession session = SeparatedWithTwoChildren(out _);
+            World world = session.World;
             Run(world, "jugador.quedarse_con_hijos()");
             Run(world, "abrir_causa('causa.chile.alimentos', jugador.coprogenitor)");
             Run(world, "causa('causa.chile.alimentos').monto = 150000");
@@ -191,9 +192,11 @@ namespace MistakesLife.Core.Tests
             world.Player.Money = 1000000;
             cycle.AdvanceWeek(world);
 
-            decimal paid = world.Player.LastExpenses.Sum(l => l.Amount);
+            decimal paid = world.Player.LastExpenses.Where(l => l.Amount > 0).Sum(l => l.Amount);
             Assert.Equal(1000000 - paid + 150000, world.Player.Money);
-            Assert.DoesNotContain(world.Player.LastExpenses, l => l.Id == "gasto.chile.pension_alimentos_recibida");
+            Assert.Equal(-150000m, Assert.Single(world.Player.LastExpenses, l => l.Id == "gasto.chile.pension_alimentos_recibida").Amount);
+            Assert.Equal((double)paid, Number(world, "jugador.gastos"));
+            Assert.Contains(new LifePresenter(session).Money().Lines, l => l.Id == "gasto.chile.pension_alimentos_recibida" && l.IsIncome && l.AmountLabel.StartsWith("+"));
         }
 
         [Fact]

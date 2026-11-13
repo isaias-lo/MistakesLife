@@ -36,7 +36,7 @@ namespace MistakesLife.Core.Content
 
         /// <summary>
         /// Si es plata que el jugador recibe cada mes en vez de pagarla (la pensión de
-        /// alimentos que le paga el otro papá). No cuenta en jugador.gastos.
+        /// alimentos que le paga el otro papá). Queda en la cartola del mes con monto negativo y no cuenta en jugador.gastos.
         /// </summary>
         [JsonProperty("ingreso")]
         public bool Income { get; set; }

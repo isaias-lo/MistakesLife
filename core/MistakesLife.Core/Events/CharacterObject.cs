@@ -222,7 +222,7 @@ namespace MistakesLife.Core.Events
                     Character? coParent = CustodyRules.CoParent(((EventScope)scope).World, _character);
                     return coParent == null ? Value.Null : Value.FromObject(new CharacterObject(coParent, _character));
                 case "gastos":
-                    return Value.FromNumber((double)_character.LastExpenses.Sum(l => l.Amount));
+                    return Value.FromNumber((double)_character.LastExpenses.Where(l => l.Amount > 0).Sum(l => l.Amount));
                 case "meses_en_rojo":
                     return Value.FromNumber(_character.MonthsInRed);
                 case "vivienda":

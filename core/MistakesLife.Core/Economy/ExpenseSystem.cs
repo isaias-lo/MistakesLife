@@ -127,6 +127,8 @@ namespace MistakesLife.Core.Economy
                 if (today > 0 && expense.Income)
                 {
                     // Lo que le pagan (la pensión de alimentos que recibe): entra, no es un gasto.
+                    // Queda en la cartola del mes con monto negativo, para que se vea de dónde vino.
+                    lines.Add(new PayslipLine(expense.Id, -today));
                     player.Money += today;
                 }
                 else if (today > 0)

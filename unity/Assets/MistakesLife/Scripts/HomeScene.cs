@@ -33,6 +33,9 @@ namespace MistakesLife.Unity
         private RectTransform? _focus;
         private string? _shown;
 
+        /// <summary>Cuánto giró el jugador la cámara alrededor de la maqueta (0 = la vista de siempre).</summary>
+        private float _yaw;
+
         /// <summary>
         /// Cuánto se ve a lo ancho: el ancho que tenía la ventana 3D de antes (1016 x 560 con 30°
         /// de alto). Con la pantalla a lo alto se abre el ángulo vertical para que la pieza quepa
@@ -107,15 +110,103 @@ namespace MistakesLife.Unity
             ApplyMode();
         }
 
-        /// <summary>Qué se está viendo: la pieza, el barrio o el trabajo.</summary>
+        /// <summary>Qué se está viendo: la pieza, el barrio o el trabajo. Al cambiar, la cámara vuelve a su vista de siempre.</summary>
         public SceneView View
         {
             get => _view;
             set
             {
                 _view = value;
+                _yaw = 0f;
                 ApplyMode();
             }
+        }
+
+        /// <summary>Cuánto está girada la cámara, de 0 a 360 grados.</summary>
+        public float Yaw => _yaw;
+
+        /// <summary>
+        /// Gira la cámara alrededor de la maqueta (positivo, hacia la derecha), sin límite:
+        /// se puede dar la vuelta entera. Los muros que quedan entre la cámara y la pieza se
+        /// esconden, como en una maqueta a la que se le saca una pared para mirar adentro.
+        /// </summary>
+        public void Orbit(float degrees)
+        {
+            _yaw = Mathf.Repeat(_yaw + degrees, 360f);
+            ApplyMode();
+        }
+
+        /// <summary>
+        /// El objeto de la maqueta que está bajo un punto de la pantalla (en píxeles): su id, como
+        /// "mueble.mesa" o "escena.casa.celular", o null si ahí no hay nada con id. Si hay varios
+        /// (el celular sobre la mesa), gana el más chico: es el que se quiso tocar.
+        /// </summary>
+        public string? Pick(Vector2 screenPoint)
+        {
+            Transform root = _view switch
+            {
+                SceneView.Neighborhood => _block,
+                SceneView.Work => _work,
+                _ => _room,
+            };
+
+            string? best = null;
+            float bestArea = float.MaxValue;
+            foreach (Transform item in root.GetComponentsInChildren<Transform>())
+            {
+                if (!item.name.StartsWith("escena.", System.StringComparison.Ordinal) && !item.name.StartsWith("mueble.", System.StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                if (ScreenRect(item, out Rect rect) && rect.Contains(screenPoint) && rect.width * rect.height < bestArea)
+                {
+                    // Un modelo hecho a mano se llama "<id> (modelo)": cuenta como su id.
+                    int space = item.name.IndexOf(' ');
+                    best = space > 0 ? item.name.Substring(0, space) : item.name;
+                    bestArea = rect.width * rect.height;
+                }
+            }
+
+            return best;
+        }
+
+        /// <summary>El rectángulo de la pantalla que ocupa un objeto (todas sus formas visibles).</summary>
+        private bool ScreenRect(Transform item, out Rect rect)
+        {
+            rect = default;
+            bool any = false;
+            Vector2 min = Vector2.positiveInfinity;
+            Vector2 max = Vector2.negativeInfinity;
+            foreach (Renderer shape in item.GetComponentsInChildren<Renderer>())
+            {
+                if (!shape.enabled)
+                {
+                    continue;
+                }
+
+                Bounds bounds = shape.bounds;
+                for (int corner = 0; corner < 8; corner++)
+                {
+                    Vector3 point = bounds.center + Vector3.Scale(bounds.extents, new Vector3((corner & 1) == 0 ? -1 : 1, (corner & 2) == 0 ? -1 : 1, (corner & 4) == 0 ? -1 : 1));
+                    Vector3 screen = _camera.WorldToScreenPoint(point);
+                    if (screen.z <= 0f)
+                    {
+                        continue;
+                    }
+
+                    min = Vector2.Min(min, screen);
+                    max = Vector2.Max(max, screen);
+                    any = true;
+                }
+            }
+
+            if (any)
+            {
+                rect = Rect.MinMaxRect(min.x, min.y, max.x, max.y);
+            }
+
+            return any;
         }
 
         /// <summary>
@@ -148,6 +239,8 @@ namespace MistakesLife.Unity
                 _kit.Parent = _work;
                 OfficeBuilder.Build(_kit, workplace);
             }
+
+            HideWallsInFront();
         }
 
         /// <summary>
@@ -247,27 +340,52 @@ namespace MistakesLife.Unity
             _kit.ReleaseMaterials();
         }
 
-        /// <summary>Mueve la cámara y muestra solo lo que se está viendo.</summary>
+        /// <summary>
+        /// Mueve la cámara y muestra solo lo que se está viendo. Cada vista tiene su punto de
+        /// siempre (desde donde se mira) y su centro (adonde se mira); el giro del jugador
+        /// mueve la cámara en círculo alrededor de ese centro, a la misma altura.
+        /// </summary>
         private void ApplyMode()
         {
             _room.gameObject.SetActive(_view == SceneView.Room);
             _block.gameObject.SetActive(_view == SceneView.Neighborhood);
             _work.gameObject.SetActive(_view == SceneView.Work);
-            switch (_view)
+            (Vector3 eye, Vector3 center) = _view switch
             {
-                case SceneView.Neighborhood:
-                    // Más alta y más lejos: se ve la cuadra entera y el colegio no tapa las casas.
-                    _camera.transform.position = new Vector3(-1f, 34f, -26f);
-                    _camera.transform.LookAt(new Vector3(-1f, 0f, 2.5f));
-                    break;
-                case SceneView.Work:
-                    _camera.transform.position = new Vector3(4.4f, 6.4f, -7.6f);
-                    _camera.transform.LookAt(new Vector3(-0.2f, 0.5f, 0.4f));
-                    break;
-                default:
-                    _camera.transform.position = new Vector3(3.6f, 5.4f, -6.4f);
-                    _camera.transform.LookAt(new Vector3(-0.2f, 0.5f, 0.5f));
-                    break;
+                // Más alta y más lejos: se ve la cuadra entera y el colegio no tapa las casas.
+                SceneView.Neighborhood => (new Vector3(-1f, 34f, -26f), new Vector3(-1f, 0f, 2.5f)),
+                SceneView.Work => (new Vector3(4.4f, 6.4f, -7.6f), new Vector3(-0.2f, 0.5f, 0.4f)),
+                _ => (new Vector3(3.6f, 5.4f, -6.4f), new Vector3(-0.2f, 0.5f, 0.5f)),
+            };
+
+            _camera.transform.position = center + (Quaternion.Euler(0f, _yaw, 0f) * (eye - center));
+            _camera.transform.LookAt(center);
+            HideWallsInFront();
+        }
+
+        /// <summary>
+        /// Los muros (las formas que se llaman "Muro ...") que quedan entre la cámara y el centro
+        /// de la pieza o del trabajo se esconden; los del otro lado se ven. Con la vista de
+        /// siempre no se esconde ninguno.
+        /// </summary>
+        private void HideWallsInFront()
+        {
+            Vector3 toCamera = _camera.transform.position;
+            toCamera.y = 0f;
+            foreach (Transform root in new[] { _room, _work })
+            {
+                foreach (Renderer shape in root.GetComponentsInChildren<Renderer>(true))
+                {
+                    if (!shape.name.StartsWith("Muro", System.StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+
+                    // Hacia dónde está el muro desde el centro de su lugar, en el piso.
+                    Vector3 side = shape.transform.position - root.position;
+                    side.y = 0f;
+                    shape.enabled = Vector3.Dot(side.normalized, toCamera.normalized) < 0.25f;
+                }
             }
         }
     }
