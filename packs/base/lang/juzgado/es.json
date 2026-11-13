@@ -1,0 +1,13 @@
+{
+  "ui.cosas.juzgado": "Juzgado",
+  "ui.juzgado.titulo": "Tus causas",
+  "ui.juzgado.sin_causas": "No tienes causas en ningún tribunal.",
+  "ui.juzgado.rit": "RIT {0}",
+  "ui.juzgado.ingreso": "Ingresó: {0}",
+  "ui.juzgado.en_tramite": "EN TRÁMITE",
+  "ui.juzgado.terminada": "TERMINADA",
+  "ui.juzgado.plazo": "Plazo: {0} semanas",
+  "ui.juzgado.vas": "Vas en la semana {0} de {1}",
+  "ui.juzgado.atrasada": "Lleva {0} semanas: ya pasó el plazo",
+  "ui.juzgado.resultado": "Cómo terminó: {0}"
+}

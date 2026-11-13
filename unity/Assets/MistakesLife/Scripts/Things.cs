@@ -32,6 +32,7 @@ namespace MistakesLife.Unity
         private static readonly Color PhotoWarm = UiFactory.Hex(0xC9906C);
         private static readonly Color Skin = UiFactory.Hex(0xE2B694);
         private static readonly Color ClockRim = UiFactory.Hex(0x8A6A4A);
+        private static readonly Color FolderTab = UiFactory.Hex(0xB48D4C);
 
         /// <summary>
         /// La billetera verde con un billete asomado; abajo, lo que tienes, en letra de monto.
@@ -101,6 +102,21 @@ namespace MistakesLife.Unity
             Hand(face, "Horario", 30f, 8f, 60f);
             Hand(face, "Minutero", 44f, 6f, -30f);
             Piece(face, "Centro", UiFactory.KeyInk, new Vector2(14f, 14f), Vector2.zero, 0f, 4f);
+            return button;
+        }
+
+        /// <summary>
+        /// La carpeta de cartulina del juzgado con una hoja asomada y su timbre; si hay una causa
+        /// abierta, la hoja asoma más y el timbre va en rojo.
+        /// </summary>
+        public static Button FolderThing(Transform parent, string caption, bool open, UnityAction onClick)
+        {
+            RectTransform drawing = Tile(parent, "Carpeta del juzgado", caption, open ? UiFactory.Bad : UiFactory.MutedInk, Face.Body, onClick, out Button button);
+            Piece(drawing, "Pestana", FolderTab, new Vector2(64f, 26f), new Vector2(-48f, 50f), -4f, 2f);
+            Piece(drawing, "Hoja", UiFactory.Paper, new Vector2(132f, 104f), new Vector2(6f, open ? 24f : 10f), 3f, 3f);
+            Image body = Piece(drawing, "Cartulina", CourtScreen.Cardboard, new Vector2(170f, 112f), new Vector2(0f, -12f), -4f, 2f);
+            button.targetGraphic = body;
+            Piece((RectTransform)body.transform, "Timbre", open ? UiFactory.KeyInk : FolderTab, new Vector2(54f, 30f), new Vector2(42f, -24f), -10f, 3f);
             return button;
         }
 

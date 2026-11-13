@@ -52,6 +52,7 @@ namespace MistakesLife.Unity
         private Tutorial? _tutorial;
         private PhoneScreen _phone = null!;
         private MoneyScreen _money = null!;
+        private CourtScreen _court = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
         private float _sheetWidth;
@@ -166,6 +167,12 @@ namespace MistakesLife.Unity
         public void OpenPhoneForCapture(bool mail)
         {
             _phone.Show(_presenter!, mail);
+        }
+
+        /// <summary>Abre la carpeta del juzgado encima de la vida, para las capturas.</summary>
+        public void OpenCourtForCapture()
+        {
+            _court.Show(_presenter!);
         }
 
         /// <summary>Abre Tu dinero encima de la vida, para las capturas.</summary>
@@ -320,6 +327,7 @@ namespace MistakesLife.Unity
             BuildHistory(safe);
             _phone = new PhoneScreen(safe) { Changed = MailRead };
             _money = new MoneyScreen(safe);
+            _court = new CourtScreen(safe);
 
             // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
             // si se moviera antes, el orden la devolvería a su lugar y se vería dos veces.
@@ -387,6 +395,10 @@ namespace MistakesLife.Unity
             else if (MoneyThings.Contains(id))
             {
                 _money.Show(presenter);
+            }
+            else if (id == "escena.casa.carta_tribunal" || id == "escena.casa.sello_embargo")
+            {
+                _court.Show(presenter);
             }
         }
 
@@ -754,14 +766,39 @@ namespace MistakesLife.Unity
                 Things.ClockThing(things, presenter.Text("ui.cosas.volver"), () => PickMoment(true));
             }
 
+            // La carpeta del juzgado, solo si tienes o tuviste una causa. Si ya hay cuatro cosas,
+            // va en una segunda fila.
+            IReadOnlyList<CourtCaseView> cases = presenter.CourtCases();
+            RectTransform? more = null;
+            if (cases.Count > 0)
+            {
+                RectTransform row = things.childCount < 4 ? things : (more = Row(_sheetBody, "Mas cosas"));
+                bool open = false;
+                foreach (CourtCaseView courtCase in cases)
+                {
+                    open |= courtCase.IsOpen;
+                }
+
+                Things.FolderThing(row, presenter.Text("ui.cosas.juzgado"), open, () => _court.Show(presenter));
+            }
+
             // Siempre cuatro columnas, para que las cosas no cambien de tamaño cuando aparece una.
             while (things.childCount < 4)
             {
                 Things.Empty(things);
             }
 
+            while (more != null && more.childCount < 4)
+            {
+                Things.Empty(more);
+            }
+
             Even(states);
             Even(things);
+            if (more != null)
+            {
+                Even(more);
+            }
         }
 
         /// <summary>Todas las cosas de la fila con el mismo ancho, como columnas.</summary>

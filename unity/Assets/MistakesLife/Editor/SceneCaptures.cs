@@ -8,6 +8,7 @@ using MistakesLife.Core.Content;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Presentation;
+using MistakesLife.Core.Scripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -304,6 +305,9 @@ namespace MistakesLife.Unity.Editor
             // Tu dinero: el papel del cajero con los movimientos del último mes.
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-dinero.png"), money: true);
 
+            // La carpeta del juzgado, con un juicio por deudas que ya avanzó unas semanas.
+            count += CourtFolder(content, folder);
+
             // Hasta que aparezca un evento, para que se vea la tarjeta de papel.
             for (int week = 0; week < 5 * 52 && life.Phase == LifePhase.Living; week++)
             {
@@ -350,6 +354,28 @@ namespace MistakesLife.Unity.Editor
             return 0;
         }
 
+        /// <summary>
+        /// La carpeta del juzgado: una vida en Chile hasta los 30 a la que le abren un juicio por
+        /// deudas, y unas semanas después, para que se vea la línea del proceso avanzando.
+        /// </summary>
+        private static int CourtFolder(ContentDatabase content, string folder)
+        {
+            var session = new LifeSession(content, 1, "pais.chile");
+            var life = new LifePresenter(session);
+            if (!LiveUntil(life, content, null, 30))
+            {
+                return 0;
+            }
+
+            Effect.Parse("abrir_causa('causa.chile.cobro_deuda')").Apply(new EventScope(session.World, content, session.World.Player, null, readOnly: false));
+            for (int week = 0; week < 12 && life.Phase == LifePhase.Living; week++)
+            {
+                session.Advance(1);
+            }
+
+            return CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-juzgado.png"), court: true);
+        }
+
         /// <summary>Qué parte del celular se abre encima de la vida en una captura.</summary>
         private enum PhoneCapture
         {
@@ -359,7 +385,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -374,6 +400,11 @@ namespace MistakesLife.Unity.Editor
                 if (money)
                 {
                     screen.OpenMoneyForCapture();
+                }
+
+                if (court)
+                {
+                    screen.OpenCourtForCapture();
                 }
 
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));
