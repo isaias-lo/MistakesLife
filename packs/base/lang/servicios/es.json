@@ -49,5 +49,13 @@
   "opcion.revisar_cuentas.seguir": "Sigues igual que siempre.",
   "opcion.revisar_cuentas.cuidando": "Empiezas a cuidar el consumo: apagas, desenchufas y te abrigas.",
   "opcion.revisar_cuentas.normal": "Vuelves a usar la casa como un hogar normal.",
-  "opcion.revisar_cuentas.sin_cuidar": "Te das el gusto: la casa calentita y sin mirar la cuenta."
+  "opcion.revisar_cuentas.sin_cuidar": "Te das el gusto: la casa calentita y sin mirar la cuenta.",
+  "evento.aporte_a_la_casa": "Ya tienes tu primer sueldo y sigues viviendo con tu familia. En la mesa, alguien pregunta si vas a poner algo para la casa.",
+  "opcion.aporte_a_la_casa.nada": "No pones nada: la plata es tuya y la juntas para ti.",
+  "opcion.aporte_a_la_casa.decimo": "Pones una parte chica, la décima parte de tu sueldo.",
+  "opcion.aporte_a_la_casa.cuarto": "Pones la cuarta parte de tu sueldo para la casa.",
+  "opcion.aporte_a_la_casa.mitad": "Pones la mitad de tu sueldo: en la casa hace falta.",
+  "evento.revisar_aporte_a_la_casa": "Las cosas en la casa cambiaron y te preguntas si lo que aportas sigue siendo justo.",
+  "evento.revisar_aporte_a_la_casa.2": "Llega la cuenta de la luz de la casa y la familia hace números en la cocina. ¿Cambias lo que pones?",
+  "opcion.revisar_aporte_a_la_casa.seguir": "Sigues poniendo lo mismo."
 }

@@ -243,5 +243,23 @@ namespace MistakesLife.Core.Tests
             return Eval(world, content, "jugador.arriendo") + rules.Categories.Where(c => c.CompiledConditions == null || c.CompiledConditions.IsTrue(scope))
                 .Sum(c => c.CompiledAmount!.Evaluate(scope).AsNumber("prueba"));
         }
+        [Fact]
+        public void AporteALaCasa_SoloSiElJugadorDecidioAportar_YEsUnaParteDeSuSueldo()
+        {
+            ContentDatabase content = RepoPacks.Content;
+            ExpenseDefinition aporte = content.GetCountry("pais.chile").Economy!.Expenses!.Categories.Single(c => c.Id == "gasto.chile.aporte_casa");
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.trabajar(sueldo_tipico())");
+            var scope = new EventScope(world, content, world.Player, null, readOnly: true);
+
+            Assert.True(aporte.InTodayMoney);
+            Assert.False(aporte.CompiledConditions!.IsTrue(scope));
+
+            world.Player.SetFlag("no_aporta");
+            Assert.False(aporte.CompiledConditions!.IsTrue(scope));
+
+            world.Player.SetFlag("aporta_cuarto");
+            Assert.True(aporte.CompiledConditions!.IsTrue(scope));
+        }
     }
 }
