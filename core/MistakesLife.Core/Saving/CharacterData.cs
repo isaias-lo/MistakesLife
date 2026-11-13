@@ -44,6 +44,10 @@ namespace MistakesLife.Core.Saving
 
         public string? UnionTypeId { get; set; }
 
+        public int? LivesWithId { get; set; }
+
+        public bool SharedCustody { get; set; }
+
         public string? CountryId { get; set; }
 
         public string? CityId { get; set; }

@@ -169,7 +169,11 @@
       "cupo_deficit": 1500000,
       "deuda_por_deficit": "deuda.chile.linea_credito",
       "categorias": [
-        { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
+        { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_en_casa", "condiciones": "jugador.hijos_en_casa > 0", "compartido": true },
+        { "id": "gasto.chile.pension_alimentos", "monto": "causa('causa.chile.alimentos_demandado').monto", "a_precios_de_hoy": true,
+          "condiciones": "causa('causa.chile.alimentos_demandado').resultado == 'pension_fijada' && jugador.hijos_con_otro > 0 && !jugador.tiene('no_paga_pension')" },
+        { "id": "gasto.chile.pension_alimentos_recibida", "monto": "causa('causa.chile.alimentos').monto", "a_precios_de_hoy": true, "ingreso": true,
+          "condiciones": "causa('causa.chile.alimentos').resultado == 'pension_fijada' && jugador.hijos_a_cargo > 0 && !jugador.tiene('ex_no_paga_pension')" },
         { "id": "gasto.chile.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" }
       ]
     },

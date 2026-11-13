@@ -95,6 +95,8 @@ namespace MistakesLife.Core.Saving
                 PartnerId = c.PartnerId,
                 SpouseId = c.SpouseId,
                 UnionTypeId = c.UnionTypeId,
+                LivesWithId = c.LivesWithId,
+                SharedCustody = c.SharedCustody,
                 CountryId = c.Residence?.CountryId,
                 CityId = c.Residence?.CityId,
                 CommuneId = c.Residence?.CommuneId,

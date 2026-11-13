@@ -368,6 +368,12 @@ namespace MistakesLife.Core.Presentation
                 lines.Add(new MoneyLineView("ui.dinero.sueldo", T("ui.dinero.sueldo"), "+" + MoneyLabel(net), true, string.Empty));
             }
 
+            foreach (PayslipLine line in player.LastExpenses.Where(l => l.Amount < 0))
+            {
+                // Plata que recibió en el mes (la pensión de alimentos que le pagan).
+                lines.Add(new MoneyLineView(line.Id, T(line.Id), "+" + MoneyLabel(-line.Amount), true, string.Empty));
+            }
+
             decimal spent = 0;
             foreach (PayslipLine line in player.LastExpenses)
             {
@@ -731,7 +737,7 @@ namespace MistakesLife.Core.Presentation
             }
 
             AddIfAlive(members, player.PartnerId, T("ui.relacion.pareja"));
-            foreach (Character child in world.ChildrenOf(player.Id).Where(c => c.IsAlive && c.AgeInYears(world.Date) < 18))
+            foreach (Character child in CustodyRules.MinorChildren(world, player).Where(c => CustodyRules.LivesWith(world, c, player)))
             {
                 members.Add(Member(child, ChildRelation(child), isPlayer: false));
             }

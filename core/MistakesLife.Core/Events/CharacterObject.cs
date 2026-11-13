@@ -14,7 +14,8 @@ namespace MistakesLife.Core.Events
     /// pais, ciudad, comuna, nivel_hogar, etapa, madre, padre,
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
-    /// declaracion_pendiente, declaracion_saldo, hijos_menores, gastos, meses_en_rojo,
+    /// declaracion_pendiente, declaracion_saldo, hijos_menores, hijos_en_casa, hijos_con_otro,
+    /// hijos_a_cargo, hijos_por_acordar, coprogenitor, gastos, meses_en_rojo,
     /// vivienda, arriendo, meses_contrato, cuentas_incluidas, compra,
     /// fondo_pension, pension_estimada, meses_cotizados, jubilado, pension, pension_universal,
     /// deuda, cuotas_deudas, moroso, puede_repactar, amigos, amigo, colega, rival, ex,
@@ -209,8 +210,19 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber((double)(_character.Job?.Salary ?? 0));
                 case "hijos_menores":
                     return Value.FromNumber(((EventScope)scope).World.ChildrenOf(_character.Id).Count(c => c.IsAlive && c.AgeInYears(date) < 18));
+                case "hijos_en_casa":
+                    return Value.FromNumber(CustodyRules.ChildrenAtHome(((EventScope)scope).World, _character));
+                case "hijos_con_otro":
+                    return Value.FromNumber(CustodyRules.ChildrenWithOtherParent(((EventScope)scope).World, _character));
+                case "hijos_a_cargo":
+                    return Value.FromNumber(CustodyRules.ChildrenInCare(((EventScope)scope).World, _character));
+                case "hijos_por_acordar":
+                    return Value.FromNumber(CustodyRules.ChildrenToAgree(((EventScope)scope).World, _character));
+                case "coprogenitor":
+                    Character? coParent = CustodyRules.CoParent(((EventScope)scope).World, _character);
+                    return coParent == null ? Value.Null : Value.FromObject(new CharacterObject(coParent, _character));
                 case "gastos":
-                    return Value.FromNumber((double)_character.LastExpenses.Sum(l => l.Amount));
+                    return Value.FromNumber((double)_character.LastExpenses.Where(l => l.Amount > 0).Sum(l => l.Amount));
                 case "meses_en_rojo":
                     return Value.FromNumber(_character.MonthsInRed);
                 case "vivienda":
@@ -574,6 +586,25 @@ namespace MistakesLife.Core.Events
                     return Value.Null;
                 case UniteMethod:
                     Unite((EventScope)scope, EventScope.SingleText("jugador." + method, args));
+                    return Value.Null;
+                case "quedarse_con_hijos":
+                case "hijos_con_el_otro":
+                case "cuidado_compartido":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    if (method == "quedarse_con_hijos")
+                    {
+                        CustodyRules.KeepChildren(((EventScope)scope).World, _character);
+                    }
+                    else if (method == "hijos_con_el_otro")
+                    {
+                        CustodyRules.GiveChildren(((EventScope)scope).World, _character);
+                    }
+                    else
+                    {
+                        CustodyRules.ShareCustody(((EventScope)scope).World, _character);
+                    }
+
                     return Value.Null;
                 case "terminar_union":
                     NoArguments(method, args);
