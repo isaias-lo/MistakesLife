@@ -246,6 +246,14 @@ namespace MistakesLife.Core.Analysis
                     report.NewsCount[news.NewsId] = report.NewsCount.TryGetValue(news.NewsId, out int k) ? k + 1 : 1;
                 }
 
+                foreach (var courtCase in session.World.CourtCases.Where(c => c.OwnerId == player.Id))
+                {
+                    string key = courtCase.TypeId + " → " + (courtCase.Outcome ?? "abierta");
+                    report.CourtCaseCount[key] = report.CourtCaseCount.TryGetValue(key, out int c) ? c + 1 : 1;
+                }
+
+                report.UnitedAtEnd += player.UnionTypeId != null ? 1 : 0;
+
                 var lived = session.World.EventHistory.Where(r => r.CharacterId == player.Id).ToList();
                 totalEvents += lived.Count;
                 foreach (var group in lived.GroupBy(r => r.EventId))

@@ -67,6 +67,7 @@
     { "edad": 105, "femenino": 0.5, "masculino": 0.58 },
     { "edad": 110, "femenino": 1, "masculino": 1 }
   ],
+  "uniones_civiles": ["union.chile.matrimonio", "union.chile.auc"],
   "leyes": {
     "ley.mayoria_edad": 18,
     "ley.edad_voto": 18,

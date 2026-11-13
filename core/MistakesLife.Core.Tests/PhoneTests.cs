@@ -222,5 +222,101 @@ namespace MistakesLife.Core.Tests
                 }
             }
         }
-    }
+    
+        /// <summary>Corre solo el sistema del correo durante <paramref name="weeks"/> semanas.</summary>
+        private static void MailWeeks(LifeSession session, int weeks) =>
+            new WeekCycle().Register(new MailSystem(session.Content)).AdvanceWeeks(session.World, weeks);
+
+        private static int Count(LifeSession session, string mailId) =>
+            session.World.Player.Mail!.Messages.Count(m => m.MailId == mailId);
+
+        [Fact]
+        public void Liquidacion_LlegaUnaVezAlMes_SoloMientrasTrabajaConContrato()
+        {
+            LifeSession session = Session();
+            Run(session, "jugador.crear_correo()");
+            MailWeeks(session, Time.GameDate.WeeksPerYear);
+            Assert.Equal(0, Count(session, "correo.trabajo.liquidacion"));
+
+            Run(session, "jugador.trabajar(600000)");
+            MailWeeks(session, Time.GameDate.WeeksPerYear);
+            Assert.Equal(12, Count(session, "correo.trabajo.liquidacion"));
+
+            Run(session, "jugador.trabajar(600000, 'informal')");
+            MailWeeks(session, Time.GameDate.WeeksPerYear);
+            Assert.Equal(12, Count(session, "correo.trabajo.liquidacion"));
+        }
+
+        [Fact]
+        public void CartolaDeLaAfp_LlegaTresVecesAlAnio_SoloSiHaCotizado()
+        {
+            LifeSession session = Session();
+            Run(session, "jugador.crear_correo()");
+            MailWeeks(session, Time.GameDate.WeeksPerYear);
+            Assert.Equal(0, Count(session, "correo.chile.cartola_afp"));
+
+            session.World.Player.ContributedMonths = 1;
+            MailWeeks(session, Time.GameDate.WeeksPerYear);
+            Assert.Equal(3, Count(session, "correo.chile.cartola_afp"));
+        }
+
+        [Fact]
+        public void SaludoDeCumpleanos_DeInstante_SoloSiTieneLaApp()
+        {
+            LifeSession session = Session();
+            Run(session, "jugador.dar_celular()");
+            Run(session, "jugador.crear_correo()");
+            session.World.WriteJournal(session.World.Player.Id, "diario.cumpleanos");
+            MailWeeks(session, 1);
+            Assert.Equal(0, Count(session, "correo.personal.cumpleanos_instante"));
+
+            Run(session, "jugador.instalar_app('app.instante')");
+            session.World.WriteJournal(session.World.Player.Id, "diario.cumpleanos");
+            MailWeeks(session, 1);
+            Assert.Equal(1, Count(session, "correo.personal.cumpleanos_instante"));
+        }
+
+        [Fact]
+        public void CorreoPeriodicoSinCondicion_OConPeriodoInventado_SeDetecta()
+        {
+            var content = new ContentDatabase();
+            content.AddMailJson("pack.prueba", "mail.json", @"[
+              { ""id"": ""correo.a"", ""remitente"": ""remitente.x"", ""tema"": ""banco"", ""cada"": ""mes"" },
+              { ""id"": ""correo.b"", ""remitente"": ""remitente.x"", ""tema"": ""banco"", ""cada"": ""quincena"", ""condiciones"": ""jugador.trabaja"" },
+              { ""id"": ""correo.c"", ""remitente"": ""remitente.x"", ""tema"": ""banco"", ""cada"": ""mes"", ""en_mes"": 3, ""condiciones"": ""jugador.trabaja"" }
+            ]");
+
+            var ex = Assert.Throws<ContentLoadException>(() => content.Build());
+
+            Assert.Contains(ex.Errors, e => e.Source.Contains("correo.a") && e.Message.Contains("nada se inventa"));
+            Assert.Contains(ex.Errors, e => e.Message.Contains("quincena"));
+            Assert.Contains(ex.Errors, e => e.Source.Contains("correo.c") && e.Message.Contains("en_mes"));
+        }
+
+        [Fact]
+        public void UnaVidaHastaLos23_RecibeCorreosDeLoQueVive()
+        {
+            var session = new LifeSession(RepoPacks.Content, 1, "pais.chile");
+            session.TimeMachine.Enabled = false;
+            var life = new Presentation.LifePresenter(session);
+            for (int step = 0; step < 2000 && life.Phase != Presentation.LifePhase.Over && session.PlayerAgeInYears < 23; step++)
+            {
+                if (life.Phase == Presentation.LifePhase.Living)
+                {
+                    life.AdvanceUntilSomething();
+                }
+                else if (life.Phase == Presentation.LifePhase.Choosing)
+                {
+                    life.Choose(0);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            Assert.NotNull(session.World.Player.Mail);
+            Assert.True(session.World.Player.Mail!.Messages.Count >= 10, $"solo llegaron {session.World.Player.Mail.Messages.Count} correos.");
+        }
+}
 }

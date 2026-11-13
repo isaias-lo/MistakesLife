@@ -40,6 +40,10 @@ namespace MistakesLife.Core.Saving
 
         public int? PartnerId { get; set; }
 
+        public int? SpouseId { get; set; }
+
+        public string? UnionTypeId { get; set; }
+
         public string? CountryId { get; set; }
 
         public string? CityId { get; set; }

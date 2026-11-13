@@ -51,6 +51,7 @@ namespace MistakesLife.Unity
         private StartMenu? _menu;
         private Tutorial? _tutorial;
         private PhoneScreen _phone = null!;
+        private MoneyScreen _money = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
         private float _sheetWidth;
@@ -60,6 +61,22 @@ namespace MistakesLife.Unity
         // y de qué evento es, para animar solo cuando llega uno nuevo.
         private float _slideStart = -1f;
         private EventView? _shownEvent;
+
+        /// <summary>
+        /// Transparencia de la hoja mientras la carta sube: parte invisible, así nunca se ve
+        /// la carta un instante en su lugar final antes de empezar a subir (el "doble toque").
+        /// </summary>
+        private CanvasGroup _sheetFade = null!;
+
+        /// <summary>Si la carta se anima al llegar (no en las capturas automáticas, que son fotos quietas).</summary>
+        private bool _animate = true;
+
+        /// <summary>El aviso "Arrastra para girar", hasta que el jugador gire la maqueta una vez.</summary>
+        private RectTransform _orbitHint = null!;
+        private TextMeshProUGUI _orbitHintLabel = null!;
+
+        /// <summary>Clave guardada en el teléfono cuando el jugador ya giró la maqueta (el aviso no vuelve).</summary>
+        private const string OrbitSeenKey = "giro_visto";
 
         /// <summary>Lo que pasó en el último toque (tiempo y cambios), o null si no hay nada que contar.</summary>
         private StepSummary? _lastStep;
@@ -126,6 +143,7 @@ namespace MistakesLife.Unity
         /// </summary>
         public void ShowForCapture(ContentDatabase content, LifePresenter life, bool withMenu)
         {
+            _animate = false;
             Build();
             _content = content;
             _menu = new StartMenu(_safe, content)
@@ -148,6 +166,18 @@ namespace MistakesLife.Unity
         public void OpenPhoneForCapture(bool mail)
         {
             _phone.Show(_presenter!, mail);
+        }
+
+        /// <summary>Abre Tu dinero encima de la vida, para las capturas.</summary>
+        public void OpenMoneyForCapture()
+        {
+            _money.Show(_presenter!);
+        }
+
+        /// <summary>Gira la maqueta, para las capturas (la vista desde otro lado).</summary>
+        public void OrbitForCapture(float degrees)
+        {
+            _home.Orbit(degrees);
         }
 
         /// <summary>El menú de inicio, encima de la vida en curso (si hay una, se puede continuar).</summary>
@@ -266,7 +296,11 @@ namespace MistakesLife.Unity
             room.flexibleHeight = 1;
             room.minHeight = 380;
             _home.Focus = focus;
+            OrbitPad pad = OrbitPad.AddTo(focus, _home);
+            pad.Tapped = TapScene;
+            pad.Turned = OrbitSeen;
             BuildViewSwitch(focus);
+            BuildOrbitHint(focus);
 
             // La hoja de abajo, oscura para leer encima del 3D.
             RectTransform sheet = UiFactory.Column(page, "Hoja", 28, 16);
@@ -274,6 +308,7 @@ namespace MistakesLife.Unity
             _sheet = sheet;
             // La hoja mide lo que tiene: todo el alto que sobra es para el 3D.
             sheet.gameObject.AddComponent<LayoutElement>().flexibleHeight = 0;
+            _sheetFade = sheet.gameObject.AddComponent<CanvasGroup>();
             _summary = UiFactory.Column(sheet, "Lo que paso", 0, 6);
             _sheetBody = UiFactory.ScrollColumn(sheet, "Cuerpo", 0, 16);
             RectTransform scroll = (RectTransform)_sheetBody.parent!.parent!;
@@ -284,7 +319,83 @@ namespace MistakesLife.Unity
 
             BuildHistory(safe);
             _phone = new PhoneScreen(safe) { Changed = MailRead };
+            _money = new MoneyScreen(safe);
+
+            // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
+            // si se moviera antes, el orden la devolvería a su lugar y se vería dos veces.
+            Canvas.willRenderCanvases += Slide;
         }
+
+        private void OnDestroy()
+        {
+            Canvas.willRenderCanvases -= Slide;
+        }
+
+        /// <summary>Abajo del hueco, un aviso chico: "Arrastra para girar". Se va cuando el jugador gira una vez.</summary>
+        private void BuildOrbitHint(RectTransform window)
+        {
+            _orbitHint = UiFactory.Child(window, "Aviso de girar");
+            _orbitHint.anchorMin = _orbitHint.anchorMax = new Vector2(0.5f, 0f);
+            _orbitHint.pivot = new Vector2(0.5f, 0f);
+            _orbitHint.sizeDelta = new Vector2(460f, 72f);
+            _orbitHint.anchoredPosition = new Vector2(0f, 20f);
+            UiFactory.RoundedImage(_orbitHint.gameObject, Translucent(UiFactory.Background, 0.75f)).raycastTarget = false;
+            _orbitHintLabel = UiFactory.Label(_orbitHint, string.Empty, UiFactory.MinFontSize, UiFactory.Ink);
+            UiFactory.Stretch(_orbitHintLabel.rectTransform);
+            _orbitHintLabel.alignment = TextAlignmentOptions.Center;
+            _orbitHint.gameObject.SetActive(PlayerPrefs.GetInt(OrbitSeenKey, 0) == 0);
+        }
+
+        /// <summary>El jugador giró la maqueta: el aviso se va y no vuelve.</summary>
+        private void OrbitSeen()
+        {
+            _orbitHint.gameObject.SetActive(false);
+            PlayerPrefs.SetInt(OrbitSeenKey, 1);
+        }
+
+        /// <summary>
+        /// Se tocó la maqueta: el objeto que está ahí abre su tema (docs/diseno-app.md, "La idea").
+        /// La mesa y lo que hay del mes (contrato, bolsas del súper, cuentas, la tarjeta) abren Tu
+        /// dinero; el celular, el celular; las fotos y la postal, tu gente.
+        /// </summary>
+        private void TapScene(Vector2 screenPoint)
+        {
+            LifePresenter? presenter = _presenter;
+            if (presenter == null || presenter.Phase != LifePhase.Living)
+            {
+                return;
+            }
+
+            string? id = _home.Pick(screenPoint);
+            if (id == null)
+            {
+                return;
+            }
+
+            if (id.StartsWith("escena.casa.celular", System.StringComparison.Ordinal))
+            {
+                PhoneView phone = presenter.Phone();
+                if (phone.HasPhone || phone.HasMail)
+                {
+                    _phone.Show(presenter);
+                }
+            }
+            else if (id.StartsWith("escena.casa.foto", System.StringComparison.Ordinal) || id.StartsWith("escena.casa.postal", System.StringComparison.Ordinal))
+            {
+                ShowHistory(true);
+            }
+            else if (MoneyThings.Contains(id))
+            {
+                _money.Show(presenter);
+            }
+        }
+
+        /// <summary>Los objetos de la casa que abren Tu dinero al tocarlos: la mesa y lo que el mes deja encima.</summary>
+        private static readonly HashSet<string> MoneyThings = new HashSet<string>
+        {
+            "mueble.mesa", "escena.casa.cuentas", "escena.casa.contrato_arriendo", "escena.casa.bolsas_super",
+            "escena.casa.bebidas", "escena.casa.tarjeta_transporte",
+        };
 
         /// <summary>
         /// Se leyó un correo: se vuelve a dibujar la casa (el celular deja de brillar si ya no
@@ -498,6 +609,7 @@ namespace MistakesLife.Unity
             _roomButton.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.vista.casa");
             _blockButton.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.vista.barrio");
             _workButton.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.vista.trabajo");
+            _orbitHintLabel.text = presenter.Text("ui.vista.girar");
 
             // El botón Trabajo solo aparece si trabaja; si pierde el trabajo, se vuelve a la casa.
             _workButton.gameObject.SetActive(life.Workplace != null);
@@ -541,13 +653,13 @@ namespace MistakesLife.Unity
             {
                 FitSheet();
             }
-
-            Slide();
         }
 
         /// <summary>
-        /// La hoja con la carta sube desde abajo en un tercio de segundo, frenando al final.
-        /// Solo mueve el dibujo: el orden de la pantalla la vuelve a poner en su lugar.
+        /// La hoja con la carta sube desde abajo en un tercio de segundo, frenando al final, y
+        /// aparece de a poco. Corre justo antes de dibujar cada cuadro (Canvas.willRenderCanvases),
+        /// después de que Unity ordenó la pantalla: así el orden no la devuelve a su lugar final
+        /// a mitad de camino (antes se veía la carta un instante arriba, luego abajo y subiendo).
         /// </summary>
         private void Slide()
         {
@@ -562,9 +674,11 @@ namespace MistakesLife.Unity
             Vector2 position = _sheet.anchoredPosition;
             position.y -= (1f - eased) * _sheet.rect.height;
             _sheet.anchoredPosition = position;
+            _sheetFade.alpha = Mathf.Clamp01(t * 2.5f);
             if (t >= 1f)
             {
                 _slideStart = -1f;
+                _sheetFade.alpha = 1f;
             }
         }
 
@@ -623,44 +737,31 @@ namespace MistakesLife.Unity
             State(states, presenter.Text("ui.animo"), presenter.StateWord("animo", life.Happiness));
             State(states, presenter.Text("ui.mente"), presenter.StateWord("mente", life.Smarts));
 
+            // Tus cosas, como objetos de la vida (docs/diseno-app.md): la billetera, el celular,
+            // las fotos de tu gente y, si se puede, el reloj para volver al pasado.
             RectTransform things = Row(_sheetBody, "Tus cosas");
-            RectTransform money = UiFactory.Column(things, "Dinero", 0, 2);
-            UiFactory.Label(money, presenter.Text("ui.dinero_titulo"), UiFactory.MinFontSize, UiFactory.MutedInk);
-            UiFactory.Label(money, life.MoneyLabel, UiFactory.MinFontSize, UiFactory.Ink, FontStyles.Bold, Face.Mono);
-            UiFactory.MakeButton(things, presenter.Text("ui.boton.tu_gente_diario"), UiFactory.Option, UiFactory.Ink, () => ShowHistory(true), UiFactory.MinFontSize, 0, 16);
+            MoneyView money = presenter.Money();
+            Things.WalletThing(things, money.BalanceLabel, money.Debts.Count > 0, () => _money.Show(presenter));
             PhoneView phone = presenter.Phone();
             if (phone.HasPhone || phone.HasMail)
             {
-                // El celular: con el número y el punto rojo si llegaron correos sin leer.
-                string label = presenter.Text("ui.boton.celular");
-                if (phone.UnreadMail > 0)
-                {
-                    label = $"{label} ({phone.UnreadMail})";
-                }
-
-                Button open = UiFactory.MakeButton(things, label, UiFactory.Option, UiFactory.Ink, () => _phone.Show(presenter), UiFactory.MinFontSize, 0, 16);
-                if (phone.UnreadMail > 0)
-                {
-                    PhoneScreen.RedDot(open.transform);
-                }
+                Things.PhoneThing(things, presenter.Text("ui.boton.celular"), phone.UnreadMail, () => _phone.Show(presenter));
             }
-            else
+
+            Things.PhotosThing(things, presenter.Text("ui.cosas.tu_gente"), () => ShowHistory(true));
+            if (presenter.TimeTravel().CanGoBack)
             {
-                // Un hueco vacío, para que las tres columnas queden alineadas con las del estado.
-                UiFactory.Child(things, "Vacio");
+                Things.ClockThing(things, presenter.Text("ui.cosas.volver"), () => PickMoment(true));
+            }
+
+            // Siempre cuatro columnas, para que las cosas no cambien de tamaño cuando aparece una.
+            while (things.childCount < 4)
+            {
+                Things.Empty(things);
             }
 
             Even(states);
             Even(things);
-
-            if (presenter.TimeTravel().CanGoBack)
-            {
-                RectTransform more = Row(_sheetBody, "Mas cosas");
-                UiFactory.MakeButton(more, presenter.Text("ui.boton.volver_pasado"), UiFactory.Option, UiFactory.Ink, () => PickMoment(true), UiFactory.MinFontSize, 0, 16);
-                UiFactory.Child(more, "Vacio");
-                UiFactory.Child(more, "Vacio");
-                Even(more);
-            }
         }
 
         /// <summary>Todas las cosas de la fila con el mismo ancho, como columnas.</summary>
@@ -775,10 +876,12 @@ namespace MistakesLife.Unity
         private void DrawEventCard(LifePresenter presenter, LifeSnapshot life)
         {
             EventView pending = life.PendingEvent!;
-            if (_shownEvent == null || _shownEvent.EventId != pending.EventId || _shownEvent.Text != pending.Text)
+            if (_animate && (_shownEvent == null || _shownEvent.EventId != pending.EventId || _shownEvent.Text != pending.Text))
             {
-                // Llegó un evento nuevo: la carta sube desde abajo.
+                // Llegó un evento nuevo: la carta sube desde abajo. Hasta el primer cuadro de la
+                // subida no se ve, para que no aparezca primero arriba (el "bloque doble").
                 _slideStart = UnityEngine.Time.unscaledTime;
+                _sheetFade.alpha = 0f;
             }
 
             _shownEvent = pending;
