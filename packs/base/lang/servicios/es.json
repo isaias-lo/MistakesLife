@@ -36,5 +36,18 @@
   "opcion.revisar_internet.seguir": "Lo dejas como está.",
   "opcion.revisar_internet.basico": "Te quedas con el plan básico de fibra.",
   "opcion.revisar_internet.rapido": "Te cambias al plan rápido.",
-  "opcion.revisar_internet.cortar": "Das de baja el internet de la casa para ahorrar."
+  "opcion.revisar_internet.cortar": "Das de baja el internet de la casa para ahorrar.",
+  "servicio.cuentas.cuidando": "Cuentas de la casa (luz, agua y gas), cuidando el consumo",
+  "servicio.cuentas.normal": "Cuentas de la casa (luz, agua y gas)",
+  "servicio.cuentas.sin_cuidar": "Cuentas de la casa (luz, agua y gas), sin cuidar el consumo",
+  "evento.primeras_cuentas": "Llegan las primeras cuentas de la casa: la luz, el agua y el gas. Ahora tú decides cómo usas la casa.",
+  "opcion.primeras_cuentas.cuidando": "Cuidas cada peso: apagas las luces, duchas cortas y te abrigas antes de prender la estufa.",
+  "opcion.primeras_cuentas.normal": "Usas la casa como cualquier hogar, sin obsesionarte.",
+  "opcion.primeras_cuentas.sin_cuidar": "No te complicas: estufa prendida todo el invierno, duchas largas y luces encendidas.",
+  "evento.revisar_cuentas": "Llega la cuenta de la luz y te quedas mirando el total. ¿Cambias algo en la casa?",
+  "evento.revisar_cuentas.2": "Empieza el frío y la cuenta del gas se nota. ¿Cómo vas a usar la casa este invierno?",
+  "opcion.revisar_cuentas.seguir": "Sigues igual que siempre.",
+  "opcion.revisar_cuentas.cuidando": "Empiezas a cuidar el consumo: apagas, desenchufas y te abrigas.",
+  "opcion.revisar_cuentas.normal": "Vuelves a usar la casa como un hogar normal.",
+  "opcion.revisar_cuentas.sin_cuidar": "Te das el gusto: la casa calentita y sin mirar la cuenta."
 }

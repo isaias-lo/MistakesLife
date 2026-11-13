@@ -208,5 +208,74 @@
     "variantes": [
       "evento.revisar_internet.2"
     ]
+  },
+  {
+    "id": "evento.primeras_cuentas",
+    "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas && jugador.servicio('servicio.cuentas') == nada",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.primeras_cuentas.cuidando",
+        "tendencia": "15 + jugador.responsabilidad / 3 + si(jugador.meses_en_rojo > 0, 25, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.cuentas.cuidando')"
+        ]
+      },
+      {
+        "texto": "opcion.primeras_cuentas.normal",
+        "tendencia": "45",
+        "efectos": [
+          "jugador.contratar('servicio.cuentas.normal')"
+        ]
+      },
+      {
+        "texto": "opcion.primeras_cuentas.sin_cuidar",
+        "tendencia": "8 + si(jugador.responsabilidad < 30, 15, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.cuentas.sin_cuidar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.revisar_cuentas",
+    "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas && jugador.servicio('servicio.cuentas') != nada",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 40,
+    "veces_maximas": 6,
+    "opciones": [
+      {
+        "texto": "opcion.revisar_cuentas.seguir",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 15, 50)",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.revisar_cuentas.cuidando",
+        "condiciones": "jugador.servicio('servicio.cuentas') != 'servicio.cuentas.cuidando'",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 50, 10) + jugador.responsabilidad / 10",
+        "efectos": [
+          "jugador.contratar('servicio.cuentas.cuidando')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_cuentas.normal",
+        "condiciones": "jugador.servicio('servicio.cuentas') != 'servicio.cuentas.normal'",
+        "tendencia": "20",
+        "efectos": [
+          "jugador.contratar('servicio.cuentas.normal')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_cuentas.sin_cuidar",
+        "condiciones": "jugador.servicio('servicio.cuentas') != 'servicio.cuentas.sin_cuidar' && jugador.meses_en_rojo == 0",
+        "tendencia": "3 + si(jugador.sueldo_liquido > sueldo_tipico(), 7, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.cuentas.sin_cuidar')"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.revisar_cuentas.2"
+    ]
   }
 ]

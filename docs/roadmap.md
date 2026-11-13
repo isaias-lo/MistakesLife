@@ -65,7 +65,8 @@
 | V3 | Servicios que contrata el jugador (`economia.servicios`, `jugador.contratar()`), empezando por el plan del celular: prepago, plan mensual o gigas libres, con precios de las compañías; el prepago solo se paga si tiene celular | Hecha |
 | V3b | Formas 3D de los momentos nuevos (regla 10, #85): la foto del bautizo del ahijado y la postal del amigo que se fue lejos en el muro lateral, y la foto del viaje con la pareja (playa) junto a la foto de la pareja | Hecha |
 | V4 | Transporte que elige el jugador (`servicio.transporte`): a pie, micro/colectivo o micro y metro/subte, con el pasaje real por 44 viajes al mes; se ve en 3D (tarjeta del pasaje colgada junto a la puerta o zapatillas si camina). Reemplaza el gasto fijo de transporte | Hecha |
-| V5 | Internet de la casa que contrata el jugador (`servicio.internet`, compartido con la pareja): fibra básica, fibra rápida o arreglárselas con el celular, con precios de las compañías; se ve el router junto a la tele. Las cuentas fijas quedan solo para luz, agua y gas | En revisión |
+| V5 | Internet de la casa que contrata el jugador (`servicio.internet`, compartido con la pareja): fibra básica, fibra rápida o arreglárselas con el celular, con precios de las compañías; se ve el router junto a la tele. Las cuentas fijas quedan solo para luz, agua y gas | Hecha |
+| V6 | Las cuentas de luz, agua y gas dependen de cómo usa la casa el jugador (`servicio.cuentas`: cuidando, normal o sin cuidar), con cuentas típicas y tarifas reales; se ve en 3D (frazada en el sillón si cuida, estufa prendida si no). Se borra el último gasto fijo de cuentas | En revisión |
 
 ## Prototipo en Unity (Unity solo dibuja; todo lo demás es del núcleo)
 
