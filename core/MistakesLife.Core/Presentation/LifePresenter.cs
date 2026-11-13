@@ -639,7 +639,7 @@ namespace MistakesLife.Core.Presentation
             }
 
             AddIfAlive(members, player.PartnerId, T("ui.relacion.pareja"));
-            foreach (Character child in world.ChildrenOf(player.Id).Where(c => c.IsAlive && c.AgeInYears(world.Date) < 18))
+            foreach (Character child in CustodyRules.MinorChildren(world, player).Where(c => CustodyRules.LivesWith(world, c, player)))
             {
                 members.Add(Member(child, ChildRelation(child), isPlayer: false));
             }

@@ -48,7 +48,11 @@ namespace MistakesLife.Core.Courts
         /// <summary>Cómo terminó ("pago", "acogida", "rechazada"...), o null.</summary>
         public string? Outcome { get; internal set; }
 
-        /// <summary>Un monto que fija la causa (lo que se debe pagar), en dinero de hoy. 0 si no hay.</summary>
+        /// <summary>
+        /// Un monto que fija la causa (lo que se debe pagar, la pensión de alimentos), en
+        /// dinero del inicio del mundo: los eventos lo leen a precios de hoy, así que se
+        /// reajusta solo cuando suben los precios. 0 si no hay.
+        /// </summary>
         public decimal Amount { get; set; }
 
         public bool IsOpen => Closed == null;

@@ -14,7 +14,8 @@ namespace MistakesLife.Core.Economy
     /// paga el arriendo del contrato que firmó (si arrienda), la compra de comida
     /// que eligió (si vive por su cuenta), los servicios que contrató y los gastos de su
     /// país ("economia.gastos") que le corresponden según su vida (con condiciones
-    /// del lenguaje). Los gastos compartidos se dividen
+    /// del lenguaje; algunos son plata que recibe, como una pensión de alimentos).
+    /// Los gastos compartidos se dividen
     /// con la pareja. Si el dinero no alcanza, es un mes "en rojo": baja la
     /// felicidad (estrés financiero) y los eventos pueden reaccionar. Lo que falta
     /// lo cubre la deuda del país para eso (la línea de crédito, con su interés):
@@ -120,8 +121,15 @@ namespace MistakesLife.Core.Economy
                     amount /= 2;
                 }
 
-                decimal today = PayrollCalculator.ToToday((decimal)Math.Max(0, amount), economy.PriceIndex);
-                if (today > 0)
+                decimal today = expense.InTodayMoney
+                    ? Math.Round((decimal)Math.Max(0, amount), MidpointRounding.AwayFromZero)
+                    : PayrollCalculator.ToToday((decimal)Math.Max(0, amount), economy.PriceIndex);
+                if (today > 0 && expense.Income)
+                {
+                    // Lo que le pagan (la pensión de alimentos que recibe): entra, no es un gasto.
+                    player.Money += today;
+                }
+                else if (today > 0)
                 {
                     lines.Add(new PayslipLine(expense.Id, today));
                     player.Money -= today;

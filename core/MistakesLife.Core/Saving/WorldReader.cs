@@ -127,6 +127,8 @@ namespace MistakesLife.Core.Saving
                 PartnerId = d.PartnerId,
                 SpouseId = d.SpouseId,
                 UnionTypeId = d.UnionTypeId,
+                LivesWithId = d.LivesWithId,
+                SharedCustody = d.SharedCustody,
                 HouseholdLevel = d.HouseholdLevel,
                 Money = d.Money,
                 MonthsInRed = d.MonthsInRed,

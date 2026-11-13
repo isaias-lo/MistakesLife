@@ -387,7 +387,7 @@ namespace MistakesLife.Core.Tests
             string[] character =
             {
                 "Id", "FirstName", "LastName", "Sex", "Gender", "GenderIdentity", "Orientation", "BirthDate", "Personality", "Stats",
-                "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "SpouseId", "UnionTypeId", "Residence", "HouseholdLevel", "Money", "Job",
+                "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "SpouseId", "UnionTypeId", "LivesWithId", "SharedCustody", "Residence", "HouseholdLevel", "Money", "Job",
                 "LastPayslip", "LastExpenses", "MonthsInRed", "Lease", "GroceryBasketId", "Services", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
                 "LastPensionPayment", "ContributedMonths", "PensionSalaryBase", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
                 "Relationships", "LastPosition", "JobSearch", "Phone", "Mail",

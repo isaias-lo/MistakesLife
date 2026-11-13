@@ -168,6 +168,8 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - Al empezar cada mes, después del sueldo, el jugador paga cada gasto cuyas `condiciones` se cumplan (desde `edad_desde`; antes los pagan sus padres). Por ahora solo el jugador lleva sus cuentas.
 - `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o una función como `arriendo('vivienda.pieza')`. El arriendo y la comida **no** son gastos: salen del contrato que firmó el jugador (ver Vivienda) y de la compra que eligió (ver Supermercado).
 - `compartido`: se divide en dos si tiene pareja.
+- `a_precios_de_hoy` (opcional): el `monto` ya viene en dinero de hoy y no se reajusta otra vez (por ejemplo `"causa('causa.chile.alimentos_demandado').monto"`, que ya se reajusta solo).
+- `ingreso` (opcional): es plata que el jugador **recibe** cada mes en vez de pagarla (la pensión de alimentos que le paga el otro papá). Suma al dinero y no cuenta en `jugador.gastos`.
 - El `id` empieza con `gasto.` y es la clave de su nombre en `lang/`.
 - Cada mes en que los gastos son más que el dinero suma uno a `jugador.meses_en_rojo` y resta `felicidad_en_rojo` (estrés financiero). Al alcanzar de nuevo, vuelve a 0.
 - `deuda_por_deficit` (opcional): la deuda de `economia.deudas` que cubre lo que falta, como la línea de crédito del banco. El dinero queda en 0 y lo que faltó pasa a esa deuda, con su interés (diario `diario.gastos.linea_credito` la primera vez). `cupo_deficit` (en dinero del inicio del mundo) es hasta cuánto llega: lo que pasa del cupo no se paga, son cuentas atrasadas. Sin `deuda_por_deficit`, el dinero queda en negativo.
@@ -697,6 +699,10 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 
 **Vida civil:** `uniones_civiles` en country.json lista las uniones que reconoce la ley del país (en Chile, `union.chile.matrimonio` y `union.chile.auc`). `jugador.unirse('union.x')` une al jugador con su pareja, en ambos sentidos. Si después se separan (`jugador.terminar_pareja()`), **siguen unidos ante la ley** (`jugador.separado` es true) hasta que algo la termine con `jugador.terminar_union()`: la sentencia de divorcio, el aviso en el Registro Civil. Si muere el cónyuge, la unión deja de existir (`jugador.viudo`).
 
+**Hijos después de separarse (cuidado personal):** mientras sus papás son pareja, los hijos viven con los dos. Si se separan, cada hijo menor queda **por acordar** (`jugador.hijos_por_acordar`) hasta que un evento decida: `jugador.quedarse_con_hijos()` (viven con el jugador), `jugador.hijos_con_el_otro()` (con su otro papá o mamá) o `jugador.cuidado_compartido()` (con los dos). `jugador.coprogenitor` es la otra parte (el otro papá vivo del hijo menor más chico de papás separados). La compra del supermercado, la casa de la escena y los gastos por `jugador.hijos_en_casa` solo cuentan a los hijos que viven con el jugador. Si muere el papá con quien vivía un hijo, vuelve a vivir con el otro.
+
+**Montos que se reajustan:** `causa('causa.x').monto` se escribe y se lee en dinero de hoy, pero se guarda en dinero del inicio del mundo: si suben los precios, el monto sube con ellos (como una pensión de alimentos reajustada por el IPC). Un gasto mensual que lo cobra usa `"a_precios_de_hoy": true`.
+
 ## El lenguaje de condiciones y efectos
 
 **Condiciones** (deben dar verdadero o falso): `jugador.edad >= 17 && !jugador.tiene('rindio_paes')`
@@ -752,6 +758,10 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `mundo.indice_precios` | Cuántas veces más cuesta todo que al empezar el mundo (1 al principio) |
 | `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')`, `jugador.trabajar(sueldo, 'informal')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero del inicio del mundo; sin tipo es `'dependiente'` (con contrato). `'informal'` es sin contrato: recibe todo el sueldo, pero no cotiza ni paga impuesto, y esos meses no suman a su pensión (lagunas). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
 | `jugador.hijos_menores` | Cuántos hijos vivos menores de 18 tiene |
+| `jugador.hijos_en_casa`, `jugador.hijos_con_otro` | Hijos menores que viven con el jugador (también los de cuidado compartido) o con su otro papá o mamá |
+| `jugador.hijos_a_cargo`, `jugador.hijos_por_acordar` | Hijos menores de papás separados que viven solo con el jugador, o a los que aún no se les decide con quién viven |
+| `jugador.coprogenitor` | El otro papá o mamá (vivo) de sus hijos menores de una pareja anterior, o `nada` |
+| `jugador.quedarse_con_hijos()`, `jugador.hijos_con_el_otro()`, `jugador.cuidado_compartido()` | Deciden con quién viven los hijos menores de papás separados (solo efectos) |
 | `jugador.gastos`, `jugador.meses_en_rojo` | Lo que pagó en gastos el último mes, y cuántos meses seguidos terminó con el dinero en negativo |
 | `arriendo('vivienda.pieza')` | Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5`) |
 | `compra('compra.basica')` | Lo que le tocaría pagar al mes por esa compra, para los de su casa y a medias si tiene pareja, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(compra('compra.con_antojos')) * 5`) |

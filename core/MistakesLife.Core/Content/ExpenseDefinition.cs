@@ -27,6 +27,20 @@ namespace MistakesLife.Core.Content
         [JsonProperty("compartido")]
         public bool Shared { get; set; }
 
+        /// <summary>
+        /// Si el monto ya viene a precios de hoy (por ejemplo, "causa('causa.x').monto", que se
+        /// reajusta solo), y no hay que llevarlo de dinero del inicio del mundo a hoy.
+        /// </summary>
+        [JsonProperty("a_precios_de_hoy")]
+        public bool InTodayMoney { get; set; }
+
+        /// <summary>
+        /// Si es plata que el jugador recibe cada mes en vez de pagarla (la pensión de
+        /// alimentos que le paga el otro papá). No cuenta en jugador.gastos.
+        /// </summary>
+        [JsonProperty("ingreso")]
+        public bool Income { get; set; }
+
         [JsonIgnore]
         public Expression? CompiledAmount { get; set; }
 

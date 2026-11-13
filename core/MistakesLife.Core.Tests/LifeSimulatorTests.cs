@@ -56,8 +56,11 @@ namespace MistakesLife.Core.Tests
             // Y una vida por carrera con las semillas de su carrera ya plantadas, para los
             // eventos que vienen de una semilla rara (por ejemplo, un reclamo de ética).
             var careerSeeds = CareerAreaLives.CareerSeedEvents(RepoPacks.Content);
+            // Y vidas en Chile que se separan con hijos chicos, para los caminos raros de la
+            // pensión de alimentos y el cuidado personal (el juicio por los niños, el registro de deudores).
+            var separated = CareerAreaLives.SeparatedParentEvents(RepoPacks.Content, lives: 60);
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).ToArray();
 
             Assert.Empty(never);
         }

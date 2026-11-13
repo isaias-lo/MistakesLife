@@ -87,6 +87,16 @@ namespace MistakesLife.Core.Characters
         /// <summary>Qué unión tiene ("union.chile.matrimonio"...), o null si no tiene.</summary>
         public string? UnionTypeId { get; set; }
 
+        /// <summary>
+        /// Con cuál de sus papás vive este hijo después de que ellos se separaron (el
+        /// cuidado personal), o null si todavía no se decidió o sus papás siguen juntos.
+        /// Ver <see cref="Life.CustodyRules"/>.
+        /// </summary>
+        public int? LivesWithId { get; set; }
+
+        /// <summary>Si sus papás separados acordaron el cuidado compartido: vive con los dos.</summary>
+        public bool SharedCustody { get; set; }
+
         private readonly SortedDictionary<int, Relationship> _relationships = new SortedDictionary<int, Relationship>();
 
         /// <summary>
