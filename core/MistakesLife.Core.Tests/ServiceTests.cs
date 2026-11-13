@@ -197,5 +197,34 @@ namespace MistakesLife.Core.Tests
             Assert.True(internet.Shared);
             Assert.True(internet.Option("servicio.internet.basico")!.Price < internet.Option("servicio.internet.rapido")!.Price);
         }
+        [Theory]
+        [InlineData("pais.chile")]
+        [InlineData("pais.argentina")]
+        public void Cuentas_DependenDeComoUsaLaCasaElJugador_YYaNoSonUnGastoFijo(string countryId)
+        {
+            CountryDefinition country = RepoPacks.Content.GetCountry(countryId);
+            ServiceDefinition bills = country.Economy!.Services.Single(s => s.Id == "servicio.cuentas");
+
+            Assert.True(bills.Shared);
+            Assert.DoesNotContain(country.Economy.Expenses!.Categories, e => e.Id.EndsWith(".cuentas") || e.Id.EndsWith(".servicios"));
+            Assert.True(bills.Option("servicio.cuentas.cuidando")!.Price < bills.Option("servicio.cuentas.normal")!.Price);
+            Assert.True(bills.Option("servicio.cuentas.normal")!.Price < bills.Option("servicio.cuentas.sin_cuidar")!.Price);
+        }
+
+        [Fact]
+        public void EnUnaPiezaConCuentasIncluidas_LasCuentasNoSeCobran()
+        {
+            ContentDatabase content = RepoPacks.Content;
+            World world = new LifeSession(content, 1).World;
+            world.Player.SetFlag("vive_independiente");
+            ServiceDefinition bills = content.GetCountry("pais.chile").Economy!.Services.Single(s => s.Id == "servicio.cuentas");
+            var scope = new EventScope(world, content, world.Player, null, readOnly: true);
+
+            Run(world, content, "jugador.arrendar('vivienda.departamento')");
+            Assert.True(bills.CompiledConditions!.IsTrue(scope));
+
+            Run(world, content, "jugador.arrendar('vivienda.pieza')");
+            Assert.False(bills.CompiledConditions!.IsTrue(scope));
+        }
     }
 }

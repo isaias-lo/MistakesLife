@@ -151,6 +151,11 @@
       { "id": "servicio.internet", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true, "opciones": [
         { "id": "servicio.internet.basico", "precio": 14990 },
         { "id": "servicio.internet.rapido", "precio": 19990 }
+      ] },
+      { "id": "servicio.cuentas", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true, "opciones": [
+        { "id": "servicio.cuentas.cuidando", "precio": 90070 },
+        { "id": "servicio.cuentas.normal", "precio": 134690 },
+        { "id": "servicio.cuentas.sin_cuidar", "precio": 246247 }
       ] }
     ],
       "gastos": {
@@ -159,7 +164,6 @@
       "cupo_deficit": 1500000,
       "deuda_por_deficit": "deuda.chile.linea_credito",
       "categorias": [
-        { "id": "gasto.chile.cuentas", "monto": "85000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
         { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.chile.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
         { "id": "gasto.chile.personales", "monto": "60000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" }

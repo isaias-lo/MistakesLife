@@ -51,6 +51,8 @@ namespace MistakesLife.Unity
             "escena.casa.tarjeta_transporte" => "ancla.puerta",
             "escena.casa.zapatillas" => "ancla.puerta",
             "escena.casa.router" => "ancla.tele",
+            "escena.casa.frazada" => "ancla.sillon",
+            "escena.casa.estufa" => "ancla.sillon",
             "escena.casa.grietas" => "ancla.muro_lateral",
             "escena.casa.bebidas" => "ancla.cocina",
             "escena.casa.mochila" => "ancla.mochila",
@@ -182,6 +184,16 @@ namespace MistakesLife.Unity
                         kit.Ball("Luz del router", new Vector3(0.72f + (i * 0.06f), -0.29f, 0.07f), 0.018f, new Color(0.30f, 0.90f, 0.40f));
                     }
 
+                    break;
+                case "escena.casa.frazada":
+                    // Cuidas las cuentas: en vez de prender la estufa, una frazada doblada sobre el sillón.
+                    kit.Box("Frazada", new Vector3(0f, 0.63f, 0.15f), new Vector3(0.62f, 0.06f, 0.55f), new Color(0.75f, 0.35f, 0.30f));
+                    kit.Box("Franja de la frazada", new Vector3(0f, 0.665f, 0.15f), new Vector3(0.63f, 0.012f, 0.1f), new Color(0.95f, 0.85f, 0.60f));
+                    break;
+                case "escena.casa.estufa":
+                    // No cuidas las cuentas: la estufa prendida al lado del sillón, con la resistencia al rojo.
+                    kit.Box("Estufa", new Vector3(-0.6f, 0.3f, -0.95f), new Vector3(0.4f, 0.6f, 0.2f), new Color(0.82f, 0.82f, 0.80f));
+                    kit.Box("Resistencia encendida", new Vector3(-0.6f, 0.33f, -1.055f), new Vector3(0.3f, 0.36f, 0.01f), new Color(1f, 0.45f, 0.15f));
                     break;
                 case "escena.casa.grietas":
                     // No reparaste la casa después del terremoto: grietas en zigzag en el muro.
