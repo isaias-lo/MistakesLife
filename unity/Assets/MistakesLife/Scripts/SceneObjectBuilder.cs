@@ -52,6 +52,7 @@ namespace MistakesLife.Unity
             "escena.casa.zapatillas" => "ancla.puerta",
             "escena.casa.router" => "ancla.tele",
             "escena.casa.alcancia" => "ancla.mesa",
+            "escena.casa.sobre_aporte" => "ancla.mesa",
             "escena.casa.bolsas_tiendas" => "ancla.cama",
             "escena.casa.sello_embargo" => "ancla.tele",
             "escena.casa.carta_tribunal" => "ancla.puerta",
@@ -254,6 +255,12 @@ namespace MistakesLife.Unity
                         kit.Box("Asa de la bolsa", new Vector3(-0.25f + (i * 0.25f), 0.37f, -1.25f), new Vector3(0.1f, 0.06f, 0.01f), shops[i]);
                     }
 
+                    break;
+                case "escena.casa.sobre_aporte":
+                    // Aportas a la casa de tu familia: el sobre con tu parte del sueldo sobre la mesa.
+                    GameObject envelope = kit.Box("Sobre del aporte", new Vector3(0.62f, 0.448f, -0.38f), new Vector3(0.22f, 0.01f, 0.11f), new Color(0.92f, 0.86f, 0.70f));
+                    envelope.transform.localRotation = Quaternion.Euler(0f, 6f, 0f);
+                    kit.Box("Billetes del aporte", new Vector3(0.6f, 0.456f, -0.36f), new Vector3(0.15f, 0.006f, 0.06f), new Color(0.55f, 0.75f, 0.55f));
                     break;
                 case "escena.casa.grietas":
                     // No reparaste la casa después del terremoto: grietas en zigzag en el muro.
