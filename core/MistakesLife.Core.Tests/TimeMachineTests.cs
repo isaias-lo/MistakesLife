@@ -344,7 +344,9 @@ namespace MistakesLife.Core.Tests
             var session = new LifeSession(RepoPacks.Content, 3);
             PlayUntilAge(session, 85);
             int bytes = session.SaveToBytes().Length;
-            Assert.True(bytes < 80_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
+            // Con 10 fotos, una vida a los 85 pesa entre 73 y 86 KB según la vida (en main ya había
+            // vidas sobre 80 KB). El tope deja margen para el contenido nuevo sin dejar que se dispare.
+            Assert.True(bytes < 90_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }
 
         [Fact]

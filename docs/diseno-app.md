@@ -91,8 +91,10 @@ Acordado el 2026-11-10 (bocetos en el lienzo, fila 5: "C. La mesa de la cocina" 
 
 ### Estudios, Buscar pega, Redes y Juzgado
 Siguen los bocetos de la fila 3, con las letras y los tamaños de la ronda 2. Cada una comparte la barra de arriba (volver a tu casa, título, quién eres) y el amarillo para lo tuyo. Se programan cuando el núcleo tenga sus datos.
+- **Juzgado, hecho en U23** (`CourtScreen`): la carpeta de cartulina `#D9B36E` con su pestaña; adentro, cada causa en una hoja de papel con el RIT en letra de máquina, el timbre de goma chueco (rojo EN TRÁMITE, azul TERMINADA), el tribunal, la causa, el ingreso y la línea del proceso con puntos (lleno lo que pasó, rojo lo de ahora con "Vas en la semana X de Y", hueco lo que falta con su plazo). En tus cosas aparece como una carpeta con una hoja asomada, solo si hay causas.
 
 - **Redes, hecho en U21** (`PhoneScreen`): el botón "Celular" en tus cosas (con el número y el punto rojo si hay correos sin leer) abre el celular encima de la vida, en su material `#0B0F1A`: arriba Volver, el título y Cerrar; adentro las apps en filas de tres (el correo con su punto rojo; las otras dicen "Todavía no hay nada aquí" hasta que tengan su capa). La bandeja muestra quién manda, el asunto y hace cuánto, los sin leer en negrita con punto rojo; un correo se abre en papel y queda leído. En la casa, el celular está sobre la mesa y su pantalla se ilumina con un punto rojo mientras haya correos sin leer (`escena.casa.celular` y `escena.casa.celular_avisos`). Capturas `pantalla-celular.png` y `pantalla-correo.png`.
+- **U21b:** el celular ahora se dibuja como un celular (marco `#0B0F1A` con cámara, barra de estado con la fecha del juego, señal y batería, fondo de pantalla `#1C2B4D`, íconos de color con su inicial y globo rojo con el número, dock con las primeras cuatro apps y rayita de inicio) y el correo como una app de correo blanca (`#FAFAFC`): "Recibidos", círculo con la inicial de quien manda del color de su tema (la estafa usa el color del banco, porque el correo falso se ve igual al real), asunto, vista previa, "hace cuánto" y punto azul de sin leer. Cerrar va debajo del celular.
 
 ## 4. El personaje
 

@@ -443,6 +443,7 @@ namespace MistakesLife.Core.Presentation
                     definition?.Topic ?? string.Empty,
                     string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), message.Date.Year, message.Date.WeekOfYear),
                     AgeLabel(player, message.Date),
+                    WhenLabel(Session.World.Date.WeeksSince(message.Date)),
                     message.Read));
             }
 
@@ -643,7 +644,34 @@ namespace MistakesLife.Core.Presentation
             return -1;
         }
 
-        private string AgeLabel(Character character, GameDate date)
+        /// <summary>Hace cuánto pasó algo, contado en semanas: "Esta semana", "Hace 3 semanas", "Hace 2 meses", "Hace un año".</summary>
+        public string WhenLabel(int weeks)
+        {
+            if (weeks <= 0)
+            {
+                return T("ui.hace.esta_semana");
+            }
+
+            if (weeks == 1)
+            {
+                return T("ui.hace.semana_pasada");
+            }
+
+            if (weeks < 9)
+            {
+                return string.Format(CultureInfo.InvariantCulture, T("ui.hace.semanas"), weeks);
+            }
+
+            int years = weeks / GameDate.WeeksPerYear;
+            if (years == 0)
+            {
+                return string.Format(CultureInfo.InvariantCulture, T("ui.hace.meses"), Math.Max(2, weeks * 12 / GameDate.WeeksPerYear));
+            }
+
+            return years == 1 ? T("ui.hace.un_ano") : string.Format(CultureInfo.InvariantCulture, T("ui.hace.anos"), years);
+        }
+
+                private string AgeLabel(Character character, GameDate date)
         {
             int weeks = character.AgeInWeeks(date);
             int years = weeks / GameDate.WeeksPerYear;

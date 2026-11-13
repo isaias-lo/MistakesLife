@@ -235,7 +235,7 @@ Lo que se paga cada mes porque el jugador lo **contrató** (el plan del celular;
 - El id del servicio empieza con `servicio.` y el de cada opción, con el id de su servicio (`servicio.celular.plan`).
 - `condiciones` (opcional): cuándo se cobra lo contratado. En el celular, el prepago solo se paga si tiene celular (si se lo robaron, no carga), pero un plan sigue llegando en la boleta.
 - `compartido` (opcional): se divide en dos si tiene pareja.
-- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) y `servicio.internet` (basico, rapido; compartido).
+- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) `servicio.internet` (basico, rapido; compartido) y `servicio.cuentas` (cuidando, normal, sin_cuidar: luz, agua y gas; compartido; no se cobra si el arriendo incluye las cuentas).
 - Todo país debe tener los servicios y opciones que usan los eventos.
 
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
@@ -667,6 +667,9 @@ El **correo** es una cuenta, no está en el aparato: si pierde el celular, el co
 | `remitente` | Clave de texto de quien lo manda: `remitente.<nombre>` |
 | `tema` | `trabajo`, `estudio`, `banco`, `estado`, `juzgado`, `personal`, `publicidad` o `estafa` (la pantalla le pone su ícono) |
 | `al_anotar` | Líneas del diario que lo hacen llegar. Así ningún sistema ni evento necesita saber del correo: cuando algo anota `diario.busqueda.rechazo`, al final de esa semana llega el correo de rechazo a quien tiene cuenta. Si falta, solo llega con `jugador.recibir_correo('id')` |
+| `condiciones` | Opcional. Condición sobre quien lo recibe, revisada en el momento en que llegaría (por ejemplo `jugador.tiene_app('app.instante')` para el saludo de cumpleaños de Instante). Si no la cumple, ese correo no llega |
+| `cada` | Opcional, en vez de `al_anotar`: `"mes"` (primera semana de cada mes), `"cuatrimestre"` (enero, mayo y septiembre) o `"anio"`. Obliga a poner `condiciones`, porque un correo periódico siempre viene de algo que el personaje tiene (regla "nada se inventa"): la liquidación con `jugador.trabaja && jugador.tipo_trabajo == 'dependiente'`, el estado de cuenta con `jugador.tiene('tarjeta_credito')`, la cartola de la AFP con `jugador.meses_cotizados > 0` |
+| `en_mes` | Con `"cada": "anio"`, el mes (1 a 12) en que llega, en su primera semana. Ejemplo: la inscripción de asignaturas en marzo (3) y agosto (8) para quien estudia |
 
 Lo que pasó antes de tener correo nunca llega. Sin cuenta, los correos no llegan (pero el diario sí se escribe). La bandeja guarda los últimos 300 correos. Unity marca un correo como leído con `LifeSession.ReadMail(posición)`.
 

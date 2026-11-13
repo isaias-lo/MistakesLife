@@ -28,5 +28,26 @@
 
   { "id": "correo.juzgado.citacion", "remitente": "remitente.juzgado", "tema": "juzgado", "al_anotar": ["diario.citacion_policia_local"] },
 
-  { "id": "correo.estafa.banco", "remitente": "remitente.banco_falso", "tema": "estafa" }
+  { "id": "correo.estafa.banco", "remitente": "remitente.banco_falso", "tema": "estafa" },
+  { "id": "correo.trabajo.liquidacion", "remitente": "remitente.recursos_humanos", "tema": "trabajo", "cada": "mes",
+    "condiciones": "jugador.trabaja && jugador.tipo_trabajo == 'dependiente'" },
+  { "id": "correo.banco.estado_cuenta", "remitente": "remitente.banco", "tema": "banco", "cada": "mes",
+    "condiciones": "jugador.tiene('tarjeta_credito')" },
+  { "id": "correo.banco.boleta_celular", "remitente": "remitente.compania_celular", "tema": "banco", "cada": "mes",
+    "condiciones": "jugador.servicio('servicio.celular') == 'servicio.celular.plan' || jugador.servicio('servicio.celular') == 'servicio.celular.plan_ilimitado'" },
+  { "id": "correo.vivienda.arriendo", "remitente": "remitente.arrendador", "tema": "banco", "cada": "mes",
+    "condiciones": "jugador.arriendo > 0" },
+  { "id": "correo.estudio.inscripcion_marzo", "remitente": "remitente.casa_estudios", "tema": "estudio", "cada": "anio", "en_mes": 3,
+    "condiciones": "jugador.estudia != nada" },
+  { "id": "correo.estudio.inscripcion_agosto", "remitente": "remitente.casa_estudios", "tema": "estudio", "cada": "anio", "en_mes": 8,
+    "condiciones": "jugador.estudia != nada" },
+  { "id": "correo.estudio.retiro", "remitente": "remitente.casa_estudios", "tema": "estudio", "al_anotar": ["diario.estudios.deserto"] },
+  { "id": "correo.estudio.cambio_carrera", "remitente": "remitente.casa_estudios", "tema": "estudio", "al_anotar": ["diario.estudios.cambio_carrera"] },
+  { "id": "correo.vivienda.contrato", "remitente": "remitente.arrendador", "tema": "banco", "al_anotar": ["diario.irse_de_la_casa"],
+    "condiciones": "jugador.arriendo > 0" },
+  { "id": "correo.seguridad.dispositivo_nuevo", "remitente": "remitente.correo", "tema": "personal", "al_anotar": ["diario.celular.nuevo", "diario.celular.primero"] },
+  { "id": "correo.personal.cumpleanos_instante", "remitente": "remitente.instante", "tema": "publicidad", "al_anotar": ["diario.cumpleanos"],
+    "condiciones": "jugador.tiene_app('app.instante')" },
+  { "id": "correo.personal.cumpleanos_banco", "remitente": "remitente.banco", "tema": "publicidad", "al_anotar": ["diario.cumpleanos"],
+    "condiciones": "jugador.tiene('tarjeta_credito')" }
 ]
