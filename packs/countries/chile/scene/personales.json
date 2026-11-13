@@ -1,0 +1,4 @@
+[
+  { "id": "escena.casa.alcancia", "lugar": "casa", "condiciones": "jugador.tiene('gasta_lo_justo')" },
+  { "id": "escena.casa.bolsas_tiendas", "lugar": "casa", "condiciones": "jugador.tiene('se_da_gustos')" }
+]

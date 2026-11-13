@@ -51,6 +51,9 @@ namespace MistakesLife.Unity
             "escena.casa.tarjeta_transporte" => "ancla.puerta",
             "escena.casa.zapatillas" => "ancla.puerta",
             "escena.casa.router" => "ancla.tele",
+            "escena.casa.alcancia" => "ancla.mesa",
+            "escena.casa.sobre_aporte" => "ancla.mesa",
+            "escena.casa.bolsas_tiendas" => "ancla.cama",
             "escena.casa.sello_embargo" => "ancla.tele",
             "escena.casa.carta_tribunal" => "ancla.puerta",
             "escena.casa.foto_matrimonio" => "ancla.cuadro_izquierda",
@@ -235,6 +238,29 @@ namespace MistakesLife.Unity
                     GameObject certificate = kit.Box("Certificado de deudor", new Vector3(-0.5f, 0.452f, 0.33f), new Vector3(0.21f, 0.006f, 0.28f), Palette.Paper);
                     certificate.transform.localRotation = Quaternion.Euler(0f, -12f, 0f);
                     kit.Shape(PrimitiveType.Cylinder, "Timbre oficial", new Vector3(-0.46f, 0.458f, 0.25f), new Vector3(0.07f, 0.003f, 0.07f), Palette.Alarm);
+                    break;
+                case "escena.casa.alcancia":
+                    // Gastas lo justo: el chanchito de las monedas sobre la mesa.
+                    kit.Ball("Chanchito", new Vector3(-0.6f, 0.53f, 0.15f), 0.18f, new Color(0.95f, 0.62f, 0.68f));
+                    kit.Shape(PrimitiveType.Cylinder, "Nariz del chanchito", new Vector3(-0.6f, 0.53f, 0.05f), new Vector3(0.06f, 0.015f, 0.06f), new Color(0.90f, 0.50f, 0.58f)).transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+                    kit.Box("Ranura del chanchito", new Vector3(-0.6f, 0.62f, 0.15f), new Vector3(0.06f, 0.006f, 0.015f), new Color(0.30f, 0.20f, 0.22f));
+                    break;
+                case "escena.casa.bolsas_tiendas":
+                    // Te das tus gustos: bolsas de tiendas a los pies de la cama.
+                    Color[] shops = { new Color(0.15f, 0.15f, 0.18f), new Color(0.85f, 0.30f, 0.45f), Color.white };
+                    for (int i = 0; i < shops.Length; i++)
+                    {
+                        GameObject bag = kit.Box("Bolsa de tienda", new Vector3(-0.25f + (i * 0.25f), 0.17f, -1.25f), new Vector3(0.22f, 0.34f, 0.1f), shops[i]);
+                        bag.transform.localRotation = Quaternion.Euler(0f, -15f + (i * 15f), 0f);
+                        kit.Box("Asa de la bolsa", new Vector3(-0.25f + (i * 0.25f), 0.37f, -1.25f), new Vector3(0.1f, 0.06f, 0.01f), shops[i]);
+                    }
+
+                    break;
+                case "escena.casa.sobre_aporte":
+                    // Aportas a la casa de tu familia: el sobre con tu parte del sueldo sobre la mesa.
+                    GameObject envelope = kit.Box("Sobre del aporte", new Vector3(0.62f, 0.448f, -0.38f), new Vector3(0.22f, 0.01f, 0.11f), new Color(0.92f, 0.86f, 0.70f));
+                    envelope.transform.localRotation = Quaternion.Euler(0f, 6f, 0f);
+                    kit.Box("Billetes del aporte", new Vector3(0.6f, 0.456f, -0.36f), new Vector3(0.15f, 0.006f, 0.06f), new Color(0.55f, 0.75f, 0.55f));
                     break;
                 case "escena.casa.grietas":
                     // No reparaste la casa después del terremoto: grietas en zigzag en el muro.

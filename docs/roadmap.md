@@ -67,7 +67,9 @@
 | V4 | Transporte que elige el jugador (`servicio.transporte`): a pie, micro/colectivo o micro y metro/subte, con el pasaje real por 44 viajes al mes; se ve en 3D (tarjeta del pasaje colgada junto a la puerta o zapatillas si camina). Reemplaza el gasto fijo de transporte | Hecha |
 | V5 | Internet de la casa que contrata el jugador (`servicio.internet`, compartido con la pareja): fibra básica, fibra rápida o arreglárselas con el celular, con precios de las compañías; se ve el router junto a la tele. Las cuentas fijas quedan solo para luz, agua y gas | Hecha |
 | V6 | Las cuentas de luz, agua y gas dependen de cómo usa la casa el jugador (`servicio.cuentas`: cuidando, normal o sin cuidar), con cuentas típicas y tarifas reales; se ve en 3D (frazada en el sillón si cuida, estufa prendida si no). Se borra el último gasto fijo de cuentas | Hecha |
-| V6b | Formas 3D de los juzgados (regla 10, #90 y J2): el sobre del tribunal bajo la puerta, las etiquetas de embargo en la tele, la foto del matrimonio, el calendario de visitas de los hijos y el certificado del Registro de Deudores sobre la mesa | En revisión |
+| V6b | Formas 3D de los juzgados (regla 10, #90 y J2): el sobre del tribunal bajo la puerta, las etiquetas de embargo en la tele, la foto del matrimonio, el calendario de visitas de los hijos y el certificado del Registro de Deudores sobre la mesa | Hecha |
+| V7 | Gastos personales que elige el jugador en Chile (`servicio.personales`: lo justo, normal o con gustos), con lo que gastan los hogares según la EPF del INE; se ve en 3D (chanchito en la mesa o bolsas de tiendas). Argentina queda con el gasto fijo hasta tener montos de la ENGHo | Hecha |
+| V8 | El aporte a la casa de la familia lo decide el jugador: nada, la décima parte, la cuarta parte o la mitad de su sueldo, mientras vive con su familia y trabaja; se ve el sobre con la plata en la mesa. Reemplaza el monto fijo de $80.000 | En revisión |
 
 ## Prototipo en Unity (Unity solo dibuja; todo lo demás es del núcleo)
 

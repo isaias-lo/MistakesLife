@@ -1,0 +1,83 @@
+[
+  {
+    "id": "evento.chile.tus_gastos_personales",
+    "condiciones": "jugador.edad >= 18 && (jugador.trabaja || jugador.tiene('vive_independiente')) && jugador.servicio('servicio.personales') == nada",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.tus_gastos_personales.austero",
+        "tendencia": "15 + jugador.responsabilidad / 3 + si(jugador.meses_en_rojo > 0, 25, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.personales.austero')",
+          "jugador.marcar('gasta_lo_justo')",
+          "jugador.desmarcar('se_da_gustos')"
+        ]
+      },
+      {
+        "texto": "opcion.tus_gastos_personales.normal",
+        "tendencia": "45",
+        "efectos": [
+          "jugador.contratar('servicio.personales.normal')",
+          "jugador.desmarcar('gasta_lo_justo')",
+          "jugador.desmarcar('se_da_gustos')"
+        ]
+      },
+      {
+        "texto": "opcion.tus_gastos_personales.gustos",
+        "tendencia": "8 + jugador.extraversion / 5 + si(jugador.sueldo_liquido > sueldo_tipico(), 15, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.personales.gustos')",
+          "jugador.desmarcar('gasta_lo_justo')",
+          "jugador.marcar('se_da_gustos')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.revisar_gastos_personales",
+    "condiciones": "(jugador.trabaja || jugador.tiene('vive_independiente')) && jugador.servicio('servicio.personales') != nada",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "veces_maximas": 5,
+    "opciones": [
+      {
+        "texto": "opcion.revisar_gastos_personales.seguir",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 15, 50)",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.revisar_gastos_personales.austero",
+        "condiciones": "jugador.servicio('servicio.personales') != 'servicio.personales.austero'",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 50, 8) + jugador.responsabilidad / 10",
+        "efectos": [
+          "jugador.contratar('servicio.personales.austero')",
+          "jugador.marcar('gasta_lo_justo')",
+          "jugador.desmarcar('se_da_gustos')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_gastos_personales.normal",
+        "condiciones": "jugador.servicio('servicio.personales') != 'servicio.personales.normal'",
+        "tendencia": "20",
+        "efectos": [
+          "jugador.contratar('servicio.personales.normal')",
+          "jugador.desmarcar('gasta_lo_justo')",
+          "jugador.desmarcar('se_da_gustos')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_gastos_personales.gustos",
+        "condiciones": "jugador.servicio('servicio.personales') != 'servicio.personales.gustos' && jugador.meses_en_rojo == 0",
+        "tendencia": "si(jugador.sueldo_liquido > sueldo_tipico(), 20, 3) + jugador.extraversion / 10",
+        "efectos": [
+          "jugador.contratar('servicio.personales.gustos')",
+          "jugador.desmarcar('gasta_lo_justo')",
+          "jugador.marcar('se_da_gustos')"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.chile.revisar_gastos_personales.2"
+    ]
+  }
+]

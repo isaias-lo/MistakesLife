@@ -277,5 +277,113 @@
     "variantes": [
       "evento.revisar_cuentas.2"
     ]
+  },
+  {
+    "id": "evento.aporte_a_la_casa",
+    "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja && jugador.edad >= 18 && !(jugador.tiene('aporta_decimo') || jugador.tiene('aporta_cuarto') || jugador.tiene('aporta_mitad')) && !jugador.tiene('no_aporta')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.aporte_a_la_casa.nada",
+        "tendencia": "10 + si(jugador.responsabilidad < 30, 15, 0)",
+        "efectos": [
+          "jugador.marcar('no_aporta')",
+          "jugador.desmarcar('aporta_decimo')",
+          "jugador.desmarcar('aporta_cuarto')",
+          "jugador.desmarcar('aporta_mitad')"
+        ]
+      },
+      {
+        "texto": "opcion.aporte_a_la_casa.decimo",
+        "tendencia": "35 + si(jugador.tiene('aporta_en_casa'), 15, 0)",
+        "efectos": [
+          "jugador.marcar('aporta_decimo')",
+          "jugador.desmarcar('aporta_cuarto')",
+          "jugador.desmarcar('aporta_mitad')",
+          "jugador.desmarcar('no_aporta')"
+        ]
+      },
+      {
+        "texto": "opcion.aporte_a_la_casa.cuarto",
+        "tendencia": "25 + jugador.responsabilidad / 5 + si(jugador.tiene('aporta_en_casa'), 15, 0)",
+        "efectos": [
+          "jugador.marcar('aporta_cuarto')",
+          "jugador.desmarcar('aporta_decimo')",
+          "jugador.desmarcar('aporta_mitad')",
+          "jugador.desmarcar('no_aporta')"
+        ]
+      },
+      {
+        "texto": "opcion.aporte_a_la_casa.mitad",
+        "tendencia": "5 + si(jugador.meses_en_rojo == 0, 5, 0)",
+        "efectos": [
+          "jugador.marcar('aporta_mitad')",
+          "jugador.desmarcar('aporta_decimo')",
+          "jugador.desmarcar('aporta_cuarto')",
+          "jugador.desmarcar('no_aporta')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.revisar_aporte_a_la_casa",
+    "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja && ((jugador.tiene('aporta_decimo') || jugador.tiene('aporta_cuarto') || jugador.tiene('aporta_mitad')) || jugador.tiene('no_aporta'))",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "veces_maximas": 4,
+    "opciones": [
+      {
+        "texto": "opcion.revisar_aporte_a_la_casa.seguir",
+        "tendencia": "50",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.aporte_a_la_casa.nada",
+        "condiciones": "!jugador.tiene('no_aporta')",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 30, 3)",
+        "efectos": [
+          "jugador.marcar('no_aporta')",
+          "jugador.desmarcar('aporta_decimo')",
+          "jugador.desmarcar('aporta_cuarto')",
+          "jugador.desmarcar('aporta_mitad')"
+        ]
+      },
+      {
+        "texto": "opcion.aporte_a_la_casa.decimo",
+        "condiciones": "!jugador.tiene('aporta_decimo')",
+        "tendencia": "15",
+        "efectos": [
+          "jugador.marcar('aporta_decimo')",
+          "jugador.desmarcar('aporta_cuarto')",
+          "jugador.desmarcar('aporta_mitad')",
+          "jugador.desmarcar('no_aporta')"
+        ]
+      },
+      {
+        "texto": "opcion.aporte_a_la_casa.cuarto",
+        "condiciones": "!jugador.tiene('aporta_cuarto')",
+        "tendencia": "10 + jugador.responsabilidad / 10",
+        "efectos": [
+          "jugador.marcar('aporta_cuarto')",
+          "jugador.desmarcar('aporta_decimo')",
+          "jugador.desmarcar('aporta_mitad')",
+          "jugador.desmarcar('no_aporta')"
+        ]
+      },
+      {
+        "texto": "opcion.aporte_a_la_casa.mitad",
+        "condiciones": "!jugador.tiene('aporta_mitad') && jugador.meses_en_rojo == 0",
+        "tendencia": "3",
+        "efectos": [
+          "jugador.marcar('aporta_mitad')",
+          "jugador.desmarcar('aporta_decimo')",
+          "jugador.desmarcar('aporta_cuarto')",
+          "jugador.desmarcar('no_aporta')"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.revisar_aporte_a_la_casa.2"
+    ]
   }
 ]
