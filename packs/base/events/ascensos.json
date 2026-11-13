@@ -98,6 +98,7 @@
     "probabilidad_anual": 0.5,
     "efectos": [
       "jugador.desmarcar('trabajando')",
+      "jugador.marcar('despedido_disciplinario')",
       "jugador.dejar_trabajo()",
       "jugador.marcar('buscando_trabajo')",
       "jugador.felicidad -= 8",

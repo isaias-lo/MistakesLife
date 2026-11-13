@@ -36,7 +36,7 @@
       },
       {
         "texto": "opcion.chile.cuidado_hijos.demandar",
-        "tendencia": "10 + jugador.neuroticismo / 4 + si(jugador.coprogenitor.rencor >= 60, 30, 0)",
+        "tendencia": "10 + jugador.neuroticismo / 4 + si(jugador.coprogenitor != nada && jugador.coprogenitor.rencor >= 60, 30, 0)",
         "efectos": [
           "abrir_causa('causa.chile.cuidado_personal', jugador.coprogenitor)",
           "jugador.coprogenitor.rencor += 15",

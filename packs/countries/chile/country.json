@@ -214,7 +214,7 @@
           "entrega_dinero": false, "cuotas_repactacion": 36 }
       ]
     },
-    "herencia": { "beneficio_inventario": true, "porciones_pareja": 2 },
+    "herencia": { "beneficio_inventario": true, "porciones_pareja": 2, "posesion_efectiva": true },
     "empresas": {
       "misma_empresa": 0.5,
       "tamanos": [

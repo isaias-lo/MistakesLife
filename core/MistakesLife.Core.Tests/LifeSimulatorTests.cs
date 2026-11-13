@@ -59,8 +59,10 @@ namespace MistakesLife.Core.Tests
             // Y vidas en Chile que se separan con hijos chicos, para los caminos raros de la
             // pensión de alimentos y el cuidado personal (el juicio por los niños, el registro de deudores).
             var separated = CareerAreaLives.SeparatedParentEvents(RepoPacks.Content, lives: 60);
+            // Y vidas en Chile cuyos papás dejan ahorros, para la posesión efectiva de la herencia.
+            var inheritance = CareerAreaLives.InheritanceEvents(RepoPacks.Content, lives: 12);
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).ToArray();
 
             Assert.Empty(never);
         }

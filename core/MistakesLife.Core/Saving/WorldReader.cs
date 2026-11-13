@@ -154,16 +154,10 @@ namespace MistakesLife.Core.Saving
                 character.Residence = new Residence(d.CountryId, d.CityId, d.CommuneId);
             }
 
-            if (d.Job != null)
-            {
-                CareerPosition? position = d.Job.AreaId != null && d.Job.PositionId != null ? new CareerPosition(d.Job.AreaId, d.Job.PositionId) : null;
-                var job = new Job(Parse<JobKind>(d.Job.Kind), d.Job.BaseSalary, d.Job.AdjustedPriceIndex, position);
-                job.Restore(d.Job.AdjustedPriceIndex, d.Job.MonthsSinceAdjustment);
-                job.MonthsInPosition = d.Job.MonthsInPosition;
-                job.Performance = d.Job.Performance;
-                job.CompanyId = d.Job.CompanyId;
-                character.Job = job;
-            }
+            // El último trabajo va primero: al poner el actual no debe cambiar.
+            character.LastJob = JobOf(d.LastJob);
+            character.Job = JobOf(d.Job);
+            character.PendingInheritance = d.PendingInheritance;
 
             if (d.JobSearch != null)
             {
@@ -349,6 +343,23 @@ namespace MistakesLife.Core.Saving
             }
 
             return value;
+        }
+
+        private static Job? JobOf(JobData? data)
+        {
+            if (data == null)
+            {
+                return null;
+            }
+
+            CareerPosition? position = data.AreaId != null && data.PositionId != null ? new CareerPosition(data.AreaId, data.PositionId) : null;
+            var job = new Job(Parse<JobKind>(data.Kind), data.BaseSalary, data.AdjustedPriceIndex, position);
+            job.Restore(data.AdjustedPriceIndex, data.MonthsSinceAdjustment);
+            job.MonthsInPosition = data.MonthsInPosition;
+            job.MonthsInJob = data.MonthsInJob;
+            job.Performance = data.Performance;
+            job.CompanyId = data.CompanyId;
+            return job;
         }
     }
 }

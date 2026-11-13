@@ -16,11 +16,14 @@ namespace MistakesLife.Core.Economy
     ///   recibe el Estado (se pierde).
     /// - Si las deudas son más que los bienes: con beneficio de inventario, nadie
     ///   hereda ni paga; sin él, cada heredero paga su parte de lo que falta.
+    /// - Si el país pide un trámite ("posesion_efectiva"), lo heredado queda pendiente
+    ///   (Character.PendingInheritance) hasta que un evento lo entregue.
     /// </summary>
     public static class InheritanceSettlement
     {
         public const string ReceivedJournal = "diario.herencia.recibida";
         public const string DebtsJournal = "diario.herencia.deudas";
+        public const string PendingJournal = "diario.herencia.pendiente";
 
         /// <summary>Reparte lo que dejó alguien que acaba de morir (antes de que termine su pareja).</summary>
         public static void Settle(World world, ContentDatabase content, Character deceased)
@@ -65,6 +68,14 @@ namespace MistakesLife.Core.Economy
             foreach (KeyValuePair<Character, double> heir in heirs)
             {
                 decimal share = Math.Round(estate * (decimal)(heir.Value / totalShares), MidpointRounding.AwayFromZero);
+                if (share > 0 && inheritance.NeedsProceedings)
+                {
+                    // Queda pendiente (en dinero del inicio, así no pierde valor) hasta el trámite.
+                    heir.Key.PendingInheritance += share / (decimal)(priceIndex > 0 ? priceIndex : 1);
+                    world.WriteJournal(heir.Key.Id, PendingJournal);
+                    continue;
+                }
+
                 heir.Key.Money += share;
                 world.WriteJournal(heir.Key.Id, share >= 0 ? ReceivedJournal : DebtsJournal);
             }
