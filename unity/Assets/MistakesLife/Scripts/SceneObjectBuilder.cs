@@ -51,6 +51,11 @@ namespace MistakesLife.Unity
             "escena.casa.tarjeta_transporte" => "ancla.puerta",
             "escena.casa.zapatillas" => "ancla.puerta",
             "escena.casa.router" => "ancla.tele",
+            "escena.casa.sello_embargo" => "ancla.tele",
+            "escena.casa.carta_tribunal" => "ancla.puerta",
+            "escena.casa.foto_matrimonio" => "ancla.cuadro_izquierda",
+            "escena.casa.calendario_visitas" => "ancla.muro_lateral",
+            "escena.casa.certificado_deudor" => "ancla.mesa",
             "escena.casa.frazada" => "ancla.sillon",
             "escena.casa.estufa" => "ancla.sillon",
             "escena.casa.grietas" => "ancla.muro_lateral",
@@ -194,6 +199,42 @@ namespace MistakesLife.Unity
                     // No cuidas las cuentas: la estufa prendida al lado del sillón, con la resistencia al rojo.
                     kit.Box("Estufa", new Vector3(-0.6f, 0.3f, -0.95f), new Vector3(0.4f, 0.6f, 0.2f), new Color(0.82f, 0.82f, 0.80f));
                     kit.Box("Resistencia encendida", new Vector3(-0.6f, 0.33f, -1.055f), new Vector3(0.3f, 0.36f, 0.01f), new Color(1f, 0.45f, 0.15f));
+                    break;
+                case "escena.casa.carta_tribunal":
+                    // Tienes una causa abierta: el sobre del tribunal en el suelo, recién pasado bajo la puerta.
+                    GameObject court = kit.Box("Carta del tribunal", new Vector3(0.38f, 0.006f, -0.1f), new Vector3(0.26f, 0.008f, 0.17f), Palette.Paper);
+                    court.transform.localRotation = Quaternion.Euler(0f, 18f, 0f);
+                    kit.Shape(PrimitiveType.Cylinder, "Timbre del tribunal", new Vector3(0.4f, 0.012f, -0.08f), new Vector3(0.06f, 0.003f, 0.06f), new Color(0.20f, 0.30f, 0.60f));
+                    break;
+                case "escena.casa.sello_embargo":
+                    // Te embargaron: las etiquetas del receptor pegadas en la tele.
+                    foreach (Vector3 place in new[] { new Vector3(-0.35f, 0.18f, -0.04f), new Vector3(0.3f, -0.2f, -0.04f) })
+                    {
+                        kit.Box("Etiqueta de embargo", place, new Vector3(0.2f, 0.1f, 0.006f), Palette.Paper);
+                        kit.Box("Franja roja del embargo", place + new Vector3(0f, 0.03f, -0.004f), new Vector3(0.2f, 0.025f, 0.004f), Palette.Alarm);
+                    }
+
+                    break;
+                case "escena.casa.foto_matrimonio":
+                    // Te casaste: la foto del matrimonio colgada, tú de oscuro y tu pareja de blanco (o como se vistieron).
+                    Picture(kit, "Foto del matrimonio", new Vector3(-0.6f, -0.05f, 0f), new Vector2(0.36f, 0.44f), new Color(0.90f, 0.86f, 0.80f));
+                    kit.Ball("Novios en la foto", new Vector3(-0.66f, -0.1f, -0.05f), 0.09f, Color.white);
+                    kit.Ball("Novios en la foto", new Vector3(-0.54f, -0.1f, -0.05f), 0.09f, new Color(0.18f, 0.20f, 0.26f));
+                    break;
+                case "escena.casa.calendario_visitas":
+                    // Tus hijos viven con su otro papá o mamá: el calendario con los días de visita marcados.
+                    kit.Box("Calendario de visitas", new Vector3(0.03f, 1.05f, 0f), new Vector3(0.015f, 0.32f, 0.26f), Palette.Paper);
+                    for (int i = 0; i < 4; i++)
+                    {
+                        kit.Box("Día de visita", new Vector3(0.04f, 1.12f - (i * 0.06f), -0.08f + ((i % 2) * 0.12f)), new Vector3(0.005f, 0.035f, 0.035f), Palette.Alarm);
+                    }
+
+                    break;
+                case "escena.casa.certificado_deudor":
+                    // Quedaste en el Registro de Deudores de Pensiones de Alimentos: el certificado con timbre sobre la mesa.
+                    GameObject certificate = kit.Box("Certificado de deudor", new Vector3(-0.5f, 0.452f, 0.33f), new Vector3(0.21f, 0.006f, 0.28f), Palette.Paper);
+                    certificate.transform.localRotation = Quaternion.Euler(0f, -12f, 0f);
+                    kit.Shape(PrimitiveType.Cylinder, "Timbre oficial", new Vector3(-0.46f, 0.458f, 0.25f), new Vector3(0.07f, 0.003f, 0.07f), Palette.Alarm);
                     break;
                 case "escena.casa.grietas":
                     // No reparaste la casa después del terremoto: grietas en zigzag en el muro.
