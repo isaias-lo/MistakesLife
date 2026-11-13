@@ -675,5 +675,22 @@ namespace MistakesLife.Core.Tests
             Assert.StartsWith(view.Preview.Substring(0, view.Preview.Length - 3), body);
             Assert.Equal("Corto.", new MailView(0, "correo.x", "a", "b", "Corto.", "estudio", "f", "e", "w", false).Preview);
         }
+
+        [Fact]
+        public void TodoTextoQuePideUnity_ExisteEnEspanol()
+        {
+            // Las pantallas de Unity piden sus textos con presenter.Text("ui...."): si falta una
+            // clave, el jugador vería la clave en vez de la frase.
+            string scripts = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(RepoPacks.Directory)!, "unity", "Assets", "MistakesLife", "Scripts");
+            LifePresenter presenter = NewGame(5);
+            var missing = System.IO.Directory.GetFiles(scripts, "*.cs")
+                .SelectMany(file => System.Text.RegularExpressions.Regex.Matches(System.IO.File.ReadAllText(file), @"Text\(""(ui\.[a-z0-9_.]+)""").Select(m => m.Groups[1].Value))
+                .Distinct()
+                .Where(key => !key.EndsWith(".", System.StringComparison.Ordinal)) // un prefijo que se completa en el código
+                .Where(key => presenter.Text(key) == key)
+                .ToList();
+
+            Assert.True(missing.Count == 0, "Faltan en español: " + string.Join(", ", missing));
+        }
 }
 }
