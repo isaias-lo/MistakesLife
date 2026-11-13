@@ -17,8 +17,10 @@ namespace MistakesLife.Core.Events
     /// Funciones: semilla('id'), plantar('id') o plantar('id', persona), diario('clave'), estudiar('nivel'),
     /// si(condición, valor_si, valor_no), ley('id'), cambiar_ley('id', valor),
     /// precio(monto), cambiar_inflacion('regimen'), sueldo_minimo(), sueldo_tipico(), sueldo_titulo(), arriendo('tipo de vivienda'),
-    /// compra('compra') (lo que le tocaría pagar al mes por esa compra),
-    /// noticia_reciente('noticia.x') o noticia_reciente('noticia.x', semanas).
+    /// compra('compra') (lo que le tocaría pagar al mes por esa compra), tarifa('servicio.x.opcion'),
+    /// noticia_reciente('noticia.x') o noticia_reciente('noticia.x', semanas),
+    /// abrir_causa('causa.x') o abrir_causa('causa.x', persona), causa('causa.x'),
+    /// causa_en('causa.x', 'etapa'), causas_abiertas().
     /// Ver docs/content-language.md para la lista completa.
     /// </summary>
     public sealed class EventScope : IScriptScope
@@ -44,6 +46,13 @@ namespace MistakesLife.Core.Events
 
         public const string GroceriesFunction = "compra";
 
+        public const string OpenCaseFunction = "abrir_causa";
+        public const string CaseFunction = "causa";
+        public const string CaseAtFunction = "causa_en";
+        public const string OpenCasesFunction = "causas_abiertas";
+
+        public const string FeeFunction = "tarifa";
+
         /// <summary>Funciones que leen los sueldos del país: todo país debe tener "economia.sueldos" si un evento las usa.</summary>
         public static readonly IReadOnlyCollection<string> SalaryNames = new[]
         {
@@ -55,14 +64,15 @@ namespace MistakesLife.Core.Events
         {
             "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
             PriceFunction + "()", ChangeInflationFunction + "()", ChangeCycleFunction + "()",
-            MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()", RentFunction + "()", GroceriesFunction + "()",
-            RecentNewsFunction + "()",
+            MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()", RentFunction + "()", GroceriesFunction + "()", FeeFunction + "()",
+            RecentNewsFunction + "()", OpenCaseFunction + "()", CaseFunction + "()", CaseAtFunction + "()", OpenCasesFunction + "()",
         };
 
         /// <summary>Nombres que cambian el mundo: no se permiten en condiciones.</summary>
         public static readonly IReadOnlyCollection<string> EffectOnlyNames = new SortedSet<string>(StringComparer.Ordinal)
         {
             PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", ChangeLawFunction + "()", ChangeInflationFunction + "()", ChangeCycleFunction + "()",
+            OpenCaseFunction + "()",
         };
 
         public EventScope(World world, ContentDatabase content, Character subject, Seed? currentSeed, bool readOnly)
@@ -167,6 +177,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(DegreeSalary());
                 case RentFunction:
                     return Value.FromNumber((double)Economy.HousingRules.MarketRent(Content, Subject, SingleText(name, args)));
+                case FeeFunction:
+                    return Value.FromNumber((double)Economy.ServiceRules.Price(Content, Subject, SingleText(name, args), name));
                 case GroceriesFunction:
                     return Value.FromNumber((double)Economy.GroceryRules.MonthlyShare(World, Content, Subject, SingleText(name, args)));
                 case ChangeInflationFunction:
@@ -179,6 +191,17 @@ namespace MistakesLife.Core.Events
                     return Value.Null;
                 case RecentNewsFunction:
                     return Value.FromBool(RecentNews(name, args));
+                case OpenCaseFunction:
+                    RequireWritable(name);
+                    OpenCase(name, args);
+                    return Value.Null;
+                case CaseFunction:
+                    return Value.FromObject(new CourtCaseObject(this, CaseType(name, SingleText(name, args))));
+                case CaseAtFunction:
+                    return Value.FromBool(CaseAt(name, args));
+                case OpenCasesFunction:
+                    NoArgs(name, args);
+                    return Value.FromNumber(World.CourtCases.Count(c => c.IsOpen && c.OwnerId == Subject.Id));
                 case JournalFunction:
                     RequireWritable(name);
                     World.WriteJournal(Subject.Id, SingleText(name, args));
@@ -245,6 +268,62 @@ namespace MistakesLife.Core.Events
 
             NewsRecord? last = World.LastNews(newsId, Subject.Residence.CountryId, Subject.Residence.CityId);
             return last != null && World.Date.WeeksSince(last.Date) < weeks;
+        }
+
+        private CourtCaseDefinition CaseType(string function, string caseId) =>
+            Content.TryGetCourtCase(caseId, out CourtCaseDefinition? definition)
+                ? definition!
+                : throw new ScriptException($"{function}('{caseId}'): esa causa no existe (packs/*/courts/).");
+
+        /// <summary>
+        /// abrir_causa('causa.x') o abrir_causa('causa.x', persona): empieza una causa en
+        /// su primera etapa, con la persona como la otra parte. Si ya hay una abierta de
+        /// ese tipo, no abre otra.
+        /// </summary>
+        private void OpenCase(string name, Value[] args)
+        {
+            if (args.Length < 1 || args.Length > 2)
+            {
+                throw new ScriptException("abrir_causa() necesita la causa y, si hay, la otra persona: abrir_causa('causa.x', jugador.ex).");
+            }
+
+            CourtCaseDefinition definition = CaseType(name, args[0].AsText(name + "()"));
+            Character? other = null;
+            if (args.Length == 2)
+            {
+                other = args[1].Kind == ValueKind.Null
+                    ? throw new ScriptException("abrir_causa(): la otra persona es nada; revisa que exista antes (por ejemplo, jugador.ex != nada).")
+                    : (args[1].AsObject(name + "()") as CharacterObject)?.Character
+                      ?? throw new ScriptException("abrir_causa(): la otra parte debe ser una persona, por ejemplo abrir_causa('causa.x', jugador.ex).");
+            }
+
+            if (definition.CountryId != null && Subject.Residence?.CountryId != definition.CountryId)
+            {
+                throw new ScriptException($"abrir_causa('{definition.Id}'): esa causa es de {definition.CountryId} y {Subject} no vive ahí.");
+            }
+
+            if (World.CourtCaseOf(Subject.Id, definition.Id)?.IsOpen == true)
+            {
+                return;
+            }
+
+            World.OpenCourtCase(definition.Id, definition.RitPrefix, Subject.Id, other?.Id);
+        }
+
+        /// <summary>causa_en('causa.x', 'etapa'): la causa está abierta, en esa etapa, y ya se cumplió su plazo.</summary>
+        private bool CaseAt(string name, Value[] args)
+        {
+            if (args.Length != 2)
+            {
+                throw new ScriptException("causa_en() necesita la causa y la etapa: causa_en('causa.x', 'audiencia').");
+            }
+
+            CourtCaseDefinition definition = CaseType(name, args[0].AsText(name + "()"));
+            string stageId = args[1].AsText(name + "()");
+            Courts.CourtCase? courtCase = World.CourtCaseOf(Subject.Id, definition.Id);
+            return courtCase != null && courtCase.IsOpen
+                && definition.Stages[courtCase.StageIndex].Id == stageId
+                && new CourtCaseObject(this, definition).IsReady(courtCase);
         }
 
         private SalaryDefinition Salaries()

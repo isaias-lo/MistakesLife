@@ -36,7 +36,9 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Simulador_ALos72_PocosSiguenTrabajandoYSeCuentaSoloALosVivos()
         {
-            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 120, finalAge: 72);
+            // 200 vidas: los mayores que trabajan informal son pocos (cerca del 3 % de los vivos)
+            // y con menos vidas que aparezcan depende de la suerte.
+            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 200, finalAge: 72);
 
             // Quien murió no cuenta como trabajando ni como jubilado.
             Assert.True(report.Working + report.Unemployed <= report.Alive);

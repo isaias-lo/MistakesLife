@@ -67,6 +67,7 @@
     { "edad": 105, "femenino": 0.5, "masculino": 0.58 },
     { "edad": 110, "femenino": 1, "masculino": 1 }
   ],
+  "uniones_civiles": ["union.chile.matrimonio", "union.chile.auc"],
   "leyes": {
     "ley.mayoria_edad": 18,
     "ley.edad_voto": 18,
@@ -136,17 +137,31 @@
         { "id": "compra.basica", "costo_persona": 90384 },
         { "id": "compra.con_antojos", "costo_persona": 107616 }
       ] },
+    "servicios": [
+      { "id": "servicio.celular", "condiciones": "jugador.tiene_celular || jugador.servicio('servicio.celular') != 'servicio.celular.prepago'", "opciones": [
+        { "id": "servicio.celular.prepago", "precio": 5990 },
+        { "id": "servicio.celular.plan", "precio": 12990 },
+        { "id": "servicio.celular.plan_ilimitado", "precio": 20990 }
+      ] },
+      { "id": "servicio.transporte", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')", "opciones": [
+        { "id": "servicio.transporte.caminando", "precio": 0 },
+        { "id": "servicio.transporte.bus", "precio": 34980 },
+        { "id": "servicio.transporte.bus_y_metro", "precio": 39380 }
+      ] },
+      { "id": "servicio.internet", "condiciones": "jugador.tiene('vive_independiente')", "compartido": true, "opciones": [
+        { "id": "servicio.internet.basico", "precio": 14990 },
+        { "id": "servicio.internet.rapido", "precio": 19990 }
+      ] }
+    ],
       "gastos": {
       "edad_desde": 18,
       "felicidad_en_rojo": 1,
       "cupo_deficit": 1500000,
       "deuda_por_deficit": "deuda.chile.linea_credito",
       "categorias": [
-        { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
+        { "id": "gasto.chile.cuentas", "monto": "85000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
         { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores", "condiciones": "jugador.hijos_menores > 0", "compartido": true },
         { "id": "gasto.chile.aporte_casa", "monto": "80000", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja" },
-        { "id": "gasto.chile.transporte", "monto": "45000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
-        { "id": "gasto.chile.celular", "monto": "15000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" },
         { "id": "gasto.chile.personales", "monto": "60000", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')" }
       ]
     },

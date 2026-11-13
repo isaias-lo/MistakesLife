@@ -568,5 +568,112 @@ namespace MistakesLife.Core.Tests
 
         private static string PsychologyLevel(LifePresenter presenter) =>
             presenter.Session.Content.GetCareer("carrera.psicologia").Levels[0].Id;
-    }
+    
+        private static void Run(LifeSession session, string effect) =>
+            Effect.Parse(effect).Apply(new EventScope(session.World, session.Content, session.World.Player, null, readOnly: false));
+
+        [Fact]
+        public void Celular_SinCelularNiCorreo_NoMuestraApps()
+        {
+            LifePresenter presenter = NewGame(5);
+
+            PhoneView phone = presenter.Phone();
+
+            Assert.False(phone.HasPhone);
+            Assert.False(phone.HasMail);
+            Assert.Empty(phone.Apps);
+            Assert.Empty(presenter.Mail());
+        }
+
+        [Fact]
+        public void Celular_ConCorreoSinLeer_MuestraLasAppsConNombreYElNumeroEnElCorreo()
+        {
+            LifePresenter presenter = NewGame(5);
+            Run(presenter.Session, "jugador.dar_celular()");
+            Run(presenter.Session, "jugador.instalar_app('app.instante')");
+            Run(presenter.Session, "jugador.crear_correo()");
+            Run(presenter.Session, "jugador.recibir_correo('correo.bienvenida')");
+
+            PhoneView phone = presenter.Phone();
+
+            Assert.True(phone.HasPhone);
+            Assert.Equal(1, phone.UnreadMail);
+            AppView mail = Assert.Single(phone.Apps, app => app.IsMail);
+            Assert.Equal(1, mail.Unread);
+            AppView other = Assert.Single(phone.Apps, app => !app.IsMail);
+            Assert.Equal(0, other.Unread);
+            Assert.All(phone.Apps, app => Assert.False(string.IsNullOrWhiteSpace(app.Name)));
+            Assert.All(phone.Apps, app => Assert.NotEqual(app.AppId, app.Name));
+        }
+
+        [Fact]
+        public void Bandeja_MuestraElMasNuevoPrimero_ConTextosTraducidos_YAlLeerloBajaElNumero()
+        {
+            LifePresenter presenter = NewGame(5);
+            Run(presenter.Session, "jugador.dar_celular()");
+            Run(presenter.Session, "jugador.crear_correo()");
+            Run(presenter.Session, "jugador.recibir_correo('correo.bienvenida')");
+            presenter.Session.Advance(1);
+            Run(presenter.Session, "jugador.recibir_correo('correo.estafa.banco')");
+
+            var mail = presenter.Mail();
+
+            Assert.Equal(2, mail.Count);
+            Assert.Equal("correo.estafa.banco", mail[0].MailId);
+            Assert.Equal("correo.bienvenida", mail[1].MailId);
+            Assert.All(mail, m =>
+            {
+                Assert.False(m.Read);
+                Assert.False(string.IsNullOrWhiteSpace(m.Sender));
+                Assert.NotEqual(m.MailId, m.Subject);
+                Assert.NotEqual(m.MailId, m.Body);
+                Assert.False(string.IsNullOrWhiteSpace(m.DateLabel));
+            });
+
+            presenter.ReadMail(mail[0].Index);
+
+            Assert.True(presenter.Mail()[0].Read);
+            Assert.False(presenter.Mail()[1].Read);
+            Assert.Equal(1, presenter.Phone().UnreadMail);
+        }
+
+        [Fact]
+        public void TextosDeLaPantallaDelCelular_ExistenEnEspanol()
+        {
+            LifePresenter presenter = NewGame(5);
+            string[] keys =
+            {
+                "ui.boton.celular", "ui.celular.titulo", "ui.celular.sin_nada", "ui.celular.solo_correo",
+                "ui.celular.app_vacia", "ui.correo.titulo", "ui.correo.vacio", "ui.correo.sin_leer",
+                "ui.boton.volver", "ui.boton.cerrar", "ui.correo.recibidos", "ui.correo.para_ti",
+                "ui.hace.esta_semana", "ui.hace.semana_pasada", "ui.hace.semanas", "ui.hace.meses", "ui.hace.un_ano", "ui.hace.anos",
+            };
+
+            Assert.All(keys, key => Assert.NotEqual(key, presenter.Text(key)));
+        }
+
+        [Theory]
+        [InlineData(0, "Esta semana")]
+        [InlineData(1, "La semana pasada")]
+        [InlineData(5, "Hace 5 semanas")]
+        [InlineData(13, "Hace 3 meses")]
+        [InlineData(52, "Hace un año")]
+        [InlineData(160, "Hace 3 años")]
+        public void HaceCuanto_SeDiceComoEnUnCorreoDeVerdad(int weeks, string expected)
+        {
+            Assert.Equal(expected, NewGame(5).WhenLabel(weeks));
+        }
+
+        [Fact]
+        public void VistaPreviaDelCorreo_SeCortaEnUnaPalabra()
+        {
+            string body = "Ya puedes inscribir tus asignaturas del primer semestre en el portal del estudiante. Los cupos se llenan rápido.";
+            var view = new MailView(0, "correo.x", "Tu casa de estudios", "Asunto", body, "estudio", "fecha", "20 años", "Esta semana", false);
+
+            Assert.True(view.Preview.Length <= MailView.PreviewLength + 3);
+            Assert.EndsWith("...", view.Preview);
+            Assert.StartsWith(view.Preview.Substring(0, view.Preview.Length - 3), body);
+            Assert.Equal("Corto.", new MailView(0, "correo.x", "a", "b", "Corto.", "estudio", "f", "e", "w", false).Preview);
+        }
+}
 }

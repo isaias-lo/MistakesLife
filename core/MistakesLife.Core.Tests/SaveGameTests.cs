@@ -387,8 +387,8 @@ namespace MistakesLife.Core.Tests
             string[] character =
             {
                 "Id", "FirstName", "LastName", "Sex", "Gender", "GenderIdentity", "Orientation", "BirthDate", "Personality", "Stats",
-                "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "Residence", "HouseholdLevel", "Money", "Job",
-                "LastPayslip", "LastExpenses", "MonthsInRed", "Lease", "GroceryBasketId", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
+                "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "SpouseId", "UnionTypeId", "Residence", "HouseholdLevel", "Money", "Job",
+                "LastPayslip", "LastExpenses", "MonthsInRed", "Lease", "GroceryBasketId", "Services", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
                 "LastPensionPayment", "ContributedMonths", "PensionSalaryBase", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
                 "Relationships", "LastPosition", "JobSearch", "Phone", "Mail",
                 "IsAlive", "DeathDate", "DeathCauseId",
@@ -396,7 +396,7 @@ namespace MistakesLife.Core.Tests
             string[] world =
             {
                 "Seed", "Random", "Date", "PlayerId", "Player", "Characters", "Journal", "Seeds", "PendingEvents", "EventHistory",
-                "FormerPlayers", "Economies", "Generation", "Companies", "News",
+                "FormerPlayers", "Economies", "Generation", "Companies", "News", "CourtCases",
             };
 
             Assert.Equal(character.OrderBy(n => n), PublicProperties(typeof(Characters.Character)));

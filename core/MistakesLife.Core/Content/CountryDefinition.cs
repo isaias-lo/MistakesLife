@@ -128,6 +128,14 @@ namespace MistakesLife.Core.Content
         public EconomyDefinition? Economy { get; set; }
 
         /// <summary>
+        /// Las uniones que la ley del país reconoce (por ejemplo "union.chile.matrimonio"
+        /// y "union.chile.auc"), para jugador.unirse('union.x'). Cómo se termina cada una
+        /// (un divorcio en el juzgado, un aviso en el Registro Civil) lo dicen sus eventos.
+        /// </summary>
+        [JsonProperty("uniones_civiles")]
+        public List<string> CivilUnions { get; set; } = new List<string>();
+
+        /// <summary>
         /// La variante de cada idioma que se usa en este país, por ejemplo
         /// "es" → "es-CL". Los textos de la variante (archivos lang/es-CL.json)
         /// reemplazan a los del idioma general; los que no tenga, salen del general.

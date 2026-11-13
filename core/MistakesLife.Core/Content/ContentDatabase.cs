@@ -17,10 +17,12 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, EventDefinition> _events = new SortedDictionary<string, EventDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, NewsDefinition> _news = new SortedDictionary<string, NewsDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, CourtCaseDefinition> _courtCases = new SortedDictionary<string, CourtCaseDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, MailDefinition> _mails = new SortedDictionary<string, MailDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, List<MailDefinition>> _mailsByJournal = new Dictionary<string, List<MailDefinition>>(StringComparer.Ordinal);
+        private readonly List<MailDefinition> _periodicMails = new List<MailDefinition>();
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CareerDefinition> _careers = new SortedDictionary<string, CareerDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, CareerLevelDefinition> _careerLevels = new Dictionary<string, CareerLevelDefinition>(StringComparer.Ordinal);
@@ -49,6 +51,11 @@ namespace MistakesLife.Core.Content
 
         public bool TryGetNews(string id, out NewsDefinition? definition) => _news.TryGetValue(id, out definition);
 
+        /// <summary>Los tipos de causa judicial de todos los paquetes (carpeta courts/).</summary>
+        public IEnumerable<CourtCaseDefinition> CourtCases => _courtCases.Values;
+
+        public bool TryGetCourtCase(string id, out CourtCaseDefinition? definition) => _courtCases.TryGetValue(id, out definition);
+
         public IEnumerable<CountryDefinition> Countries => _countries.Values;
 
         /// <summary>Las apps del celular, ordenadas por id.</summary>
@@ -64,6 +71,9 @@ namespace MistakesLife.Core.Content
         public MailDefinition? Mail(string id) => _mails.TryGetValue(id, out MailDefinition? mail) ? mail : null;
 
         /// <summary>Los correos que llegan cuando se anota esa línea en el diario (ordenados por id).</summary>
+        /// <summary>Los correos periódicos (con "cada"), en orden de id.</summary>
+        public IReadOnlyList<MailDefinition> PeriodicMails => _periodicMails;
+
         public IReadOnlyList<MailDefinition> MailsForJournal(string journalKey) =>
             _mailsByJournal.TryGetValue(journalKey, out List<MailDefinition>? mails) ? mails : (IReadOnlyList<MailDefinition>)Array.Empty<MailDefinition>();
 
@@ -225,6 +235,22 @@ namespace MistakesLife.Core.Content
                 }
 
                 _news.Add(definition.Id, definition);
+            }
+        }
+
+        /// <summary>Agrega los tipos de causa judicial de un archivo JSON de courts/ (una lista).</summary>
+        public void AddCourtCasesJson(string packId, string sourceName, string json)
+        {
+            foreach (CourtCaseDefinition definition in Deserialize<CourtCaseDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_courtCases.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de causa repetido."));
+                    continue;
+                }
+
+                _courtCases.Add(definition.Id, definition);
             }
         }
 
@@ -403,6 +429,12 @@ namespace MistakesLife.Core.Content
                 ValidateNews(news);
             }
 
+            foreach (CourtCaseDefinition courtCase in _courtCases.Values)
+            {
+                courtCase.CountryId = countryOfPack.TryGetValue(courtCase.PackId, out string? countryId) ? countryId : null;
+                ValidateCourtCase(courtCase);
+            }
+
             foreach (SeedTypeDefinition seed in _seedTypes.Values)
             {
                 string where = $"semilla {seed.Id}";
@@ -541,6 +573,52 @@ namespace MistakesLife.Core.Content
             EventScope.ChangeCycleFunction + "()", EventScope.ChangeInflationFunction + "()", EventScope.ChangeLawFunction + "()", EventScope.IfFunction + "()", EventScope.LawFunction + "()", "mundo",
         };
 
+        private void ValidateCourtCase(CourtCaseDefinition courtCase)
+        {
+            string where = $"causa {courtCase.Id}";
+            CheckId(where, courtCase.Id, "causa.");
+            CheckId(where, courtCase.CourtKey, "tribunal.");
+            if (courtCase.CountryId == null)
+            {
+                _errors.Add(new ContentError(where, "una causa es de un país: va en courts/ del paquete de ese país, con sus tribunales y plazos."));
+            }
+
+            if (string.IsNullOrWhiteSpace(courtCase.RitPrefix))
+            {
+                _errors.Add(new ContentError(where, "prefijo_rit no puede estar vacío."));
+            }
+
+            if (courtCase.Stages.Count == 0)
+            {
+                _errors.Add(new ContentError(where, "necesita al menos una etapa."));
+            }
+
+            if (courtCase.Stages.Select(s => s.Id).Distinct(StringComparer.Ordinal).Count() != courtCase.Stages.Count || courtCase.Stages.Any(s => string.IsNullOrWhiteSpace(s.Id)))
+            {
+                _errors.Add(new ContentError(where, "las etapas necesitan un id no vacío y sin repetirse."));
+            }
+
+            if (courtCase.Outcomes.Count == 0 || courtCase.Outcomes.Distinct(StringComparer.Ordinal).Count() != courtCase.Outcomes.Count)
+            {
+                _errors.Add(new ContentError(where, "resultados necesita al menos uno y sin repetirse."));
+            }
+
+            if (courtCase.Stages.Count > 0 && !courtCase.Stages[courtCase.Stages.Count - 1].Waits && !courtCase.Outcomes.Contains(Courts.CourtSystem.FinishedOutcome))
+            {
+                _errors.Add(new ContentError(where, $"la última etapa no espera, así que la causa puede terminar sola: agrega '{Courts.CourtSystem.FinishedOutcome}' a resultados."));
+            }
+
+            if (courtCase.EndsIfOtherPartyDies && !courtCase.Outcomes.Contains(Courts.CourtSystem.DeathOutcome))
+            {
+                _errors.Add(new ContentError(where, $"termina_si_muere_la_otra_parte: agrega '{Courts.CourtSystem.DeathOutcome}' a resultados."));
+            }
+
+            foreach (CourtStageDefinition stage in courtCase.Stages.Where(s => s.Weeks < 0))
+            {
+                _errors.Add(new ContentError(where, $"la etapa '{stage.Id}' no puede durar semanas negativas."));
+            }
+        }
+
         private void ValidateNews(NewsDefinition news)
         {
             string where = $"noticia {news.Id}";
@@ -589,6 +667,11 @@ namespace MistakesLife.Core.Content
 
         private void ValidateCountry(CountryDefinition country)
         {
+            foreach (string union in country.CivilUnions)
+            {
+                CheckId($"país {country.Id}, uniones_civiles", union, "union.");
+            }
+
             string where = $"país {country.Id}";
             CheckId(where, country.Id, "pais.");
             if (country.BirthWeight < 0)
@@ -730,6 +813,7 @@ namespace MistakesLife.Core.Content
                 ValidatePayroll($"{where}, economia", country.Economy);
                 ValidateHousing($"{where}, economia.vivienda", country);
                 ValidateGroceries($"{where}, economia.supermercado", country.Economy.Groceries);
+                ValidateServices($"{where}, economia.servicios", country.Economy.Services);
                 if (country.Economy.Companies != null)
                 {
                     ValidateCompanies($"{where}, economia.empresas", country.Economy.Companies);
@@ -748,6 +832,44 @@ namespace MistakesLife.Core.Content
                 if (badRate || family.PartnerMinAge < 12 || family.FertileMaxAge < family.PartnerMinAge || family.MaxChildren < 0)
                 {
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));
+                }
+            }
+        }
+
+        private void ValidateServices(string where, List<ServiceDefinition> services)
+        {
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            foreach (ServiceDefinition service in services)
+            {
+                string serviceWhere = $"{where}, {service.Id}";
+                CheckId(serviceWhere, service.Id, "servicio.");
+                if (!seen.Add(service.Id))
+                {
+                    _errors.Add(new ContentError(serviceWhere, "servicio repetido."));
+                }
+
+                service.CompiledConditions = CompileCondition(serviceWhere, service.Conditions);
+                if (service.Options.Count == 0)
+                {
+                    _errors.Add(new ContentError(serviceWhere, "un servicio necesita al menos una opción."));
+                }
+
+                foreach (ServiceOptionDefinition option in service.Options)
+                {
+                    if (!option.Id.StartsWith(service.Id + ".", StringComparison.Ordinal))
+                    {
+                        _errors.Add(new ContentError($"{serviceWhere}, {option.Id}", $"el id de la opción debe empezar con '{service.Id}.'."));
+                    }
+
+                    if (!seen.Add(option.Id))
+                    {
+                        _errors.Add(new ContentError($"{serviceWhere}, {option.Id}", "opción repetida."));
+                    }
+
+                    if (option.Price < 0)
+                    {
+                        _errors.Add(new ContentError($"{serviceWhere}, {option.Id}", "el precio no puede ser negativo."));
+                    }
                 }
             }
         }
@@ -1427,6 +1549,11 @@ namespace MistakesLife.Core.Content
                     yield return new KeyValuePair<string, string>(housingType.Id, $"país {country.Id}");
                 }
 
+                foreach (ServiceOptionDefinition option in (country.Economy?.Services ?? new List<ServiceDefinition>()).SelectMany(s => s.Options))
+                {
+                    yield return new KeyValuePair<string, string>(option.Id, $"país {country.Id}");
+                }
+
                 foreach (GroceryBasketDefinition basket in country.Economy?.Groceries?.Baskets ?? new List<GroceryBasketDefinition>())
                 {
                     yield return new KeyValuePair<string, string>(basket.Id, $"país {country.Id}");
@@ -1513,6 +1640,29 @@ namespace MistakesLife.Core.Content
                 foreach (CareerPositionDefinition position in career.Positions.Concat(career.Areas.SelectMany(a => a.Positions ?? new List<CareerPositionDefinition>())))
                 {
                     yield return new KeyValuePair<string, string>(position.Id, $"carrera {career.Id}");
+                }
+            }
+
+            foreach (CountryDefinition country in _countries.Values)
+            {
+                foreach (string union in country.CivilUnions)
+                {
+                    yield return new KeyValuePair<string, string>(union, $"país {country.Id}");
+                }
+            }
+
+            foreach (CourtCaseDefinition courtCase in _courtCases.Values)
+            {
+                yield return new KeyValuePair<string, string>(courtCase.Id, $"causa {courtCase.Id}");
+                yield return new KeyValuePair<string, string>(courtCase.CourtKey, $"causa {courtCase.Id}");
+                foreach (CourtStageDefinition stage in courtCase.Stages)
+                {
+                    yield return new KeyValuePair<string, string>(stage.TextKey(courtCase.Id), $"causa {courtCase.Id}");
+                }
+
+                foreach (string outcome in courtCase.Outcomes)
+                {
+                    yield return new KeyValuePair<string, string>(courtCase.OutcomeTextKey(outcome), $"causa {courtCase.Id}");
                 }
             }
 
@@ -1703,6 +1853,21 @@ namespace MistakesLife.Core.Content
                     }
                 }
 
+                if (reference.Function == "." + CharacterObject.ContractMethod || reference.Function == EventScope.FeeFunction)
+                {
+                    string name = reference.Function.TrimStart('.');
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => (c.Economy?.Services ?? new List<ServiceDefinition>()).All(s => s.Option(reference.Argument) == null)))
+                    {
+                        _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene esa opción en economia.servicios. Todo país debe definir los servicios que usan los eventos."));
+                    }
+                }
+
+                if ((reference.Function == "." + CharacterObject.ServiceMethod || reference.Function == "." + CharacterObject.CancelServiceMethod)
+                    && CheckedCountries().Any(c => (c.Economy?.Services ?? new List<ServiceDefinition>()).All(s => s.Id != reference.Argument)))
+                {
+                    _errors.Add(new ContentError(where, $"{reference.Function.TrimStart('.')}('{reference.Argument}'): ese servicio no está en economia.servicios de todos los países."));
+                }
+
                 if (reference.Function == "." + CharacterObject.ChooseGroceriesMethod || reference.Function == EventScope.GroceriesFunction)
                 {
                     string name = reference.Function.TrimStart('.');
@@ -1756,6 +1921,33 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): ese correo no existe (packs/*/mail/)."));
                 }
 
+                if (reference.Function == EventScope.OpenCaseFunction || reference.Function == EventScope.CaseFunction || reference.Function == EventScope.CaseAtFunction)
+                {
+                    if (!_courtCases.TryGetValue(reference.Argument, out CourtCaseDefinition? courtCase))
+                    {
+                        _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): esa causa no existe (packs/*/courts/)."));
+                    }
+                    else if (reference.Function == EventScope.CaseAtFunction && (reference.SecondArgument == null || courtCase.Stage(reference.SecondArgument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}', '{reference.SecondArgument}'): esa causa no tiene esa etapa."));
+                    }
+                }
+
+                if (reference.Function == "." + CharacterObject.UniteMethod && !_countries.Values.Any(c => c.CivilUnions.Contains(reference.Argument)))
+                {
+                    _errors.Add(new ContentError(where, $"unirse('{reference.Argument}'): ningún país tiene esa unión (uniones_civiles)."));
+                }
+
+                if (reference.Function == ".cerrar" && _courtCases.Count > 0 && !_courtCases.Values.Any(c => c.Outcomes.Contains(reference.Argument)))
+                {
+                    _errors.Add(new ContentError(where, $"cerrar('{reference.Argument}'): ninguna causa tiene ese resultado."));
+                }
+
+                if (reference.Function == ".ir_a" && !_courtCases.Values.Any(c => c.Stage(reference.Argument) != null))
+                {
+                    _errors.Add(new ContentError(where, $"ir_a('{reference.Argument}'): ninguna causa tiene esa etapa."));
+                }
+
                 if (reference.Function == EventScope.RecentNewsFunction && !_news.ContainsKey(reference.Argument))
                 {
                     _errors.Add(new ContentError(where, $"{reference.Function}('{reference.Argument}'): esa noticia no existe."));
@@ -1779,6 +1971,32 @@ namespace MistakesLife.Core.Content
                 if (Array.IndexOf(MailDefinition.Topics, mail.Topic) < 0)
                 {
                     _errors.Add(new ContentError(where, $"tema '{mail.Topic}' no existe (usa {string.Join(", ", MailDefinition.Topics)})."));
+                }
+
+                mail.CompiledConditions = string.IsNullOrWhiteSpace(mail.Conditions) ? null : CompileCondition(where, mail.Conditions);
+                if (mail.Every != null)
+                {
+                    if (Array.IndexOf(MailDefinition.Periods, mail.Every) < 0)
+                    {
+                        _errors.Add(new ContentError(where, $"cada '{mail.Every}' no existe (usa {string.Join(", ", MailDefinition.Periods)})."));
+                    }
+
+                    if (string.IsNullOrWhiteSpace(mail.Conditions))
+                    {
+                        _errors.Add(new ContentError(where, "un correo con 'cada' necesita condiciones: tiene que venir de algo que el personaje tiene (nada se inventa)."));
+                    }
+
+                    if (mail.OnJournal.Count > 0)
+                    {
+                        _errors.Add(new ContentError(where, "usa 'cada' o 'al_anotar', no los dos."));
+                    }
+
+                    _periodicMails.Add(mail);
+                }
+
+                if (mail.InMonth.HasValue && (mail.Every != "anio" || mail.InMonth < 1 || mail.InMonth > 12))
+                {
+                    _errors.Add(new ContentError(where, "en_mes va de 1 a 12 y solo sirve con \"cada\": \"anio\"."));
                 }
 
                 if (mail.OnJournal.Count != mail.OnJournal.Distinct().Count())

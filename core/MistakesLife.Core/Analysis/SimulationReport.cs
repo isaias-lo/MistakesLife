@@ -28,6 +28,12 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Cuántas veces salió cada noticia en los últimos 12 años de cada vida (lo que el mundo recuerda).</summary>
         public SortedDictionary<string, int> NewsCount { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
 
+        /// <summary>Causas judiciales del jugador por tipo y resultado ("causa.x → divorcio").</summary>
+        public SortedDictionary<string, int> CourtCaseCount { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        /// <summary>Vidas que terminan unidas ante la ley (casadas o con unión civil).</summary>
+        public int UnitedAtEnd { get; set; }
+
         /// <summary>Semillas por tipo: plantadas, despertadas, resueltas y olvidadas.</summary>
         public SortedDictionary<string, SeedStats> Seeds { get; } = new SortedDictionary<string, SeedStats>(StringComparer.Ordinal);
 
@@ -257,6 +263,21 @@ namespace MistakesLife.Core.Analysis
                 foreach (var news in NewsCount.OrderByDescending(n => n.Value).ThenBy(n => n.Key, StringComparer.Ordinal))
                 {
                     sb.AppendLine($"| {news.Key} | {news.Value} | {((double)news.Value / Math.Max(1, Lives)).ToString("0.0", ci)} |");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("## Juzgados y vida civil");
+            sb.AppendLine();
+            sb.AppendLine($"- Terminan unidos ante la ley (casados o con unión civil, aunque estén separados o viudos): {Percent(UnitedAtEnd).ToString("0.0", ci)} %");
+            if (CourtCaseCount.Count > 0)
+            {
+                sb.AppendLine();
+                sb.AppendLine("| Causa → resultado | Veces en total | Por cada 100 vidas |");
+                sb.AppendLine("|---|---:|---:|");
+                foreach (var courtCase in CourtCaseCount.OrderByDescending(c => c.Value).ThenBy(c => c.Key, StringComparer.Ordinal))
+                {
+                    sb.AppendLine($"| {courtCase.Key} | {courtCase.Value} | {(100.0 * courtCase.Value / Math.Max(1, Lives)).ToString("0.0", ci)} |");
                 }
             }
 

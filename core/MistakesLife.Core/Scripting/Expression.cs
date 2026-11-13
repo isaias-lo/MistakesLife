@@ -60,7 +60,8 @@ namespace MistakesLife.Core.Scripting
             {
                 if (node is FunctionNode fn && fn.Args.Count > 0 && fn.Args[0] is LiteralNode lit && lit.Value.Kind == ValueKind.Text)
                 {
-                    yield return new ScriptReference(fn.Name, lit.Value.AsText(fn.Name));
+                    string? second = fn.Args.Count > 1 && fn.Args[1] is LiteralNode lit2 && lit2.Value.Kind == ValueKind.Text ? lit2.Value.AsText(fn.Name) : null;
+                    yield return new ScriptReference(fn.Name, lit.Value.AsText(fn.Name), second);
                 }
                 else if (node is MethodNode method && method.Args.Count > 0 && method.Args[0] is LiteralNode methodLit && methodLit.Value.Kind == ValueKind.Text)
                 {

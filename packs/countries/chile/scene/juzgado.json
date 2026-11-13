@@ -1,0 +1,5 @@
+[
+  { "id": "escena.casa.carta_tribunal", "lugar": "casa", "condiciones": "causas_abiertas() > 0" },
+  { "id": "escena.casa.sello_embargo", "lugar": "casa", "condiciones": "jugador.tiene('bienes_embargados')" },
+  { "id": "escena.casa.foto_matrimonio", "lugar": "casa", "condiciones": "jugador.union == 'union.chile.matrimonio' && !jugador.separado" }
+]

@@ -155,6 +155,22 @@ namespace MistakesLife.Core.Saving
             // 11 → 12: aparecen el celular y el correo. En las partidas viejas nadie
             // tiene: los eventos se los dan (los papás, comprarlo, crear el correo).
             [11] = save => { },
+
+            // 12 → 13: aparecen los servicios que contrata el jugador, y el plan del
+            // celular deja de ser un monto fijo. Las partidas viejas no tenían
+            // ninguno: el jugador elige su plan con los eventos, como alguien que recién empieza.
+            [12] = save => { },
+
+            // 13 → 14: llegan los juzgados (causas judiciales) y la unión civil de cada
+            // persona (casada o con unión civil). Los guardados viejos no tienen causas y
+            // nadie estaba unido ante la ley.
+            [13] = save =>
+            {
+                if (save["world"] is JObject world)
+                {
+                    world["courtCases"] ??= new JArray();
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>
