@@ -1,5 +1,20 @@
 # Hoja de ruta
 
+## Rediseño: volver al realismo (prioridad; detalle en `docs/rediseno-vida.md`)
+
+Mientras estas etapas no terminen, no se agregan funciones nuevas.
+
+| # | Tarea | Estado |
+|---|---|---|
+| R1 | Bocetos y acuerdo: barrio como pantalla principal, lo que quiero, tu horario, un momento, tu sala, una persona, futuros juntos, el error que vuelve y el cierre del año | Hecha |
+| R2 | Núcleo de la vida: calendario real, horario por etapa, avance "hasta lo importante" con momentos que detienen el tiempo, reglas propias y deseos v1 | Pendiente |
+| R3 | El colegio completo: curso con nombres y género, profes, ramos, pruebas como momentos, apoderados | Pendiente |
+| R4 | Errores que vuelven a la vista: escena de origen de cada semilla, "Esto viene de acá", volver al pasado frente al error, cierre del año | Pendiente |
+| R5 | Universidad, CFT e instituto | Pendiente |
+| R6 | El trabajo, y futuros juntos con una persona | Pendiente |
+| R7 | Pasar el contenido al nuevo modelo y regla de repeticiones | Pendiente |
+| R8 | Dinero creíble | Pendiente |
+
 ## Fase 1: núcleo en texto (vida de 0 a 25 años en Santiago)
 
 | # | Tarea | Estado |
@@ -111,7 +126,7 @@
 | U22 | Que el 2D cumpla el diseño (observaciones 11, 16 y 17 de la segunda prueba): tus cosas como objetos dibujados (billetera, celular con pantalla que se enciende, fotos de tu gente, reloj para volver al pasado) en vez de botones con nombre; la carta del evento ya no aparece dos veces (se movía antes de que Unity ordenara la pantalla); giro de 360° arrastrando el dedo sobre la maqueta, con los muros de adelante escondidos (`HomeScene.Orbit`, `OrbitPad`); tocar un objeto 3D abre su tema (`HomeScene.Pick`) | Hecha |
 | U23 | La carpeta del juzgado en pantalla (usa J1): una carpeta de cartulina `#D9B36E` en tus cosas (solo si tienes o tuviste una causa; el timbre en rojo si hay una abierta) que se abre encima de la vida, con cada causa en su hoja: RIT, tribunal, nombre, cuándo ingresó, timbre EN TRÁMITE o TERMINADA, cómo terminó y la línea del proceso (etapas que pasaron, la actual con en qué semana va de su plazo o si ya se pasó, y las que faltan con su plazo). Tocar la carta del tribunal o el sello de embargo en la casa 3D también la abre (cuando tengan su forma). `CourtScreen`, `Things.FolderThing`; captura `pantalla-juzgado.png`. Prueba nueva: todo texto `ui.*` que pide Unity existe en español | Hecha |
 | U24 | Mensajito, capa 2 de "Redes" (elegida por Isaias; regla "todo debe sentirse real"): en el celular, la app de mensajes con la lista de chats (foto con inicial, nombre, último mensaje, hace cuánto y globo verde de no vistos) y cada conversación con burbujas (blancas las de la otra persona, verdes las tuyas), separadores por día y abajo lo que puedes contestar. Solo escribe gente real de la vida del jugador (mamá, papá, pareja, hijos, amigos, colegas, rival, ex) y solo si siente lo que pide el mensaje: por algo que pasó (cumpleaños, nació un hijo, terminó con su pareja, murió alguien, se tituló, encontró trabajo, se fue de la casa, tembló) o porque se acordó de él (la mamá que pregunta si llegaste bien, la pareja que quiere verte, el amigo que se enfrió). Contestar mueve el cariño, la confianza, el respeto o el rencor; dejar en visto 2 semanas también. Contenido en `chats/` (46 mensajes, con variante de Argentina). En el núcleo `ChatSystem`, `ChatInbox`, `LifePresenter.Chats`, `Chat`, `ReplyChat`; guardado versión 17. El celular 3D se ilumina también con mensajes sin ver. Capturas `pantalla-mensajito.png` y `pantalla-chat.png`. Pendiente: escribirle tú primero a alguien (U24b) | Hecha |
-| U24b | Escribir tú primero en Mensajito (elegido por Isaias): botón "Nuevo chat" con la gente de tu vida (familia, pareja, amigos, colegas, rival, ex), y en cada conversación "¿Qué le escribes?" con lo que tiene sentido decirle a esa persona (preguntarle cómo está, invitarla a almorzar, pedirle perdón si hay rencor). La otra persona contesta la semana siguiente según lo que siente por ti, o te deja en "Visto". Contenido en `escribir/` (22 mensajes, con variante de Argentina). En el núcleo `ChatSystem.OpenersFor`, `Write`, `LifePresenter.ChatContacts`, `WriteChat`; guardado versión 18. El simulador también escribe primero de vez en cuando | En revisión |
+| U24b | Escribir tú primero en Mensajito (elegido por Isaias): botón "Nuevo chat" con la gente de tu vida (familia, pareja, amigos, colegas, rival, ex), y en cada conversación "¿Qué le escribes?" con lo que tiene sentido decirle a esa persona (preguntarle cómo está, invitarla a almorzar, pedirle perdón si hay rencor). La otra persona contesta la semana siguiente según lo que siente por ti, o te deja en "Visto". Contenido en `escribir/` (22 mensajes, con variante de Argentina). En el núcleo `ChatSystem.OpenersFor`, `Write`, `LifePresenter.ChatContacts`, `WriteChat`; guardado versión 18. El simulador también escribe primero de vez en cuando | Hecha |
 
 ## Lo que falta en el núcleo
 
