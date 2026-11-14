@@ -1,0 +1,193 @@
+[
+  {
+    "id": "evento.chile.elegir_prevision",
+    "condiciones": "jugador.edad >= 18 && jugador.tipo_trabajo == 'dependiente' && !jugador.tiene('eligio_prevision')",
+    "probabilidad_anual": 1,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.elegir_prevision.fonasa",
+        "tendencia": "40 + si(jugador.sueldo * 0.07 < precio(plan_salud('prevision.chile.isapre.preferente')), 40, 0)",
+        "efectos": [
+          "jugador.marcar('eligio_prevision')",
+          "jugador.afiliarse('prevision.chile.fonasa')"
+        ]
+      },
+      {
+        "texto": "opcion.elegir_prevision.isapre_preferente",
+        "condiciones": "!jugador.tiene('hipertension') && !jugador.tiene('diabetes') && !jugador.tiene('tuvo_cancer')",
+        "tendencia": "si(jugador.sueldo * 0.07 >= precio(plan_salud('prevision.chile.isapre.preferente')), 35, 4) + jugador.responsabilidad / 10",
+        "efectos": [
+          "jugador.marcar('eligio_prevision')",
+          "jugador.afiliarse('prevision.chile.isapre.preferente')",
+          "jugador.recibir_correo('correo.chile.salud.contrato_isapre')"
+        ]
+      },
+      {
+        "texto": "opcion.elegir_prevision.isapre_libre",
+        "condiciones": "!jugador.tiene('hipertension') && !jugador.tiene('diabetes') && !jugador.tiene('tuvo_cancer')",
+        "tendencia": "si(jugador.sueldo * 0.07 >= precio(plan_salud('prevision.chile.isapre.libre_eleccion')), 25, 2) + jugador.apertura / 10",
+        "efectos": [
+          "jugador.marcar('eligio_prevision')",
+          "jugador.afiliarse('prevision.chile.isapre.libre_eleccion')",
+          "jugador.recibir_correo('correo.chile.salud.contrato_isapre')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.isapre_sin_contrato",
+    "condiciones": "jugador.prevision_privada && jugador.tipo_trabajo != 'dependiente'",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 52,
+    "variantes": ["evento.chile.isapre_sin_contrato.2"],
+    "opciones": [
+      {
+        "texto": "opcion.isapre_sin_contrato.seguir",
+        "tendencia": "si(jugador.dinero > jugador.precio_plan_salud * 6, 45, 8) + jugador.responsabilidad / 10",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.isapre_sin_contrato.fonasa",
+        "tendencia": "45 + si(jugador.meses_en_rojo > 0, 35, 0)",
+        "efectos": [
+          "jugador.afiliarse('prevision.chile.fonasa')",
+          "diario('diario.salud.volvio_a_fonasa')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.isapre_sube_por_edad",
+    "condiciones": "jugador.prevision_privada && (jugador.edad == 35 || jugador.edad == 45 || jugador.edad == 55 || jugador.edad == 65)",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 104,
+    "efectos": [
+      "jugador.recibir_correo('correo.chile.salud.carta_adecuacion')"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.isapre_sube_por_edad.seguir",
+        "tendencia": "si(jugador.sueldo * 0.07 >= jugador.precio_plan_salud * 0.8, 55, 15)",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.isapre_sube_por_edad.preferente",
+        "condiciones": "jugador.prevision == 'prevision.chile.isapre.libre_eleccion'",
+        "tendencia": "25",
+        "efectos": [
+          "jugador.afiliarse('prevision.chile.isapre.preferente')"
+        ]
+      },
+      {
+        "texto": "opcion.isapre_sube_por_edad.fonasa",
+        "tendencia": "si(jugador.sueldo * 0.07 < jugador.precio_plan_salud * 0.6, 50, 15)",
+        "efectos": [
+          "jugador.afiliarse('prevision.chile.fonasa')",
+          "diario('diario.salud.volvio_a_fonasa')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.ofrecen_isapre",
+    "condiciones": "jugador.tiene('eligio_prevision') && !jugador.prevision_privada && jugador.tipo_trabajo == 'dependiente' && jugador.tramo_salud == 'prevision.chile.fonasa.tramo_d' && !jugador.tiene('hipertension') && !jugador.tiene('diabetes') && !jugador.tiene('tuvo_cancer')",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 3,
+    "opciones": [
+      {
+        "texto": "opcion.ofrecen_isapre.cambiarse",
+        "tendencia": "si(jugador.sueldo * 0.07 >= precio(plan_salud('prevision.chile.isapre.preferente')), 30, 3)",
+        "efectos": [
+          "jugador.afiliarse('prevision.chile.isapre.preferente')",
+          "jugador.recibir_correo('correo.chile.salud.contrato_isapre')"
+        ]
+      },
+      {
+        "texto": "opcion.ofrecen_isapre.quedarse",
+        "tendencia": "60",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.enfermarse",
+    "condiciones": "jugador.edad >= 18",
+    "probabilidad_anual": 0.6,
+    "enfriamiento_semanas": 12,
+    "variantes": ["evento.chile.enfermarse.2", "evento.chile.enfermarse.3"],
+    "opciones": [
+      {
+        "texto": "opcion.enfermarse.consultorio",
+        "condiciones": "jugador.puede_atenderse('atencion.chile.cesfam')",
+        "tendencia": "30 + si(jugador.dinero < precio(copago('atencion.chile.consulta_particular')) * 3, 30, 0)",
+        "efectos": [
+          "jugador.atenderse('atencion.chile.cesfam')",
+          "jugador.salud += 3",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.enfermarse.consulta_bono",
+        "condiciones": "!jugador.prevision_privada && jugador.tramo_salud != 'prevision.chile.fonasa.tramo_a'",
+        "tendencia": "15 + si(jugador.dinero > precio(copago('atencion.chile.consulta_particular')) * 10, 20, 0)",
+        "efectos": [
+          "jugador.atenderse('atencion.chile.consulta_particular')",
+          "jugador.recibir_correo('correo.chile.salud.bono_comprado')",
+          "jugador.salud += 4"
+        ]
+      },
+      {
+        "texto": "opcion.enfermarse.consulta_particular",
+        "condiciones": "jugador.prevision_privada || jugador.tramo_salud == 'prevision.chile.fonasa.tramo_a'",
+        "tendencia": "si(jugador.prevision_privada, 60, 5)",
+        "efectos": [
+          "jugador.atenderse('atencion.chile.consulta_particular')",
+          "jugador.salud += 4"
+        ]
+      },
+      {
+        "texto": "opcion.enfermarse.casa",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.salud -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.urgencia",
+    "condiciones": "jugador.edad >= 18",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 26,
+    "variantes": ["evento.chile.urgencia.2", "evento.chile.urgencia.3"],
+    "opciones": [
+      {
+        "texto": "opcion.urgencia.sapu",
+        "condiciones": "jugador.puede_atenderse('atencion.chile.sapu')",
+        "tendencia": "45 + si(jugador.dinero < precio(copago('atencion.chile.urgencia_clinica')) * 2, 30, 0)",
+        "efectos": [
+          "jugador.atenderse('atencion.chile.sapu')",
+          "jugador.salud += 2",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.urgencia.clinica",
+        "tendencia": "si(jugador.prevision_privada, 70, 10 + si(jugador.dinero > precio(copago('atencion.chile.urgencia_clinica')) * 10, 15, 0))",
+        "efectos": [
+          "jugador.atenderse('atencion.chile.urgencia_clinica')",
+          "jugador.salud += 4"
+        ]
+      },
+      {
+        "texto": "opcion.urgencia.aguantar",
+        "tendencia": "5 + (100 - jugador.responsabilidad) / 8",
+        "efectos": [
+          "jugador.salud -= 5"
+        ]
+      }
+    ]
+  }
+]

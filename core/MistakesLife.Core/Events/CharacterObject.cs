@@ -23,7 +23,8 @@ namespace MistakesLife.Core.Events
     /// area, cargo, cargo_anterior, ultimo_cargo, meses_en_cargo, desempeno (se puede cambiar),
     /// puede_ascender, caminos_ascenso, en_la_cima, busqueda, busca_en, semanas_buscando,
     /// postulaciones, entrevistas, rechazos, entrevista_pendiente, tiene_oferta, oferta_area,
-    /// oferta_negociada, oferta_mejorada, contacto, mensajes_sin_leer.
+    /// oferta_negociada, oferta_mejorada, contacto, mensajes_sin_leer,
+    /// prevision, prevision_privada, tramo_salud, precio_plan_salud, semanas_desde_atencion.
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada).
@@ -41,6 +42,7 @@ namespace MistakesLife.Core.Events
     /// dar_entrevista(puntos), aceptar_oferta(), negociar_oferta(), rechazar_oferta(), dejar_de_buscar(),
     /// dar_celular(), perder_celular(), instalar_app('app'), desinstalar_app('app'), tiene_app('app'),
     /// crear_correo(), recibir_correo('correo'),
+    /// afiliarse('previsión'), puede_atenderse('atención'), atenderse('atención'),
     /// hijos_en_casa_entre(desde, hasta) (hijos menores en su casa con esa edad, en años cumplidos).
     /// </summary>
     public sealed class CharacterObject : IScriptObject
@@ -103,6 +105,18 @@ namespace MistakesLife.Core.Events
 
         /// <summary>Método que une ante la ley a la persona con su pareja: la validación revisa que algún país tenga esa unión.</summary>
         public const string UniteMethod = "unirse";
+
+        /// <summary>Método para cambiarse de previsión de salud: la validación revisa que exista en el país.</summary>
+        public const string JoinHealthMethod = "afiliarse";
+
+        /// <summary>Método que pregunta si su previsión le deja atenderse ahí.</summary>
+        public const string CanAttendMethod = "puede_atenderse";
+
+        /// <summary>Método que paga una atención de salud: la validación revisa que exista en el país.</summary>
+        public const string AttendMethod = "atenderse";
+
+        /// <summary>Lo que vale jugador.semanas_desde_atencion si nunca se ha atendido.</summary>
+        public const int NeverAttendedWeeks = 9999;
 
         private readonly Character _character;
 
@@ -245,6 +259,20 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.Lease?.MonthsLeft ?? 0);
                 case "compra":
                     return TextOrNull(_character.GroceryBasketId);
+                case "prevision":
+                    return TextOrNull(Health(scope) is Content.HealthCareDefinition coverageRules ? Economy.HealthCareRules.Coverage(coverageRules, _character) : null);
+                case "prevision_privada":
+                    return Value.FromBool(Health(scope) is Content.HealthCareDefinition privateRules && Economy.HealthCareRules.PlanOf(privateRules, _character) != null);
+                case "tramo_salud":
+                    return TextOrNull(Health(scope) is Content.HealthCareDefinition tierRules
+                        ? Economy.HealthCareRules.Tier(tierRules, _character, MinimumWage(scope), PriceIndex(scope))
+                        : null);
+                case "precio_plan_salud":
+                    return Value.FromNumber((double)PlanPriceToday(scope));
+                case "semanas_desde_atencion":
+                    return Value.FromNumber(_character.LastHealthCareDate.HasValue
+                        ? ((EventScope)scope).World.Date.WeeksSince(_character.LastHealthCareDate.Value)
+                        : NeverAttendedWeeks);
                 case "cuentas_incluidas":
                     return Value.FromBool(_character.Lease != null
                         && (Economy.HousingRules.RulesFor(((EventScope)scope).Content, _character)?.Type(_character.Lease.TypeId)?.IncludesBills ?? false));
@@ -384,6 +412,26 @@ namespace MistakesLife.Core.Events
         {
             string? country = _character.Residence?.CountryId;
             return country == null ? null : ((EventScope)scope).Content.GetCountry(country).Economy?.Pensions;
+        }
+
+        /// <summary>El sistema de salud del país donde vive, o null.</summary>
+        private Content.HealthCareDefinition? Health(IScriptScope scope) =>
+            Economy.HealthCareRules.RulesFor(((EventScope)scope).Content, _character);
+
+        private double PriceIndex(IScriptScope scope) =>
+            _character.Residence == null ? 1 : ((EventScope)scope).World.EconomyOf(_character.Residence.CountryId)?.PriceIndex ?? 1;
+
+        private decimal MinimumWage(IScriptScope scope) =>
+            _character.Residence == null ? 0 : ((EventScope)scope).Content.GetCountry(_character.Residence.CountryId).Economy?.Salaries?.Minimum ?? 0;
+
+        /// <summary>Lo que cuesta al mes su plan privado a su edad, a precios de hoy (0 si está en la pública).</summary>
+        private decimal PlanPriceToday(IScriptScope scope)
+        {
+            Content.HealthCareDefinition? rules = Health(scope);
+            Content.HealthPlanDefinition? plan = rules == null ? null : Economy.HealthCareRules.PlanOf(rules, _character);
+            return plan == null
+                ? 0
+                : Economy.PayrollCalculator.ToToday(Economy.HealthCareRules.PlanPrice(rules!, plan, _character.AgeInYears(((EventScope)scope).World.Date)), PriceIndex(scope));
         }
 
         private static Value TextOrNull(string? text) => text == null ? Value.Null : Value.FromText(text);
@@ -705,6 +753,21 @@ namespace MistakesLife.Core.Events
                     string cancelled = EventScope.SingleText("jugador." + method, args);
                     ((EventScope)scope).RequireWritable("jugador." + method);
                     Economy.ServiceRules.Cancel(_character, cancelled);
+                    return Value.Null;
+                case JoinHealthMethod:
+                    string coverage = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Economy.HealthCareRules.Join(((EventScope)scope).Content, _character, coverage);
+                    return Value.Null;
+                case CanAttendMethod:
+                    string usable = EventScope.SingleText("jugador." + method, args);
+                    Content.HealthCareDefinition? usableRules = Health(scope);
+                    Content.HealthCareServiceDefinition? usableService = usableRules?.Service(usable);
+                    return Value.FromBool(usableRules != null && usableService != null && Economy.HealthCareRules.CanUse(usableRules, _character, usableService));
+                case AttendMethod:
+                    string attention = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Economy.HealthCareRules.Attend(((EventScope)scope).World, ((EventScope)scope).Content, _character, attention);
                     return Value.Null;
                 case ChooseGroceriesMethod:
                     string basket = EventScope.SingleText("jugador." + method, args);

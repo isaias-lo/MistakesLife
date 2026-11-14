@@ -346,8 +346,10 @@ namespace MistakesLife.Core.Tests
             int bytes = session.SaveToBytes().Length;
             // Con 10 fotos, una vida a los 85 pesa entre 73 y 86 KB según la vida (en main ya había
             // vidas sobre 80 KB). Mensajito suma unos 8 KB (hasta 12 chats de 15 mensajes, en cada
-            // foto). El tope deja margen para el contenido nuevo sin dejar que se dispare.
-            Assert.True(bytes < 100_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
+            // foto). La salud (S1) suma unos 8 KB en esta vida (de 92,8 a 101 KB): enfermarse y
+            // las urgencias pasan unas 50 veces en la vida y quedan en la historia de eventos.
+            // El tope deja margen para el contenido nuevo sin dejar que se dispare.
+            Assert.True(bytes < 110_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }
 
         [Fact]

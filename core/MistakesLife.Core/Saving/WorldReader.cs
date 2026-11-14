@@ -137,6 +137,8 @@ namespace MistakesLife.Core.Saving
                     MonthsSinceAdjustment = d.Lease.MonthsSinceAdjustment,
                 },
                 GroceryBasketId = d.GroceryBasketId,
+                HealthPlanId = d.HealthPlanId,
+                LastHealthCareDate = d.LastHealthCareWeek.HasValue ? Date(d.LastHealthCareWeek.Value) : (GameDate?)null,
                 PensionFund = d.PensionFund,
                 ContributedMonths = d.ContributedMonths,
                 PensionSalaryBase = d.PensionSalaryBase,

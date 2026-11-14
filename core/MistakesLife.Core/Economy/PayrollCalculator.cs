@@ -12,7 +12,19 @@ namespace MistakesLife.Core.Economy
     /// </summary>
     public static class PayrollCalculator
     {
-        public static Payslip Compute(GameDate date, JobKind kind, decimal gross, PayrollDefinition rules, double priceIndex)
+        public static Payslip Compute(GameDate date, JobKind kind, decimal gross, PayrollDefinition rules, double priceIndex) =>
+            Compute(date, kind, gross, rules, priceIndex, null, null, 0);
+
+        /// <summary>
+        /// Igual, para quien tiene un plan de salud privado que cuesta
+        /// <paramref name="healthPlanPrice"/> al mes (a precios de hoy): si la cotización
+        /// de salud (<paramref name="healthDeductionId"/>) no alcanza, el empleador
+        /// descuenta también la diferencia en la línea <paramref name="healthExtraId"/>.
+        /// Esa diferencia rebaja el impuesto solo hasta la tasa de salud sobre el tope
+        /// imponible (en Chile, el 7 % de 87,8 UF), como dice la ley.
+        /// </summary>
+        public static Payslip Compute(GameDate date, JobKind kind, decimal gross, PayrollDefinition rules, double priceIndex,
+            string? healthDeductionId, string? healthExtraId, decimal healthPlanPrice)
         {
             var lines = new List<PayslipLine>();
             decimal taxable = gross;
@@ -28,6 +40,19 @@ namespace MistakesLife.Core.Economy
                 if (deduction.ReducesTax)
                 {
                     taxable -= amount;
+                }
+
+                if (kind == JobKind.Employee && deduction.Id == healthDeductionId && healthExtraId != null && healthPlanPrice > amount)
+                {
+                    decimal extra = healthPlanPrice - amount;
+                    lines.Add(new PayslipLine(healthExtraId, extra));
+                    if (deduction.ReducesTax)
+                    {
+                        decimal room = deduction.Cap.HasValue
+                            ? Math.Max(0, Round(ToToday(deduction.Cap.Value, priceIndex) * (decimal)deduction.Rate) - amount)
+                            : extra;
+                        taxable -= Math.Min(extra, room);
+                    }
                 }
             }
 

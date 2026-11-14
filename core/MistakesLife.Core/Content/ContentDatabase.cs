@@ -847,6 +847,10 @@ namespace MistakesLife.Core.Content
                 ValidateHousing($"{where}, economia.vivienda", country);
                 ValidateGroceries($"{where}, economia.supermercado", country.Economy.Groceries);
                 ValidateServices($"{where}, economia.servicios", country.Economy.Services);
+                if (country.Economy.HealthCare != null)
+                {
+                    ValidateHealthCare($"{where}, economia.salud", country.Economy);
+                }
                 if (country.Economy.Companies != null)
                 {
                     ValidateCompanies($"{where}, economia.empresas", country.Economy.Companies);
@@ -866,6 +870,76 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));
                 }
+            }
+        }
+
+        private void ValidateHealthCare(string where, EconomyDefinition economy)
+        {
+            HealthCareDefinition health = economy.HealthCare!;
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            CheckId(where, health.PublicId, "prevision.");
+            seen.Add(health.PublicId);
+            CheckId($"{where}, sin_ingresos", health.NoIncomeTierId, health.PublicId + ".");
+            CheckUnique($"{where}, sin_ingresos", health.NoIncomeTierId, seen);
+            if (health.Tiers.Count == 0)
+            {
+                _errors.Add(new ContentError($"{where}, tramos", "la previsión pública necesita al menos un tramo."));
+            }
+
+            for (int i = 0; i < health.Tiers.Count; i++)
+            {
+                HealthTierDefinition tier = health.Tiers[i];
+                string tierWhere = $"{where}, tramos, {tier.Id}";
+                CheckId(tierWhere, tier.Id, health.PublicId + ".");
+                CheckUnique(tierWhere, tier.Id, seen);
+                bool last = i == health.Tiers.Count - 1;
+                if (last != !tier.UpToMinimumWages.HasValue
+                    || (tier.UpToMinimumWages.HasValue && (tier.UpToMinimumWages <= 0 || (i > 0 && tier.UpToMinimumWages <= health.Tiers[i - 1].UpToMinimumWages))))
+                {
+                    _errors.Add(new ContentError(tierWhere, "hasta_sueldos_minimos va en todos los tramos menos el último, mayor que 0 y de menor a mayor."));
+                }
+            }
+
+            foreach (HealthPlanDefinition plan in health.Plans)
+            {
+                string planWhere = $"{where}, planes, {plan.Id}";
+                CheckId(planWhere, plan.Id, "prevision.");
+                CheckUnique(planWhere, plan.Id, seen);
+                if (plan.BasePrice < 0 || plan.Coverage < 0 || plan.Coverage > 1)
+                {
+                    _errors.Add(new ContentError(planWhere, "precio_base no negativo y cobertura de 0 a 1."));
+                }
+            }
+
+            for (int i = 0; i < health.AgeFactors.Count; i++)
+            {
+                HealthAgeFactorDefinition band = health.AgeFactors[i];
+                if (band.Factor <= 0 || band.FromAge < 0 || (i > 0 && band.FromAge <= health.AgeFactors[i - 1].FromAge))
+                {
+                    _errors.Add(new ContentError($"{where}, factores_edad", "cada factor mayor que 0, con edades desde 0 y de menor a mayor."));
+                }
+            }
+
+            foreach (HealthCareServiceDefinition service in health.Services)
+            {
+                string serviceWhere = $"{where}, atenciones, {service.Id}";
+                CheckId(serviceWhere, service.Id, "atencion.");
+                CheckUnique(serviceWhere, service.Id, seen);
+                if (service.Price < 0 || service.PublicCopay < 0)
+                {
+                    _errors.Add(new ContentError(serviceWhere, "precio y bono_publico no pueden ser negativos."));
+                }
+            }
+
+            if (!economy.Payroll.Employee.Any(d => d.Id == health.DeductionId))
+            {
+                _errors.Add(new ContentError($"{where}, descuento", $"'{health.DeductionId}' no está en economia.liquidacion.dependiente."));
+            }
+
+            CheckId($"{where}, descuento_adicional", health.ExtraDeductionId, "descuento.");
+            if (health.FreelanceRate < 0 || health.FreelanceRate > 1)
+            {
+                _errors.Add(new ContentError($"{where}, cotizacion_honorarios", "va de 0 a 1."));
             }
         }
 
@@ -1587,6 +1661,16 @@ namespace MistakesLife.Core.Content
                     }
                 }
 
+                HealthCareDefinition? health = country.Economy?.HealthCare;
+                if (health != null)
+                {
+                    foreach (string id in new[] { health.PublicId, health.NoIncomeTierId, health.ExtraDeductionId }
+                        .Concat(health.Tiers.Select(t => t.Id)).Concat(health.Plans.Select(p => p.Id)).Concat(health.Services.Select(a => a.Id)))
+                    {
+                        yield return new KeyValuePair<string, string>(id, $"país {country.Id}");
+                    }
+                }
+
                 foreach (ExpenseDefinition expense in country.Economy?.Expenses?.Categories ?? new List<ExpenseDefinition>())
                 {
                     yield return new KeyValuePair<string, string>(expense.Id, $"país {country.Id}");
@@ -1907,6 +1991,26 @@ namespace MistakesLife.Core.Content
                     foreach (CountryDefinition country in CheckedCountries().Where(c => (c.Economy?.Services ?? new List<ServiceDefinition>()).All(s => s.Option(reference.Argument) == null)))
                     {
                         _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene esa opción en economia.servicios. Todo país debe definir los servicios que usan los eventos."));
+                    }
+                }
+
+                if (reference.Function == "." + CharacterObject.JoinHealthMethod || reference.Function == EventScope.HealthPlanFunction)
+                {
+                    string name = reference.Function.TrimStart('.');
+                    bool needsPlan = reference.Function == EventScope.HealthPlanFunction;
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.HealthCare == null
+                        || (c.Economy.HealthCare.Plan(reference.Argument) == null && (needsPlan || c.Economy.HealthCare.PublicId != reference.Argument))))
+                    {
+                        _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene esa previsión en economia.salud. Todo país debe definir las previsiones que usan los eventos."));
+                    }
+                }
+
+                if (reference.Function == "." + CharacterObject.AttendMethod || reference.Function == "." + CharacterObject.CanAttendMethod || reference.Function == EventScope.CopayFunction)
+                {
+                    string name = reference.Function.TrimStart('.');
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.HealthCare?.Service(reference.Argument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene esa atención en economia.salud.atenciones. Todo país debe definir las atenciones que usan los eventos."));
                     }
                 }
 

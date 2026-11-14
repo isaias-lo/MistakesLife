@@ -53,6 +53,12 @@ namespace MistakesLife.Core.Events
 
         public const string FeeFunction = "tarifa";
 
+        /// <summary>plan_salud('prevision.x'): lo que costaría al mes ese plan privado a su edad, en dinero del inicio del mundo.</summary>
+        public const string HealthPlanFunction = "plan_salud";
+
+        /// <summary>copago('atencion.x'): lo que pagaría por esa atención con su previsión, en dinero del inicio del mundo.</summary>
+        public const string CopayFunction = "copago";
+
         /// <summary>Funciones que leen los sueldos del país: todo país debe tener "economia.sueldos" si un evento las usa.</summary>
         public static readonly IReadOnlyCollection<string> SalaryNames = new[]
         {
@@ -65,6 +71,7 @@ namespace MistakesLife.Core.Events
             "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
             PriceFunction + "()", ChangeInflationFunction + "()", ChangeCycleFunction + "()",
             MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()", RentFunction + "()", GroceriesFunction + "()", FeeFunction + "()",
+            HealthPlanFunction + "()", CopayFunction + "()",
             RecentNewsFunction + "()", OpenCaseFunction + "()", CaseFunction + "()", CaseAtFunction + "()", OpenCasesFunction + "()",
         };
 
@@ -179,6 +186,10 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber((double)Economy.HousingRules.MarketRent(Content, Subject, SingleText(name, args)));
                 case FeeFunction:
                     return Value.FromNumber((double)Economy.ServiceRules.Price(Content, Subject, SingleText(name, args), name));
+                case HealthPlanFunction:
+                    return Value.FromNumber((double)HealthPlanPrice(SingleText(name, args)));
+                case CopayFunction:
+                    return Value.FromNumber((double)Copay(SingleText(name, args)));
                 case GroceriesFunction:
                     return Value.FromNumber((double)Economy.GroceryRules.MonthlyShare(World, Content, Subject, SingleText(name, args)));
                 case ChangeInflationFunction:
@@ -324,6 +335,28 @@ namespace MistakesLife.Core.Events
             return courtCase != null && courtCase.IsOpen
                 && definition.Stages[courtCase.StageIndex].Id == stageId
                 && new CourtCaseObject(this, definition).IsReady(courtCase);
+        }
+
+        private HealthCareDefinition HealthRules(string function, string id) =>
+            Economy.HealthCareRules.RulesFor(Content, Subject)
+            ?? throw new ScriptException($"{function}('{id}'): el país de {Subject} no tiene sistema de salud (economia.salud).");
+
+        private decimal HealthPlanPrice(string planId)
+        {
+            HealthCareDefinition rules = HealthRules(HealthPlanFunction, planId);
+            HealthPlanDefinition plan = rules.Plan(planId)
+                ?? throw new ScriptException($"{HealthPlanFunction}('{planId}'): su país no tiene ese plan en economia.salud.planes.");
+            return Economy.HealthCareRules.PlanPrice(rules, plan, Subject.AgeInYears(World.Date));
+        }
+
+        private decimal Copay(string serviceId)
+        {
+            HealthCareDefinition rules = HealthRules(CopayFunction, serviceId);
+            HealthCareServiceDefinition service = rules.Service(serviceId)
+                ?? throw new ScriptException($"{CopayFunction}('{serviceId}'): su país no tiene esa atención en economia.salud.atenciones.");
+            double index = World.EconomyOf(Subject.Residence!.CountryId)?.PriceIndex ?? 1;
+            decimal minimum = SubjectCountry().Economy?.Salaries?.Minimum ?? 0;
+            return Economy.HealthCareRules.Copay(rules, Subject, service, minimum, index);
         }
 
         private SalaryDefinition Salaries()

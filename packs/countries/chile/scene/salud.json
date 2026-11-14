@@ -1,0 +1,4 @@
+[
+  { "id": "escena.casa.bono_y_receta", "lugar": "casa", "condiciones": "jugador.semanas_desde_atencion <= 4" },
+  { "id": "escena.casa.carpeta_isapre", "lugar": "casa", "condiciones": "jugador.prevision_privada" }
+]

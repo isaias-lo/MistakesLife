@@ -12,7 +12,8 @@ namespace MistakesLife.Core.Economy
     /// <summary>
     /// Fase de sistemas, después de los sueldos: al empezar cada mes el jugador
     /// paga el arriendo del contrato que firmó (si arrienda), la compra de comida
-    /// que eligió (si vive por su cuenta), los servicios que contrató y los gastos de su
+    /// que eligió (si vive por su cuenta), los servicios que contrató, su plan de salud
+    /// privado si no tiene contrato que lo descuente, y los gastos de su
     /// país ("economia.gastos") que le corresponden según su vida (con condiciones
     /// del lenguaje; algunos son plata que recibe, como una pensión de alimentos).
     /// Los gastos compartidos se dividen
@@ -112,6 +113,18 @@ namespace MistakesLife.Core.Economy
                 {
                     lines.Add(new PayslipLine(optionId, fee));
                     player.Money -= fee;
+                }
+            }
+
+            HealthCareDefinition? health = _content.GetCountry(player.Residence.CountryId).Economy?.HealthCare;
+            if (health != null && player.HealthPlanId != null)
+            {
+                // El plan de salud privado: sin contrato nadie lo descuenta del sueldo, lo paga el jugador.
+                decimal plan = HealthCareRules.MonthlyPlanCharge(health, player, context.Date, economy.PriceIndex);
+                if (plan > 0)
+                {
+                    lines.Add(new PayslipLine(player.HealthPlanId, plan));
+                    player.Money -= plan;
                 }
             }
 

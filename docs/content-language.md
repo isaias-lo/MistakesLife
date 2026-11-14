@@ -239,6 +239,39 @@ Lo que se paga cada mes porque el jugador lo **contrató** (el plan del celular;
 - Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) `servicio.internet` (basico, rapido; compartido) `servicio.cuentas` (cuidando, normal, sin_cuidar: luz, agua y gas; compartido; no se cobra si el arriendo incluye las cuentas) `servicio.jardin_hijos` (en_casa, publico, particular; por cada hijo de 0 a 3 años; compartido) `servicio.colegio_hijos` (gratuito, copago, particular; por cada hijo de 4 a 17 años; compartido) y, solo en Chile, `servicio.personales` (austero, normal, gustos: ropa, salidas y cuidado personal).
 - Todo país debe tener los servicios y opciones que usan los eventos.
 
+#### Salud (`economia.salud`)
+
+El sistema de salud del país: una previsión **pública** con tramos según lo que gana cada uno, **planes privados** que el jugador puede contratar, y lo que cuesta cada **atención** según la previsión. Todos empiezan en la pública (en Chile, Fonasa); nadie paga un plan que no contrató.
+
+```json
+"salud": {
+  "publico": "prevision.chile.fonasa",
+  "sin_ingresos": "prevision.chile.fonasa.tramo_a",
+  "tramos": [
+    { "id": "prevision.chile.fonasa.tramo_b", "hasta_sueldos_minimos": 1 },
+    { "id": "prevision.chile.fonasa.tramo_c", "hasta_sueldos_minimos": 1.46 },
+    { "id": "prevision.chile.fonasa.tramo_d" }
+  ],
+  "descuento": "descuento.chile.salud",
+  "descuento_adicional": "descuento.chile.salud_adicional",
+  "cotizacion_honorarios": 0.056,
+  "planes": [ { "id": "prevision.chile.isapre.preferente", "precio_base": 80614, "cobertura": 0.9 } ],
+  "factores_edad": [ { "desde": 0, "factor": 0.6 }, { "desde": 25, "factor": 1.0 }, { "desde": 65, "factor": 2.4 } ],
+  "atenciones": [
+    { "id": "atencion.chile.cesfam", "precio": 0, "solo_publico": true },
+    { "id": "atencion.chile.consulta_particular", "precio": 32500, "bono_publico": 7440 }
+  ]
+}
+```
+
+- `publico` y `sin_ingresos`: la previsión pública y su tramo para quien no tiene ingresos con cotizaciones (sin trabajo o informal, sin pensión). Los ids de los tramos empiezan con el id de la previsión pública.
+- `tramos`: de menor a mayor; cada uno llega `hasta_sueldos_minimos` veces el sueldo mínimo de ingreso (el sueldo de un trabajo con contrato u honorarios, o la pensión). El último no lleva tope.
+- `descuento`: la cotización de salud de `economia.liquidacion.dependiente`. Con un plan privado más caro que esa cotización, el empleador descuenta también la diferencia en la línea `descuento_adicional`, que rebaja el impuesto solo hasta la tasa de salud sobre el tope imponible.
+- `cotizacion_honorarios`: la parte de lo boleteado que ya va a salud con la retención. Quien trabaja a honorarios con un plan privado paga aparte, en los gastos del mes, solo lo que falta; sin trabajo o informal, el plan entero (con el id del plan como línea).
+- `planes`: los planes privados, con su `precio_base` al mes (dinero del inicio del mundo) y la `cobertura` de cada atención (0,9 = paga el 90 %). El precio del plan es el precio base por el factor de la edad (`factores_edad`, desde esa edad).
+- `atenciones`: lo que cuesta cada una sin cobertura (`precio`). Con un plan privado se paga el precio menos lo que cubre el plan; en la pública con ingresos se paga el `bono_publico` (si falta, el precio); en el tramo sin ingresos no se compran bonos y se paga el precio. `solo_publico`: solo la usa quien está en la pública (el consultorio). Ids `atencion.<país>.<nombre>`.
+- Todos los ids (previsión, tramos, planes, atenciones y `descuento_adicional`) necesitan su texto en `lang/`.
+
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
 
 ```json
@@ -634,6 +667,8 @@ Para que la escena 3D cambie con la vida, un paquete puede traer objetos en `sce
 | `lugar` | `casa`, `barrio` o `trabajo` |
 | `condiciones` | Cuándo se ve (obligatorio). Las decisiones se pueden conectar con marcas: un efecto `jugador.marcar('tiene_perro')` y un objeto con `jugador.tiene('tiene_perro')` |
 
+Los objetos de la salud (paquete de Chile): `escena.casa.bono_y_receta` (se atendió en las últimas 4 semanas) y `escena.casa.carpeta_isapre` (tiene un plan de isapre).
+
 Los objetos que vienen de las noticias (paquete de Chile): `escena.casa.mochila_emergencia` (armó la mochila), `escena.casa.grietas` (dejó la casa sin reparar después del terremoto), `escena.casa.velas` (temporal de las últimas 2 semanas) y `escena.barrio.escombros` (terremoto de los últimos 3 meses).
 
 Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cartas de rechazo (desde 2 entrevistas sin quedar), ropa de entrevista (con una entrevista u oferta pendiente), celular (si tiene) y su aviso encendido (`escena.casa.celular_avisos`, con correos sin leer), cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo y mecedora. Además, Unity nubla el cielo cuando la felicidad baja.
@@ -808,6 +843,14 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.contratar('opción')`, `jugador.cancelar_servicio('servicio')` | Contrata esa opción (cambia la que tenía del mismo servicio) o deja de pagar el servicio (solo efectos) |
 | `jugador.servicio('servicio.celular')` | La opción que tiene contratada de ese servicio, o `nada` |
 | `jugador.compra` | La compra de comida que eligió, o `nada` si todavía no decide |
+| `jugador.prevision`, `jugador.prevision_privada` | Su previsión de salud (`'prevision.chile.fonasa'` o el id del plan privado), o `nada` si su país no tiene `economia.salud`; y si tiene un plan privado |
+| `jugador.tramo_salud` | El tramo de la previsión pública que le toca por lo que gana (`'prevision.chile.fonasa.tramo_b'`), aunque tenga un plan privado |
+| `jugador.precio_plan_salud` | Lo que cuesta al mes su plan privado a su edad, a precios de hoy (0 en la pública) |
+| `plan_salud('prevision.x')` | Lo que costaría al mes ese plan a su edad, en dinero del inicio del mundo (para comparar: `jugador.sueldo * 0.07 >= precio(plan_salud('prevision.chile.isapre.preferente'))`) |
+| `jugador.afiliarse('prevision.x')` | Se cambia a ese plan privado o vuelve a la pública con su id (solo efectos) |
+| `copago('atencion.x')`, `jugador.puede_atenderse('atencion.x')` | Lo que pagaría por esa atención con su previsión (dinero del inicio del mundo), y si su previsión le deja atenderse ahí |
+| `jugador.atenderse('atencion.x')` | Se atiende: paga el copago (queda en la cartola del mes) y se anota la fecha. Es un error si no puede atenderse ahí (solo efectos) |
+| `jugador.semanas_desde_atencion` | Semanas desde su última atención (9999 si nunca) |
 | `jugador.arrendar('tipo')` | Firma un contrato de ese tipo de vivienda en su comuna: deja la garantía (y recupera la del contrato anterior, si tenía) y vive por su cuenta (solo efectos) |
 | `jugador.renovar_arriendo()`, `jugador.dejar_arriendo()` | Renueva el contrato por otro plazo, o lo deja: recupera la garantía y vuelve a vivir con su familia (solo efectos) |
 | `jugador.vivienda`, `jugador.arriendo`, `jugador.meses_contrato`, `jugador.cuentas_incluidas` | Tipo de vivienda que arrienda (o `nada`), lo que paga al mes a precios de hoy, los meses que le quedan al contrato y si el arriendo trae las cuentas |

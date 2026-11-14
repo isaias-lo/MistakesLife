@@ -221,6 +221,18 @@ namespace MistakesLife.Core.Saving
             // jugador). En las partidas viejas nadie tiene chats: empiezan la próxima
             // semana, sin mensajes por cosas de antes.
             [16] = save => { },
+
+            // 17 → 18: aparece la previsión de salud (Fonasa o un plan de isapre) y la
+            // última atención. En las partidas viejas todos están en la previsión pública,
+            // como cualquiera que nunca firmó con una isapre, y nadie se ha atendido.
+            [17] = save =>
+            {
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    character["healthPlanId"] ??= JValue.CreateNull();
+                    character["lastHealthCareWeek"] ??= JValue.CreateNull();
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

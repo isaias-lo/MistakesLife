@@ -249,22 +249,33 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Casa_JovenSinPareja_SigueConSusPadres()
         {
-            LifePresenter presenter = NewGame(7);
-            while (presenter.Snapshot().AgeInYears < 20 && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir)
+            // La primera vida (desde la 7) que llega a los 20 viva y sin pareja: cuál es
+            // depende del azar de los eventos, que cambia cuando llegan eventos nuevos.
+            LifePresenter? found = null;
+            for (ulong seed = 7; seed < 40 && found == null; seed++)
             {
-                if (presenter.Phase == LifePhase.Choosing)
+                LifePresenter candidate = NewGame(seed);
+                while (candidate.Snapshot().AgeInYears < 20 && candidate.Phase != LifePhase.Over && candidate.Phase != LifePhase.ChoosingHeir)
                 {
-                    presenter.Choose(0);
+                    if (candidate.Phase == LifePhase.Choosing)
+                    {
+                        candidate.Choose(0);
+                    }
+                    else
+                    {
+                        candidate.AdvanceWeek();
+                    }
                 }
-                else
+
+                if (candidate.Session.World.Player.IsAlive && candidate.Session.World.Player.PartnerId == null)
                 {
-                    presenter.AdvanceWeek();
+                    found = candidate;
                 }
             }
 
+            Assert.NotNull(found);
+            LifePresenter presenter = found!;
             var player = presenter.Session.World.Player;
-            Assert.True(player.IsAlive);
-            Assert.Null(player.PartnerId);
             HomeView home = presenter.Snapshot().Home;
             bool motherAlive = player.MotherId.HasValue && presenter.Session.World.GetCharacter(player.MotherId.Value).IsAlive;
             Assert.Equal(motherAlive, home.Members.Any(m => m.Relation == "Mamá"));

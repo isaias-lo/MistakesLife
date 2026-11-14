@@ -173,6 +173,32 @@
         { "id": "servicio.personales.gustos", "precio": 165800 }
       ] }
     ],
+    "salud": {
+      "publico": "prevision.chile.fonasa",
+      "sin_ingresos": "prevision.chile.fonasa.tramo_a",
+      "tramos": [
+        { "id": "prevision.chile.fonasa.tramo_b", "hasta_sueldos_minimos": 1 },
+        { "id": "prevision.chile.fonasa.tramo_c", "hasta_sueldos_minimos": 1.46 },
+        { "id": "prevision.chile.fonasa.tramo_d" }
+      ],
+      "descuento": "descuento.chile.salud",
+      "descuento_adicional": "descuento.chile.salud_adicional",
+      "cotizacion_honorarios": 0.056,
+      "planes": [
+        { "id": "prevision.chile.isapre.preferente", "precio_base": 80614, "cobertura": 0.9 },
+        { "id": "prevision.chile.isapre.libre_eleccion", "precio_base": 112860, "cobertura": 0.7 }
+      ],
+      "factores_edad": [
+        { "desde": 0, "factor": 0.6 }, { "desde": 20, "factor": 0.9 }, { "desde": 25, "factor": 1.0 }, { "desde": 35, "factor": 1.3 },
+        { "desde": 45, "factor": 1.4 }, { "desde": 55, "factor": 2.0 }, { "desde": 65, "factor": 2.4 }
+      ],
+      "atenciones": [
+        { "id": "atencion.chile.cesfam", "precio": 0, "solo_publico": true },
+        { "id": "atencion.chile.sapu", "precio": 0, "solo_publico": true },
+        { "id": "atencion.chile.consulta_particular", "precio": 32500, "bono_publico": 7440 },
+        { "id": "atencion.chile.urgencia_clinica", "precio": 54450 }
+      ]
+    },
       "gastos": {
       "edad_desde": 18,
       "felicidad_en_rojo": 1,
