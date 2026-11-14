@@ -92,6 +92,52 @@ namespace MistakesLife.Core.Content
         [JsonProperty("opciones_carreras")]
         public bool CareerOptions { get; set; }
 
+        /// <summary>
+        /// Con quién pasa el momento: un lugar en la vida del jugador (madre, padre,
+        /// pareja, hijo, amigo, colega, rival, ex). Al ocurrir se elige a una persona
+        /// de verdad, con nombre, y en el evento se le habla como "persona"
+        /// (por ejemplo "persona.carino += 3"). Si no hay nadie así, el evento no pasa.
+        /// En los textos, {persona} se cambia por su nombre. Opcional.
+        /// </summary>
+        [JsonProperty("con")]
+        public string? With { get; set; }
+
+        /// <summary>Dónde pasa el momento: la clave de un lugar con nombre ("lugar.plaza"). Opcional.</summary>
+        [JsonProperty("lugar")]
+        public string? Place { get; set; }
+
+        /// <summary>
+        /// Si se indica, el momento nace de tu horario: solo pasa si esa actividad está
+        /// en tu semana, y es más probable mientras más veces la tengas.
+        /// <see cref="AnnualProbability"/> es la probabilidad en un año haciéndola una vez por semana.
+        /// </summary>
+        [JsonProperty("actividad")]
+        public string? Activity { get; set; }
+
+        /// <summary>
+        /// Si se indica, el momento tiene fecha: "24-12" (día-mes) pasa la semana de ese día,
+        /// y "cumpleanos" pasa la semana del cumpleaños de la persona (pide "con").
+        /// Pasa como mucho una vez al año. Si además tiene <see cref="AnnualProbability"/>,
+        /// esa es la probabilidad de que ese año se viva como momento.
+        /// </summary>
+        [JsonProperty("fecha")]
+        public string? Date { get; set; }
+
+        /// <summary>Valor de "fecha" para los cumpleaños.</summary>
+        public const string BirthdayDate = "cumpleanos";
+
+        /// <summary>Si la fecha es el cumpleaños de la persona.</summary>
+        [JsonIgnore]
+        public bool OnBirthday => Date == BirthdayDate;
+
+        /// <summary>El día del año (desde 0) de una fecha fija como "24-12"; null si no tiene o es un cumpleaños.</summary>
+        [JsonIgnore]
+        public int? FixedDayOfYear { get; internal set; }
+
+        /// <summary>Si es un momento que nace del horario o del calendario (no compite al azar con los demás eventos).</summary>
+        [JsonIgnore]
+        public bool IsScheduled => Activity != null || Date != null;
+
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
 

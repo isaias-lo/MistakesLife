@@ -66,6 +66,35 @@ namespace MistakesLife.Core.Time
 
         private int WeekIndexInYear => TotalWeeks % WeeksPerYear;
 
+        /// <summary>
+        /// Si el día del año <paramref name="dayOfYear"/> (desde 0) cae en esta semana.
+        /// El 31 de diciembre cae en la última semana del año.
+        /// </summary>
+        public bool ContainsDayOfYear(int dayOfYear) => Math.Min(dayOfYear / 7, WeeksPerYear - 1) == WeekIndexInYear;
+
+        /// <summary>Si esta semana es la misma semana del año que <paramref name="other"/> (por ejemplo, la del cumpleaños).</summary>
+        public bool SameWeekOfYear(GameDate other) => WeekIndexInYear == other.WeekIndexInYear;
+
+        /// <summary>
+        /// El día del año (desde 0) de un día y un mes (1 a 12). Null si esa fecha no existe
+        /// (por ejemplo, 30 de febrero).
+        /// </summary>
+        public static int? DayOfYearOf(int day, int month)
+        {
+            if (month < 1 || month > 12 || day < 1 || day > DaysInMonth[month - 1])
+            {
+                return null;
+            }
+
+            int total = day - 1;
+            for (int m = 0; m < month - 1; m++)
+            {
+                total += DaysInMonth[m];
+            }
+
+            return total;
+        }
+
         private static int MonthOfDay(int dayOfYear)
         {
             int month = 0;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Scripting;
+using MistakesLife.Core.Time;
 using Newtonsoft.Json;
 
 namespace MistakesLife.Core.Content
@@ -601,6 +602,8 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, "las variantes no pueden estar vacías ni repetir el texto principal u otra variante."));
                 }
 
+                ValidateMoment(where, ev);
+
                 if (ev.SeedType != null)
                 {
                     if (_seedTypes.TryGetValue(ev.SeedType, out SeedTypeDefinition? seedType))
@@ -754,6 +757,14 @@ namespace MistakesLife.Core.Content
 
             string where = $"país {country.Id}";
             CheckId(where, country.Id, "pais.");
+            if (country.SchoolYearStart != null)
+            {
+                country.SchoolYearStartDay = ParseDayMonth(country.SchoolYearStart);
+                if (country.SchoolYearStartDay == null)
+                {
+                    _errors.Add(new ContentError(where, $"inicio_ano_escolar '{country.SchoolYearStart}' no se entiende: usa día-mes, por ejemplo \"04-03\"."));
+                }
+            }
             if (country.BirthWeight < 0)
             {
                 _errors.Add(new ContentError(where, "peso_nacimiento no puede ser negativo (0: solo se nace ahí si se elige)."));
@@ -1790,6 +1801,11 @@ namespace MistakesLife.Core.Content
                 {
                     yield return new KeyValuePair<string, string>(key, where);
                 }
+
+                if (ev.Place != null)
+                {
+                    yield return new KeyValuePair<string, string>(ev.Place, where);
+                }
                 foreach (EventOptionDefinition option in ev.Options)
                 {
                     yield return new KeyValuePair<string, string>(option.TextKey, where);
@@ -2205,6 +2221,90 @@ namespace MistakesLife.Core.Content
         }
 
         /// <summary>Revisa lo que el jugador puede escribir primero.</summary>
+        /// <summary>
+        /// Revisa con quién, dónde y cuándo pasa un momento. Regla del rediseño: un momento
+        /// que nace del horario o del calendario detiene el tiempo, así que necesita una
+        /// persona o un lugar con nombre.
+        /// </summary>
+        private void ValidateMoment(string where, EventDefinition ev)
+        {
+            if (ev.With != null && Array.IndexOf(ChatDefinition.Senders, ev.With) < 0)
+            {
+                _errors.Add(new ContentError(where, $"con '{ev.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+            }
+
+            if (ev.Place != null && !ev.Place.StartsWith("lugar.", StringComparison.Ordinal))
+            {
+                _errors.Add(new ContentError(where, $"lugar '{ev.Place}' debe empezar con 'lugar.'."));
+            }
+
+            if (ev.Activity != null && !_activities.ContainsKey(ev.Activity))
+            {
+                _errors.Add(new ContentError(where, $"la actividad '{ev.Activity}' no existe."));
+            }
+
+            if (ev.Activity != null && ev.Date != null)
+            {
+                _errors.Add(new ContentError(where, "un momento nace del horario (actividad) o de una fecha, no de las dos."));
+            }
+
+            if (ev.Activity != null && !ev.AnnualProbability.HasValue)
+            {
+                _errors.Add(new ContentError(where, "un momento del horario necesita probabilidad_anual (en un año, haciendo la actividad una vez por semana)."));
+            }
+
+            if (ev.IsScheduled && ev.SeedType != null)
+            {
+                _errors.Add(new ContentError(where, "un evento de semilla no lleva actividad ni fecha: ocurre cuando la semilla despierta."));
+            }
+
+            if (ev.IsScheduled && ev.With == null && ev.Place == null)
+            {
+                _errors.Add(new ContentError(where, "un momento con actividad o fecha necesita con quién (con) o dónde (lugar): sin persona ni lugar con nombre, no detiene el tiempo."));
+            }
+
+            if (ev.Date != null && !ev.OnBirthday)
+            {
+                int? day = ParseDayMonth(ev.Date);
+                if (day == null)
+                {
+                    _errors.Add(new ContentError(where, $"fecha '{ev.Date}' no se entiende: usa día-mes, por ejemplo \"24-12\", o \"{EventDefinition.BirthdayDate}\"."));
+                }
+
+                ev.FixedDayOfYear = day;
+            }
+
+            if (ev.OnBirthday && ev.With == null)
+            {
+                _errors.Add(new ContentError(where, "fecha 'cumpleanos' necesita con quién (con): es el cumpleaños de esa persona."));
+            }
+
+            if (ev.With == null && MentionsPerson(ev))
+            {
+                _errors.Add(new ContentError(where, "usa 'persona' pero no dice con quién pasa (con)."));
+            }
+        }
+
+        /// <summary>Lee una fecha "día-mes" ("24-12") como día del año desde 0; null si no se entiende.</summary>
+        private static int? ParseDayMonth(string text)
+        {
+            string[] parts = text.Split('-');
+            return parts.Length == 2 && int.TryParse(parts[0], out int day) && int.TryParse(parts[1], out int month)
+                ? GameDate.DayOfYearOf(day, month)
+                : null;
+        }
+
+        private static readonly System.Text.RegularExpressions.Regex PersonWord =
+            new System.Text.RegularExpressions.Regex(@"(?<![\w.'])persona\b");
+
+        private static bool MentionsPerson(EventDefinition ev)
+        {
+            IEnumerable<string?> expressions = new[] { ev.Conditions }
+                .Concat(ev.Effects)
+                .Concat(ev.Options.SelectMany(o => new[] { o.Conditions, o.Tendency }.Concat(o.Effects)));
+            return expressions.Any(e => e != null && PersonWord.IsMatch(e));
+        }
+
         private void ValidateActivities()
         {
             foreach (ActivityDefinition activity in _activities.Values)

@@ -33,6 +33,7 @@
       ]
     }
   ],
+  "inicio_ano_escolar": "04-03",
   "etapas_educacion": [
     { "id": "etapa.chile.sala_cuna", "edad_desde": 0, "edad_hasta": 2 },
     { "id": "etapa.chile.nivel_medio", "edad_desde": 2, "edad_hasta": 4 },

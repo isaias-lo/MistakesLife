@@ -34,8 +34,9 @@ namespace MistakesLife.Core.Presentation
         public static readonly IReadOnlyList<string> TextKeys = new[]
         {
             "ui.edad.semanas", "ui.edad.un_ano", "ui.edad.anos", "ui.fecha.hoy", "ui.fecha.dia", "ui.fecha.otro_ano",
-            "ui.horario.titulo", "ui.horario.libre", "ui.horario.tarde", "ui.horario.noche", "ui.horario.sube", "ui.horario.baja", "ui.horario.igual", "ui.horario.nuevo",
+            "ui.horario.titulo", "ui.horario.libre", "ui.horario.tarde", "ui.horario.noche", "ui.horario.sube", "ui.horario.baja", "ui.horario.igual", "ui.horario.nuevo", "ui.horario.nuevo_ano",
             "ui.horario.dia.0", "ui.horario.dia.1", "ui.horario.dia.2", "ui.horario.dia.3", "ui.horario.dia.4", "ui.horario.dia.5", "ui.horario.dia.6",
+            "ui.momento.con", "ui.momento.madre", "ui.momento.padre",
             "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
             "ui.dinero", "ui.separador_miles",
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
@@ -774,7 +775,8 @@ namespace MistakesLife.Core.Presentation
         private EventView EventOf(PendingEvent pending)
         {
             EventDefinition definition = Session.Content.GetEvent(pending.EventId);
-            var options = pending.AvailableOptions.Select(i => T(definition.Options[i].TextKey)).ToList();
+            Character? person = EventSystem.PersonOf(Session.World, pending);
+            var options = pending.AvailableOptions.Select(i => WithPerson(T(definition.Options[i].TextKey), person)).ToList();
             int? previous = Session.TimeMachine.PreviousChoice(pending);
             int position = previous.HasValue ? IndexOf(pending.AvailableOptions, previous.Value) : -1;
             string textKey = definition.TextKeyFor(Session.World.TimesHappened(pending.EventId, pending.CharacterId));
@@ -793,8 +795,45 @@ namespace MistakesLife.Core.Presentation
             string watchers = seed == null ? string.Empty : Names(seed.Witnesses.Select(id => world.TryGetCharacter(id, out Character? c) ? c : null));
             string? watching = watchers.Length == 0 ? null : Text("ui.evento.miran", watchers);
 
-            return new EventView(pending.EventId, T(textKey), options, position >= 0 ? position : (int?)null, definition.KeyDay, remembered, watching, noticedBy);
+            return new EventView(pending.EventId, WithPerson(T(textKey), person), options, position >= 0 ? position : (int?)null, definition.KeyDay, remembered, watching, noticedBy)
+            {
+                Person = person == null ? null : PersonInMoment(definition, person),
+                PersonId = person?.Id,
+                Place = definition.Place == null ? null : T(definition.Place),
+            };
         }
+
+        /// <summary>
+        /// Cómo se nombra a la persona del momento: a la mamá y al papá se les dice
+        /// "tu mamá" y "tu papá"; a los demás, por su nombre.
+        /// </summary>
+        private string PersonInMoment(EventDefinition definition, Character person) =>
+            definition.With == "madre" || definition.With == "padre" ? T("ui.momento." + definition.With) : person.FirstName;
+
+        /// <summary>
+        /// La línea de con quién y dónde pasa el momento ("Con tu mamá · Tu casa"); null si no dice ninguna.
+        /// </summary>
+        public string? MomentLine(EventView view)
+        {
+            var parts = new List<string>();
+            if (view.Person != null)
+            {
+                parts.Add(Text("ui.momento.con", view.Person));
+            }
+
+            if (view.Place != null)
+            {
+                parts.Add(view.Place);
+            }
+
+            return parts.Count == 0 ? null : string.Join(" · ", parts);
+        }
+
+        /// <summary>Marca de los textos que se cambia por el nombre de la persona del momento.</summary>
+        public const string PersonMark = "{persona}";
+
+        private static string WithPerson(string text, Character? person) =>
+            person == null ? text : text.Replace(PersonMark, person.FirstName);
 
         /// <summary>Los nombres de pila de las personas vivas, en una lista ("Pedro, Ana y Luis"); vacío si no hay.</summary>
         private string Names(IEnumerable<Character?> people)

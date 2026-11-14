@@ -1,0 +1,18 @@
+[
+  {
+    "id": "semilla.fuente_escondida",
+    "tipo": "negativa",
+    "fuerza": 70,
+    "vence_anios": 3,
+    "dormir_min_semanas": 12,
+    "condiciones": "semilla('semilla.fuente_escondida').testigo != nada"
+  },
+  {
+    "id": "semilla.video_reenviado",
+    "tipo": "negativa",
+    "fuerza": 50,
+    "vence_anios": 1,
+    "dormir_min_semanas": 2,
+    "condiciones": "jugador.edad < 18"
+  }
+]

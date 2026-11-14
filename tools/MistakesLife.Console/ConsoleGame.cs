@@ -6,6 +6,7 @@ using MistakesLife.Core.Content;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Life;
+using MistakesLife.Core.Presentation;
 using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
 
@@ -71,7 +72,7 @@ namespace MistakesLife.ConsoleGame
                 if (_session.World.Player.Routine is { Confirmed: false })
                 {
                     _output.WriteLine();
-                    _output.WriteLine(_session.Text("ui.horario.nuevo"));
+                    _output.WriteLine(_session.Text(RoutineRules.IsSchoolYear(_session.World.Player.Routine) ? "ui.horario.nuevo_ano" : "ui.horario.nuevo"));
                     if (!AskRoutine())
                     {
                         return;
@@ -81,7 +82,7 @@ namespace MistakesLife.ConsoleGame
                 }
 
                 _output.WriteLine();
-                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta que pase algo | s: una semana | a: un año | e: estado | h: horario | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
+                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta lo importante | s: una semana | a: un año | e: estado | h: horario | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
                 _output.Write("> ");
                 string? command = _input.ReadLine();
                 if (command == null)
@@ -261,6 +262,9 @@ namespace MistakesLife.ConsoleGame
         }
 
         /// <summary>Semanas que corre el tiempo con Enter: hasta que pase algo, máximo unos años.</summary>
+        private static string WithPerson(string text, Character? person) =>
+            person == null ? text : text.Replace(LifePresenter.PersonMark, person.FirstName);
+
         private static int WeeksLeft() => MaxYearsPerStep * GameDate.WeeksPerYear;
 
         /// <summary>
@@ -331,12 +335,21 @@ namespace MistakesLife.ConsoleGame
             EventDefinition definition = _session.Content.GetEvent(pending.EventId);
             _output.WriteLine();
             _output.WriteLine($"=== {DateLabel()} ===");
-            _output.WriteLine(_session.Text(definition.TextKeyFor(_session.World.TimesHappened(pending.EventId, pending.CharacterId))));
+            Character? person = EventSystem.PersonOf(_session.World, pending);
+            var presenter = new LifePresenter(_session);
+            EventView? view = presenter.Snapshot().PendingEvent;
+            string? moment = view == null ? null : presenter.MomentLine(view);
+            if (moment != null)
+            {
+                _output.WriteLine($"({moment})");
+            }
+
+            _output.WriteLine(WithPerson(_session.Text(definition.TextKeyFor(_session.World.TimesHappened(pending.EventId, pending.CharacterId))), person));
             for (int i = 0; i < pending.AvailableOptions.Count; i++)
             {
                 EventOptionDefinition option = definition.Options[pending.AvailableOptions[i]];
                 string intuition = _session.TimeMachine.PreviousChoice(pending) == pending.AvailableOptions[i] ? " (la otra vez elegiste esto)" : string.Empty;
-                _output.WriteLine($"  {i + 1}. {_session.Text(option.TextKey)}{intuition}");
+                _output.WriteLine($"  {i + 1}. {WithPerson(_session.Text(option.TextKey), person)}{intuition}");
             }
 
             while (true)

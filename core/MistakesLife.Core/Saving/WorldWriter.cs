@@ -52,6 +52,7 @@ namespace MistakesLife.Core.Saving
                     CharacterId = p.CharacterId,
                     Week = p.Date.TotalWeeks,
                     SeedId = p.SeedId,
+                    PersonId = p.PersonId,
                     AvailableOptions = p.AvailableOptions.ToList(),
                 }).ToList(),
                 EventHistory = world.EventHistory.Select(e => new EventRecordData

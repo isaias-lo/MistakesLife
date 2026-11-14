@@ -45,6 +45,17 @@ namespace MistakesLife.Core.Content
         [JsonProperty("ciudades")]
         public List<CityDefinition> Cities { get; set; } = new List<CityDefinition>();
 
+        /// <summary>
+        /// Día en que empieza el año escolar ("04-03" = 4 de marzo). Cada año, ese día,
+        /// quien va al colegio arma su horario del año. Opcional.
+        /// </summary>
+        [JsonProperty("inicio_ano_escolar")]
+        public string? SchoolYearStart { get; set; }
+
+        /// <summary>El día del año (desde 0) de <see cref="SchoolYearStart"/>; null si no tiene.</summary>
+        [JsonIgnore]
+        public int? SchoolYearStartDay { get; internal set; }
+
         [JsonProperty("etapas_educacion")]
         public List<EducationStageDefinition> EducationStages { get; set; } = new List<EducationStageDefinition>();
 

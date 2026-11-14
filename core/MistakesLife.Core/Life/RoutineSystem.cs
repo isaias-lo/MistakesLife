@@ -54,10 +54,17 @@ namespace MistakesLife.Core.Life
                 return;
             }
 
+            // El primer horario, si las clases empiezan en pocas semanas, se arma ese día.
+            if (player.Routine == null && RoutineRules.WeeksToSchoolYear(world, _content, player) is int toSchool
+                && toSchool > 0 && toSchool <= RoutineRules.WaitForSchoolWeeks)
+            {
+                return;
+            }
+
             string stage = RoutineRules.StageKey(world, _content, player);
             if (player.Routine == null || player.Routine.StageKey != stage)
             {
-                player.Routine = RoutineRules.Suggest(world, _content, player, context.RandomFor(SystemId));
+                player.Routine = RoutineRules.Suggest(world, _content, player, context.RandomFor(SystemId), player.Routine);
                 if (StopsForNewRoutine)
                 {
                     context.RequestStop(StopReasonNewRoutine);
@@ -89,7 +96,7 @@ namespace MistakesLife.Core.Life
                     continue;
                 }
 
-                foreach (Character other in ChatSystem.PeopleAs(world, player, activity.With))
+                foreach (Character other in ChatSystem.PeopleAs(world, player, activity.With, minAge: 0))
                 {
                     RelationshipRules.Edit(world, player, other).Affection += activity.Contribution("carino");
                     RelationshipRules.Edit(world, other, player).Affection += activity.Contribution("carino");

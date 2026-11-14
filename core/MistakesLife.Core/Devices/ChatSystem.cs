@@ -115,7 +115,14 @@ namespace MistakesLife.Core.Devices
         /// Las personas que ocupan ese lugar en la vida de <paramref name="character"/>
         /// (ver <see cref="ChatDefinition.Senders"/>), vivas y con edad para escribir.
         /// </summary>
-        public static IReadOnlyList<Character> PeopleAs(World world, Character character, string role)
+        public static IReadOnlyList<Character> PeopleAs(World world, Character character, string role) =>
+            PeopleAs(world, character, role, MinSenderAge);
+
+        /// <summary>
+        /// Igual que <see cref="PeopleAs(World, Character, string)"/>, con otra edad mínima
+        /// (un momento en la plaza puede ser con un amigo de 8 años, que todavía no escribe).
+        /// </summary>
+        public static IReadOnlyList<Character> PeopleAs(World world, Character character, string role, int minAge)
         {
             var ids = new List<int>();
             switch (role)
@@ -155,7 +162,7 @@ namespace MistakesLife.Core.Devices
             var people = new List<Character>();
             foreach (int id in ids.Distinct())
             {
-                if (id != character.Id && world.TryGetCharacter(id, out Character? person) && person.IsAlive && person.AgeInYears(world.Date) >= MinSenderAge)
+                if (id != character.Id && world.TryGetCharacter(id, out Character? person) && person.IsAlive && person.AgeInYears(world.Date) >= minAge)
                 {
                     people.Add(person);
                 }

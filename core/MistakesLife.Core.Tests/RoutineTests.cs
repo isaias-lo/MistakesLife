@@ -17,12 +17,13 @@ namespace MistakesLife.Core.Tests
         private static void Run(LifeSession session, string effect) =>
             Effect.Parse(effect).Apply(new EventScope(session.World, session.Content, session.World.Player, null, readOnly: false));
 
-        /// <summary>Una vida en Chile que ya tiene <paramref name="age"/> años (solo pasa el tiempo, sin sistemas).</summary>
+        /// <summary>Una vida en Chile que ya tiene <paramref name="age"/> años y está en marzo (solo pasa el tiempo, sin sistemas).</summary>
         private static LifeSession Session(int age, ulong seed = 5)
         {
             var session = new LifeSession(RepoPacks.Content, seed, "pais.chile");
             session.TimeMachine.Enabled = false;
-            new WeekCycle().AdvanceWeeks(session.World, age * GameDate.WeeksPerYear);
+            // Doce semanas más: ya empezaron las clases (4 de marzo) y el año escolar dura hasta el próximo marzo.
+            new WeekCycle().AdvanceWeeks(session.World, age * GameDate.WeeksPerYear + 12);
             return session;
         }
 
@@ -63,7 +64,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void Horario_EnLaMismaEtapa_NoSeVuelveAPedir()
+        public void Horario_EnElMismoAnoEscolar_NoSeVuelveAPedir()
         {
             LifeSession session = Session(7);
             RoutineWeeks(session, 1, out _);
@@ -89,6 +90,53 @@ namespace MistakesLife.Core.Tests
             Assert.True(stopped);
             Assert.NotEqual(before, session.World.Player.Routine!.StageKey);
             Assert.False(session.World.Player.Routine.Confirmed);
+        }
+
+        [Fact]
+        public void Horario_AlEmpezarElAnoEscolar_SeArmaOtroQueMantieneCasiTodo()
+        {
+            LifeSession session = Session(9);
+            RoutineWeeks(session, 1, out _);
+            session.ConfirmRoutine();
+            Routine before = session.World.Player.Routine!;
+
+            // Hasta el próximo 4 de marzo: semana 8 del año siguiente.
+            int weeks = RoutineWeeks(session, GameDate.WeeksPerYear, out bool stopped);
+
+            Routine after = session.World.Player.Routine!;
+            Assert.True(stopped);
+            Assert.Equal(3, session.World.Date.Month);
+            Assert.NotEqual(before.StageKey, after.StageKey);
+            Assert.False(after.Confirmed);
+            int kept = Enumerable.Range(0, before.Slots.Count).Count(i => before.Slots[i] != null && before.Slots[i] == after.Slots[i]);
+            Assert.True(kept >= before.Slots.Count(s => s != null) / 3, $"Se mantuvieron {kept}.");
+            Assert.True(weeks < GameDate.WeeksPerYear);
+        }
+
+        [Fact]
+        public void Horario_PrimeroEnVacacionesDeVerano_EsperaAQueEmpiecenLasClases()
+        {
+            // Cumple 6 el 1 de enero: el primer horario se arma el 4 de marzo, no dos veces seguidas.
+            var session = new LifeSession(RepoPacks.Content, 5, "pais.chile");
+            session.TimeMachine.Enabled = false;
+            new WeekCycle().AdvanceWeeks(session.World, 6 * GameDate.WeeksPerYear);
+
+            int weeks = RoutineWeeks(session, 20, out bool stopped);
+
+            Assert.True(stopped);
+            Assert.Equal(9, weeks);
+            Assert.Equal(3, session.World.Date.Month);
+            Assert.True(RoutineRules.IsSchoolYear(session.World.Player.Routine!));
+        }
+
+        [Fact]
+        public void Horario_ConAmigosChicos_PuedeIrALaPlaza()
+        {
+            LifeSession session = Session(9);
+            RoutineWeeks(session, 1, out _);
+            Run(session, "jugador.conocer('amistad')");
+
+            Assert.Contains(RoutineRules.Options(session.World, session.Content, session.World.Player, RoutineBlock.Afternoon), a => a.Id == "actividad.plaza_amigos");
         }
 
         [Fact]

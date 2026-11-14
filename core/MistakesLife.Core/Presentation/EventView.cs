@@ -41,6 +41,15 @@ namespace MistakesLife.Core.Presentation
             IntuitionOption = intuitionOption;
         }
 
+        /// <summary>Con quién pasa el momento: su nombre de pila ("Tomás"). Null si es sin nadie en particular.</summary>
+        public string? Person { get; internal set; }
+
+        /// <summary>Id de esa persona (para mostrar su retrato o su ficha). Null si es sin nadie.</summary>
+        public int? PersonId { get; internal set; }
+
+        /// <summary>Dónde pasa el momento, ya en el idioma del jugador ("La plaza"). Null si no tiene lugar.</summary>
+        public string? Place { get; internal set; }
+
         /// <summary>Id del evento (sirve para elegir una ilustración o una escena).</summary>
         public string EventId { get; }
 

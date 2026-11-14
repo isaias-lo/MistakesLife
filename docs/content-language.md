@@ -64,6 +64,7 @@ Un mismo texto se dice distinto en cada país ("pega" en Chile, "laburo" en Arge
 - En el país mismo, `peso_nacimiento` (1 si falta) elige en qué país se nace. Con 0 nadie nace ahí por azar: solo se juega eligiéndolo (`new LifeSession(contenido, semilla, "pais.argentina")` o `--pais pais.argentina` en el simulador). Sirve mientras un país todavía no tiene sus eventos de vida.
 - `nivel_hogar_min`/`max`: rango del nivel socioeconómico (0 a 100) de un hogar de esa comuna.
 - `etapas_educacion`: en orden, sin solaparse; `edad_hasta` no se incluye.
+- `inicio_ano_escolar`: día-mes en que empiezan las clases (`"04-03"` en Chile). Ese día, cada año, quien va al colegio arma su horario del año nuevo. Opcional.
 - Al nacer se eligen país, ciudad y comuna según los pesos, una madre y un padre con nombres del país, y el hijo lleva el primer apellido del padre y luego el de la madre.
 
 ### Mortalidad (campo `mortalidad` de country.json)
@@ -584,8 +585,34 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `opciones` | Lo que puede elegir el jugador; cada una con `texto`, `condiciones` y `efectos` | — |
 | `opciones[].tendencia` | Qué tan atractiva es la opción para quien decide solo (el simulador y, más adelante, los personajes del mundo), como número de 0 en adelante. Ejemplo: `"jugador.amabilidad"` o `"(100 - jugador.responsabilidad) / 3"`. El jugador no la ve. Si falta, vale 50 | 50 |
 | `opciones_carreras` | Agrega una opción por cada nivel de carrera, antes de las propias (ver Carrera) | false |
+| `con` | Con quién pasa: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival` o `ex`. Al ocurrir se elige a una persona de verdad, con nombre (si no hay nadie así, no pasa). En el evento se le habla como `persona` (`persona.carino += 3`, `plantar('semilla.x', persona)`) y en los textos de la escena y de las opciones `{persona}` se cambia por su nombre. En el diario no se usa `{persona}` | — |
+| `lugar` | Dónde pasa: clave `lugar.<nombre>` con su texto en `lang/` ("La plaza", "Tu sala"). La pantalla lo muestra junto a la persona | — |
+| `actividad` | El momento nace de tu horario: solo pasa si esa actividad está en tu semana. Pide `probabilidad_anual`, que es la probabilidad en un año haciéndola **una vez por semana** (si la haces tres veces, es más probable) | — |
+| `fecha` | El momento tiene fecha: `"24-12"` (día-mes) pasa la semana de ese día, y `"cumpleanos"` la semana del cumpleaños de la persona de `con`. Pasa como mucho una vez al año. Con `probabilidad_anual`, esa es la probabilidad de que ese año se viva como momento | — |
 
 Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla se cierra al terminar el evento.
+
+### Momentos (rediseño R2b)
+
+Regla del rediseño (`docs/rediseno-vida.md`): **un momento detiene el tiempo solo si tiene persona o lugar con nombre y algo en juego**. Por eso un evento con `actividad` o `fecha` debe tener `con` o `lugar` (la carga lo revisa). Ejemplo, en `packs/base/events/rutina.json`:
+
+```json
+{
+  "id": "evento.rutina.fuente_quebrada",
+  "actividad": "actividad.ayudar_casa",
+  "con": "madre",
+  "lugar": "lugar.casa",
+  "condiciones": "jugador.edad >= 8 && jugador.edad < 15",
+  "probabilidad_anual": 0.6,
+  "unico": true,
+  "opciones": [
+    { "texto": "opcion.rutina.fuente_quebrada.contar", "efectos": ["persona.confianza += 4"] },
+    { "texto": "opcion.rutina.fuente_quebrada.esconder", "efectos": ["plantar('semilla.fuente_escondida', persona)"] }
+  ]
+}
+```
+
+Cada semana se prueba, en este orden: lo que despierta una semilla, los momentos con fecha de esta semana, los momentos de tu horario, los eventos con `probabilidad_anual` y, al final, uno al azar por `peso`. Los momentos tienen su propio azar, así que agregar uno no cambia qué otros eventos salen. Regla de repeticiones: usa `unico` o `veces_maximas` con `variantes`, para que un cumpleaños no se lea igual cada año.
 
 ## Noticias (news/)
 
@@ -734,7 +761,7 @@ No se puede escribir a quien espera que le contestes, ni dos veces sin respuesta
 
 ## Tu horario (actividades/)
 
-Lo que el jugador puede pegar en su horario (rediseño R2, `docs/rediseno-vida.md`). El horario tiene 14 bloques: la tarde y la noche de cada día, de lunes a domingo. La mañana no se llena: la ponen el colegio, los estudios o el trabajo. Desde los 6 años, y cada vez que cambia de etapa (por ejemplo, de básica a media, o al entrar a estudiar), el juego le sugiere un horario según su forma de ser y detiene el tiempo para que lo arme. Después la vida sigue sola con él.
+Lo que el jugador puede pegar en su horario (rediseño R2, `docs/rediseno-vida.md`). El horario tiene 14 bloques: la tarde y la noche de cada día, de lunes a domingo. La mañana no se llena: la ponen el colegio, los estudios o el trabajo. Desde los 6 años, cada vez que cambia de etapa (por ejemplo, al entrar a estudiar) y, en el colegio, cada año el día que empiezan las clases (`inicio_ano_escolar` del país), el juego le sugiere un horario y detiene el tiempo para que lo arme. El sugerido mantiene casi todo lo del horario anterior que todavía se puede hacer (70 %) y elige lo demás según su forma de ser. Después la vida sigue sola con él.
 
 Cada archivo es una lista:
 

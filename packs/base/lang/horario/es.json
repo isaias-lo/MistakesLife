@@ -26,5 +26,6 @@
   "ui.horario.sube": "sube",
   "ui.horario.baja": "baja",
   "ui.horario.igual": "se mantiene",
-  "ui.horario.nuevo": "Empieza otra etapa. Arma tu horario: tus tardes y tus noches las decides tú."
+  "ui.horario.nuevo": "Empieza otra etapa. Arma tu horario: tus tardes y tus noches las decides tú.",
+  "ui.horario.nuevo_ano": "Empiezan las clases. Arma tu horario de este año: casi todo sigue como antes, cambia lo que quieras."
 }

@@ -6,6 +6,7 @@ using MistakesLife.Core.Content;
 using MistakesLife.Core.Devices;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Randomness;
+using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
 
 namespace MistakesLife.Core.Life
@@ -23,8 +24,41 @@ namespace MistakesLife.Core.Life
         public const int MaxMoodPull = 35;
 
         /// <summary>
-        /// La etapa para la que vale un horario: la etapa educativa, la carrera que estudia
-        /// o "trabajo" y "libre" de adulto. Si cambia, toca armar otro.
+        /// Semanas que faltan para que empiece el año escolar del país donde vive
+        /// <paramref name="character"/> (0 si empieza esta semana); null si el país no lo dice.
+        /// </summary>
+        public static int? WeeksToSchoolYear(World world, ContentDatabase content, Character character)
+        {
+            int? start = character.Residence == null ? null : content.GetCountry(character.Residence.CountryId).SchoolYearStartDay;
+            if (!start.HasValue)
+            {
+                return null;
+            }
+
+            int startWeek = Math.Min(start.Value / 7, GameDate.WeeksPerYear - 1);
+            int weekOfYear = world.Date.WeekOfYear - 1;
+            return (startWeek - weekOfYear + GameDate.WeeksPerYear) % GameDate.WeeksPerYear;
+        }
+
+        /// <summary>
+        /// Si el primer horario puede esperar: faltan pocas semanas para que empiecen las
+        /// clases (son las vacaciones de verano), y se arma ese día, no dos veces seguidas.
+        /// </summary>
+        public const int WaitForSchoolWeeks = 12;
+
+        /// <summary>Lo que lleva la etapa de un horario que es de un año escolar ("etapa.chile.basica.ano.12").</summary>
+        public const string SchoolYearMark = ".ano.";
+
+        /// <summary>Si el horario es el de un año escolar (se arma cada vez que empiezan las clases).</summary>
+        public static bool IsSchoolYear(Routine routine) => routine.StageKey.Contains(SchoolYearMark);
+
+        /// <summary>Probabilidad de mantener una actividad del horario anterior al armar uno nuevo.</summary>
+        public const double KeepChance = 0.7;
+
+        /// <summary>
+        /// La etapa para la que vale un horario: el año escolar (o la etapa educativa, si el
+        /// país no dice cuándo empiezan las clases), la carrera que estudia o "trabajo" y
+        /// "libre" de adulto. Si cambia, toca armar otro.
         /// </summary>
         public static string StageKey(World world, ContentDatabase content, Character character)
         {
@@ -41,6 +75,16 @@ namespace MistakesLife.Core.Life
                 : content.GetCountry(character.Residence.CountryId).StageForAge(character.AgeInYears(world.Date))?.Id;
             if (stage != null)
             {
+                // En el colegio, el horario es de un año escolar: cada año, el día que
+                // empiezan las clases, se arma de nuevo (aparecen actividades de más grande).
+                int? start = character.Residence == null ? null : content.GetCountry(character.Residence.CountryId).SchoolYearStartDay;
+                if (start.HasValue)
+                {
+                    int startWeek = Math.Min(start.Value / 7, GameDate.WeeksPerYear - 1);
+                    int schoolYear = (int)Math.Floor((world.Date.TotalWeeks - startWeek) / (double)GameDate.WeeksPerYear);
+                    return stage + SchoolYearMark + schoolYear.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                }
+
                 return stage;
             }
 
@@ -62,7 +106,7 @@ namespace MistakesLife.Core.Life
                 return false;
             }
 
-            if (activity.With != null && ChatSystem.PeopleAs(world, character, activity.With).Count == 0)
+            if (activity.With != null && ChatSystem.PeopleAs(world, character, activity.With, minAge: 0).Count == 0)
             {
                 return false;
             }
@@ -81,7 +125,15 @@ namespace MistakesLife.Core.Life
         /// para el jugador, que lo puede cambiar entero). Cerca de un cuarto de los
         /// bloques queda libre.
         /// </summary>
-        public static Routine Suggest(World world, ContentDatabase content, Character character, GameRandom random)
+        public static Routine Suggest(World world, ContentDatabase content, Character character, GameRandom random) =>
+            Suggest(world, content, character, random, null);
+
+        /// <summary>
+        /// Como <see cref="Suggest(World, ContentDatabase, Character, GameRandom)"/>, pero parte
+        /// del horario anterior: casi todo lo que todavía se puede hacer se mantiene
+        /// (la vida no cambia entera de un año a otro) y lo demás se vuelve a elegir.
+        /// </summary>
+        public static Routine Suggest(World world, ContentDatabase content, Character character, GameRandom random, Routine? previous)
         {
             var routine = new Routine(StageKey(world, content, character));
             var scope = new EventScope(world, content, character, null, readOnly: true);
@@ -89,6 +141,14 @@ namespace MistakesLife.Core.Life
             {
                 foreach (RoutineBlock block in new[] { RoutineBlock.Afternoon, RoutineBlock.Night })
                 {
+                    string? before = previous?.Get(day, block);
+                    ActivityDefinition? kept = before == null ? null : content.Activity(before);
+                    if (kept != null && kept.FitsBlock(block) && IsAvailable(world, content, character, kept) && random.Chance(KeepChance))
+                    {
+                        routine.Set(day, block, kept.Id);
+                        continue;
+                    }
+
                     if (random.Chance(0.25))
                     {
                         continue;
