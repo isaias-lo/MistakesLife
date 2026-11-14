@@ -199,6 +199,9 @@ namespace MistakesLife.Core.Characters
         /// <summary>Su cuenta de correo, o null si no tiene. Ver <see cref="Devices.MailSystem"/>.</summary>
         public Devices.MailAccount? Mail { get; set; }
 
+        /// <summary>Sus conversaciones de Mensajito, o null si nunca tuvo la app. Ver <see cref="Devices.ChatSystem"/>.</summary>
+        public Devices.ChatInbox? Chats { get; set; }
+
         /// <summary>Su última liquidación de sueldo, o null si nunca ha recibido sueldo.</summary>
         public Economy.Payslip? LastPayslip { get; set; }
 

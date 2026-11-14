@@ -8,12 +8,13 @@ namespace MistakesLife.Core.Presentation
     /// </summary>
     public sealed class PhoneView
     {
-        public PhoneView(bool hasPhone, bool hasMail, int unreadMail, IReadOnlyList<AppView> apps)
+        public PhoneView(bool hasPhone, bool hasMail, int unreadMail, IReadOnlyList<AppView> apps, int unreadChats = 0)
         {
             HasPhone = hasPhone;
             HasMail = hasMail;
             UnreadMail = unreadMail;
             Apps = apps;
+            UnreadChats = unreadChats;
         }
 
         public bool HasPhone { get; }
@@ -25,5 +26,8 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>Las apps instaladas, en el orden en que las instaló (vacío si no tiene celular).</summary>
         public IReadOnlyList<AppView> Apps { get; }
+
+        /// <summary>Mensajes de Mensajito sin ver.</summary>
+        public int UnreadChats { get; }
     }
 }

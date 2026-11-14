@@ -1,0 +1,856 @@
+[
+  {
+    "id": "chat.madre.llegaste",
+    "de": "madre",
+    "probabilidad": 0.03,
+    "carino_minimo": 35,
+    "condiciones": "jugador.edad >= 12 && jugador.edad < 18",
+    "respuestas": [
+      {
+        "id": "chat.madre.llegaste.resp.ya_llegue",
+        "confianza": 1
+      },
+      {
+        "id": "chat.madre.llegaste.resp.en_camino",
+        "confianza": 1
+      }
+    ],
+    "si_no_respondes": {
+      "confianza": -1
+    }
+  },
+  {
+    "id": "chat.madre.almuerzo_domingo",
+    "de": "madre",
+    "probabilidad": 0.05,
+    "carino_minimo": 45,
+    "condiciones": "jugador.edad >= 18 && jugador.vivienda != nada",
+    "respuestas": [
+      {
+        "id": "chat.madre.almuerzo_domingo.resp.si",
+        "carino": 1
+      },
+      {
+        "id": "chat.madre.almuerzo_domingo.resp.no_puedo"
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.madre.como_estas",
+    "de": "madre",
+    "probabilidad": 0.04,
+    "carino_minimo": 40,
+    "condiciones": "jugador.edad >= 18",
+    "respuestas": [
+      {
+        "id": "chat.madre.como_estas.resp.bien"
+      },
+      {
+        "id": "chat.madre.como_estas.resp.no_tan_bien",
+        "confianza": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.madre.abrigate",
+    "de": "madre",
+    "probabilidad": 0.02,
+    "carino_minimo": 40,
+    "condiciones": "jugador.edad >= 12 && jugador.edad < 26",
+    "respuestas": [
+      {
+        "id": "chat.madre.abrigate.resp.ya"
+      },
+      {
+        "id": "chat.madre.abrigate.resp.gracias"
+      }
+    ]
+  },
+  {
+    "id": "chat.madre.cadena",
+    "de": "madre",
+    "probabilidad": 0.015,
+    "carino_minimo": 30,
+    "condiciones": "jugador.edad >= 15"
+  },
+  {
+    "id": "chat.padre.partido",
+    "de": "padre",
+    "probabilidad": 0.03,
+    "carino_minimo": 40,
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "chat.padre.partido.resp.si",
+        "carino": 1
+      },
+      {
+        "id": "chat.padre.partido.resp.no"
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.padre.estudios",
+    "de": "padre",
+    "probabilidad": 0.025,
+    "carino_minimo": 35,
+    "condiciones": "jugador.edad >= 17 && jugador.estudia != nada",
+    "respuestas": [
+      {
+        "id": "chat.padre.estudios.resp.bien",
+        "respeto": 1
+      },
+      {
+        "id": "chat.padre.estudios.resp.cuesta",
+        "confianza": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.padre.como_estas",
+    "de": "padre",
+    "probabilidad": 0.03,
+    "carino_minimo": 40,
+    "condiciones": "jugador.edad >= 18",
+    "respuestas": [
+      {
+        "id": "chat.padre.como_estas.resp.bien",
+        "carino": 1
+      },
+      {
+        "id": "chat.padre.como_estas.resp.trabajo"
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.pareja.vernos",
+    "de": "pareja",
+    "probabilidad": 0.1,
+    "carino_minimo": 40,
+    "condiciones": "jugador.edad >= 14",
+    "respuestas": [
+      {
+        "id": "chat.pareja.vernos.resp.si",
+        "carino": 2
+      },
+      {
+        "id": "chat.pareja.vernos.resp.manana"
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3,
+      "confianza": -2
+    }
+  },
+  {
+    "id": "chat.pareja.te_quiero",
+    "de": "pareja",
+    "probabilidad": 0.05,
+    "carino_minimo": 65,
+    "respuestas": [
+      {
+        "id": "chat.pareja.te_quiero.resp.yo_tambien",
+        "carino": 2
+      },
+      {
+        "id": "chat.pareja.te_quiero.resp.y_eso",
+        "carino": -1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3
+    }
+  },
+  {
+    "id": "chat.pareja.distante",
+    "de": "pareja",
+    "probabilidad": 0.08,
+    "carino_maximo": 35,
+    "respuestas": [
+      {
+        "id": "chat.pareja.distante.resp.hablemos",
+        "carino": 3,
+        "confianza": 2,
+        "rencor": -2
+      },
+      {
+        "id": "chat.pareja.distante.resp.ahora_no",
+        "carino": -3,
+        "rencor": 3
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3,
+      "rencor": 4
+    }
+  },
+  {
+    "id": "chat.pareja.meme",
+    "de": "pareja",
+    "probabilidad": 0.05,
+    "carino_minimo": 50,
+    "respuestas": [
+      {
+        "id": "chat.pareja.meme.resp.jaja",
+        "carino": 1
+      }
+    ]
+  },
+  {
+    "id": "chat.amigo.juntarse",
+    "de": "amigo",
+    "probabilidad": 0.04,
+    "carino_minimo": 45,
+    "condiciones": "jugador.edad >= 13",
+    "respuestas": [
+      {
+        "id": "chat.amigo.juntarse.resp.dale",
+        "carino": 3
+      },
+      {
+        "id": "chat.amigo.juntarse.resp.otro_dia",
+        "carino": -1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -2
+    }
+  },
+  {
+    "id": "chat.amigo.hace_tiempo",
+    "de": "amigo",
+    "probabilidad": 0.03,
+    "carino_minimo": 25,
+    "carino_maximo": 45,
+    "condiciones": "jugador.edad >= 13",
+    "respuestas": [
+      {
+        "id": "chat.amigo.hace_tiempo.resp.que_bueno",
+        "carino": 4
+      },
+      {
+        "id": "chat.amigo.hace_tiempo.resp.bien",
+        "carino": 1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3
+    }
+  },
+  {
+    "id": "chat.amigo.consejo",
+    "de": "amigo",
+    "probabilidad": 0.02,
+    "carino_minimo": 60,
+    "condiciones": "jugador.edad >= 13",
+    "respuestas": [
+      {
+        "id": "chat.amigo.consejo.resp.claro",
+        "carino": 3,
+        "confianza": 3
+      },
+      {
+        "id": "chat.amigo.consejo.resp.despues",
+        "confianza": -1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3,
+      "confianza": -3
+    }
+  },
+  {
+    "id": "chat.amigo.meme",
+    "de": "amigo",
+    "probabilidad": 0.04,
+    "carino_minimo": 50,
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "chat.amigo.meme.resp.soy_yo",
+        "carino": 1
+      }
+    ]
+  },
+  {
+    "id": "chat.colega.cubrir",
+    "de": "colega",
+    "probabilidad": 0.03,
+    "condiciones": "jugador.trabaja",
+    "respuestas": [
+      {
+        "id": "chat.colega.cubrir.resp.si",
+        "carino": 2,
+        "confianza": 3
+      },
+      {
+        "id": "chat.colega.cubrir.resp.no"
+      }
+    ],
+    "si_no_respondes": {
+      "respeto": -2
+    }
+  },
+  {
+    "id": "chat.colega.reunion",
+    "de": "colega",
+    "probabilidad": 0.03,
+    "condiciones": "jugador.trabaja",
+    "respuestas": [
+      {
+        "id": "chat.colega.reunion.resp.gracias",
+        "respeto": 1
+      }
+    ]
+  },
+  {
+    "id": "chat.rival.indirecta",
+    "de": "rival",
+    "probabilidad": 0.02,
+    "rencor_minimo": 30,
+    "respuestas": [
+      {
+        "id": "chat.rival.indirecta.resp.lo_mejor",
+        "rencor": -3,
+        "respeto": 1
+      },
+      {
+        "id": "chat.rival.indirecta.resp.no_escribas",
+        "rencor": 3
+      }
+    ]
+  },
+  {
+    "id": "chat.ex.como_estas",
+    "de": "ex",
+    "probabilidad": 0.015,
+    "carino_minimo": 45,
+    "rencor_maximo": 30,
+    "respuestas": [
+      {
+        "id": "chat.ex.como_estas.resp.bien",
+        "carino": 2
+      },
+      {
+        "id": "chat.ex.como_estas.resp.no_hablemos",
+        "carino": -3,
+        "rencor": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.hijo.buscar",
+    "de": "hijo",
+    "probabilidad": 0.04,
+    "edad_minima": 12,
+    "edad_maxima": 17,
+    "respuestas": [
+      {
+        "id": "chat.hijo.buscar.resp.voy",
+        "carino": 2,
+        "confianza": 1
+      },
+      {
+        "id": "chat.hijo.buscar.resp.micro"
+      }
+    ],
+    "si_no_respondes": {
+      "confianza": -1
+    }
+  },
+  {
+    "id": "chat.hijo.domingo",
+    "de": "hijo",
+    "probabilidad": 0.03,
+    "carino_minimo": 40,
+    "edad_minima": 20,
+    "respuestas": [
+      {
+        "id": "chat.hijo.domingo.resp.si",
+        "carino": 3
+      },
+      {
+        "id": "chat.hijo.domingo.resp.no",
+        "carino": -1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.madre.cumpleanos",
+    "de": "madre",
+    "al_anotar": [
+      "diario.cumpleanos"
+    ],
+    "carino_minimo": 30,
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "chat.madre.cumpleanos.resp.te_quiero",
+        "carino": 2
+      },
+      {
+        "id": "chat.madre.cumpleanos.resp.gracias"
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -2
+    }
+  },
+  {
+    "id": "chat.padre.cumpleanos",
+    "de": "padre",
+    "al_anotar": [
+      "diario.cumpleanos"
+    ],
+    "carino_minimo": 30,
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "chat.padre.cumpleanos.resp.gracias",
+        "carino": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.pareja.cumpleanos",
+    "de": "pareja",
+    "al_anotar": [
+      "diario.cumpleanos"
+    ],
+    "carino_minimo": 40,
+    "respuestas": [
+      {
+        "id": "chat.pareja.cumpleanos.resp.te_amo",
+        "carino": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -4
+    }
+  },
+  {
+    "id": "chat.amigo.cumpleanos",
+    "de": "amigo",
+    "al_anotar": [
+      "diario.cumpleanos"
+    ],
+    "carino_minimo": 50,
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "chat.amigo.cumpleanos.resp.juntarse",
+        "carino": 2
+      },
+      {
+        "id": "chat.amigo.cumpleanos.resp.gracias",
+        "carino": 1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -2
+    }
+  },
+  {
+    "id": "chat.ex.cumpleanos",
+    "de": "ex",
+    "al_anotar": [
+      "diario.cumpleanos"
+    ],
+    "carino_minimo": 55,
+    "rencor_maximo": 20,
+    "respuestas": [
+      {
+        "id": "chat.ex.cumpleanos.resp.gracias",
+        "carino": 1
+      },
+      {
+        "id": "chat.ex.cumpleanos.resp.seco"
+      }
+    ]
+  },
+  {
+    "id": "chat.hijo.cumpleanos",
+    "de": "hijo",
+    "al_anotar": [
+      "diario.cumpleanos"
+    ],
+    "carino_minimo": 40,
+    "respuestas": [
+      {
+        "id": "chat.hijo.cumpleanos.resp.mi_amor",
+        "carino": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.madre.nieto",
+    "de": "madre",
+    "al_anotar": [
+      "diario.nace_hijo",
+      "diario.nace_hija",
+      "diario.adopcion_hijo",
+      "diario.adopcion_hija"
+    ],
+    "carino_minimo": 20,
+    "respuestas": [
+      {
+        "id": "chat.madre.nieto.resp.ven",
+        "carino": 3
+      },
+      {
+        "id": "chat.madre.nieto.resp.unos_dias"
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -2
+    }
+  },
+  {
+    "id": "chat.padre.nieto",
+    "de": "padre",
+    "al_anotar": [
+      "diario.nace_hijo",
+      "diario.nace_hija",
+      "diario.adopcion_hijo",
+      "diario.adopcion_hija"
+    ],
+    "carino_minimo": 20,
+    "respuestas": [
+      {
+        "id": "chat.padre.nieto.resp.gracias",
+        "carino": 3
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.amigo.nace",
+    "de": "amigo",
+    "al_anotar": [
+      "diario.nace_hijo",
+      "diario.nace_hija",
+      "diario.adopcion_hijo",
+      "diario.adopcion_hija"
+    ],
+    "carino_minimo": 45,
+    "respuestas": [
+      {
+        "id": "chat.amigo.nace.resp.gracias",
+        "carino": 2
+      }
+    ]
+  },
+  {
+    "id": "chat.amigo.termino",
+    "de": "amigo",
+    "al_anotar": [
+      "diario.termino_pololeo",
+      "diario.pareja_se_fue"
+    ],
+    "carino_minimo": 50,
+    "respuestas": [
+      {
+        "id": "chat.amigo.termino.resp.ven",
+        "carino": 3,
+        "confianza": 3
+      },
+      {
+        "id": "chat.amigo.termino.resp.tiempo",
+        "carino": 1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.madre.termino",
+    "de": "madre",
+    "al_anotar": [
+      "diario.termino_pololeo",
+      "diario.pareja_se_fue"
+    ],
+    "carino_minimo": 40,
+    "respuestas": [
+      {
+        "id": "chat.madre.termino.resp.gracias",
+        "carino": 2,
+        "confianza": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.amigo.pesame",
+    "de": "amigo",
+    "al_anotar": [
+      "diario.muerte_madre",
+      "diario.muerte_padre",
+      "diario.muerte_pareja",
+      "diario.muerte_hijo",
+      "diario.muerte_hija"
+    ],
+    "carino_minimo": 40,
+    "respuestas": [
+      {
+        "id": "chat.amigo.pesame.resp.gracias",
+        "carino": 2,
+        "confianza": 1
+      }
+    ]
+  },
+  {
+    "id": "chat.pareja.pesame",
+    "de": "pareja",
+    "al_anotar": [
+      "diario.muerte_madre",
+      "diario.muerte_padre",
+      "diario.muerte_hijo",
+      "diario.muerte_hija"
+    ],
+    "carino_minimo": 30,
+    "respuestas": [
+      {
+        "id": "chat.pareja.pesame.resp.gracias",
+        "carino": 3,
+        "confianza": 2
+      }
+    ]
+  },
+  {
+    "id": "chat.colega.pesame",
+    "de": "colega",
+    "al_anotar": [
+      "diario.muerte_madre",
+      "diario.muerte_padre",
+      "diario.muerte_pareja",
+      "diario.muerte_hijo",
+      "diario.muerte_hija"
+    ],
+    "carino_minimo": 35,
+    "condiciones": "jugador.trabaja",
+    "respuestas": [
+      {
+        "id": "chat.colega.pesame.resp.gracias",
+        "carino": 1,
+        "respeto": 1
+      }
+    ]
+  },
+  {
+    "id": "chat.madre.titulo",
+    "de": "madre",
+    "al_anotar": [
+      "diario.software.titulacion",
+      "diario.psicologia.titulacion",
+      "diario.contabilidad.titulacion"
+    ],
+    "carino_minimo": 20,
+    "respuestas": [
+      {
+        "id": "chat.madre.titulo.resp.tuyo",
+        "carino": 3,
+        "respeto": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.padre.titulo",
+    "de": "padre",
+    "al_anotar": [
+      "diario.software.titulacion",
+      "diario.psicologia.titulacion",
+      "diario.contabilidad.titulacion"
+    ],
+    "carino_minimo": 20,
+    "respuestas": [
+      {
+        "id": "chat.padre.titulo.resp.gracias",
+        "carino": 2,
+        "respeto": 3
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.amigo.titulo",
+    "de": "amigo",
+    "al_anotar": [
+      "diario.software.titulacion",
+      "diario.psicologia.titulacion",
+      "diario.contabilidad.titulacion"
+    ],
+    "carino_minimo": 45,
+    "respuestas": [
+      {
+        "id": "chat.amigo.titulo.resp.invito",
+        "carino": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.madre.trabajo_nuevo",
+    "de": "madre",
+    "al_anotar": [
+      "diario.busqueda.nuevo_trabajo"
+    ],
+    "carino_minimo": 30,
+    "respuestas": [
+      {
+        "id": "chat.madre.trabajo_nuevo.resp.lunes",
+        "carino": 2
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.amigo.trabajo_nuevo",
+    "de": "amigo",
+    "al_anotar": [
+      "diario.busqueda.nuevo_trabajo"
+    ],
+    "carino_minimo": 50,
+    "respuestas": [
+      {
+        "id": "chat.amigo.trabajo_nuevo.resp.gracias",
+        "carino": 1
+      }
+    ]
+  },
+  {
+    "id": "chat.padre.ascenso",
+    "de": "padre",
+    "al_anotar": [
+      "diario.ascenso"
+    ],
+    "carino_minimo": 30,
+    "respuestas": [
+      {
+        "id": "chat.padre.ascenso.resp.gracias",
+        "carino": 1,
+        "respeto": 2
+      }
+    ]
+  },
+  {
+    "id": "chat.colega.despido",
+    "de": "colega",
+    "al_anotar": [
+      "diario.despido_por_desempeno"
+    ],
+    "carino_minimo": 40,
+    "respuestas": [
+      {
+        "id": "chat.colega.despido.resp.gracias",
+        "carino": 2
+      }
+    ]
+  },
+  {
+    "id": "chat.madre.irse_de_la_casa",
+    "de": "madre",
+    "al_anotar": [
+      "diario.irse_de_la_casa",
+      "diario.irse_de_la_casa.pieza"
+    ],
+    "carino_minimo": 30,
+    "respuestas": [
+      {
+        "id": "chat.madre.irse_de_la_casa.resp.tallarines",
+        "carino": 2
+      },
+      {
+        "id": "chat.madre.irse_de_la_casa.resp.todavia",
+        "carino": 1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -1
+    }
+  },
+  {
+    "id": "chat.madre.temblor",
+    "de": "madre",
+    "al_anotar": [
+      "diario.temblor",
+      "diario.temblor_salir",
+      "diario.temblor_quedarse",
+      "diario.terremoto_preparado",
+      "diario.terremoto_a_oscuras",
+      "diario.terremoto_hijos"
+    ],
+    "carino_minimo": 20,
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "chat.madre.temblor.resp.bien",
+        "carino": 1,
+        "confianza": 1
+      }
+    ],
+    "si_no_respondes": {
+      "confianza": -1
+    }
+  },
+  {
+    "id": "chat.amigo.temblor",
+    "de": "amigo",
+    "al_anotar": [
+      "diario.temblor",
+      "diario.temblor_salir",
+      "diario.temblor_quedarse",
+      "diario.terremoto_preparado",
+      "diario.terremoto_a_oscuras",
+      "diario.terremoto_hijos"
+    ],
+    "carino_minimo": 55,
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "chat.amigo.temblor.resp.bien",
+        "carino": 1
+      }
+    ]
+  }
+]

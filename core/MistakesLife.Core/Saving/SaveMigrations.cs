@@ -216,6 +216,11 @@ namespace MistakesLife.Core.Saving
                     character["pendingInheritance"] ??= 0;
                 }
             },
+
+            // 16 → 17: aparece Mensajito (las conversaciones con la gente de la vida del
+            // jugador). En las partidas viejas nadie tiene chats: empiezan la próxima
+            // semana, sin mensajes por cosas de antes.
+            [16] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

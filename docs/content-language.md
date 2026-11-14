@@ -675,6 +675,38 @@ El **correo** es una cuenta, no está en el aparato: si pierde el celular, el co
 
 Lo que pasó antes de tener correo nunca llega. Sin cuenta, los correos no llegan (pero el diario sí se escribe). La bandeja guarda los últimos 300 correos. Unity marca un correo como leído con `LifeSession.ReadMail(posición)`.
 
+## Mensajito (chats/)
+
+Mensajito es la app de mensajes del celular. **Nadie inventado escribe**: cada mensaje lo manda una persona real de la vida del jugador (su mamá, su pareja, un amigo que conoció en un evento, un ex), y solo si siente lo que el mensaje pide. Llega por algo que pasó en la vida del jugador (una línea de su diario, como su cumpleaños) o, de vez en cuando, porque esa persona se acordó de él. Los mensajes de un paquete van en `chats/*.json` (una lista):
+
+```json
+[
+  { "id": "chat.madre.cumpleanos", "de": "madre", "al_anotar": ["diario.cumpleanos"], "carino_minimo": 30,
+    "respuestas": [
+      { "id": "chat.madre.cumpleanos.resp.te_quiero", "carino": 2 },
+      { "id": "chat.madre.cumpleanos.resp.gracias" }
+    ],
+    "si_no_respondes": { "carino": -3 } },
+  { "id": "chat.amigo.juntarse", "de": "amigo", "probabilidad": 0.04, "carino_minimo": 45, "condiciones": "jugador.edad >= 13",
+    "respuestas": [ { "id": "chat.amigo.juntarse.resp.dale", "carino": 3 } ] }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Id estable: `chat.<quien>.<nombre>`. Es la clave del texto del mensaje en lang/ |
+| `de` | Quién lo escribe: `madre`, `padre`, `pareja`, `hijo` (hijos e hijas), `amigo`, `colega`, `rival` o `ex`. Si hay varios (amigos, hijos), escribe cada uno que cumpla lo pedido; por una línea del diario, como mucho los 5 que más quieren al jugador |
+| `al_anotar` | Líneas del diario **del jugador** que lo hacen llegar al final de esa semana |
+| `probabilidad` | En vez de `al_anotar`: la probabilidad (0 a 1) de que cada persona lo escriba en una semana. Nadie escribe así si espera que le contesten, ni repite el mismo mensaje en medio año, ni manda más de uno por semana |
+| `carino_minimo`, `carino_maximo` | Lo que la persona siente por el jugador (0 a 100). Con `carino_maximo` se escriben mensajes de alguien que se enfrió ("hace siglos que no sé de ti") |
+| `rencor_minimo`, `rencor_maximo` | Igual con el rencor (el rival que manda una indirecta; el ex dolido no saluda) |
+| `edad_minima`, `edad_maxima` | La edad de quien escribe (un hijo en el colegio, un hijo ya adulto). Nadie escribe antes de los 12 |
+| `condiciones` | Opcional. Condición sobre el jugador (`jugador.trabaja`, `jugador.edad < 18`) |
+| `respuestas` | Lo que el jugador puede contestar, cada una con su `id` (clave del texto) y cuánto cambia en quien escribió: `carino`, `confianza`, `respeto`, `rencor`. Sin respuestas, el mensaje no espera nada (una cadena reenviada) |
+| `si_no_respondes` | Lo que cambia si el jugador no contesta en 2 semanas (lo dejó en visto) |
+
+Sin la app no llega nada, y lo que pasó antes de tenerla no llega después. Las conversaciones son una cuenta (como el correo): si pierde el celular, vuelven al tener la app otra vez. Unity las lee con `LifePresenter.Chats()` y `Chat(id)`, y contesta con `ReplyChat(id, respuesta)`.
+
 ## Juzgados (courts/) y vida civil
 
 Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `C-1532-81`), un tribunal y etapas con sus plazos, como la carpeta de cartulina del juzgado. Una causa **nunca empieza sola**: la abre un evento con `abrir_causa('causa.x')` por algo que hizo el jugador (dejó de pagar una deuda, se casó y se separó). Los tipos de causa van en `courts/*.json` del paquete de **un país** (cada país tiene sus tribunales y plazos):
@@ -836,6 +868,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.dar_celular()`, `jugador.perder_celular()` | Recibe un celular nuevo con las apps de fábrica (reemplaza al que tenía), o lo pierde con sus apps (solo efectos) |
 | `jugador.instalar_app('app.x')`, `jugador.desinstalar_app('app.x')` | Instala o borra una app; sin celular es un error (solo efectos) |
 | `jugador.tiene_correo`, `jugador.correos`, `jugador.correos_sin_leer` | Si tiene cuenta de correo, cuántos correos tiene y cuántos no ha leído |
+| `jugador.mensajes_sin_leer` | Cuántos mensajes de Mensajito no ha visto (ver "Mensajito" más abajo) |
 | `jugador.crear_correo()`, `jugador.recibir_correo('correo.x')` | Crea su cuenta de correo, y le hace llegar un correo (sin cuenta, no llega) (solo efectos) |
 | `noticia_reciente('noticia.x')`, `noticia_reciente('noticia.x', semanas)` | Si esa noticia salió en el país del jugador (de todo el país o de su ciudad) hace menos de esas semanas (8 si no se dice). Sirve en eventos, semillas y objetos de la escena |
 | `abrir_causa('causa.x')`, `abrir_causa('causa.x', persona)` | Abre una causa del país del jugador en su primera etapa, con esa persona como la otra parte (la expareja). Si ya hay una abierta de ese tipo, no abre otra (solo efectos) |
