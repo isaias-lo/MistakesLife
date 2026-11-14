@@ -198,6 +198,24 @@ namespace MistakesLife.Core.Saving
                     }
                 }
             },
+
+            // 15 → 16: aparecen la antigüedad en el trabajo, el último trabajo que dejó y
+            // la herencia pendiente de trámite. Las partidas viejas no contaron la
+            // antigüedad: se toma la del cargo (lo más parecido que había); no recuerdan su
+            // último trabajo ni tienen herencias pendientes.
+            [15] = save =>
+            {
+                foreach (JObject job in save.SelectTokens("world.characters[*].job").OfType<JObject>())
+                {
+                    job["monthsInJob"] ??= job.Value<int?>("monthsInPosition") ?? 0;
+                }
+
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    character["lastJob"] ??= JValue.CreateNull();
+                    character["pendingInheritance"] ??= 0;
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

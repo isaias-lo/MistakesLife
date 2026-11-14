@@ -1,0 +1,350 @@
+[
+  {
+    "id": "evento.chile.finiquito",
+    "condiciones": "jugador.tiene('despedido_necesidades')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.finiquito.firmar",
+        "condiciones": "jugador.tipo_ultimo_trabajo == 'dependiente' && jugador.meses_ultimo_trabajo >= 12",
+        "tendencia": "40 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.dinero += (si(jugador.ultimo_sueldo > precio(3500000), precio(3500000), jugador.ultimo_sueldo)) * (si(jugador.meses_ultimo_trabajo / 12 > 11, 11, jugador.meses_ultimo_trabajo / 12)) + jugador.ultimo_sueldo",
+          "jugador.desmarcar('despedido_necesidades')",
+          "diario('diario.chile.finiquito_indemnizacion')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.finiquito.reserva",
+        "condiciones": "jugador.tipo_ultimo_trabajo == 'dependiente' && jugador.meses_ultimo_trabajo >= 12 && !causa('causa.chile.despido').abierta",
+        "tendencia": "3 + jugador.neuroticismo / 8 + (100 - jugador.amabilidad) / 10",
+        "efectos": [
+          "jugador.dinero += (si(jugador.ultimo_sueldo > precio(3500000), precio(3500000), jugador.ultimo_sueldo)) * (si(jugador.meses_ultimo_trabajo / 12 > 11, 11, jugador.meses_ultimo_trabajo / 12)) + jugador.ultimo_sueldo",
+          "abrir_causa('causa.chile.despido')",
+          "causa('causa.chile.despido').monto = ((si(jugador.ultimo_sueldo > precio(3500000), precio(3500000), jugador.ultimo_sueldo)) * (si(jugador.meses_ultimo_trabajo / 12 > 11, 11, jugador.meses_ultimo_trabajo / 12))) * 0.3",
+          "jugador.marcar('demanda_por_necesidades')",
+          "jugador.desmarcar('despedido_necesidades')",
+          "diario('diario.chile.demanda_despido')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.finiquito.firmar_corto",
+        "condiciones": "jugador.tipo_ultimo_trabajo == 'dependiente' && !(jugador.meses_ultimo_trabajo >= 12)",
+        "efectos": [
+          "jugador.dinero += jugador.ultimo_sueldo",
+          "jugador.desmarcar('despedido_necesidades')",
+          "diario('diario.chile.finiquito_aviso')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.finiquito.sin_contrato",
+        "condiciones": "!(jugador.tipo_ultimo_trabajo == 'dependiente')",
+        "efectos": [
+          "jugador.desmarcar('despedido_necesidades')",
+          "jugador.felicidad -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.despido_disciplinario",
+    "condiciones": "jugador.tiene('despedido_disciplinario')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.despido_disciplinario.aceptar",
+        "tendencia": "30 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.desmarcar('despedido_disciplinario')",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.chile.despido_disciplinario.demandar",
+        "condiciones": "jugador.tipo_ultimo_trabajo == 'dependiente' && !causa('causa.chile.despido').abierta",
+        "tendencia": "20 + jugador.neuroticismo / 4 + jugador.responsabilidad / 5",
+        "efectos": [
+          "abrir_causa('causa.chile.despido')",
+          "causa('causa.chile.despido').monto = si(jugador.meses_ultimo_trabajo >= 12, ((si(jugador.ultimo_sueldo > precio(3500000), precio(3500000), jugador.ultimo_sueldo)) * (si(jugador.meses_ultimo_trabajo / 12 > 11, 11, jugador.meses_ultimo_trabajo / 12))) * 1.8, 0) + jugador.ultimo_sueldo",
+          "jugador.desmarcar('despedido_disciplinario')",
+          "diario('diario.chile.demanda_despido')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.despido_preparatoria",
+    "condiciones": "causa_en('causa.chile.despido', 'audiencia_preparatoria')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.despido_preparatoria.conciliar",
+        "tendencia": "35 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.dinero += causa('causa.chile.despido').monto * 0.6",
+          "causa('causa.chile.despido').cerrar('conciliacion')",
+          "jugador.desmarcar('demanda_por_necesidades')",
+          "diario('diario.chile.despido_conciliacion')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.despido_preparatoria.seguir",
+        "tendencia": "20 + jugador.neuroticismo / 4 + jugador.responsabilidad / 5",
+        "efectos": [
+          "causa('causa.chile.despido').avanzar()"
+        ]
+      },
+      {
+        "texto": "opcion.chile.despido_preparatoria.desistir",
+        "tendencia": "5 + jugador.amabilidad / 8",
+        "efectos": [
+          "causa('causa.chile.despido').cerrar('desistida')",
+          "jugador.desmarcar('demanda_por_necesidades')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.despido_sentencia",
+    "condiciones": "causa_en('causa.chile.despido', 'audiencia_juicio')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.despido_sentencia.acogida",
+        "condiciones": "(jugador.tiene('demanda_por_necesidades') && mundo.ciclo == 'economia.ciclo.normal') || (!jugador.tiene('demanda_por_necesidades') && jugador.responsabilidad >= 35)",
+        "efectos": [
+          "jugador.dinero += causa('causa.chile.despido').monto",
+          "causa('causa.chile.despido').cerrar('acogida')",
+          "jugador.desmarcar('demanda_por_necesidades')",
+          "jugador.felicidad += 8",
+          "diario('diario.chile.despido_acogida')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.despido_sentencia.rechazada",
+        "condiciones": "!((jugador.tiene('demanda_por_necesidades') && mundo.ciclo == 'economia.ciclo.normal') || (!jugador.tiene('demanda_por_necesidades') && jugador.responsabilidad >= 35))",
+        "efectos": [
+          "causa('causa.chile.despido').cerrar('rechazada')",
+          "jugador.desmarcar('demanda_por_necesidades')",
+          "jugador.felicidad -= 6",
+          "diario('diario.chile.despido_rechazada')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.quiebra_finiquito",
+    "condiciones": "jugador.tiene('despedido_quiebra')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.quiebra_finiquito.verificar",
+        "condiciones": "jugador.tipo_ultimo_trabajo == 'dependiente' && !causa('causa.chile.quiebra_empleador').abierta",
+        "tendencia": "40 + jugador.responsabilidad / 3",
+        "efectos": [
+          "abrir_causa('causa.chile.quiebra_empleador')",
+          "causa('causa.chile.quiebra_empleador').monto = si(jugador.meses_ultimo_trabajo >= 12, (si(jugador.ultimo_sueldo > precio(3500000), precio(3500000), jugador.ultimo_sueldo)) * (si(jugador.meses_ultimo_trabajo / 12 > 11, 11, jugador.meses_ultimo_trabajo / 12)), 0) + jugador.ultimo_sueldo",
+          "jugador.desmarcar('despedido_quiebra')",
+          "diario('diario.chile.quiebra_verificar')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.quiebra_finiquito.dejar",
+        "tendencia": "10 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.desmarcar('despedido_quiebra')",
+          "jugador.felicidad -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.quiebra_reparto",
+    "condiciones": "causa_en('causa.chile.quiebra_empleador', 'reparto')",
+    "probabilidad_anual": 1,
+    "efectos": [
+      "jugador.dinero += causa('causa.chile.quiebra_empleador').monto * 0.6",
+      "causa('causa.chile.quiebra_empleador').cerrar('pagada')",
+      "diario('diario.chile.quiebra_reparto')"
+    ]
+  },
+  {
+    "id": "evento.chile.posesion_efectiva",
+    "condiciones": "jugador.herencia_pendiente > 0 && !causa('causa.chile.posesion_efectiva').abierta",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.chile.posesion_efectiva.tramitar",
+        "tendencia": "35 + jugador.responsabilidad / 3",
+        "efectos": [
+          "abrir_causa('causa.chile.posesion_efectiva')",
+          "jugador.dinero -= si(jugador.herencia_pendiente > precio(12000000), si(jugador.herencia_pendiente > precio(37000000), precio(170000), precio(122000)), 0)",
+          "diario('diario.chile.posesion_efectiva_solicitada')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.posesion_efectiva.abogado",
+        "condiciones": "jugador.dinero >= precio(450000)",
+        "tendencia": "15 + jugador.extraversion / 5",
+        "efectos": [
+          "abrir_causa('causa.chile.posesion_efectiva')",
+          "causa('causa.chile.posesion_efectiva').ir_a('publicacion')",
+          "jugador.dinero -= si(jugador.herencia_pendiente > precio(12000000), si(jugador.herencia_pendiente > precio(37000000), precio(170000), precio(122000)), 0) + precio(450000)",
+          "diario('diario.chile.posesion_efectiva_solicitada')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.posesion_efectiva.despues",
+        "tendencia": "10 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.posesion_efectiva_lista",
+    "condiciones": "causa_en('causa.chile.posesion_efectiva', 'inscripcion')",
+    "probabilidad_anual": 1,
+    "efectos": [
+      "jugador.dinero -= si(jugador.herencia_pendiente > precio(41000000), (jugador.herencia_pendiente - precio(41000000)) * 0.01, 0)",
+      "jugador.recibir_herencia()",
+      "causa('causa.chile.posesion_efectiva').cerrar('inscrita')",
+      "jugador.marcar('heredo_algo')",
+      "diario('diario.chile.posesion_efectiva_lista')"
+    ]
+  },
+  {
+    "id": "evento.chile.fiesta_ruidos",
+    "condiciones": "jugador.tiene('vive_independiente') && jugador.edad >= 18 && jugador.edad < 45 && !causa('causa.chile.policia_local').abierta",
+    "probabilidad_anual": 0.05,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 3,
+    "opciones": [
+      {
+        "texto": "opcion.chile.fiesta_ruidos.bajar",
+        "tendencia": "30 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.chile.fiesta_ruidos.seguir",
+        "tendencia": "10 + jugador.extraversion / 3 + (100 - jugador.amabilidad) / 6",
+        "efectos": [
+          "abrir_causa('causa.chile.policia_local')",
+          "causa('causa.chile.policia_local').monto = precio(136000)",
+          "jugador.marcar('fiesta_ruidosa')",
+          "jugador.felicidad += 3",
+          "diario('diario.chile.parte_ruidos')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.tomar_en_la_calle",
+    "condiciones": "jugador.edad >= 18 && jugador.edad < 35 && jugador.amigos > 0 && !causa('causa.chile.policia_local').abierta",
+    "probabilidad_anual": 0.04,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 3,
+    "opciones": [
+      {
+        "texto": "opcion.chile.tomar_en_la_calle.bar",
+        "condiciones": "jugador.dinero >= precio(15000)",
+        "tendencia": "25 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.dinero -= precio(15000)",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.chile.tomar_en_la_calle.plaza",
+        "tendencia": "10 + jugador.extraversion / 4 + (100 - jugador.responsabilidad) / 5",
+        "efectos": [
+          "abrir_causa('causa.chile.policia_local')",
+          "causa('causa.chile.policia_local').monto = precio(68000)",
+          "jugador.felicidad += 2",
+          "diario('diario.chile.parte_alcohol')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.tomar_en_la_calle.no",
+        "tendencia": "15 + jugador.responsabilidad / 4",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.policia_local_audiencia",
+    "condiciones": "causa_en('causa.chile.policia_local', 'audiencia')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.policia_local.pagar",
+        "condiciones": "jugador.dinero >= causa('causa.chile.policia_local').monto",
+        "tendencia": "35 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.dinero -= causa('causa.chile.policia_local').monto",
+          "causa('causa.chile.policia_local').cerrar('pagada')",
+          "jugador.marcar('multado_antes')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.policia_local.descargos_primera",
+        "condiciones": "!jugador.tiene('multado_antes')",
+        "tendencia": "25 + jugador.extraversion / 4",
+        "efectos": [
+          "causa('causa.chile.policia_local').cerrar('absuelto')",
+          "jugador.marcar('multado_antes')",
+          "diario('diario.chile.policia_local_absuelto')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.policia_local.descargos",
+        "condiciones": "jugador.tiene('multado_antes')",
+        "tendencia": "20 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.dinero -= causa('causa.chile.policia_local').monto * 0.5",
+          "causa('causa.chile.policia_local').cerrar('pagada')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.policia_local.no_ir",
+        "tendencia": "5 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "causa('causa.chile.policia_local').cerrar('rebeldia')",
+          "jugador.marcar('multa_impaga')",
+          "jugador.marcar('multado_antes')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.multa_impaga",
+    "condiciones": "jugador.tiene('multa_impaga')",
+    "probabilidad_anual": 0.5,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.chile.multa_impaga.pagar",
+        "condiciones": "jugador.dinero >= causa('causa.chile.policia_local').monto",
+        "tendencia": "40 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.dinero -= causa('causa.chile.policia_local').monto",
+          "jugador.desmarcar('multa_impaga')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.multa_impaga.reclusion",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.desmarcar('multa_impaga')",
+          "jugador.felicidad -= 10",
+          "jugador.salud -= 2",
+          "diario('diario.chile.reclusion_nocturna')"
+        ]
+      }
+    ]
+  }
+]

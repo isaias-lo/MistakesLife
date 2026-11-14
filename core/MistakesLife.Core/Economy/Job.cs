@@ -46,6 +46,13 @@ namespace MistakesLife.Core.Economy
         public int MonthsInPosition { get; internal set; }
 
         /// <summary>
+        /// Meses con este empleador (la antigüedad): sigue al ascender o bajar de cargo en la
+        /// misma empresa y vuelve a cero en un trabajo nuevo. Con ella se calcula una
+        /// indemnización por años de servicio.
+        /// </summary>
+        public int MonthsInJob { get; internal set; }
+
+        /// <summary>
         /// Qué tan bien trabaja, de 0 a 100. Lo cambian las decisiones en los eventos y,
         /// poco a poco, su responsabilidad. Un ascenso pide un mínimo.
         /// </summary>
@@ -79,6 +86,7 @@ namespace MistakesLife.Core.Economy
         /// <summary>Pasa un mes; si ya tocaba, el sueldo se reajusta a los precios de hoy.</summary>
         internal void AdvanceMonth(double priceIndex, int adjustmentMonths)
         {
+            MonthsInJob++;
             MonthsSinceAdjustment++;
             if (MonthsSinceAdjustment >= adjustmentMonths)
             {

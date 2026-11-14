@@ -11,6 +11,7 @@
         "tendencia": "jugador.responsabilidad",
         "efectos": [
           "jugador.desmarcar('trabajando')",
+          "jugador.marcar('despedido_necesidades')",
           "jugador.dejar_trabajo()",
           "jugador.marcar('buscando_trabajo')",
           "jugador.felicidad -= 8"
@@ -21,6 +22,7 @@
         "tendencia": "jugador.neuroticismo",
         "efectos": [
           "jugador.desmarcar('trabajando')",
+          "jugador.marcar('despedido_necesidades')",
           "jugador.dejar_trabajo()",
           "jugador.marcar('buscando_trabajo')",
           "jugador.felicidad -= 12"

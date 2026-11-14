@@ -194,5 +194,99 @@
     "resultados": [
       "pagada"
     ]
+  },
+  {
+    "id": "causa.chile.despido",
+    "tribunal": "tribunal.chile.trabajo",
+    "prefijo_rit": "O",
+    "etapas": [
+      {
+        "id": "demanda",
+        "semanas": 4
+      },
+      {
+        "id": "audiencia_preparatoria",
+        "semanas": 8,
+        "espera": true
+      },
+      {
+        "id": "audiencia_juicio",
+        "semanas": 10,
+        "espera": true
+      }
+    ],
+    "resultados": [
+      "conciliacion",
+      "acogida",
+      "rechazada",
+      "desistida"
+    ]
+  },
+  {
+    "id": "causa.chile.quiebra_empleador",
+    "tribunal": "tribunal.chile.civil",
+    "prefijo_rit": "C",
+    "etapas": [
+      {
+        "id": "verificacion",
+        "semanas": 8
+      },
+      {
+        "id": "realizacion",
+        "semanas": 26
+      },
+      {
+        "id": "reparto",
+        "semanas": 2,
+        "espera": true
+      }
+    ],
+    "resultados": [
+      "pagada"
+    ]
+  },
+  {
+    "id": "causa.chile.posesion_efectiva",
+    "tribunal": "tribunal.chile.registro_civil",
+    "prefijo_rit": "PE",
+    "etapas": [
+      {
+        "id": "solicitud",
+        "semanas": 6
+      },
+      {
+        "id": "publicacion",
+        "semanas": 4
+      },
+      {
+        "id": "inscripcion",
+        "semanas": 2,
+        "espera": true
+      }
+    ],
+    "resultados": [
+      "inscrita"
+    ]
+  },
+  {
+    "id": "causa.chile.policia_local",
+    "tribunal": "tribunal.chile.policia_local",
+    "prefijo_rit": "R",
+    "etapas": [
+      {
+        "id": "citacion",
+        "semanas": 3
+      },
+      {
+        "id": "audiencia",
+        "semanas": 1,
+        "espera": true
+      }
+    ],
+    "resultados": [
+      "pagada",
+      "absuelto",
+      "rebeldia"
+    ]
   }
 ]

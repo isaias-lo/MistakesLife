@@ -1,8 +1,10 @@
 [
-  {"id": "correo.juzgado.causa_nueva", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.demanda_cobro", "diario.chile.divorcio_presentado", "diario.chile.alimentos_demandado"]},
+  {"id": "correo.juzgado.causa_nueva", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.demanda_cobro", "diario.chile.divorcio_presentado", "diario.chile.alimentos_demandado", "diario.chile.demanda_despido", "diario.chile.parte_ruidos", "diario.chile.parte_alcohol"]},
   {"id": "correo.juzgado.sentencia_divorcio", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.divorcio"]},
   {"id": "correo.juzgado.remate", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.cobro_remate"]},
   {"id": "correo.juzgado.alimentos_sentencia", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.alimentos_sentencia", "diario.chile.alimentos_sentencia_pagar"]},
   {"id": "correo.juzgado.registro_deudores", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.registro_deudores"]},
-  {"id": "correo.juzgado.cuidado_personal", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.cuidado_demanda", "diario.chile.alimentos_demanda"]}
+  {"id": "correo.juzgado.cuidado_personal", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.cuidado_demanda", "diario.chile.alimentos_demanda"]},
+  {"id": "correo.juzgado.sentencia_laboral", "remitente": "remitente.poder_judicial", "tema": "juzgado", "al_anotar": ["diario.chile.despido_acogida", "diario.chile.despido_rechazada"]},
+  {"id": "correo.registro_civil.posesion_efectiva", "remitente": "remitente.registro_civil", "tema": "estado", "al_anotar": ["diario.chile.posesion_efectiva_lista"]}
 ]

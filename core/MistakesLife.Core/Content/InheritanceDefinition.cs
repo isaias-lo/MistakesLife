@@ -22,5 +22,13 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("porciones_pareja")]
         public double PartnerShares { get; set; } = 1;
+
+        /// <summary>
+        /// Si hay que hacer un trámite para recibir lo heredado (la posesión efectiva en
+        /// Chile): lo que se hereda queda pendiente hasta que un evento lo entregue. Las
+        /// deudas que se heredan se cobran igual.
+        /// </summary>
+        [JsonProperty("posesion_efectiva")]
+        public bool NeedsProceedings { get; set; }
     }
 }

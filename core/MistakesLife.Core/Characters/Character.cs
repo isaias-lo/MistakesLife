@@ -159,6 +159,11 @@ namespace MistakesLife.Core.Characters
                     LastPosition = _job.Position;
                 }
 
+                if (_job != null && value == null)
+                {
+                    LastJob = _job;
+                }
+
                 _job = value;
             }
         }
@@ -168,6 +173,19 @@ namespace MistakesLife.Core.Characters
         /// null. Sirve para volver a trabajar sin partir de cero.
         /// </summary>
         public Economy.CareerPosition? LastPosition { get; internal set; }
+
+        /// <summary>
+        /// El último trabajo que dejó (su tipo, su sueldo y su antigüedad), o null. Sirve para
+        /// lo que viene después de un despido: el finiquito o una demanda.
+        /// </summary>
+        public Economy.Job? LastJob { get; internal set; }
+
+        /// <summary>
+        /// Una herencia que todavía no puede usar, en dinero del inicio del mundo: en países
+        /// donde hay que tramitarla (la posesión efectiva de Chile), queda aquí hasta que un
+        /// evento la entregue con jugador.recibir_herencia().
+        /// </summary>
+        public decimal PendingInheritance { get; set; }
 
         /// <summary>
         /// Su búsqueda de trabajo (qué busca, cómo y cómo le va), o null si no está
