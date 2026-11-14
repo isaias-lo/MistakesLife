@@ -15,6 +15,7 @@
   "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de la lista de deudores.",
   "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de la lista de deudores, pero ningún banco lo olvida.",
   "diario.herencia.recibida": "Recibiste tu parte de una herencia.",
+  "diario.herencia.pendiente": "Te toca una parte de una herencia, pero para recibirla hay que hacer un trámite.",
   "diario.herencia.deudas": "Te tocó pagar tu parte de las deudas de una herencia.",
   "diario.gastos.linea_credito": "Este mes los gastos fueron más que la plata que tenías. El banco cubrió lo que faltaba con tu línea de crédito, pero eso se paga, y con intereses."
 }

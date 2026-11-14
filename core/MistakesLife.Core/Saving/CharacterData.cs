@@ -44,6 +44,15 @@ namespace MistakesLife.Core.Saving
 
         public string? UnionTypeId { get; set; }
 
+        public int? LivesWithId { get; set; }
+
+        public bool SharedCustody { get; set; }
+
+        /// <summary>El último trabajo que dejó, o null (desde la versión 16).</summary>
+        public JobData? LastJob { get; set; }
+
+        public decimal PendingInheritance { get; set; }
+
         public string? CountryId { get; set; }
 
         public string? CityId { get; set; }
@@ -65,7 +74,7 @@ namespace MistakesLife.Core.Saving
         /// <summary>Su cuenta de correo, o null (desde la versión 12).</summary>
         public MailData? Mail { get; set; }
 
-        /// <summary>Sus conversaciones de Mensajito, o null (desde la versión 15).</summary>
+        /// <summary>Sus conversaciones de Mensajito, o null (desde la versión 17).</summary>
         public ChatInboxData? Chats { get; set; }
 
         /// <summary>Área del último cargo de su carrera que ya no tiene, o null.</summary>

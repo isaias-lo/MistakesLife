@@ -1,0 +1,103 @@
+{
+  "tribunal.chile.trabajo": "Juzgado de Letras del Trabajo",
+  "tribunal.chile.registro_civil": "Servicio de Registro Civil e Identificación",
+  "tribunal.chile.policia_local": "Juzgado de Policía Local",
+
+  "causa.chile.despido": "Demanda por despido injustificado",
+  "causa.chile.despido.etapa.demanda": "Demanda y notificación a tu ex empleador",
+  "causa.chile.despido.etapa.audiencia_preparatoria": "Audiencia preparatoria (llamado a conciliación)",
+  "causa.chile.despido.etapa.audiencia_juicio": "Audiencia de juicio",
+  "causa.chile.despido.resultado.conciliacion": "Terminada por conciliación",
+  "causa.chile.despido.resultado.acogida": "Sentencia: el despido fue injustificado",
+  "causa.chile.despido.resultado.rechazada": "Sentencia: el despido fue justificado",
+  "causa.chile.despido.resultado.desistida": "Te desististe de la demanda",
+
+  "causa.chile.quiebra_empleador": "Liquidación de tu ex empleador",
+  "causa.chile.quiebra_empleador.etapa.verificacion": "Verificación de tu crédito laboral",
+  "causa.chile.quiebra_empleador.etapa.realizacion": "Venta de los bienes de la empresa",
+  "causa.chile.quiebra_empleador.etapa.reparto": "Reparto a los acreedores",
+  "causa.chile.quiebra_empleador.resultado.pagada": "Terminada: recibiste lo que alcanzó",
+
+  "causa.chile.posesion_efectiva": "Posesión efectiva de una herencia",
+  "causa.chile.posesion_efectiva.etapa.solicitud": "Solicitud e inventario de los bienes",
+  "causa.chile.posesion_efectiva.etapa.publicacion": "Publicación en el Diario Oficial",
+  "causa.chile.posesion_efectiva.etapa.inscripcion": "Inscripción en el Registro Nacional de Posesiones Efectivas",
+  "causa.chile.posesion_efectiva.resultado.inscrita": "Posesión efectiva concedida e inscrita",
+
+  "causa.chile.policia_local": "Citación al Juzgado de Policía Local",
+  "causa.chile.policia_local.etapa.citacion": "Parte cursado por Carabineros",
+  "causa.chile.policia_local.etapa.audiencia": "Audiencia ante el juez",
+  "causa.chile.policia_local.resultado.pagada": "Terminada: pagaste la multa",
+  "causa.chile.policia_local.resultado.absuelto": "Terminada: el juez te absolvió",
+  "causa.chile.policia_local.resultado.rebeldia": "Condenado en rebeldía: la multa quedó impaga",
+
+  "evento.chile.finiquito": "Te despidieron por \"necesidades de la empresa\". En la notaría te esperan con el finiquito para firmar.",
+  "opcion.chile.finiquito.firmar": "Firmar y recibir la indemnización por años de servicio y el mes de aviso",
+  "opcion.chile.finiquito.reserva": "Firmar con reserva de derechos y demandar: la empresa no estaba tan mal",
+  "opcion.chile.finiquito.firmar_corto": "Firmar: con menos de un año no hay indemnización por años, solo el mes de aviso",
+  "opcion.chile.finiquito.sin_contrato": "No hay finiquito: no tenías contrato",
+
+  "evento.chile.despido_disciplinario": "La carta de despido dice \"incumplimiento grave de las obligaciones\". Sin indemnización.",
+  "opcion.chile.despido_disciplinario.aceptar": "Aceptarlo y pasar la página",
+  "opcion.chile.despido_disciplinario.demandar": "Demandar por despido injustificado con la Defensoría Laboral (gratis)",
+
+  "evento.chile.despido_preparatoria": "Audiencia preparatoria en el Juzgado del Trabajo. La jueza les propone llegar a un acuerdo.",
+  "opcion.chile.despido_preparatoria.conciliar": "Conciliar: aceptar una parte ahora",
+  "opcion.chile.despido_preparatoria.seguir": "Seguir al juicio por el total",
+  "opcion.chile.despido_preparatoria.desistir": "Retirar la demanda",
+
+  "evento.chile.despido_sentencia": "Audiencia de juicio. La empresa tiene que probar la causa del despido.",
+  "opcion.chile.despido_sentencia.acogida": "Escuchar la sentencia: el despido fue injustificado y te pagan con recargo",
+  "opcion.chile.despido_sentencia.rechazada": "Escuchar la sentencia: la empresa probó la causa",
+
+  "evento.chile.quiebra_finiquito": "La empresa quebró y no hay plata para los finiquitos. Tus años de trabajo son un crédito laboral en la liquidación.",
+  "opcion.chile.quiebra_finiquito.verificar": "Verificar tu crédito en la liquidación (los trabajadores cobran primero)",
+  "opcion.chile.quiebra_finiquito.dejar": "Darlo por perdido",
+  "evento.chile.quiebra_reparto": "El liquidador vendió los bienes de la empresa y repartió: te llegó una parte de lo que te debían.",
+
+  "evento.chile.posesion_efectiva": "Para recibir la herencia hay que pedir la posesión efectiva: inventariar los bienes y que el Registro Civil reconozca a los herederos.",
+  "opcion.chile.posesion_efectiva.tramitar": "Hacer el trámite yo mismo en el Registro Civil",
+  "opcion.chile.posesion_efectiva.abogado": "Pagarle a un abogado para que lo haga más rápido",
+  "opcion.chile.posesion_efectiva.despues": "Dejarlo para más adelante",
+  "evento.chile.posesion_efectiva_lista": "Se inscribió la posesión efectiva: ya puedes usar lo que heredaste (y pagar el impuesto a la herencia, si corresponde).",
+
+  "evento.chile.fiesta_ruidos": "Son las dos de la mañana y la fiesta en tu casa está en lo mejor. Un vecino golpea la pared.",
+  "opcion.chile.fiesta_ruidos.bajar": "Bajar la música y despedir a todos",
+  "opcion.chile.fiesta_ruidos.seguir": "Subirle: es sábado (llegan Carabineros con un parte por ruidos molestos)",
+
+  "evento.chile.tomar_en_la_calle": "Tus amigos proponen comprar unas cervezas y tomárselas en la plaza.",
+  "opcion.chile.tomar_en_la_calle.bar": "Mejor a un bar",
+  "opcion.chile.tomar_en_la_calle.plaza": "A la plaza nomás (pasa una patrulla: parte por beber en la vía pública)",
+  "opcion.chile.tomar_en_la_calle.no": "Hoy no",
+
+  "evento.chile.policia_local_audiencia": "Te toca ir al Juzgado de Policía Local por el parte.",
+  "opcion.chile.policia_local.pagar": "Reconocer y pagar la multa",
+  "opcion.chile.policia_local.descargos_primera": "Presentar descargos: es la primera vez",
+  "opcion.chile.policia_local.descargos": "Presentar descargos y pedir una rebaja",
+  "opcion.chile.policia_local.no_ir": "No ir",
+
+  "evento.chile.multa_impaga": "Te llegó una orden del Juzgado de Policía Local: la multa sigue impaga y se puede cambiar por reclusión nocturna.",
+  "opcion.chile.multa_impaga.pagar": "Pagar la multa",
+  "opcion.chile.multa_impaga.reclusion": "No pagar y cumplir las noches en el recinto",
+
+  "diario.chile.finiquito_indemnizacion": "Firmé el finiquito y recibí la indemnización por años de servicio.",
+  "diario.chile.finiquito_aviso": "Firmé el finiquito: me pagaron el mes de aviso.",
+  "diario.chile.demanda_despido": "Demandé a mi ex empleador en el Juzgado del Trabajo.",
+  "diario.chile.despido_conciliacion": "Llegamos a una conciliación en el Juzgado del Trabajo.",
+  "diario.chile.despido_acogida": "Gané la demanda: el despido fue injustificado.",
+  "diario.chile.despido_rechazada": "Perdí la demanda por el despido.",
+  "diario.chile.quiebra_verificar": "Verifiqué mi crédito en la liquidación de la empresa.",
+  "diario.chile.quiebra_reparto": "Me pagaron una parte de lo que me debía la empresa que quebró.",
+  "diario.chile.posesion_efectiva_solicitada": "Pedí la posesión efectiva de la herencia.",
+  "diario.chile.posesion_efectiva_lista": "Recibí la herencia.",
+  "diario.chile.parte_ruidos": "Me cursaron un parte por ruidos molestos.",
+  "diario.chile.parte_alcohol": "Me cursaron un parte por tomar en la vía pública.",
+  "diario.chile.policia_local_absuelto": "El juez de policía local me absolvió.",
+  "diario.chile.reclusion_nocturna": "Cumplí reclusión nocturna por una multa que no pagué.",
+
+  "correo.juzgado.sentencia_laboral.asunto": "Sentencia en tu causa laboral",
+  "correo.juzgado.sentencia_laboral": "Se dictó sentencia en tu causa del Juzgado de Letras del Trabajo. Puedes revisarla en la Oficina Judicial Virtual.",
+  "correo.registro_civil.posesion_efectiva.asunto": "Posesión efectiva inscrita",
+  "correo.registro_civil.posesion_efectiva": "Tu solicitud de posesión efectiva fue aprobada e inscrita en el Registro Nacional de Posesiones Efectivas.",
+  "remitente.registro_civil": "Registro Civil e Identificación"
+}

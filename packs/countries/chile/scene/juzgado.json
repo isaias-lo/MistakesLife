@@ -1,5 +1,9 @@
 [
-  { "id": "escena.casa.carta_tribunal", "lugar": "casa", "condiciones": "causas_abiertas() > 0" },
-  { "id": "escena.casa.sello_embargo", "lugar": "casa", "condiciones": "jugador.tiene('bienes_embargados')" },
-  { "id": "escena.casa.foto_matrimonio", "lugar": "casa", "condiciones": "jugador.union == 'union.chile.matrimonio' && !jugador.separado" }
+  {"id": "escena.casa.carta_tribunal", "lugar": "casa", "condiciones": "causas_abiertas() > 0"},
+  {"id": "escena.casa.sello_embargo", "lugar": "casa", "condiciones": "jugador.tiene('bienes_embargados')"},
+  {"id": "escena.casa.foto_matrimonio", "lugar": "casa", "condiciones": "jugador.union == 'union.chile.matrimonio' && !jugador.separado"},
+  {"id": "escena.casa.calendario_visitas", "lugar": "casa", "condiciones": "jugador.hijos_con_otro > 0"},
+  {"id": "escena.casa.certificado_deudor", "lugar": "casa", "condiciones": "jugador.tiene('deudor_alimentos')"},
+  {"id": "escena.casa.recuerdo_herencia", "lugar": "casa", "condiciones": "jugador.tiene('heredo_algo')"},
+  {"id": "escena.casa.parlante", "lugar": "casa", "condiciones": "jugador.tiene('fiesta_ruidosa') && jugador.tiene('vive_independiente')"}
 ]

@@ -149,7 +149,8 @@ namespace MistakesLife.Core.Tests
             // El pasaje, el internet y las cuentas ya no son gastos fijos: se suma lo que elige quien
             // viaja en micro y metro, contrata la fibra básica y usa la casa como un hogar normal.
             double alone = Monthly(world, content, rules) + Eval(world, content, "tarifa('servicio.transporte.bus_y_metro')")
-                + Eval(world, content, "tarifa('servicio.internet.basico')") + Eval(world, content, "tarifa('servicio.cuentas.normal')");
+                + Eval(world, content, "tarifa('servicio.internet.basico')") + Eval(world, content, "tarifa('servicio.cuentas.normal')")
+                + Eval(world, content, "tarifa('servicio.personales.normal')");
 
             Assert.True(alone > 617500, $"Viviendo solo gasta {alone}, más que el líquido típico.");
         }
@@ -241,6 +242,24 @@ namespace MistakesLife.Core.Tests
             var scope = new EventScope(world, content, world.Player, null, readOnly: true);
             return Eval(world, content, "jugador.arriendo") + rules.Categories.Where(c => c.CompiledConditions == null || c.CompiledConditions.IsTrue(scope))
                 .Sum(c => c.CompiledAmount!.Evaluate(scope).AsNumber("prueba"));
+        }
+        [Fact]
+        public void AporteALaCasa_SoloSiElJugadorDecidioAportar_YEsUnaParteDeSuSueldo()
+        {
+            ContentDatabase content = RepoPacks.Content;
+            ExpenseDefinition aporte = content.GetCountry("pais.chile").Economy!.Expenses!.Categories.Single(c => c.Id == "gasto.chile.aporte_casa");
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.trabajar(sueldo_tipico())");
+            var scope = new EventScope(world, content, world.Player, null, readOnly: true);
+
+            Assert.True(aporte.InTodayMoney);
+            Assert.False(aporte.CompiledConditions!.IsTrue(scope));
+
+            world.Player.SetFlag("no_aporta");
+            Assert.False(aporte.CompiledConditions!.IsTrue(scope));
+
+            world.Player.SetFlag("aporta_cuarto");
+            Assert.True(aporte.CompiledConditions!.IsTrue(scope));
         }
     }
 }

@@ -226,5 +226,16 @@ namespace MistakesLife.Core.Tests
             Run(world, content, "jugador.arrendar('vivienda.pieza')");
             Assert.False(bills.CompiledConditions!.IsTrue(scope));
         }
+        [Fact]
+        public void Chile_GastosPersonales_LosEligeElJugador_ConLoQueGastanLosHogaresSegunLaEpf()
+        {
+            CountryDefinition chile = RepoPacks.Content.GetCountry("pais.chile");
+            ServiceDefinition personal = chile.Economy!.Services.Single(s => s.Id == "servicio.personales");
+
+            Assert.DoesNotContain(chile.Economy.Expenses!.Categories, e => e.Id == "gasto.chile.personales");
+            Assert.False(personal.Shared);
+            Assert.True(personal.Option("servicio.personales.austero")!.Price < personal.Option("servicio.personales.normal")!.Price);
+            Assert.True(personal.Option("servicio.personales.normal")!.Price < personal.Option("servicio.personales.gustos")!.Price);
+        }
     }
 }

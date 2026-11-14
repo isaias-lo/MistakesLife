@@ -1,0 +1,443 @@
+[
+  {
+    "id": "evento.chile.cuidado_hijos",
+    "condiciones": "jugador.hijos_por_acordar > 0 && jugador.coprogenitor != nada && !causa('causa.chile.cuidado_personal').abierta",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.cuidado_hijos.conmigo",
+        "condiciones": "jugador.coprogenitor.rencor < 60",
+        "tendencia": "30 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.quedarse_con_hijos()",
+          "jugador.coprogenitor.rencor += 5",
+          "jugador.felicidad += 3",
+          "diario('diario.chile.cuidado_conmigo')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cuidado_hijos.compartido",
+        "condiciones": "jugador.coprogenitor.rencor < 40",
+        "tendencia": "25 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.cuidado_compartido()",
+          "jugador.coprogenitor.carino += 3",
+          "diario('diario.chile.cuidado_compartido')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cuidado_hijos.con_otro",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hijos_con_el_otro()",
+          "jugador.felicidad -= 8",
+          "diario('diario.chile.cuidado_con_otro')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cuidado_hijos.demandar",
+        "tendencia": "10 + jugador.neuroticismo / 4 + si(jugador.coprogenitor != nada && jugador.coprogenitor.rencor >= 60, 30, 0)",
+        "efectos": [
+          "abrir_causa('causa.chile.cuidado_personal', jugador.coprogenitor)",
+          "jugador.coprogenitor.rencor += 15",
+          "jugador.felicidad -= 3",
+          "diario('diario.chile.cuidado_demanda')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.cuidado_mediacion",
+    "condiciones": "causa_en('causa.chile.cuidado_personal', 'mediacion')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.cuidado_mediacion.compartido",
+        "condiciones": "jugador.coprogenitor != nada && jugador.coprogenitor.rencor < 70",
+        "tendencia": "30 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.cuidado_compartido()",
+          "causa('causa.chile.cuidado_personal').cerrar('acuerdo')",
+          "jugador.coprogenitor.rencor -= 10",
+          "diario('diario.chile.cuidado_compartido')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cuidado_mediacion.ceder",
+        "condiciones": "jugador.coprogenitor != nada",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 5",
+        "efectos": [
+          "jugador.hijos_con_el_otro()",
+          "causa('causa.chile.cuidado_personal').cerrar('acuerdo')",
+          "jugador.felicidad -= 6",
+          "diario('diario.chile.cuidado_con_otro')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cuidado_mediacion.frustrada",
+        "tendencia": "20 + jugador.neuroticismo / 3",
+        "efectos": [
+          "causa('causa.chile.cuidado_personal').avanzar()",
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.cuidado_preparatoria",
+    "condiciones": "causa_en('causa.chile.cuidado_personal', 'audiencia_preparatoria')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.cuidado_preparatoria.seguir",
+        "tendencia": "40 + jugador.responsabilidad / 4",
+        "efectos": [
+          "causa('causa.chile.cuidado_personal').avanzar()",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cuidado_preparatoria.desistir",
+        "condiciones": "jugador.coprogenitor != nada",
+        "tendencia": "15 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.cuidado_compartido()",
+          "causa('causa.chile.cuidado_personal').cerrar('acuerdo')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.cuidado_sentencia",
+    "condiciones": "causa_en('causa.chile.cuidado_personal', 'audiencia_juicio')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.cuidado_sentencia.conmigo",
+        "condiciones": "jugador.tiene('vive_independiente') && jugador.salud >= 40 && jugador.responsabilidad >= 45 && !jugador.tiene('deudor_alimentos')",
+        "efectos": [
+          "jugador.quedarse_con_hijos()",
+          "causa('causa.chile.cuidado_personal').cerrar('conmigo')",
+          "jugador.felicidad += 10",
+          "diario('diario.chile.cuidado_sentencia_conmigo')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.cuidado_sentencia.con_otro",
+        "condiciones": "!(jugador.tiene('vive_independiente') && jugador.salud >= 40 && jugador.responsabilidad >= 45 && !jugador.tiene('deudor_alimentos'))",
+        "efectos": [
+          "jugador.hijos_con_el_otro()",
+          "causa('causa.chile.cuidado_personal').cerrar('con_otro')",
+          "jugador.felicidad -= 12",
+          "diario('diario.chile.cuidado_sentencia_con_otro')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.pedir_alimentos",
+    "condiciones": "jugador.hijos_a_cargo > 0 && jugador.coprogenitor != nada && !causa('causa.chile.alimentos').abierta && causa('causa.chile.alimentos').resultado != 'pension_fijada'",
+    "probabilidad_anual": 0.8,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.chile.pedir_alimentos.demandar",
+        "tendencia": "45 + jugador.responsabilidad / 4",
+        "efectos": [
+          "abrir_causa('causa.chile.alimentos', jugador.coprogenitor)",
+          "jugador.coprogenitor.rencor += 8",
+          "diario('diario.chile.alimentos_demanda')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.pedir_alimentos.no_pedir",
+        "tendencia": "10 + jugador.amabilidad / 5",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.alimentos_mediacion",
+    "condiciones": "causa_en('causa.chile.alimentos', 'mediacion')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.alimentos_mediacion.acuerdo",
+        "condiciones": "jugador.coprogenitor != nada && jugador.coprogenitor.rencor < 60 && jugador.hijos_a_cargo > 0",
+        "tendencia": "35 + jugador.amabilidad / 3",
+        "efectos": [
+          "causa('causa.chile.alimentos').monto = si(jugador.coprogenitor.sueldo * si(jugador.hijos_a_cargo == 1, 0.25, 0.4) > precio(sueldo_minimo()) * si(jugador.hijos_a_cargo == 1, 0.4, 0.3 * jugador.hijos_a_cargo), jugador.coprogenitor.sueldo * si(jugador.hijos_a_cargo == 1, 0.25, 0.4), precio(sueldo_minimo()) * si(jugador.hijos_a_cargo == 1, 0.4, 0.3 * jugador.hijos_a_cargo))",
+          "causa('causa.chile.alimentos').cerrar('pension_fijada')",
+          "diario('diario.chile.alimentos_acuerdo')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.alimentos_mediacion.frustrada",
+        "tendencia": "20 + jugador.neuroticismo / 3",
+        "efectos": [
+          "causa('causa.chile.alimentos').avanzar()"
+        ]
+      },
+      {
+        "texto": "opcion.chile.alimentos_mediacion.desistir",
+        "tendencia": "5 + jugador.amabilidad / 6",
+        "efectos": [
+          "causa('causa.chile.alimentos').cerrar('desistida')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.alimentos_sentencia",
+    "condiciones": "causa_en('causa.chile.alimentos', 'audiencia_juicio')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.alimentos_sentencia.escuchar",
+        "condiciones": "jugador.coprogenitor != nada && jugador.hijos_a_cargo > 0",
+        "efectos": [
+          "causa('causa.chile.alimentos').monto = si(jugador.coprogenitor.sueldo * si(jugador.hijos_a_cargo == 1, 0.25, 0.4) > precio(sueldo_minimo()) * si(jugador.hijos_a_cargo == 1, 0.4, 0.3 * jugador.hijos_a_cargo), jugador.coprogenitor.sueldo * si(jugador.hijos_a_cargo == 1, 0.25, 0.4), precio(sueldo_minimo()) * si(jugador.hijos_a_cargo == 1, 0.4, 0.3 * jugador.hijos_a_cargo))",
+          "causa('causa.chile.alimentos').cerrar('pension_fijada')",
+          "jugador.coprogenitor.rencor += 5",
+          "diario('diario.chile.alimentos_sentencia')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.alimentos_sentencia.sin_hijos",
+        "condiciones": "jugador.coprogenitor == nada || jugador.hijos_a_cargo == 0",
+        "efectos": [
+          "causa('causa.chile.alimentos').cerrar('desistida')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.ex_no_paga",
+    "condiciones": "causa('causa.chile.alimentos').resultado == 'pension_fijada' && jugador.hijos_a_cargo > 0 && jugador.coprogenitor != nada && !jugador.tiene('ex_no_paga_pension') && !causa('causa.chile.cobro_alimentos').abierta",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.chile.ex_no_paga.liquidacion",
+        "tendencia": "40 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.marcar('ex_no_paga_pension')",
+          "abrir_causa('causa.chile.cobro_alimentos', jugador.coprogenitor)",
+          "jugador.coprogenitor.rencor += 10",
+          "jugador.felicidad -= 4"
+        ]
+      },
+      {
+        "texto": "opcion.chile.ex_no_paga.esperar",
+        "tendencia": "15 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.marcar('ex_no_paga_pension')",
+          "jugador.felicidad -= 6"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.ex_vuelve_a_pagar",
+    "condiciones": "jugador.tiene('ex_no_paga_pension') && !causa('causa.chile.cobro_alimentos').abierta",
+    "probabilidad_anual": 0.5,
+    "enfriamiento_semanas": 26,
+    "efectos": [
+      "jugador.desmarcar('ex_no_paga_pension')",
+      "diario('diario.chile.ex_vuelve_a_pagar')"
+    ]
+  },
+  {
+    "id": "evento.chile.cobro_alimentos_registro",
+    "condiciones": "causa_en('causa.chile.cobro_alimentos', 'registro')",
+    "probabilidad_anual": 1,
+    "efectos": [
+      "jugador.dinero += causa('causa.chile.alimentos').monto * 3",
+      "jugador.desmarcar('ex_no_paga_pension')",
+      "causa('causa.chile.cobro_alimentos').cerrar('pagada')",
+      "diario('diario.chile.cobro_alimentos_retencion')"
+    ]
+  },
+  {
+    "id": "evento.chile.demanda_alimentos",
+    "condiciones": "jugador.hijos_con_otro > 0 && jugador.coprogenitor != nada && !causa('causa.chile.alimentos_demandado').abierta && causa('causa.chile.alimentos_demandado').resultado != 'pension_fijada'",
+    "probabilidad_anual": 0.8,
+    "enfriamiento_semanas": 26,
+    "efectos": [
+      "abrir_causa('causa.chile.alimentos_demandado', jugador.coprogenitor)",
+      "diario('diario.chile.alimentos_demandado')"
+    ]
+  },
+  {
+    "id": "evento.chile.demandado_mediacion",
+    "condiciones": "causa_en('causa.chile.alimentos_demandado', 'mediacion')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.demandado_mediacion.acuerdo",
+        "condiciones": "jugador.hijos_con_otro > 0",
+        "tendencia": "35 + jugador.responsabilidad / 3",
+        "efectos": [
+          "causa('causa.chile.alimentos_demandado').monto = si(jugador.sueldo_liquido * si(jugador.hijos_con_otro == 1, 0.3, 0.45) > precio(sueldo_minimo()) * si(jugador.hijos_con_otro == 1, 0.4, 0.3 * jugador.hijos_con_otro), jugador.sueldo_liquido * si(jugador.hijos_con_otro == 1, 0.3, 0.45), precio(sueldo_minimo()) * si(jugador.hijos_con_otro == 1, 0.4, 0.3 * jugador.hijos_con_otro))",
+          "causa('causa.chile.alimentos_demandado').cerrar('pension_fijada')",
+          "jugador.coprogenitor.rencor -= 5",
+          "diario('diario.chile.alimentos_acuerdo_pagar')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.demandado_mediacion.frustrada",
+        "tendencia": "15 + jugador.neuroticismo / 3 + (100 - jugador.amabilidad) / 5",
+        "efectos": [
+          "causa('causa.chile.alimentos_demandado').avanzar()",
+          "jugador.coprogenitor.rencor += 5"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.demandado_sentencia",
+    "condiciones": "causa_en('causa.chile.alimentos_demandado', 'audiencia_juicio')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.demandado_sentencia.aceptar",
+        "tendencia": "40 + jugador.responsabilidad / 4",
+        "efectos": [
+          "causa('causa.chile.alimentos_demandado').monto = si(jugador.sueldo_liquido * si(jugador.hijos_con_otro == 1, 0.3, 0.45) > precio(sueldo_minimo()) * si(jugador.hijos_con_otro == 1, 0.4, 0.3 * jugador.hijos_con_otro), jugador.sueldo_liquido * si(jugador.hijos_con_otro == 1, 0.3, 0.45), precio(sueldo_minimo()) * si(jugador.hijos_con_otro == 1, 0.4, 0.3 * jugador.hijos_con_otro))",
+          "causa('causa.chile.alimentos_demandado').cerrar('pension_fijada')",
+          "jugador.felicidad -= 3",
+          "diario('diario.chile.alimentos_sentencia_pagar')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.demandado_sentencia.defenderse",
+        "condiciones": "jugador.dinero >= precio(250000)",
+        "tendencia": "15 + jugador.neuroticismo / 4",
+        "efectos": [
+          "causa('causa.chile.alimentos_demandado').monto = (si(jugador.sueldo_liquido * si(jugador.hijos_con_otro == 1, 0.3, 0.45) > precio(sueldo_minimo()) * si(jugador.hijos_con_otro == 1, 0.4, 0.3 * jugador.hijos_con_otro), jugador.sueldo_liquido * si(jugador.hijos_con_otro == 1, 0.3, 0.45), precio(sueldo_minimo()) * si(jugador.hijos_con_otro == 1, 0.4, 0.3 * jugador.hijos_con_otro))) * 0.85",
+          "causa('causa.chile.alimentos_demandado').cerrar('pension_fijada')",
+          "jugador.dinero -= precio(250000)",
+          "jugador.felicidad -= 4",
+          "diario('diario.chile.alimentos_sentencia_pagar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.pension_cuesta",
+    "condiciones": "causa('causa.chile.alimentos_demandado').resultado == 'pension_fijada' && jugador.hijos_con_otro > 0 && jugador.meses_en_rojo >= 1 && !jugador.tiene('no_paga_pension') && !causa('causa.chile.cumplimiento_alimentos').abierta",
+    "probabilidad_anual": 0.6,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.chile.pension_cuesta.pagar",
+        "tendencia": "40 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.felicidad -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.chile.pension_cuesta.dejar_de_pagar",
+        "condiciones": "jugador.coprogenitor != nada",
+        "tendencia": "5 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.marcar('no_paga_pension')",
+          "abrir_causa('causa.chile.cumplimiento_alimentos', jugador.coprogenitor)",
+          "jugador.coprogenitor.rencor += 20"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.liquidacion_alimentos",
+    "condiciones": "causa_en('causa.chile.cumplimiento_alimentos', 'liquidacion')",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.liquidacion_alimentos.pagar",
+        "condiciones": "jugador.dinero >= causa('causa.chile.alimentos_demandado').monto * 3",
+        "tendencia": "40 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.dinero -= causa('causa.chile.alimentos_demandado').monto * 3",
+          "jugador.desmarcar('no_paga_pension')",
+          "causa('causa.chile.cumplimiento_alimentos').cerrar('pagada')",
+          "diario('diario.chile.alimentos_al_dia')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.liquidacion_alimentos.no_pagar",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "causa('causa.chile.cumplimiento_alimentos').monto = causa('causa.chile.alimentos_demandado').monto * 3",
+          "causa('causa.chile.cumplimiento_alimentos').avanzar()",
+          "jugador.marcar('deudor_alimentos')",
+          "jugador.felicidad -= 6",
+          "diario('diario.chile.registro_deudores')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.retencion_fondos_alimentos",
+    "condiciones": "causa_en('causa.chile.cumplimiento_alimentos', 'registro') && causa('causa.chile.cumplimiento_alimentos').monto > 0 && jugador.dinero > 0",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 26,
+    "veces_maximas": 12,
+    "efectos": [
+      "causa('causa.chile.cumplimiento_alimentos').monto += si(jugador.tiene('no_paga_pension') && causa('causa.chile.alimentos_demandado').resultado == 'pension_fijada' && jugador.hijos_con_otro > 0 && causa('causa.chile.cumplimiento_alimentos').semanas_en_etapa >= 26, causa('causa.chile.alimentos_demandado').monto * 6, 0)",
+      "jugador.dinero -= causa('causa.chile.cumplimiento_alimentos').monto",
+      "causa('causa.chile.cumplimiento_alimentos').monto = si(jugador.dinero < 0, 0 - jugador.dinero, 0)",
+      "jugador.dinero = si(jugador.dinero < 0, 0, jugador.dinero)",
+      "diario('diario.chile.retencion_fondos')"
+    ]
+  },
+  {
+    "id": "evento.chile.retomar_pension",
+    "condiciones": "causa_en('causa.chile.cumplimiento_alimentos', 'registro') && jugador.tiene('no_paga_pension') && causa('causa.chile.alimentos_demandado').resultado == 'pension_fijada' && jugador.hijos_con_otro > 0",
+    "probabilidad_anual": 0.5,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.chile.retomar_pension.pagar",
+        "tendencia": "30 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desmarcar('no_paga_pension')",
+          "jugador.coprogenitor.rencor -= 5",
+          "diario('diario.chile.retomar_pension')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.retomar_pension.pagar_todo",
+        "condiciones": "jugador.dinero >= causa('causa.chile.cumplimiento_alimentos').monto",
+        "tendencia": "20 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.dinero -= causa('causa.chile.cumplimiento_alimentos').monto",
+          "causa('causa.chile.cumplimiento_alimentos').monto = 0",
+          "jugador.desmarcar('no_paga_pension')",
+          "diario('diario.chile.alimentos_al_dia')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.retomar_pension.no",
+        "tendencia": "10 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.sale_registro_deudores",
+    "condiciones": "causa('causa.chile.cumplimiento_alimentos').etapa == 'registro' && causa('causa.chile.cumplimiento_alimentos').monto < 1",
+    "probabilidad_anual": 1,
+    "efectos": [
+      "jugador.desmarcar('deudor_alimentos')",
+      "jugador.desmarcar('no_paga_pension')",
+      "causa('causa.chile.cumplimiento_alimentos').cerrar('pagada')",
+      "jugador.felicidad += 5",
+      "diario('diario.chile.sale_registro_deudores')"
+    ]
+  }
+]

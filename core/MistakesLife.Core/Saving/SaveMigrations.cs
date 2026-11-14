@@ -172,10 +172,55 @@ namespace MistakesLife.Core.Saving
                 }
             },
 
-            // 14 → 15: aparece Mensajito (las conversaciones con la gente de la vida del
+            // 14 → 15: aparece con quién viven los hijos de papás separados (el cuidado
+            // personal): las partidas viejas no lo habían decidido. Y el monto de las
+            // causas pasa a guardarse en dinero del inicio del mundo (para que una
+            // pensión se reajuste con los precios): se divide por el índice de precios
+            // del país donde vive el dueño de la causa.
+            [14] = save =>
+            {
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    character["livesWithId"] ??= JValue.CreateNull();
+                    character["sharedCustody"] ??= false;
+                }
+
+                foreach (JObject courtCase in save.SelectTokens("world.courtCases[*]").OfType<JObject>())
+                {
+                    int owner = courtCase.Value<int?>("ownerId") ?? 0;
+                    string? country = save.SelectTokens("world.characters[*]").OfType<JObject>()
+                        .FirstOrDefault(c => c.Value<int?>("id") == owner)?.Value<string?>("countryId");
+                    double index = save.SelectTokens("world.economies[*]").OfType<JObject>()
+                        .FirstOrDefault(e => e.Value<string?>("countryId") == country)?.Value<double?>("priceIndex") ?? 1;
+                    if (index > 0)
+                    {
+                        courtCase["amount"] = (courtCase.Value<decimal?>("amount") ?? 0) / (decimal)index;
+                    }
+                }
+            },
+
+            // 15 → 16: aparecen la antigüedad en el trabajo, el último trabajo que dejó y
+            // la herencia pendiente de trámite. Las partidas viejas no contaron la
+            // antigüedad: se toma la del cargo (lo más parecido que había); no recuerdan su
+            // último trabajo ni tienen herencias pendientes.
+            [15] = save =>
+            {
+                foreach (JObject job in save.SelectTokens("world.characters[*].job").OfType<JObject>())
+                {
+                    job["monthsInJob"] ??= job.Value<int?>("monthsInPosition") ?? 0;
+                }
+
+                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                {
+                    character["lastJob"] ??= JValue.CreateNull();
+                    character["pendingInheritance"] ??= 0;
+                }
+            },
+
+            // 16 → 17: aparece Mensajito (las conversaciones con la gente de la vida del
             // jugador). En las partidas viejas nadie tiene chats: empiezan la próxima
             // semana, sin mensajes por cosas de antes.
-            [14] = save => { },
+            [16] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

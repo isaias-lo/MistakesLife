@@ -95,23 +95,16 @@ namespace MistakesLife.Core.Saving
                 PartnerId = c.PartnerId,
                 SpouseId = c.SpouseId,
                 UnionTypeId = c.UnionTypeId,
+                LivesWithId = c.LivesWithId,
+                SharedCustody = c.SharedCustody,
                 CountryId = c.Residence?.CountryId,
                 CityId = c.Residence?.CityId,
                 CommuneId = c.Residence?.CommuneId,
                 HouseholdLevel = c.HouseholdLevel,
                 Money = c.Money,
-                Job = c.Job == null ? null : new JobData
-                {
-                    Kind = c.Job.Kind.ToString(),
-                    BaseSalary = c.Job.BaseSalary,
-                    AdjustedPriceIndex = c.Job.AdjustedPriceIndex,
-                    MonthsSinceAdjustment = c.Job.MonthsSinceAdjustment,
-                    AreaId = c.Job.Position?.AreaId,
-                    PositionId = c.Job.Position?.PositionId,
-                    MonthsInPosition = c.Job.MonthsInPosition,
-                    Performance = c.Job.Performance,
-                    CompanyId = c.Job.CompanyId,
-                },
+                Job = JobOf(c.Job),
+                LastJob = JobOf(c.LastJob),
+                PendingInheritance = c.PendingInheritance,
                 JobSearch = c.JobSearch == null ? null : new JobSearchData
                 {
                     Target = c.JobSearch.Target,
@@ -295,5 +288,19 @@ namespace MistakesLife.Core.Saving
 
             return data;
         }
+
+        private static JobData? JobOf(Job? job) => job == null ? null : new JobData
+        {
+            Kind = job.Kind.ToString(),
+            BaseSalary = job.BaseSalary,
+            AdjustedPriceIndex = job.AdjustedPriceIndex,
+            MonthsSinceAdjustment = job.MonthsSinceAdjustment,
+            AreaId = job.Position?.AreaId,
+            PositionId = job.Position?.PositionId,
+            MonthsInPosition = job.MonthsInPosition,
+            MonthsInJob = job.MonthsInJob,
+            Performance = job.Performance,
+            CompanyId = job.CompanyId,
+        };
     }
 }

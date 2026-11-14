@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Decisions;
 using MistakesLife.Core.Events;
@@ -202,6 +203,96 @@ namespace MistakesLife.Core.Tests
                         break;
                     }
                 }
+            }
+
+            return seen;
+        }
+
+        /// <summary>
+        /// Vidas de personas de 30 años con dos hijos chicos que se separan de su pareja,
+        /// hasta los 50, para los caminos poco comunes de la pensión de alimentos y el
+        /// cuidado personal (el juicio por los niños, el registro de deudores): en una vida
+        /// al azar, pocas personas se separan con hijos chicos. En la mitad, los niños se van
+        /// a vivir con su otro papá o mamá.
+        /// </summary>
+        public static HashSet<string> SeparatedParentEvents(ContentDatabase content, int lives, int startAge = 30, int finalAge = 50)
+        {
+            var seen = new HashSet<string>();
+            for (int i = 0; i < lives; i++)
+            {
+                seen.UnionWith(SeparatedParentEventsFrom(content, 1100 + (ulong)i, startAge, finalAge));
+            }
+
+            return seen;
+        }
+
+        /// <summary>Una de esas vidas (vacía si no nace en Chile o muere antes).</summary>
+        public static HashSet<string> SeparatedParentEventsFrom(ContentDatabase content, ulong lifeSeed, int startAge = 30, int finalAge = 50)
+        {
+            var session = new LifeSession(content, lifeSeed);
+            Play(session, startAge);
+            // Si quedó un evento por decidir (por ejemplo, con la pareja), se decide antes de
+            // separarse: si no, su opción hablaría de una pareja que ya no está.
+            var decider = new AutoDecider(content);
+            var chooser = new GameRandom(session.World.Seed).Fork("prueba.separados");
+            while (session.World.Player.IsAlive && session.Pending != null)
+            {
+                session.Choose(decider.Choose(session.World, session.Pending, chooser));
+            }
+
+            if (!session.World.Player.IsAlive || session.World.Player.Residence?.CountryId != "pais.chile")
+            {
+                return new HashSet<string>();
+            }
+
+            var effects = new List<string>();
+            if (session.World.Player.PartnerId == null)
+            {
+                effects.Add("jugador.formar_pareja()");
+            }
+
+            effects.AddRange(new[] { "jugador.tener_hijo()", "jugador.tener_hijo()", "jugador.terminar_pareja()" });
+            if (lifeSeed % 2 == 1)
+            {
+                // La mitad deja a los niños con su otro papá o mamá: así también hay vidas que pagan la pensión.
+                effects.Add("jugador.hijos_con_el_otro()");
+            }
+
+            Apply(session, effects);
+            int before = session.World.EventHistory.Count;
+            Play(session, finalAge);
+            return new HashSet<string>(session.World.EventHistory.Skip(before).Select(r => r.EventId));
+        }
+
+        /// <summary>
+        /// Vidas en Chile cuyos papás tienen ahorros cuando el jugador cumple 40, hasta los
+        /// 75, para la posesión efectiva de una herencia: en vidas al azar los papás (que no
+        /// llevan sus cuentas) casi nunca dejan dinero.
+        /// </summary>
+        public static HashSet<string> InheritanceEvents(ContentDatabase content, int lives, int startAge = 40, int finalAge = 75)
+        {
+            var seen = new HashSet<string>();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 1300 + (ulong)i);
+                Play(session, startAge);
+                Character player = session.World.Player;
+                if (!player.IsAlive || player.Residence?.CountryId != "pais.chile")
+                {
+                    continue;
+                }
+
+                foreach (int? parentId in new[] { player.MotherId, player.FatherId })
+                {
+                    if (parentId.HasValue && session.World.TryGetCharacter(parentId.Value, out Character? parent) && parent.IsAlive)
+                    {
+                        parent.Money = 20000000;
+                    }
+                }
+
+                int before = session.World.EventHistory.Count;
+                Play(session, finalAge);
+                seen.UnionWith(session.World.EventHistory.Skip(before).Select(r => r.EventId));
             }
 
             return seen;

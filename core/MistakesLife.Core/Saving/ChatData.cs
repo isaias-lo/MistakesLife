@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace MistakesLife.Core.Saving
 {
-    /// <summary>Una conversación de Mensajito guardada (desde la versión 15).</summary>
+    /// <summary>Una conversación de Mensajito guardada (desde la versión 17).</summary>
     internal sealed class ChatData
     {
         public int OtherId { get; set; }
