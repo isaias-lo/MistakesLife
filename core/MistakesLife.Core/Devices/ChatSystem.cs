@@ -80,6 +80,7 @@ namespace MistakesLife.Core.Devices
 
                 character.Chats ??= new ChatInbox(world.Journal.Count);
                 ExpireUnanswered(world, _content, character);
+                AnswerPlayer(world, _content, character);
                 DeliverForJournal(world, _content, character);
                 DeliverRandom(world, _content, character, random);
             }
@@ -264,7 +265,7 @@ namespace MistakesLife.Core.Devices
                 foreach (Character writer in Writers(world, content, character, definition))
                 {
                     Chat? chat = character.Chats!.With(writer.Id);
-                    if (chat?.AwaitingReply != null || SentRecently(world, chat, definition.Id))
+                    if (chat?.AwaitingReply != null || chat?.PlayerWrote != null || SentRecently(world, chat, definition.Id))
                     {
                         continue;
                     }
@@ -286,6 +287,118 @@ namespace MistakesLife.Core.Devices
             foreach (KeyValuePair<int, List<ChatDefinition>> pair in candidates.OrderBy(p => p.Key))
             {
                 Send(world.Date, character, writers[pair.Key], random.Pick(pair.Value));
+            }
+        }
+
+        /// <summary>
+        /// Las personas a las que el jugador puede escribirle: las que ocupan algún lugar en su
+        /// vida (<see cref="ChatDefinition.Senders"/>), vivas y con edad para tener Mensajito.
+        /// </summary>
+        public static IReadOnlyList<Character> Contacts(World world, Character character)
+        {
+            var people = new List<Character>();
+            foreach (string role in ChatDefinition.Senders)
+            {
+                foreach (Character person in PeopleAs(world, character, role))
+                {
+                    if (!people.Contains(person))
+                    {
+                        people.Add(person);
+                    }
+                }
+            }
+
+            return people;
+        }
+
+        /// <summary>
+        /// Lo que el jugador le puede escribir ahora a <paramref name="other"/>: nada si no tiene la
+        /// app, si esa persona le escribió algo que aún no contesta (primero se contesta) o si ya le
+        /// escribió y espera respuesta; si no, lo de packs/*/escribir/ para el lugar que ocupa y lo
+        /// que siente, sin repetir lo que le escribió en el último medio año.
+        /// </summary>
+        public static IReadOnlyList<ChatOpenerDefinition> OpenersFor(World world, ContentDatabase content, Character character, Character other)
+        {
+            if (character.Phone == null || !character.Phone.Has(AppId) || !other.IsAlive)
+            {
+                return Array.Empty<ChatOpenerDefinition>();
+            }
+
+            Chat? chat = character.Chats?.With(other.Id);
+            if (chat?.AwaitingReply != null || chat?.PlayerWrote != null)
+            {
+                return Array.Empty<ChatOpenerDefinition>();
+            }
+
+            Relationship feelings = RelationshipRules.Feelings(world, other, character);
+            int age = other.AgeInYears(world.Date);
+            var scope = new EventScope(world, content, character, null, readOnly: true);
+            var openers = new List<ChatOpenerDefinition>();
+            foreach (ChatOpenerDefinition opener in content.ChatOpeners)
+            {
+                if (age < opener.MinAge || age > opener.MaxAge
+                    || feelings.Affection < opener.MinAffection || feelings.Affection > opener.MaxAffection
+                    || feelings.Resentment < opener.MinResentment || feelings.Resentment > opener.MaxResentment
+                    || !PeopleAs(world, character, opener.To).Contains(other)
+                    || (chat != null && chat.Messages.Any(m => m.FromPlayer && m.TextKey == opener.Id && world.Date.WeeksSince(m.Date) < RepeatWeeks))
+                    || (opener.CompiledConditions != null && !opener.CompiledConditions.Evaluate(scope).AsBool(opener.Id)))
+                {
+                    continue;
+                }
+
+                openers.Add(opener);
+            }
+
+            return openers;
+        }
+
+        /// <summary>
+        /// El jugador le escribe primero a <paramref name="otherId"/> (uno de <see cref="OpenersFor"/>).
+        /// La otra persona contesta la semana siguiente, según lo que sienta entonces.
+        /// </summary>
+        public static void Write(World world, ContentDatabase content, Character character, int otherId, string openerId)
+        {
+            Character other = world.TryGetCharacter(otherId, out Character? found) ? found : throw new InvalidOperationException($"No existe #{otherId}.");
+            if (!OpenersFor(world, content, character, other).Any(o => o.Id == openerId))
+            {
+                throw new InvalidOperationException($"Ahora no se le puede escribir '{openerId}' a #{otherId}.");
+            }
+
+            character.Chats ??= new ChatInbox(world.Journal.Count);
+            Chat chat = character.Chats.Open(otherId);
+            chat.Add(new ChatMessage(world.Date, openerId, fromPlayer: true));
+            chat.Unread = 0;
+            chat.PlayerWrote = openerId;
+            chat.PlayerWroteOn = world.Date;
+        }
+
+        /// <summary>Las personas a las que el jugador les escribió primero contestan (o lo dejan en visto) en la siguiente semana que avanza.</summary>
+        private static void AnswerPlayer(World world, ContentDatabase content, Character character)
+        {
+            foreach (Chat chat in character.Chats!.Chats)
+            {
+                if (chat.PlayerWrote == null)
+                {
+                    continue;
+                }
+
+                ChatOpenerDefinition? opener = content.ChatOpener(chat.PlayerWrote);
+                chat.PlayerWrote = null;
+                if (opener == null || !world.TryGetCharacter(chat.OtherId, out Character? other) || !other.IsAlive)
+                {
+                    continue;
+                }
+
+                ChatAnswerDefinition? answer = opener.Answers.FirstOrDefault(a => a.Fits(RelationshipRules.Feelings(world, other, character)));
+                if (answer == null)
+                {
+                    // Ninguna respuesta calza con lo que siente: lo deja en visto.
+                    continue;
+                }
+
+                chat.Add(new ChatMessage(world.Date, answer.Id, fromPlayer: false));
+                chat.Unread++;
+                Apply(world, other, character, answer);
             }
         }
 

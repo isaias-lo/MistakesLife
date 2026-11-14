@@ -210,6 +210,8 @@ namespace MistakesLife.Core.Saving
                         Unread = chatData.Unread,
                         AwaitingReply = chatData.AwaitingReply,
                         AwaitingSince = Date(chatData.AwaitingSinceWeek),
+                        PlayerWrote = chatData.PlayerWrote,
+                        PlayerWroteOn = Date(chatData.PlayerWroteWeek),
                     };
                     foreach (ChatMessageData message in chatData.Messages)
                     {

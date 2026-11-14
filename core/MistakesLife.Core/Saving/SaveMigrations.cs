@@ -222,10 +222,14 @@ namespace MistakesLife.Core.Saving
             // semana, sin mensajes por cosas de antes.
             [16] = save => { },
 
-            // 17 → 18: aparece la previsión de salud (Fonasa o un plan de isapre) y la
+            // 17 → 18: en Mensajito el jugador puede escribir primero. En las partidas viejas no
+            // le había escrito a nadie: ningún chat espera respuesta suya.
+            [17] = save => { },
+
+            // 18 → 19: aparece la previsión de salud (Fonasa o un plan de isapre) y la
             // última atención. En las partidas viejas todos están en la previsión pública,
             // como cualquiera que nunca firmó con una isapre, y nadie se ha atendido.
-            [17] = save =>
+            [18] = save =>
             {
                 foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
                 {

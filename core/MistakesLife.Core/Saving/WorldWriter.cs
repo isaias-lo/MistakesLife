@@ -139,6 +139,8 @@ namespace MistakesLife.Core.Saving
                         Unread = chat.Unread,
                         AwaitingReply = chat.AwaitingReply,
                         AwaitingSinceWeek = chat.AwaitingSince.TotalWeeks,
+                        PlayerWrote = chat.PlayerWrote,
+                        PlayerWroteWeek = chat.PlayerWroteOn.TotalWeeks,
                         Messages = chat.Messages.Select(m => new ChatMessageData { Week = m.Date.TotalWeeks, TextKey = m.TextKey, FromPlayer = m.FromPlayer }).ToList(),
                     }).ToList(),
                 },
