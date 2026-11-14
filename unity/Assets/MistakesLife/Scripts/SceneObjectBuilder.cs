@@ -72,6 +72,8 @@ namespace MistakesLife.Unity
             "escena.casa.desorden" => "ancla.piso",
             "escena.casa.juguetes" => "ancla.piso",
             "escena.casa.foto_recuerdo" => "ancla.muro_lateral",
+            "escena.casa.recuerdo_herencia" => "ancla.muro_lateral",
+            "escena.casa.parlante" => "ancla.tele",
             "escena.casa.foto_ahijado" => "ancla.muro_lateral",
             "escena.casa.postal_amigo_lejos" => "ancla.muro_lateral",
             "escena.casa.foto_viaje_pareja" => "ancla.cuadro_derecha",
@@ -199,6 +201,26 @@ namespace MistakesLife.Unity
                         }
                     }
 
+                    break;
+                case "escena.casa.recuerdo_herencia":
+                    // Heredaste algo: el reloj de pared antiguo de la familia, con su péndulo, en el muro.
+                    kit.Box("Caja del reloj antiguo", new Vector3(0.04f, 1.8f, 1.35f), new Vector3(0.07f, 0.56f, 0.3f), Palette.DarkWood);
+                    kit.Shape(PrimitiveType.Cylinder, "Esfera del reloj", new Vector3(0.08f, 1.93f, 1.35f), new Vector3(0.22f, 0.008f, 0.22f), new Color(0.96f, 0.93f, 0.85f)).transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+                    kit.Box("Punta de hora", new Vector3(0.09f, 1.96f, 1.35f), new Vector3(0.005f, 0.06f, 0.012f), Color.black);
+                    kit.Box("Punta de minutos", new Vector3(0.09f, 1.93f, 1.39f), new Vector3(0.005f, 0.012f, 0.09f), Color.black);
+                    kit.Box("Vara del péndulo", new Vector3(0.08f, 1.7f, 1.35f), new Vector3(0.005f, 0.16f, 0.01f), new Color(0.80f, 0.65f, 0.25f));
+                    kit.Ball("Péndulo", new Vector3(0.08f, 1.6f, 1.35f), 0.07f, new Color(0.85f, 0.70f, 0.25f));
+                    break;
+                case "escena.casa.parlante":
+                    // Las fiestas ruidosas de tu casa: el parlante grande en el suelo, al lado de la tele.
+                    kit.Box("Parlante", new Vector3(1.25f, -0.6f, -0.1f), new Vector3(0.36f, 0.6f, 0.3f), new Color(0.12f, 0.12f, 0.14f));
+                    for (int i = 0; i < 2; i++)
+                    {
+                        float height = -0.75f + (i * 0.28f);
+                        kit.Shape(PrimitiveType.Cylinder, "Bocina del parlante", new Vector3(1.25f, height, -0.255f), new Vector3(0.22f - (i * 0.08f), 0.01f, 0.22f - (i * 0.08f)), new Color(0.25f, 0.25f, 0.28f)).transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+                    }
+
+                    kit.Box("Luces del parlante", new Vector3(1.25f, -0.32f, -0.255f), new Vector3(0.3f, 0.02f, 0.01f), new Color(0.75f, 0.30f, 0.95f));
                     break;
                 case "escena.casa.router":
                     // Contrataste internet: el router de la fibra en el muro, al lado de la tele, con sus luces verdes.
