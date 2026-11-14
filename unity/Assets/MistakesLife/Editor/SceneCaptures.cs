@@ -302,6 +302,15 @@ namespace MistakesLife.Unity.Editor
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-celular.png"), phone: PhoneCapture.Home);
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-correo.png"), phone: PhoneCapture.Mail);
 
+            // Mensajito: la lista de chats con la gente de su vida, y la conversación de más arriba.
+            if (life.Chats().Count == 0)
+            {
+                Debug.LogWarning("Capturas: a los 22 nadie le ha escrito por Mensajito; pantalla-mensajito.png sale vacía.");
+            }
+
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-mensajito.png"), phone: PhoneCapture.Chats);
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-chat.png"), phone: PhoneCapture.Chat);
+
             // Tu dinero: el papel del cajero con los movimientos del último mes.
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-dinero.png"), money: true);
 
@@ -382,6 +391,8 @@ namespace MistakesLife.Unity.Editor
             None,
             Home,
             Mail,
+            Chats,
+            Chat,
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
@@ -394,7 +405,7 @@ namespace MistakesLife.Unity.Editor
                 screen.ShowForCapture(content, life, menu);
                 if (phone != PhoneCapture.None)
                 {
-                    screen.OpenPhoneForCapture(phone == PhoneCapture.Mail);
+                    screen.OpenPhoneForCapture(phone == PhoneCapture.Mail, phone == PhoneCapture.Chats || phone == PhoneCapture.Chat, phone == PhoneCapture.Chat);
                 }
 
                 if (money)

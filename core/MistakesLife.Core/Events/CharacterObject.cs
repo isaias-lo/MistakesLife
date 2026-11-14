@@ -21,7 +21,7 @@ namespace MistakesLife.Core.Events
     /// area, cargo, cargo_anterior, ultimo_cargo, meses_en_cargo, desempeno (se puede cambiar),
     /// puede_ascender, caminos_ascenso, en_la_cima, busqueda, busca_en, semanas_buscando,
     /// postulaciones, entrevistas, rechazos, entrevista_pendiente, tiene_oferta, oferta_area,
-    /// oferta_negociada, oferta_mejorada, contacto.
+    /// oferta_negociada, oferta_mejorada, contacto, mensajes_sin_leer.
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada).
@@ -333,6 +333,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.Mail?.Messages.Count ?? 0);
                 case "correos_sin_leer":
                     return Value.FromNumber(_character.Mail?.UnreadCount ?? 0);
+                case "mensajes_sin_leer":
+                    return Value.FromNumber(_character.Chats?.UnreadCount ?? 0);
                 default:
                     throw new ScriptException($"jugador.{member} no existe.");
             }

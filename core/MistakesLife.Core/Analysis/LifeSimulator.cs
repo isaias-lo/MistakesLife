@@ -81,6 +81,7 @@ namespace MistakesLife.Core.Analysis
                 session.TimeMachine.Enabled = false; // sin fotos del mundo, para ir rápido
                 var chooser = new GameRandom(seed).Fork("simulador.decisiones");
                 var decider = new AutoDecider(_content);
+                var texter = new GameRandom(seed).Fork("simulador.mensajito");
                 int target = finalAge * GameDate.WeeksPerYear;
 
                 while (session.World.Player.IsAlive && session.World.Player.AgeInWeeks(session.World.Date) < target)
@@ -102,7 +103,9 @@ namespace MistakesLife.Core.Analysis
                         continue;
                     }
 
-                    session.Advance(target - session.World.Player.AgeInWeeks(session.World.Date));
+                    // Como quien juega mira el celular seguido: avanza de a un mes y contesta sus mensajes.
+                    AnswerChats(session, texter);
+                    session.Advance(Math.Min(ChatCheckWeeks, target - session.World.Player.AgeInWeeks(session.World.Date)));
                 }
 
                 var player = session.World.Player;
@@ -147,6 +150,13 @@ namespace MistakesLife.Core.Analysis
                     {
                         report.WithMail++;
                         report.MailsReceived += player.Mail.Messages.Count;
+                    }
+
+                    if (player.Chats != null)
+                    {
+                        report.WithChats++;
+                        report.ChatMessages += player.Chats.Chats.Sum(c => c.Messages.Count(m => !m.FromPlayer));
+                        report.ChatPeople += player.Chats.Chats.Count;
                     }
 
                     if (session.World.Journal.Any(j => j.CharacterId == player.Id && j.TextKey == "diario.correo.estafa"))
@@ -330,6 +340,32 @@ namespace MistakesLife.Core.Analysis
             report.MedianRealMoney = realMoney.Count == 0 ? 0 : realMoney[realMoney.Count / 2];
             report.NeverSeenEvents.AddRange(_content.Events.Select(e => e.Id).Where(id => !report.LivesWithEvent.ContainsKey(id)));
             return report;
+        }
+
+        /// <summary>Quien juega contesta la mayoría de sus mensajes de Mensajito (3 de cada 4), con cualquier respuesta; el resto los deja en visto.</summary>
+        public const double ChatAnswerChance = 0.75;
+
+        /// <summary>Cada cuántas semanas, como mucho, la vida simulada mira Mensajito.</summary>
+        public const int ChatCheckWeeks = 4;
+
+        private static void AnswerChats(LifeSession session, GameRandom chooser)
+        {
+            Devices.ChatInbox? inbox = session.World.Player.Chats;
+            if (inbox == null)
+            {
+                return;
+            }
+
+            foreach (Devices.Chat chat in inbox.Chats.Where(c => c.AwaitingReply != null).ToList())
+            {
+                Content.ChatDefinition? definition = session.Content.Chat(chat.AwaitingReply!);
+                if (definition == null || definition.Replies.Count == 0 || !chooser.Chance(ChatAnswerChance))
+                {
+                    continue;
+                }
+
+                session.ReplyChat(chat.OtherId, chooser.NextInt(definition.Replies.Count));
+            }
         }
     }
 }

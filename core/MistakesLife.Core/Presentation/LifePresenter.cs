@@ -343,10 +343,13 @@ namespace MistakesLife.Core.Presentation
             var apps = new List<AppView>();
             foreach (string appId in player.Phone?.Apps ?? (IReadOnlyList<string>)Array.Empty<string>())
             {
-                apps.Add(new AppView(appId, T(appId), appId == AppView.MailAppId && player.Mail != null ? unread : 0));
+                int appUnread = appId == AppView.MailAppId ? unread
+                    : appId == Devices.ChatSystem.AppId ? player.Chats?.UnreadCount ?? 0
+                    : 0;
+                apps.Add(new AppView(appId, T(appId), appUnread));
             }
 
-            return new PhoneView(player.Phone != null, player.Mail != null, unread, apps);
+            return new PhoneView(player.Phone != null, player.Mail != null, unread, apps, player.Chats?.UnreadCount ?? 0);
         }
 
         /// <summary>Días de un mes de sueldo: un gasto se cuenta como parte de 30 días pagados.</summary>
@@ -446,6 +449,108 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>El jugador abre un correo (su <see cref="MailView.Index"/>): queda leído.</summary>
         public void ReadMail(int index) => Session.ReadMail(index);
+
+        /// <summary>
+        /// La lista de chats de Mensajito, del que tuvo el último mensaje más nuevo al más
+        /// viejo. Solo gente real de la vida del jugador; vacía si nunca tuvo la app.
+        /// </summary>
+        public IReadOnlyList<ChatSummaryView> Chats()
+        {
+            Character player = Session.World.Player;
+            var views = new List<ChatSummaryView>();
+            if (player.Chats == null)
+            {
+                return views;
+            }
+
+            foreach (Devices.Chat chat in player.Chats.Chats.Where(c => c.Messages.Count > 0).OrderByDescending(c => c.LastDate.TotalWeeks).ThenBy(c => c.OtherId))
+            {
+                if (!Session.World.TryGetCharacter(chat.OtherId, out Character? other))
+                {
+                    continue;
+                }
+
+                Devices.ChatMessage last = chat.Messages[chat.Messages.Count - 1];
+                views.Add(new ChatSummaryView(
+                    other.Id,
+                    ContactName(player, other),
+                    ContactRelation(player, other),
+                    Shorten(T(last.TextKey)),
+                    last.FromPlayer,
+                    WhenLabel(Session.World.Date.WeeksSince(last.Date)),
+                    chat.Unread,
+                    chat.AwaitingReply != null,
+                    other.Sex == Sex.Female));
+            }
+
+            return views;
+        }
+
+        /// <summary>La conversación con esa persona, o null si no hay. Abrirla no la marca como vista: para eso, <see cref="ReadChat"/>.</summary>
+        public ChatView? Chat(int otherId)
+        {
+            Character player = Session.World.Player;
+            Devices.Chat? chat = player.Chats?.With(otherId);
+            if (chat == null || !Session.World.TryGetCharacter(otherId, out Character? other))
+            {
+                return null;
+            }
+
+            var bubbles = chat.Messages
+                .Select(m => new ChatBubbleView(T(m.TextKey), m.FromPlayer, WhenLabel(Session.World.Date.WeeksSince(m.Date))))
+                .ToList();
+            ChatDefinition? awaiting = chat.AwaitingReply == null ? null : Session.Content.Chat(chat.AwaitingReply);
+            bool eventFirst = awaiting != null && Session.Pending != null;
+            var replies = awaiting == null || !other.IsAlive || eventFirst ? new List<string>() : awaiting.Replies.Select(r => T(r.Id)).ToList();
+            return new ChatView(other.Id, ContactName(player, other), ContactRelation(player, other), other.Sex == Sex.Female, bubbles, replies, eventFirst);
+        }
+
+        /// <summary>El jugador abre la conversación: ve todos los mensajes.</summary>
+        public void ReadChat(int otherId) => Session.ReadChat(otherId);
+
+        /// <summary>El jugador contesta con la respuesta número <paramref name="replyIndex"/> de <see cref="ChatView.Replies"/>.</summary>
+        public void ReplyChat(int otherId, int replyIndex) => Session.ReplyChat(otherId, replyIndex);
+
+        /// <summary>Cómo tendría guardado el jugador a esa persona: "Mamá" y "Papá" por lo que son; los demás, por su nombre.</summary>
+        private string ContactName(Character player, Character other)
+        {
+            string relation = ContactRelation(player, other);
+            return relation == T("ui.relacion.madre") || relation == T("ui.relacion.padre") ? relation : FullName(other);
+        }
+
+        /// <summary>Qué es esa persona para el jugador: madre, padre, pareja, hijo o hija, o el lazo que tienen.</summary>
+        private string ContactRelation(Character player, Character other)
+        {
+            if (player.IsChildOf(other.Id))
+            {
+                return T(other.Sex == Sex.Female ? "ui.relacion.madre" : "ui.relacion.padre");
+            }
+
+            if (player.PartnerId == other.Id)
+            {
+                return T("ui.relacion.pareja");
+            }
+
+            if (other.IsChildOf(player.Id))
+            {
+                return ChildRelation(other);
+            }
+
+            string? bond = RelationshipRules.BondKey(player.RelationshipWith(other.Id)?.Bond ?? RelationshipBond.None);
+            return bond == null ? string.Empty : T("ui.relacion." + bond);
+        }
+
+        /// <summary>Lo corta en <see cref="MailView.PreviewLength"/> letras, en una palabra, con "...".</summary>
+        public static string Shorten(string text)
+        {
+            if (text.Length <= MailView.PreviewLength)
+            {
+                return text;
+            }
+
+            int cut = text.LastIndexOf(' ', MailView.PreviewLength);
+            return text.Substring(0, cut > 0 ? cut : MailView.PreviewLength).TrimEnd(',', '.', ';', ':') + "...";
+        }
 
         private NewsView NewsOf(NewsRecord record)
         {

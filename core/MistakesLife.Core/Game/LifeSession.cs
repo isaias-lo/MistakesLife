@@ -81,7 +81,8 @@ namespace MistakesLife.Core.Game
                 .Register(new SeedSystem(seedRules))
                 .Register(Events)
                 .Register(new BirthdaySystem())
-                .Register(new MailSystem(content));
+                .Register(new MailSystem(content))
+                .Register(new ChatSystem(content));
         }
 
         private static World NewWorld(ContentDatabase content, ulong seed, string? countryId)
@@ -332,6 +333,30 @@ namespace MistakesLife.Core.Game
         {
             MailAccount mail = World.Player.Mail ?? throw new InvalidOperationException("El jugador no tiene correo.");
             mail.MarkRead(index);
+        }
+
+        /// <summary>El jugador abre su conversación de Mensajito con esa persona: ve todos sus mensajes.</summary>
+        public void ReadChat(int otherId)
+        {
+            ChatInbox chats = World.Player.Chats ?? throw new InvalidOperationException("El jugador no tiene Mensajito.");
+            chats.MarkRead(otherId);
+        }
+
+        /// <summary>
+        /// El jugador contesta en Mensajito el mensaje que esa persona espera que le
+        /// conteste, con una de sus respuestas (ver <see cref="Presentation.ChatView.Replies"/>).
+        /// Lo que contesta cambia lo que la otra persona siente por él.
+        /// </summary>
+        public void ReplyChat(int otherId, int replyIndex)
+        {
+            if (Pending != null)
+            {
+                // Lo que contesta puede cambiar lo que siente esa persona, y con eso las opciones
+                // del evento que ya está en pantalla: primero se decide el evento.
+                throw new InvalidOperationException("Hay un evento pendiente: primero se elige su opción.");
+            }
+
+            ChatSystem.Reply(World, Content, World.Player, otherId, replyIndex);
         }
 
         /// <summary>Entradas nuevas del diario del jugador desde la última vez que se pidieron.</summary>

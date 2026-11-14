@@ -144,6 +144,15 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Correos en las bandejas al final, sumando todas las vidas con correo.</summary>
         public int MailsReceived { get; internal set; }
 
+        /// <summary>Vidas que terminan con Mensajito (con conversaciones guardadas).</summary>
+        public int WithChats { get; internal set; }
+
+        /// <summary>Mensajes que les llegaron por Mensajito, sumando todas las vidas (los últimos de cada chat).</summary>
+        public int ChatMessages { get; internal set; }
+
+        /// <summary>Personas distintas que les escribieron, sumando todas las vidas.</summary>
+        public int ChatPeople { get; internal set; }
+
         /// <summary>Vidas que cayeron alguna vez en una estafa por correo.</summary>
         public int ScamVictims { get; internal set; }
 
@@ -195,6 +204,7 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Siguen vivos con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano de los vivos (en dinero del inicio): {MedianRealMoney.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan jubilados: {PercentOfAlive(Retired).ToString("0.0", ci)} %; pensión mediana al mes, propia + del Estado (en dinero del inicio): {MedianRealPension.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan con celular: {Percent(WithPhone).ToString("0.0", ci)} %; con correo: {Percent(WithMail).ToString("0.0", ci)} % (correos en la bandeja, promedio: {(WithMail == 0 ? 0 : (double)MailsReceived / WithMail).ToString("0.0", ci)}); cayeron en una estafa por correo: {Percent(ScamVictims).ToString("0.0", ci)} %");
+            sb.AppendLine($"- Mensajito: {Percent(WithChats).ToString("0.0", ci)} % lo tiene; mensajes recibidos guardados, promedio: {(WithChats == 0 ? 0 : (double)ChatMessages / WithChats).ToString("0.0", ci)}, de {(WithChats == 0 ? 0 : (double)ChatPeople / WithChats).ToString("0.0", ci)} personas (contestan 3 de cada 4)");
             sb.AppendLine($"- Terminan con deudas: {Percent(WithDebt).ToString("0.0", ci)} %; deuda mediana (en dinero del inicio): {MedianRealDebt.ToString("N0", ci)}; morosos: {Percent(Delinquent).ToString("0.0", ci)} %");
             sb.AppendLine($"- Terminan con amigos: {Percent(WithFriends).ToString("0.0", ci)} % (promedio {AverageFriends.ToString("0.0", ci)}); con un rival: {Percent(WithRival).ToString("0.0", ci)} %; tuvieron una expareja: {Percent(WithEx).ToString("0.0", ci)} %");
             sb.AppendLine($"- Cariño de la madre (si vive) / rencor de la pareja (si hay), promedio al final: {AverageMotherAffection.ToString("0", ci)} / {AveragePartnerResentment.ToString("0", ci)}");

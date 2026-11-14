@@ -65,6 +65,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>Su cuenta de correo, o null (desde la versión 12).</summary>
         public MailData? Mail { get; set; }
 
+        /// <summary>Sus conversaciones de Mensajito, o null (desde la versión 15).</summary>
+        public ChatInboxData? Chats { get; set; }
+
         /// <summary>Área del último cargo de su carrera que ya no tiene, o null.</summary>
         public string? LastAreaId { get; set; }
 

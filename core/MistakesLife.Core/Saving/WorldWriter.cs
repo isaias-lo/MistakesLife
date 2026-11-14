@@ -137,6 +137,18 @@ namespace MistakesLife.Core.Saving
                     JournalCursor = c.Mail.JournalCursor,
                     Messages = c.Mail.Messages.Select(m => new MailMessageData { Week = m.Date.TotalWeeks, MailId = m.MailId, Read = m.Read }).ToList(),
                 },
+                Chats = c.Chats == null ? null : new ChatInboxData
+                {
+                    JournalCursor = c.Chats.JournalCursor,
+                    Chats = c.Chats.Chats.Select(chat => new ChatData
+                    {
+                        OtherId = chat.OtherId,
+                        Unread = chat.Unread,
+                        AwaitingReply = chat.AwaitingReply,
+                        AwaitingSinceWeek = chat.AwaitingSince.TotalWeeks,
+                        Messages = chat.Messages.Select(m => new ChatMessageData { Week = m.Date.TotalWeeks, TextKey = m.TextKey, FromPlayer = m.FromPlayer }).ToList(),
+                    }).ToList(),
+                },
                 LastAreaId = c.LastPosition?.AreaId,
                 LastPositionId = c.LastPosition?.PositionId,
                 LastPayslip = c.LastPayslip == null ? null : new PayslipData

@@ -163,10 +163,10 @@ namespace MistakesLife.Unity
             }
         }
 
-        /// <summary>Abre el celular encima de la vida (en sus apps o en el correo), para las capturas.</summary>
-        public void OpenPhoneForCapture(bool mail)
+        /// <summary>Abre el celular encima de la vida (en sus apps, en el correo o en Mensajito), para las capturas.</summary>
+        public void OpenPhoneForCapture(bool mail, bool chats = false, bool openFirstChat = false)
         {
-            _phone.Show(_presenter!, mail);
+            _phone.Show(_presenter!, mail, chats, openFirstChat);
         }
 
         /// <summary>Abre la carpeta del juzgado encima de la vida, para las capturas.</summary>
@@ -757,7 +757,7 @@ namespace MistakesLife.Unity
             PhoneView phone = presenter.Phone();
             if (phone.HasPhone || phone.HasMail)
             {
-                Things.PhoneThing(things, presenter.Text("ui.boton.celular"), phone.UnreadMail, () => _phone.Show(presenter));
+                Things.PhoneThing(things, presenter.Text("ui.boton.celular"), phone.UnreadMail + phone.UnreadChats, () => _phone.Show(presenter));
             }
 
             Things.PhotosThing(things, presenter.Text("ui.cosas.tu_gente"), () => ShowHistory(true));

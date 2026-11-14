@@ -16,8 +16,11 @@ namespace MistakesLife.Unity
     /// rojo de avisos, y abajo el dock y la rayita de inicio. El correo se ve como una app de
     /// correo: blanca, con la bandeja "Recibidos" (inicial de quien manda, asunto, vista previa,
     /// hace cuánto llegó y un punto azul si no está leído) y cada correo abierto como un mensaje.
-    /// Regla: aquí no se decide nada; se dibuja lo que da LifePresenter (Phone, Mail) y se le
-    /// pasa el toque de leer (ReadMail).
+    /// Mensajito se ve como una app de mensajes: la lista de chats (foto con inicial, nombre, último
+    /// mensaje, hace cuánto y el globo verde de no vistos) y cada conversación con sus burbujas
+    /// (blancas las de la otra persona, verdes las tuyas) sobre el fondo beige, y abajo lo que
+    /// puedes contestar. Regla: aquí no se decide nada; se dibuja lo que da LifePresenter (Phone,
+    /// Mail, Chats, Chat) y se le pasan los toques (ReadMail, ReadChat, ReplyChat).
     /// </summary>
     public sealed class PhoneScreen
     {
@@ -31,6 +34,15 @@ namespace MistakesLife.Unity
         private static readonly Color MailWhite = UiFactory.Hex(0xFAFAFC);
         private static readonly Color MailLine = UiFactory.Hex(0xE3E5EC);
         private static readonly Color MailBlue = UiFactory.Hex(0x1A73E8);
+
+        /// <summary>Mensajito: la barra verde, el fondo de la conversación y las burbujas.</summary>
+        private static readonly Color ChatGreen = UiFactory.Hex(0x1F7A4A);
+        private static readonly Color ChatWallpaper = UiFactory.Hex(0xECE5DD);
+        private static readonly Color BubbleMine = UiFactory.Hex(0xD9F7C4);
+        private static readonly Color BubbleTheirs = UiFactory.Hex(0xFFFFFF);
+        private static readonly Color ChatBadge = UiFactory.Hex(0x25A35A);
+
+        private const string ChatAppId = "app.mensajito";
 
         /// <summary>Cuántas apps van por fila (y en el dock).</summary>
         private const int AppsPerRow = 4;
@@ -65,8 +77,8 @@ namespace MistakesLife.Unity
 
         public bool IsOpen => _layer != null && _layer.gameObject.activeSelf;
 
-        /// <summary>Abre el celular en la pantalla de inicio (las apps), o directo en la bandeja del correo.</summary>
-        public void Show(LifePresenter presenter, bool mail = false)
+        /// <summary>Abre el celular en la pantalla de inicio (las apps), o directo en la bandeja del correo o en Mensajito.</summary>
+        public void Show(LifePresenter presenter, bool mail = false, bool chats = false, bool openFirstChat = false)
         {
             _presenter = presenter;
             Ensure();
@@ -75,6 +87,19 @@ namespace MistakesLife.Unity
             if (mail)
             {
                 DrawInbox();
+            }
+            else if (chats)
+            {
+                IReadOnlyList<ChatSummaryView> list = presenter.Chats();
+                if (openFirstChat && list.Count > 0)
+                {
+                    // Para las capturas: la conversación de más arriba abierta.
+                    DrawConversation(list[0].OtherId);
+                }
+                else
+                {
+                    DrawChats();
+                }
             }
             else
             {
@@ -320,7 +345,9 @@ namespace MistakesLife.Unity
 
         private void AddApp(RectTransform row, AppView app)
         {
-            Action open = app.IsMail ? (Action)DrawInbox : () => DrawEmptyApp(app);
+            Action open = app.IsMail ? (Action)DrawInbox
+                : app.AppId == ChatAppId ? (Action)DrawChats
+                : () => DrawEmptyApp(app);
             Icon(row, app.AppId, app.Name, app.Unread, open);
         }
 
@@ -476,6 +503,255 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>
+        /// Mensajito, la lista de chats: cada persona que te ha escrito, del chat más reciente al
+        /// más viejo, con su foto (la inicial), su nombre, el último mensaje y el globo verde.
+        /// </summary>
+        private void DrawChats()
+        {
+            LifePresenter presenter = _presenter!;
+            Prepare(home: false, title: presenter.Text(ChatAppId), back: DrawHome);
+            ChatTheme(conversation: false);
+
+            IReadOnlyList<ChatSummaryView> chats = presenter.Chats();
+            if (chats.Count == 0)
+            {
+                Space(_body, 60f);
+                TextMeshProUGUI empty = UiFactory.Label(_body, presenter.Text("ui.mensajito.vacio"), 38, UiFactory.PaperMutedInk);
+                empty.alignment = TextAlignmentOptions.Center;
+                return;
+            }
+
+            foreach (ChatSummaryView chat in chats)
+            {
+                ChatRow(chat);
+            }
+        }
+
+        /// <summary>Una fila de la lista de chats; tocarla abre la conversación.</summary>
+        private void ChatRow(ChatSummaryView chat)
+        {
+            int otherId = chat.OtherId;
+            RectTransform row = UiFactory.Child(_body, "Chat");
+            row.gameObject.AddComponent<Image>().color = MailWhite;
+            Button open = row.gameObject.AddComponent<Button>();
+            open.targetGraphic = row.GetComponent<Image>();
+            open.onClick.AddListener(() => DrawConversation(otherId));
+            HorizontalLayoutGroup layout = row.gameObject.AddComponent<HorizontalLayoutGroup>();
+            layout.padding = new RectOffset(0, 0, 16, 16);
+            layout.spacing = 22;
+            layout.childAlignment = TextAnchor.MiddleLeft;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = false;
+
+            ProfilePhoto(row, chat.Name, chat.OtherId, 104f);
+
+            RectTransform text = UiFactory.Column(row, "Texto del chat", 0, 4);
+            text.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+            FontStyles weight = chat.Unread > 0 ? FontStyles.Bold : FontStyles.Normal;
+
+            RectTransform top = UiFactory.Child(text, "Quien y cuando");
+            HorizontalLayoutGroup topRow = top.gameObject.AddComponent<HorizontalLayoutGroup>();
+            topRow.spacing = 12;
+            topRow.childAlignment = TextAnchor.MiddleLeft;
+            topRow.childControlWidth = true;
+            topRow.childControlHeight = true;
+            topRow.childForceExpandWidth = false;
+            topRow.childForceExpandHeight = false;
+            TextMeshProUGUI name = UiFactory.Label(top, chat.Name, 40, UiFactory.PaperInk, FontStyles.Bold);
+            NoWrap(name);
+            name.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+            TextMeshProUGUI when = UiFactory.Label(top, chat.When, UiFactory.MinFontSize, chat.Unread > 0 ? ChatBadge : UiFactory.PaperMutedInk, weight);
+            NoWrap(when);
+            when.alignment = TextAlignmentOptions.Right;
+
+            RectTransform bottom = UiFactory.Child(text, "Ultimo mensaje");
+            HorizontalLayoutGroup bottomRow = bottom.gameObject.AddComponent<HorizontalLayoutGroup>();
+            bottomRow.spacing = 12;
+            bottomRow.childAlignment = TextAnchor.MiddleLeft;
+            bottomRow.childControlWidth = true;
+            bottomRow.childControlHeight = true;
+            bottomRow.childForceExpandWidth = false;
+            bottomRow.childForceExpandHeight = false;
+            string last = chat.LastFromPlayer ? _presenter!.Text("ui.mensajito.tu", chat.LastMessage) : chat.LastMessage;
+            TextMeshProUGUI preview = UiFactory.Label(bottom, last, UiFactory.MinFontSize, chat.Unread > 0 ? UiFactory.PaperInk : UiFactory.PaperMutedInk, weight);
+            NoWrap(preview);
+            preview.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+            if (chat.Unread > 0)
+            {
+                RectTransform badge = UiFactory.Child(bottom, "No vistos");
+                LayoutElement size = badge.gameObject.AddComponent<LayoutElement>();
+                size.minWidth = size.preferredWidth = 50;
+                size.minHeight = size.preferredHeight = 50;
+                Circle(badge.gameObject, ChatBadge, 50f);
+                TextMeshProUGUI count = UiFactory.Label(badge, chat.Unread > 99 ? "99+" : chat.Unread.ToString(), UiFactory.MinFontSize, Color.white, FontStyles.Bold);
+                count.alignment = TextAlignmentOptions.Center;
+                UiFactory.Stretch(count.rectTransform);
+                NoWrap(count);
+            }
+
+            Divider(_body);
+        }
+
+        /// <summary>
+        /// Una conversación abierta: arriba qué es esa persona para ti, los mensajes en burbujas con
+        /// el día como separador, y abajo lo que puedes contestar si te preguntó algo. Al abrirla, ya
+        /// viste todo.
+        /// </summary>
+        private void DrawConversation(int otherId)
+        {
+            LifePresenter presenter = _presenter!;
+            presenter.ReadChat(otherId);
+            Changed?.Invoke();
+            ChatView? chat = presenter.Chat(otherId);
+            if (chat == null)
+            {
+                DrawChats();
+                return;
+            }
+
+            Prepare(home: false, title: chat.Name, back: DrawChats);
+            ChatTheme(conversation: true);
+
+            if (chat.Relation.Length > 0 && chat.Relation != chat.Name)
+            {
+                Pill(_body, chat.Relation);
+            }
+
+            string day = string.Empty;
+            foreach (ChatBubbleView message in chat.Messages)
+            {
+                if (message.Day != day)
+                {
+                    day = message.Day;
+                    Pill(_body, day);
+                }
+
+                Bubble(message);
+            }
+
+            Space(_body, 16f);
+            if (chat.Replies.Count == 0)
+            {
+                string note = chat.ReplyAfterEvent ? presenter.Text("ui.mensajito.despues_del_evento") : presenter.Text("ui.mensajito.nada_pendiente");
+                TextMeshProUGUI nothing = UiFactory.Label(_body, note, UiFactory.MinFontSize, UiFactory.PaperMutedInk);
+                nothing.alignment = TextAlignmentOptions.Center;
+            }
+            else
+            {
+                UiFactory.Label(_body, presenter.Text("ui.mensajito.responder"), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold);
+                for (int i = 0; i < chat.Replies.Count; i++)
+                {
+                    int reply = i;
+                    Button button = UiFactory.MakeButton(_body, chat.Replies[i], MailWhite, ChatGreen, () =>
+                    {
+                        presenter.ReplyChat(otherId, reply);
+                        Changed?.Invoke();
+                        DrawConversation(otherId);
+                    }, UiFactory.MinFontSize, 0, 18);
+                    TextMeshProUGUI label = button.GetComponentInChildren<TextMeshProUGUI>();
+                    label.fontStyle = FontStyles.Normal;
+                }
+            }
+
+            ScrollToBottom();
+        }
+
+        /// <summary>Una burbuja: la de la otra persona a la izquierda y blanca; la tuya a la derecha y verde.</summary>
+        private void Bubble(ChatBubbleView message)
+        {
+            RectTransform row = UiFactory.Child(_body, message.FromPlayer ? "Mensaje tuyo" : "Mensaje");
+            HorizontalLayoutGroup layout = row.gameObject.AddComponent<HorizontalLayoutGroup>();
+            layout.spacing = 0;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = false;
+
+            // El hueco del otro lado: la burbuja crece con el texto hasta dejarle ese mínimo.
+            if (message.FromPlayer)
+            {
+                Gap(row);
+            }
+
+            RectTransform bubble = UiFactory.Column(row, "Burbuja", 20, 0, message.FromPlayer ? BubbleMine : BubbleTheirs);
+            bubble.GetComponent<Image>().pixelsPerUnitMultiplier = 1.4f;
+            bubble.gameObject.AddComponent<LayoutElement>().flexibleWidth = 0;
+            TextMeshProUGUI text = UiFactory.Label(bubble, message.Text, 38, UiFactory.PaperInk);
+            text.textWrappingMode = TextWrappingModes.Normal;
+
+            if (!message.FromPlayer)
+            {
+                Gap(row);
+            }
+        }
+
+        private static void Gap(RectTransform row)
+        {
+            LayoutElement gap = UiFactory.Child(row, "Hueco").gameObject.AddComponent<LayoutElement>();
+            gap.minWidth = 150;
+            gap.flexibleWidth = 1;
+        }
+
+        /// <summary>Un cartelito redondo al centro (el día, o qué es esa persona para ti).</summary>
+        private static void Pill(RectTransform parent, string text)
+        {
+            RectTransform holder = UiFactory.Child(parent, "Cartelito");
+            HorizontalLayoutGroup center = holder.gameObject.AddComponent<HorizontalLayoutGroup>();
+            center.childAlignment = TextAnchor.MiddleCenter;
+            center.childControlWidth = true;
+            center.childControlHeight = true;
+            center.childForceExpandWidth = false;
+            center.childForceExpandHeight = false;
+            RectTransform pill = UiFactory.Column(holder, "Fondo del cartelito", 12, 0, UiFactory.Hex(0xE1F2FB));
+            pill.GetComponent<VerticalLayoutGroup>().padding = new RectOffset(26, 26, 8, 8);
+            TextMeshProUGUI label = UiFactory.Label(pill, text, UiFactory.MinFontSize, UiFactory.PaperMutedInk);
+            label.alignment = TextAlignmentOptions.Center;
+            NoWrap(label);
+        }
+
+        /// <summary>Lleva el scroll al final, donde están los mensajes nuevos (como en las apps de verdad).</summary>
+        private void ScrollToBottom()
+        {
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_body);
+            ScrollRect? scroll = _scrollImage.GetComponent<ScrollRect>();
+            if (scroll != null)
+            {
+                scroll.verticalNormalizedPosition = 0f;
+            }
+        }
+
+        /// <summary>Los colores de Mensajito: barra verde con letras blancas, la lista blanca y la conversación beige.</summary>
+        private void ChatTheme(bool conversation)
+        {
+            Color back = conversation ? ChatWallpaper : MailWhite;
+            _screenImage.color = ChatGreen;
+            _scrollImage.color = back;
+            _appBarImage.color = ChatGreen;
+            _appTitle.color = Color.white;
+            _clock.color = Color.white;
+            _back.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+        }
+
+        /// <summary>La foto de perfil: un círculo con la inicial, de un color que no cambia para cada persona.</summary>
+        private static void ProfilePhoto(RectTransform parent, string name, int personId, float diameter)
+        {
+            Color[] colors =
+            {
+                UiFactory.Hex(0xE07A3F), UiFactory.Hex(0x3D7EDB), UiFactory.Hex(0x8E5BD8), UiFactory.Hex(0x1F9D74),
+                UiFactory.Hex(0xD04F8F), UiFactory.Hex(0x607089), UiFactory.Hex(0xC2862E),
+            };
+            RectTransform face = UiFactory.Child(parent, "Foto de perfil");
+            LayoutElement size = face.gameObject.AddComponent<LayoutElement>();
+            size.minWidth = size.preferredWidth = diameter;
+            size.minHeight = size.preferredHeight = diameter;
+            Circle(face.gameObject, colors[Math.Abs(personId) % colors.Length], diameter);
+            Letter(face, name, 46);
+        }
+
+        /// <summary>
         /// Prepara la pantalla para lo que se va a dibujar: la fecha arriba, el fondo de pantalla o
         /// el de la app, la barra de la app (con Volver si hay adónde) y el dock solo en el inicio.
         /// </summary>
@@ -490,7 +766,9 @@ namespace MistakesLife.Unity
 
             _appBar.gameObject.SetActive(!home);
             _appTitle.text = title;
-            _back.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.boton.volver");
+            TextMeshProUGUI backLabel = _back.GetComponentInChildren<TextMeshProUGUI>();
+            backLabel.text = presenter.Text("ui.boton.volver");
+            backLabel.color = MailBlue;
             Action target = back ?? new Action(DrawHome);
             _back.onClick.RemoveAllListeners();
             _back.onClick.AddListener(() => target());

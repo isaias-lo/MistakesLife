@@ -390,7 +390,7 @@ namespace MistakesLife.Core.Tests
                 "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "SpouseId", "UnionTypeId", "Residence", "HouseholdLevel", "Money", "Job",
                 "LastPayslip", "LastExpenses", "MonthsInRed", "Lease", "GroceryBasketId", "Services", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
                 "LastPensionPayment", "ContributedMonths", "PensionSalaryBase", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "Degrees",
-                "Relationships", "LastPosition", "JobSearch", "Phone", "Mail",
+                "Relationships", "LastPosition", "JobSearch", "Phone", "Mail", "Chats",
                 "IsAlive", "DeathDate", "DeathCauseId",
             };
             string[] world =

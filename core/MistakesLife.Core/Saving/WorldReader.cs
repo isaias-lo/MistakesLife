@@ -202,6 +202,28 @@ namespace MistakesLife.Core.Saving
                 character.Mail = mail;
             }
 
+            if (d.Chats != null)
+            {
+                var inbox = new Devices.ChatInbox(d.Chats.JournalCursor);
+                foreach (ChatData chatData in d.Chats.Chats)
+                {
+                    var chat = new Devices.Chat(chatData.OtherId)
+                    {
+                        Unread = chatData.Unread,
+                        AwaitingReply = chatData.AwaitingReply,
+                        AwaitingSince = Date(chatData.AwaitingSinceWeek),
+                    };
+                    foreach (ChatMessageData message in chatData.Messages)
+                    {
+                        chat.Add(new Devices.ChatMessage(Date(message.Week), message.TextKey, message.FromPlayer));
+                    }
+
+                    inbox.Add(chat);
+                }
+
+                character.Chats = inbox;
+            }
+
             if (d.LastAreaId != null && d.LastPositionId != null)
             {
                 character.LastPosition = new CareerPosition(d.LastAreaId, d.LastPositionId);
