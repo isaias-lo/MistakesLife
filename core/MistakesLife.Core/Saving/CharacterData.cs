@@ -131,6 +131,9 @@ namespace MistakesLife.Core.Saving
 
         public StudiesData? Studies { get; set; }
 
+        /// <summary>El horario (desde la versión 19).</summary>
+        public RoutineData? Routine { get; set; }
+
         public List<string> Degrees { get; set; } = new List<string>();
 
         public bool IsAlive { get; set; } = true;

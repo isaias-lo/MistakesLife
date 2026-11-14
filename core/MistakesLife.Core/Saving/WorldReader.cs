@@ -294,6 +294,17 @@ namespace MistakesLife.Core.Saving
                 character.RestoreDegree(degree);
             }
 
+            if (d.Routine != null)
+            {
+                var routine = new Life.Routine(d.Routine.StageKey) { Confirmed = d.Routine.Confirmed };
+                for (int i = 0; i < d.Routine.Slots.Count && i < Life.Routine.Days * Life.Routine.BlocksPerDay; i++)
+                {
+                    routine.Set(i / Life.Routine.BlocksPerDay, (Life.RoutineBlock)(i % Life.Routine.BlocksPerDay), d.Routine.Slots[i]);
+                }
+
+                character.Routine = routine;
+            }
+
             if (!d.IsAlive)
             {
                 character.RestoreDeath(Date(d.DeathWeek ?? d.BirthWeek), d.DeathCauseId ?? Character.CauseNatural);

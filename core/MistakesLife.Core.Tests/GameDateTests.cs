@@ -38,5 +38,20 @@ namespace MistakesLife.Core.Tests
             Assert.Equal(30, later.WeeksSince(start));
             Assert.True(later > start);
         }
+
+        [Theory]
+        [InlineData(0, 1, 1)]
+        [InlineData(4, 29, 1)]
+        [InlineData(5, 5, 2)]
+        [InlineData(10, 12, 3)]
+        [InlineData(36, 10, 9)]
+        [InlineData(51, 24, 12)]
+        [InlineData(52, 1, 1)]
+        public void Semana_EmpiezaUnLunesConDiaYMesDeVerdad(int totalWeeks, int day, int month)
+        {
+            var date = new GameDate(totalWeeks);
+            Assert.Equal(day, date.DayOfMonth);
+            Assert.Equal(month, date.Month);
+        }
     }
 }

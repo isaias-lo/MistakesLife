@@ -5,6 +5,7 @@ using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
+using MistakesLife.Core.Life;
 using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
 
@@ -34,6 +35,7 @@ namespace MistakesLife.ConsoleGame
         public ConsoleGame(LifeSession session, TextReader input, TextWriter output, string savePath = DefaultSavePath)
         {
             _session = session;
+            _session.AsksForRoutine = true;
             _input = input;
             _output = output;
             _savePath = savePath;
@@ -66,8 +68,20 @@ namespace MistakesLife.ConsoleGame
                     continue;
                 }
 
+                if (_session.World.Player.Routine is { Confirmed: false })
+                {
+                    _output.WriteLine();
+                    _output.WriteLine(_session.Text("ui.horario.nuevo"));
+                    if (!AskRoutine())
+                    {
+                        return;
+                    }
+
+                    continue;
+                }
+
                 _output.WriteLine();
-                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta que pase algo | s: una semana | a: un año | e: estado | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
+                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta que pase algo | s: una semana | a: un año | e: estado | h: horario | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
                 _output.Write("> ");
                 string? command = _input.ReadLine();
                 if (command == null)
@@ -89,6 +103,17 @@ namespace MistakesLife.ConsoleGame
                     case "e":
                         PrintStatus();
                         break;
+                    case "h":
+                        if (_session.World.Player.Routine == null)
+                        {
+                            _output.WriteLine("Todavía no tienes horario: lo armas a los 6 años.");
+                        }
+                        else if (!AskRoutine())
+                        {
+                            return;
+                        }
+
+                        break;
                     case "d":
                         PrintFullJournal();
                         break;
@@ -106,10 +131,84 @@ namespace MistakesLife.ConsoleGame
                         _output.WriteLine("Hasta pronto.");
                         return;
                     default:
-                        _output.WriteLine("No entendí. Usa Enter, s, a, e, d, c, g, v o q.");
+                        _output.WriteLine("No entendí. Usa Enter, s, a, e, h, d, c, g, v o q.");
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Muestra el horario y deja cambiar bloques ("ma t" = martes tarde) hasta que el
+        /// jugador lo deja así con Enter. Devuelve false si se acabó la entrada.
+        /// </summary>
+        private bool AskRoutine()
+        {
+            string[] days = { "lu", "ma", "mi", "ju", "vi", "sa", "do" };
+            while (true)
+            {
+                Routine routine = _session.World.Player.Routine!;
+                _output.WriteLine(_session.Text("ui.horario.titulo") + ":");
+                for (int day = 0; day < Routine.Days; day++)
+                {
+                    string afternoon = SlotText(routine.Get(day, RoutineBlock.Afternoon));
+                    string night = SlotText(routine.Get(day, RoutineBlock.Night));
+                    _output.WriteLine($"  {days[day]}  {_session.Text("ui.horario.dia." + day),-10} {_session.Text("ui.horario.tarde")}: {afternoon,-26} {_session.Text("ui.horario.noche")}: {night}");
+                }
+
+                _output.WriteLine($"  Si sigues así: ánimo {Trend("animo")}, mente {Trend("mente")}, salud {Trend("salud")}.");
+                _output.Write("Enter: así queda | <día> <t|n> para cambiar un bloque (ej. \"ma t\"): ");
+                string? line = _input.ReadLine();
+                if (line == null)
+                {
+                    return false;
+                }
+
+                string[] parts = line.Trim().ToLowerInvariant().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 0)
+                {
+                    _session.ConfirmRoutine();
+                    return true;
+                }
+
+                int dayIndex = Array.IndexOf(days, parts[0]);
+                if (parts.Length != 2 || dayIndex < 0 || (parts[1] != "t" && parts[1] != "n"))
+                {
+                    _output.WriteLine("No entendí. Escribe el día (lu, ma, mi, ju, vi, sa, do) y t (tarde) o n (noche).");
+                    continue;
+                }
+
+                RoutineBlock block = parts[1] == "t" ? RoutineBlock.Afternoon : RoutineBlock.Night;
+                var options = RoutineRules.Options(_session.World, _session.Content, _session.World.Player, block);
+                _output.WriteLine("  0. " + _session.Text("ui.horario.libre"));
+                for (int i = 0; i < options.Count; i++)
+                {
+                    _output.WriteLine($"  {i + 1}. {_session.Text(options[i].Id)}");
+                }
+
+                _output.Write("¿Qué pones? ");
+                string? pick = _input.ReadLine();
+                if (pick == null)
+                {
+                    return false;
+                }
+
+                if (int.TryParse(pick.Trim(), out int n) && n >= 0 && n <= options.Count)
+                {
+                    _session.SetRoutine(dayIndex, block, n == 0 ? null : options[n - 1].Id);
+                }
+            }
+        }
+
+        private string SlotText(string? activityId) => _session.Text(activityId ?? "ui.horario.libre");
+
+        private string Trend(string key)
+        {
+            var world = _session.World;
+            int total = RoutineRules.Total(world, _session.Content, world.Player, world.Player.Routine!, key);
+            int direction = key == "animo" ? RoutineRules.MoodTarget(total) - world.Player.Stats.Happiness
+                : key == "mente" ? RoutineRules.MindTarget(total) - world.Player.Stats.Smarts
+                : RoutineRules.HealthStep(total);
+            return _session.Text(direction > 0 ? "ui.horario.sube" : direction < 0 ? "ui.horario.baja" : "ui.horario.igual");
         }
 
         private bool CanGoBack() => _session.TimeMachine.Snapshots.Any(_session.TimeMachine.CanGoBackTo);
@@ -460,7 +559,11 @@ namespace MistakesLife.ConsoleGame
             PrintStatus();
         }
 
-        private string DateLabel() => $"{AgeLabel(_session.World.Date)}, {_session.World.Date}";
+        private string DateLabel()
+        {
+            GameDate date = _session.World.Date;
+            return $"{AgeLabel(date)}, " + string.Format(System.Globalization.CultureInfo.InvariantCulture, _session.Text("ui.fecha.hoy"), date.DayOfMonth, _session.Text("ui.mes." + date.Month));
+        }
 
         private string AgeLabel(GameDate date)
         {
