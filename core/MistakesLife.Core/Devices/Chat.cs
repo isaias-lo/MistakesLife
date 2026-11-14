@@ -39,6 +39,12 @@ namespace MistakesLife.Core.Devices
         /// <summary>Desde cuándo espera respuesta (si <see cref="AwaitingReply"/> no es null).</summary>
         public GameDate AwaitingSince { get; internal set; }
 
+        /// <summary>Lo que el jugador escribió primero (id de packs/*/escribir/) y espera que le contesten, o null.</summary>
+        public string? PlayerWrote { get; internal set; }
+
+        /// <summary>Cuándo lo escribió (si <see cref="PlayerWrote"/> no es null): la otra persona contesta la semana siguiente.</summary>
+        public GameDate PlayerWroteOn { get; internal set; }
+
         /// <summary>La fecha del último mensaje (para ordenar la lista de chats).</summary>
         public GameDate LastDate => _messages.Count == 0 ? default : _messages[_messages.Count - 1].Date;
 

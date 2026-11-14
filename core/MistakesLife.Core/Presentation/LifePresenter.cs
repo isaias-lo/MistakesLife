@@ -497,22 +497,54 @@ namespace MistakesLife.Core.Presentation
         {
             Character player = Session.World.Player;
             Devices.Chat? chat = player.Chats?.With(otherId);
-            if (chat == null || !Session.World.TryGetCharacter(otherId, out Character? other))
+            if (!Session.World.TryGetCharacter(otherId, out Character? other)
+                || (chat == null && !Devices.ChatSystem.Contacts(Session.World, player).Contains(other)))
             {
                 return null;
             }
 
-            var bubbles = chat.Messages
+            var bubbles = (chat?.Messages ?? (IReadOnlyList<Devices.ChatMessage>)Array.Empty<Devices.ChatMessage>())
                 .Select(m => new ChatBubbleView(T(m.TextKey), m.FromPlayer, WhenLabel(Session.World.Date.WeeksSince(m.Date))))
                 .ToList();
-            ChatDefinition? awaiting = chat.AwaitingReply == null ? null : Session.Content.Chat(chat.AwaitingReply);
-            bool eventFirst = awaiting != null && Session.Pending != null;
+            ChatDefinition? awaiting = chat?.AwaitingReply == null ? null : Session.Content.Chat(chat.AwaitingReply);
+            bool eventFirst = Session.Pending != null;
             var replies = awaiting == null || !other.IsAlive || eventFirst ? new List<string>() : awaiting.Replies.Select(r => T(r.Id)).ToList();
-            return new ChatView(other.Id, ContactName(player, other), ContactRelation(player, other), other.Sex == Sex.Female, bubbles, replies, eventFirst);
+            var openers = eventFirst
+                ? new List<ChatOpenerView>()
+                : Devices.ChatSystem.OpenersFor(Session.World, Session.Content, player, other).Select(o => new ChatOpenerView(o.Id, T(o.Id))).ToList();
+
+            // Lo último lo escribió el jugador primero: espera respuesta, o ya lo dejaron en visto.
+            Devices.ChatMessage? last = chat == null || chat.Messages.Count == 0 ? null : chat.Messages[chat.Messages.Count - 1];
+            bool wrote = last != null && last.FromPlayer && Session.Content.ChatOpener(last.TextKey) != null;
+            bool waitingAnswer = wrote && chat!.PlayerWrote != null;
+            bool leftOnRead = wrote && chat!.PlayerWrote == null;
+            return new ChatView(other.Id, ContactName(player, other), ContactRelation(player, other), other.Sex == Sex.Female, bubbles, replies,
+                eventFirst && (awaiting != null || Devices.ChatSystem.OpenersFor(Session.World, Session.Content, player, other).Count > 0),
+                openers, waitingAnswer, leftOnRead);
         }
 
         /// <summary>El jugador abre la conversación: ve todos los mensajes.</summary>
         public void ReadChat(int otherId) => Session.ReadChat(otherId);
+
+        /// <summary>
+        /// Las personas a las que el jugador puede escribirle (para "Nuevo chat"): su familia, su
+        /// pareja y la gente con la que tiene un lazo. Vacía si no tiene Mensajito.
+        /// </summary>
+        public IReadOnlyList<ChatContactView> ChatContacts()
+        {
+            Character player = Session.World.Player;
+            if (player.Phone == null || !player.Phone.Has(Devices.ChatSystem.AppId))
+            {
+                return new List<ChatContactView>();
+            }
+
+            return Devices.ChatSystem.Contacts(Session.World, player)
+                .Select(p => new ChatContactView(p.Id, ContactName(player, p), ContactRelation(player, p), p.Sex == Sex.Female))
+                .ToList();
+        }
+
+        /// <summary>El jugador le escribe primero a esa persona uno de <see cref="ChatView.Openers"/> (por su id).</summary>
+        public void WriteChat(int otherId, string openerId) => Session.WriteChat(otherId, openerId);
 
         /// <summary>El jugador contesta con la respuesta número <paramref name="replyIndex"/> de <see cref="ChatView.Replies"/>.</summary>
         public void ReplyChat(int otherId, int replyIndex) => Session.ReplyChat(otherId, replyIndex);

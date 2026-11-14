@@ -53,7 +53,7 @@ namespace MistakesLife.Core.Devices
                 _chats.Add(chat);
                 if (_chats.Count > MaxChats)
                 {
-                    Chat oldest = _chats.Where(c => c != chat && c.AwaitingReply == null).OrderBy(c => c.LastDate).FirstOrDefault()
+                    Chat oldest = _chats.Where(c => c != chat && c.AwaitingReply == null && c.PlayerWrote == null).OrderBy(c => c.LastDate).FirstOrDefault()
                         ?? _chats.Where(c => c != chat).OrderBy(c => c.LastDate).First();
                     _chats.Remove(oldest);
                 }

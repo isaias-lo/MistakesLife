@@ -366,6 +366,28 @@ namespace MistakesLife.Core.Analysis
 
                 session.ReplyChat(chat.OtherId, chooser.NextInt(definition.Replies.Count));
             }
+
+            // Y de vez en cuando le escribe primero a alguien de su vida.
+            if (!chooser.Chance(ChatWriteChance))
+            {
+                return;
+            }
+
+            IReadOnlyList<Character> contacts = Devices.ChatSystem.Contacts(session.World, session.World.Player);
+            if (contacts.Count == 0)
+            {
+                return;
+            }
+
+            Character other = chooser.Pick(contacts);
+            IReadOnlyList<Content.ChatOpenerDefinition> openers = Devices.ChatSystem.OpenersFor(session.World, session.Content, session.World.Player, other);
+            if (openers.Count > 0)
+            {
+                session.WriteChat(other.Id, chooser.Pick(openers).Id);
+            }
         }
+
+        /// <summary>Cada vez que mira el celular, la probabilidad de que le escriba primero a alguien.</summary>
+        public const double ChatWriteChance = 0.25;
     }
 }

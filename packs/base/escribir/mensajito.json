@@ -1,0 +1,355 @@
+[
+  {
+    "id": "escribir.madre.como_estas",
+    "para": "madre",
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "escribir.madre.como_estas.resp.feliz",
+        "carino_minimo": 40,
+        "rencor_maximo": 50,
+        "carino": 2
+      },
+      {
+        "id": "escribir.madre.como_estas.resp.seca",
+        "rencor_maximo": 70,
+        "carino": 1
+      }
+    ]
+  },
+  {
+    "id": "escribir.madre.almuerzo",
+    "para": "madre",
+    "condiciones": "jugador.edad >= 18 && jugador.vivienda != nada",
+    "respuestas": [
+      {
+        "id": "escribir.madre.almuerzo.resp.si",
+        "carino_minimo": 35,
+        "rencor_maximo": 50,
+        "carino": 3
+      },
+      {
+        "id": "escribir.madre.almuerzo.resp.bueno",
+        "rencor_maximo": 70,
+        "carino": 1
+      }
+    ]
+  },
+  {
+    "id": "escribir.madre.perdon",
+    "para": "madre",
+    "rencor_minimo": 15,
+    "condiciones": "jugador.edad >= 10",
+    "respuestas": [
+      {
+        "id": "escribir.madre.perdon.resp.perdona",
+        "rencor_maximo": 60,
+        "rencor": -8,
+        "carino": 2
+      }
+    ]
+  },
+  {
+    "id": "escribir.padre.como_estas",
+    "para": "padre",
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "escribir.padre.como_estas.resp.bien",
+        "carino_minimo": 40,
+        "rencor_maximo": 50,
+        "carino": 2
+      },
+      {
+        "id": "escribir.padre.como_estas.resp.seco",
+        "rencor_maximo": 70
+      }
+    ]
+  },
+  {
+    "id": "escribir.padre.partido",
+    "para": "padre",
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "escribir.padre.partido.resp.si",
+        "carino_minimo": 35,
+        "rencor_maximo": 50,
+        "carino": 3
+      },
+      {
+        "id": "escribir.padre.partido.resp.no",
+        "rencor_maximo": 80
+      }
+    ]
+  },
+  {
+    "id": "escribir.padre.perdon",
+    "para": "padre",
+    "rencor_minimo": 15,
+    "condiciones": "jugador.edad >= 10",
+    "respuestas": [
+      {
+        "id": "escribir.padre.perdon.resp.perdona",
+        "rencor_maximo": 60,
+        "rencor": -8,
+        "respeto": 2
+      }
+    ]
+  },
+  {
+    "id": "escribir.pareja.te_quiero",
+    "para": "pareja",
+    "respuestas": [
+      {
+        "id": "escribir.pareja.te_quiero.resp.yo_tambien",
+        "carino_minimo": 50,
+        "rencor_maximo": 40,
+        "carino": 2
+      },
+      {
+        "id": "escribir.pareja.te_quiero.resp.ya"
+      }
+    ]
+  },
+  {
+    "id": "escribir.pareja.salir",
+    "para": "pareja",
+    "respuestas": [
+      {
+        "id": "escribir.pareja.salir.resp.si",
+        "carino_minimo": 40,
+        "rencor_maximo": 40,
+        "carino": 3
+      },
+      {
+        "id": "escribir.pareja.salir.resp.despues",
+        "rencor_maximo": 70
+      }
+    ]
+  },
+  {
+    "id": "escribir.pareja.perdon",
+    "para": "pareja",
+    "rencor_minimo": 15,
+    "respuestas": [
+      {
+        "id": "escribir.pareja.perdon.resp.hablemos",
+        "rencor_maximo": 50,
+        "rencor": -10,
+        "carino": 2,
+        "confianza": 2
+      },
+      {
+        "id": "escribir.pareja.perdon.resp.tiempo",
+        "rencor": -3
+      }
+    ]
+  },
+  {
+    "id": "escribir.amigo.juntarse",
+    "para": "amigo",
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "escribir.amigo.juntarse.resp.dale",
+        "carino_minimo": 45,
+        "rencor_maximo": 40,
+        "carino": 3
+      },
+      {
+        "id": "escribir.amigo.juntarse.resp.otro_dia",
+        "carino_minimo": 25,
+        "rencor_maximo": 60,
+        "carino": 1
+      }
+    ]
+  },
+  {
+    "id": "escribir.amigo.como_estas",
+    "para": "amigo",
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "escribir.amigo.como_estas.resp.que_bueno",
+        "carino_minimo": 30,
+        "rencor_maximo": 40,
+        "carino": 4
+      },
+      {
+        "id": "escribir.amigo.como_estas.resp.bien",
+        "rencor_maximo": 60,
+        "carino": 1
+      }
+    ]
+  },
+  {
+    "id": "escribir.amigo.perdon",
+    "para": "amigo",
+    "rencor_minimo": 15,
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "escribir.amigo.perdon.resp.olvidemos",
+        "rencor_maximo": 50,
+        "rencor": -10,
+        "carino": 2
+      }
+    ]
+  },
+  {
+    "id": "escribir.amigo.felicitar",
+    "para": "amigo",
+    "carino_minimo": 20,
+    "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      {
+        "id": "escribir.amigo.felicitar.resp.gracias",
+        "carino_minimo": 35,
+        "rencor_maximo": 40,
+        "carino": 2
+      }
+    ]
+  },
+  {
+    "id": "escribir.colega.cafe",
+    "para": "colega",
+    "condiciones": "jugador.trabaja",
+    "respuestas": [
+      {
+        "id": "escribir.colega.cafe.resp.vamos",
+        "carino_minimo": 35,
+        "rencor_maximo": 40,
+        "carino": 2
+      },
+      {
+        "id": "escribir.colega.cafe.resp.no_puedo",
+        "rencor_maximo": 70
+      }
+    ]
+  },
+  {
+    "id": "escribir.colega.ayuda",
+    "para": "colega",
+    "condiciones": "jugador.trabaja",
+    "respuestas": [
+      {
+        "id": "escribir.colega.ayuda.resp.si",
+        "carino_minimo": 40,
+        "rencor_maximo": 40,
+        "confianza": 2
+      },
+      {
+        "id": "escribir.colega.ayuda.resp.no",
+        "rencor_maximo": 80,
+        "respeto": -1
+      }
+    ]
+  },
+  {
+    "id": "escribir.hijo.como_estas",
+    "para": "hijo",
+    "edad_minima": 12,
+    "respuestas": [
+      {
+        "id": "escribir.hijo.como_estas.resp.bien",
+        "carino_minimo": 40,
+        "rencor_maximo": 40,
+        "carino": 2
+      }
+    ]
+  },
+  {
+    "id": "escribir.hijo.te_quiero",
+    "para": "hijo",
+    "edad_minima": 12,
+    "respuestas": [
+      {
+        "id": "escribir.hijo.te_quiero.resp.yo_tambien",
+        "carino_minimo": 50,
+        "rencor_maximo": 40,
+        "carino": 2
+      },
+      {
+        "id": "escribir.hijo.te_quiero.resp.ya_po",
+        "rencor_maximo": 60,
+        "carino": 1
+      }
+    ]
+  },
+  {
+    "id": "escribir.hijo.almuerzo",
+    "para": "hijo",
+    "edad_minima": 20,
+    "respuestas": [
+      {
+        "id": "escribir.hijo.almuerzo.resp.si",
+        "carino_minimo": 40,
+        "rencor_maximo": 40,
+        "carino": 3
+      },
+      {
+        "id": "escribir.hijo.almuerzo.resp.no",
+        "rencor_maximo": 70
+      }
+    ]
+  },
+  {
+    "id": "escribir.hijo.perdon",
+    "para": "hijo",
+    "rencor_minimo": 15,
+    "edad_minima": 12,
+    "respuestas": [
+      {
+        "id": "escribir.hijo.perdon.resp.gracias",
+        "rencor_maximo": 60,
+        "rencor": -8,
+        "carino": 2
+      }
+    ]
+  },
+  {
+    "id": "escribir.ex.como_estas",
+    "para": "ex",
+    "respuestas": [
+      {
+        "id": "escribir.ex.como_estas.resp.sorpresa",
+        "carino_minimo": 45,
+        "rencor_maximo": 30,
+        "carino": 2
+      },
+      {
+        "id": "escribir.ex.como_estas.resp.bien",
+        "rencor_maximo": 50
+      }
+    ]
+  },
+  {
+    "id": "escribir.ex.perdon",
+    "para": "ex",
+    "rencor_minimo": 15,
+    "respuestas": [
+      {
+        "id": "escribir.ex.perdon.resp.gracias",
+        "rencor_maximo": 55,
+        "rencor": -10,
+        "respeto": 2
+      }
+    ]
+  },
+  {
+    "id": "escribir.rival.paz",
+    "para": "rival",
+    "respuestas": [
+      {
+        "id": "escribir.rival.paz.resp.de_cero",
+        "rencor_maximo": 55,
+        "rencor": -10,
+        "respeto": 2
+      },
+      {
+        "id": "escribir.rival.paz.resp.no_creo"
+      }
+    ]
+  }
+]

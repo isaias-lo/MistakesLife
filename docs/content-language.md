@@ -707,6 +707,31 @@ Mensajito es la app de mensajes del celular. **Nadie inventado escribe**: cada m
 
 Sin la app no llega nada, y lo que pasó antes de tenerla no llega después. Las conversaciones son una cuenta (como el correo): si pierde el celular, vuelven al tener la app otra vez. Unity las lee con `LifePresenter.Chats()` y `Chat(id)`, y contesta con `ReplyChat(id, respuesta)`.
 
+### Escribir tú primero (escribir/)
+
+El jugador también puede escribirle primero a la gente de su vida ("Nuevo chat"). Lo que puede escribirle a cada uno va en `escribir/*.json` (una lista). **La otra persona contesta según lo que siente por él**: la semana siguiente le llega la primera respuesta cuyo cariño y rencor calcen con lo que esa persona siente; si ninguna calza, lo deja en visto.
+
+```json
+[
+  { "id": "escribir.madre.como_estas", "para": "madre", "condiciones": "jugador.edad >= 12",
+    "respuestas": [
+      { "id": "escribir.madre.como_estas.resp.feliz", "carino_minimo": 40, "rencor_maximo": 50, "carino": 2 },
+      { "id": "escribir.madre.como_estas.resp.seca", "rencor_maximo": 70, "carino": 1 }
+    ] }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Id estable: `escribir.<quien>.<nombre>`. Es la clave del texto que manda el jugador |
+| `para` | A quién se le puede escribir: los mismos roles que `de` en `chats/` |
+| `carino_minimo`, `carino_maximo`, `rencor_minimo`, `rencor_maximo` | Opcionales. Lo que debe sentir esa persona para que el jugador piense en escribirle eso (pedir perdón solo si hay rencor) |
+| `edad_minima`, `edad_maxima` | La edad de la otra persona |
+| `condiciones` | Opcional. Condición sobre el jugador |
+| `respuestas` | Obligatorio, al menos una. En orden: gana la primera cuyo `carino_minimo/maximo` y `rencor_minimo/maximo` calcen con lo que siente; su `id` es la clave del texto de la respuesta y `carino`, `confianza`, `respeto`, `rencor` lo que cambia en esa persona. Si ninguna calza, lo deja en visto (no cambia nada) |
+
+No se puede escribir a quien espera que le contestes, ni dos veces sin respuesta, ni repetir lo mismo en medio año, ni mientras hay un evento por decidir. Unity las lee con `LifePresenter.ChatContacts()` y `Chat(id).Openers`, y escribe con `WriteChat(id, idDelMensaje)`.
+
 ## Juzgados (courts/) y vida civil
 
 Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `C-1532-81`), un tribunal y etapas con sus plazos, como la carpeta de cartulina del juzgado. Una causa **nunca empieza sola**: la abre un evento con `abrir_causa('causa.x')` por algo que hizo el jugador (dejó de pagar una deuda, se casó y se separó). Los tipos de causa van en `courts/*.json` del paquete de **un país** (cada país tiene sus tribunales y plazos):

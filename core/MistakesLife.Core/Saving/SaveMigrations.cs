@@ -221,6 +221,10 @@ namespace MistakesLife.Core.Saving
             // jugador). En las partidas viejas nadie tiene chats: empiezan la próxima
             // semana, sin mensajes por cosas de antes.
             [16] = save => { },
+
+            // 17 → 18: en Mensajito el jugador puede escribir primero. En las partidas viejas no
+            // le había escrito a nadie: ningún chat espera respuesta suya.
+            [17] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

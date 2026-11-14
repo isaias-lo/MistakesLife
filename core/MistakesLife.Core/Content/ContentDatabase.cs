@@ -26,6 +26,7 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, ChatDefinition> _chats = new SortedDictionary<string, ChatDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, List<ChatDefinition>> _chatsByJournal = new Dictionary<string, List<ChatDefinition>>(StringComparer.Ordinal);
         private readonly List<ChatDefinition> _randomChats = new List<ChatDefinition>();
+        private readonly SortedDictionary<string, ChatOpenerDefinition> _chatOpeners = new SortedDictionary<string, ChatOpenerDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CountryDefinition> _countries = new SortedDictionary<string, CountryDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CareerDefinition> _careers = new SortedDictionary<string, CareerDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, CareerLevelDefinition> _careerLevels = new Dictionary<string, CareerLevelDefinition>(StringComparer.Ordinal);
@@ -89,6 +90,12 @@ namespace MistakesLife.Core.Content
         /// <summary>Los mensajes que alguien puede mandar cuando el jugador anota esa línea en su diario (ordenados por id).</summary>
         public IReadOnlyList<ChatDefinition> ChatsForJournal(string journalKey) =>
             _chatsByJournal.TryGetValue(journalKey, out List<ChatDefinition>? chats) ? chats : (IReadOnlyList<ChatDefinition>)Array.Empty<ChatDefinition>();
+
+        /// <summary>Lo que el jugador puede escribir primero por Mensajito, ordenado por id.</summary>
+        public IEnumerable<ChatOpenerDefinition> ChatOpeners => _chatOpeners.Values;
+
+        /// <summary>Lo que el jugador puede escribir con ese id, o null.</summary>
+        public ChatOpenerDefinition? ChatOpener(string id) => _chatOpeners.TryGetValue(id, out ChatOpenerDefinition? opener) ? opener : null;
 
         /// <summary>Los mensajes que llegan de vez en cuando ("probabilidad"), en orden de id.</summary>
         public IReadOnlyList<ChatDefinition> RandomChats => _randomChats;
@@ -334,6 +341,22 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega lo que el jugador puede escribir primero, de un archivo JSON de escribir/ (una lista).</summary>
+        public void AddChatOpenersJson(string packId, string sourceName, string json)
+        {
+            foreach (ChatOpenerDefinition definition in Deserialize<ChatOpenerDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_chatOpeners.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de mensaje para escribir repetido."));
+                    continue;
+                }
+
+                _chatOpeners.Add(definition.Id, definition);
+            }
+        }
+
         /// <summary>Agrega un país desde su archivo country.json.</summary>
         public void AddCountryJson(string packId, string sourceName, string json)
         {
@@ -500,6 +523,7 @@ namespace MistakesLife.Core.Content
 
             ValidateMails();
             ValidateChats();
+            ValidateChatOpeners();
 
             foreach (SceneObjectDefinition scene in _sceneObjects.Values)
             {
@@ -1545,6 +1569,15 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            foreach (ChatOpenerDefinition opener in _chatOpeners.Values)
+            {
+                yield return new KeyValuePair<string, string>(opener.Id, $"escribir {opener.Id}");
+                foreach (ChatAnswerDefinition answer in opener.Answers)
+                {
+                    yield return new KeyValuePair<string, string>(answer.Id, $"escribir {opener.Id}, respuesta");
+                }
+            }
+
             foreach (CountryDefinition country in _countries.Values)
             {
                 foreach (EducationStageDefinition stage in country.EducationStages)
@@ -2139,6 +2172,45 @@ namespace MistakesLife.Core.Content
                     }
 
                     list.Add(chat);
+                }
+            }
+        }
+
+        /// <summary>Revisa lo que el jugador puede escribir primero.</summary>
+        private void ValidateChatOpeners()
+        {
+            foreach (ChatOpenerDefinition opener in _chatOpeners.Values)
+            {
+                string where = $"escribir {opener.Id}";
+                CheckId(where, opener.Id, "escribir.");
+                if (Array.IndexOf(ChatDefinition.Senders, opener.To) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"para '{opener.To}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+                }
+
+                opener.CompiledConditions = CompileCondition(where, opener.Conditions);
+                if (opener.MinAffection > opener.MaxAffection || opener.MinResentment > opener.MaxResentment || opener.MinAge > opener.MaxAge)
+                {
+                    _errors.Add(new ContentError(where, "el mínimo no puede ser mayor que el máximo (carino, rencor o edad)."));
+                }
+
+                if (opener.Answers.Count == 0)
+                {
+                    _errors.Add(new ContentError(where, "necesita al menos una respuesta (si ninguna calza con lo que siente la otra persona, te deja en visto)."));
+                }
+
+                foreach (ChatAnswerDefinition answer in opener.Answers)
+                {
+                    CheckId(where, answer.Id, "escribir.");
+                    if (answer.MinAffection > answer.MaxAffection || answer.MinResentment > answer.MaxResentment)
+                    {
+                        _errors.Add(new ContentError(where, $"respuesta {answer.Id}: el mínimo no puede ser mayor que el máximo."));
+                    }
+                }
+
+                if (opener.Answers.Select(a => a.Id).Distinct().Count() != opener.Answers.Count)
+                {
+                    _errors.Add(new ContentError(where, "dos respuestas con el mismo id."));
                 }
             }
         }
