@@ -6,6 +6,26 @@ Las filas 1 a 3 son la primera ronda y la fila 4 es la segunda. Donde no coincid
 
 Antes de programar una pantalla nueva en `unity/`, léelo. Si una pantalla nueva necesita algo que este documento no dice, primero se propone con bocetos y Isaias lo aprueba.
 
+## 0. Versión 3 (acordada el 2026-11-14): manda sobre lo que sigue
+
+Isaias aprobó los bocetos versión 3 (https://claude.ai/artifact/G5wzsBKMZgw7BebafBjGk8, fila de arriba). Cómo se juega está en `docs/rediseno-vida.md`. Donde este documento no coincide, manda esta sección:
+
+- **El barrio es la pantalla principal.** Una maqueta de madera del barrio (casa, colegio, plaza, Cesfam, biblioteca, paradero) con la luz de la hora, la gente moviéndose y carteles de papel escritos a mano. Tocas un edificio y vas. La pieza y la casa se abren desde ahí. Reemplaza a la "Pantalla de la vida" de la sección 3.
+- Encima de la maqueta, como objetos: la credencial (nombre, edad, curso), el taco calendario (día real), la regla de madera con los meses (tu año, con un clip en el mes actual), la nota "lo que quiero", lo que viene ("en 3 días: prueba") y **un solo botón grande** ("Seguir hasta el jueves").
+- Colores, letras y personaje de las secciones 2 y 4 siguen igual. Se suman: madera (`#5A3D29` con vetas), papel cuadriculado y de cuaderno (`#F7F2E6`, renglones `#BFD0E6`, margen `#E3A39A`), cinta adhesiva (`#E9D696`), rojo de calendario (`#C8452F`), letra de máquina **Special Elite** para lo que dice el juego, y **Patrick Hand** para carteles y notas chicas. El amarillo `#F5C842` sigue siendo solo del jugador: el botón principal es un bloque de madera amarillo con cuerpo.
+
+### Reglas de pantalla: que se sienta hecho a mano
+
+1. **Cada pantalla es un objeto de la vida del personaje** (el horario pegado en la pared, la hoja de la prueba, el diario, el taco calendario, la regla con los meses). Si no existe como objeto real, se busca otro.
+2. **El barrio es la casa del juego.** Siempre vuelves a la maqueta; lo demás se abre encima y se cierra.
+3. **Una sola acción grande por pantalla**, abajo, al alcance del pulgar.
+4. **Dos voces y nada más.** Lo que piensa el personaje va en su letra y como hablaría a su edad y en su barrio ("no cacho nada", "el Tomás"). El juego habla poco, en letra de máquina. Cada persona importante tiene su propia letra (la Javiera escribe en Caveat).
+5. **Nada perfectamente derecho:** papeles levemente girados, cinta adhesiva, sombras de objeto. Nada de degradados ni brillos de app genérica.
+6. **Las personas no tienen barras ni números.** Se entienden por lo que hacen y lo que han vivido contigo.
+7. **Las opciones son frases que dirías** ("Miro la hoja de la Javiera"), no etiquetas ("Copiar").
+8. **El juego muestra de dónde viene cada cosa:** la foto de aquel día aparece cuando un error vuelve.
+9. **Nada se repite igual:** si una pantalla ya se vio, la siguiente vez trae otra fecha, otra persona u otra letra.
+
 ## 1. La idea
 
 **Tu vida es una maqueta viva.** La escena 3D es la protagonista: ocupa toda la pantalla y cambia con la hora, el clima, la etapa de la vida y las decisiones. Cada tema de la vida se abre como **un objeto real de esa vida**, nunca como un menú genérico:
@@ -56,7 +76,7 @@ Cada tema tiene además **su material**: verde billetera `#1D4A3C`, azul libreta
 
 ## 3. Pantallas
 
-### Pantalla de la vida (boceto "La casa que guarda recuerdos")
+### Pantalla de la vida (boceto "La casa que guarda recuerdos"; desde la versión 3 se abre desde el barrio)
 - La escena 3D ocupa toda la pantalla; abajo se oscurece para leer.
 - **Arriba:** retrato del personaje con anillo amarillo, nombre y edad, y el día, la hora y el clima ("miércoles 19:40 · llovizna, 9°"). A la derecha está el botón Menú.
 - **Opcional arriba:** la tira de la semana (L a D, con lo que pasa cada día: "pega", "pago", "asado", "mamá"). Viene del boceto de la ronda 1.
