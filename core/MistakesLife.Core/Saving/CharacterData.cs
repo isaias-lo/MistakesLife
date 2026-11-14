@@ -48,6 +48,11 @@ namespace MistakesLife.Core.Saving
 
         public bool SharedCustody { get; set; }
 
+        /// <summary>El último trabajo que dejó, o null (desde la versión 16).</summary>
+        public JobData? LastJob { get; set; }
+
+        public decimal PendingInheritance { get; set; }
+
         public string? CountryId { get; set; }
 
         public string? CityId { get; set; }

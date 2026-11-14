@@ -132,7 +132,7 @@ namespace MistakesLife.Core.Tests
 
             Assert.Equal(2, Number(world, "jugador.hijos_en_casa"));
             Assert.Equal(0, Number(world, "jugador.hijos_con_otro"));
-            Assert.True(Eval(world, "jugador.coprogenitor == nada").AsBool("prueba"));
+            Assert.Equal(0, Number(world, "jugador.hijos_a_cargo"));
         }
 
         [Fact]

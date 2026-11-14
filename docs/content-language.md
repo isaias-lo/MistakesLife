@@ -389,6 +389,7 @@ Ningún trabajo con contrato llega solo: el jugador lo busca. Primero dice qué 
 - Cuando alguien muere, sus bienes son su dinero y lo ahorrado para la pensión. Se restan sus deudas, salvo las de tipos con `"se_extingue_al_morir": true` (en `economia.deudas`), que se borran.
 - Heredan los hijos vivos (una parte cada uno) y la pareja (`porciones_pareja` partes). Sin hijos ni pareja, heredan los padres vivos. Sin nadie, se pierde (lo recibe el Estado).
 - Si las deudas son más que los bienes: con `beneficio_inventario`, nadie hereda ni paga; si es `false`, cada heredero paga su parte de lo que falta.
+- `posesion_efectiva` (opcional): para recibir lo heredado hay que hacer un trámite. Lo que le toca a cada heredero queda en `jugador.herencia_pendiente` (se reajusta con los precios) hasta que un evento lo entregue con `jugador.recibir_herencia()`. Las deudas que se heredan se cobran igual.
 - Si falta `herencia`, lo que deja se pierde. Textos obligatorios del diario: `diario.herencia.recibida` y `diario.herencia.deudas`.
 
 ### Vida previa (campo `vida_previa` de country.json)
@@ -703,7 +704,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 
 **Vida civil:** `uniones_civiles` en country.json lista las uniones que reconoce la ley del país (en Chile, `union.chile.matrimonio` y `union.chile.auc`). `jugador.unirse('union.x')` une al jugador con su pareja, en ambos sentidos. Si después se separan (`jugador.terminar_pareja()`), **siguen unidos ante la ley** (`jugador.separado` es true) hasta que algo la termine con `jugador.terminar_union()`: la sentencia de divorcio, el aviso en el Registro Civil. Si muere el cónyuge, la unión deja de existir (`jugador.viudo`).
 
-**Hijos después de separarse (cuidado personal):** mientras sus papás son pareja, los hijos viven con los dos. Si se separan, cada hijo menor queda **por acordar** (`jugador.hijos_por_acordar`) hasta que un evento decida: `jugador.quedarse_con_hijos()` (viven con el jugador), `jugador.hijos_con_el_otro()` (con su otro papá o mamá) o `jugador.cuidado_compartido()` (con los dos). `jugador.coprogenitor` es la otra parte (el otro papá vivo del hijo menor más chico de papás separados). La compra del supermercado, la casa de la escena y los gastos por `jugador.hijos_en_casa` solo cuentan a los hijos que viven con el jugador. Si muere el papá con quien vivía un hijo, vuelve a vivir con el otro.
+**Hijos después de separarse (cuidado personal):** mientras sus papás son pareja, los hijos viven con los dos. Si se separan, cada hijo menor queda **por acordar** (`jugador.hijos_por_acordar`) hasta que un evento decida: `jugador.quedarse_con_hijos()` (viven con el jugador), `jugador.hijos_con_el_otro()` (con su otro papá o mamá) o `jugador.cuidado_compartido()` (con los dos). `jugador.coprogenitor` es la otra parte (el otro papá vivo del hijo menor más chico de papás separados; si ya no hay papás separados, el otro papá de su hijo menor más chico, para que una decisión pendiente no quede sin persona). La compra del supermercado, la casa de la escena y los gastos por `jugador.hijos_en_casa` solo cuentan a los hijos que viven con el jugador. Si muere el papá con quien vivía un hijo, vuelve a vivir con el otro.
 
 **Montos que se reajustan:** `causa('causa.x').monto` se escribe y se lee en dinero de hoy, pero se guarda en dinero del inicio del mundo: si suben los precios, el monto sube con ellos (como una pensión de alimentos reajustada por el IPC). Un gasto mensual que lo cobra usa `"a_precios_de_hoy": true`.
 
@@ -765,7 +766,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.hijos_en_casa`, `jugador.hijos_con_otro` | Hijos menores que viven con el jugador (también los de cuidado compartido) o con su otro papá o mamá |
 | `jugador.hijos_en_casa_entre(desde, hasta)` | Cuántos hijos menores que viven con el jugador tienen entre esas edades (años cumplidos, las dos incluidas) |
 | `jugador.hijos_a_cargo`, `jugador.hijos_por_acordar` | Hijos menores de papás separados que viven solo con el jugador, o a los que aún no se les decide con quién viven |
-| `jugador.coprogenitor` | El otro papá o mamá (vivo) de sus hijos menores de una pareja anterior, o `nada` |
+| `jugador.coprogenitor` | El otro papá o mamá de sus hijos menores: de preferencia el de una pareja anterior (vivo); si no hay, el de su hijo menor más chico (o de su hijo más chico). `nada` si no tiene hijos con otra persona |
 | `jugador.quedarse_con_hijos()`, `jugador.hijos_con_el_otro()`, `jugador.cuidado_compartido()` | Deciden con quién viven los hijos menores de papás separados (solo efectos) |
 | `jugador.gastos`, `jugador.meses_en_rojo` | Lo que pagó en gastos el último mes, y cuántos meses seguidos terminó con el dinero en negativo |
 | `arriendo('vivienda.pieza')` | Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5`) |
@@ -796,6 +797,9 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.area`, `jugador.cargo` | Área y cargo de su trabajo actual (`'carrera.software.cargo.senior'`), o `nada` si no trabaja en su carrera |
 | `jugador.cargo_anterior`, `jugador.ultimo_cargo` | El cargo de más abajo en su escalera (`nada` en el inicial), y el cargo actual o el último que tuvo en su carrera |
 | `jugador.meses_en_cargo` | Meses de experiencia en el cargo actual |
+| `jugador.meses_en_trabajo` | Meses con el empleador actual (la antigüedad; sigue al ascender en la misma empresa) |
+| `jugador.ultimo_sueldo`, `jugador.meses_ultimo_trabajo`, `jugador.tipo_ultimo_trabajo` | El sueldo bruto, la antigüedad y el tipo (`'dependiente'`...) del último trabajo que dejó: sirven para el finiquito o una demanda después de un despido |
+| `jugador.herencia_pendiente`, `jugador.recibir_herencia()` | Lo heredado que espera un trámite (a precios de hoy), y el efecto que lo entrega |
 | `jugador.desempeno` | Qué tan bien trabaja, 0 a 100. Se puede cambiar solo en un trabajo de su carrera (`jugador.desempeno += 5`) |
 | `jugador.puede_ascender`, `jugador.caminos_ascenso` | Si puede ascender ahora, y a cuántos cargos (2 cuando hay que elegir camino) |
 | `jugador.puede_ascender_a('cargo')` | Si puede ascender ahora a ese cargo |

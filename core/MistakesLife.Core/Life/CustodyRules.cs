@@ -83,14 +83,20 @@ namespace MistakesLife.Core.Life
             MinorChildren(world, parent).Count(c => ParentsApart(world, c, parent) && !c.LivesWithId.HasValue && !c.SharedCustody);
 
         /// <summary>
-        /// La otra parte del cuidado: el otro papá, vivo, del hijo menor más chico de
-        /// papás separados (jugador.coprogenitor), o null.
+        /// La otra parte del cuidado (jugador.coprogenitor): el otro papá, vivo, del hijo menor
+        /// más chico de papás separados. Si no hay papás separados (volvieron, o la otra parte
+        /// murió mientras había una decisión pendiente), el otro papá de su hijo menor más
+        /// chico (o, si ya no tiene hijos menores, de su hijo más chico), aunque haya muerto:
+        /// así una decisión que ya estaba en pantalla no se queda sin persona. Null si no
+        /// tiene hijos con otra persona.
         /// </summary>
-        public static Character? CoParent(World world, Character parent) =>
-            MinorChildren(world, parent).Reverse()
-                .Where(c => ParentsApart(world, c, parent))
-                .Select(c => OtherParent(world, c, parent))
-                .FirstOrDefault();
+        public static Character? CoParent(World world, Character parent)
+        {
+            IReadOnlyList<Character> children = MinorChildren(world, parent);
+            return children.Reverse().Where(c => ParentsApart(world, c, parent)).Select(c => OtherParent(world, c, parent)).FirstOrDefault()
+                ?? children.Reverse().Select(c => OtherParent(world, c, parent)).FirstOrDefault(o => o != null)
+                ?? world.ChildrenOf(parent.Id).Reverse().Select(c => OtherParent(world, c, parent)).FirstOrDefault(o => o != null);
+        }
 
         /// <summary>Los hijos menores de papás separados se quedan a vivir con <paramref name="parent"/>.</summary>
         public static void KeepChildren(World world, Character parent) => Decide(world, parent, child => (parent.Id, false));

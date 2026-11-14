@@ -15,7 +15,8 @@ namespace MistakesLife.Core.Events
     /// estudia, nivel_estudio, institucion, semestres_aprobados, semestres_carrera, titulado,
     /// pareja, hijos, adoptado, dinero, trabaja, tipo_trabajo, sueldo, sueldo_liquido,
     /// declaracion_pendiente, declaracion_saldo, hijos_menores, hijos_en_casa, hijos_con_otro,
-    /// hijos_a_cargo, hijos_por_acordar, coprogenitor, gastos, meses_en_rojo,
+    /// hijos_a_cargo, hijos_por_acordar, coprogenitor, gastos, meses_en_rojo, meses_en_trabajo,
+    /// ultimo_sueldo, meses_ultimo_trabajo, tipo_ultimo_trabajo, herencia_pendiente,
     /// vivienda, arriendo, meses_contrato, cuentas_incluidas, compra,
     /// fondo_pension, pension_estimada, meses_cotizados, jubilado, pension, pension_universal,
     /// deuda, cuotas_deudas, moroso, puede_repactar, amigos, amigo, colega, rival, ex,
@@ -205,6 +206,16 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber((double)_character.Money);
                 case "trabaja":
                     return Value.FromBool(_character.Job != null);
+                case "meses_en_trabajo":
+                    return Value.FromNumber(_character.Job?.MonthsInJob ?? 0);
+                case "ultimo_sueldo":
+                    return Value.FromNumber((double)(_character.LastJob?.Salary ?? 0));
+                case "meses_ultimo_trabajo":
+                    return Value.FromNumber(_character.LastJob?.MonthsInJob ?? 0);
+                case "tipo_ultimo_trabajo":
+                    return _character.LastJob == null ? Value.Null : Value.FromText(JobKindKey(_character.LastJob.Kind));
+                case "herencia_pendiente":
+                    return Value.FromNumber((double)PayrollToday(_character.PendingInheritance, scope));
                 case "tipo_trabajo":
                     return _character.Job == null ? Value.Null : Value.FromText(JobKindKey(_character.Job.Kind));
                 case "sueldo":
@@ -587,6 +598,13 @@ namespace MistakesLife.Core.Events
                     return Value.Null;
                 case UniteMethod:
                     Unite((EventScope)scope, EventScope.SingleText("jugador." + method, args));
+                    return Value.Null;
+                case "recibir_herencia":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.recibir_herencia");
+                    _character.Money += PayrollToday(_character.PendingInheritance, scope);
+                    _character.PendingInheritance = 0;
+                    ((EventScope)scope).World.WriteJournal(_character.Id, Economy.InheritanceSettlement.ReceivedJournal);
                     return Value.Null;
                 case "quedarse_con_hijos":
                 case "hijos_con_el_otro":
@@ -1164,8 +1182,14 @@ namespace MistakesLife.Core.Events
 
             salary = Math.Round(salary * raise, MidpointRounding.AwayFromZero);
 
+            Economy.Job? previous = _character.Job;
             Economy.Job job = Economy.CareerLadder.Place(_character, kind, salary, PriceIndex(scope), area, position);
             job.CompanyId = company?.Id;
+            if (previous?.CompanyId != null && previous.CompanyId == job.CompanyId)
+            {
+                // Un ascenso o un cambio de cargo en la misma empresa no borra la antigüedad.
+                job.MonthsInJob = previous.MonthsInJob;
+            }
         }
 
         /// <summary>ascender() sube al único cargo posible; ascender('cargo') elige uno cuando hay dos caminos.</summary>
