@@ -160,7 +160,7 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
   "cupo_deficit": 1500000,
   "categorias": [
     { "id": "gasto.chile.cuentas", "monto": "100000", "condiciones": "jugador.tiene('vive_independiente') && !jugador.cuentas_incluidas", "compartido": true },
-    { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_menores" }
+    { "id": "gasto.chile.aporte_casa", "monto": "jugador.sueldo_liquido * 0.1", "a_precios_de_hoy": true, "condiciones": "jugador.tiene('aporta_decimo')" }
   ]
 }
 ```
@@ -235,7 +235,8 @@ Lo que se paga cada mes porque el jugador lo **contrató** (el plan del celular;
 - El id del servicio empieza con `servicio.` y el de cada opción, con el id de su servicio (`servicio.celular.plan`).
 - `condiciones` (opcional): cuándo se cobra lo contratado. En el celular, el prepago solo se paga si tiene celular (si se lo robaron, no carga), pero un plan sigue llegando en la boleta.
 - `compartido` (opcional): se divide en dos si tiene pareja.
-- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) `servicio.internet` (basico, rapido; compartido) `servicio.cuentas` (cuidando, normal, sin_cuidar: luz, agua y gas; compartido; no se cobra si el arriendo incluye las cuentas) y, solo en Chile, `servicio.personales` (austero, normal, gustos: ropa, salidas y cuidado personal).
+- `cantidad` (opcional): una expresión que dice por cuántos se paga cada mes. El jardín se paga por cada hijo chico (`"jugador.hijos_en_casa_entre(0, 3)"`) y el colegio por cada hijo en edad escolar (`"jugador.hijos_en_casa_entre(4, 17)"`). Si da 0, ese mes no se cobra. Si falta, se paga una vez.
+- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) `servicio.internet` (basico, rapido; compartido) `servicio.cuentas` (cuidando, normal, sin_cuidar: luz, agua y gas; compartido; no se cobra si el arriendo incluye las cuentas) `servicio.jardin_hijos` (en_casa, publico, particular; por cada hijo de 0 a 3 años; compartido) `servicio.colegio_hijos` (gratuito, copago, particular; por cada hijo de 4 a 17 años; compartido) y, solo en Chile, `servicio.personales` (austero, normal, gustos: ropa, salidas y cuidado personal).
 - Todo país debe tener los servicios y opciones que usan los eventos.
 
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
@@ -763,6 +764,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')`, `jugador.trabajar(sueldo, 'informal')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero del inicio del mundo; sin tipo es `'dependiente'` (con contrato). `'informal'` es sin contrato: recibe todo el sueldo, pero no cotiza ni paga impuesto, y esos meses no suman a su pensión (lagunas). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
 | `jugador.hijos_menores` | Cuántos hijos vivos menores de 18 tiene |
 | `jugador.hijos_en_casa`, `jugador.hijos_con_otro` | Hijos menores que viven con el jugador (también los de cuidado compartido) o con su otro papá o mamá |
+| `jugador.hijos_en_casa_entre(desde, hasta)` | Cuántos hijos menores que viven con el jugador tienen entre esas edades (años cumplidos, las dos incluidas) |
 | `jugador.hijos_a_cargo`, `jugador.hijos_por_acordar` | Hijos menores de papás separados que viven solo con el jugador, o a los que aún no se les decide con quién viven |
 | `jugador.coprogenitor` | El otro papá o mamá de sus hijos menores: de preferencia el de una pareja anterior (vivo); si no hay, el de su hijo menor más chico (o de su hijo más chico). `nada` si no tiene hijos con otra persona |
 | `jugador.quedarse_con_hijos()`, `jugador.hijos_con_el_otro()`, `jugador.cuidado_compartido()` | Deciden con quién viven los hijos menores de papás separados (solo efectos) |

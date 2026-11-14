@@ -849,6 +849,7 @@ namespace MistakesLife.Core.Content
                 }
 
                 service.CompiledConditions = CompileCondition(serviceWhere, service.Conditions);
+                service.CompiledQuantity = CompileCondition(serviceWhere + " (cantidad)", service.Quantity);
                 if (service.Options.Count == 0)
                 {
                     _errors.Add(new ContentError(serviceWhere, "un servicio necesita al menos una opción."));

@@ -24,5 +24,7 @@
   { "id": "escena.casa.router", "lugar": "casa", "condiciones": "jugador.tiene('vive_independiente') && jugador.servicio('servicio.internet') != nada" },
   { "id": "escena.casa.frazada", "lugar": "casa", "condiciones": "jugador.servicio('servicio.cuentas') == 'servicio.cuentas.cuidando'" },
   { "id": "escena.casa.estufa", "lugar": "casa", "condiciones": "jugador.servicio('servicio.cuentas') == 'servicio.cuentas.sin_cuidar'" },
-  { "id": "escena.casa.sobre_aporte", "lugar": "casa", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja && (jugador.tiene('aporta_decimo') || jugador.tiene('aporta_cuarto') || jugador.tiene('aporta_mitad'))" }
+  { "id": "escena.casa.sobre_aporte", "lugar": "casa", "condiciones": "!jugador.tiene('vive_independiente') && jugador.trabaja && (jugador.tiene('aporta_decimo') || jugador.tiene('aporta_cuarto') || jugador.tiene('aporta_mitad'))" },
+  { "id": "escena.casa.mochila_escolar", "lugar": "casa", "condiciones": "jugador.hijos_en_casa_entre(4, 17) > 0 && jugador.servicio('servicio.colegio_hijos') != nada" },
+  { "id": "escena.casa.delantal_jardin", "lugar": "casa", "condiciones": "jugador.hijos_en_casa_entre(0, 3) > 0 && (jugador.servicio('servicio.jardin_hijos') == 'servicio.jardin_hijos.publico' || jugador.servicio('servicio.jardin_hijos') == 'servicio.jardin_hijos.particular')" }
 ]
