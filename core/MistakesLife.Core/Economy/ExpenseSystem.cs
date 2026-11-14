@@ -95,6 +95,13 @@ namespace MistakesLife.Core.Economy
                 }
 
                 decimal price = service.Option(optionId)!.Price;
+                if (service.CompiledQuantity != null)
+                {
+                    // Lo que se paga por cada uno (el colegio, por cada hijo en edad escolar).
+                    double quantity = service.CompiledQuantity.Evaluate(scope).AsNumber("cantidad de " + service.Id);
+                    price *= (decimal)Math.Max(0, Math.Floor(quantity));
+                }
+
                 if (service.Shared && hasPartner)
                 {
                     price = Math.Round(price / 2, MidpointRounding.AwayFromZero);

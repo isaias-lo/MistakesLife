@@ -69,7 +69,8 @@
 | V6 | Las cuentas de luz, agua y gas dependen de cómo usa la casa el jugador (`servicio.cuentas`: cuidando, normal o sin cuidar), con cuentas típicas y tarifas reales; se ve en 3D (frazada en el sillón si cuida, estufa prendida si no). Se borra el último gasto fijo de cuentas | Hecha |
 | V6b | Formas 3D de los juzgados (regla 10, #90 y J2): el sobre del tribunal bajo la puerta, las etiquetas de embargo en la tele, la foto del matrimonio, el calendario de visitas de los hijos y el certificado del Registro de Deudores sobre la mesa | Hecha |
 | V7 | Gastos personales que elige el jugador en Chile (`servicio.personales`: lo justo, normal o con gustos), con lo que gastan los hogares según la EPF del INE; se ve en 3D (chanchito en la mesa o bolsas de tiendas). Argentina queda con el gasto fijo hasta tener montos de la ENGHo | Hecha |
-| V8 | El aporte a la casa de la familia lo decide el jugador: nada, la décima parte, la cuarta parte o la mitad de su sueldo, mientras vive con su familia y trabaja; se ve el sobre con la plata en la mesa. Reemplaza el monto fijo de $80.000 | En revisión |
+| V8 | El aporte a la casa de la familia lo decide el jugador: nada, la décima parte, la cuarta parte o la mitad de su sueldo, mientras vive con su familia y trabaja; se ve el sobre con la plata en la mesa. Reemplaza el monto fijo de $80.000 | Hecha |
+| V9 | Los gastos de los hijos salen del jardín y el colegio que elige el jugador para ellos (jardín en casa, público o particular de 0 a 3 años; colegio gratuito, con copago o particular de 4 a 17), con precios reales y por cada hijo de esa edad; se ven la mochila del colegio y el delantal del jardín junto a la puerta. Reemplaza el monto fijo por hijo ($110.000 en Chile, $150.000 en Argentina). Pendiente: ropa, salud y pañales por hijo, cuando haya una fuente con ese monto | En revisión |
 
 ## Prototipo en Unity (Unity solo dibuja; todo lo demás es del núcleo)
 

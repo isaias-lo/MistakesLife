@@ -50,6 +50,8 @@ namespace MistakesLife.Unity
             "escena.casa.mochila_emergencia" => "ancla.puerta",
             "escena.casa.tarjeta_transporte" => "ancla.puerta",
             "escena.casa.zapatillas" => "ancla.puerta",
+            "escena.casa.mochila_escolar" => "ancla.puerta",
+            "escena.casa.delantal_jardin" => "ancla.puerta",
             "escena.casa.router" => "ancla.tele",
             "escena.casa.alcancia" => "ancla.mesa",
             "escena.casa.sobre_aporte" => "ancla.mesa",
@@ -176,6 +178,25 @@ namespace MistakesLife.Unity
                     {
                         kit.Box("Zapatilla", new Vector3(0.32f, 0.05f, z), new Vector3(0.28f, 0.1f, 0.11f), new Color(0.85f, 0.85f, 0.88f));
                         kit.Box("Suela de la zapatilla", new Vector3(0.32f, 0.008f, z), new Vector3(0.29f, 0.016f, 0.115f), new Color(0.30f, 0.30f, 0.32f));
+                    }
+
+                    break;
+                case "escena.casa.mochila_escolar":
+                    // Tus hijos van al colegio que elegiste: la mochila chica del colegio, lista junto a la puerta.
+                    kit.Box("Mochila del colegio", new Vector3(0.3f, 0.16f, 0.2f), new Vector3(0.18f, 0.32f, 0.28f), new Color(0.85f, 0.25f, 0.30f));
+                    kit.Box("Bolsillo de la mochila del colegio", new Vector3(0.4f, 0.12f, 0.2f), new Vector3(0.03f, 0.14f, 0.2f), new Color(0.95f, 0.80f, 0.25f));
+                    kit.Box("Asa de la mochila del colegio", new Vector3(0.3f, 0.34f, 0.2f), new Vector3(0.04f, 0.04f, 0.12f), new Color(0.20f, 0.20f, 0.22f));
+                    break;
+                case "escena.casa.delantal_jardin":
+                    // Tu hijo chico va al jardín: el delantal cuadrillé colgado de un gancho junto a la puerta.
+                    kit.Box("Gancho del delantal", new Vector3(0.03f, 1.35f, 0.95f), new Vector3(0.04f, 0.04f, 0.04f), Palette.DarkWood);
+                    for (int row = 0; row < 4; row++)
+                    {
+                        for (int col = 0; col < 3; col++)
+                        {
+                            Color square = (row + col) % 2 == 0 ? new Color(0.35f, 0.55f, 0.85f) : Color.white;
+                            kit.Box("Cuadrito del delantal", new Vector3(0.045f, 1.25f - (row * 0.08f), 0.87f + (col * 0.08f)), new Vector3(0.01f, 0.08f, 0.08f), square);
+                        }
                     }
 
                     break;

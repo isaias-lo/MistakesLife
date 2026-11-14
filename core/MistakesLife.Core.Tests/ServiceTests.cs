@@ -12,7 +12,10 @@ namespace MistakesLife.Core.Tests
 {
     public class ServiceTests
     {
-        /// <summary>País de prueba sin inflación: un servicio de celular (solo con la marca 'con_celular') y uno de internet compartido.</summary>
+        /// <summary>
+        /// País de prueba sin inflación: un servicio de celular (solo con la marca 'con_celular'), uno de
+        /// internet compartido, y un jardín y un colegio que se pagan por cada hijo con esa edad.
+        /// </summary>
         private static ContentDatabase Content(string events = "")
         {
             const string economy = @", ""economia"": {
@@ -21,7 +24,9 @@ namespace MistakesLife.Core.Tests
               ""servicios"": [
                 { ""id"": ""servicio.celular"", ""condiciones"": ""jugador.tiene('con_celular')"", ""opciones"": [
                   { ""id"": ""servicio.celular.prepago"", ""precio"": 6000 }, { ""id"": ""servicio.celular.plan"", ""precio"": 13000 } ] },
-                { ""id"": ""servicio.internet"", ""compartido"": true, ""opciones"": [ { ""id"": ""servicio.internet.fibra"", ""precio"": 20000 } ] } ],
+                { ""id"": ""servicio.internet"", ""compartido"": true, ""opciones"": [ { ""id"": ""servicio.internet.fibra"", ""precio"": 20000 } ] },
+                { ""id"": ""servicio.jardin"", ""cantidad"": ""jugador.hijos_en_casa_entre(0, 3)"", ""opciones"": [ { ""id"": ""servicio.jardin.particular"", ""precio"": 50000 } ] },
+                { ""id"": ""servicio.colegio"", ""cantidad"": ""jugador.hijos_en_casa_entre(4, 17)"", ""opciones"": [ { ""id"": ""servicio.colegio.particular"", ""precio"": 90000 } ] } ],
               ""gastos"": { ""edad_desde"": 0, ""categorias"": [] } } }";
             var content = new ContentDatabase();
             content.AddCountryJson("pack.prueba", "country.json", CountryTests.CountryJson.TrimEnd().TrimEnd('}') + economy);
@@ -122,6 +127,37 @@ namespace MistakesLife.Core.Tests
             Advance(world, content, 1);
 
             Assert.Equal(-10000m, world.Player.Money);
+        }
+
+        [Fact]
+        public void UnServicioConCantidad_SePagaPorCadaHijoDeEsaEdad()
+        {
+            ContentDatabase content = Content();
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.contratar('servicio.jardin.particular')");
+            Run(world, content, "jugador.contratar('servicio.colegio.particular')");
+            Run(world, content, "jugador.tener_hijo()");
+            Run(world, content, "jugador.tener_hijo()");
+
+            Advance(world, content, 1);
+
+            // Dos guaguas: se paga el jardín dos veces y el colegio ninguna (todavía no tienen edad).
+            Assert.Equal(2, Eval(world, content, "jugador.hijos_en_casa_entre(0, 3)").AsNumber("prueba"));
+            Assert.Equal(0, Eval(world, content, "jugador.hijos_en_casa_entre(4, 17)").AsNumber("prueba"));
+            Assert.Equal(-100000m, world.Player.Money);
+            Assert.DoesNotContain(world.Player.LastExpenses, l => l.Id == "servicio.colegio.particular");
+        }
+
+        [Fact]
+        public void UnServicioConCantidad_SinHijosDeEsaEdad_NoSeCobra()
+        {
+            ContentDatabase content = Content();
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.contratar('servicio.jardin.particular')");
+
+            Advance(world, content, 1);
+
+            Assert.Equal(0m, world.Player.Money);
         }
 
         [Fact]
@@ -236,6 +272,23 @@ namespace MistakesLife.Core.Tests
             Assert.False(personal.Shared);
             Assert.True(personal.Option("servicio.personales.austero")!.Price < personal.Option("servicio.personales.normal")!.Price);
             Assert.True(personal.Option("servicio.personales.normal")!.Price < personal.Option("servicio.personales.gustos")!.Price);
+        }
+
+        [Theory]
+        [InlineData("pais.chile")]
+        [InlineData("pais.argentina")]
+        public void Hijos_ElJardinYElColegio_LosEligeElJugador_YYaNoHayUnGastoFijoPorHijo(string countryId)
+        {
+            CountryDefinition country = RepoPacks.Content.GetCountry(countryId);
+            ServiceDefinition daycare = country.Economy!.Services.Single(s => s.Id == "servicio.jardin_hijos");
+            ServiceDefinition school = country.Economy.Services.Single(s => s.Id == "servicio.colegio_hijos");
+
+            Assert.DoesNotContain(country.Economy.Expenses!.Categories, e => e.Id.EndsWith(".hijos"));
+            Assert.True(daycare.Shared && school.Shared);
+            Assert.Equal(0m, daycare.Option("servicio.jardin_hijos.publico")!.Price);
+            Assert.True(daycare.Option("servicio.jardin_hijos.particular")!.Price > 0);
+            Assert.Equal(0m, school.Option("servicio.colegio_hijos.gratuito")!.Price);
+            Assert.True(school.Option("servicio.colegio_hijos.copago")!.Price < school.Option("servicio.colegio_hijos.particular")!.Price);
         }
     }
 }

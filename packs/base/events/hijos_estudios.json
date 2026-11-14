@@ -1,0 +1,138 @@
+[
+  {
+    "id": "evento.elegir_jardin_hijos",
+    "condiciones": "jugador.hijos_en_casa_entre(0, 3) > 0 && jugador.servicio('servicio.jardin_hijos') == nada",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.elegir_jardin_hijos.en_casa",
+        "tendencia": "15 + si(jugador.tiene('cuida_hijos_en_casa') || !jugador.trabaja, 50, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.jardin_hijos.en_casa')"
+        ]
+      },
+      {
+        "texto": "opcion.elegir_jardin_hijos.publico",
+        "tendencia": "40 + si(jugador.meses_en_rojo > 0, 25, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.jardin_hijos.publico')"
+        ]
+      },
+      {
+        "texto": "opcion.elegir_jardin_hijos.particular",
+        "condiciones": "jugador.trabaja",
+        "tendencia": "5 + si(jugador.sueldo_liquido > sueldo_tipico() * 1.5, 30, 0) + si(jugador.meses_en_rojo > 0, -5, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.jardin_hijos.particular')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.revisar_jardin_hijos",
+    "condiciones": "jugador.hijos_en_casa_entre(0, 3) > 0 && jugador.servicio('servicio.jardin_hijos') != nada",
+    "probabilidad_anual": 0.3,
+    "enfriamiento_semanas": 40,
+    "veces_maximas": 4,
+    "opciones": [
+      {
+        "texto": "opcion.revisar_jardin_hijos.seguir",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 15, 55)",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.revisar_jardin_hijos.en_casa",
+        "condiciones": "jugador.servicio('servicio.jardin_hijos') != 'servicio.jardin_hijos.en_casa'",
+        "tendencia": "5 + si(jugador.tiene('cuida_hijos_en_casa') || !jugador.trabaja, 40, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.jardin_hijos.en_casa')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_jardin_hijos.publico",
+        "condiciones": "jugador.servicio('servicio.jardin_hijos') != 'servicio.jardin_hijos.publico'",
+        "tendencia": "15 + si(jugador.meses_en_rojo > 0, 45, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.jardin_hijos.publico')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_jardin_hijos.particular",
+        "condiciones": "jugador.servicio('servicio.jardin_hijos') != 'servicio.jardin_hijos.particular' && jugador.trabaja && jugador.meses_en_rojo == 0",
+        "tendencia": "3 + si(jugador.sueldo_liquido > sueldo_tipico() * 1.5, 20, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.jardin_hijos.particular')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.elegir_colegio_hijos",
+    "condiciones": "jugador.hijos_en_casa_entre(4, 17) > 0 && jugador.servicio('servicio.colegio_hijos') == nada",
+    "probabilidad_anual": 1,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.elegir_colegio_hijos.gratuito",
+        "tendencia": "35 + si(jugador.meses_en_rojo > 0, 30, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.colegio_hijos.gratuito')"
+        ]
+      },
+      {
+        "texto": "opcion.elegir_colegio_hijos.copago",
+        "tendencia": "35 + jugador.responsabilidad / 10",
+        "efectos": [
+          "jugador.contratar('servicio.colegio_hijos.copago')"
+        ]
+      },
+      {
+        "texto": "opcion.elegir_colegio_hijos.particular",
+        "condiciones": "jugador.trabaja",
+        "tendencia": "3 + si(jugador.sueldo_liquido > sueldo_tipico() * 2, 35, 0) + si(jugador.meses_en_rojo > 0, -3, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.colegio_hijos.particular')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.revisar_colegio_hijos",
+    "condiciones": "jugador.hijos_en_casa_entre(4, 17) > 0 && jugador.servicio('servicio.colegio_hijos') != nada",
+    "probabilidad_anual": 0.2,
+    "enfriamiento_semanas": 52,
+    "veces_maximas": 5,
+    "opciones": [
+      {
+        "texto": "opcion.revisar_colegio_hijos.seguir",
+        "tendencia": "si(jugador.meses_en_rojo > 0, 20, 60)",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.revisar_colegio_hijos.gratuito",
+        "condiciones": "jugador.servicio('servicio.colegio_hijos') != 'servicio.colegio_hijos.gratuito'",
+        "tendencia": "8 + si(jugador.meses_en_rojo > 0, 50, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.colegio_hijos.gratuito')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_colegio_hijos.copago",
+        "condiciones": "jugador.servicio('servicio.colegio_hijos') != 'servicio.colegio_hijos.copago'",
+        "tendencia": "12",
+        "efectos": [
+          "jugador.contratar('servicio.colegio_hijos.copago')"
+        ]
+      },
+      {
+        "texto": "opcion.revisar_colegio_hijos.particular",
+        "condiciones": "jugador.servicio('servicio.colegio_hijos') != 'servicio.colegio_hijos.particular' && jugador.trabaja && jugador.meses_en_rojo == 0",
+        "tendencia": "2 + si(jugador.sueldo_liquido > sueldo_tipico() * 2, 20, 0)",
+        "efectos": [
+          "jugador.contratar('servicio.colegio_hijos.particular')"
+        ]
+      }
+    ]
+  }
+]

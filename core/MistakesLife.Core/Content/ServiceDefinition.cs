@@ -25,11 +25,22 @@ namespace MistakesLife.Core.Content
         [JsonProperty("compartido")]
         public bool Shared { get; set; }
 
+        /// <summary>
+        /// Por cuántos se paga cada mes (por ejemplo, el colegio se paga por cada hijo en
+        /// edad escolar: "jugador.hijos_en_casa_entre(4, 17)"). Si falta, una vez.
+        /// Si da 0, ese mes no se cobra.
+        /// </summary>
+        [JsonProperty("cantidad")]
+        public string? Quantity { get; set; }
+
         [JsonProperty("opciones", Required = Required.Always)]
         public List<ServiceOptionDefinition> Options { get; set; } = new List<ServiceOptionDefinition>();
 
         [JsonIgnore]
         public Expression? CompiledConditions { get; set; }
+
+        [JsonIgnore]
+        public Expression? CompiledQuantity { get; set; }
 
         /// <summary>La opción con ese id, o null si este servicio no la tiene.</summary>
         public ServiceOptionDefinition? Option(string id) => Options.FirstOrDefault(o => o.Id == id);
