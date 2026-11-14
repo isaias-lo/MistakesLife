@@ -359,6 +359,20 @@ namespace MistakesLife.Core.Game
             ChatSystem.Reply(World, Content, World.Player, otherId, replyIndex);
         }
 
+        /// <summary>
+        /// El jugador le escribe primero a esa persona por Mensajito (un id de packs/*/escribir/
+        /// que se le pueda escribir ahora). Contesta la semana siguiente, según lo que sienta.
+        /// </summary>
+        public void WriteChat(int otherId, string openerId)
+        {
+            if (Pending != null)
+            {
+                throw new InvalidOperationException("Hay un evento pendiente: primero se elige su opción.");
+            }
+
+            ChatSystem.Write(World, Content, World.Player, otherId, openerId);
+        }
+
         /// <summary>Entradas nuevas del diario del jugador desde la última vez que se pidieron.</summary>
         public IReadOnlyList<JournalEntry> TakeNewJournalEntries()
         {

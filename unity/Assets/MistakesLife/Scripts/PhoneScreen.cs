@@ -512,6 +512,11 @@ namespace MistakesLife.Unity
             Prepare(home: false, title: presenter.Text(ChatAppId), back: DrawHome);
             ChatTheme(conversation: false);
 
+            // "Nuevo chat": escribirle tú primero a alguien de tu vida.
+            Button write = UiFactory.MakeButton(_body, presenter.Text("ui.mensajito.nuevo_chat"), ChatGreen, Color.white, DrawContacts, UiFactory.MinFontSize, 0, 18);
+            write.name = "Nuevo chat";
+            Space(_body, 8f);
+
             IReadOnlyList<ChatSummaryView> chats = presenter.Chats();
             if (chats.Count == 0)
             {
@@ -525,6 +530,64 @@ namespace MistakesLife.Unity
             {
                 ChatRow(chat);
             }
+        }
+
+        /// <summary>
+        /// "Nuevo chat": la gente de tu vida a la que puedes escribirle (familia, pareja, amigos,
+        /// colegas). Tocar a alguien abre su conversación, aunque nunca se hayan escrito.
+        /// </summary>
+        private void DrawContacts()
+        {
+            LifePresenter presenter = _presenter!;
+            Prepare(home: false, title: presenter.Text("ui.mensajito.nuevo_chat"), back: DrawChats);
+            ChatTheme(conversation: false);
+
+            IReadOnlyList<ChatContactView> contacts = presenter.ChatContacts();
+            if (contacts.Count == 0)
+            {
+                Space(_body, 60f);
+                TextMeshProUGUI empty = UiFactory.Label(_body, presenter.Text("ui.mensajito.sin_contactos"), 38, UiFactory.PaperMutedInk);
+                empty.alignment = TextAlignmentOptions.Center;
+                return;
+            }
+
+            foreach (ChatContactView contact in contacts)
+            {
+                ContactRow(contact);
+            }
+        }
+
+        /// <summary>Una fila de "Nuevo chat": la foto, el nombre y qué es esa persona para ti.</summary>
+        private void ContactRow(ChatContactView contact)
+        {
+            int otherId = contact.OtherId;
+            RectTransform row = UiFactory.Child(_body, "Contacto");
+            row.gameObject.AddComponent<Image>().color = MailWhite;
+            Button open = row.gameObject.AddComponent<Button>();
+            open.targetGraphic = row.GetComponent<Image>();
+            open.onClick.AddListener(() => DrawConversation(otherId));
+            HorizontalLayoutGroup layout = row.gameObject.AddComponent<HorizontalLayoutGroup>();
+            layout.padding = new RectOffset(0, 0, 16, 16);
+            layout.spacing = 22;
+            layout.childAlignment = TextAnchor.MiddleLeft;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = false;
+
+            ProfilePhoto(row, contact.Name, contact.OtherId, 104f);
+
+            RectTransform text = UiFactory.Column(row, "Texto del contacto", 0, 4);
+            text.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+            TextMeshProUGUI name = UiFactory.Label(text, contact.Name, 40, UiFactory.PaperInk, FontStyles.Bold);
+            NoWrap(name);
+            if (contact.Relation.Length > 0 && contact.Relation != contact.Name)
+            {
+                TextMeshProUGUI relation = UiFactory.Label(text, contact.Relation, UiFactory.MinFontSize, UiFactory.PaperMutedInk);
+                NoWrap(relation);
+            }
+
+            Divider(_body);
         }
 
         /// <summary>Una fila de la lista de chats; tocarla abre la conversación.</summary>
@@ -632,9 +695,35 @@ namespace MistakesLife.Unity
             }
 
             Space(_body, 16f);
-            if (chat.Replies.Count == 0)
+            if (chat.LeftOnRead)
             {
-                string note = chat.ReplyAfterEvent ? presenter.Text("ui.mensajito.despues_del_evento") : presenter.Text("ui.mensajito.nada_pendiente");
+                // Te dejó en visto: leyó lo que le escribiste y no contestó.
+                TextMeshProUGUI seen = UiFactory.Label(_body, presenter.Text("ui.mensajito.visto"), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Italic);
+                seen.alignment = TextAlignmentOptions.Right;
+            }
+
+            if (chat.Replies.Count == 0 && chat.Openers.Count > 0)
+            {
+                // Escribirle tú primero: lo que contesta depende de lo que siente por ti.
+                UiFactory.Label(_body, presenter.Text("ui.mensajito.que_escribir"), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold);
+                foreach (ChatOpenerView opener in chat.Openers)
+                {
+                    string openerId = opener.Id;
+                    Button button = UiFactory.MakeButton(_body, opener.Text, MailWhite, ChatGreen, () =>
+                    {
+                        presenter.WriteChat(otherId, openerId);
+                        Changed?.Invoke();
+                        DrawConversation(otherId);
+                    }, UiFactory.MinFontSize, 0, 18);
+                    TextMeshProUGUI label = button.GetComponentInChildren<TextMeshProUGUI>();
+                    label.fontStyle = FontStyles.Normal;
+                }
+            }
+            else if (chat.Replies.Count == 0)
+            {
+                string note = chat.WaitingAnswer ? presenter.Text("ui.mensajito.esperando")
+                    : chat.ReplyAfterEvent ? presenter.Text("ui.mensajito.despues_del_evento")
+                    : presenter.Text("ui.mensajito.nada_pendiente");
                 TextMeshProUGUI nothing = UiFactory.Label(_body, note, UiFactory.MinFontSize, UiFactory.PaperMutedInk);
                 nothing.alignment = TextAlignmentOptions.Center;
             }
