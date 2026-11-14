@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Characters;
+using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
 
 namespace MistakesLife.Core.Life
@@ -61,6 +62,10 @@ namespace MistakesLife.Core.Life
         /// <summary>Hijos menores que viven en su casa (jugador.hijos_en_casa).</summary>
         public static int ChildrenAtHome(World world, Character parent) =>
             MinorChildren(world, parent).Count(c => LivesWith(world, c, parent));
+
+        /// <summary>Hijos menores que viven en su casa y tienen entre esas edades (jugador.hijos_en_casa_entre).</summary>
+        public static int ChildrenAtHomeAged(World world, Character parent, GameDate date, int fromAge, int toAge) =>
+            MinorChildren(world, parent).Count(c => LivesWith(world, c, parent) && c.AgeInYears(date) >= fromAge && c.AgeInYears(date) <= toAge);
 
         /// <summary>Hijos menores que viven con su otro papá (jugador.hijos_con_otro).</summary>
         public static int ChildrenWithOtherParent(World world, Character parent) =>

@@ -157,6 +157,16 @@
         { "id": "servicio.cuentas.normal", "precio": 134690 },
         { "id": "servicio.cuentas.sin_cuidar", "precio": 246247 }
       ] },
+      { "id": "servicio.jardin_hijos", "cantidad": "jugador.hijos_en_casa_entre(0, 3)", "compartido": true, "opciones": [
+        { "id": "servicio.jardin_hijos.en_casa", "precio": 0 },
+        { "id": "servicio.jardin_hijos.publico", "precio": 0 },
+        { "id": "servicio.jardin_hijos.particular", "precio": 427957 }
+      ] },
+      { "id": "servicio.colegio_hijos", "cantidad": "jugador.hijos_en_casa_entre(4, 17)", "compartido": true, "opciones": [
+        { "id": "servicio.colegio_hijos.gratuito", "precio": 0 },
+        { "id": "servicio.colegio_hijos.copago", "precio": 34912 },
+        { "id": "servicio.colegio_hijos.particular", "precio": 300000 }
+      ] },
       { "id": "servicio.personales", "condiciones": "jugador.trabaja || jugador.tiene('vive_independiente')", "opciones": [
         { "id": "servicio.personales.austero", "precio": 42000 },
         { "id": "servicio.personales.normal", "precio": 93900 },
@@ -169,7 +179,6 @@
       "cupo_deficit": 1500000,
       "deuda_por_deficit": "deuda.chile.linea_credito",
       "categorias": [
-        { "id": "gasto.chile.hijos", "monto": "110000 * jugador.hijos_en_casa", "condiciones": "jugador.hijos_en_casa > 0", "compartido": true },
         { "id": "gasto.chile.pension_alimentos", "monto": "causa('causa.chile.alimentos_demandado').monto", "a_precios_de_hoy": true,
           "condiciones": "causa('causa.chile.alimentos_demandado').resultado == 'pension_fijada' && jugador.hijos_con_otro > 0 && !jugador.tiene('no_paga_pension')" },
         { "id": "gasto.chile.pension_alimentos_recibida", "monto": "causa('causa.chile.alimentos').monto", "a_precios_de_hoy": true, "ingreso": true,

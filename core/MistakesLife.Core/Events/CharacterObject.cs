@@ -39,7 +39,8 @@ namespace MistakesLife.Core.Events
     /// postular_en('área' o 'cualquier_trabajo'), buscar_trabajo('forma'), puede_buscar_con('forma'),
     /// dar_entrevista(puntos), aceptar_oferta(), negociar_oferta(), rechazar_oferta(), dejar_de_buscar(),
     /// dar_celular(), perder_celular(), instalar_app('app'), desinstalar_app('app'), tiene_app('app'),
-    /// crear_correo(), recibir_correo('correo').
+    /// crear_correo(), recibir_correo('correo'),
+    /// hijos_en_casa_entre(desde, hasta) (hijos menores en su casa con esa edad, en años cumplidos).
     /// </summary>
     public sealed class CharacterObject : IScriptObject
     {
@@ -855,6 +856,8 @@ namespace MistakesLife.Core.Events
 
                     Devices.PhoneRules.Receive(((EventScope)scope).World, _character, mailId);
                     return Value.Null;
+                case "hijos_en_casa_entre":
+                    return Value.FromNumber(ChildrenAtHomeBetween((EventScope)scope, args));
                 case "titulado_en":
                     string career = EventScope.SingleText("jugador." + method, args);
                     return Value.FromBool(_character.Degrees.Any(d => d == career || d.StartsWith(career + ".", StringComparison.Ordinal)));
@@ -876,6 +879,23 @@ namespace MistakesLife.Core.Events
                 default:
                     throw new ScriptException($"jugador.{method}() no existe.");
             }
+        }
+
+        /// <summary>
+        /// hijos_en_casa_entre(desde, hasta): cuántos de sus hijos menores que viven en su casa
+        /// tienen entre esas edades (años cumplidos, las dos incluidas). Sirve para cobrar el
+        /// jardín o el colegio que el jugador eligió solo por los hijos que tienen esa edad.
+        /// </summary>
+        private int ChildrenAtHomeBetween(EventScope scope, Value[] args)
+        {
+            if (args.Length != 2)
+            {
+                throw new ScriptException("jugador.hijos_en_casa_entre() necesita dos edades: hijos_en_casa_entre(4, 17).");
+            }
+
+            double from = args[0].AsNumber("jugador.hijos_en_casa_entre()");
+            double to = args[1].AsNumber("jugador.hijos_en_casa_entre()");
+            return CustodyRules.ChildrenAtHomeAged(scope.World, _character, scope.World.Date, (int)from, (int)to);
         }
 
         /// <summary>
