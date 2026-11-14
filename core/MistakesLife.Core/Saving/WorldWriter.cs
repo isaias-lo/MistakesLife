@@ -220,6 +220,12 @@ namespace MistakesLife.Core.Saving
                     CompletedSemesters = c.Studies.CompletedSemesters,
                     WeeksIntoSemester = c.Studies.WeeksIntoSemester,
                 },
+                Routine = c.Routine == null ? null : new RoutineData
+                {
+                    StageKey = c.Routine.StageKey,
+                    Confirmed = c.Routine.Confirmed,
+                    Slots = c.Routine.Slots.ToList(),
+                },
                 Degrees = c.Degrees.ToList(),
                 IsAlive = c.IsAlive,
                 DeathWeek = c.DeathDate?.TotalWeeks,

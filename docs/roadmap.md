@@ -7,7 +7,8 @@ Mientras estas etapas no terminen, no se agregan funciones nuevas.
 | # | Tarea | Estado |
 |---|---|---|
 | R1 | Bocetos y acuerdo: barrio como pantalla principal, lo que quiero, tu horario, un momento, tu sala, una persona, futuros juntos, el error que vuelve y el cierre del año | Hecha |
-| R2 | Núcleo de la vida: calendario real, horario por etapa, avance "hasta lo importante" con momentos que detienen el tiempo, reglas propias y deseos v1 | Pendiente |
+| R2a | Calendario real y tu horario: cada semana empieza un lunes con su día y su mes ("Lunes 12 de marzo"; las fechas pasadas dicen "12 de marzo · 13 años", nunca "año 103, semana 10"). Horario de 14 bloques (tardes y noches) con actividades de paquete (`actividades/`), sugerido según la personalidad a los 6 años y en cada cambio de etapa, con el tiempo detenido para armarlo. El ánimo tiende a lo que deja el horario (ya no se pega en 0 ni en 100); mente, salud y cariño se mueven cada mes. En el núcleo `Routine`, `RoutineSystem`, `RoutineRules`, `LifePresenter.Routine`, `RoutineOptions`, `SetRoutine`, `ConfirmRoutine`; guardado versión 19. En la consola, comando `h` | En revisión |
+| R2b | Momentos que detienen el tiempo (solo con persona o lugar con nombre y algo en juego), reglas propias y deseos v1 ("lo que quiero") | Pendiente |
 | R3 | El colegio completo: curso con nombres y género, profes, ramos, pruebas como momentos, apoderados | Pendiente |
 | R4 | Errores que vuelven a la vista: escena de origen de cada semilla, "Esto viene de acá", volver al pasado frente al error, cierre del año | Pendiente |
 | R5 | Universidad, CFT e instituto | Pendiente |

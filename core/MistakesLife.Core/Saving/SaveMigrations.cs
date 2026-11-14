@@ -225,6 +225,11 @@ namespace MistakesLife.Core.Saving
             // 17 → 18: en Mensajito el jugador puede escribir primero. En las partidas viejas no
             // le había escrito a nadie: ningún chat espera respuesta suya.
             [17] = save => { },
+
+            // 18 → 19: aparece el horario (qué hace el jugador cada tarde y noche). En las
+            // partidas viejas nadie tiene uno: la próxima semana se le sugiere uno y se
+            // detiene el tiempo para que lo arme.
+            [18] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

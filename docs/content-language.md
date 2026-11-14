@@ -732,6 +732,35 @@ El jugador también puede escribirle primero a la gente de su vida ("Nuevo chat"
 
 No se puede escribir a quien espera que le contestes, ni dos veces sin respuesta, ni repetir lo mismo en medio año, ni mientras hay un evento por decidir. Unity las lee con `LifePresenter.ChatContacts()` y `Chat(id).Openers`, y escribe con `WriteChat(id, idDelMensaje)`.
 
+## Tu horario (actividades/)
+
+Lo que el jugador puede pegar en su horario (rediseño R2, `docs/rediseno-vida.md`). El horario tiene 14 bloques: la tarde y la noche de cada día, de lunes a domingo. La mañana no se llena: la ponen el colegio, los estudios o el trabajo. Desde los 6 años, y cada vez que cambia de etapa (por ejemplo, de básica a media, o al entrar a estudiar), el juego le sugiere un horario según su forma de ser y detiene el tiempo para que lo arme. Después la vida sigue sola con él.
+
+Cada archivo es una lista:
+
+```json
+{ "id": "actividad.plaza_amigos", "edad_minima": 8, "edad_maxima": 17, "franjas": ["tarde"], "con": "amigo",
+  "aporta": { "animo": 2, "salud": 1, "carino": 1 }, "tendencia": "jugador.extraversion" }
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | `actividad.<nombre>`; es también la clave de su nombre en `lang/` (corto, como en un sticker: "plaza con los amigos") |
+| `edad_minima`, `edad_maxima` | Edades en que tiene sentido |
+| `condiciones` | Condición extra en el lenguaje de condiciones (por ejemplo `jugador.tiene_celular`) |
+| `franjas` | `tarde`, `noche` o las dos (por defecto, las dos) |
+| `con` | Con quién se hace: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival` o `ex`. Solo se puede elegir si esa persona existe, y el cariño se mueve con ella |
+| `aporta` | Cuánto mueve por cada bloque en que está, de -3 a 3: `animo`, `mente`, `salud`, `carino` (este último necesita `con`) |
+| `tendencia` | Qué tan probable es que la elija alguien sin el jugador (simulador, horario sugerido); por defecto 50 |
+
+Cómo pesa (`RoutineSystem`):
+
+- **Ánimo:** cada semana se acerca un punto a `50 + 2 × (suma de animo)`, entre 15 y 85. Así el ánimo no se queda pegado en 0 ni en 100: los eventos lo sacuden y el horario lo devuelve a lo que tu vida da.
+- **Mente:** cada mes se acerca un punto a `50 + 2 × (suma de mente)`, entre 15 y 90. Estudiar sirve, pero de a poco; dejarlo también se nota.
+- **Salud:** cada mes sube o baja un punto si la suma de salud es 4 o más (o -4 o menos). El envejecimiento hace el resto.
+- **Cariño:** cada mes, con cada persona de `con`, sube lo que diga `carino` en los dos sentidos (lo que tú sientes y lo que siente esa persona).
+- Si una actividad deja de tener sentido (ya no hay amigos, pasó la edad), queda en el horario pero no cuenta hasta que la cambies.
+
 ## Juzgados (courts/) y vida civil
 
 Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `C-1532-81`), un tribunal y etapas con sus plazos, como la carpeta de cartulina del juzgado. Una causa **nunca empieza sola**: la abre un evento con `abrir_causa('causa.x')` por algo que hizo el jugador (dejó de pagar una deuda, se casó y se separó). Los tipos de causa van en `courts/*.json` del paquete de **un país** (cada país tiene sus tribunales y plazos):

@@ -312,7 +312,10 @@ namespace MistakesLife.Core.Tests
             var decider = new AutoDecider(session.Content);
             var chooser = new GameRandom(session.World.Seed).Fork("prueba.areas");
             int target = age * GameDate.WeeksPerYear;
-            while (session.World.Player.IsAlive && session.World.Player.AgeInWeeks(session.World.Date) < target)
+            // También se contesta lo que quedó pendiente al llegar a la edad: si no, un evento
+            // de antes (por ejemplo, una oferta de ascenso) se contestaría después de que la
+            // prueba cambie a mano la vida (por ejemplo, ascendiendo), y ya no calzaría.
+            while (session.World.Player.IsAlive && (session.World.Player.AgeInWeeks(session.World.Date) < target || session.Pending != null))
             {
                 PendingEvent? pending = session.Pending;
                 if (pending != null)

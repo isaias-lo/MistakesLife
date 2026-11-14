@@ -19,6 +19,7 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, NewsDefinition> _news = new SortedDictionary<string, NewsDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CourtCaseDefinition> _courtCases = new SortedDictionary<string, CourtCaseDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, ActivityDefinition> _activities = new SortedDictionary<string, ActivityDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, MailDefinition> _mails = new SortedDictionary<string, MailDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, List<MailDefinition>> _mailsByJournal = new Dictionary<string, List<MailDefinition>>(StringComparer.Ordinal);
@@ -61,6 +62,11 @@ namespace MistakesLife.Core.Content
         public bool TryGetCourtCase(string id, out CourtCaseDefinition? definition) => _courtCases.TryGetValue(id, out definition);
 
         public IEnumerable<CountryDefinition> Countries => _countries.Values;
+
+        /// <summary>Lo que se puede poner en el horario, ordenado por id.</summary>
+        public IEnumerable<ActivityDefinition> Activities => _activities.Values;
+
+        public ActivityDefinition? Activity(string id) => _activities.TryGetValue(id, out ActivityDefinition? activity) ? activity : null;
 
         /// <summary>Las apps del celular, ordenadas por id.</summary>
         public IEnumerable<AppDefinition> Apps => _apps.Values;
@@ -290,6 +296,22 @@ namespace MistakesLife.Core.Content
                 }
 
                 _sceneObjects.Add(definition.Id, definition);
+            }
+        }
+
+        /// <summary>Agrega las actividades del horario de un archivo JSON de actividades/ (una lista).</summary>
+        public void AddActivitiesJson(string packId, string sourceName, string json)
+        {
+            foreach (ActivityDefinition definition in Deserialize<ActivityDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_activities.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de actividad repetido."));
+                    continue;
+                }
+
+                _activities.Add(definition.Id, definition);
             }
         }
 
@@ -524,6 +546,7 @@ namespace MistakesLife.Core.Content
             ValidateMails();
             ValidateChats();
             ValidateChatOpeners();
+            ValidateActivities();
 
             foreach (SceneObjectDefinition scene in _sceneObjects.Values)
             {
@@ -1569,6 +1592,11 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            foreach (ActivityDefinition activity in _activities.Values)
+            {
+                yield return new KeyValuePair<string, string>(activity.Id, $"actividad {activity.Id}");
+            }
+
             foreach (ChatOpenerDefinition opener in _chatOpeners.Values)
             {
                 yield return new KeyValuePair<string, string>(opener.Id, $"escribir {opener.Id}");
@@ -2177,6 +2205,48 @@ namespace MistakesLife.Core.Content
         }
 
         /// <summary>Revisa lo que el jugador puede escribir primero.</summary>
+        private void ValidateActivities()
+        {
+            foreach (ActivityDefinition activity in _activities.Values)
+            {
+                string where = $"actividad {activity.Id}";
+                CheckId(where, activity.Id, "actividad.");
+                activity.CompiledConditions = CompileCondition(where, activity.Conditions);
+                activity.CompiledTendency = CompileCondition(where, activity.Tendency);
+                if (activity.MinAge > activity.MaxAge)
+                {
+                    _errors.Add(new ContentError(where, "edad_minima no puede ser mayor que edad_maxima."));
+                }
+
+                if (activity.With != null && Array.IndexOf(ChatDefinition.Senders, activity.With) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"con '{activity.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+                }
+
+                if (activity.AllowedBlocks.Any(b => Array.IndexOf(ActivityDefinition.Blocks, b) < 0))
+                {
+                    _errors.Add(new ContentError(where, $"franjas solo puede tener: {string.Join(", ", ActivityDefinition.Blocks)}."));
+                }
+
+                foreach (KeyValuePair<string, int> pair in activity.Contributes)
+                {
+                    if (Array.IndexOf(ActivityDefinition.Contributions, pair.Key) < 0)
+                    {
+                        _errors.Add(new ContentError(where, $"aporta '{pair.Key}' no existe (usa {string.Join(", ", ActivityDefinition.Contributions)})."));
+                    }
+                    else if (Math.Abs(pair.Value) > ActivityDefinition.MaxContribution)
+                    {
+                        _errors.Add(new ContentError(where, $"aporta {pair.Key}: va de -{ActivityDefinition.MaxContribution} a {ActivityDefinition.MaxContribution} por bloque."));
+                    }
+                }
+
+                if (activity.Contribution("carino") != 0 && activity.With == null)
+                {
+                    _errors.Add(new ContentError(where, "aporta carino solo tiene sentido si dice con quién (con)."));
+                }
+            }
+        }
+
         private void ValidateChatOpeners()
         {
             foreach (ChatOpenerDefinition opener in _chatOpeners.Values)

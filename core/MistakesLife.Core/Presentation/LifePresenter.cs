@@ -33,7 +33,11 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Claves de texto que usa la pantalla; deben existir en el idioma base.</summary>
         public static readonly IReadOnlyList<string> TextKeys = new[]
         {
-            "ui.edad.semanas", "ui.edad.un_ano", "ui.edad.anos", "ui.fecha", "ui.dinero", "ui.separador_miles",
+            "ui.edad.semanas", "ui.edad.un_ano", "ui.edad.anos", "ui.fecha.hoy", "ui.fecha.dia", "ui.fecha.otro_ano",
+            "ui.horario.titulo", "ui.horario.libre", "ui.horario.tarde", "ui.horario.noche", "ui.horario.sube", "ui.horario.baja", "ui.horario.igual", "ui.horario.nuevo",
+            "ui.horario.dia.0", "ui.horario.dia.1", "ui.horario.dia.2", "ui.horario.dia.3", "ui.horario.dia.4", "ui.horario.dia.5", "ui.horario.dia.6",
+            "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
+            "ui.dinero", "ui.separador_miles",
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
             "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
@@ -104,7 +108,7 @@ namespace MistakesLife.Core.Presentation
                 FullName(player),
                 Session.PlayerAgeInYears,
                 AgeLabel(player, world.Date),
-                string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), world.Date.Year, world.Date.WeekOfYear),
+                Today(world.Date),
                 Place(player),
                 player.Stats.Health,
                 player.Stats.Happiness,
@@ -325,7 +329,7 @@ namespace MistakesLife.Core.Presentation
                     courtCase.Rit,
                     T(definition.Id),
                     T(definition.CourtKey),
-                    string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), courtCase.Opened.Year, courtCase.Opened.WeekOfYear),
+                    DateLabel(courtCase.Opened),
                     courtCase.IsOpen,
                     courtCase.Outcome == null ? null : T(definition.OutcomeTextKey(courtCase.Outcome)),
                     stages,
@@ -444,7 +448,7 @@ namespace MistakesLife.Core.Presentation
                     definition == null ? message.MailId : T(definition.SubjectKey),
                     T(message.MailId),
                     definition?.Topic ?? string.Empty,
-                    string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), message.Date.Year, message.Date.WeekOfYear),
+                    DateLabel(message.Date),
                     AgeLabel(player, message.Date),
                     WhenLabel(Session.World.Date.WeeksSince(message.Date)),
                     message.Read));
@@ -543,6 +547,50 @@ namespace MistakesLife.Core.Presentation
                 .ToList();
         }
 
+        /// <summary>El horario del jugador, o null si todavía no tiene (antes de los 6 años).</summary>
+        public RoutineView? Routine()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            Life.Routine? routine = player.Routine;
+            if (routine == null)
+            {
+                return null;
+            }
+
+            var slots = new List<RoutineSlotView>();
+            for (int day = 0; day < Life.Routine.Days; day++)
+            {
+                foreach (Life.RoutineBlock block in new[] { Life.RoutineBlock.Afternoon, Life.RoutineBlock.Night })
+                {
+                    string? id = routine.Get(day, block);
+                    Content.ActivityDefinition? activity = id == null ? null : Session.Content.Activity(id);
+                    bool available = activity == null || Life.RoutineRules.IsAvailable(world, Session.Content, player, activity);
+                    slots.Add(new RoutineSlotView(day, block, id, T(id ?? "ui.horario.libre"), available));
+                }
+            }
+
+            int mood = Life.RoutineRules.MoodTarget(Life.RoutineRules.Total(world, Session.Content, player, routine, "animo")) - player.Stats.Happiness;
+            int mind = Life.RoutineRules.MindTarget(Life.RoutineRules.Total(world, Session.Content, player, routine, "mente")) - player.Stats.Smarts;
+            int health = Life.RoutineRules.HealthStep(Life.RoutineRules.Total(world, Session.Content, player, routine, "salud"));
+            return new RoutineView(slots, routine.Confirmed, Trend(mood), Trend(mind), Trend(health));
+        }
+
+        /// <summary>Lo que se puede pegar en ese bloque del horario hoy.</summary>
+        public IReadOnlyList<RoutineOptionView> RoutineOptions(Life.RoutineBlock block) =>
+            Life.RoutineRules.Options(Session.World, Session.Content, Session.World.Player, block)
+                .Select(a => new RoutineOptionView(a.Id, T(a.Id)))
+                .ToList();
+
+        /// <summary>Pone una actividad (por su id) en un bloque, o lo deja libre con null.</summary>
+        public void SetRoutine(int day, Life.RoutineBlock block, string? activityId) => Session.SetRoutine(day, block, activityId);
+
+        /// <summary>"Así queda mi semestre": la vida sigue con este horario hasta que lo cambie.</summary>
+        public void ConfirmRoutine() => Session.ConfirmRoutine();
+
+        private string Trend(int direction) =>
+            T(direction > 0 ? "ui.horario.sube" : direction < 0 ? "ui.horario.baja" : "ui.horario.igual");
+
         /// <summary>El jugador le escribe primero a esa persona uno de <see cref="ChatView.Openers"/> (por su id).</summary>
         public void WriteChat(int otherId, string openerId) => Session.WriteChat(otherId, openerId);
 
@@ -598,7 +646,7 @@ namespace MistakesLife.Core.Presentation
                 record.NewsId,
                 T(record.TextKey),
                 topic,
-                string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), record.Date.Year, record.Date.WeekOfYear),
+                DateLabel(record.Date),
                 AgeLabel(world.Player, record.Date),
                 world.Date.WeeksSince(record.Date),
                 record.CityId != null);
@@ -808,7 +856,27 @@ namespace MistakesLife.Core.Presentation
             return years == 1 ? T("ui.hace.un_ano") : string.Format(CultureInfo.InvariantCulture, T("ui.hace.anos"), years);
         }
 
-                private string AgeLabel(Character character, GameDate date)
+        /// <summary>El día de hoy para la cabecera: "Lunes 12 de marzo" (cada semana empieza un lunes).</summary>
+        private string Today(GameDate date) =>
+            string.Format(CultureInfo.InvariantCulture, T("ui.fecha.hoy"), date.DayOfMonth, T("ui.mes." + date.Month));
+
+        /// <summary>
+        /// Una fecha pasada como la diría una persona: "12 de marzo" si es de este año
+        /// y "12 de marzo · 13 años" (la edad que tenías) si es de otro. Nunca "año 103, semana 10".
+        /// </summary>
+        private string DateLabel(GameDate date)
+        {
+            string day = string.Format(CultureInfo.InvariantCulture, T("ui.fecha.dia"), date.DayOfMonth, T("ui.mes." + date.Month));
+            World world = Session.World;
+            if (date.Year == world.Date.Year || date < world.Player.BirthDate)
+            {
+                return day;
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, T("ui.fecha.otro_ano"), day, AgeLabel(world.Player, date));
+        }
+
+        private string AgeLabel(Character character, GameDate date)
         {
             int weeks = character.AgeInWeeks(date);
             int years = weeks / GameDate.WeeksPerYear;

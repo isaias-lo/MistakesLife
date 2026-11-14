@@ -325,6 +325,9 @@ namespace MistakesLife.Core.Characters
         /// <summary>La carrera que estudia ahora, o null si no estudia.</summary>
         public CareerStudies? Studies { get; set; }
 
+        /// <summary>El horario del jugador (qué hace cada tarde y noche); null antes de los 6 años o para quien no es jugador.</summary>
+        public Life.Routine? Routine { get; set; }
+
         private readonly List<string> _degrees = new List<string>();
 
         /// <summary>Niveles de carrera en que se tituló (ids de nivel), en orden.</summary>

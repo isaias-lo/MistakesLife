@@ -23,6 +23,8 @@ namespace MistakesLife.Core.Game
     public sealed class LifeSession
     {
         private readonly WeekCycle _cycle;
+
+        private readonly RoutineSystem _routine;
         private int _journalRead;
 
         public LifeSession(ContentDatabase content, ulong seed)
@@ -61,7 +63,9 @@ namespace MistakesLife.Core.Game
             _journalRead = journalRead;
             TimeMachine = new TimeMachine(0);
             Events = new EventSystem(content, eventRules);
+            _routine = new RoutineSystem(content);
             _cycle = new WeekCycle()
+                .Register(_routine)
                 .Register(new EconomySystem(content))
                 .Register(new NewsSystem(content))
                 .Register(new Courts.CourtSystem(content))
@@ -371,6 +375,39 @@ namespace MistakesLife.Core.Game
             }
 
             ChatSystem.Write(World, Content, World.Player, otherId, openerId);
+        }
+
+        /// <summary>
+        /// Si el tiempo se detiene para que el jugador arme su horario al empezar cada
+        /// etapa. Lo encienden las pantallas (consola, Unity); apagado, la vida sigue
+        /// con el horario sugerido (simulador y pruebas).
+        /// </summary>
+        public bool AsksForRoutine
+        {
+            get => _routine.StopsForNewRoutine;
+            set => _routine.StopsForNewRoutine = value;
+        }
+
+        /// <summary>
+        /// El jugador pone una actividad (por su id) en un bloque de su horario, o lo deja
+        /// libre con null. Solo vale lo que <see cref="RoutineRules.Options"/> permite hoy.
+        /// </summary>
+        public void SetRoutine(int day, RoutineBlock block, string? activityId)
+        {
+            Routine routine = World.Player.Routine ?? throw new InvalidOperationException("Todavía no hay horario (empieza a los 6 años).");
+            if (activityId != null && !RoutineRules.Options(World, Content, World.Player, block).Any(a => a.Id == activityId))
+            {
+                throw new InvalidOperationException($"'{activityId}' no se puede poner ahí ahora.");
+            }
+
+            routine.Set(day, block, activityId);
+        }
+
+        /// <summary>El jugador deja su horario como está; la vida sigue con él hasta que lo cambie.</summary>
+        public void ConfirmRoutine()
+        {
+            Routine routine = World.Player.Routine ?? throw new InvalidOperationException("Todavía no hay horario (empieza a los 6 años).");
+            routine.Confirmed = true;
         }
 
         /// <summary>Entradas nuevas del diario del jugador desde la última vez que se pidieron.</summary>

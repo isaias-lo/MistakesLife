@@ -37,7 +37,7 @@ namespace MistakesLife.Core.Tests
             Assert.False(string.IsNullOrWhiteSpace(snapshot.PlayerName));
             Assert.Equal("Puente Alto, Santiago, Chile", snapshot.Place);
             Assert.Equal("0 semanas", snapshot.AgeLabel);
-            Assert.Matches(@"^Año \d+, semana \d+$", snapshot.DateLabel);
+            Assert.Matches(@"^Lunes \d+ de [a-z]+$", snapshot.DateLabel);
             Assert.Contains(snapshot.Family, p => p.Relation == "Mamá");
             Assert.Null(snapshot.PendingEvent);
             Assert.Equal(7UL, snapshot.Seed);
