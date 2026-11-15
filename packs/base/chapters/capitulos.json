@@ -1,0 +1,447 @@
+[
+  {
+    "diario": "diario.nacimiento",
+    "titulo": "capitulo.nacimiento",
+    "peso": 10
+  },
+  {
+    "diario": "diario.muerte",
+    "titulo": "capitulo.muerte",
+    "peso": 10
+  },
+  {
+    "diario": "diario.muerte_madre",
+    "titulo": "capitulo.muerte_madre",
+    "peso": 10
+  },
+  {
+    "diario": "diario.muerte_padre",
+    "titulo": "capitulo.muerte_padre",
+    "peso": 10
+  },
+  {
+    "diario": "diario.muerte_pareja",
+    "titulo": "capitulo.muerte_pareja",
+    "peso": 10
+  },
+  {
+    "diario": "diario.muerte_hija",
+    "titulo": "capitulo.muerte_hija",
+    "peso": 10
+  },
+  {
+    "diario": "diario.muerte_hijo",
+    "titulo": "capitulo.muerte_hijo",
+    "peso": 10
+  },
+  {
+    "diario": "diario.nace_hija",
+    "titulo": "capitulo.nace_hija",
+    "peso": 9
+  },
+  {
+    "diario": "diario.nace_hijo",
+    "titulo": "capitulo.nace_hijo",
+    "peso": 9
+  },
+  {
+    "diario": "diario.adopcion_hija",
+    "titulo": "capitulo.adopcion_hija",
+    "peso": 9
+  },
+  {
+    "diario": "diario.adopcion_hijo",
+    "titulo": "capitulo.adopcion_hijo",
+    "peso": 9
+  },
+  {
+    "diario": "diario.nace_nieta",
+    "titulo": "capitulo.nace_nieta",
+    "peso": 7
+  },
+  {
+    "diario": "diario.nace_nieto",
+    "titulo": "capitulo.nace_nieto",
+    "peso": 7
+  },
+  {
+    "diario": "diario.llega_nieta",
+    "titulo": "capitulo.llega_nieta",
+    "peso": 7
+  },
+  {
+    "diario": "diario.llega_nieto",
+    "titulo": "capitulo.llega_nieto",
+    "peso": 7
+  },
+  {
+    "diario": "diario.legado",
+    "titulo": "capitulo.legado",
+    "peso": 9
+  },
+  {
+    "diario": "diario.ahijado",
+    "titulo": "capitulo.ahijado",
+    "peso": 5
+  },
+  {
+    "diario": "diario.amigo_se_alejo",
+    "titulo": "capitulo.amigo_se_alejo",
+    "peso": 6
+  },
+  {
+    "diario": "diario.amigo_se_casa_testigo",
+    "titulo": "capitulo.amigo_se_casa_testigo",
+    "peso": 6
+  },
+  {
+    "diario": "diario.amigo_se_va",
+    "titulo": "capitulo.amigo_se_va",
+    "peso": 6
+  },
+  {
+    "diario": "diario.amigo_vuelve",
+    "titulo": "capitulo.amigo_vuelve",
+    "peso": 5
+  },
+  {
+    "diario": "diario.apoderados.cimarra",
+    "titulo": "capitulo.apoderados.cimarra",
+    "peso": 6
+  },
+  {
+    "diario": "diario.ascenso",
+    "titulo": "capitulo.ascenso",
+    "peso": 5
+  },
+  {
+    "diario": "diario.busqueda.nuevo_trabajo",
+    "titulo": "capitulo.busqueda.nuevo_trabajo",
+    "peso": 5
+  },
+  {
+    "diario": "diario.busqueda.oferta_retirada",
+    "titulo": "capitulo.busqueda.oferta_retirada",
+    "peso": 5
+  },
+  {
+    "diario": "diario.cambio_registral",
+    "titulo": "capitulo.cambio_registral",
+    "peso": 9
+  },
+  {
+    "diario": "diario.celular.primero",
+    "titulo": "capitulo.celular.primero",
+    "peso": 3
+  },
+  {
+    "diario": "diario.cima_carrera",
+    "titulo": "capitulo.cima_carrera",
+    "peso": 7
+  },
+  {
+    "diario": "diario.citan_apoderado_video.negar",
+    "titulo": "capitulo.citan_apoderado_video.negar",
+    "peso": 7
+  },
+  {
+    "diario": "diario.citan_apoderado_video.reconocer",
+    "titulo": "capitulo.citan_apoderado_video.reconocer",
+    "peso": 7
+  },
+  {
+    "diario": "diario.colegio.aniversario",
+    "titulo": "capitulo.colegio.aniversario",
+    "peso": 2
+  },
+  {
+    "diario": "diario.colegio.apodo",
+    "titulo": "capitulo.colegio.apodo",
+    "peso": 4
+  },
+  {
+    "diario": "diario.colegio.centro_alumnos",
+    "titulo": "capitulo.colegio.centro_alumnos",
+    "peso": 4
+  },
+  {
+    "diario": "diario.colegio.cimarra",
+    "titulo": "capitulo.colegio.cimarra",
+    "peso": 5
+  },
+  {
+    "diario": "diario.colegio.colacion",
+    "titulo": "capitulo.colegio.colacion",
+    "peso": 2
+  },
+  {
+    "diario": "diario.colegio.empujon",
+    "titulo": "capitulo.colegio.empujon",
+    "peso": 4
+  },
+  {
+    "diario": "diario.colegio.profe_callado",
+    "titulo": "capitulo.colegio.profe_callado",
+    "peso": 5
+  },
+  {
+    "diario": "diario.colegio.profe_futuro",
+    "titulo": "capitulo.colegio.profe_futuro",
+    "peso": 4
+  },
+  {
+    "diario": "diario.colegio.secreto",
+    "titulo": "capitulo.colegio.secreto",
+    "peso": 4
+  },
+  {
+    "diario": "diario.colegio.toma",
+    "titulo": "capitulo.colegio.toma",
+    "peso": 5
+  },
+  {
+    "diario": "diario.correo.estafa",
+    "titulo": "capitulo.correo.estafa",
+    "peso": 5
+  },
+  {
+    "diario": "diario.cuidar_familiar",
+    "titulo": "capitulo.cuidar_familiar",
+    "peso": 8
+  },
+  {
+    "diario": "diario.cumpleanos_sorpresa",
+    "titulo": "capitulo.cumpleanos_sorpresa",
+    "peso": 3
+  },
+  {
+    "diario": "diario.curso.amistad",
+    "titulo": "capitulo.curso.amistad",
+    "peso": 4
+  },
+  {
+    "diario": "diario.curso.nuevo",
+    "titulo": "capitulo.curso.nuevo",
+    "peso": 3
+  },
+  {
+    "diario": "diario.degradacion",
+    "titulo": "capitulo.degradacion",
+    "peso": 6
+  },
+  {
+    "diario": "diario.dejar_trabajo_por_salud",
+    "titulo": "capitulo.dejar_trabajo_por_salud",
+    "peso": 7
+  },
+  {
+    "diario": "diario.dejo_de_trabajar_vejez",
+    "titulo": "capitulo.dejo_de_trabajar_vejez",
+    "peso": 8
+  },
+  {
+    "diario": "diario.desalojo.allegado",
+    "titulo": "capitulo.desalojo.allegado",
+    "peso": 8
+  },
+  {
+    "diario": "diario.desalojo.pieza",
+    "titulo": "capitulo.desalojo.pieza",
+    "peso": 7
+  },
+  {
+    "diario": "diario.desalojo.volver_familia",
+    "titulo": "capitulo.desalojo.volver_familia",
+    "peso": 7
+  },
+  {
+    "diario": "diario.despido_por_desempeno",
+    "titulo": "capitulo.despido_por_desempeno",
+    "peso": 7
+  },
+  {
+    "diario": "diario.deudas.moroso",
+    "titulo": "capitulo.deudas.moroso",
+    "peso": 6
+  },
+  {
+    "diario": "diario.deudas.fuera_registro",
+    "titulo": "capitulo.deudas.fuera_registro",
+    "peso": 5
+  },
+  {
+    "diario": "diario.deudas.pagada",
+    "titulo": "capitulo.deudas.pagada",
+    "peso": 3
+  },
+  {
+    "diario": "diario.economia.ciclo.crisis",
+    "titulo": "capitulo.economia.ciclo.crisis",
+    "peso": 4
+  },
+  {
+    "diario": "diario.empresa.cambio",
+    "titulo": "capitulo.empresa.cambio",
+    "peso": 4
+  },
+  {
+    "diario": "diario.empresa.quiebra",
+    "titulo": "capitulo.empresa.quiebra",
+    "peso": 7
+  },
+  {
+    "diario": "diario.estafa_caiste",
+    "titulo": "capitulo.estafa_caiste",
+    "peso": 5
+  },
+  {
+    "diario": "diario.estudios.boto_ramo",
+    "titulo": "capitulo.estudios.boto_ramo",
+    "peso": 3
+  },
+  {
+    "diario": "diario.estudios.cambio_carrera",
+    "titulo": "capitulo.estudios.cambio_carrera",
+    "peso": 6
+  },
+  {
+    "diario": "diario.estudios.deserto",
+    "titulo": "capitulo.estudios.deserto",
+    "peso": 7
+  },
+  {
+    "diario": "diario.estudios.ramo_reprobado",
+    "titulo": "capitulo.estudios.ramo_reprobado",
+    "peso": 3
+  },
+  {
+    "diario": "diario.fecha.cumple_amigo.excusa",
+    "titulo": "capitulo.fecha.cumple_amigo.excusa",
+    "peso": 3
+  },
+  {
+    "diario": "diario.fecha.cumple_mama_grande.olvidar",
+    "titulo": "capitulo.fecha.cumple_mama_grande.olvidar",
+    "peso": 4
+  },
+  {
+    "diario": "diario.fecha.cumple_mama_nino.tarjeta",
+    "titulo": "capitulo.fecha.cumple_mama_nino.tarjeta",
+    "peso": 2
+  },
+  {
+    "diario": "diario.fecha.navidad.reclamar",
+    "titulo": "capitulo.fecha.navidad.reclamar",
+    "peso": 3
+  },
+  {
+    "diario": "diario.herencia.recibida",
+    "titulo": "capitulo.herencia.recibida",
+    "peso": 4
+  },
+  {
+    "diario": "diario.influenza_fuerte",
+    "titulo": "capitulo.influenza_fuerte",
+    "peso": 2
+  },
+  {
+    "diario": "diario.mama_encuentra_fuente.confesar",
+    "titulo": "capitulo.mama_encuentra_fuente.confesar",
+    "peso": 6
+  },
+  {
+    "diario": "diario.mama_encuentra_fuente.leso",
+    "titulo": "capitulo.mama_encuentra_fuente.leso",
+    "peso": 6
+  },
+  {
+    "diario": "diario.mama_historia",
+    "titulo": "capitulo.mama_historia",
+    "peso": 4
+  },
+  {
+    "diario": "diario.negocio_con_amigo",
+    "titulo": "capitulo.negocio_con_amigo",
+    "peso": 5
+  },
+  {
+    "diario": "diario.negocio_fracasa",
+    "titulo": "capitulo.negocio_fracasa",
+    "peso": 7
+  },
+  {
+    "diario": "diario.negocio_resulta",
+    "titulo": "capitulo.negocio_resulta",
+    "peso": 7
+  },
+  {
+    "diario": "diario.notas.excelente",
+    "titulo": "capitulo.notas.excelente",
+    "peso": 3
+  },
+  {
+    "diario": "diario.notas.repitio",
+    "titulo": "capitulo.notas.repitio",
+    "peso": 8
+  },
+  {
+    "diario": "diario.papa_consejo",
+    "titulo": "capitulo.papa_consejo",
+    "peso": 4
+  },
+  {
+    "diario": "diario.pareja_se_fue",
+    "titulo": "capitulo.pareja_se_fue",
+    "peso": 9
+  },
+  {
+    "diario": "diario.reconocimiento_trabajo",
+    "titulo": "capitulo.reconocimiento_trabajo",
+    "peso": 5
+  },
+  {
+    "diario": "diario.reencuentro_curso",
+    "titulo": "capitulo.reencuentro_curso",
+    "peso": 3
+  },
+  {
+    "diario": "diario.rutina.estudiar_guia.copiar",
+    "titulo": "capitulo.rutina.estudiar_guia.copiar",
+    "peso": 2
+  },
+  {
+    "diario": "diario.rutina.fuente_escondida",
+    "titulo": "capitulo.rutina.fuente_escondida",
+    "peso": 5
+  },
+  {
+    "diario": "diario.rutina.once_mama_pega",
+    "titulo": "capitulo.rutina.once_mama_pega",
+    "peso": 4
+  },
+  {
+    "diario": "diario.rutina.plaza_cigarro",
+    "titulo": "capitulo.rutina.plaza_cigarro",
+    "peso": 4
+  },
+  {
+    "diario": "diario.rutina.plaza_timbres",
+    "titulo": "capitulo.rutina.plaza_timbres",
+    "peso": 2
+  },
+  {
+    "diario": "diario.rutina.seleccion_comunal",
+    "titulo": "capitulo.rutina.seleccion_comunal",
+    "peso": 5
+  },
+  {
+    "diario": "diario.rutina.video_companero.borrar",
+    "titulo": "capitulo.rutina.video_companero.borrar",
+    "peso": 5
+  },
+  {
+    "diario": "diario.viaje_con_pareja",
+    "titulo": "capitulo.viaje_con_pareja",
+    "peso": 5
+  }
+]

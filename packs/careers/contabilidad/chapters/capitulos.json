@@ -1,0 +1,22 @@
+[
+  {
+    "diario": "diario.contabilidad.titulacion",
+    "titulo": "capitulo.contabilidad.titulacion",
+    "peso": 8
+  },
+  {
+    "diario": "diario.contabilidad.balance_maquillado_sale_a_la_luz",
+    "titulo": "capitulo.contabilidad.balance_maquillado_sale_a_la_luz",
+    "peso": 8
+  },
+  {
+    "diario": "diario.contabilidad.oculto_fraude_sale_a_la_luz",
+    "titulo": "capitulo.contabilidad.oculto_fraude_sale_a_la_luz",
+    "peso": 8
+  },
+  {
+    "diario": "diario.contabilidad.ayudo_evasion_sale_a_la_luz",
+    "titulo": "capitulo.contabilidad.ayudo_evasion_sale_a_la_luz",
+    "peso": 8
+  }
+]

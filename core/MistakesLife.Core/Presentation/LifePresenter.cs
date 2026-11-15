@@ -60,6 +60,8 @@ namespace MistakesLife.Core.Presentation
             "ui.dinero.titulo", "ui.dinero.tienes", "ui.dinero.movimientos", "ui.dinero.sin_movimientos", "ui.dinero.sueldo", "ui.dinero.cuotas",
             "ui.dinero.salio", "ui.dinero.mes_en_dias", "ui.dinero.dias", "ui.dinero.un_dia", "ui.dinero.menos_de_un_dia", "ui.dinero.debes", "ui.dinero.atrasada",
             "ui.cosas.tu_gente", "ui.cosas.volver", "ui.vista.girar",
+            "ui.origen.titulo", "ui.origen.elegiste", "ui.origen.volver",
+            "ui.capitulo.nacer", "ui.capitulo.cumpli", "ui.capitulo.titulo", "ui.capitulo.abierto",
         };
 
         /// <summary>
@@ -897,7 +899,186 @@ namespace MistakesLife.Core.Presentation
         private int Advance(int maxWeeks)
         {
             LifePhase phase = Phase;
-            return phase == LifePhase.Living ? Session.Advance(maxWeeks) : 0;
+            if (phase != LifePhase.Living)
+            {
+                return 0;
+            }
+
+            int year = Session.World.Date.Year;
+            int playerId = Session.World.PlayerId;
+            int weeks = Session.Advance(maxWeeks);
+            if (Session.World.Date.Year > year && Session.World.PlayerId == playerId)
+            {
+                _closedChapter = Chapter(Session.World.Date.Year - 1);
+            }
+
+            return weeks;
+        }
+
+        private ChapterView? _closedChapter;
+
+        /// <summary>
+        /// El capítulo del año que se acaba de cerrar, una sola vez: la pantalla lo muestra al
+        /// pasar de año (después vive en <see cref="Chapters"/>). Null si no se cerró ninguno.
+        /// </summary>
+        public ChapterView? TakeClosedChapter()
+        {
+            ChapterView? chapter = _closedChapter;
+            _closedChapter = null;
+            return chapter;
+        }
+
+        /// <summary>
+        /// Un año como capítulo. El título lo da la línea del diario de más peso de ese año
+        /// (chapters/ en los paquetes; si empatan, la más nueva). Un título (su texto) sale una sola vez
+        /// por vida: si un año anterior ya lo usó, gana la siguiente línea. Si ninguna da
+        /// título, el año se llama por la edad ("El año en que cumplí 9").
+        /// </summary>
+        public ChapterView Chapter(int year)
+        {
+            var used = new HashSet<string>(StringComparer.Ordinal);
+            World world = Session.World;
+            int first = world.Player.BirthDate.Year;
+            for (int y = first; y < year; y++)
+            {
+                string? title = TitleText(BestTitle(y, used, out _, out _));
+                if (title != null)
+                {
+                    used.Add(title);
+                }
+            }
+
+            return ChapterWith(year, used);
+        }
+
+        /// <summary>
+        /// El diario por capítulos: un capítulo por cada año vivido en que pasó algo, del
+        /// primero al de ahora (el último puede estar abierto todavía).
+        /// </summary>
+        public IReadOnlyList<ChapterView> Chapters()
+        {
+            World world = Session.World;
+            var years = new HashSet<int>(world.Journal.Where(e => e.CharacterId == world.PlayerId).Select(e => e.Date.Year));
+            var used = new HashSet<string>(StringComparer.Ordinal);
+            var chapters = new List<ChapterView>();
+            for (int y = world.Player.BirthDate.Year; y <= world.Date.Year; y++)
+            {
+                if (years.Contains(y))
+                {
+                    chapters.Add(ChapterWith(y, used));
+                }
+                else
+                {
+                    string? title = TitleText(BestTitle(y, used, out _, out _));
+                    if (title != null)
+                    {
+                        used.Add(title);
+                    }
+                }
+            }
+
+            return chapters;
+        }
+
+        /// <summary>Arma el capítulo de ese año sin repetir los títulos ya usados (y suma el suyo).</summary>
+        private ChapterView ChapterWith(int year, HashSet<string> used)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            GameDate end = new GameDate((year * GameDate.WeeksPerYear) - 1);
+            int age = player.AgeInYears(end);
+            ChapterTitleDefinition? title = BestTitle(year, used, out JournalEntry? best, out Character? person);
+            if (title != null)
+            {
+                used.Add(T(title.TitleKey));
+            }
+
+            string text = title != null
+                ? WithPerson(T(title.TitleKey), person?.FirstName)
+                : age == 0 ? T("ui.capitulo.nacer") : Text("ui.capitulo.cumpli", age);
+            var months = world.Journal
+                .Where(e => e.CharacterId == player.Id && e.Date.Year == year)
+                .GroupBy(e => e.Date.Month)
+                .OrderBy(g => g.Key)
+                .Select(g => new ChapterMonthView(T("ui.mes." + g.Key), g.Select(e => T(e.TextKey)).ToList()))
+                .ToList();
+            return new ChapterView(year, text, AgeLabel(player, end), months, best == null ? null : PhotoOf(best, person), year == world.Date.Year);
+        }
+
+        /// <summary>El texto de un título sin la persona: dos líneas que titulan igual cuentan como el mismo título.</summary>
+        private string? TitleText(ChapterTitleDefinition? title) => title == null ? null : T(title.TitleKey);
+
+        /// <summary>
+        /// La línea del diario que titula el año: la de más peso cuyo título no se haya usado
+        /// (si empatan, la más nueva). Null si ninguna da título.
+        /// </summary>
+        private ChapterTitleDefinition? BestTitle(int year, HashSet<string> used, out JournalEntry? best, out Character? bestPerson)
+        {
+            World world = Session.World;
+            best = null;
+            bestPerson = null;
+            ChapterTitleDefinition? bestTitle = null;
+            foreach (JournalEntry entry in world.Journal.Where(e => e.CharacterId == world.PlayerId && e.Date.Year == year))
+            {
+                ChapterTitleDefinition? title = Session.Content.ChapterTitleFor(entry.TextKey);
+                if (title == null || used.Contains(T(title.TitleKey)) || (bestTitle != null && title.Weight < bestTitle.Weight))
+                {
+                    continue;
+                }
+
+                Character? person = PersonOnThatDay(entry.Date);
+                if (person == null && T(title.TitleKey).Contains(PersonMark))
+                {
+                    continue; // el título nombra a alguien que no sabemos quién es
+                }
+
+                best = entry;
+                bestTitle = title;
+                bestPerson = person;
+            }
+
+            return bestTitle;
+        }
+
+        /// <summary>
+        /// La persona de un día: la del momento que plantó una semilla ese día (la que quedó
+        /// ligada a lo que hiciste). Null si ese día no dejó a nadie.
+        /// </summary>
+        private Character? PersonOnThatDay(GameDate date)
+        {
+            World world = Session.World;
+            foreach (Seed seed in world.Seeds.All.Where(s => s.OwnerId == world.PlayerId && s.PlantedDate == date && s.Origin != null))
+            {
+                int? id = seed.Origin!.PersonId ?? (seed.Witnesses.Count > 0 ? seed.Witnesses.First() : (int?)null);
+                if (id.HasValue && world.TryGetCharacter(id.Value, out Character? person))
+                {
+                    return person;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>La foto del capítulo: el día de esa línea y, si se sabe, dónde y con quién.</summary>
+        private ChapterPhotoView PhotoOf(JournalEntry entry, Character? person)
+        {
+            World world = Session.World;
+            string? placeKey = world.Seeds.All
+                .Where(s => s.OwnerId == world.PlayerId && s.PlantedDate == entry.Date && s.Origin?.PlaceKey != null)
+                .Select(s => s.Origin!.PlaceKey)
+                .FirstOrDefault();
+            if (placeKey == null)
+            {
+                // Si ese día pasó un solo momento, su lugar.
+                var records = world.EventHistory.Where(r => r.CharacterId == world.PlayerId && r.Date == entry.Date).ToList();
+                if (records.Count == 1 && Session.Content.TryGetEvent(records[0].EventId, out EventDefinition? definition))
+                {
+                    placeKey = definition?.Place;
+                }
+            }
+
+            string when = string.Format(CultureInfo.InvariantCulture, T("ui.fecha.dia"), entry.Date.DayOfMonth, T("ui.mes." + entry.Date.Month));
+            return new ChapterPhotoView(when, placeKey == null ? null : T(placeKey), person?.FirstName, person?.Id);
         }
 
         private string T(string key) => Session.Text(key, Language);

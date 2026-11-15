@@ -73,5 +73,10 @@
   "evento.colegio.rival_patio": "{persona} se burla de tus zapatillas en el recreo, delante de todos los que hacen fila en el quiosco.",
   "opcion.colegio.rival_patio.talla": "Responderle con un chiste mejor",
   "evento.colegio.kiosko": "En la fila del quiosco, {persona} cuenta sus monedas dos veces: no le alcanza para el sánguche.",
-  "opcion.colegio.pelota_techo.auxiliar": "Ir a buscar al portero con la escalera"
+  "opcion.colegio.pelota_techo.auxiliar": "Ir a buscar al portero con la escalera",
+  "capitulo.colegio.cimarra": "El año en que me hice la rata por primera vez",
+  "capitulo.apoderados.cimarra": "El año en que se supo que me hice la rata",
+  "capitulo.colegio.centro_alumnos": "El año del centro de estudiantes",
+  "capitulo.colegio.colacion": "El año de las galletitas compartidas",
+  "capitulo.desalojo.pieza": "El año de la habitación compartida"
 }

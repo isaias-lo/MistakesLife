@@ -19,6 +19,7 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, NewsDefinition> _news = new SortedDictionary<string, NewsDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CourtCaseDefinition> _courtCases = new SortedDictionary<string, CourtCaseDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, ChapterTitleDefinition> _chapterTitles = new SortedDictionary<string, ChapterTitleDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, ActivityDefinition> _activities = new SortedDictionary<string, ActivityDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, WishDefinition> _wishes = new SortedDictionary<string, WishDefinition>(StringComparer.Ordinal);
@@ -52,6 +53,13 @@ namespace MistakesLife.Core.Content
 
         /// <summary>Los objetos de la escena 3D que dependen de la vida del jugador, ordenados por id.</summary>
         public IEnumerable<SceneObjectDefinition> SceneObjects => _sceneObjects.Values;
+
+        /// <summary>Los títulos de capítulo que pueden dar las líneas del diario (chapters/).</summary>
+        public IEnumerable<ChapterTitleDefinition> ChapterTitles => _chapterTitles.Values;
+
+        /// <summary>El título que puede dar al año esa línea del diario, o null si no da ninguno.</summary>
+        public ChapterTitleDefinition? ChapterTitleFor(string journalKey) =>
+            _chapterTitles.TryGetValue(journalKey, out ChapterTitleDefinition? definition) ? definition : null;
 
         /// <summary>Las noticias del mundo, ordenadas por id.</summary>
         public IEnumerable<NewsDefinition> News => _news.Values;
@@ -287,6 +295,28 @@ namespace MistakesLife.Core.Content
                 }
 
                 _courtCases.Add(definition.Id, definition);
+            }
+        }
+
+        /// <summary>Agrega los títulos de capítulo de un archivo JSON de chapters/ (una lista).</summary>
+        public void AddChaptersJson(string packId, string sourceName, string json)
+        {
+            foreach (ChapterTitleDefinition definition in Deserialize<ChapterTitleDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                string where = $"{sourceName} [{definition.JournalKey}]";
+                if (_chapterTitles.ContainsKey(definition.JournalKey))
+                {
+                    _errors.Add(new ContentError(where, "esa línea del diario ya tiene título de capítulo."));
+                    continue;
+                }
+
+                if (definition.Weight < 1 || definition.Weight > ChapterTitleDefinition.MaxWeight)
+                {
+                    _errors.Add(new ContentError(where, $"el peso va de 1 a {ChapterTitleDefinition.MaxWeight}."));
+                }
+
+                _chapterTitles.Add(definition.JournalKey, definition);
             }
         }
 
@@ -1664,6 +1694,13 @@ namespace MistakesLife.Core.Content
             foreach (AppDefinition app in _apps.Values)
             {
                 yield return new KeyValuePair<string, string>(app.Id, $"app {app.Id}");
+            }
+
+            foreach (ChapterTitleDefinition chapter in _chapterTitles.Values)
+            {
+                // La línea del diario también tiene que existir: si no, el título nunca saldría.
+                yield return new KeyValuePair<string, string>(chapter.TitleKey, $"capítulo {chapter.JournalKey}");
+                yield return new KeyValuePair<string, string>(chapter.JournalKey, $"capítulo {chapter.JournalKey}");
             }
 
             foreach (MailDefinition mail in _mails.Values)

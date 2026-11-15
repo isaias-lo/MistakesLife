@@ -46,6 +46,9 @@ namespace MistakesLife.Unity
 
         /// <summary>Si la parte de abajo muestra la lista de momentos para volver al pasado.</summary>
         private bool _pickingMoment;
+
+        /// <summary>El capítulo del año que se acaba de cerrar, mientras se muestra en la hoja.</summary>
+        private ChapterView? _chapter;
         private ContentDatabase? _content;
         private LifePresenter? _presenter;
         private StartMenu? _menu;
@@ -704,6 +707,12 @@ namespace MistakesLife.Unity
                 return;
             }
 
+            if (_chapter != null)
+            {
+                DrawChapter(presenter, _chapter);
+                return;
+            }
+
             if (life.Phase != LifePhase.Choosing)
             {
                 _shownEvent = null;
@@ -866,11 +875,65 @@ namespace MistakesLife.Unity
                 }
             }
 
+            // El diario por capítulos, del año de ahora hacia atrás.
             UiFactory.Label(_historyBody, presenter.Text("ui.diario"), 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
-            foreach (JournalLine line in _journal)
+            IReadOnlyList<ChapterView> chapters = presenter.Chapters();
+            for (int i = chapters.Count - 1; i >= 0; i--)
             {
-                UiFactory.Label(_historyBody, $"{line.AgeLabel}: {line.Text}", 34, UiFactory.Ink);
+                ChapterView chapter = chapters[i];
+                string title = chapter.IsOpen ? presenter.Text("ui.capitulo.abierto") : chapter.Title;
+                UiFactory.Label(_historyBody, $"{title} · {chapter.AgeLabel}", 36, UiFactory.Ink, FontStyles.Normal, Face.Hand);
+                foreach (ChapterMonthView month in chapter.Months)
+                {
+                    UiFactory.Label(_historyBody, $"<b>{month.Month}</b>  {string.Join(" ", month.Lines)}", 30, UiFactory.Ink).richText = true;
+                }
             }
+        }
+
+        /// <summary>
+        /// El año que se cerró, como una página del diario: "CAPÍTULO", el título escrito a mano,
+        /// la edad, la foto del día que le dio el título (un papel chueco) y lo que pasó mes a mes.
+        /// </summary>
+        private void DrawChapter(LifePresenter presenter, ChapterView chapter)
+        {
+            RectTransform page = UiFactory.Column(_sheetBody, "Capitulo", 36, 14, UiFactory.Paper);
+            UiFactory.Label(page, presenter.Text("ui.capitulo.titulo").ToUpperInvariant(), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold);
+            UiFactory.Label(page, chapter.Title, 52, UiFactory.PaperInk, FontStyles.Normal, Face.Hand);
+            UiFactory.Label(page, chapter.AgeLabel, UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Normal);
+            if (chapter.Photo != null)
+            {
+                var parts = new List<string> { chapter.Photo.When };
+                if (chapter.Photo.Place != null)
+                {
+                    parts.Add(chapter.Photo.Place);
+                }
+
+                if (chapter.Photo.Person != null)
+                {
+                    parts.Add(chapter.Photo.Person);
+                }
+
+                RectTransform photo = UiFactory.Column(page, "Foto", 18, 6, UiFactory.PaperOption);
+                photo.localRotation = Quaternion.Euler(0f, 0f, 2f);
+                UiFactory.Label(photo, string.Join(" · ", parts), UiFactory.MinFontSize, UiFactory.PaperInk, FontStyles.Italic);
+            }
+
+            foreach (ChapterMonthView month in chapter.Months)
+            {
+                UiFactory.Label(page, month.Month, UiFactory.MinFontSize, UiFactory.KeyInk, FontStyles.Bold);
+                foreach (string line in month.Lines)
+                {
+                    UiFactory.Label(page, line, 34, UiFactory.PaperInk, FontStyles.Normal, Face.Hand);
+                }
+            }
+
+            UiFactory.MakeButton(page, presenter.Text("ui.boton.siguiente"), UiFactory.Accent, UiFactory.AccentText, CloseChapter);
+        }
+
+        private void CloseChapter()
+        {
+            _chapter = null;
+            Refresh();
         }
 
         /// <summary>
@@ -1015,6 +1078,7 @@ namespace MistakesLife.Unity
         {
             _presenter!.GoBackToOrigin();
             _pickingMoment = false;
+            _chapter = null;
             _lastStep = null;
             ReloadJournal();
             Refresh();
@@ -1100,6 +1164,7 @@ namespace MistakesLife.Unity
         {
             LifeSnapshot before = _presenter!.Snapshot();
             int weeks = untilSomething ? _presenter.AdvanceUntilSomething() : _presenter.AdvanceWeek();
+            _chapter = _presenter.TakeClosedChapter() ?? _chapter;
             RememberStep(before, weeks);
             Refresh();
             Save();
@@ -1131,6 +1196,7 @@ namespace MistakesLife.Unity
         {
             _presenter!.GoBack(moment);
             _pickingMoment = false;
+            _chapter = null;
             _lastStep = null;
             ReloadJournal();
             Refresh();
