@@ -56,7 +56,8 @@ namespace MistakesLife.Unity
         /// <summary>Toca un sonido y da una vibración leve.</summary>
         public static void Play(Sound sound)
         {
-            if (!Enabled)
+            // Fuera del juego (las capturas automáticas corren en el editor) no suena nada.
+            if (!Enabled || !Application.isPlaying)
             {
                 return;
             }
