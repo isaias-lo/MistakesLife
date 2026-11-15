@@ -68,6 +68,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>Su búsqueda de trabajo, o null (desde la versión 9).</summary>
         public JobSearchData? JobSearch { get; set; }
 
+        /// <summary>Su negocio con un socio, o null (desde la versión 33).</summary>
+        public VentureData? Venture { get; set; }
+
         /// <summary>Su celular, o null (desde la versión 12).</summary>
         public PhoneData? Phone { get; set; }
 

@@ -193,6 +193,9 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public Economy.JobSearch? JobSearch { get; set; }
 
+        /// <summary>Su negocio con un socio, o null si no tiene. Ver <see cref="Work.VentureRules"/>.</summary>
+        public Economy.Venture? Venture { get; set; }
+
         /// <summary>Su celular, o null si no tiene. Ver <see cref="Devices.PhoneRules"/>.</summary>
         public Devices.Phone? Phone { get; set; }
 

@@ -242,3 +242,10 @@ Del [Código del Trabajo (BCN)](https://www.bcn.cl/leychile/navegar?idNorma=2074
 - Recomendar en tu pega ("pituto"): la probabilidad de que contraten a quien recomiendas es la misma que la de una entrevista que llega por contacto en `busqueda_trabajo` (35 % + 20 %).
 - Subarrendar: el Código Civil (art. 1946) no permite al arrendatario subarrendar sin facultad expresa del dueño; la Ley 18.101 (art. 5) la da por implícita solo en contratos de plazo fijo de más de un año. Los contratos del juego son de 12 meses, así que hace falta permiso.
 - Que a quien vive contigo no le alcance para el arriendo: 9 % al año, cerca de la tasa de desocupación del INE (alrededor de 8,5 % en 2024). Es una estimación: no es lo mismo quedar desocupado que no poder pagar.
+
+## Ser socios (R6d2): negocios chicos
+
+- Ganancia de cada socio: [Encuesta de Microemprendimiento del INE](https://www.ine.gob.cl/estadisticas/sociales/mercado-laboral/microemprendimiento). VI EME (2019): ganancia mensual promedio de los formales $1.115.856 y de los informales $277.668, con un sueldo mínimo de $301.000 ese año: 3,7 y 0,92 sueldos mínimos. VIII EME (2025): promedio $828.612 y el 76,9 % gana el promedio o menos (de ahí `variacion` 1,47).
+- Cierre: cerca del 15,2 % de las microempresas cierra en su primer año (Ministerio de Economía, Boletín de Dinámica Empresarial 2005-2014). La supervivencia al quinto año ronda el 47 % (Banco Central, Demografía de Empresas): con 15,2 % el primer año, eso da cerca de 13,7 % por año después.
+- Formal: la SpA se constituye gratis en el Registro de Empresas y Sociedades (Empresa en un Día, Ley 20.659) y después se da inicio de actividades en el SII.
+- Que la ganancia dependa de la responsabilidad de los dos y de la economía, y que no dependa del aporte, son calibraciones del juego.

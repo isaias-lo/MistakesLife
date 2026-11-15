@@ -1,0 +1,197 @@
+[
+  {
+    "id": "evento.futuro.socios_amigo",
+    "texto": "evento.futuro.socios",
+    "con": "amigo",
+    "a_pedido": {
+      "texto": "accion.persona.socios",
+      "por_ano": "0.015 + jugador.apertura / 4000"
+    },
+    "condiciones": "!jugador.tiene_negocio && jugador.edad >= 20 && persona.edad >= 20 && persona.edad <= 65 && jugador.dinero >= precio(sueldo_minimo())",
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.socios.formal",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.apertura / 4",
+        "efectos": [
+          "jugador.abrir_negocio(precio(sueldo_minimo()), 'formal')",
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.socios.informal",
+        "tendencia": "(100 - jugador.responsabilidad) / 2 + jugador.extraversion / 5",
+        "efectos": [
+          "jugador.abrir_negocio(precio(sueldo_minimo()), 'informal')",
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.socios.no",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.apertura) / 3",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.futuro.socios_colega",
+    "texto": "evento.futuro.socios",
+    "con": "colega",
+    "a_pedido": {
+      "texto": "accion.persona.socios",
+      "por_ano": "0.01 + jugador.apertura / 5000"
+    },
+    "condiciones": "!jugador.tiene_negocio && jugador.edad >= 20 && persona.edad >= 20 && persona.edad <= 65 && jugador.dinero >= precio(sueldo_minimo())",
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.socios.formal",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.apertura / 4",
+        "efectos": [
+          "jugador.abrir_negocio(precio(sueldo_minimo()), 'formal')",
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.socios.informal",
+        "tendencia": "(100 - jugador.responsabilidad) / 2 + jugador.extraversion / 5",
+        "efectos": [
+          "jugador.abrir_negocio(precio(sueldo_minimo()), 'informal')",
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.socios.no",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.apertura) / 3",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.negocio.socio_caja",
+    "con": "socio",
+    "lugar": "lugar.negocio",
+    "condiciones": "persona.responsabilidad < 45 && jugador.meses_negocio >= 3",
+    "probabilidad_anual": 0.4,
+    "veces_maximas": 2,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.negocio.socio_caja.conversar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.confianza -= 3",
+          "persona.respeto += 2",
+          "diario('diario.negocio.socio_caja')"
+        ]
+      },
+      {
+        "texto": "opcion.negocio.socio_caja.cerrar",
+        "tendencia": "(100 - jugador.amabilidad) / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.cerrar_negocio()",
+          "persona.carino -= 8",
+          "persona.rencor += 6",
+          "diario('diario.negocio.socio_caja')"
+        ]
+      },
+      {
+        "texto": "opcion.negocio.socio_caja.callar",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.extraversion) / 4",
+        "efectos": [
+          "jugador.felicidad -= 3",
+          "persona.confianza -= 6",
+          "diario('diario.negocio.socio_caja')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.negocio.buen_mes",
+    "con": "socio",
+    "lugar": "lugar.negocio",
+    "condiciones": "jugador.ganancia_negocio >= precio(sueldo_minimo()) * 3",
+    "probabilidad_anual": 0.5,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.negocio.buen_mes.celebrar",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 4",
+          "diario('diario.negocio.buen_mes')"
+        ]
+      },
+      {
+        "texto": "opcion.negocio.buen_mes.guardar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.respeto += 3",
+          "jugador.felicidad += 2",
+          "diario('diario.negocio.buen_mes')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.negocio.mal_mes",
+    "con": "socio",
+    "lugar": "lugar.negocio",
+    "condiciones": "jugador.meses_negocio >= 2 && jugador.ganancia_negocio < precio(sueldo_minimo()) * 0.3",
+    "probabilidad_anual": 0.5,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.negocio.mal_mes.aguantar",
+        "tendencia": "jugador.responsabilidad / 2 + (100 - jugador.neuroticismo) / 4",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "persona.confianza += 2"
+        ]
+      },
+      {
+        "texto": "opcion.negocio.mal_mes.cerrar",
+        "tendencia": "jugador.neuroticismo / 2 + (100 - jugador.apertura) / 4",
+        "efectos": [
+          "jugador.cerrar_negocio()",
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.negocio.cerrar",
+    "con": "socio",
+    "lugar": "lugar.negocio",
+    "a_pedido": {
+      "texto": "accion.persona.cerrar_negocio",
+      "por_ano": "si(jugador.ganancia_negocio < precio(sueldo_minimo()) * 0.5, 0.3, 0.03)"
+    },
+    "condiciones": "jugador.tiene_negocio",
+    "enfriamiento_semanas": 8,
+    "opciones": [
+      {
+        "texto": "opcion.negocio.cerrar.acuerdo",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.cerrar_negocio()",
+          "persona.carino -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.negocio.cerrar.no",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  }
+]

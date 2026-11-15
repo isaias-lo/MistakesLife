@@ -408,6 +408,20 @@ Quien trabaja con contrato gana sus días de vacaciones mes a mes (`sistema.vaca
 - Al salir se paga cada día ganado como `dias_pagados_por_dia` días de sueldo, y un día de sueldo es el sueldo mensual / `divisor_dia` (Argentina: 25 y 1).
 - Opcional: en un país sin `vacaciones`, nadie gana días.
 
+#### Negocios entre socios (`economia.negocios`, rediseño R6d2)
+
+Un negocio chico con una persona de tu vida (`jugador.abrir_negocio(aporte, 'formal' | 'informal')`). Cada mes (`sistema.negocios`, después de los sueldos) a cada socio le toca su parte de la ganancia, o el negocio cierra.
+
+```json
+"negocios": { "ganancia_formal": 3.7, "ganancia_informal": 0.92, "variacion": 1.47, "cierre_primer_ano": 0.152, "cierre_anual": 0.137 }
+```
+
+- `ganancia_formal` y `ganancia_informal`: lo que gana al mes **cada socio** de un negocio típico, en sueldos mínimos (en Chile, la Encuesta de Microemprendimiento del INE). Se multiplica por lo bien que lo llevan los dos (su responsabilidad, de 0,5 a 1,5), por la economía (como en los oficios), por la suerte del negocio y por una variación chica de cada mes.
+- `variacion`: qué tan distinto es un negocio de otro (desviación del logaritmo). La suerte se elige al abrir: la mayoría gana menos que el promedio y unos pocos mucho más (con 1,47, el 77 % queda bajo el promedio, como en la encuesta).
+- `cierre_primer_ano` y `cierre_anual`: probabilidad de cerrar en el primer año y en cada año siguiente; llevarlo mal la sube hasta 1,5 veces y llevarlo bien la baja a la mitad.
+- `impuesto_formal` (opcional): se descuenta de la ganancia formal si la del país está medida antes de impuestos.
+- Si quiebra, se anota `diario.negocio.quebro`; lo puesto se pierde. Si el socio muere, cierra. Textos obligatorios del diario: `diario.negocio.abrio`, `diario.negocio.cerro`, `diario.negocio.quebro`.
+
 #### Herencia (`economia.herencia`)
 
 ```json
@@ -666,7 +680,7 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `opciones` | Lo que puede elegir el jugador; cada una con `texto`, `condiciones` y `efectos` | — |
 | `opciones[].tendencia` | Qué tan atractiva es la opción para quien decide solo (el simulador y, más adelante, los personajes del mundo), como número de 0 en adelante. Ejemplo: `"jugador.amabilidad"` o `"(100 - jugador.responsabilidad) / 3"`. El jugador no la ve. Si falta, vale 50 | 50 |
 | `opciones_carreras` | Agrega una opción por cada nivel de carrera, antes de las propias (ver Carrera) | false |
-| `con` | Con quién pasa: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival`, `ex`, `companero` (alguien de tu curso: se elige más seguido a quien quieres más), `apoderado` (quien va a las reuniones del colegio: tu mamá, o tu papá si no está; en los textos `{persona}` dice "tu mamá" o "tu papá") o `profe` (tu profe jefe; en los textos `{persona}` dice "la profe Carolina" o "el profe Juan", así que no la pongas al empezar una frase), `jefe` (tu jefe o jefa del trabajo; `{persona}` dice "tu jefa Carolina" o "tu jefe Juan"), `equipo` (un colega de tu equipo de hoy: se elige más seguido a quien se quieren más) o `companero_casa` (el amigo que vive contigo y comparte el arriendo). Al ocurrir se elige a una persona de verdad, con nombre (si no hay nadie así, no pasa). En el evento se le habla como `persona` (`persona.carino += 3`, `plantar('semilla.x', persona)`) y en los textos de la escena y de las opciones `{persona}` se cambia por su nombre. En el diario no se usa `{persona}` | — |
+| `con` | Con quién pasa: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival`, `ex`, `companero` (alguien de tu curso: se elige más seguido a quien quieres más), `apoderado` (quien va a las reuniones del colegio: tu mamá, o tu papá si no está; en los textos `{persona}` dice "tu mamá" o "tu papá") o `profe` (tu profe jefe; en los textos `{persona}` dice "la profe Carolina" o "el profe Juan", así que no la pongas al empezar una frase), `jefe` (tu jefe o jefa del trabajo; `{persona}` dice "tu jefa Carolina" o "tu jefe Juan"), `equipo` (un colega de tu equipo de hoy: se elige más seguido a quien se quieren más) `companero_casa` (el amigo que vive contigo y comparte el arriendo) o `socio` (tu socio en el negocio). Al ocurrir se elige a una persona de verdad, con nombre (si no hay nadie así, no pasa). En el evento se le habla como `persona` (`persona.carino += 3`, `plantar('semilla.x', persona)`) y en los textos de la escena y de las opciones `{persona}` se cambia por su nombre. En el diario no se usa `{persona}` | — |
 | `lugar` | Dónde pasa: clave `lugar.<nombre>` con su texto en `lang/` ("La plaza", "Tu sala"). La pantalla lo muestra junto a la persona | — |
 | `actividad` | El momento nace de tu horario: solo pasa si esa actividad está en tu semana. Pide `probabilidad_anual`, que es la probabilidad en un año haciéndola **una vez por semana** (si la haces tres veces, es más probable) | — |
 | `regla` | Grupo para las reglas propias del jugador (`regla.prueba`, con su texto en `lang/`: "Cuando hay prueba o tarea"). Cuando el jugador elige "hacer esto siempre", la regla sirve para todos los eventos del grupo. Sin grupo, sirve solo para este evento. Un `dia_clave` y un evento de `semilla` nunca admiten regla: se viven cada vez | — |
@@ -1064,6 +1078,8 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.dias_vacaciones`, `jugador.tomar_vacaciones(días)` | Los días de vacaciones ganados y no tomados (enteros), y tomarlos (solo efectos; tiene que tener esos días) |
 | `jugador.pago_vacaciones`, `jugador.cobrar_vacaciones()` | Lo que le pagarían por los días no tomados (de su trabajo o, si ya no trabaja, del último), y recibir ese pago: los días quedan en cero (solo efectos) |
 | `jugador.avisar_renuncia(semanas)`, `jugador.renuncio`, `jugador.semanas_para_irse` | Renuncia con aviso: se va en esas semanas (Chile 4, Argentina 2); si ya avisó, y cuántas semanas le quedan. El último día lo hace un evento (`evento.pega.ultimo_dia`) |
+| `jugador.abrir_negocio(aporte, forma)`, `jugador.cerrar_negocio()` | Abre un negocio con la persona del evento como socio: pone el aporte (en la moneda de hoy, por ejemplo `precio(sueldo_minimo())`), `'formal'` (una empresa) o `'informal'` (de palabra); y lo cierra de común acuerdo (solo efectos) |
+| `jugador.tiene_negocio`, `jugador.negocio_formal`, `jugador.meses_negocio`, `jugador.ganancia_negocio`, `jugador.ganado_negocio`, `persona.es_tu_socio` | Si tiene negocio, si es formal, los meses abierto, su parte del último mes y todo lo que ha recibido (en la moneda de hoy), y si esa persona es su socio |
 | `jugador.tiene_equipo` | Si trabaja con su equipo armado (jefe y colegas) |
 | `jugador.recomendar()` | Recomienda en su equipo a la persona del evento. La contratan con la probabilidad de una entrevista por contacto del país (`exito_entrevista` + `exito_extra` de la forma con `necesita_contacto`; en Chile 55 %): entra a su equipo y lo anota en el diario (`diario.pega.recomendado_entra` o `_no`) (solo efectos) |
 | `persona.en_tu_equipo`, `persona.recomendado` | Si esa persona trabaja en tu equipo, y si entró recomendada por ti |
