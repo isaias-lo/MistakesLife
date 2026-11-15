@@ -24,7 +24,10 @@ namespace MistakesLife.Core.Events
     /// oficio, meta, meses_bajo_meta y amonestaciones (se pueden cambiar), pago_variable, en_desafio,
     /// puede_ascender, caminos_ascenso, en_la_cima, busqueda, busca_en, semanas_buscando,
     /// postulaciones, entrevistas, rechazos, entrevista_pendiente, tiene_oferta, oferta_area,
-    /// oferta_negociada, oferta_mejorada, contacto, mensajes_sin_leer.
+    /// oferta_negociada, oferta_mejorada, contacto, mensajes_sin_leer,
+    /// dias_vacaciones (días de vacaciones ganados y no tomados en su trabajo),
+    /// pago_vacaciones (lo que le pagarían por ellos al salir; de su último trabajo si ya no trabaja),
+    /// renuncio (si ya avisó que se va), semanas_para_irse (cuántas semanas le quedan del aviso).
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada).
@@ -39,6 +42,9 @@ namespace MistakesLife.Core.Events
     /// trabajar_en('área') o trabajar_en('área', 'honorarios'), puede_trabajar_en('área'),
     /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo(), cambiar_de_empresa(),
     /// nuevo_contrato() (mismo empleador y mismo equipo, antigüedad desde cero: la obra siguiente),
+    /// pedir_aumento(porcentaje) (con su jefe: puede recibir todo, la mitad o nada; ver Work.RaiseRules),
+    /// avisar_renuncia(semanas) (renuncia con aviso: se va en esas semanas),
+    /// tomar_vacaciones(días), cobrar_vacaciones() (recibe el pago de los días no tomados y quedan en cero),
     /// desafio('marca') (en un oficio: el desafío de este mes; si cierra el mes sobre el 118 %, gana la marca),
     /// postular_en('área' o 'cualquier_trabajo'), buscar_trabajo('forma'), puede_buscar_con('forma'),
     /// dar_entrevista(puntos), aceptar_oferta(), negociar_oferta(), rechazar_oferta(), dejar_de_buscar(),
@@ -350,6 +356,14 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.Job?.MonthsUnderGoal ?? 0);
                 case "amonestaciones":
                     return Value.FromNumber(_character.Job?.Warnings ?? 0);
+                case "dias_vacaciones":
+                    return Value.FromNumber(Math.Floor(_character.Job?.VacationDays ?? 0));
+                case "renuncio":
+                    return Value.FromBool(_character.Job?.LeavingWeek != null);
+                case "semanas_para_irse":
+                    return Value.FromNumber(_character.Job?.LeavingWeek == null ? 0 : Math.Max(0, _character.Job.LeavingWeek.Value - ((EventScope)scope).World.Date.TotalWeeks));
+                case "pago_vacaciones":
+                    return Value.FromNumber((double)VacationPay((EventScope)scope));
                 case "pago_variable":
                     return Value.FromNumber((double)((_character.Job?.VariablePay ?? 0) + (_character.Job?.Tips ?? 0)));
                 case "puede_ascender":
@@ -498,6 +512,18 @@ namespace MistakesLife.Core.Events
         }
 
         /// <summary>La persona por quien se preguntan los sentimientos; error si se llegó directo (jugador.carino).</summary>
+        /// <summary>Lo que le pagarían por las vacaciones no tomadas (de su trabajo, o del último).</summary>
+        private decimal VacationPay(EventScope scope)
+        {
+            Economy.Job? job = _character.Job ?? _character.LastJob;
+            if (job == null || _character.Residence == null)
+            {
+                return 0;
+            }
+
+            return Work.VacationRules.PayFor(scope.Content.GetCountry(_character.Residence.CountryId).Economy?.Vacations, job);
+        }
+
         private Character Viewer(string member)
         {
             return _viewer ?? throw new ScriptException(
@@ -915,6 +941,45 @@ namespace MistakesLife.Core.Events
                     if (_character.Team != null)
                     {
                         _character.Team.MonthsInJob = 0;
+                    }
+
+                    return Value.Null;
+                case "pedir_aumento":
+                    ((EventScope)scope).RequireWritable("jugador.pedir_aumento");
+                    if (args.Length != 1 || _character.Job == null)
+                    {
+                        throw new ScriptException("jugador.pedir_aumento(porcentaje) necesita que trabaje y cuánto pide: pedir_aumento(10).");
+                    }
+
+                    Work.RaiseRules.Ask(((EventScope)scope).World, ((EventScope)scope).Content, _character, ((EventScope)scope).Person, args[0].AsNumber("jugador.pedir_aumento()"));
+                    return Value.Null;
+                case "avisar_renuncia":
+                    ((EventScope)scope).RequireWritable("jugador.avisar_renuncia");
+                    if (args.Length != 1 || _character.Job == null)
+                    {
+                        throw new ScriptException("jugador.avisar_renuncia(semanas) necesita que trabaje y en cuántas semanas se va.");
+                    }
+
+                    _character.Job.LeavingWeek = ((EventScope)scope).World.Date.TotalWeeks + (int)Math.Round(args[0].AsNumber("jugador.avisar_renuncia()"), MidpointRounding.AwayFromZero);
+                    return Value.Null;
+                case "tomar_vacaciones":
+                    ((EventScope)scope).RequireWritable("jugador.tomar_vacaciones");
+                    double days = args.Length == 1 ? args[0].AsNumber("jugador.tomar_vacaciones()") : -1;
+                    if (_character.Job == null || days <= 0 || days > _character.Job.VacationDays + 1e-9)
+                    {
+                        throw new ScriptException("jugador.tomar_vacaciones(días) necesita esos días ganados (revisa jugador.dias_vacaciones).");
+                    }
+
+                    _character.Job.VacationDays -= days;
+                    return Value.Null;
+                case "cobrar_vacaciones":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.cobrar_vacaciones");
+                    Economy.Job? paidJob = _character.Job ?? _character.LastJob;
+                    _character.Money += VacationPay((EventScope)scope);
+                    if (paidJob != null)
+                    {
+                        paidJob.VacationDays = 0;
                     }
 
                     return Value.Null;

@@ -45,7 +45,7 @@ namespace MistakesLife.Core.Presentation
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
             "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
-            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.oficio.meta", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
+            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.oficio.meta", "ui.pega.te_vas", "ui.pega.vacaciones.habiles", "ui.pega.vacaciones.corridos", "ui.pega.decides_tu", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
             "ui.boton.volver_pasado", "ui.boton.cancelar", "ui.pasado.titulo", "ui.pasado.cargas", "ui.pasado.etapa", "ui.pasado.decision", "ui.intuicion",
             "ui.gente", "ui.relacion.amistad", "ui.relacion.colega", "ui.relacion.rival", "ui.relacion.ex",
             "ui.sentir.muy_unidos", "ui.sentir.buena", "ui.sentir.tibia", "ui.sentir.distanciados", "ui.sentir.rencor",
@@ -447,7 +447,37 @@ namespace MistakesLife.Core.Presentation
             string bossTag = bossKey != null
                 ? T(bossKey + (boss?.Gender == Gender.Female ? ".f" : ".m"))
                 : T(boss?.Gender == Gender.Female ? "ui.pega.jefa" : "ui.pega.jefe_m");
-            return new TeamView(boss == null ? null : Person(boss, bossTag), colleagues, left);
+            var actions = Session.Requestable()
+                .Where(e => e.Place == WorkplacePlace)
+                .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey)))
+                .ToList();
+            return new TeamView(boss == null ? null : Person(boss, bossTag), colleagues, left, actions, ContractStatus(player));
+        }
+
+        /// <summary>El lugar de los momentos de la pega: sus botones van en la pantalla del equipo.</summary>
+        public const string WorkplacePlace = "lugar.trabajo";
+
+        /// <summary>"Te vas en 3 semanas" si renunciaste con aviso; si no, los días de vacaciones ganados.</summary>
+        private string? ContractStatus(Character player)
+        {
+            Job? job = player.Job;
+            if (job == null)
+            {
+                return null;
+            }
+
+            if (job.LeavingWeek.HasValue)
+            {
+                return Text("ui.pega.te_vas", Math.Max(0, job.LeavingWeek.Value - Session.World.Date.TotalWeeks));
+            }
+
+            VacationsDefinition? vacations = player.Residence == null ? null : Session.Content.GetCountry(player.Residence.CountryId).Economy?.Vacations;
+            if (job.Kind != JobKind.Employee || vacations == null)
+            {
+                return null;
+            }
+
+            return Text("ui.pega.vacaciones." + vacations.Unit, (int)Math.Floor(job.VacationDays));
         }
 
         /// <summary>Tu curso del colegio; null si no vas a un curso.</summary>

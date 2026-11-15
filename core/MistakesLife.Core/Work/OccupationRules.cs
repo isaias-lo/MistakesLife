@@ -140,7 +140,7 @@ namespace MistakesLife.Core.Work
         }
 
         /// <summary>Cómo pesa la economía: la mitad del efecto que tiene en las contrataciones.</summary>
-        private static double EconomyFactor(World world, ContentDatabase content, Character character)
+        internal static double EconomyFactor(World world, ContentDatabase content, Character character)
         {
             CountryDefinition country = content.GetCountry(character.Residence!.CountryId);
             string? phaseId = world.EconomyOf(country.Id)?.PhaseId;

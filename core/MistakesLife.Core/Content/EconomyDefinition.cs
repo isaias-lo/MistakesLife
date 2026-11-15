@@ -64,5 +64,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Cómo se busca trabajo en el país (formas de buscar, entrevistas y ofertas), o null.</summary>
         [JsonProperty("busqueda_trabajo")]
         public JobSearchDefinition? JobSearch { get; set; }
+
+        /// <summary>Las vacaciones legales de quien trabaja con contrato, o null si el país no las tiene cargadas.</summary>
+        [JsonProperty("vacaciones")]
+        public VacationsDefinition? Vacations { get; set; }
     }
 }

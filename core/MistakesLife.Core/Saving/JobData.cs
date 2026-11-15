@@ -42,6 +42,12 @@ namespace MistakesLife.Core.Saving
 
         public string? Challenge { get; set; }
 
+        /// <summary>Días de vacaciones ganados y no tomados (desde la versión 31).</summary>
+        public double VacationDays { get; set; }
+
+        /// <summary>Semana de su último día si renunció con aviso, o null (desde la versión 31).</summary>
+        public int? LeavingWeek { get; set; }
+
         /// <summary>Número de su empresa, o null (desde la versión 6).</summary>
         public int? CompanyId { get; set; }
     }

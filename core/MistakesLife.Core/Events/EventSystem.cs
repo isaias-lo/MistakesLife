@@ -114,6 +114,53 @@ namespace MistakesLife.Core.Events
         }
 
         /// <summary>
+        /// Los momentos que el jugador puede pedir ahora (los "a_pedido" cuyas condiciones cumple,
+        /// con alguien que los cumpla si piden persona, y que no estén en su enfriamiento).
+        /// </summary>
+        public IReadOnlyList<EventDefinition> Requestable(World world)
+        {
+            Character player = world.Player;
+            if (!player.IsAlive || world.PendingEvents.Any(p => p.CharacterId == player.Id))
+            {
+                return Array.Empty<EventDefinition>();
+            }
+
+            return Content.Events
+                .Where(e => e.OnRequest != null && CanRequest(world, e, player))
+                .OrderBy(e => e.Id, StringComparer.Ordinal)
+                .ToList();
+        }
+
+        /// <summary>
+        /// El jugador pide un momento (un botón): si se puede, pasa ahora mismo y queda
+        /// pendiente para que elija. Devuelve si pasó.
+        /// </summary>
+        public bool Request(World world, string eventId)
+        {
+            EventDefinition? ev = Content.Events.FirstOrDefault(e => e.Id == eventId && e.OnRequest != null);
+            Character player = world.Player;
+            if (ev == null || !player.IsAlive || world.PendingEvents.Any(p => p.CharacterId == player.Id) || !CanRequest(world, ev, player))
+            {
+                return false;
+            }
+
+            GameRandom random = world.Random.Fork("pedido." + ev.Id + "." + world.Date.TotalWeeks);
+            return TryOccur(world, null, ev, player, random);
+        }
+
+        private bool CanRequest(World world, EventDefinition ev, Character player)
+        {
+            if (ev.With == null)
+            {
+                return CanHappen(world, ev, player, new EventScope(world, Content, player, null, readOnly: true));
+            }
+
+            return CanRepeat(world, ev, player)
+                && ChatSystem.PeopleAs(world, player, ev.With, minAge: 0)
+                    .Any(p => Passes(ev, new EventScope(world, Content, player, null, readOnly: true, p)));
+        }
+
+        /// <summary>
         /// Prueba los momentos con fecha que caen esta semana y los que nacen del horario.
         /// Devuelve true si ocurrió uno.
         /// </summary>
@@ -172,7 +219,7 @@ namespace MistakesLife.Core.Events
         /// Ocurre el evento si se cumplen sus condiciones. Si pasa con alguien, primero se
         /// elige a esa persona (en un cumpleaños, alguien que esté de cumpleaños esta semana).
         /// </summary>
-        private bool TryOccur(World world, WeekContext context, EventDefinition ev, Character player, GameRandom random)
+        private bool TryOccur(World world, WeekContext? context, EventDefinition ev, Character player, GameRandom random)
         {
             if (ev.With == null)
             {
@@ -297,7 +344,7 @@ namespace MistakesLife.Core.Events
         public static Character? PersonOf(World world, PendingEvent pending) =>
             pending.PersonId.HasValue && world.TryGetCharacter(pending.PersonId.Value, out Character? person) ? person : null;
 
-        private void Occur(World world, WeekContext context, EventDefinition definition, Character subject, Seed? seed, Character? person)
+        private void Occur(World world, WeekContext? context, EventDefinition definition, Character subject, Seed? seed, Character? person)
         {
             var scope = new EventScope(world, Content, subject, seed, readOnly: false, person)
             {
@@ -321,7 +368,7 @@ namespace MistakesLife.Core.Events
 
             if (definition.KeyDay)
             {
-                context.RequestStop(definition.Id);
+                context?.RequestStop(definition.Id);
             }
 
             if (options.Count == 0)

@@ -283,6 +283,17 @@
         { "id": "empresa.tamano.grande", "peso": 0.5, "sueldo_relativo": 1.15, "quiebra_anual": 0.015, "achica_anual": 0.02 }
       ]
     },
+    "vacaciones": {
+      "tramos": [{ "desde_anos": 0, "dias": 15 }],
+      "unidad": "habiles",
+      "progresivo_desde_anos": 10,
+      "progresivo_cada_anos": 3,
+      "progresivo_maximo_anos_anteriores": 10,
+      "acumula_maximo_anos": 2,
+      "se_pagan_al_salir": true,
+      "divisor_dia": 30,
+      "dias_pagados_por_dia": 1.4
+    },
     "busqueda_trabajo": {
       "formas": [
         { "id": "busqueda.forma.portales", "postulaciones_semana": 10, "entrevista_semanal": 0.08, "exito_extra": -0.08 },

@@ -358,6 +358,8 @@ namespace MistakesLife.Core.Saving
             VariablePay = job.VariablePay,
             Tips = job.Tips,
             Challenge = job.Challenge,
+            VacationDays = job.VacationDays,
+            LeavingWeek = job.LeavingWeek,
             CompanyId = job.CompanyId,
         };
     }

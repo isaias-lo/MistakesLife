@@ -385,6 +385,29 @@ Ningún trabajo con contrato llega solo: el jugador lo busca. Primero dice qué 
 - La búsqueda dura mientras tenga la marca `buscando_trabajo`; al quitarla se borra sola.
 - Textos obligatorios: el de cada forma y los cuatro del diario (`diario.busqueda.llamado` se anota cuando lo llaman a entrevista). Opcional: un país sin `busqueda_trabajo` no tiene formas de buscar (nadie consigue trabajo buscando).
 
+#### Vacaciones legales (`economia.vacaciones`, rediseño R6c)
+
+Quien trabaja con contrato gana sus días de vacaciones mes a mes (`sistema.vacaciones`, después de los sueldos) y los toma cuando quiere, con el botón "Tomar tus vacaciones" del equipo (un momento `a_pedido`). Si se va sin tomarlos, se le pagan con `jugador.cobrar_vacaciones()`.
+
+```json
+"vacaciones": {
+  "tramos": [{ "desde_anos": 0, "dias": 15 }],
+  "unidad": "habiles",
+  "progresivo_desde_anos": 10, "progresivo_cada_anos": 3, "progresivo_maximo_anos_anteriores": 10,
+  "acumula_maximo_anos": 2,
+  "se_pagan_al_salir": true,
+  "divisor_dia": 30,
+  "dias_pagados_por_dia": 1.4
+}
+```
+
+- `tramos`: días al año según los años con el mismo empleador (Argentina: 14, 21, 28 y 35 desde los 0, 5, 10 y 20 años). El primero parte en 0.
+- `unidad`: `habiles` o `corridos` (solo cambia el texto de la pantalla).
+- Feriado progresivo (opcional): con `progresivo_desde_anos` años trabajados en total, un día más por cada `progresivo_cada_anos` años nuevos; de empleadores anteriores cuentan hasta `progresivo_maximo_anos_anteriores` (salen de los meses cotizados).
+- `acumula_maximo_anos`: cuántos años de días se pueden juntar; lo que pasa de ahí se pierde.
+- Al salir se paga cada día ganado como `dias_pagados_por_dia` días de sueldo, y un día de sueldo es el sueldo mensual / `divisor_dia` (Argentina: 25 y 1).
+- Opcional: en un país sin `vacaciones`, nadie gana días.
+
 #### Herencia (`economia.herencia`)
 
 ```json
@@ -649,6 +672,7 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `regla` | Grupo para las reglas propias del jugador (`regla.prueba`, con su texto en `lang/`: "Cuando hay prueba o tarea"). Cuando el jugador elige "hacer esto siempre", la regla sirve para todos los eventos del grupo. Sin grupo, sirve solo para este evento. Un `dia_clave` y un evento de `semilla` nunca admiten regla: se viven cada vez | — |
 | `opciones[].regla` | Qué es la opción para las reglas del grupo (`estudiar`, `copiar`): opciones de eventos distintos con el mismo valor son "lo mismo". Pide `regla` en el evento | su texto |
 | `{ramo}`, `{nota}` | En los textos de un evento se cambian por el ramo de la prueba anunciada o devuelta ("Matemática") y su nota ("5,8") | — |
+| `a_pedido` | El momento lo **pide el jugador** con un botón (rediseño R6c): `{ "texto": "accion.pega.pedir_aumento", "por_ano": "0.2 + jugador.extraversion / 400" }`. Nunca pasa solo: aparece como botón mientras se cumplan sus `condiciones` (y `enfriamiento_semanas`, y haya alguien para `con`) y, al apretarlo, pasa ahí mismo. `texto` es la clave del botón y empieza con `accion.`; `por_ano` dice cuántas veces al año lo pediría alguien con esa personalidad, solo para el simulador de vidas. No lleva `actividad`, `fecha`, `probabilidad_anual` ni `semilla`, y necesita `con` o `lugar`. Los de `lugar.trabajo` salen en la pantalla de tu equipo. En el código: `LifeSession.Requestable()` y `LifeSession.Request(id)` | — |
 | `fecha` | El momento tiene fecha: `"24-12"` (día-mes) pasa la semana de ese día, y `"cumpleanos"` la semana del cumpleaños de la persona de `con`. Pasa como mucho una vez al año. Con `probabilidad_anual`, esa es la probabilidad de que ese año se viva como momento | — |
 
 Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla se cierra al terminar el evento.
@@ -1036,6 +1060,10 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.pago_variable` | La comisión, el trato o las propinas del último mes (a precios de hoy) |
 | `jugador.nuevo_contrato()` | Un contrato nuevo con el mismo empleador y el mismo equipo (la obra siguiente de la constructora): la antigüedad vuelve a cero (solo efectos) |
 | `jugador.desafio('marca')`, `jugador.en_desafio` | Empieza el desafío de este mes en un oficio (solo efectos; ver "Oficios"), y si hay uno en curso |
+| `jugador.pedir_aumento(porcentaje)` | Pide un aumento a la persona del evento (su jefe). Sale todo, la mitad o nada (encuesta de PayScale: 39 %, 31 % y 30 %), movido por el desempeño, el respeto del jefe, la economía y lo mucho que pide (más de un 10 % resta). Sube el sueldo base y lo anota en el diario (`diario.pega.aumento_completo`, `_parcial` o `_no`) (solo efectos) |
+| `jugador.dias_vacaciones`, `jugador.tomar_vacaciones(días)` | Los días de vacaciones ganados y no tomados (enteros), y tomarlos (solo efectos; tiene que tener esos días) |
+| `jugador.pago_vacaciones`, `jugador.cobrar_vacaciones()` | Lo que le pagarían por los días no tomados (de su trabajo o, si ya no trabaja, del último), y recibir ese pago: los días quedan en cero (solo efectos) |
+| `jugador.avisar_renuncia(semanas)`, `jugador.renuncio`, `jugador.semanas_para_irse` | Renuncia con aviso: se va en esas semanas (Chile 4, Argentina 2); si ya avisó, y cuántas semanas le quedan. El último día lo hace un evento (`evento.pega.ultimo_dia`) |
 | `jugador.meses_en_trabajo` | Meses con el empleador actual (la antigüedad; sigue al ascender en la misma empresa) |
 | `jugador.ultimo_sueldo`, `jugador.meses_ultimo_trabajo`, `jugador.tipo_ultimo_trabajo` | El sueldo bruto, la antigüedad y el tipo (`'dependiente'`...) del último trabajo que dejó: sirven para el finiquito o una demanda después de un despido |
 | `jugador.herencia_pendiente`, `jugador.recibir_herencia()` | Lo heredado que espera un trámite (a precios de hoy), y el efecto que lo entrega |

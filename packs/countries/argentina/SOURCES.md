@@ -54,3 +54,14 @@ Anotado de memoria y por verificar en el calendario escolar de la Ciudad y de la
 - Escala de 1 a 10 en números enteros; en la secundaria de la Ciudad de Buenos Aires se aprueba con 6 (en la Provincia, con 7).
 - En la secundaria se pasa de año con hasta dos materias previas (se rinden después); con más, se repite. En la primaria el juego no hace repetir.
 - Ramos: los de los diseños curriculares de la Ciudad (Prácticas del Lenguaje en primaria; Lengua y Literatura, Historia, Geografía y las ciencias en secundaria). 9 notas por materia al año (tres por trimestre) es una estimación.
+
+## Lo que decides tú en la pega (R6c): vacaciones, aumento y renuncia
+
+De la [Ley de Contrato de Trabajo 20.744 (InfoLEG)](https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25552/texact.htm):
+
+- Vacaciones (art. 150): días corridos según la antigüedad: 14 si no pasa de 5 años, 21 si pasa de 5 y no de 10, 28 si pasa de 10 y no de 20, y 35 si pasa de 20. El juego cuenta los años cumplidos con el empleador (cambia de tramo al cumplir 5, 10 y 20, unos meses antes que la ley).
+- Se ganan mes a mes en el juego; la ley pide haber trabajado la mitad de los días hábiles del año (si no, un día por cada 20 trabajados, art. 153), que el juego todavía no cuenta.
+- No se acumulan ni se cambian por plata mientras dura el contrato (art. 162): en el juego se juntan como máximo las de un año.
+- Pago (art. 155): el día de vacaciones vale el sueldo mensual dividido por 25. Al terminar el contrato se pagan las no gozadas, proporcionales al tiempo trabajado (art. 156).
+- Renuncia (art. 240): por telegrama o carta documento, gratis para el trabajador. Preaviso del trabajador (art. 231): 15 días. Si no lo da, debe al empleador la indemnización sustitutiva de esos días (art. 232), que se descuenta de lo que le pagan; el juego lo cobra como medio sueldo.
+- Pedir aumento: misma base que Chile (encuesta "Raise Anatomy" de PayScale, 2018: 39 % todo, 31 % menos, 30 % nada).

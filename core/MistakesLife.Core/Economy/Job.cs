@@ -102,10 +102,22 @@ namespace MistakesLife.Core.Economy
         /// </summary>
         public string? Challenge { get; set; }
 
+        /// <summary>
+        /// Días de vacaciones legales ganados y no tomados (ver <see cref="Work.VacationRules"/>),
+        /// en la unidad del país (hábiles en Chile, corridos en Argentina). Solo con contrato.
+        /// </summary>
+        public double VacationDays { get; internal set; }
+
+        /// <summary>
+        /// Si renunció con aviso: la semana (contada desde el inicio del calendario, como
+        /// <see cref="Time.GameDate.TotalWeeks"/>) de su último día. Null si no ha renunciado.
+        /// </summary>
+        public int? LeavingWeek { get; internal set; }
+
         public JobKind Kind { get; }
 
         /// <summary>Sueldo bruto mensual en dinero del inicio del mundo.</summary>
-        public decimal BaseSalary { get; }
+        public decimal BaseSalary { get; internal set; }
 
         /// <summary>Índice de precios del último reajuste (o de cuando empezó).</summary>
         public double AdjustedPriceIndex { get; private set; }
