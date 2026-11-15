@@ -215,7 +215,8 @@
         "efectos": [
           "jugador.madre.carino += 2",
           "jugador.inteligencia += 2"
-        ]
+        ],
+        "regla": "pedir_ayuda"
       },
       {
         "texto": "opcion.rutina.estudiar_guia.solo",
@@ -223,7 +224,8 @@
         "efectos": [
           "jugador.inteligencia += 1",
           "jugador.felicidad -= 1"
-        ]
+        ],
+        "regla": "estudiar"
       },
       {
         "texto": "opcion.rutina.estudiar_guia.copiar",
@@ -231,9 +233,11 @@
         "efectos": [
           "jugador.inteligencia -= 1",
           "diario('diario.rutina.estudiar_guia.copiar')"
-        ]
+        ],
+        "regla": "copiar"
       }
-    ]
+    ],
+    "regla": "regla.prueba"
   },
   {
     "id": "evento.rutina.seleccion_comunal",

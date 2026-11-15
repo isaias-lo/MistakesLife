@@ -21,6 +21,7 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, CourtCaseDefinition> _courtCases = new SortedDictionary<string, CourtCaseDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, ActivityDefinition> _activities = new SortedDictionary<string, ActivityDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, WishDefinition> _wishes = new SortedDictionary<string, WishDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, MailDefinition> _mails = new SortedDictionary<string, MailDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, List<MailDefinition>> _mailsByJournal = new Dictionary<string, List<MailDefinition>>(StringComparer.Ordinal);
@@ -68,6 +69,11 @@ namespace MistakesLife.Core.Content
         public IEnumerable<ActivityDefinition> Activities => _activities.Values;
 
         public ActivityDefinition? Activity(string id) => _activities.TryGetValue(id, out ActivityDefinition? activity) ? activity : null;
+
+        /// <summary>Lo que un personaje puede querer en una etapa (carpeta deseos/), ordenado por id.</summary>
+        public IEnumerable<WishDefinition> Wishes => _wishes.Values;
+
+        public WishDefinition? Wish(string id) => _wishes.TryGetValue(id, out WishDefinition? wish) ? wish : null;
 
         /// <summary>Las apps del celular, ordenadas por id.</summary>
         public IEnumerable<AppDefinition> Apps => _apps.Values;
@@ -316,6 +322,21 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega los deseos de un archivo JSON de deseos/ (una lista).</summary>
+        public void AddWishesJson(string packId, string sourceName, string json)
+        {
+            foreach (WishDefinition definition in Deserialize<WishDefinition>(sourceName, json))
+            {
+                if (_wishes.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de deseo repetido."));
+                    continue;
+                }
+
+                _wishes.Add(definition.Id, definition);
+            }
+        }
+
         /// <summary>Agrega las apps del celular de un archivo JSON de apps/ (una lista).</summary>
         public void AddAppsJson(string packId, string sourceName, string json)
         {
@@ -548,6 +569,7 @@ namespace MistakesLife.Core.Content
             ValidateChats();
             ValidateChatOpeners();
             ValidateActivities();
+            ValidateWishes();
 
             foreach (SceneObjectDefinition scene in _sceneObjects.Values)
             {
@@ -1608,6 +1630,13 @@ namespace MistakesLife.Core.Content
                 yield return new KeyValuePair<string, string>(activity.Id, $"actividad {activity.Id}");
             }
 
+            foreach (WishDefinition wish in _wishes.Values)
+            {
+                yield return new KeyValuePair<string, string>(wish.Id, $"deseo {wish.Id}");
+                yield return new KeyValuePair<string, string>(wish.FulfilledJournalKey, $"deseo {wish.Id}");
+                yield return new KeyValuePair<string, string>(wish.LostJournalKey, $"deseo {wish.Id}");
+            }
+
             foreach (ChatOpenerDefinition opener in _chatOpeners.Values)
             {
                 yield return new KeyValuePair<string, string>(opener.Id, $"escribir {opener.Id}");
@@ -1805,6 +1834,11 @@ namespace MistakesLife.Core.Content
                 if (ev.Place != null)
                 {
                     yield return new KeyValuePair<string, string>(ev.Place, where);
+                }
+
+                if (ev.RuleGroup != null)
+                {
+                    yield return new KeyValuePair<string, string>(ev.RuleGroup, where);
                 }
                 foreach (EventOptionDefinition option in ev.Options)
                 {
@@ -2279,6 +2313,16 @@ namespace MistakesLife.Core.Content
                 _errors.Add(new ContentError(where, "fecha 'cumpleanos' necesita con quién (con): es el cumpleaños de esa persona."));
             }
 
+            if (ev.RuleGroup != null && !ev.RuleGroup.StartsWith("regla.", StringComparison.Ordinal))
+            {
+                _errors.Add(new ContentError(where, $"regla '{ev.RuleGroup}' debe empezar con 'regla.'."));
+            }
+
+            if (ev.RuleGroup == null && ev.Options.Any(o => o.RuleChoice != null))
+            {
+                _errors.Add(new ContentError(where, "una opción dice regla, pero el evento no dice a qué grupo de reglas pertenece (regla)."));
+            }
+
             if (ev.With == null && MentionsPerson(ev))
             {
                 _errors.Add(new ContentError(where, "usa 'persona' pero no dice con quién pasa (con)."));
@@ -2303,6 +2347,47 @@ namespace MistakesLife.Core.Content
                 .Concat(ev.Effects)
                 .Concat(ev.Options.SelectMany(o => new[] { o.Conditions, o.Tendency }.Concat(o.Effects)));
             return expressions.Any(e => e != null && PersonWord.IsMatch(e));
+        }
+
+        private void ValidateWishes()
+        {
+            foreach (WishDefinition wish in _wishes.Values)
+            {
+                string where = $"deseo {wish.Id}";
+                CheckId(where, wish.Id, "deseo.");
+                wish.CompiledConditions = CompileCondition(where, wish.Conditions);
+                wish.CompiledFulfilled = CompileCondition(where, wish.Fulfilled);
+                if (string.IsNullOrWhiteSpace(wish.Fulfilled))
+                {
+                    _errors.Add(new ContentError(where, "falta cumplido: cuándo se cumple."));
+                }
+
+                if (wish.MinAge > wish.MaxAge)
+                {
+                    _errors.Add(new ContentError(where, "edad_minima no puede ser mayor que edad_maxima."));
+                }
+
+                if (wish.Weight <= 0)
+                {
+                    _errors.Add(new ContentError(where, "el peso debe ser mayor que 0."));
+                }
+
+                if (wish.With != null && Array.IndexOf(ChatDefinition.Senders, wish.With) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"con '{wish.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+                }
+
+                if (wish.Activity != null && !_activities.ContainsKey(wish.Activity))
+                {
+                    _errors.Add(new ContentError(where, $"la actividad '{wish.Activity}' no existe."));
+                }
+
+                bool mentions = new[] { wish.Conditions, wish.Fulfilled }.Any(e => e != null && PersonWord.IsMatch(e));
+                if (wish.With == null && mentions)
+                {
+                    _errors.Add(new ContentError(where, "usa 'persona' pero no dice con quién es (con)."));
+                }
+            }
         }
 
         private void ValidateActivities()

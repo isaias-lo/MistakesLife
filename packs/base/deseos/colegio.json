@@ -1,0 +1,83 @@
+[
+  {
+    "id": "deseo.amigo_de_verdad",
+    "edad_minima": 6,
+    "edad_maxima": 17,
+    "condiciones": "jugador.amigos == 0",
+    "cumplido": "jugador.amigos >= 1",
+    "actividad": "actividad.plaza_amigos",
+    "peso": 30
+  },
+  {
+    "id": "deseo.buenas_notas",
+    "edad_minima": 8,
+    "edad_maxima": 17,
+    "condiciones": "jugador.inteligencia < 60",
+    "cumplido": "jugador.inteligencia >= 60",
+    "actividad": "actividad.estudiar",
+    "peso": 20,
+    "repetible": true
+  },
+  {
+    "id": "deseo.mama_tiempo",
+    "edad_minima": 6,
+    "edad_maxima": 14,
+    "con": "madre",
+    "condiciones": "persona.carino < 85",
+    "cumplido": "persona.carino >= 90",
+    "actividad": "actividad.once_mama",
+    "peso": 15
+  },
+  {
+    "id": "deseo.celular_propio",
+    "edad_minima": 9,
+    "edad_maxima": 15,
+    "condiciones": "!jugador.tiene_celular",
+    "cumplido": "jugador.tiene_celular",
+    "peso": 25
+  },
+  {
+    "id": "deseo.entrar_equipo",
+    "edad_minima": 9,
+    "edad_maxima": 15,
+    "condiciones": "jugador.extraversion >= 40",
+    "cumplido": "jugador.tiene('seleccion_comunal')",
+    "actividad": "actividad.deporte",
+    "peso": 10
+  },
+  {
+    "id": "deseo.mas_amigos",
+    "edad_minima": 10,
+    "edad_maxima": 17,
+    "con": "amigo",
+    "condiciones": "jugador.amigos == 1",
+    "cumplido": "jugador.amigos >= 2",
+    "actividad": "actividad.plaza_amigos",
+    "peso": 10
+  },
+  {
+    "id": "deseo.alguien_me_guste",
+    "edad_minima": 14,
+    "edad_maxima": 17,
+    "condiciones": "jugador.pareja == nada && !jugador.tiene('pololeando')",
+    "cumplido": "jugador.pareja != nada || jugador.tiene('pololeando')",
+    "peso": 15
+  },
+  {
+    "id": "deseo.plata_propia",
+    "edad_minima": 15,
+    "edad_maxima": 17,
+    "condiciones": "jugador.dinero < precio(50000)",
+    "cumplido": "jugador.dinero >= precio(50000) || jugador.trabaja",
+    "peso": 10
+  },
+  {
+    "id": "deseo.estar_bien",
+    "edad_minima": 12,
+    "edad_maxima": 17,
+    "condiciones": "jugador.felicidad < 40",
+    "cumplido": "jugador.felicidad >= 60",
+    "peso": 20,
+    "repetible": true
+  }
+]

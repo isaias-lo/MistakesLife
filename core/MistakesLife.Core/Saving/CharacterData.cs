@@ -134,6 +134,12 @@ namespace MistakesLife.Core.Saving
         /// <summary>El horario (desde la versión 19).</summary>
         public RoutineData? Routine { get; set; }
 
+        /// <summary>Las reglas propias (desde la versión 21).</summary>
+        public List<OwnRuleData> OwnRules { get; set; } = new List<OwnRuleData>();
+
+        /// <summary>Lo que quiere y quiso (desde la versión 21).</summary>
+        public List<WishData> Wishes { get; set; } = new List<WishData>();
+
         public List<string> Degrees { get; set; } = new List<string>();
 
         public bool IsAlive { get; set; } = true;

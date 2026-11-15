@@ -162,6 +162,7 @@
   },
   {
     "id": "evento.prueba_dificil",
+    "regla": "regla.prueba",
     "condiciones": "jugador.edad >= 9 && jugador.edad < 18",
     "peso": 8,
     "enfriamiento_semanas": 52,
@@ -169,6 +170,7 @@
     "opciones": [
       {
         "texto": "opcion.prueba.estudiar",
+        "regla": "estudiar",
         "tendencia": "jugador.responsabilidad",
         "efectos": [
           "jugador.inteligencia += 2",
@@ -177,6 +179,7 @@
       },
       {
         "texto": "opcion.prueba.copiar",
+        "regla": "copiar",
         "tendencia": "(100 - jugador.responsabilidad) / 3 + (100 - jugador.amabilidad) / 6",
         "efectos": [
           "plantar('semilla.copio_prueba_colegio')"
@@ -184,6 +187,7 @@
       },
       {
         "texto": "opcion.prueba.nada",
+        "regla": "nada",
         "tendencia": "(100 - jugador.responsabilidad) / 3",
         "efectos": [
           "jugador.inteligencia -= 1"

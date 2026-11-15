@@ -50,6 +50,12 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Dónde pasa el momento, ya en el idioma del jugador ("La plaza"). Null si no tiene lugar.</summary>
         public string? Place { get; internal set; }
 
+        /// <summary>
+        /// Si se puede elegir "hacer esto siempre" (una regla propia): no en un día clave ni
+        /// en un error que vuelve, que se viven cada vez.
+        /// </summary>
+        public bool AllowsRule { get; internal set; }
+
         /// <summary>Id del evento (sirve para elegir una ilustración o una escena).</summary>
         public string EventId { get; }
 

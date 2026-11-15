@@ -234,6 +234,10 @@ namespace MistakesLife.Core.Saving
             // Versión 19 → 20: un evento pendiente puede pasar con alguien (PersonId).
             // En partidas viejas ningún evento pendiente tiene persona: no hay nada que cambiar.
             [19] = save => { },
+
+            // Versión 20 → 21: reglas propias y lo que quiero. Las partidas viejas no tienen
+            // ninguna: las listas quedan vacías y los deseos nacen con la etapa que sigue.
+            [20] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

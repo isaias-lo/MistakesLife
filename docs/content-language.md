@@ -588,6 +588,8 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `con` | Con quién pasa: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival` o `ex`. Al ocurrir se elige a una persona de verdad, con nombre (si no hay nadie así, no pasa). En el evento se le habla como `persona` (`persona.carino += 3`, `plantar('semilla.x', persona)`) y en los textos de la escena y de las opciones `{persona}` se cambia por su nombre. En el diario no se usa `{persona}` | — |
 | `lugar` | Dónde pasa: clave `lugar.<nombre>` con su texto en `lang/` ("La plaza", "Tu sala"). La pantalla lo muestra junto a la persona | — |
 | `actividad` | El momento nace de tu horario: solo pasa si esa actividad está en tu semana. Pide `probabilidad_anual`, que es la probabilidad en un año haciéndola **una vez por semana** (si la haces tres veces, es más probable) | — |
+| `regla` | Grupo para las reglas propias del jugador (`regla.prueba`, con su texto en `lang/`: "Cuando hay prueba o tarea"). Cuando el jugador elige "hacer esto siempre", la regla sirve para todos los eventos del grupo. Sin grupo, sirve solo para este evento. Un `dia_clave` y un evento de `semilla` nunca admiten regla: se viven cada vez | — |
+| `opciones[].regla` | Qué es la opción para las reglas del grupo (`estudiar`, `copiar`): opciones de eventos distintos con el mismo valor son "lo mismo". Pide `regla` en el evento | su texto |
 | `fecha` | El momento tiene fecha: `"24-12"` (día-mes) pasa la semana de ese día, y `"cumpleanos"` la semana del cumpleaños de la persona de `con`. Pasa como mucho una vez al año. Con `probabilidad_anual`, esa es la probabilidad de que ese año se viva como momento | — |
 
 Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla se cierra al terminar el evento.
@@ -787,6 +789,27 @@ Cómo pesa (`RoutineSystem`):
 - **Salud:** cada mes sube o baja un punto si la suma de salud es 4 o más (o -4 o menos). El envejecimiento hace el resto.
 - **Cariño:** cada mes, con cada persona de `con`, sube lo que diga `carino` en los dos sentidos (lo que tú sientes y lo que siente esa persona).
 - Si una actividad deja de tener sentido (ya no hay amigos, pasó la edad), queda en el horario pero no cuenta hasta que la cambies.
+
+## Lo que quiero (deseos/)
+
+Rediseño R2c. En cada etapa del horario (cada año escolar, la universidad, un trabajo) el personaje quiere hasta 3 cosas que **nacen de su vida**: se eligen entre los deseos cuyas condiciones se cumplen y que todavía no tiene. El jugador marca con destacador los que persigue: el horario sugerido pone más seguido su `actividad`. Cada mes se revisa si se cumplió (ánimo +3, o +6 si lo perseguía, y su línea en el diario). Al cambiar de etapa, lo que perseguía y no pasó queda "perdido" (ánimo -3 y su línea en el diario); lo demás se le pasa sin pena. Lo mismo no se quiere dos etapas seguidas.
+
+```json
+{ "id": "deseo.amigo_de_verdad", "edad_minima": 6, "edad_maxima": 17,
+  "condiciones": "jugador.amigos == 0", "cumplido": "jugador.amigos >= 1",
+  "actividad": "actividad.plaza_amigos", "peso": 30 }
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | `deseo.<nombre>`; es la clave de su frase en `lang/` ("Tener un amigo de verdad"). También deben existir `<id>.cumplido` y `<id>.perdido`, las líneas del diario |
+| `edad_minima`, `edad_maxima` | Edades en que tiene sentido |
+| `condiciones` | De qué vida nace (si falta, de cualquiera) |
+| `cumplido` | Cuándo se cumple (obligatorio). Si ya se cumple, el deseo no nace |
+| `con` | Con quién es (como en los eventos): en las condiciones es `persona` y en la frase `{persona}` |
+| `actividad` | La actividad del horario que ayuda: si lo persigue, se sugiere más |
+| `peso` | Qué tan probable es frente a otros deseos (10) |
+| `repetible` | Si se puede volver a querer en otra etapa después de cumplirlo (false) |
 
 ## Juzgados (courts/) y vida civil
 

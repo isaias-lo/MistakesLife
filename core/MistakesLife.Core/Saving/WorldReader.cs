@@ -305,6 +305,25 @@ namespace MistakesLife.Core.Saving
                 character.Routine = routine;
             }
 
+            foreach (OwnRuleData r in d.OwnRules)
+            {
+                character.OwnRules.Add(new Life.OwnRule(r.Key, r.Choice)
+                {
+                    TimesUsed = r.TimesUsed,
+                    LastUsed = r.LastUsedWeek.HasValue ? Date(r.LastUsedWeek.Value) : (GameDate?)null,
+                });
+            }
+
+            foreach (WishData w in d.Wishes)
+            {
+                character.Wishes.Add(new Life.Wish(w.WishId, w.StageKey, Date(w.SinceWeek), w.PersonId)
+                {
+                    Highlighted = w.Highlighted,
+                    State = (Life.WishState)w.State,
+                    Closed = w.ClosedWeek.HasValue ? Date(w.ClosedWeek.Value) : (GameDate?)null,
+                });
+            }
+
             if (!d.IsAlive)
             {
                 character.RestoreDeath(Date(d.DeathWeek ?? d.BirthWeek), d.DeathCauseId ?? Character.CauseNatural);
