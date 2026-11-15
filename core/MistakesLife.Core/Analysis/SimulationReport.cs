@@ -25,6 +25,18 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Eventos del contenido que no aparecieron en ninguna vida.</summary>
         public List<string> NeverSeenEvents { get; } = new List<string>();
 
+        /// <summary>
+        /// Veces en total que un evento se volvió a leer igual, con la misma persona o sin
+        /// persona (regla de repeticiones, <see cref="RepetitionRules"/>).
+        /// </summary>
+        public SortedDictionary<string, int> RepeatsWithoutReason { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        /// <summary>Vidas en que cada evento se repitió sin razón al menos una vez.</summary>
+        public SortedDictionary<string, int> LivesWithRepeats { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        /// <summary>Promedio por vida de repeticiones sin razón, sumando todos los eventos.</summary>
+        public double RepeatsPerLife => Lives == 0 ? 0 : (double)RepeatsWithoutReason.Values.Sum() / Lives;
+
         /// <summary>Cuántas veces salió cada noticia en los últimos 12 años de cada vida (lo que el mundo recuerda).</summary>
         public SortedDictionary<string, int> NewsCount { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
 
@@ -315,6 +327,24 @@ namespace MistakesLife.Core.Analysis
                 foreach (var courtCase in CourtCaseCount.OrderByDescending(c => c.Value).ThenBy(c => c.Key, StringComparer.Ordinal))
                 {
                     sb.AppendLine($"| {courtCase.Key} | {courtCase.Value} | {(100.0 * courtCase.Value / Math.Max(1, Lives)).ToString("0.0", ci)} |");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("## Repeticiones sin razón");
+            sb.AppendLine();
+            sb.AppendLine("Un evento que se vuelve a leer igual: el mismo texto, con la misma persona o sin persona. Lo que pide el jugador con un botón no cuenta.");
+            sb.AppendLine();
+            sb.AppendLine($"- Por vida (promedio): {RepeatsPerLife.ToString("0.0", ci)}");
+            if (RepeatsWithoutReason.Count > 0)
+            {
+                sb.AppendLine();
+                sb.AppendLine("| Evento | Vidas donde se repite | Repeticiones en total | Por vida (donde se repite) |");
+                sb.AppendLine("|---|---:|---:|---:|");
+                foreach (var repeat in RepeatsWithoutReason.OrderByDescending(r => r.Value).ThenBy(r => r.Key, StringComparer.Ordinal))
+                {
+                    int livesWith = LivesWithRepeats[repeat.Key];
+                    sb.AppendLine($"| {repeat.Key} | {livesWith} | {repeat.Value} | {((double)repeat.Value / livesWith).ToString("0.0", ci)} |");
                 }
             }
 

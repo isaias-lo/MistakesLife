@@ -179,6 +179,7 @@
   },
   {
     "id": "evento.cumpleanos_sorpresa",
+    "con": "amigo",
     "condiciones": "jugador.amigos >= 2 && jugador.edad >= 20 && jugador.edad < 70",
     "probabilidad_anual": 0.05,
     "enfriamiento_semanas": 260,
@@ -189,7 +190,7 @@
         "tendencia": "jugador.extraversion",
         "efectos": [
           "jugador.felicidad += 7",
-          "jugador.amigo.carino += 5",
+          "persona.carino += 5",
           "diario('diario.cumpleanos_sorpresa')"
         ]
       },
@@ -198,14 +199,15 @@
         "tendencia": "100 - jugador.extraversion",
         "efectos": [
           "jugador.felicidad += 2",
-          "jugador.amigo.carino += 2"
+          "persona.carino += 2"
         ]
       }
     ]
   },
   {
     "id": "evento.amigo_pide_consejo",
-    "condiciones": "jugador.amigo != nada && jugador.edad >= 18",
+    "con": "amigo",
+    "condiciones": "jugador.edad >= 18",
     "probabilidad_anual": 0.07,
     "enfriamiento_semanas": 156,
     "veces_maximas": 2,
@@ -214,16 +216,16 @@
         "texto": "opcion.amigo_pide_consejo.verdad",
         "tendencia": "jugador.responsabilidad / 2 + (100 - jugador.amabilidad) / 4",
         "efectos": [
-          "jugador.amigo.confianza += 10",
-          "jugador.amigo.respeto += 6",
-          "jugador.amigo.rencor += 4"
+          "persona.confianza += 10",
+          "persona.respeto += 6",
+          "persona.rencor += 4"
         ]
       },
       {
         "texto": "opcion.amigo_pide_consejo.apoyar",
         "tendencia": "jugador.amabilidad",
         "efectos": [
-          "jugador.amigo.carino += 6"
+          "persona.carino += 6"
         ]
       }
     ]

@@ -279,6 +279,7 @@ namespace MistakesLife.Core.Events
 
             List<Character> people = ChatSystem.PeopleAs(world, player, ev.With, minAge: 0)
                 .Where(p => !ev.OnBirthday || world.Date.SameWeekOfYear(p.BirthDate))
+                .Where(p => !(ev.PerPerson && ev.MaxTimes.HasValue && world.TimesHappened(ev.Id, player.Id, p.Id) >= ev.MaxTimes.Value))
                 .ToList();
             while (people.Count > 0)
             {
@@ -412,7 +413,7 @@ namespace MistakesLife.Core.Events
 
             if (options.Count == 0)
             {
-                Finish(world, definition, subject, seed, null);
+                Finish(world, definition, subject, seed, null, person?.Id);
                 return;
             }
 
@@ -444,7 +445,7 @@ namespace MistakesLife.Core.Events
         /// <summary>Si el evento todavía puede pasar: no es único ya vivido, no llegó a su tope ni está en espera.</summary>
         private static bool CanRepeat(World world, EventDefinition definition, Character player) =>
             !(definition.Unique && HasHappened(world, definition.Id, player.Id))
-            && !(definition.MaxTimes.HasValue && world.TimesHappened(definition.Id, player.Id) >= definition.MaxTimes.Value)
+            && !(definition.MaxTimes.HasValue && !definition.PerPerson && world.TimesHappened(definition.Id, player.Id) >= definition.MaxTimes.Value)
             && !InCooldown(world, definition, player.Id);
 
         private static bool Passes(EventDefinition definition, EventScope scope) =>

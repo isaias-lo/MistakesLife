@@ -23,12 +23,12 @@ namespace MistakesLife.Core.Tests
         private static ContentDatabase Content => RepoPacks.Content;
 
         /// <summary>Una vida en Chile a los 22, sin título, que entra a trabajar en esa área de un oficio.</summary>
-        private static LifeSession WorkingIn(string area, ulong seed = 5)
+        private static LifeSession WorkingIn(string area, ulong seed = 5, int age = 22)
         {
             var session = new LifeSession(Content, seed, "pais.chile");
             session.TimeMachine.Enabled = false;
             World world = session.World;
-            new Simulation.WeekCycle().AdvanceWeeks(world, (22 * GameDate.WeeksPerYear) - world.Player.AgeInWeeks(world.Date), out _);
+            new Simulation.WeekCycle().AdvanceWeeks(world, (age * GameDate.WeeksPerYear) - world.Player.AgeInWeeks(world.Date), out _);
             Assert.Empty(world.Player.Degrees);
             Run(world, "jugador.dejar_trabajo()");
             Run(world, "jugador.desmarcar('buscando_trabajo')");
@@ -170,7 +170,8 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void BajoLaMeta_LlegaElLlamadoLuegoLaAmonestacionYAlFinalElDespido()
         {
-            LifeSession session = WorkingIn(Vestuario);
+            // A los 26 ya no corre el fin de contrato de los jóvenes (18 a 24), que podría cortar la pega antes.
+            LifeSession session = WorkingIn(Vestuario, age: 26);
             World world = session.World;
             for (int month = 0; month < 14 && world.Player.Job != null; month++)
             {

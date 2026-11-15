@@ -1302,7 +1302,7 @@ namespace MistakesLife.Core.Presentation
             var options = pending.AvailableOptions.Select(i => WithTest(WithPerson(T(definition.Options[i].TextKey), personName))).ToList();
             int? previous = Session.TimeMachine.PreviousChoice(pending);
             int position = previous.HasValue ? IndexOf(pending.AvailableOptions, previous.Value) : -1;
-            string textKey = definition.TextKeyFor(Session.World.TimesHappened(pending.EventId, pending.CharacterId));
+            string textKey = definition.TextKeyFor(Session.World.TimesHappened(definition, pending.CharacterId, pending.PersonId));
 
             // Quién mira y quién lo va a notar: los testigos de las semillas, sin aplicar nada.
             World world = Session.World;
