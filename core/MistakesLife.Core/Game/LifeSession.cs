@@ -81,6 +81,7 @@ namespace MistakesLife.Core.Game
                 .Register(new Education.UniversitySystem(content))
                 .Register(new CompanySystem(content))
                 .Register(new JobSearchSystem(content))
+                .Register(new Work.WorkSystem(content))
                 .Register(new AgingSystem())
                 .Register(new MortalitySystem(content))
                 .Register(new RelativesFamilySystem(content))

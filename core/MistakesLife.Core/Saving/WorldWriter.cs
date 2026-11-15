@@ -249,6 +249,10 @@ namespace MistakesLife.Core.Saving
                     SchoolYear = c.SchoolClass.SchoolYear, Students = c.SchoolClass.Students,
                     TeacherId = c.SchoolClass.TeacherId, ClassmateIds = c.SchoolClass.ClassmateIds.ToList(), LeftIds = c.SchoolClass.LeftIds.ToList(),
                 },
+                Team = c.Team == null ? null : new WorkTeamData
+                {
+                    BossId = c.Team.BossId, ColleagueIds = c.Team.ColleagueIds.ToList(), LeftIds = c.Team.LeftIds.ToList(), MonthsInJob = c.Team.MonthsInJob,
+                },
                 SchoolRecord = c.SchoolRecord == null ? null : new SchoolRecordData
                 {
                     Marks = c.SchoolRecord.Marks.Count == 0 ? null : c.SchoolRecord.Marks.ToDictionary(m => m.Key, m => m.Value.ToList()),

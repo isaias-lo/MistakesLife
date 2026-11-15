@@ -175,8 +175,10 @@
   },
   {
     "id": "evento.colega_nuevo",
-    "condiciones": "jugador.tiene('trabajando') && jugador.colega == nada && jugador.edad < 70",
+    "condiciones": "jugador.tiene('trabajando') && !jugador.en_la_pega && jugador.edad < 70",
     "probabilidad_anual": 0.6,
+    "veces_maximas": 2,
+    "enfriamiento_semanas": 104,
     "efectos": [
       "jugador.conocer('colega')"
     ]

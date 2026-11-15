@@ -143,6 +143,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>El curso del colegio (desde la versión 22); null si no va a un curso.</summary>
         public SchoolClassData? SchoolClass { get; set; }
 
+        /// <summary>El equipo del trabajo (desde la versión 29); null si no trabaja con equipo.</summary>
+        public WorkTeamData? Team { get; set; }
+
         /// <summary>Las notas del colegio (desde la versión 23); null si nunca tuvo.</summary>
         public SchoolRecordData? SchoolRecord { get; set; }
 

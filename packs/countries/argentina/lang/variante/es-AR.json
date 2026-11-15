@@ -78,5 +78,10 @@
   "capitulo.apoderados.cimarra": "El año en que se supo que me hice la rata",
   "capitulo.colegio.centro_alumnos": "El año del centro de estudiantes",
   "capitulo.colegio.colacion": "El año de las galletitas compartidas",
-  "capitulo.desalojo.pieza": "El año de la habitación compartida"
+  "capitulo.desalojo.pieza": "El año de la habitación compartida",
+  "diario.pega.se_fue": "Alguien del equipo se fue del laburo este año.",
+  "diario.pega.amistad": "Con alguien del laburo ya no somos solo compañeros: somos amigos.",
+  "ui.cosas.pega": "Laburo",
+  "ui.momento.jefe.f": "tu jefa {0}",
+  "ui.momento.jefe.m": "tu jefe {0}"
 }

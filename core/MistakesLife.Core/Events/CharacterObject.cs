@@ -178,6 +178,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.SchoolClass?.Level ?? 0);
                 case "en_la_u":
                     return Value.FromBool(Education.UniversityRules.InSection(_character));
+                case "en_la_pega":
+                    return Value.FromBool(Work.WorkRules.InTeam(_character));
                 case "companeros":
                     return Value.FromNumber(Education.SchoolRules.Classmates(((EventScope)scope).World, _character).Count);
                 case "prueba_anunciada":
@@ -332,7 +334,7 @@ namespace MistakesLife.Core.Events
                 case "meses_en_cargo":
                     return Value.FromNumber(_character.Job?.Position == null ? 0 : _character.Job.MonthsInPosition);
                 case "desempeno":
-                    return Value.FromNumber(_character.Job?.Position == null ? 0 : _character.Job.Performance);
+                    return Value.FromNumber(_character.Job == null ? 0 : _character.Job.Performance);
                 case "puede_ascender":
                     return Value.FromBool(Promotions(scope).Count > 0);
                 case "caminos_ascenso":
@@ -550,9 +552,9 @@ namespace MistakesLife.Core.Events
                     _character.Stats.Health = number;
                     break;
                 case "desempeno":
-                    if (_character.Job?.Position == null)
+                    if (_character.Job == null)
                     {
-                        throw new ScriptException("jugador.desempeno solo se puede cambiar en un trabajo de su carrera (revisa jugador.area != nada).");
+                        throw new ScriptException("jugador.desempeno solo se puede cambiar si trabaja (revisa jugador.trabaja).");
                     }
 
                     _character.Job.Performance = number;

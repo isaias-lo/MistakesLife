@@ -345,6 +345,14 @@ namespace MistakesLife.Core.Saving
                 character.SchoolClass = cls;
             }
 
+            if (d.Team != null)
+            {
+                var team = new Work.WorkTeam { BossId = d.Team.BossId, MonthsInJob = d.Team.MonthsInJob };
+                team.ColleagueIds.AddRange(d.Team.ColleagueIds);
+                team.LeftIds.AddRange(d.Team.LeftIds);
+                character.Team = team;
+            }
+
             if (d.SchoolRecord != null)
             {
                 var record = new Education.SchoolRecord

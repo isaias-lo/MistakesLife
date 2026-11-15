@@ -196,7 +196,7 @@ namespace MistakesLife.Core.Events
                 .ToList();
             while (people.Count > 0)
             {
-                Character person = ev.With == "companero" ? CloserClassmate(world, player, people, random) : people[random.NextInt(people.Count)];
+                Character person = ev.With == "companero" || ev.With == "equipo" ? CloserClassmate(world, player, people, random) : people[random.NextInt(people.Count)];
                 var scope = new EventScope(world, Content, player, null, readOnly: true, person);
                 if (Passes(ev, scope))
                 {
