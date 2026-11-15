@@ -23,5 +23,21 @@
   "gasto.argentina.personales": "Gastos personales (ropa, salidas)",
   "deuda.argentina.prestamo": "Préstamo personal",
   "deuda.argentina.tarjeta": "Tarjeta de crédito",
-  "deuda.argentina.descubierto": "Descubierto en la cuenta"
+  "deuda.argentina.descubierto": "Descubierto en la cuenta",
+
+  "ramo.argentina.practicas_lenguaje": "Prácticas del Lenguaje",
+  "ramo.argentina.matematica": "Matemática",
+  "ramo.argentina.ciencias_sociales": "Ciencias Sociales",
+  "ramo.argentina.ciencias_naturales": "Ciencias Naturales",
+  "ramo.argentina.ingles": "Inglés",
+  "ramo.argentina.educacion_artistica": "Educación Artística",
+  "ramo.argentina.educacion_fisica": "Educación Física",
+  "ramo.argentina.lengua_literatura": "Lengua y Literatura",
+  "ramo.argentina.historia": "Historia",
+  "ramo.argentina.geografia": "Geografía",
+  "ramo.argentina.biologia": "Biología",
+  "ramo.argentina.fisica": "Física",
+  "ramo.argentina.quimica": "Química",
+  "ramo.argentina.educacion_ciudadana": "Educación Ciudadana",
+  "ramo.argentina.artes": "Artes"
 }

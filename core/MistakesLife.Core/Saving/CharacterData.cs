@@ -143,6 +143,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>El curso del colegio (desde la versión 22); null si no va a un curso.</summary>
         public SchoolClassData? SchoolClass { get; set; }
 
+        /// <summary>Las notas del colegio (desde la versión 23); null si nunca tuvo.</summary>
+        public SchoolRecordData? SchoolRecord { get; set; }
+
         public List<string> Degrees { get; set; } = new List<string>();
 
         public bool IsAlive { get; set; } = true;

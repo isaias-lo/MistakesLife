@@ -88,7 +88,7 @@ namespace MistakesLife.ConsoleGame
                 }
 
                 _output.WriteLine();
-                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta lo importante | s: una semana | a: un año | e: estado | h: horario | l: lo que quiero | r: tus reglas | k: tu curso | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
+                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta lo importante | s: una semana | a: un año | e: estado | h: horario | l: lo que quiero | r: tus reglas | k: tu curso | n: notas | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
                 _output.Write("> ");
                 string? command = _input.ReadLine();
                 if (command == null)
@@ -138,6 +138,9 @@ namespace MistakesLife.ConsoleGame
                     case "k":
                         PrintSchoolClass();
                         break;
+                    case "n":
+                        PrintReportCard();
+                        break;
                     case "d":
                         PrintFullJournal();
                         break;
@@ -155,7 +158,7 @@ namespace MistakesLife.ConsoleGame
                         _output.WriteLine("Hasta pronto.");
                         return;
                     default:
-                        _output.WriteLine("No entendí. Usa Enter, s, a, e, h, l, r, k, d, c, g, v o q.");
+                        _output.WriteLine("No entendí. Usa Enter, s, a, e, h, l, r, k, n, d, c, g, v o q.");
                         break;
                 }
             }
@@ -371,6 +374,27 @@ namespace MistakesLife.ConsoleGame
                     presenter.RemoveRule(rules[number - 1].Key);
                 }
             }
+        }
+
+        /// <summary>Muestra tu libreta: las notas de cada ramo y el promedio general.</summary>
+        private void PrintReportCard()
+        {
+            var presenter = new LifePresenter(_session);
+            ReportCardView? card = presenter.ReportCard();
+            if (card == null || card.General == null)
+            {
+                _output.WriteLine(presenter.Text("ui.notas.sin_notas"));
+                return;
+            }
+
+            _output.WriteLine(presenter.Text(card.Finals ? "ui.notas.fin_ano" : "ui.notas.titulo") + ":");
+            foreach (SubjectGradesView subject in card.Subjects)
+            {
+                string marks = subject.Marks.Count == 0 ? string.Empty : "  " + string.Join("  ", subject.Marks) + "  →";
+                _output.WriteLine($"  {subject.Name}:{marks} {subject.Average}{(subject.Failing ? " (rojo)" : string.Empty)}");
+            }
+
+            _output.WriteLine(presenter.Text("ui.notas.promedio", card.General));
         }
 
         /// <summary>Muestra tu curso: el nombre, tu profe jefe y tus compañeros, del que más quieres al que menos.</summary>

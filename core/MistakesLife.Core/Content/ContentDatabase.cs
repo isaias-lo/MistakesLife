@@ -898,6 +898,36 @@ namespace MistakesLife.Core.Content
                 }
 
                 previousEnd = stage.ToAge;
+                if ((stage.Subjects.Count > 0 || stage.Promotion.Count > 0) && (!stage.HasClass || country.GradeScale == null))
+                {
+                    _errors.Add(new ContentError(stageWhere, "ramos y promocion van solo en etapas con \"curso\": true y en un país con escala_notas."));
+                }
+
+                foreach (SubjectDefinition subject in stage.Subjects)
+                {
+                    CheckId(stageWhere, subject.Id, "ramo.");
+                    if (subject.FromLevel < 1 || subject.ToLevel < subject.FromLevel)
+                    {
+                        _errors.Add(new ContentError(stageWhere, $"ramo {subject.Id}: desde debe ser 1 o más y hasta no puede ser menor que desde."));
+                    }
+                }
+
+                foreach (PromotionRuleDefinition rule in stage.Promotion)
+                {
+                    if (rule.Failed < 0)
+                    {
+                        _errors.Add(new ContentError(stageWhere, "promocion: reprobados no puede ser negativo."));
+                    }
+                }
+            }
+
+            if (country.GradeScale != null)
+            {
+                GradeScaleDefinition scale = country.GradeScale;
+                if (!(scale.Min < scale.Pass && scale.Pass <= scale.Max) || scale.MarksPerYear < 1 || scale.Decimals < 0 || scale.Decimals > 2)
+                {
+                    _errors.Add(new ContentError(where, "escala_notas: debe ser minima < aprueba <= maxima, notas_por_ano 1 o más y decimales de 0 a 2."));
+                }
             }
 
             int previousAge = -1;
@@ -1688,6 +1718,15 @@ namespace MistakesLife.Core.Content
                 {
                     yield return new KeyValuePair<string, string>("diario." + stage.Id, $"país {country.Id}");
                     yield return new KeyValuePair<string, string>(stage.Id, $"país {country.Id}");
+                    if (stage.HasClass)
+                    {
+                        yield return new KeyValuePair<string, string>("curso." + stage.Id, $"país {country.Id}");
+                    }
+
+                    foreach (SubjectDefinition subject in stage.Subjects)
+                    {
+                        yield return new KeyValuePair<string, string>(subject.Id, $"país {country.Id}");
+                    }
                 }
 
                 foreach (CityDefinition city in country.Cities)

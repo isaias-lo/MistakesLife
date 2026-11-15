@@ -36,7 +36,7 @@ namespace MistakesLife.Core.Education
             }
 
             CountryDefinition country = _content.GetCountry(player.Residence.CountryId);
-            string? stageId = country.StageForAge(player.AgeInYears(context.Date))?.Id;
+            string? stageId = country.StageForAge(SchoolRules.SchoolAge(player, context.Date))?.Id;
             if (stageId == player.EducationStageId)
             {
                 return;

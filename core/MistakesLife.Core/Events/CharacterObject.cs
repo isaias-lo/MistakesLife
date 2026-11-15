@@ -178,6 +178,21 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.SchoolClass?.Level ?? 0);
                 case "companeros":
                     return Value.FromNumber(Education.SchoolRules.Classmates(((EventScope)scope).World, _character).Count);
+                case "prueba_anunciada":
+                    return Value.FromBool(_character.SchoolRecord?.TestPending ?? false);
+                case "prueba_devuelta":
+                    return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord returned && returned.TestMark.HasValue && returned.TestReturnedWeek == date.TotalWeeks);
+                case "nota_prueba":
+                    return Value.FromNumber(_character.SchoolRecord?.TestMark is double testMark && Scale(scope) is Content.GradeScaleDefinition testScale
+                        ? Education.GradeRules.OnSevenScale(testMark, testScale) : 0);
+                case "prueba_aprobada":
+                    return Value.FromBool(_character.SchoolRecord?.TestMark is double passMark && Scale(scope) is Content.GradeScaleDefinition passScale && passMark >= passScale.Pass);
+                case "promedio":
+                    return Value.FromNumber(Education.GradeRules.CurrentAverageOnSeven(_character, Scale(scope)));
+                case "rojos":
+                    return Value.FromNumber(Education.GradeRules.CurrentFailed(_character, Scale(scope)));
+                case "repitio":
+                    return Value.FromNumber(_character.SchoolRecord?.RepeatedYears ?? 0);
                 case "estudia":
                     return TextOrNull(_character.Studies?.CareerId);
                 case "nivel_estudio":
@@ -557,10 +572,31 @@ namespace MistakesLife.Core.Events
             }
         }
 
+        /// <summary>La escala de notas del país donde vive, o null.</summary>
+        private Content.GradeScaleDefinition? Scale(IScriptScope scope) =>
+            _character.Residence == null ? null : ((EventScope)scope).Content.GetCountry(_character.Residence.CountryId).GradeScale;
+
         public Value Call(string method, Value[] args, IScriptScope scope)
         {
             switch (method)
             {
+                case "preparar_prueba":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.preparar_prueba");
+                        Education.SchoolRecord? record = _character.SchoolRecord;
+                        if (record == null || !record.TestPending)
+                        {
+                            throw new ScriptException("jugador.preparar_prueba solo sirve con una prueba anunciada (revisa jugador.prueba_anunciada).");
+                        }
+
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Number)
+                        {
+                            throw new ScriptException("jugador.preparar_prueba necesita un número de 0 a 3.");
+                        }
+
+                        record.TestPreparation = Math.Max(record.TestPreparation, Math.Max(0, Math.Min(Education.GradeRules.MaxPreparation, (int)args[0].AsNumber("preparar_prueba"))));
+                        return Value.Null;
+                    }
                 case "titularse":
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.titularse");

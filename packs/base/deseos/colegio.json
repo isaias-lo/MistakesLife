@@ -12,8 +12,8 @@
     "id": "deseo.buenas_notas",
     "edad_minima": 8,
     "edad_maxima": 17,
-    "condiciones": "jugador.inteligencia < 60",
-    "cumplido": "jugador.inteligencia >= 60",
+    "condiciones": "jugador.promedio > 0 && jugador.promedio < 5.5",
+    "cumplido": "jugador.promedio >= 5.5",
     "actividad": "actividad.estudiar",
     "peso": 20,
     "repetible": true

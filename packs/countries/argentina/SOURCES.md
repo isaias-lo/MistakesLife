@@ -48,3 +48,9 @@ Anotado de memoria y por verificar en el calendario escolar de la Ciudad y de la
 - Alumnos por curso: cerca de 28 en primaria y secundaria; con 10 el jugador tiene trato (estimación por calibrar).
 - Docentes: cerca del 75 % son mujeres.
 - Lo demás (cambios de docente, quiénes siguen al pasar a secundaria) se toma igual que en Chile, por calibrar.
+
+## Notas (country.json: escala_notas, ramos, promocion)
+
+- Escala de 1 a 10 en números enteros; en la secundaria de la Ciudad de Buenos Aires se aprueba con 6 (en la Provincia, con 7).
+- En la secundaria se pasa de año con hasta dos materias previas (se rinden después); con más, se repite. En la primaria el juego no hace repetir.
+- Ramos: los de los diseños curriculares de la Ciudad (Prácticas del Lenguaje en primaria; Lengua y Literatura, Historia, Geografía y las ciencias en secundaria). 9 notas por materia al año (tres por trimestre) es una estimación.
