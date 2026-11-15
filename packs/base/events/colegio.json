@@ -1,0 +1,914 @@
+[
+  {
+    "id": "evento.colegio.colacion",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 6 && jugador.edad < 9",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.colacion.compartir",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.carino += 7",
+          "persona.confianza += 3",
+          "diario('diario.colegio.colacion')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.colacion.cambiar",
+        "tendencia": "jugador.apertura / 2",
+        "efectos": [
+          "persona.carino += 4"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.colacion.comer",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.lapiz",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 6 && jugador.edad < 10",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.lapiz.prestar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.carino += 5",
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.lapiz.tajador",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.lapiz.nada",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 3",
+          "jugador.inteligencia += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.pinta",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 6 && jugador.edad < 11",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.pinta.jugar",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 3",
+          "jugador.salud += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pinta.otro",
+        "tendencia": "jugador.apertura / 2",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pinta.sala",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.rodilla",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 6 && jugador.edad < 11",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.rodilla.acompanar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.carino += 9",
+          "persona.confianza += 6",
+          "diario('diario.colegio.rodilla')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.rodilla.avisar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino += 4"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.rodilla.reir",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 8",
+          "persona.rencor += 6"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.apodo",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 8 && jugador.edad < 14",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.apodo.parar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 3",
+        "efectos": [
+          "persona.carino += 8",
+          "persona.respeto += 6",
+          "jugador.felicidad -= 1",
+          "diario('diario.colegio.apodo')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.apodo.nombre",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 5"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.apodo.gritar",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino -= 8",
+          "persona.rencor += 10",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.grupo",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 9 && jugador.edad < 18",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.grupo.hablar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.respeto += 5",
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.grupo.hacer",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.carino += 3",
+          "persona.respeto -= 2",
+          "jugador.felicidad -= 2",
+          "jugador.inteligencia += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.grupo.acusar",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 6",
+          "persona.rencor += 7"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.copiar",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 10 && jugador.edad < 18",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.copiar.mostrar",
+        "tendencia": "jugador.amabilidad / 2 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.carino += 6",
+          "jugador.marcar('dejo_copiar')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.copiar.no",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 3",
+          "persona.respeto += 3"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.copiar.tapar",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.secreto",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 10 && jugador.edad < 16",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.secreto.escuchar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.confianza += 10",
+          "persona.carino += 6",
+          "diario('diario.colegio.secreto')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.secreto.animar",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.secreto.tema",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.confianza -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.cumpleanos",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 6 && jugador.edad < 12",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.cumpleanos.cantar",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.cumpleanos.regalo",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 8"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.cumpleanos.torta",
+        "tendencia": "30",
+        "efectos": [
+          "persona.carino += 1"
+        ]
+      }
+    ],
+    "fecha": "cumpleanos"
+  },
+  {
+    "id": "evento.colegio.empujon",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 11 && jugador.edad < 18",
+    "probabilidad_anual": 0.4,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.empujon.meterse",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 10",
+          "persona.respeto += 6",
+          "jugador.salud -= 1",
+          "diario('diario.colegio.empujon')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.empujon.inspector",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino += 5"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.empujon.mirar",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.carino -= 6",
+          "persona.rencor += 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.cimarra",
+    "con": "companero",
+    "lugar": "lugar.colegio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 13 && jugador.edad < 18",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.cimarra.ir",
+        "tendencia": "jugador.apertura / 3 + (100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "persona.carino += 6",
+          "jugador.felicidad += 3",
+          "jugador.marcar('hizo_cimarra')",
+          "diario('diario.colegio.cimarra')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.cimarra.no",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.cimarra.convencer",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.respeto += 3",
+          "persona.carino -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.foto_grupo",
+    "con": "companero",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.en_clases && jugador.edad >= 12 && jugador.edad < 18 && jugador.tiene_celular",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.foto_grupo.interno",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.carino += 6",
+          "persona.confianza += 5"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.foto_grupo.borrar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 3",
+        "efectos": [
+          "persona.respeto += 6",
+          "persona.carino += 4"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.foto_grupo.reir",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 7",
+          "persona.rencor += 6"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.estudiar_juntos",
+    "con": "companero",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.en_clases && jugador.edad >= 12 && jugador.edad < 18",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.estudiar_juntos.si",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.inteligencia += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.estudiar_juntos.jugar",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "persona.carino += 7",
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.estudiar_juntos.solo",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino -= 2",
+          "jugador.inteligencia += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.profe_callado",
+    "con": "profe",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 8 && jugador.edad < 18 && jugador.felicidad < 40",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.profe_callado.contar",
+        "tendencia": "jugador.amabilidad / 3 + (100 - jugador.neuroticismo) / 3",
+        "efectos": [
+          "persona.confianza += 10",
+          "persona.carino += 5",
+          "jugador.felicidad += 4",
+          "diario('diario.colegio.profe_callado')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_callado.bien",
+        "tendencia": "jugador.neuroticismo / 3",
+        "efectos": [
+          "persona.confianza += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_callado.irse",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.confianza -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.profe_ejemplo",
+    "con": "profe",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 7 && jugador.edad < 18 && jugador.inteligencia >= 55",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.profe_ejemplo.sonreir",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "persona.respeto += 4",
+          "jugador.felicidad += 4"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_ejemplo.hundirse",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_ejemplo.broma",
+        "tendencia": "jugador.extraversion / 3 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "persona.respeto -= 3",
+          "jugador.felicidad += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.profe_anotacion",
+    "con": "profe",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 10 && jugador.edad < 18",
+    "probabilidad_anual": 0.4,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.profe_anotacion.callar",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.felicidad -= 3",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_anotacion.explicar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.respeto += 5",
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_anotacion.gritar",
+        "tendencia": "jugador.neuroticismo / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.respeto -= 6",
+          "persona.rencor += 4",
+          "jugador.marcar('anotacion_negativa')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.diente",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 6 && jugador.edad < 8",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.diente.guardar",
+        "tendencia": "jugador.apertura / 2",
+        "efectos": [
+          "persona.carino += 4",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.diente.regalar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 7"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.diente.asco",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.pizarra",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 7 && jugador.edad < 11",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.pizarra.borrar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.carino += 5",
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pizarra.reir",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pizarra.decir",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino -= 8",
+          "persona.rencor += 8"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.feria_ciencias",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 10 && jugador.edad < 15",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.feria_ciencias.explicar",
+        "tendencia": "jugador.extraversion / 2 + jugador.inteligencia / 4",
+        "efectos": [
+          "persona.respeto += 5",
+          "jugador.inteligencia += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.feria_ciencias.reir",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 6",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.feria_ciencias.culpar",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 7",
+          "persona.rencor += 6"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.aniversario",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 9 && jugador.edad < 18",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.aniversario.si",
+        "tendencia": "jugador.extraversion / 2 + jugador.apertura / 4",
+        "efectos": [
+          "persona.carino += 6",
+          "jugador.felicidad += 4",
+          "diario('diario.colegio.aniversario')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.aniversario.ayudar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 4"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.aniversario.no",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.bano",
+    "con": "companero",
+    "lugar": "lugar.colegio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 12 && jugador.edad < 18",
+    "probabilidad_anual": 0.4,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.bano.quedarse",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.confianza += 9",
+          "persona.carino += 6"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.bano.preguntar",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "persona.confianza += 3",
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.bano.salir",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.centro_alumnos",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 14 && jugador.edad < 18",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.centro_alumnos.si",
+        "tendencia": "jugador.extraversion / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino += 6",
+          "persona.respeto += 4",
+          "jugador.marcar('lista_centro_alumnos')",
+          "diario('diario.colegio.centro_alumnos')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.centro_alumnos.votar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.centro_alumnos.no",
+        "tendencia": "(100 - jugador.apertura) / 3",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.toma",
+    "con": "companero",
+    "lugar": "lugar.colegio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 15 && jugador.edad < 18",
+    "probabilidad_anual": 0.4,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.toma.si",
+        "tendencia": "jugador.apertura / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.marcar('participo_toma')",
+          "diario('diario.colegio.toma')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.toma.no",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 3",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.toma.abstenerse",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.fiesta",
+    "con": "companero",
+    "lugar": "lugar.casa_amigo",
+    "condiciones": "jugador.en_clases && jugador.edad >= 15 && jugador.edad < 18",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.fiesta.quedarse",
+        "tendencia": "jugador.extraversion / 2 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 3",
+          "jugador.marcar('llego_tarde_fiesta')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.fiesta.irse",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.fiesta.ordenar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 8",
+          "persona.confianza += 4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.gira",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 16 && jugador.edad < 18",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.gira.sur",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 6",
+          "persona.respeto += 3"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.gira.lejos",
+        "tendencia": "jugador.apertura / 2",
+        "efectos": [
+          "persona.carino -= 2",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.gira.no_ir",
+        "tendencia": "(100 - jugador.nivel_hogar) / 2",
+        "efectos": [
+          "persona.confianza += 2",
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.profe_atraso",
+    "con": "profe",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 12 && jugador.edad < 18 && jugador.responsabilidad < 50",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.profe_atraso.verdad",
+        "tendencia": "jugador.amabilidad / 3 + jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.confianza += 5",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_atraso.excusa",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "persona.confianza -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_atraso.encogerse",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.respeto -= 4",
+          "persona.rencor += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.profe_futuro",
+    "con": "profe",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.edad >= 15 && jugador.edad < 18",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.profe_futuro.estudiar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.apertura / 4",
+        "efectos": [
+          "persona.respeto += 4",
+          "jugador.marcar('pregunto_por_estudiar')",
+          "diario('diario.colegio.profe_futuro')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_futuro.trabajar",
+        "tendencia": "(100 - jugador.nivel_hogar) / 2",
+        "efectos": [
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.profe_futuro.nose",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.confianza += 1"
+        ]
+      }
+    ]
+  }
+]

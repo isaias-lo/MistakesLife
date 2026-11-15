@@ -39,3 +39,12 @@ Primera versión (A2). **Todos los valores son de memoria y están por verificar
 | Deudas: préstamo personal y tarjeta de crédito con tasas muy altas (60 % y 80 % al año); figurar en el Veraz | Banco Central (BCRA), de memoria | Tasas nominales: con la inflación, la tasa real es más baja. Prescripción de 5 años (Código Civil y Comercial, art. 2560) |
 | Herencia: se responde por las deudas solo con lo heredado | Código Civil y Comercial, art. 2317 | `beneficio_inventario` true. La porción de la pareja es igual a la de cada hijo (`porciones_pareja` 1) |
 | Empresas: más micro y pequeñas empresas que en Chile, y más quiebras | Estimación de memoria | Por verificar |
+
+## El curso de la escuela (country.json: fin_ano_escolar, vacaciones_invierno, curso)
+
+Anotado de memoria y por verificar en el calendario escolar de la Ciudad y de la Provincia de Buenos Aires:
+
+- Calendario: las clases empiezan a fines de febrero o los primeros días de marzo (el juego usa el 1 de marzo), las vacaciones de invierno son dos semanas en julio (en la Provincia, del 21 de julio al 1 de agosto) y el año termina cerca del 19 de diciembre.
+- Alumnos por curso: cerca de 28 en primaria y secundaria; con 10 el jugador tiene trato (estimación por calibrar).
+- Docentes: cerca del 75 % son mujeres.
+- Lo demás (cambios de docente, quiénes siguen al pasar a secundaria) se toma igual que en Chile, por calibrar.

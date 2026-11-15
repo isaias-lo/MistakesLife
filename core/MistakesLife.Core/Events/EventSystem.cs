@@ -196,7 +196,7 @@ namespace MistakesLife.Core.Events
                 .ToList();
             while (people.Count > 0)
             {
-                Character person = people[random.NextInt(people.Count)];
+                Character person = ev.With == "companero" ? CloserClassmate(world, player, people, random) : people[random.NextInt(people.Count)];
                 var scope = new EventScope(world, Content, player, null, readOnly: true, person);
                 if (Passes(ev, scope))
                 {
@@ -208,6 +208,21 @@ namespace MistakesLife.Core.Events
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// En un curso no pasas el mismo tiempo con todos: un momento con un compañero cae
+        /// más seguido con los que quieres más (el peso crece con el cuadrado del cariño).
+        /// Así se arma tu grupo y recuerdas sus nombres.
+        /// </summary>
+        private static Character CloserClassmate(World world, Character player, IReadOnlyList<Character> people, GameRandom random)
+        {
+            var weights = people.Select(p =>
+            {
+                int affection = RelationshipRules.Feelings(world, player, p).Affection;
+                return 1 + (affection * affection / 100);
+            }).ToList();
+            return people[random.PickWeightedIndex(weights)];
         }
 
         /// <summary>

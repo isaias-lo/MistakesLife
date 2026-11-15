@@ -172,6 +172,12 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.HouseholdLevel);
                 case "etapa":
                     return Value.FromText(_character.EducationStageId ?? string.Empty);
+                case "en_clases":
+                    return Value.FromBool(Education.SchoolRules.InClasses(((EventScope)scope).World, ((EventScope)scope).Content, _character));
+                case "curso":
+                    return Value.FromNumber(_character.SchoolClass?.Level ?? 0);
+                case "companeros":
+                    return Value.FromNumber(Education.SchoolRules.Classmates(((EventScope)scope).World, _character).Count);
                 case "estudia":
                     return TextOrNull(_character.Studies?.CareerId);
                 case "nivel_estudio":

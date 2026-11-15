@@ -80,6 +80,8 @@ namespace MistakesLife.Unity
             "escena.casa.mecedora" => "ancla.mecedora",
             "escena.casa.camiseta_seleccion" => "ancla.muro_lateral",
             "escena.casa.tarjeta_refri" => "ancla.muro_lateral",
+            "escena.casa.afiche_lista" => "ancla.muro_lateral",
+            "escena.casa.folletos_estudios" => "ancla.mesa",
             _ => null,
         };
 
@@ -403,6 +405,23 @@ namespace MistakesLife.Unity
                     card.transform.localRotation = Quaternion.Euler(5f, 0f, 0f);
                     kit.Ball("Corazón de la tarjeta", new Vector3(0.04f, 1.2f, 0.05f), 0.035f, Palette.Alarm);
                     kit.Box("Cinta de la tarjeta", new Vector3(0.037f, 1.31f, 0.05f), new Vector3(0.005f, 0.03f, 0.08f), new Color(0.91f, 0.84f, 0.59f));
+                    break;
+                case "escena.casa.afiche_lista":
+                    // El afiche de tu lista al centro de alumnos, hecho a mano con plumón, pegado con cinta.
+                    kit.Box("Afiche de la lista", new Vector3(0.03f, 0.62f, 0.3f), new Vector3(0.01f, 0.36f, 0.26f), Palette.Paper);
+                    kit.Box("Franja de la lista", new Vector3(0.037f, 0.72f, 0.3f), new Vector3(0.005f, 0.08f, 0.22f), new Color(0.20f, 0.55f, 0.35f));
+                    kit.Box("Letras del afiche", new Vector3(0.037f, 0.58f, 0.3f), new Vector3(0.005f, 0.03f, 0.18f), new Color(0.15f, 0.15f, 0.20f));
+                    kit.Box("Cinta del afiche", new Vector3(0.037f, 0.8f, 0.3f), new Vector3(0.005f, 0.03f, 0.08f), new Color(0.91f, 0.84f, 0.59f));
+                    break;
+                case "escena.casa.folletos_estudios":
+                    // Los folletos de dónde estudiar que te pasó tu profe jefe, abiertos en abanico sobre la mesa.
+                    Color[] colors = { new Color(0.85f, 0.30f, 0.25f), new Color(0.25f, 0.45f, 0.75f), new Color(0.95f, 0.75f, 0.25f) };
+                    for (int i = 0; i < 3; i++)
+                    {
+                        GameObject leaflet = kit.Box("Folleto de estudios", new Vector3(-0.1f + (i * 0.06f), 0.446f + (i * 0.005f), 0.12f), new Vector3(0.14f, 0.005f, 0.2f), colors[i]);
+                        leaflet.transform.localRotation = Quaternion.Euler(0f, -20f + (i * 20f), 0f);
+                    }
+
                     break;
                 case "escena.casa.postal_amigo_lejos":
                     // La postal que te mandó tu amigo que se fue lejos, clavada con una chinche.

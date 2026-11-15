@@ -34,13 +34,16 @@
     }
   ],
   "inicio_ano_escolar": "04-03",
+  "fin_ano_escolar": "13-12",
+  "vacaciones_invierno": { "desde": "23-06", "hasta": "04-07" },
+  "curso": { "alumnos": 32, "con_nombre": 10, "cambio_profe_jefe": 0.3, "siguen_al_cambiar_etapa": 0.4, "cambios_por_ano": 0.3, "profes_mujeres": 0.72 },
   "etapas_educacion": [
     { "id": "etapa.chile.sala_cuna", "edad_desde": 0, "edad_hasta": 2 },
     { "id": "etapa.chile.nivel_medio", "edad_desde": 2, "edad_hasta": 4 },
     { "id": "etapa.chile.prekinder", "edad_desde": 4, "edad_hasta": 5 },
     { "id": "etapa.chile.kinder", "edad_desde": 5, "edad_hasta": 6, "obligatoria": true },
-    { "id": "etapa.chile.basica", "edad_desde": 6, "edad_hasta": 14, "obligatoria": true },
-    { "id": "etapa.chile.media", "edad_desde": 14, "edad_hasta": 18, "obligatoria": true }
+    { "id": "etapa.chile.basica", "edad_desde": 6, "edad_hasta": 14, "obligatoria": true, "curso": true },
+    { "id": "etapa.chile.media", "edad_desde": 14, "edad_hasta": 18, "obligatoria": true, "curso": true }
   ],
   "mortalidad": [
     { "edad": 0, "femenino": 0.0072, "masculino": 0.00813 },

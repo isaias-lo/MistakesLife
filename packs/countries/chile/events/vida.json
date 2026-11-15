@@ -163,7 +163,7 @@
   {
     "id": "evento.prueba_dificil",
     "regla": "regla.prueba",
-    "condiciones": "jugador.edad >= 9 && jugador.edad < 18",
+    "condiciones": "jugador.edad >= 9 && jugador.edad < 18 && jugador.en_clases",
     "peso": 8,
     "enfriamiento_semanas": 52,
     "variantes": ["evento.prueba_dificil.2", "evento.prueba_dificil.3"],

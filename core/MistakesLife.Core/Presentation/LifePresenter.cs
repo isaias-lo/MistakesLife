@@ -37,6 +37,7 @@ namespace MistakesLife.Core.Presentation
             "ui.horario.titulo", "ui.horario.libre", "ui.horario.tarde", "ui.horario.noche", "ui.horario.sube", "ui.horario.baja", "ui.horario.igual", "ui.horario.nuevo", "ui.horario.nuevo_ano",
             "ui.horario.dia.0", "ui.horario.dia.1", "ui.horario.dia.2", "ui.horario.dia.3", "ui.horario.dia.4", "ui.horario.dia.5", "ui.horario.dia.6",
             "ui.momento.con", "ui.momento.madre", "ui.momento.padre", "ui.regla.siempre",
+            "ui.momento.profe.f", "ui.momento.profe.m", "ui.curso.titulo", "ui.curso.profe_jefe",
             "ui.deseo.titulo", "ui.deseo.cumplido", "ui.deseo.perdido", "ui.deseo.paso",
             "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
             "ui.dinero", "ui.separador_miles",
@@ -264,6 +265,33 @@ namespace MistakesLife.Core.Presentation
             }
 
             return views;
+        }
+
+        /// <summary>Tu curso del colegio; null si no vas a un curso.</summary>
+        public SchoolClassView? SchoolClass()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            Education.SchoolClass? cls = player.SchoolClass;
+            if (cls == null)
+            {
+                return null;
+            }
+
+            Character? teacher = Education.SchoolRules.Teacher(world, player);
+            string? teacherName = teacher == null ? null
+                : Text(teacher.Gender == Gender.Female ? "ui.momento.profe.f" : "ui.momento.profe.m", teacher.FirstName + " " + teacher.LastName.Split(' ')[0]);
+            var mates = Education.SchoolRules.Classmates(world, player)
+                .Select(c => (Person: c, Feelings: RelationshipRules.Feelings(world, player, c)))
+                .OrderByDescending(x => x.Feelings.Affection)
+                .ThenBy(x => x.Person.Id)
+                .Select(x => new ClassmateView(
+                    x.Person.Id,
+                    x.Person.FirstName + " " + x.Person.LastName.Split(' ')[0],
+                    RelationshipRules.BondKey(x.Feelings.Bond) is string bond ? T("ui.relacion." + bond) : null,
+                    x.Feelings.Affection))
+                .ToList();
+            return new SchoolClassView(Text("curso." + cls.StageId, cls.Level, cls.Letter), cls.Students, teacherName, mates);
         }
 
         /// <summary>Marca (o desmarca) con destacador algo que quiere (posición de <see cref="WishView.Index"/>).</summary>
@@ -852,7 +880,8 @@ namespace MistakesLife.Core.Presentation
         {
             EventDefinition definition = Session.Content.GetEvent(pending.EventId);
             Character? person = EventSystem.PersonOf(Session.World, pending);
-            var options = pending.AvailableOptions.Select(i => WithPerson(T(definition.Options[i].TextKey), person)).ToList();
+            string? personName = person == null ? null : PersonName(definition, person);
+            var options = pending.AvailableOptions.Select(i => WithPerson(T(definition.Options[i].TextKey), personName)).ToList();
             int? previous = Session.TimeMachine.PreviousChoice(pending);
             int position = previous.HasValue ? IndexOf(pending.AvailableOptions, previous.Value) : -1;
             string textKey = definition.TextKeyFor(Session.World.TimesHappened(pending.EventId, pending.CharacterId));
@@ -871,7 +900,7 @@ namespace MistakesLife.Core.Presentation
             string watchers = seed == null ? string.Empty : Names(seed.Witnesses.Select(id => world.TryGetCharacter(id, out Character? c) ? c : null));
             string? watching = watchers.Length == 0 ? null : Text("ui.evento.miran", watchers);
 
-            return new EventView(pending.EventId, WithPerson(T(textKey), person), options, position >= 0 ? position : (int?)null, definition.KeyDay, remembered, watching, noticedBy)
+            return new EventView(pending.EventId, WithPerson(T(textKey), personName), options, position >= 0 ? position : (int?)null, definition.KeyDay, remembered, watching, noticedBy)
             {
                 Person = person == null ? null : PersonInMoment(definition, person),
                 PersonId = person?.Id,
@@ -885,7 +914,16 @@ namespace MistakesLife.Core.Presentation
         /// "tu mamá" y "tu papá"; a los demás, por su nombre.
         /// </summary>
         private string PersonInMoment(EventDefinition definition, Character person) =>
-            definition.With == "madre" || definition.With == "padre" ? T("ui.momento." + definition.With) : person.FirstName;
+            definition.With == "madre" || definition.With == "padre" ? T("ui.momento." + definition.With) : PersonName(definition, person);
+
+        /// <summary>
+        /// El nombre con que el texto de un momento nombra a la persona: a quien hace clases
+        /// se le dice "la profe Carolina" o "el profe Juan"; a los demás, por su nombre.
+        /// </summary>
+        private string PersonName(EventDefinition definition, Character person) =>
+            definition.With == "profe"
+                ? Text(person.Gender == Gender.Female ? "ui.momento.profe.f" : "ui.momento.profe.m", person.FirstName)
+                : person.FirstName;
 
         /// <summary>
         /// La línea de con quién y dónde pasa el momento ("Con tu mamá · Tu casa"); null si no dice ninguna.
@@ -909,8 +947,10 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Marca de los textos que se cambia por el nombre de la persona del momento.</summary>
         public const string PersonMark = "{persona}";
 
-        private static string WithPerson(string text, Character? person) =>
-            person == null ? text : text.Replace(PersonMark, person.FirstName);
+        private static string WithPerson(string text, Character? person) => WithPerson(text, person?.FirstName);
+
+        private static string WithPerson(string text, string? name) =>
+            name == null ? text : text.Replace(PersonMark, name);
 
         /// <summary>Los nombres de pila de las personas vivas, en una lista ("Pedro, Ana y Luis"); vacío si no hay.</summary>
         private string Names(IEnumerable<Character?> people)
