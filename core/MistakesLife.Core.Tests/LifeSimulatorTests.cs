@@ -61,8 +61,10 @@ namespace MistakesLife.Core.Tests
             var separated = CareerAreaLives.SeparatedParentEvents(RepoPacks.Content, lives: 60);
             // Y vidas en Chile cuyos papás dejan ahorros, para la posesión efectiva de la herencia.
             var inheritance = CareerAreaLives.InheritanceEvents(RepoPacks.Content, lives: 12);
+            // Y vidas que ascienden cada vez que pueden, para llegar a lo más alto de la carrera.
+            var top = CareerAreaLives.TopOfCareerEvents(RepoPacks.Content, lives: 6);
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).ToArray();
 
             Assert.Empty(never);
         }
