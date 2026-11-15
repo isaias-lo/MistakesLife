@@ -250,7 +250,10 @@ namespace MistakesLife.Core.Events
 
         private void ApplyOption(World world, EventDefinition definition, Character subject, Seed? seed, Character? person, int optionIndex)
         {
-            var scope = new EventScope(world, Content, subject, seed, readOnly: false, person);
+            var scope = new EventScope(world, Content, subject, seed, readOnly: false, person)
+            {
+                Origin = new SeedOrigin(definition.Id, definition.Options[optionIndex].TextKey, definition.Place, person?.Id),
+            };
             foreach (var effect in definition.Options[optionIndex].CompiledEffects)
             {
                 effect.Apply(scope);
@@ -295,7 +298,10 @@ namespace MistakesLife.Core.Events
 
         private void Occur(World world, WeekContext context, EventDefinition definition, Character subject, Seed? seed, Character? person)
         {
-            var scope = new EventScope(world, Content, subject, seed, readOnly: false, person);
+            var scope = new EventScope(world, Content, subject, seed, readOnly: false, person)
+            {
+                Origin = new SeedOrigin(definition.Id, null, definition.Place, person?.Id),
+            };
             foreach (var effect in definition.CompiledEffects)
             {
                 effect.Apply(scope);

@@ -56,6 +56,12 @@ namespace MistakesLife.Core.Presentation
         /// </summary>
         public bool AllowsRule { get; internal set; }
 
+        /// <summary>
+        /// "Esto viene de acá": si lo que pasa ahora es un error que vuelve, el día en que
+        /// empezó (fecha, lugar, persona, qué elegiste). Null si no viene de ningún momento.
+        /// </summary>
+        public SeedOriginView? Origin { get; internal set; }
+
         /// <summary>Id del evento (sirve para elegir una ilustración o una escena).</summary>
         public string EventId { get; }
 

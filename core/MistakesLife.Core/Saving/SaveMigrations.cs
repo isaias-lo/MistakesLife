@@ -250,6 +250,10 @@ namespace MistakesLife.Core.Saving
             // Versión 23 → 24: ya no se escriben los valores que son los de siempre (0, false).
             // Los guardados viejos los traen escritos y se leen igual: no hay nada que cambiar.
             [23] = save => { },
+
+            // Versión 24 → 25: cada semilla recuerda de dónde viene. Las semillas viejas no lo
+            // saben: simplemente no muestran "Esto viene de acá".
+            [24] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

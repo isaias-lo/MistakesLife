@@ -950,6 +950,11 @@ namespace MistakesLife.Unity
                 UiFactory.Label(card, pending.Watching, UiFactory.MinFontSize, UiFactory.KeyInk, FontStyles.Italic);
             }
 
+            if (pending.Origin != null)
+            {
+                DrawOrigin(card, pending.Origin);
+            }
+
             for (int i = 0; i < pending.Options.Count; i++)
             {
                 int option = i;
@@ -969,6 +974,51 @@ namespace MistakesLife.Unity
                 label.alignment = TextAlignmentOptions.Left;
                 label.richText = true;
             }
+        }
+
+        /// <summary>
+        /// "Esto viene de acá": una foto vieja pegada en la hoja, un poco chueca, con el día en
+        /// que empezó lo que hoy vuelve (cuándo, dónde, con quién y qué elegiste) y, si se puede,
+        /// el botón para volver a ese día ahí mismo.
+        /// </summary>
+        private void DrawOrigin(RectTransform card, SeedOriginView origin)
+        {
+            RectTransform photo = UiFactory.Column(card, "Origen", 22, 8, UiFactory.PaperOption);
+            photo.localRotation = Quaternion.Euler(0f, 0f, -1.5f);
+            UiFactory.Label(photo, origin.Title.ToUpperInvariant(), UiFactory.MinFontSize, UiFactory.KeyInk, FontStyles.Bold);
+            var where = new List<string> { origin.When };
+            if (origin.Place != null)
+            {
+                where.Add(origin.Place);
+            }
+
+            if (origin.Person != null)
+            {
+                where.Add(origin.Person);
+            }
+
+            UiFactory.Label(photo, string.Join(" · ", where), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold);
+            UiFactory.Label(photo, origin.Moment, UiFactory.MinFontSize, UiFactory.PaperInk, FontStyles.Italic);
+            if (origin.Choice != null)
+            {
+                UiFactory.Label(photo, origin.Choice, UiFactory.MinFontSize, UiFactory.PaperInk, FontStyles.Normal);
+            }
+
+            if (origin.GoBackLabel != null)
+            {
+                UiFactory.MakeButton(photo, origin.GoBackLabel, UiFactory.Accent, UiFactory.AccentText, GoBackToOrigin);
+            }
+        }
+
+        /// <summary>Vuelve al pasado justo frente al error: al día de la foto "Esto viene de acá".</summary>
+        private void GoBackToOrigin()
+        {
+            _presenter!.GoBackToOrigin();
+            _pickingMoment = false;
+            _lastStep = null;
+            ReloadJournal();
+            Refresh();
+            Save();
         }
 
         /// <summary>El sello "ESTO SE RECUERDA": un timbre rojo, un poco chueco, como puesto a mano.</summary>
