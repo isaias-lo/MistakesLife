@@ -252,7 +252,9 @@ namespace MistakesLife.Core.Tests
                     if (session.World.Player.IsAlive && session.World.Player.Job?.Position != null
                         && Expression.Parse("jugador.puede_ascender").Evaluate(check).AsBool("prueba"))
                     {
-                        Apply(session, new[] { "jugador.ascender()" });
+                        // Con dos caminos (por ejemplo, jefatura o especialista) toma el primero.
+                        var paths = Economy.CareerLadder.EligiblePromotions(content, session.World.Player.Job!, check);
+                        Apply(session, new[] { $"jugador.ascender('{paths[0].Id}')" });
                     }
 
                     if (session.World.Player.IsAlive && Expression.Parse("jugador.en_la_cima").Evaluate(check).AsBool("prueba"))
