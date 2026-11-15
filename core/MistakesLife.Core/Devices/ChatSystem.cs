@@ -158,6 +158,21 @@ namespace MistakesLife.Core.Devices
                 case "companero":
                     ids.AddRange(Education.SchoolRules.Classmates(world, character).Select(c => c.Id));
                     break;
+                case "apoderado":
+                    // Quien va a las reuniones del colegio: la mamá si está, si no el papá.
+                    foreach (bool female in new[] { true, false })
+                    {
+                        var parents = new List<int>();
+                        AddParents(world, character, parents, female);
+                        int? alive = parents.Cast<int?>().FirstOrDefault(id => world.TryGetCharacter(id!.Value, out Character? p) && p.IsAlive);
+                        if (alive.HasValue)
+                        {
+                            ids.Add(alive.Value);
+                            break;
+                        }
+                    }
+
+                    break;
                 case "profe":
                     if (Education.SchoolRules.Teacher(world, character) is Character teacher)
                     {

@@ -62,5 +62,16 @@
   "diario.colegio.centro_alumnos": "Fui en una lista para el centro de estudiantes. Pasamos por todas las aulas pidiendo votos.",
   "evento.colegio.toma": "Asamblea del curso: se vota si se suman a la toma de la escuela por la falta de profesores. {persona} te mira esperando tu voto.",
   "diario.colegio.toma": "Me quedé en la toma de la escuela. Dormimos en las aulas con bolsas de dormir.",
-  "opcion.colegio.profe_atraso.excusa": "Decir que el colectivo pasó lleno"
+  "opcion.colegio.profe_atraso.excusa": "Decir que el colectivo pasó lleno",
+  "evento.apoderados.reunion_rojos": "Después de la reunión de padres, {persona} deja tu boletín sobre la mesa. Te mostraron las materias que tenés desaprobadas.",
+  "evento.apoderados.reunion_rojos.2": "Otra reunión de padres, otra vez las materias desaprobadas. Esta vez {persona} no grita: solo te pregunta qué vas a hacer.",
+  "evento.apoderados.cimarra": "En la reunión de padres le contaron a {persona} que faltaste a física un martes. En tu casa dijiste que habías ido.",
+  "opcion.apoderados.cimarra.reconocer": "Reconocerlo: te fuiste al shopping",
+  "diario.apoderados.cimarra": "En casa se enteraron de que me hice la rata. Lo reconocí y me castigaron una semana.",
+  "evento.apoderados.anotacion": "En la reunión de padres, {persona} tuvo que firmar tu amonestación. Le dijeron que le gritaste a la profe en clase.",
+  "evento.apoderados.felicitacion": "Al volver de la reunión de padres, {persona} te abraza: le dijeron que tenés de los mejores promedios del curso.",
+  "evento.colegio.rival_patio": "{persona} se burla de tus zapatillas en el recreo, delante de todos los que hacen fila en el quiosco.",
+  "opcion.colegio.rival_patio.talla": "Responderle con un chiste mejor",
+  "evento.colegio.kiosko": "En la fila del quiosco, {persona} cuenta sus monedas dos veces: no le alcanza para el sánguche.",
+  "opcion.colegio.pelota_techo.auxiliar": "Ir a buscar al portero con la escalera"
 }

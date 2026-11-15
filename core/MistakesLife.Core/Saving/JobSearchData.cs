@@ -5,6 +5,7 @@ namespace MistakesLife.Core.Saving
     {
         public string Target { get; set; } = string.Empty;
 
+        [System.ComponentModel.DefaultValue("Employee")]
         public string Kind { get; set; } = "Employee";
 
         public string? MethodId { get; set; }

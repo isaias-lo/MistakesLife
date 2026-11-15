@@ -939,7 +939,7 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>
         /// Cómo se nombra a la persona del momento: a la mamá y al papá se les dice
-        /// "tu mamá" y "tu papá"; a los demás, por su nombre.
+        /// "tu mamá" y "tu papá" (también cuando van como apoderado); a los demás, por su nombre.
         /// </summary>
         private string PersonInMoment(EventDefinition definition, Character person) =>
             definition.With == "madre" || definition.With == "padre" ? T("ui.momento." + definition.With) : PersonName(definition, person);
@@ -951,7 +951,9 @@ namespace MistakesLife.Core.Presentation
         private string PersonName(EventDefinition definition, Character person) =>
             definition.With == "profe"
                 ? Text(person.Gender == Gender.Female ? "ui.momento.profe.f" : "ui.momento.profe.m", person.FirstName)
-                : person.FirstName;
+                : definition.With == "apoderado"
+                    ? T(person.Sex == Sex.Female ? "ui.momento.madre" : "ui.momento.padre")
+                    : person.FirstName;
 
         /// <summary>
         /// La línea de con quién y dónde pasa el momento ("Con tu mamá · Tu casa"); null si no dice ninguna.

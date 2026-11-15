@@ -246,6 +246,10 @@ namespace MistakesLife.Core.Saving
             // Versión 22 → 23: las notas del colegio. En partidas viejas nadie tiene notas:
             // empiezan a llegar la próxima semana de clases.
             [22] = save => { },
+
+            // Versión 23 → 24: ya no se escriben los valores que son los de siempre (0, false).
+            // Los guardados viejos los traen escritos y se leen igual: no hay nada que cambiar.
+            [23] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

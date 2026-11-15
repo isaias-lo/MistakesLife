@@ -148,6 +148,7 @@ namespace MistakesLife.Core.Saving
 
         public List<string> Degrees { get; set; } = new List<string>();
 
+        [System.ComponentModel.DefaultValue(true)]
         public bool IsAlive { get; set; } = true;
 
         public int? DeathWeek { get; set; }

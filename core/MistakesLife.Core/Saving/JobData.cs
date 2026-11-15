@@ -24,6 +24,7 @@ namespace MistakesLife.Core.Saving
         /// <summary>Antigüedad con este empleador (desde la versión 16).</summary>
         public int MonthsInJob { get; set; }
 
+        [System.ComponentModel.DefaultValue(Job.StartingPerformance)]
         public int Performance { get; set; } = Job.StartingPerformance;
 
         /// <summary>Número de su empresa, o null (desde la versión 6).</summary>

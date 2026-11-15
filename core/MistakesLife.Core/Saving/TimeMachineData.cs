@@ -7,8 +7,10 @@ namespace MistakesLife.Core.Saving
     {
         public int Charges { get; set; }
 
+        [System.ComponentModel.DefaultValue(true)]
         public bool Enabled { get; set; } = true;
 
+        [System.ComponentModel.DefaultValue(1)]
         public int NextSnapshotId { get; set; } = 1;
 
         public List<string> UsedStages { get; set; } = new List<string>();
