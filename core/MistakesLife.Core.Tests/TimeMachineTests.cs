@@ -346,8 +346,10 @@ namespace MistakesLife.Core.Tests
             int bytes = session.SaveToBytes().Length;
             // Con 10 fotos, una vida a los 85 pesa entre 73 y 86 KB según la vida (en main ya había
             // vidas sobre 80 KB). Mensajito suma unos 8 KB (hasta 12 chats de 15 mensajes, en cada
-            // foto). El tope deja margen para el contenido nuevo sin dejar que se dispare.
-            Assert.True(bytes < 100_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
+            // foto). Antes de R2c esta vida ya pesaba 98,7 KB; lo que quiero y las reglas propias
+            // suman unos 2 KB (solo del jugador, en cada foto). El tope deja margen para el
+            // contenido nuevo sin dejar que se dispare.
+            Assert.True(bytes < 110_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }
 
         [Fact]

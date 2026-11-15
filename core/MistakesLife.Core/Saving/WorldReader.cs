@@ -305,7 +305,7 @@ namespace MistakesLife.Core.Saving
                 character.Routine = routine;
             }
 
-            foreach (OwnRuleData r in d.OwnRules)
+            foreach (OwnRuleData r in d.OwnRules ?? new List<OwnRuleData>())
             {
                 character.OwnRules.Add(new Life.OwnRule(r.Key, r.Choice)
                 {
@@ -314,7 +314,7 @@ namespace MistakesLife.Core.Saving
                 });
             }
 
-            foreach (WishData w in d.Wishes)
+            foreach (WishData w in d.Wishes ?? new List<WishData>())
             {
                 character.Wishes.Add(new Life.Wish(w.WishId, w.StageKey, Date(w.SinceWeek), w.PersonId)
                 {

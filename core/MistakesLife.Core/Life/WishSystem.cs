@@ -58,6 +58,12 @@ namespace MistakesLife.Core.Life
                 Close(world, player, wish);
             }
 
+            // Lo que se cerró sin cumplirse y ya no cuenta para no repetirlo, se olvida (así el
+            // guardado no crece con los años). Lo cumplido se recuerda: no se vuelve a querer.
+            player.Wishes.RemoveAll(w => w.State != WishState.Open
+                && (w.State != WishState.Done || _content.Wish(w.WishId)?.Repeatable != false)
+                && w.Closed.HasValue && world.Date.WeeksSince(w.Closed.Value) >= RestWeeks);
+
             if (!player.Wishes.Any(w => w.StageKey == stage))
             {
                 Choose(world, player, stage, context.RandomFor(Id));

@@ -227,11 +227,11 @@ namespace MistakesLife.Core.Saving
                     Confirmed = c.Routine.Confirmed,
                     Slots = c.Routine.Slots.ToList(),
                 },
-                OwnRules = c.OwnRules.Select(r => new OwnRuleData
+                OwnRules = c.OwnRules.Count == 0 ? null : c.OwnRules.Select(r => new OwnRuleData
                 {
                     Key = r.Key, Choice = r.Choice, TimesUsed = r.TimesUsed, LastUsedWeek = r.LastUsed?.TotalWeeks,
                 }).ToList(),
-                Wishes = c.Wishes.Select(w => new WishData
+                Wishes = c.Wishes.Count == 0 ? null : c.Wishes.Select(w => new WishData
                 {
                     WishId = w.WishId, StageKey = w.StageKey, SinceWeek = w.Since.TotalWeeks, PersonId = w.PersonId,
                     Highlighted = w.Highlighted, State = (int)w.State, ClosedWeek = w.Closed?.TotalWeeks,
