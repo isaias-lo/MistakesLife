@@ -286,6 +286,8 @@ namespace MistakesLife.Core.Saving
             [27] = save => { },
             // 28 → 29: el equipo del trabajo (se arma solo la próxima semana).
             [28] = save => { },
+            // 29 → 30: la meta, las amonestaciones y lo variable de los oficios (todo parte en cero).
+            [29] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

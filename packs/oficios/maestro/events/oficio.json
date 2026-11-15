@@ -1,0 +1,308 @@
+[
+  {
+    "id": "evento.maestro.aviso",
+    "condiciones": "jugador.tiene('buscando_trabajo') && (jugador.busca_en == nada || jugador.busca_en == 'cualquier_trabajo') && (!jugador.titulado || jugador.semanas_buscando >= 26) && jugador.edad >= 18 && jugador.edad < 58",
+    "peso": 40,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.maestro.aviso.gruesa",
+        "tendencia": "jugador.responsabilidad / 3 + 10",
+        "efectos": [
+          "jugador.postular_en('oficio.maestro.area.obra_gruesa')"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.aviso.terminaciones",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.postular_en('oficio.maestro.area.terminaciones')"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.aviso.carpinteria",
+        "tendencia": "jugador.apertura / 4",
+        "efectos": [
+          "jugador.postular_en('oficio.maestro.area.carpinteria')"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.aviso.seguir",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.neuroticismo / 4",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.maestro.lluvia",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.maestro' && jugador.meses_en_trabajo >= 1 && (mundo.mes >= 5 && mundo.mes <= 8)",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 40,
+    "opciones": [
+      {
+        "texto": "opcion.maestro.lluvia.ordenar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.lluvia.irse",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.lluvia.pololo",
+        "tendencia": "jugador.extraversion / 3 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.dinero += precio(25000)",
+          "jugador.salud -= 1",
+          "diario('diario.maestro.pololo')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.maestro.trato",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.maestro' && jugador.meses_en_trabajo >= 3",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.maestro.trato.aceptar",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.trato.medido",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desempeno += 2"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.trato.dia",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.maestro.arnes",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.maestro' && jugador.meses_en_trabajo >= 1",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.maestro.arnes.decirle",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.carino += 2",
+          "persona.respeto += 3"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.arnes.prevencionista",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.carino -= 3",
+          "jugador.desempeno += 2"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.arnes.nada",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "persona.carino += 1",
+          "diario('diario.maestro.arnes')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.maestro.colacion",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.maestro' && jugador.meses_en_trabajo >= 0",
+    "probabilidad_anual": 0.8,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.maestro.colacion.aceptar",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.colacion.traer",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.dinero -= precio(3000)"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.colacion.solo",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.maestro.espalda",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.maestro' && jugador.meses_en_trabajo >= 2",
+    "probabilidad_anual": 0.4,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.maestro.espalda.mutual",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.salud += 1",
+          "persona.respeto += 1",
+          "diario('diario.maestro.mutual')"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.espalda.aguantar",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.salud -= 4",
+          "jugador.desempeno += 1"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.espalda.casa",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "jugador.salud -= 1",
+          "persona.confianza -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.maestro.fin_de_obra",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.maestro' && jugador.meses_en_trabajo >= 8",
+    "probabilidad_anual": 0.45,
+    "veces_maximas": 6,
+    "enfriamiento_semanas": 40,
+    "opciones": [
+      {
+        "texto": "opcion.maestro.fin_de_obra.seguir",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.dinero += si(jugador.pais == 'pais.chile', jugador.sueldo * jugador.meses_en_trabajo * 2.5 / 30, si(jugador.meses_en_trabajo <= 12, jugador.sueldo * jugador.meses_en_trabajo * 0.12, jugador.sueldo * (1.44 + (jugador.meses_en_trabajo - 12) * 0.08)))",
+          "jugador.nuevo_contrato()",
+          "diario('diario.maestro.obra_nueva')"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.fin_de_obra.buscar",
+        "tendencia": "jugador.apertura / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.dejar_trabajo()",
+          "jugador.dinero += si(jugador.pais == 'pais.chile', jugador.ultimo_sueldo * jugador.meses_ultimo_trabajo * 2.5 / 30, si(jugador.meses_ultimo_trabajo <= 12, jugador.ultimo_sueldo * jugador.meses_ultimo_trabajo * 0.12, jugador.ultimo_sueldo * (1.44 + (jugador.meses_ultimo_trabajo - 12) * 0.08)))",
+          "jugador.desmarcar('trabajando')",
+          "jugador.marcar('buscando_trabajo')",
+          "diario('diario.maestro.fin_de_obra')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.maestro.desafio.primera",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.maestro' && jugador.cargo == 'oficio.maestro.cargo.maestro_segunda' && jugador.meses_en_cargo >= 20 && jugador.desempeno >= 50 && !jugador.tiene('desafio_maestro_primera') && !jugador.en_desafio",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 4,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.maestro.desafio.primera.preparar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 1",
+          "jugador.felicidad -= 1",
+          "jugador.desafio('desafio_maestro_primera')"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.desafio.primera.asi_no_mas",
+        "tendencia": "jugador.extraversion / 3",
+        "efectos": [
+          "jugador.desafio('desafio_maestro_primera')",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.desafio.primera.no",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.maestro.desafio.capataz",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.maestro' && jugador.cargo == 'oficio.maestro.cargo.maestro_primera' && jugador.meses_en_cargo >= 32 && jugador.desempeno >= 55 && !jugador.tiene('desafio_maestro_capataz') && !jugador.en_desafio",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 4,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.maestro.desafio.capataz.preparar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 1",
+          "jugador.felicidad -= 1",
+          "jugador.desafio('desafio_maestro_capataz')"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.desafio.capataz.asi_no_mas",
+        "tendencia": "jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.desafio('desafio_maestro_capataz')",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.maestro.desafio.capataz.no",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  }
+]

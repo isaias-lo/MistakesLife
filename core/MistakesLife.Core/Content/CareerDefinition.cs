@@ -20,13 +20,17 @@ namespace MistakesLife.Core.Content
             "lugar_trabajo.oficina_abierta",
             "lugar_trabajo.oficina_cubiculos",
             "lugar_trabajo.consulta",
+            "lugar_trabajo.tienda",
+            "lugar_trabajo.restoran",
+            "lugar_trabajo.obra",
         };
 
         /// <summary>Por ejemplo "carrera.contabilidad". Es también la clave de su nombre.</summary>
         [JsonProperty("id", Required = Required.Always)]
         public string Id { get; set; } = string.Empty;
 
-        [JsonProperty("niveles", Required = Required.Always)]
+        /// <summary>Los niveles de estudio. Un oficio no tiene (se aprende trabajando).</summary>
+        [JsonProperty("niveles")]
         public List<CareerLevelDefinition> Levels { get; set; } = new List<CareerLevelDefinition>();
 
         /// <summary>
@@ -68,6 +72,16 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("marca_trabajo")]
         public string? WorkFlag { get; set; }
+
+        /// <summary>
+        /// Si es un oficio (se trabaja sin título; su id empieza con "oficio."): sueldo, meta y
+        /// pago variable. Null en una carrera de estudios.
+        /// </summary>
+        [JsonProperty("oficio")]
+        public OccupationDefinition? Occupation { get; set; }
+
+        [JsonIgnore]
+        public bool IsOccupation => Occupation != null;
 
         [JsonIgnore]
         public string PackId { get; internal set; } = string.Empty;

@@ -1,0 +1,8 @@
+# Fuentes: maestro de la construcción
+
+- **Sueldos (Chile).** Un maestro de primera gana unos $807.000 a $887.000 al mes (Meganoticias, 2025), cerca de 1,5 a 1,65 sueldos mínimos. El jornal parte cerca del mínimo (`sueldo_base` 1,05) y cada cargo sube desde ahí (`sueldo_relativo`): maestro de segunda 1,25, de primera 1,5 y capataz cerca de 2.
+- **Trato.** En la construcción es común pagar a trato (por metro o por partida); es remuneración e imponible. `variable_tipico` 0,25 (lo que se saca a trato en un mes normal, un cuarto del sueldo) es una estimación nuestra por afinar.
+- **Contrato por obra o faena.** Termina cuando se acaba la obra (art. 10 bis del Código del Trabajo). Desde la Ley 21.122, al terminar la obra se paga una indemnización de 2,5 días de remuneración por cada mes trabajado (desde 2022; en el juego se calcula con el último sueldo). Fuente: Dirección del Trabajo y Ley 21.122 (BCN).
+- **Seguridad.** Los accidentes del trabajo se atienden en la mutualidad del empleador (Ley 16.744). Desde la Ley 20.949, los sacos que se cargan a mano no pueden pasar de 25 kilos.
+- **Lluvia.** En el invierno de Santiago (mayo a agosto) llueve y se detienen las faenas que no se pueden hacer mojadas: baja lo que se saca a trato (`temporada`). La forma es conocida; los números son estimaciones nuestras.
+- **Argentina.** El convenio de la UOCRA paga por hora: en octubre de 2024 el ayudante de la zona A ganaba $2.960 por hora (FAEC, Disposición 382/2024), unas 1,9 veces el salario mínimo al mes. En la construcción no hay indemnización por despido: el empleador deposita cada mes en un Fondo de Cese Laboral el 12 % del sueldo el primer año y el 8 % después (Ley 22.250), y el trabajador lo cobra al terminar.

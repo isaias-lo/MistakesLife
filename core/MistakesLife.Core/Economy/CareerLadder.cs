@@ -57,11 +57,11 @@ namespace MistakesLife.Core.Economy
         }
 
         /// <summary>
-        /// ¿Puede trabajar en esa área? Siempre hace falta un título de esa carrera
-        /// (cualquier nivel), y además los requisitos propios del área.
+        /// ¿Puede trabajar en esa área? En una carrera hace falta un título de ella (cualquier
+        /// nivel); un oficio no pide título. Además, los requisitos propios del área.
         /// </summary>
         public static bool CanEnter(ContentDatabase content, Character character, CareerAreaDefinition area, IScriptScope scope) =>
-            character.Degrees.Any(d => content.GetCareerLevel(d).CareerId == area.CareerId)
+            (content.GetCareer(area.CareerId).IsOccupation || character.Degrees.Any(d => content.GetCareerLevel(d).CareerId == area.CareerId))
             && (area.CompiledRequirements == null || area.CompiledRequirements.IsTrue(scope));
 
         /// <summary>

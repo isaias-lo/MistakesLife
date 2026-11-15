@@ -472,7 +472,7 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 | Campo | Qué es |
 |---|---|
 | `id` | Empieza con `carrera.`; es también la clave de su nombre en `lang/` |
-| `lugar_de_trabajo` | Opcional. Cómo se dibuja donde trabaja quien tiene el título: `lugar_trabajo.oficina_abierta` (mesas compartidas con pantallas), `lugar_trabajo.oficina_cubiculos` (cubículos y archivadores) o `lugar_trabajo.consulta` (sillones frente a frente). Sin él, una oficina común. Un tipo nuevo hay que dibujarlo en Unity |
+| `lugar_de_trabajo` | Opcional. Cómo se dibuja donde trabaja quien tiene el título: `lugar_trabajo.oficina_abierta` (mesas compartidas con pantallas), `lugar_trabajo.oficina_cubiculos` (cubículos y archivadores), `lugar_trabajo.consulta` (sillones frente a frente), `lugar_trabajo.tienda` (vitrina, percheros y caja), `lugar_trabajo.restoran` (barra y mesas puestas) o `lugar_trabajo.obra` (andamio, betonera y ladrillos). Sin él, una oficina común. Un tipo nuevo hay que dibujarlo en Unity |
 | `marca_trabajo` | Opcional. Marca que recibe quien entra a trabajar en esta carrera al aceptar una oferta (por ejemplo `trabaja_software`), para los eventos de la carrera |
 | `nombres_empresa` | Opcional. Claves de texto (empiezan con `empresa.`) para los nombres de las empresas de esta carrera. Cada empresa nueva toma uno que no use otra empresa abierta. Ver `economia.empresas` en country.json |
 | `niveles[].id` | Empieza con el id de la carrera + `.nivel.`. Su texto es la opción ("Analista programador en un instituto…") y `<id>.titulo` el nombre del título |
@@ -545,6 +545,38 @@ Reglas del núcleo, iguales para toda carrera:
 - **Ascender:** se puede cuando cumple los meses, el desempeño y los requisitos de algún cargo siguiente. Lo da un evento (`jugador.ascender()`), así el contenido decide la probabilidad, la crisis económica o si la persona lo rechaza.
 
 Los eventos de ascenso comunes a toda carrera (oferta de ascenso, mala racha, bajar de cargo, despido, cima) están en el paquete del país (`events/ascensos.json`); los de cada área, en su paquete de carrera (`events/areas.json`).
+
+### Oficios (bloque `oficio` de career.json, rediseño R6b)
+
+Un **oficio** es una carrera que se trabaja sin título: vendedor de tienda, garzón, maestro de la construcción (`packs/oficios/`). Su id empieza con `oficio.` (no `carrera.`), no tiene `niveles` y cualquiera que cumpla los `requisitos` del área puede entrar (normalmente `jugador.edad >= 18`). Tiene áreas y cargos como cualquier carrera y, además:
+
+```json
+"oficio": {
+  "sueldo_base": 1.0,
+  "sueldo_base_por_pais": { "pais.argentina": 3.0 },
+  "pago_variable": "comision",
+  "variable_tipico": 0.75,
+  "temporada": [0.85, 0.85, 0.95, 0.9, 1.05, 1.0, 0.95, 0.95, 1.05, 0.95, 1.1, 1.45],
+  "jefatura": "oficio.vendedor.jefatura"
+}
+```
+
+| Campo | Qué es |
+|---|---|
+| `sueldo_base` | El sueldo del primer cargo, en veces el sueldo mínimo del país (en un oficio el título no cuenta). El de cada cargo es este × área × cargo. Si falta, 1 |
+| `sueldo_base_por_pais` | El mismo número para un país donde el oficio paga distinto frente a su mínimo (los convenios de Argentina). Opcional |
+| `pago_variable` | `comision` o `trato` (entran en la liquidación: son imponibles) o `propina` (la pagan los clientes: no es sueldo, llega directo a su dinero). Opcional |
+| `variable_tipico` | Lo variable de un mes en que cumple justo la meta, frente al sueldo (0,75 = tres cuartos del sueldo). Si falta, 0 |
+| `temporada` | Cuánto se mueve el trabajo cada mes, de enero a diciembre (diciembre en el comercio, el invierno en la obra). Cambia lo que se gana, no la meta. Opcional |
+| `jefatura` | Clave del nombre de la jefatura: sus textos son `<clave>.f` y `<clave>.m` (en la pantalla del equipo: "Jefa de tienda") y `<clave>.momento.f` y `<clave>.momento.m` (en los momentos `con` `jefe`: "tu jefa de tienda, {0},"). Opcional |
+
+Reglas del núcleo (`OccupationSystem`), iguales para todo oficio:
+
+- **La meta del mes:** al empezar cada mes se cierra el mes anterior. Se cumple, en porcentaje, 66 + 0,8 × desempeño (106 % con desempeño 50), más o menos 12 de suerte, por la economía (en una crisis, la mitad de lo que baja la contratación). Un mes de 125 % o más sube el desempeño en 1; uno bajo 85 %, lo baja en 1.
+- **Lo variable:** sueldo × `variable_tipico` × cumplimiento × temporada. La comisión y el trato suman al sueldo bruto de la liquidación de ese mes; las propinas llegan a su dinero.
+- **Bajo la meta:** el núcleo solo cuenta los meses seguidos bajo la meta (`jugador.meses_bajo_meta`). Los eventos deciden qué pasa (en `packs/base/events/oficios.json`: llamado de atención a los 3 meses, amonestación por escrito 2 meses después y despido 2 meses después de eso), con `jugador.amonestaciones`. Seis meses seguidos cumpliendo dejan atrás una amonestación.
+- **Desafío antes de ascender:** un cargo puede pedir en sus `requisitos` una marca de desafío (`jugador.tiene('desafio_vendedor_encargado')`). Un momento la ofrece con `jugador.desafio('desafio_vendedor_encargado')`: si ese mes cierra sobre el 118 % de la meta, gana la marca (`diario.oficio.desafio_logrado`); si no, `diario.oficio.desafio_fallido` y lo puede volver a intentar.
+- **Cómo se llega:** cada oficio tiene un evento de aviso ("Se busca vendedor/a") para quien busca trabajo sin título, o con título y más de medio año buscando, que lo hace postular a un área con `jugador.postular_en`.
 
 **Convención entre paquetes:** el país marca `puede_universidad` cuando el jugador cumple lo que su país exige para entrar a la universidad (en Chile, un buen puntaje PAES). Las carreras usan esa marca en vez de conocer la PAES.
 
@@ -994,10 +1026,16 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.dejar_trabajo()` | Deja de trabajar y de recibir sueldo (solo efectos) |
 | `jugador.trabaja`, `jugador.tipo_trabajo` | Si tiene trabajo; `'dependiente'`, `'honorarios'`, `'informal'` o `nada` |
 | `jugador.trabajar_en('área')`, `jugador.trabajar_en('área', 'honorarios')` | Empieza un trabajo en esa área de su carrera, en el cargo que le da su experiencia y con el sueldo de ese cargo. Es un error si no puede (revisa antes `puede_trabajar_en`). Con `jugador.trabajar_en(jugador.area)` cambia de contrato sin perder el cargo (solo efectos) |
-| `jugador.puede_trabajar_en('área')` | Si tiene un título de esa carrera y cumple los requisitos del área |
+| `jugador.puede_trabajar_en('área')` | Si tiene un título de esa carrera (un oficio no lo pide) y cumple los requisitos del área |
 | `jugador.area`, `jugador.cargo` | Área y cargo de su trabajo actual (`'carrera.software.cargo.senior'`), o `nada` si no trabaja en su carrera |
 | `jugador.cargo_anterior`, `jugador.ultimo_cargo` | El cargo de más abajo en su escalera (`nada` en el inicial), y el cargo actual o el último que tuvo en su carrera |
 | `jugador.meses_en_cargo` | Meses de experiencia en el cargo actual |
+| `jugador.ultima_area` | El área actual o la última que tuvo (para volver a la misma: `jugador.trabajar_en(jugador.ultima_area)`) |
+| `jugador.oficio` | El oficio de su trabajo actual (`'oficio.garzon'`), o `nada` |
+| `jugador.meta`, `jugador.meses_bajo_meta`, `jugador.amonestaciones` | En un oficio: cuánto cumplió de la meta el último mes (en %), los meses seguidos bajo la meta y los llamados o amonestaciones que lleva. Los dos últimos se pueden cambiar (`jugador.amonestaciones = 1`, `jugador.meses_bajo_meta = 0`) |
+| `jugador.pago_variable` | La comisión, el trato o las propinas del último mes (a precios de hoy) |
+| `jugador.nuevo_contrato()` | Un contrato nuevo con el mismo empleador y el mismo equipo (la obra siguiente de la constructora): la antigüedad vuelve a cero (solo efectos) |
+| `jugador.desafio('marca')`, `jugador.en_desafio` | Empieza el desafío de este mes en un oficio (solo efectos; ver "Oficios"), y si hay uno en curso |
 | `jugador.meses_en_trabajo` | Meses con el empleador actual (la antigüedad; sigue al ascender en la misma empresa) |
 | `jugador.ultimo_sueldo`, `jugador.meses_ultimo_trabajo`, `jugador.tipo_ultimo_trabajo` | El sueldo bruto, la antigüedad y el tipo (`'dependiente'`...) del último trabajo que dejó: sirven para el finiquito o una demanda después de un despido |
 | `jugador.herencia_pendiente`, `jugador.recibir_herencia()` | Lo heredado que espera un trámite (a precios de hoy), y el efecto que lo entrega |

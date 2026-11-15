@@ -20,7 +20,8 @@ namespace MistakesLife.Core.Events
     /// vivienda, arriendo, meses_contrato, cuentas_incluidas, compra,
     /// fondo_pension, pension_estimada, meses_cotizados, jubilado, pension, pension_universal,
     /// deuda, cuotas_deudas, moroso, puede_repactar, amigos, amigo, colega, rival, ex,
-    /// area, cargo, cargo_anterior, ultimo_cargo, meses_en_cargo, desempeno (se puede cambiar),
+    /// area, cargo, cargo_anterior, ultimo_cargo, ultima_area, meses_en_cargo, desempeno (se puede cambiar),
+    /// oficio, meta, meses_bajo_meta y amonestaciones (se pueden cambiar), pago_variable, en_desafio,
     /// puede_ascender, caminos_ascenso, en_la_cima, busqueda, busca_en, semanas_buscando,
     /// postulaciones, entrevistas, rechazos, entrevista_pendiente, tiene_oferta, oferta_area,
     /// oferta_negociada, oferta_mejorada, contacto, mensajes_sin_leer.
@@ -37,6 +38,8 @@ namespace MistakesLife.Core.Events
     /// conocer('amistad' | 'colega' | 'rival'); en otra persona, vincular('lazo') y alejarse(),
     /// trabajar_en('área') o trabajar_en('área', 'honorarios'), puede_trabajar_en('área'),
     /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo(), cambiar_de_empresa(),
+    /// nuevo_contrato() (mismo empleador y mismo equipo, antigüedad desde cero: la obra siguiente),
+    /// desafio('marca') (en un oficio: el desafío de este mes; si cierra el mes sobre el 118 %, gana la marca),
     /// postular_en('área' o 'cualquier_trabajo'), buscar_trabajo('forma'), puede_buscar_con('forma'),
     /// dar_entrevista(puntos), aceptar_oferta(), negociar_oferta(), rechazar_oferta(), dejar_de_buscar(),
     /// dar_celular(), perder_celular(), instalar_app('app'), desinstalar_app('app'), tiene_app('app'),
@@ -331,10 +334,24 @@ namespace MistakesLife.Core.Events
                         : TextOrNull(((EventScope)scope).Content.GetCareerPosition(_character.Job.Position.PositionId).Previous?.Id);
                 case "ultimo_cargo":
                     return TextOrNull((_character.Job?.Position ?? _character.LastPosition)?.PositionId);
+                case "ultima_area":
+                    return TextOrNull((_character.Job?.Position ?? _character.LastPosition)?.AreaId);
                 case "meses_en_cargo":
                     return Value.FromNumber(_character.Job?.Position == null ? 0 : _character.Job.MonthsInPosition);
                 case "desempeno":
                     return Value.FromNumber(_character.Job == null ? 0 : _character.Job.Performance);
+                case "oficio":
+                    return TextOrNull(Work.OccupationRules.CareerOf(((EventScope)scope).Content, _character.Job)?.Id);
+                case "meta":
+                    return Value.FromNumber(_character.Job?.GoalPercent ?? 0);
+                case "en_desafio":
+                    return Value.FromBool(_character.Job?.Challenge != null);
+                case "meses_bajo_meta":
+                    return Value.FromNumber(_character.Job?.MonthsUnderGoal ?? 0);
+                case "amonestaciones":
+                    return Value.FromNumber(_character.Job?.Warnings ?? 0);
+                case "pago_variable":
+                    return Value.FromNumber((double)((_character.Job?.VariablePay ?? 0) + (_character.Job?.Tips ?? 0)));
                 case "puede_ascender":
                     return Value.FromBool(Promotions(scope).Count > 0);
                 case "caminos_ascenso":
@@ -558,6 +575,22 @@ namespace MistakesLife.Core.Events
                     }
 
                     _character.Job.Performance = number;
+                    break;
+                case "amonestaciones":
+                    if (_character.Job == null)
+                    {
+                        throw new ScriptException("jugador.amonestaciones solo se puede cambiar si trabaja (revisa jugador.trabaja).");
+                    }
+
+                    _character.Job.Warnings = Math.Max(0, number);
+                    break;
+                case "meses_bajo_meta":
+                    if (_character.Job == null)
+                    {
+                        throw new ScriptException("jugador.meses_bajo_meta solo se puede cambiar si trabaja (revisa jugador.trabaja).");
+                    }
+
+                    _character.Job.MonthsUnderGoal = Math.Max(0, number);
                     break;
                 case "felicidad":
                     _character.Stats.Happiness = number;
@@ -867,6 +900,32 @@ namespace MistakesLife.Core.Events
                     }
 
                     Economy.JobSearchRules.Interview(((EventScope)scope).World, ((EventScope)scope).Content, _character, args[0].AsNumber("jugador.dar_entrevista()"));
+                    return Value.Null;
+                case "nuevo_contrato":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.nuevo_contrato");
+                    if (_character.Job == null)
+                    {
+                        throw new ScriptException("jugador.nuevo_contrato(): no trabaja (revisa jugador.trabaja).");
+                    }
+
+                    // Un contrato nuevo con el mismo empleador (la obra siguiente de la constructora):
+                    // la antigüedad vuelve a cero, pero el equipo es el mismo.
+                    _character.Job.MonthsInJob = 0;
+                    if (_character.Team != null)
+                    {
+                        _character.Team.MonthsInJob = 0;
+                    }
+
+                    return Value.Null;
+                case "desafio":
+                    ((EventScope)scope).RequireWritable("jugador.desafio");
+                    if (Work.OccupationRules.CareerOf(((EventScope)scope).Content, _character.Job) == null)
+                    {
+                        throw new ScriptException("jugador.desafio(): solo hay desafíos en un oficio (revisa jugador.oficio != nada).");
+                    }
+
+                    _character.Job!.Challenge = EventScope.SingleText("jugador.desafio", args);
                     return Value.Null;
                 case "aceptar_oferta":
                     NoArguments(method, args);
@@ -1238,10 +1297,14 @@ namespace MistakesLife.Core.Events
         {
             Content.CompanySizeDefinition? size = company == null ? null : scope.Content.GetCountry(company.CountryId).Economy?.Companies?.Size(company.SizeId);
             position = Economy.CompanyRules.Cap(position, size?.MaxPositionDepth);
-            decimal salary = Economy.CareerLadder.Salary(scope.DegreeSalaryOf(_character), area, position);
+            Content.CareerDefinition career = scope.Content.GetCareer(area.CareerId);
+            decimal salary = Economy.CareerLadder.Salary(scope.SalaryBasisOf(_character, career), area, position);
             if (size != null)
             {
-                salary = Math.Round(salary * (decimal)size.SalaryRelative, MidpointRounding.AwayFromZero);
+                // En un oficio el sueldo base ya es el piso (el mínimo o el convenio): una empresa
+                // chica no paga menos, una grande puede pagar algo más.
+                double relative = career.IsOccupation ? Math.Max(1, size.SalaryRelative) : size.SalaryRelative;
+                salary = Math.Round(salary * (decimal)relative, MidpointRounding.AwayFromZero);
             }
 
             salary = Math.Round(salary * raise, MidpointRounding.AwayFromZero);
