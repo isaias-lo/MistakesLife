@@ -173,6 +173,16 @@ namespace MistakesLife.Core.Devices
                     }
 
                     break;
+                case "jefe":
+                    if (Work.WorkRules.Boss(world, character) is Character boss)
+                    {
+                        ids.Add(boss.Id);
+                    }
+
+                    break;
+                case "equipo":
+                    ids.AddRange(Work.WorkRules.Colleagues(world, character).Select(c => c.Id));
+                    break;
                 case "profe":
                     if (Education.SchoolRules.Teacher(world, character) is Character teacher)
                     {

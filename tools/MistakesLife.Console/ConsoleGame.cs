@@ -98,7 +98,7 @@ namespace MistakesLife.ConsoleGame
                 }
 
                 _output.WriteLine();
-                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta lo importante | s: una semana | a: un año | e: estado | h: horario | l: lo que quiero | r: tus reglas | k: tu curso | n: notas | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
+                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta lo importante | s: una semana | a: un año | e: estado | h: horario | l: lo que quiero | r: tus reglas | k: tu curso o equipo | n: notas | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
                 _output.Write("> ");
                 string? command = _input.ReadLine();
                 if (command == null)
@@ -423,10 +423,24 @@ namespace MistakesLife.ConsoleGame
         private void PrintSchoolClass()
         {
             var presenter = new LifePresenter(_session);
+            TeamView? team = presenter.Team();
+            if (team != null)
+            {
+                _output.WriteLine(presenter.Text("ui.pega.titulo") + ":");
+                foreach (ClassmateView mate in (team.Boss == null ? new ClassmateView[0] : new[] { team.Boss }).Concat(team.Colleagues).Concat(team.Left))
+                {
+                    _output.WriteLine($"  - {mate.Name}{(mate.Bond == null ? string.Empty : " · " + mate.Bond)}");
+                    if (mate.Memory != null)
+                    {
+                        _output.WriteLine($"      {mate.Memory}");
+                    }
+                }
+            }
+
             SchoolClassView? cls = presenter.SchoolClass();
             if (cls == null)
             {
-                _output.WriteLine("No vas a un curso ahora.");
+                _output.WriteLine(team == null ? "No vas a un curso ahora." : string.Empty);
                 return;
             }
 

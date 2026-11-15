@@ -137,6 +137,19 @@ namespace MistakesLife.Unity
             return button;
         }
 
+        /// <summary>La tarjeta del trabajo con su cordón rojo, como la que cuelga junto a la puerta.</summary>
+        public static Button BadgeThing(Transform parent, string caption, UnityAction onClick)
+        {
+            RectTransform drawing = Tile(parent, "Tarjeta del trabajo", caption, UiFactory.MutedInk, Face.Body, onClick, out Button button);
+            Piece(drawing, "Cordon", UiFactory.Hex(0x8C2E28), new Vector2(10f, 70f), new Vector2(0f, 48f), 0f, 6f);
+            Image card = Piece(drawing, "Tarjeta", UiFactory.Paper, new Vector2(104f, 132f), new Vector2(0f, -18f), 3f, 2.4f);
+            button.targetGraphic = card;
+            Piece((RectTransform)card.transform, "Franja", TeamScreen.Band, new Vector2(104f, 26f), new Vector2(0f, 53f), 0f, 4f);
+            Piece((RectTransform)card.transform, "Foto", UiFactory.Hex(0xC9906C), new Vector2(46f, 52f), new Vector2(0f, 6f), 0f, 3f);
+            Piece((RectTransform)card.transform, "Nombre", UiFactory.PaperMutedInk, new Vector2(66f, 6f), new Vector2(0f, -36f), 0f, 6f);
+            return button;
+        }
+
         /// <summary>Un hueco del mismo alto, para que las cosas queden en columnas parejas.</summary>
         public static void Empty(Transform parent)
         {

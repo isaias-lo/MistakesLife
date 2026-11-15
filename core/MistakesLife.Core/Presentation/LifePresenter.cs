@@ -37,7 +37,7 @@ namespace MistakesLife.Core.Presentation
             "ui.horario.titulo", "ui.horario.libre", "ui.horario.tarde", "ui.horario.noche", "ui.horario.sube", "ui.horario.baja", "ui.horario.igual", "ui.horario.nuevo", "ui.horario.nuevo_ano",
             "ui.horario.dia.0", "ui.horario.dia.1", "ui.horario.dia.2", "ui.horario.dia.3", "ui.horario.dia.4", "ui.horario.dia.5", "ui.horario.dia.6",
             "ui.momento.con", "ui.momento.madre", "ui.momento.padre", "ui.regla.siempre",
-            "ui.momento.profe.f", "ui.momento.profe.m", "ui.curso.titulo", "ui.curso.profe_jefe",
+            "ui.momento.profe.f", "ui.momento.profe.m", "ui.momento.jefe.f", "ui.momento.jefe.m", "ui.curso.titulo", "ui.curso.profe_jefe",
             "ui.notas.titulo", "ui.notas.promedio", "ui.notas.sin_notas", "ui.notas.fin_ano",
             "ui.deseo.titulo", "ui.deseo.cumplido", "ui.deseo.perdido", "ui.deseo.paso",
             "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
@@ -409,6 +409,41 @@ namespace MistakesLife.Core.Presentation
 
             string progress = Text("ui.malla.progreso", Math.Min(current, studies.RequiredSemesters), studies.RequiredSemesters, studies.SemestersTaken);
             return new StudyPlanView(T(studies.CareerId), progress, semesters);
+        }
+
+        /// <summary>Tu equipo del trabajo; null si no trabajas con equipo.</summary>
+        public TeamView? Team()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            if (!Work.WorkRules.InTeam(player))
+            {
+                return null;
+            }
+
+            IReadOnlyDictionary<int, Events.EventRecord> lastMoments = LastMomentWith(world, player);
+            ClassmateView Person(Character c, string? bond) => new ClassmateView(
+                c.Id,
+                c.FirstName + " " + c.LastName.Split(' ')[0],
+                bond,
+                RelationshipRules.Feelings(world, player, c).Affection,
+                lastMoments.TryGetValue(c.Id, out Events.EventRecord? moment) ? Memory(moment, c) : null);
+            string? BondWord(Character c) =>
+                RelationshipRules.Feelings(world, player, c).Bond is RelationshipBond b && b != RelationshipBond.Colleague && RelationshipRules.BondKey(b) is string key
+                    ? T("ui.relacion." + key)
+                    : null;
+
+            Character? boss = Work.WorkRules.Boss(world, player);
+            var colleagues = Work.WorkRules.Colleagues(world, player)
+                .OrderByDescending(c => RelationshipRules.Feelings(world, player, c).Affection)
+                .ThenBy(c => c.Id)
+                .Select(c => Person(c, BondWord(c)))
+                .ToList();
+            var left = player.Team!.LeftIds
+                .Where(id => world.TryGetCharacter(id, out Character? _))
+                .Select(id => Person(world.GetCharacter(id), T("ui.relacion.se_fue")))
+                .ToList();
+            return new TeamView(boss == null ? null : Person(boss, T(boss.Gender == Gender.Female ? "ui.pega.jefa" : "ui.pega.jefe_m")), colleagues, left);
         }
 
         /// <summary>Tu curso del colegio; null si no vas a un curso.</summary>
@@ -1319,8 +1354,8 @@ namespace MistakesLife.Core.Presentation
         /// se le dice "la profe Carolina" o "el profe Juan"; a los demás, por su nombre.
         /// </summary>
         private string PersonName(EventDefinition definition, Character person) =>
-            definition.With == "profe"
-                ? Text(person.Gender == Gender.Female ? "ui.momento.profe.f" : "ui.momento.profe.m", person.FirstName)
+            definition.With == "profe" || definition.With == "jefe"
+                ? Text("ui.momento." + definition.With + (person.Gender == Gender.Female ? ".f" : ".m"), person.FirstName)
                 : definition.With == "apoderado"
                     ? T(person.Sex == Sex.Female ? "ui.momento.madre" : "ui.momento.padre")
                     : person.FirstName;

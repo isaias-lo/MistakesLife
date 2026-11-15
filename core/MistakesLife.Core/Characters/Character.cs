@@ -328,6 +328,9 @@ namespace MistakesLife.Core.Characters
         /// <summary>Su curso del colegio (compañeros con nombre y profe jefe), mientras va al colegio.</summary>
         public Education.SchoolClass? SchoolClass { get; set; }
 
+        /// <summary>Su equipo del trabajo (jefe y colegas con nombre), mientras trabaja con equipo.</summary>
+        public Work.WorkTeam? Team { get; set; }
+
         /// <summary>Sus notas del colegio: las del año, los promedios de cada año y cuántos años repitió.</summary>
         public Education.SchoolRecord? SchoolRecord { get; set; }
 

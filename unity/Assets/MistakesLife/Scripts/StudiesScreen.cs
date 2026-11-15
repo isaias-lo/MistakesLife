@@ -324,7 +324,7 @@ namespace MistakesLife.Unity
         /// Una persona: su cara (con sus iniciales), su nombre, qué son (en una ficha) y lo último
         /// que vivieron juntos. Nunca barras ni números. Al tocarla se lee completo lo que vivieron.
         /// </summary>
-        private static void PersonRow(RectTransform sheet, ClassmateView mate, bool gone)
+        internal static void PersonRow(RectTransform sheet, ClassmateView mate, bool gone)
         {
             RectTransform row = HorizontalRow(sheet, mate.Name, 24);
             row.GetComponent<HorizontalLayoutGroup>().padding = new RectOffset(16, 16, 20, 20);
@@ -439,7 +439,7 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>Una ficha chica con una palabra (el lazo, el estado de un semestre).</summary>
-        private static void Tag(RectTransform parent, string text, Color background, Color ink)
+        internal static void Tag(RectTransform parent, string text, Color background, Color ink)
         {
             RectTransform tag = UiFactory.Child(parent, "Ficha");
             HorizontalLayoutGroup layout = tag.gameObject.AddComponent<HorizontalLayoutGroup>();
@@ -466,7 +466,7 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>Una raya fina entre filas.</summary>
-        private static void Line(RectTransform parent)
+        internal static void Line(RectTransform parent)
         {
             RectTransform line = UiFactory.Child(parent, "Raya");
             line.gameObject.AddComponent<Image>().color = Rule;

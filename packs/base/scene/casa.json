@@ -1,6 +1,7 @@
 [
   { "id": "escena.casa.libros", "lugar": "casa", "condiciones": "jugador.estudia != nada" },
   { "id": "escena.casa.credencial_u", "lugar": "casa", "condiciones": "jugador.en_la_u" },
+  { "id": "escena.casa.credencial_pega", "lugar": "casa", "condiciones": "jugador.en_la_pega" },
   { "id": "escena.casa.mochila", "lugar": "casa", "condiciones": "jugador.edad >= 6 && jugador.edad < 18" },
   { "id": "escena.casa.diploma", "lugar": "casa", "condiciones": "jugador.titulado" },
   { "id": "escena.casa.notebook", "lugar": "casa", "condiciones": "jugador.trabaja && jugador.tipo_trabajo != 'informal'" },

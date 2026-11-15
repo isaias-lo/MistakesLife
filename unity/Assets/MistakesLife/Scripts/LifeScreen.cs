@@ -57,6 +57,7 @@ namespace MistakesLife.Unity
         private MoneyScreen _money = null!;
         private CourtScreen _court = null!;
         private StudiesScreen _studies = null!;
+        private TeamScreen _team = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
         private float _sheetWidth;
@@ -183,6 +184,12 @@ namespace MistakesLife.Unity
         public void OpenStudiesForCapture(int page)
         {
             _studies.Show(_presenter!, page);
+        }
+
+        /// <summary>Abre tu equipo del trabajo encima de la vida, para las capturas.</summary>
+        public void OpenTeamForCapture()
+        {
+            _team.Show(_presenter!);
         }
 
         /// <summary>Abre Tu dinero encima de la vida, para las capturas.</summary>
@@ -339,6 +346,7 @@ namespace MistakesLife.Unity
             _money = new MoneyScreen(safe);
             _court = new CourtScreen(safe);
             _studies = new StudiesScreen(safe);
+            _team = new TeamScreen(safe);
 
             // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
             // si se moviera antes, el orden la devolvería a su lugar y se vería dos veces.
@@ -414,6 +422,10 @@ namespace MistakesLife.Unity
             else if ((id == "escena.casa.mochila" || id == "escena.casa.credencial_u") && StudiesScreen.HasStudies(presenter))
             {
                 _studies.Show(presenter);
+            }
+            else if (id == "escena.casa.credencial_pega" && presenter.Team() != null)
+            {
+                _team.Show(presenter);
             }
         }
 
@@ -804,6 +816,12 @@ namespace MistakesLife.Unity
                 }
 
                 Things.NotebookThing(row, presenter.Text("ui.cosas.libreta"), red, () => _studies.Show(presenter));
+            }
+
+            if (presenter.Team() != null)
+            {
+                RectTransform row = things.childCount < 4 ? things : (more ??= Row(_sheetBody, "Mas cosas"));
+                Things.BadgeThing(row, presenter.Text("ui.cosas.pega"), () => _team.Show(presenter));
             }
 
             IReadOnlyList<CourtCaseView> cases = presenter.CourtCases();

@@ -153,6 +153,37 @@ namespace MistakesLife.Core.Tests
         }
 
         /// <summary>
+        /// Vidas de personas que trabajan por su cuenta (a honorarios) desde los 30, para los
+        /// eventos de quien trabaja sin equipo (conocer a alguien del rubro), que en una vida al
+        /// azar le pasan a menos del 1 %: casi todos trabajan con jefe y colegas.
+        /// </summary>
+        public static HashSet<string> FreelanceWorkerEvents(ContentDatabase content, int lives, int startAge = 30, int finalAge = 40)
+        {
+            var seen = new HashSet<string>();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 750 + (ulong)i);
+                Play(session, startAge);
+                if (!session.World.Player.IsAlive)
+                {
+                    continue;
+                }
+
+                var scope = new EventScope(session.World, content, session.World.Player, null, readOnly: false);
+                foreach (string effect in new[] { "jugador.desmarcar('buscando_trabajo')", "jugador.marcar('trabajando')", "jugador.marcar('trabaja_honorarios')", "jugador.trabajar(sueldo_titulo(), 'honorarios')" })
+                {
+                    Effect.Parse(effect).Apply(scope);
+                }
+
+                int before = session.World.EventHistory.Count;
+                Play(session, finalAge);
+                seen.UnionWith(session.World.EventHistory.Skip(before).Select(r => r.EventId));
+            }
+
+            return seen;
+        }
+
+        /// <summary>
         /// Vidas de personas que ya ascendieron una vez y andan mal en el trabajo (desempeño
         /// bajo y en la mira de su jefatura) después de ascender, para el evento de bajar de cargo,
         /// que en una vida al azar le pasa a menos del 1 %.

@@ -37,6 +37,7 @@ namespace MistakesLife.Unity
         {
             "escena.casa.libros" => "ancla.mesa",
             "escena.casa.credencial_u" => "ancla.mesa",
+            "escena.casa.credencial_pega" => "ancla.puerta",
             "escena.casa.comprobante_cae" => "ancla.mesa",
             "escena.casa.notebook" => "ancla.mesa",
             "escena.casa.avisos_trabajo" => "ancla.mesa",
@@ -101,6 +102,13 @@ namespace MistakesLife.Unity
                     kit.Box("Credencial de estudiante", new Vector3(-0.15f, 0.445f, -0.3f), new Vector3(0.14f, 0.01f, 0.09f), Palette.Paper);
                     kit.Box("Foto de la credencial", new Vector3(-0.19f, 0.452f, -0.3f), new Vector3(0.04f, 0.005f, 0.05f), new Color(0.55f, 0.45f, 0.38f));
                     kit.Box("Cordón de la credencial", new Vector3(-0.15f, 0.443f, -0.22f), new Vector3(0.22f, 0.006f, 0.015f), new Color(0.20f, 0.30f, 0.55f));
+                    break;
+                case "escena.casa.credencial_pega":
+                    // La tarjeta del trabajo colgada de su cordón en un gancho junto a la puerta, lista para mañana.
+                    kit.Box("Gancho de la tarjeta del trabajo", new Vector3(0.03f, 1.35f, 0.52f), new Vector3(0.04f, 0.04f, 0.04f), Palette.DarkWood);
+                    kit.Box("Cordón de la tarjeta del trabajo", new Vector3(0.04f, 1.24f, 0.52f), new Vector3(0.01f, 0.2f, 0.012f), new Color(0.55f, 0.18f, 0.16f));
+                    kit.Box("Tarjeta del trabajo", new Vector3(0.045f, 1.1f, 0.52f), new Vector3(0.008f, 0.11f, 0.08f), Palette.Paper);
+                    kit.Box("Foto de la tarjeta", new Vector3(0.05f, 1.12f, 0.52f), new Vector3(0.004f, 0.04f, 0.035f), new Color(0.55f, 0.45f, 0.38f));
                     break;
                 case "escena.casa.comprobante_cae":
                     // El comprobante del crédito de estudios, doblado bajo un clip, al lado de las cuentas.

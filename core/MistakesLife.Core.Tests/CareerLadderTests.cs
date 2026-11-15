@@ -221,14 +221,17 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void TrabajoFueraDeLaCarrera_NoTieneArea_YElDesempenoNoSePuedeCambiar()
+        public void TrabajoFueraDeLaCarrera_NoTieneAreaNiAscenso_PeroSiDesempeno()
         {
             World world = Graduate();
             Run(world, "jugador.trabajar(sueldo_minimo(), 'informal')");
 
             Assert.True(Eval(world, "jugador.area").Kind == ValueKind.Null);
             Assert.False(Eval(world, "jugador.puede_ascender").AsBool("prueba"));
-            Assert.Throws<ScriptException>(() => Run(world, "jugador.desempeno += 5"));
+            // Desde R6a cualquier pega tiene desempeño (la jefatura felicita o llama la atención).
+            int before = world.Player.Job!.Performance;
+            Run(world, "jugador.desempeno += 5");
+            Assert.Equal(before + 5, world.Player.Job!.Performance);
         }
 
         [Fact]

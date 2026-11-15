@@ -320,6 +320,9 @@ namespace MistakesLife.Unity.Editor
             // Los estudios: la libreta y el curso del colegio, y la libreta, la sección y la malla de la U.
             count += Studies(content, folder);
 
+            // Tu equipo del trabajo: la jefatura y los colegas con nombre.
+            count += Team(content, folder);
+
             // Hasta que aparezca un evento, para que se vea la tarjeta de papel.
             for (int week = 0; week < 5 * 52 && life.Phase == LifePhase.Living; week++)
             {
@@ -394,6 +397,30 @@ namespace MistakesLife.Unity.Editor
             return count;
         }
 
+        /// <summary>Tu equipo del trabajo: la primera vida en Chile que a los 25 a 35 trabaja con equipo.</summary>
+        private static int Team(ContentDatabase content, string folder)
+        {
+            for (ulong seed = 1; seed <= 10; seed++)
+            {
+                var life = new LifePresenter(new LifeSession(content, seed, "pais.chile"));
+                for (int age = 25; age <= 35; age += 2)
+                {
+                    if (!LiveUntil(life, content, null, age) || life.Phase != LifePhase.Living)
+                    {
+                        break;
+                    }
+
+                    if (life.Team() != null)
+                    {
+                        return CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-equipo.png"), team: true);
+                    }
+                }
+            }
+
+            Debug.LogWarning("Capturas: ninguna vida trabajó con equipo; no sale pantalla-equipo.png.");
+            return 0;
+        }
+
         /// <summary>
         /// La carpeta del juzgado: una vida en Chile hasta los 30 a la que le abren un juicio por
         /// deudas, y unas semanas después, para que se vea la línea del proceso avanzando.
@@ -427,7 +454,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -452,6 +479,11 @@ namespace MistakesLife.Unity.Editor
                 if (studies >= 0)
                 {
                     screen.OpenStudiesForCapture(studies);
+                }
+
+                if (team)
+                {
+                    screen.OpenTeamForCapture();
                 }
 
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));
