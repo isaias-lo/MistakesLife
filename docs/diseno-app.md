@@ -26,6 +26,18 @@ Isaias aprobó los bocetos versión 3 (https://claude.ai/artifact/G5wzsBKMZgw7Be
 8. **El juego muestra de dónde viene cada cosa:** la foto de aquel día aparece cuando un error vuelve.
 9. **Nada se repite igual:** si una pantalla ya se vio, la siguiente vez trae otra fecha, otra persona u otra letra.
 
+### Versión 4: adulto, claro y con sonido (acordada el 2026-11-15)
+
+Isaias: "no me gustaría que se sienta infantil; me gusta mucho el estilo que tiene BitLife, solo estilo y sonidos". Se toma de BitLife lo que lo hace sentir bien (se lee de un vistazo, cada toque responde al instante, cada cosa suena), **sin copiar su aspecto**. Bocetos aprobados: libreta, curso, malla y sección, en la fila de arriba del lienzo de la versión 3. Esto matiza las reglas de arriba:
+
+- **Nada torcido ni de juguete.** Las tarjetas van derechas, con esquinas redondeadas (16 px) y sombra suave. El papel (`#F4EFE4`) y la madera son solo una textura sutil, nunca cinta adhesiva ni papeles girados en las pantallas de información. La regla 5 queda para objetos sueltos de la escena (una foto pegada, una nota), no para listas.
+- **Letras:** Figtree para todo lo que se lee (filas de 15 a 16 px, seminegrita para nombres), Fraunces para títulos y números grandes (el promedio). La letra a mano (Kalam) solo para lo que anota tu personaje, una línea a lo más. Special Elite y Patrick Hand quedan para carteles de la maqueta, no para pantallas de datos.
+- **Cada pantalla tiene su franja de color arriba** con el título: azul libreta `#24407A` en el colegio, azul U `#2B4E73` en la universidad, `#3E5C8A` en el curso. Debajo, el fondo noche `#141B2D`.
+- **Notas como fichas:** la nota final en una ficha (`#E6DECF`); en rojo (`#D9483B`, texto blanco) bajo 4,0, y toda la fila del ramo rojo con un tinte rojo suave. El aviso de qué significa (con un rojo pasas si…) en una caja rosada dentro de la tarjeta.
+- **Las personas:** cara, nombre, una palabra con el lazo (Mejor amiga, Rival, Te tiene rabia, Se fue) y una línea con algo que vivieron juntos. Nunca barras ni números. Quien se fue, en gris.
+- **Botón principal:** amarillo del jugador, ancho completo, 56 px de alto, abajo.
+- **Sonidos (cortos, bajo medio segundo, cada uno propio, siempre con vibración leve):** abrir la libreta = hoja que se da vuelta; nota azul = toque de lápiz; nota roja = golpe grave y seco; aprobar el semestre = dos notas que suben; repetir = dos notas que bajan; tocar a alguien = clic suave de foto; alguien se fue = puerta que se cierra lejos; pagar el arancel = caja registradora apagada; botón amarillo = golpe de madera firme. Si una acción no tiene sonido, se le busca uno antes de programarla.
+
 ## 1. La idea
 
 **Tu vida es una maqueta viva.** La escena 3D es la protagonista: ocupa toda la pantalla y cambia con la hora, el clima, la etapa de la vida y las decisiones. Cada tema de la vida se abre como **un objeto real de esa vida**, nunca como un menú genérico:

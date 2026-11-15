@@ -241,7 +241,7 @@ Lo que se paga cada mes porque el jugador lo **contrató** (el plan del celular;
 - `condiciones` (opcional): cuándo se cobra lo contratado. En el celular, el prepago solo se paga si tiene celular (si se lo robaron, no carga), pero un plan sigue llegando en la boleta.
 - `compartido` (opcional): se divide en dos si tiene pareja.
 - `cantidad` (opcional): una expresión que dice por cuántos se paga cada mes. El jardín se paga por cada hijo chico (`"jugador.hijos_en_casa_entre(0, 3)"`) y el colegio por cada hijo en edad escolar (`"jugador.hijos_en_casa_entre(4, 17)"`). Si da 0, ese mes no se cobra. Si falta, se paga una vez.
-- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) `servicio.internet` (basico, rapido; compartido) `servicio.cuentas` (cuidando, normal, sin_cuidar: luz, agua y gas; compartido; no se cobra si el arriendo incluye las cuentas) `servicio.jardin_hijos` (en_casa, publico, particular; por cada hijo de 0 a 3 años; compartido) `servicio.colegio_hijos` (gratuito, copago, particular; por cada hijo de 4 a 17 años; compartido) y, solo en Chile, `servicio.personales` (austero, normal, gustos: ropa, salidas y cuidado personal).
+- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) `servicio.internet` (basico, rapido; compartido) `servicio.cuentas` (cuidando, normal, sin_cuidar: luz, agua y gas; compartido; no se cobra si el arriendo incluye las cuentas) `servicio.jardin_hijos` (en_casa, publico, particular; por cada hijo de 0 a 3 años; compartido) `servicio.colegio_hijos` (gratuito, copago, particular; por cada hijo de 4 a 17 años; compartido) y, solo en Chile, `servicio.personales` (austero, normal, gustos: ropa, salidas y cuidado personal) y `servicio.arancel` (gratuidad, familia, y por institución `pago_*`, `brecha_*` que es lo que no cubre el CAE, y `mitad_*` al pasarse de la duración formal con gratuidad; solo se cobra mientras estudia).
 - Todo país debe tener los servicios y opciones que usan los eventos.
 
 #### Declaración anual de impuestos (`economia.declaracion_anual`)
@@ -928,6 +928,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.promedio` | Su promedio general del año que va (en vacaciones, el del año pasado), en la escala de 1 a 7, o 0 |
 | `jugador.rojos` | En cuántos ramos va con promedio rojo este año |
 | `jugador.repitio` | Cuántos años repitió |
+| `jugador.semestres_cursados` | Semestres que cursó en la carrera que estudia, aprobados o no (la gratuidad mira estos) |
 | `jugador.en_la_u` | Si estudia en la universidad, el CFT o el instituto y ya tiene sección (sus compañeros con nombre) |
 | `jugador.estudiar_semestre(n)` | Suma `n` (de -3 a 3 en total) a cuánto se prepara este semestre: estudiar en grupo suma, la fiesta antes del examen resta. Cada punto mueve la nota de los ramos unas 0,3. Se vuelve a 0 al cerrar el semestre (solo efectos, mientras estudia) |
 | `jugador.madre`, `jugador.padre` | Otro personaje con los mismos datos (`jugador.madre.edad`), o `nada` si no hay |

@@ -203,6 +203,8 @@ namespace MistakesLife.Core.Events
                     return TextOrNull(_character.Studies?.Institution);
                 case "semestres_aprobados":
                     return Value.FromNumber(_character.Studies?.CompletedSemesters ?? 0);
+                case "semestres_cursados":
+                    return Value.FromNumber(_character.Studies?.SemestersTaken ?? 0);
                 case "semestres_carrera":
                     return Value.FromNumber(_character.Studies?.RequiredSemesters ?? 0);
                 case "titulado":

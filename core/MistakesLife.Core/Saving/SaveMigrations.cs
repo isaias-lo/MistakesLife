@@ -267,6 +267,19 @@ namespace MistakesLife.Core.Saving
                     }
                 }
             },
+
+            // 26 → 27: semestres cursados (aprobados o no). En un guardado viejo, lo mejor
+            // que se sabe es cuántos aprobó.
+            [26] = save =>
+            {
+                foreach (JToken studies in save.SelectTokens("$..Studies").ToList())
+                {
+                    if (studies is JObject s && s["CompletedSemesters"] != null)
+                    {
+                        s["SemestersTaken"] = s["CompletedSemesters"];
+                    }
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

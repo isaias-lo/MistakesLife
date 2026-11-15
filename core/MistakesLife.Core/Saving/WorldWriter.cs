@@ -223,6 +223,7 @@ namespace MistakesLife.Core.Saving
                     GradedSemesters = c.Studies.GradedSemesters,
                     Preparation = c.Studies.Preparation,
                     LastMarksSemester = c.Studies.LastMarksSemester,
+                    SemestersTaken = c.Studies.SemestersTaken,
                     LastMarks = new SortedDictionary<string, double>(c.Studies.LastMarks),
                     SemesterAverages = c.Studies.SemesterAverages.ToList(),
                 },

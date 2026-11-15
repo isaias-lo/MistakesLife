@@ -205,7 +205,19 @@
         { "id": "servicio.personales.austero", "precio": 42000 },
         { "id": "servicio.personales.normal", "precio": 93900 },
         { "id": "servicio.personales.gustos", "precio": 165800 }
-      ] }
+      ] },
+      { "id": "servicio.arancel", "condiciones": "jugador.estudia != nada", "opciones": [
+          {"id": "servicio.arancel.gratuidad", "precio": 0},
+          {"id": "servicio.arancel.familia", "precio": 0},
+          {"id": "servicio.arancel.pago_universidad", "precio": 350000},
+          {"id": "servicio.arancel.pago_instituto", "precio": 166667},
+          {"id": "servicio.arancel.pago_cft", "precio": 141667},
+          {"id": "servicio.arancel.brecha_universidad", "precio": 70000},
+          {"id": "servicio.arancel.brecha_instituto", "precio": 33333},
+          {"id": "servicio.arancel.brecha_cft", "precio": 28333},
+          {"id": "servicio.arancel.mitad_universidad", "precio": 175000},
+          {"id": "servicio.arancel.mitad_instituto", "precio": 83333},
+          {"id": "servicio.arancel.mitad_cft", "precio": 70833} ] }
     ],
       "gastos": {
       "edad_desde": 18,

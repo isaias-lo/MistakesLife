@@ -90,6 +90,7 @@ namespace MistakesLife.Core.Education
         {
             int semester = studies.CompletedSemesters;
             SortedDictionary<string, double> marks = UniversityRules.SemesterMarks(world, _content, player, semester, scale, random);
+            studies.SemestersTaken++;
             studies.LastMarks.Clear();
             studies.LastMarksSemester = semester;
             foreach (KeyValuePair<string, double> mark in marks)

@@ -1,0 +1,3 @@
+[
+  {"id": "escena.casa.comprobante_cae", "lugar": "casa", "condiciones": "jugador.tiene('usa_cae')"}
+]

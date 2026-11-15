@@ -59,6 +59,12 @@ namespace MistakesLife.Core.Characters
         /// <summary>Las notas finales del último semestre con notas: ramo → nota (en la escala del país).</summary>
         public SortedDictionary<string, double> LastMarks { get; } = new SortedDictionary<string, double>(StringComparer.Ordinal);
 
+        /// <summary>
+        /// Semestres cursados (aprobados o no): la gratuidad y los créditos miran cuántos
+        /// semestres lleva estudiando, no cuántos aprobó.
+        /// </summary>
+        public int SemestersTaken { get; internal set; }
+
         /// <summary>El semestre del plan al que son las <see cref="LastMarks"/> (0 si todavía no hay notas).</summary>
         public int LastMarksSemester { get; internal set; }
 

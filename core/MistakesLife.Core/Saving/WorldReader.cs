@@ -289,6 +289,7 @@ namespace MistakesLife.Core.Saving
                     GradedSemesters = s.GradedSemesters,
                     Preparation = s.Preparation,
                     LastMarksSemester = s.LastMarksSemester,
+                    SemestersTaken = s.SemestersTaken,
                 };
                 foreach (KeyValuePair<string, double> mark in s.LastMarks)
                 {
