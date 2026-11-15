@@ -66,7 +66,8 @@ Un mismo texto se dice distinto en cada país ("pega" en Chile, "laburo" en Arge
 - `etapas_educacion`: en orden, sin solaparse; `edad_hasta` no se incluye.
 - `inicio_ano_escolar`: día-mes en que empiezan las clases (`"04-03"` en Chile). Ese día, cada año, quien va al colegio arma su horario del año nuevo. Opcional.
 - `fin_ano_escolar`: día-mes en que terminan las clases (`"13-12"`); desde ahí hasta `inicio_ano_escolar` son las vacaciones de verano. `vacaciones_invierno`: `{ "desde": "23-06", "hasta": "04-07" }` (los dos días incluidos). Con eso, `jugador.en_clases` dice si esa semana hay clases. Opcionales.
-- `curso`: cómo es un curso del colegio: `alumnos` (cuántos, contándote), `con_nombre` (con cuántos tienes trato: tienen nombre y aparecen en los momentos), y probabilidades de 0 a 1: `cambio_profe_jefe` (de un año al otro, 0.3 si falta), `siguen_al_cambiar_etapa` (de básica a media, 0.4), `cambios_por_ano` (alguien se va y llega alguien nuevo, 0.3) y `profes_mujeres` (0.7). En `etapas_educacion`, `"curso": true` marca las etapas en que se va a un curso (en Chile, básica y media). Cómo se llama el curso va en el idioma del país: `"curso.etapa.chile.basica": "{0}º básico {1}"` (el número y la letra).
+- `curso`: cómo es un curso del colegio: `alumnos` (cuántos, contándote), `con_nombre` (con cuántos tienes trato: tienen nombre y aparecen en los momentos), y probabilidades de 0 a 1: `cambio_profe_jefe` (de un año al otro, 0.3 si falta), `siguen_al_cambiar_etapa` (de básica a media, 0.4), `cambios_por_ano` (alguien se va y llega alguien nuevo, 0.3) y `profes_mujeres` (0.7). En `etapas_educacion`, `"curso": true` marca las etapas en que se va a un curso (en Chile, básica y media). Esas etapas pueden tener `ramos` (`[{ "id": "ramo.chile.ingles", "desde": 5 }]`: en qué cursos de la etapa se tiene, de 1 en adelante; el nombre va en el idioma del país; `"prueba_escrita": false` si sus notas no vienen de pruebas que se estudian, como Educación Física, y entonces no se anuncia como momento) y `promocion` (formas de pasar de curso; basta una: `{ "reprobados": 1, "promedio_minimo": 4.5 }`; sin ninguna siempre se pasa).
+- `escala_notas`: `{ "minima": 1.0, "maxima": 7.0, "aprueba": 4.0, "decimales": 1, "notas_por_ano": 10 }` (notas por ramo en un año). Sin ella no hay notas. Cómo se llama el curso va en el idioma del país: `"curso.etapa.chile.basica": "{0}º básico {1}"` (el número y la letra).
 - Al nacer se eligen país, ciudad y comuna según los pesos, una madre y un padre con nombres del país, y el hijo lleva el primer apellido del padre y luego el de la madre.
 
 ### Mortalidad (campo `mortalidad` de country.json)
@@ -592,6 +593,7 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `actividad` | El momento nace de tu horario: solo pasa si esa actividad está en tu semana. Pide `probabilidad_anual`, que es la probabilidad en un año haciéndola **una vez por semana** (si la haces tres veces, es más probable) | — |
 | `regla` | Grupo para las reglas propias del jugador (`regla.prueba`, con su texto en `lang/`: "Cuando hay prueba o tarea"). Cuando el jugador elige "hacer esto siempre", la regla sirve para todos los eventos del grupo. Sin grupo, sirve solo para este evento. Un `dia_clave` y un evento de `semilla` nunca admiten regla: se viven cada vez | — |
 | `opciones[].regla` | Qué es la opción para las reglas del grupo (`estudiar`, `copiar`): opciones de eventos distintos con el mismo valor son "lo mismo". Pide `regla` en el evento | su texto |
+| `{ramo}`, `{nota}` | En los textos de un evento se cambian por el ramo de la prueba anunciada o devuelta ("Matemática") y su nota ("5,8") | — |
 | `fecha` | El momento tiene fecha: `"24-12"` (día-mes) pasa la semana de ese día, y `"cumpleanos"` la semana del cumpleaños de la persona de `con`. Pasa como mucho una vez al año. Con `probabilidad_anual`, esa es la probabilidad de que ese año se viva como momento | — |
 
 Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla se cierra al terminar el evento.
@@ -874,6 +876,13 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.en_clases` | Si va a un curso y esa semana hay clases (no son vacaciones de verano ni de invierno) |
 | `jugador.curso` | En qué año de su etapa va (1 a 8 en básica, 1 a 4 en media), o 0 si no va a un curso |
 | `jugador.companeros` | Cuántos compañeros con nombre tiene en su curso |
+| `jugador.prueba_anunciada` | Si hay una prueba anunciada para la semana que viene (la que se juega como momento). Con ella se puede usar `jugador.preparar_prueba(n)`, de 0 a 3: cada punto sube la nota unas 0,3 |
+| `jugador.prueba_devuelta` | Si esta semana le devolvieron la prueba anunciada con su nota |
+| `jugador.nota_prueba` | La nota de esa prueba, en la escala de 1 a 7 (en Argentina se lleva a esa escala), o 0 |
+| `jugador.prueba_aprobada` | Si esa prueba quedó aprobada |
+| `jugador.promedio` | Su promedio general del año que va (en vacaciones, el del año pasado), en la escala de 1 a 7, o 0 |
+| `jugador.rojos` | En cuántos ramos va con promedio rojo este año |
+| `jugador.repitio` | Cuántos años repitió |
 | `jugador.madre`, `jugador.padre` | Otro personaje con los mismos datos (`jugador.madre.edad`), o `nada` si no hay |
 | `jugador.pareja` | Su pareja actual (otro personaje: `jugador.pareja.edad`), o `nada`. Usa `jugador.pareja != nada && ...` antes de leer sus datos |
 | `jugador.hijos` | Cuántos hijos vivos tiene (biológicos o adoptados) |

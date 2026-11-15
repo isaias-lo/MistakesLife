@@ -38,6 +38,7 @@ namespace MistakesLife.Core.Presentation
             "ui.horario.dia.0", "ui.horario.dia.1", "ui.horario.dia.2", "ui.horario.dia.3", "ui.horario.dia.4", "ui.horario.dia.5", "ui.horario.dia.6",
             "ui.momento.con", "ui.momento.madre", "ui.momento.padre", "ui.regla.siempre",
             "ui.momento.profe.f", "ui.momento.profe.m", "ui.curso.titulo", "ui.curso.profe_jefe",
+            "ui.notas.titulo", "ui.notas.promedio", "ui.notas.sin_notas", "ui.notas.fin_ano",
             "ui.deseo.titulo", "ui.deseo.cumplido", "ui.deseo.perdido", "ui.deseo.paso",
             "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
             "ui.dinero", "ui.separador_miles",
@@ -265,6 +266,33 @@ namespace MistakesLife.Core.Presentation
             }
 
             return views;
+        }
+
+        /// <summary>Tu libreta de notas; null si nunca has tenido notas.</summary>
+        public ReportCardView? ReportCard()
+        {
+            Character player = Session.World.Player;
+            Education.SchoolRecord? record = player.SchoolRecord;
+            GradeScaleDefinition? scale = player.Residence == null ? null : Session.Content.GetCountry(player.Residence.CountryId).GradeScale;
+            if (record == null || scale == null)
+            {
+                return null;
+            }
+
+            bool finals = record.Marks.Count == 0;
+            SortedDictionary<string, double> averages = finals ? record.LastFinals : Education.GradeRules.Finals(record, scale);
+            var order = Session.Content.GetCountry(player.Residence!.CountryId).EducationStages
+                .SelectMany(st => st.Subjects).Select(sub => sub.Id).Distinct().ToList();
+            var subjects = averages
+                .OrderBy(a => order.IndexOf(a.Key))
+                .Select(a => new SubjectGradesView(
+                    T(a.Key),
+                    finals || !record.Marks.TryGetValue(a.Key, out List<double>? marks) ? new List<string>() : marks.Select(MarkText).ToList(),
+                    MarkText(a.Value),
+                    a.Value < scale.Pass))
+                .ToList();
+            double? general = Education.GradeRules.General(averages, scale);
+            return new ReportCardView(subjects, general.HasValue ? MarkText(general.Value) : null, finals, record.RepeatedYears);
         }
 
         /// <summary>Tu curso del colegio; null si no vas a un curso.</summary>
@@ -881,7 +909,7 @@ namespace MistakesLife.Core.Presentation
             EventDefinition definition = Session.Content.GetEvent(pending.EventId);
             Character? person = EventSystem.PersonOf(Session.World, pending);
             string? personName = person == null ? null : PersonName(definition, person);
-            var options = pending.AvailableOptions.Select(i => WithPerson(T(definition.Options[i].TextKey), personName)).ToList();
+            var options = pending.AvailableOptions.Select(i => WithTest(WithPerson(T(definition.Options[i].TextKey), personName))).ToList();
             int? previous = Session.TimeMachine.PreviousChoice(pending);
             int position = previous.HasValue ? IndexOf(pending.AvailableOptions, previous.Value) : -1;
             string textKey = definition.TextKeyFor(Session.World.TimesHappened(pending.EventId, pending.CharacterId));
@@ -900,7 +928,7 @@ namespace MistakesLife.Core.Presentation
             string watchers = seed == null ? string.Empty : Names(seed.Witnesses.Select(id => world.TryGetCharacter(id, out Character? c) ? c : null));
             string? watching = watchers.Length == 0 ? null : Text("ui.evento.miran", watchers);
 
-            return new EventView(pending.EventId, WithPerson(T(textKey), personName), options, position >= 0 ? position : (int?)null, definition.KeyDay, remembered, watching, noticedBy)
+            return new EventView(pending.EventId, WithTest(WithPerson(T(textKey), personName)), options, position >= 0 ? position : (int?)null, definition.KeyDay, remembered, watching, noticedBy)
             {
                 Person = person == null ? null : PersonInMoment(definition, person),
                 PersonId = person?.Id,
@@ -942,6 +970,33 @@ namespace MistakesLife.Core.Presentation
             }
 
             return parts.Count == 0 ? null : string.Join(" · ", parts);
+        }
+
+        /// <summary>Marca de los textos que se cambia por el ramo de la prueba anunciada o devuelta ("Matemática").</summary>
+        public const string SubjectMark = "{ramo}";
+
+        /// <summary>Marca de los textos que se cambia por la nota de esa prueba ("5,8").</summary>
+        public const string MarkMark = "{nota}";
+
+        /// <summary>Cambia {ramo} y {nota} por los de la prueba del jugador (la anunciada o la que se devolvió).</summary>
+        private string WithTest(string text)
+        {
+            Education.SchoolRecord? record = Session.World.Player.SchoolRecord;
+            if (record?.TestSubjectId == null)
+            {
+                return text;
+            }
+
+            text = text.Replace(SubjectMark, T(record.TestSubjectId));
+            return record.TestMark.HasValue ? text.Replace(MarkMark, MarkText(record.TestMark.Value)) : text;
+        }
+
+        /// <summary>Una nota como se escribe en el país ("5,8" en Chile, "7" en Argentina).</summary>
+        public string MarkText(double mark)
+        {
+            int decimals = Session.World.Player.Residence == null ? 1
+                : Session.Content.GetCountry(Session.World.Player.Residence.CountryId).GradeScale?.Decimals ?? 1;
+            return mark.ToString("F" + decimals.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).Replace('.', ',');
         }
 
         /// <summary>Marca de los textos que se cambia por el nombre de la persona del momento.</summary>

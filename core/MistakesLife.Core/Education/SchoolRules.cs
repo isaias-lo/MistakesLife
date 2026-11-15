@@ -63,6 +63,13 @@ namespace MistakesLife.Core.Education
             return (int)Math.Floor((date.TotalWeeks - startWeek) / (double)GameDate.WeeksPerYear);
         }
 
+        /// <summary>
+        /// La edad con que se cuenta su etapa del colegio: su edad menos los años que repitió
+        /// (quien repitió una vez a los 10 va en el curso de los de 9).
+        /// </summary>
+        public static int SchoolAge(Character character, GameDate date) =>
+            Math.Max(0, character.AgeInYears(date) - (character.SchoolRecord?.RepeatedYears ?? 0));
+
         /// <summary>La etapa del colegio con curso que le toca a esa persona hoy, o null.</summary>
         public static EducationStageDefinition? ClassStage(World world, ContentDatabase content, Character character)
         {
@@ -71,8 +78,19 @@ namespace MistakesLife.Core.Education
                 return null;
             }
 
-            EducationStageDefinition? stage = content.GetCountry(character.Residence.CountryId).StageForAge(character.AgeInYears(world.Date));
+            EducationStageDefinition? stage = content.GetCountry(character.Residence.CountryId).StageForAge(SchoolAge(character, world.Date));
             return stage != null && stage.HasClass ? stage : null;
+        }
+
+        /// <summary>
+        /// Si <paramref name="other"/> nació para ir al mismo curso que el jugador (contando los
+        /// años que el jugador repitió).
+        /// </summary>
+        public static bool SameCohort(Character player, Character other)
+        {
+            int cohort = player.BirthDate.TotalWeeks + ((player.SchoolRecord?.RepeatedYears ?? 0) * GameDate.WeeksPerYear);
+            int gap = other.BirthDate.TotalWeeks - cohort;
+            return gap >= OldestClassmateWeeks && gap <= YoungestClassmateWeeks;
         }
 
         /// <summary>Si hoy tiene clases: va a un curso y no son vacaciones.</summary>
@@ -108,14 +126,13 @@ namespace MistakesLife.Core.Education
         {
             CountryDefinition country = content.GetCountry(player.Residence!.CountryId);
             SchoolClassDefinition rules = country.SchoolClass ?? DefaultClass;
-            var cls = new SchoolClass(stage.Id, 1 + Math.Max(0, player.AgeInYears(world.Date) - stage.FromAge), random.Pick(Letters), schoolYear, rules.Students);
+            var cls = new SchoolClass(stage.Id, 1 + Math.Max(0, SchoolAge(player, world.Date) - stage.FromAge), random.Pick(Letters), schoolYear, rules.Students);
 
             // Los que ya conocías: tu curso de antes y tus amigos o rivales de tu edad.
             var known = Classmates(world, player).ToList();
             foreach (RelationshipBond bond in new[] { RelationshipBond.Friend, RelationshipBond.Rival })
             {
-                known.AddRange(RelationshipRules.WithBond(world, player, bond)
-                    .Where(p => Math.Abs(p.AgeInYears(world.Date) - player.AgeInYears(world.Date)) <= FamilyFactory.MaxSchoolAgeGap && p.AgeInYears(world.Date) < 18));
+                known.AddRange(RelationshipRules.WithBond(world, player, bond).Where(p => SameCohort(player, p)));
             }
 
             foreach (Character person in known.Distinct().OrderBy(p => p.Id))
@@ -225,7 +242,9 @@ namespace MistakesLife.Core.Education
             var free = pool.Where(n => !taken.Contains(n)).ToList();
             string firstName = random.Pick(free.Count > 0 ? (IReadOnlyList<string>)free : pool);
             string lastName = WorldFactory.Surnames(country, random.Pick(country.Names.Surnames), random.Pick(country.Names.Surnames));
-            var birth = new GameDate(player.BirthDate.TotalWeeks + random.NextInt(OldestClassmateWeeks, YoungestClassmateWeeks + 1));
+            // Quien repitió va con los de un año menos (ver SameCohort).
+            int behind = (player.SchoolRecord?.RepeatedYears ?? 0) * GameDate.WeeksPerYear;
+            var birth = new GameDate(player.BirthDate.TotalWeeks + behind + random.NextInt(OldestClassmateWeeks, YoungestClassmateWeeks + 1));
 
             Character mate = WorldFactory.NewPerson(world, random, firstName, lastName, sex, birth);
             mate.Residence = player.Residence;

@@ -242,6 +242,18 @@ namespace MistakesLife.Core.Saving
                     SchoolYear = c.SchoolClass.SchoolYear, Students = c.SchoolClass.Students,
                     TeacherId = c.SchoolClass.TeacherId, ClassmateIds = c.SchoolClass.ClassmateIds.ToList(),
                 },
+                SchoolRecord = c.SchoolRecord == null ? null : new SchoolRecordData
+                {
+                    Marks = c.SchoolRecord.Marks.Count == 0 ? null : c.SchoolRecord.Marks.ToDictionary(m => m.Key, m => m.Value.ToList()),
+                    YearAverages = c.SchoolRecord.YearAverages.Count == 0 ? null : c.SchoolRecord.YearAverages.ToList(),
+                    LastFinals = c.SchoolRecord.LastFinals.Count == 0 ? null : c.SchoolRecord.LastFinals.ToDictionary(f => f.Key, f => f.Value),
+                    RepeatedYears = c.SchoolRecord.RepeatedYears,
+                    TestSubjectId = c.SchoolRecord.TestSubjectId,
+                    TestWeek = c.SchoolRecord.TestWeek,
+                    TestPreparation = c.SchoolRecord.TestPreparation,
+                    TestMark = c.SchoolRecord.TestMark,
+                    TestReturnedWeek = c.SchoolRecord.TestReturnedWeek,
+                },
                 Degrees = c.Degrees.ToList(),
                 IsAlive = c.IsAlive,
                 DeathWeek = c.DeathDate?.TotalWeeks,

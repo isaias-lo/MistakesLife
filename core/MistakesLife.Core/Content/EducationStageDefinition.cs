@@ -30,5 +30,16 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("curso")]
         public bool HasClass { get; set; }
+
+        /// <summary>Los ramos de la etapa, con los cursos en que se tienen ("ramos"). Solo en etapas con curso.</summary>
+        [JsonProperty("ramos")]
+        public System.Collections.Generic.List<SubjectDefinition> Subjects { get; set; } = new System.Collections.Generic.List<SubjectDefinition>();
+
+        /// <summary>
+        /// Las formas de pasar de curso ("promocion"); basta cumplir una. Sin ninguna, siempre
+        /// se pasa de curso.
+        /// </summary>
+        [JsonProperty("promocion")]
+        public System.Collections.Generic.List<PromotionRuleDefinition> Promotion { get; set; } = new System.Collections.Generic.List<PromotionRuleDefinition>();
     }
 }

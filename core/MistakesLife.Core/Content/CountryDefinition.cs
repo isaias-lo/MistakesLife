@@ -75,6 +75,10 @@ namespace MistakesLife.Core.Content
         [JsonProperty("curso")]
         public SchoolClassDefinition? SchoolClass { get; set; }
 
+        /// <summary>Cómo se ponen las notas en el colegio (de 1,0 a 7,0 en Chile). Opcional: sin ella no hay notas.</summary>
+        [JsonProperty("escala_notas")]
+        public GradeScaleDefinition? GradeScale { get; set; }
+
         [JsonProperty("etapas_educacion")]
         public List<EducationStageDefinition> EducationStages { get; set; } = new List<EducationStageDefinition>();
 
@@ -207,6 +211,35 @@ namespace MistakesLife.Core.Content
             }
 
             return true;
+        }
+
+        /// <summary>Si esa semana son las vacaciones de verano (entre el fin y el inicio del año escolar).</summary>
+        public bool IsSummerBreak(Time.GameDate date)
+        {
+            if (!SchoolYearStartDay.HasValue || !SchoolYearEndDay.HasValue)
+            {
+                return false;
+            }
+
+            int week = date.DayOfYear / 7;
+            int start = SchoolYearStartDay.Value / 7;
+            int end = SchoolYearEndDay.Value / 7;
+            return start <= end ? week >= end || week < start : week >= end && week < start;
+        }
+
+        /// <summary>Cuántas semanas de clases tiene un año escolar.</summary>
+        public int SchoolWeeksPerYear()
+        {
+            int weeks = 0;
+            for (int i = 0; i < Time.GameDate.WeeksPerYear; i++)
+            {
+                if (IsSchoolTime(new Time.GameDate(i)))
+                {
+                    weeks++;
+                }
+            }
+
+            return weeks;
         }
 
         /// <summary>La etapa que corresponde a una edad, o null.</summary>

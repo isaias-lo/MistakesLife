@@ -82,6 +82,7 @@ namespace MistakesLife.Unity
             "escena.casa.tarjeta_refri" => "ancla.muro_lateral",
             "escena.casa.afiche_lista" => "ancla.muro_lateral",
             "escena.casa.folletos_estudios" => "ancla.mesa",
+            "escena.casa.prueba_refri" => "ancla.muro_lateral",
             _ => null,
         };
 
@@ -412,6 +413,13 @@ namespace MistakesLife.Unity
                     kit.Box("Franja de la lista", new Vector3(0.037f, 0.72f, 0.3f), new Vector3(0.005f, 0.08f, 0.22f), new Color(0.20f, 0.55f, 0.35f));
                     kit.Box("Letras del afiche", new Vector3(0.037f, 0.58f, 0.3f), new Vector3(0.005f, 0.03f, 0.18f), new Color(0.15f, 0.15f, 0.20f));
                     kit.Box("Cinta del afiche", new Vector3(0.037f, 0.8f, 0.3f), new Vector3(0.005f, 0.03f, 0.08f), new Color(0.91f, 0.84f, 0.59f));
+                    break;
+                case "escena.casa.prueba_refri":
+                    // La prueba con buena nota que dejaste pegada para que la vieran: hoja blanca, nota en rojo y un imán.
+                    GameObject test = kit.Box("Prueba con buena nota", new Vector3(0.03f, 1.0f, 0.25f), new Vector3(0.01f, 0.24f, 0.17f), Palette.Paper);
+                    test.transform.localRotation = Quaternion.Euler(-4f, 0f, 0f);
+                    kit.Box("Nota de la prueba", new Vector3(0.037f, 1.08f, 0.3f), new Vector3(0.005f, 0.04f, 0.05f), Palette.Alarm);
+                    kit.Ball("Imán", new Vector3(0.045f, 1.11f, 0.2f), 0.025f, new Color(0.25f, 0.45f, 0.75f));
                     break;
                 case "escena.casa.folletos_estudios":
                     // Los folletos de dónde estudiar que te pasó tu profe jefe, abiertos en abanico sobre la mesa.

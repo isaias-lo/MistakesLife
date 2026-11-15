@@ -210,3 +210,12 @@ Anotado de memoria y por verificar en el [calendario escolar del Mineduc](https:
 - Profesores: cerca del 72 % de quienes hacen clases en el colegio son mujeres (más en básica, menos en media).
 - Edad del curso: entra al mismo curso quien cumple 6 años antes del 31 de marzo, así que los compañeros nacen hasta 9 meses antes y unos 3 meses después que el jugador.
 - Que la profe jefe cambie un año de cada tres, que siga contigo el 40 % del curso al pasar a media y que cada año alguien se cambie de colegio (30 %) son estimaciones por calibrar.
+
+## Notas y pasar de curso (country.json: escala_notas, ramos, promocion)
+
+Anotado de memoria y por verificar en [Ley Chile (BCN)](https://www.bcn.cl/leychile) y el [Mineduc](https://www.mineduc.cl):
+
+- Escala de 1,0 a 7,0 con un decimal; se aprueba con 4,0.
+- Promoción: Decreto 67 de 2018 (evaluación, calificación y promoción). Pasa de curso quien aprueba todos los ramos; con uno reprobado, si el promedio general es 4,5 o más; con dos reprobados, si es 5,0 o más. También pide 85 % de asistencia (el juego todavía no la cuenta) y el director puede decidir después de analizar cada caso.
+- Ramos: bases curriculares de básica (Lenguaje y Comunicación hasta 6º, Lengua y Literatura en 7º y 8º, Inglés desde 5º), de 1º y 2º medio (Biología, Física y Química por separado) y el plan común de 3º y 4º medio desde 2020 (Educación Ciudadana, Filosofía y Ciencias para la Ciudadanía). Orientación y Religión no cuentan para pasar de curso. Los electivos de 3º y 4º medio todavía no están.
+- 10 notas por ramo en un año es una estimación (de 4 a 6 por semestre). Que la nota dependa de la inteligencia, la constancia, el estudio del horario, el ánimo y la suerte, con un promedio cercano a 5,6, es una calibración del juego: el promedio de notas de enseñanza media en Chile ronda el 5,7.

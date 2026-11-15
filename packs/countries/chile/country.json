@@ -37,13 +37,43 @@
   "fin_ano_escolar": "13-12",
   "vacaciones_invierno": { "desde": "23-06", "hasta": "04-07" },
   "curso": { "alumnos": 32, "con_nombre": 10, "cambio_profe_jefe": 0.3, "siguen_al_cambiar_etapa": 0.4, "cambios_por_ano": 0.3, "profes_mujeres": 0.72 },
+  "escala_notas": { "minima": 1.0, "maxima": 7.0, "aprueba": 4.0, "decimales": 1, "notas_por_ano": 10 },
   "etapas_educacion": [
     { "id": "etapa.chile.sala_cuna", "edad_desde": 0, "edad_hasta": 2 },
     { "id": "etapa.chile.nivel_medio", "edad_desde": 2, "edad_hasta": 4 },
     { "id": "etapa.chile.prekinder", "edad_desde": 4, "edad_hasta": 5 },
     { "id": "etapa.chile.kinder", "edad_desde": 5, "edad_hasta": 6, "obligatoria": true },
-    { "id": "etapa.chile.basica", "edad_desde": 6, "edad_hasta": 14, "obligatoria": true, "curso": true },
-    { "id": "etapa.chile.media", "edad_desde": 14, "edad_hasta": 18, "obligatoria": true, "curso": true }
+    { "id": "etapa.chile.basica", "edad_desde": 6, "edad_hasta": 14, "obligatoria": true, "curso": true,
+      "ramos": [
+        { "id": "ramo.chile.lenguaje", "hasta": 6 },
+        { "id": "ramo.chile.lengua_literatura", "desde": 7 },
+        { "id": "ramo.chile.matematica" },
+        { "id": "ramo.chile.historia" },
+        { "id": "ramo.chile.ciencias_naturales" },
+        { "id": "ramo.chile.ingles", "desde": 5 },
+        { "id": "ramo.chile.artes", "prueba_escrita": false },
+        { "id": "ramo.chile.musica", "prueba_escrita": false },
+        { "id": "ramo.chile.educacion_fisica", "prueba_escrita": false },
+        { "id": "ramo.chile.tecnologia" }
+      ],
+      "promocion": [{ "reprobados": 0 }, { "reprobados": 1, "promedio_minimo": 4.5 }, { "reprobados": 2, "promedio_minimo": 5.0 }] },
+    { "id": "etapa.chile.media", "edad_desde": 14, "edad_hasta": 18, "obligatoria": true, "curso": true,
+      "ramos": [
+        { "id": "ramo.chile.lengua_literatura" },
+        { "id": "ramo.chile.matematica" },
+        { "id": "ramo.chile.historia", "hasta": 2 },
+        { "id": "ramo.chile.biologia", "hasta": 2 },
+        { "id": "ramo.chile.fisica", "hasta": 2 },
+        { "id": "ramo.chile.quimica", "hasta": 2 },
+        { "id": "ramo.chile.ingles" },
+        { "id": "ramo.chile.educacion_fisica", "hasta": 2, "prueba_escrita": false },
+        { "id": "ramo.chile.artes", "hasta": 2, "prueba_escrita": false },
+        { "id": "ramo.chile.tecnologia", "hasta": 2 },
+        { "id": "ramo.chile.educacion_ciudadana", "desde": 3 },
+        { "id": "ramo.chile.filosofia", "desde": 3 },
+        { "id": "ramo.chile.ciencias_ciudadania", "desde": 3 }
+      ],
+      "promocion": [{ "reprobados": 0 }, { "reprobados": 1, "promedio_minimo": 4.5 }, { "reprobados": 2, "promedio_minimo": 5.0 }] }
   ],
   "mortalidad": [
     { "edad": 0, "femenino": 0.0072, "masculino": 0.00813 },

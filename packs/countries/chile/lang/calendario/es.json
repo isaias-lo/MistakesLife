@@ -32,5 +32,22 @@
   "diario.reunion_apoderados_libreta.culpar": "Le dije a mi mamá que la profe se había confundido. Ninguna de las dos me creyó.",
 
   "curso.etapa.chile.basica": "{0}º básico {1}",
-  "curso.etapa.chile.media": "{0}º medio {1}"
+  "curso.etapa.chile.media": "{0}º medio {1}",
+
+  "ramo.chile.lenguaje": "Lenguaje y Comunicación",
+  "ramo.chile.lengua_literatura": "Lengua y Literatura",
+  "ramo.chile.matematica": "Matemática",
+  "ramo.chile.historia": "Historia",
+  "ramo.chile.ciencias_naturales": "Ciencias Naturales",
+  "ramo.chile.ingles": "Inglés",
+  "ramo.chile.artes": "Artes Visuales",
+  "ramo.chile.musica": "Música",
+  "ramo.chile.educacion_fisica": "Educación Física",
+  "ramo.chile.tecnologia": "Tecnología",
+  "ramo.chile.biologia": "Biología",
+  "ramo.chile.fisica": "Física",
+  "ramo.chile.quimica": "Química",
+  "ramo.chile.educacion_ciudadana": "Educación Ciudadana",
+  "ramo.chile.filosofia": "Filosofía",
+  "ramo.chile.ciencias_ciudadania": "Ciencias para la Ciudadanía"
 }

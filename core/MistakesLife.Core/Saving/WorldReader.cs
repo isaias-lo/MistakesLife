@@ -334,6 +334,31 @@ namespace MistakesLife.Core.Saving
                 character.SchoolClass = cls;
             }
 
+            if (d.SchoolRecord != null)
+            {
+                var record = new Education.SchoolRecord
+                {
+                    RepeatedYears = d.SchoolRecord.RepeatedYears,
+                    TestSubjectId = d.SchoolRecord.TestSubjectId,
+                    TestWeek = d.SchoolRecord.TestWeek,
+                    TestPreparation = d.SchoolRecord.TestPreparation,
+                    TestMark = d.SchoolRecord.TestMark,
+                    TestReturnedWeek = d.SchoolRecord.TestReturnedWeek,
+                };
+                foreach (var marks in d.SchoolRecord.Marks ?? new Dictionary<string, List<double>>())
+                {
+                    record.Marks[marks.Key] = marks.Value.ToList();
+                }
+
+                record.YearAverages.AddRange(d.SchoolRecord.YearAverages ?? new List<double>());
+                foreach (var final in d.SchoolRecord.LastFinals ?? new Dictionary<string, double>())
+                {
+                    record.LastFinals[final.Key] = final.Value;
+                }
+
+                character.SchoolRecord = record;
+            }
+
             if (!d.IsAlive)
             {
                 character.RestoreDeath(Date(d.DeathWeek ?? d.BirthWeek), d.DeathCauseId ?? Character.CauseNatural);

@@ -75,7 +75,7 @@ namespace MistakesLife.Core.Life
             // desde la primera semana y no se pide dos veces.
             string? stage = character.Residence == null
                 ? character.EducationStageId
-                : content.GetCountry(character.Residence.CountryId).StageForAge(character.AgeInYears(world.Date))?.Id;
+                : content.GetCountry(character.Residence.CountryId).StageForAge(Education.SchoolRules.SchoolAge(character, world.Date))?.Id;
             if (stage != null)
             {
                 // En el colegio, el horario es de un año escolar: cada año, el día que
