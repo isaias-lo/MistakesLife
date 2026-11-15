@@ -46,9 +46,19 @@ namespace MistakesLife.ConsoleGame
         public void Run()
         {
             PrintBirth();
+            int chapterYear = _session.World.Date.Year;
             while (true)
             {
                 PrintJournal();
+
+                // Al pasar de año, el año que termina se cierra como un capítulo del diario.
+                int year = _session.World.Date.Year;
+                if (year > chapterYear)
+                {
+                    PrintChapter(new LifePresenter(_session).Chapter(year - 1));
+                }
+
+                chapterYear = year;
                 if (!_session.World.Player.IsAlive)
                 {
                     PrintEnd();
@@ -733,9 +743,26 @@ namespace MistakesLife.ConsoleGame
 
         private void PrintFullJournal()
         {
-            foreach (JournalEntry entry in _session.World.Journal.Where(e => e.CharacterId == _session.World.PlayerId))
+            foreach (ChapterView chapter in new LifePresenter(_session).Chapters())
             {
-                _output.WriteLine($"  {AgeLabel(entry.Date)}: {_session.Text(entry.TextKey)}");
+                PrintChapter(chapter);
+            }
+        }
+
+        /// <summary>Un año como capítulo: el título, la edad y lo que pasó mes a mes.</summary>
+        private void PrintChapter(ChapterView chapter)
+        {
+            _output.WriteLine();
+            _output.WriteLine($"  ~ {chapter.Title} ({chapter.AgeLabel}) ~");
+            if (chapter.Photo != null)
+            {
+                string[] parts = new[] { chapter.Photo.When, chapter.Photo.Place, chapter.Photo.Person }.Where(x => x != null).ToArray()!;
+                _output.WriteLine($"    [foto: {string.Join(" · ", parts)}]");
+            }
+
+            foreach (ChapterMonthView month in chapter.Months)
+            {
+                _output.WriteLine($"    {month.Month}: {string.Join(" ", month.Lines)}");
             }
         }
 

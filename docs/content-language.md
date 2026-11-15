@@ -9,6 +9,7 @@ packs/<paquete>/
   seeds/*.json    ← lista de tipos de semilla
   events/*.json   ← lista de eventos
   news/*.json     ← noticias del mundo (temblores, temporales, crisis, elecciones)
+  chapters/*.json ← títulos que las líneas del diario le dan al año (capítulos)
   lang/es.json    ← textos que ve el jugador (clave → texto), uno por idioma
 ```
 
@@ -619,6 +620,30 @@ Regla del rediseño (`docs/rediseno-vida.md`): **un momento detiene el tiempo so
 ```
 
 Cada semana se prueba, en este orden: lo que despierta una semilla, los momentos con fecha de esta semana, los momentos de tu horario, los eventos con `probabilidad_anual` y, al final, uno al azar por `peso`. Los momentos tienen su propio azar, así que agregar uno no cambia qué otros eventos salen. Regla de repeticiones: usa `unico` o `veces_maximas` con `variantes`, para que un cumpleaños no se lea igual cada año.
+
+## Capítulos del año (chapters/)
+
+Cada año de la vida se cierra como un **capítulo del diario** con título propio. El título no se inventa: lo da una línea del diario que de verdad se escribió ese año. Cada archivo de `chapters/` es una lista:
+
+```json
+[
+  { "diario": "diario.muerte_madre", "titulo": "capitulo.muerte_madre", "peso": 10 },
+  { "diario": "diario.amigo_se_va", "titulo": "capitulo.amigo_se_va", "peso": 6 }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `diario` | La clave de la línea del diario (tiene que existir en `lang/`) |
+| `titulo` | La clave del título en `lang/` ("El año en que murió mi mamá"). Puede usar `{persona}`: el nombre de la persona ligada a una semilla plantada ese mismo día; si no hay nadie, esa línea no titula el año |
+| `peso` | 1 a 10: cuánto marca el año. 10 es lo que cambia la vida (nacer, morir alguien cercano); 1, algo que apenas se nota |
+
+Reglas:
+
+- Gana la línea de más peso del año; si empatan, la más nueva.
+- Un mismo título (su texto) sale **una sola vez por vida**: si ya tituló un año anterior, gana la siguiente línea de ese año.
+- Si ninguna línea del año da título, el año se llama por la edad ("El año en que cumplí 9"; el primero, "El año en que nací").
+- Pon cada título en el paquete donde vive su línea del diario, y escribe los textos en primera persona y sin palabras de un solo país en `base` (las variantes `es-AR` pueden cambiarlos).
 
 ## Noticias (news/)
 
