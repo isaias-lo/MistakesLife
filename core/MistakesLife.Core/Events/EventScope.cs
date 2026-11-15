@@ -62,7 +62,7 @@ namespace MistakesLife.Core.Events
         /// <summary>Todos los nombres que existen en el lenguaje.</summary>
         public static readonly IReadOnlyCollection<string> KnownNames = new SortedSet<string>(StringComparer.Ordinal)
         {
-            "jugador", "mundo", SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
+            "jugador", "mundo", PersonRoot, SeedFunction + "()", PlantFunction + "()", JournalFunction + "()", StudyFunction + "()", IfFunction + "()", LawFunction + "()", ChangeLawFunction + "()",
             PriceFunction + "()", ChangeInflationFunction + "()", ChangeCycleFunction + "()",
             MinimumSalaryFunction + "()", TypicalSalaryFunction + "()", DegreeSalaryFunction + "()", RentFunction + "()", GroceriesFunction + "()", FeeFunction + "()",
             RecentNewsFunction + "()", OpenCaseFunction + "()", CaseFunction + "()", CaseAtFunction + "()", OpenCasesFunction + "()",
@@ -75,8 +75,17 @@ namespace MistakesLife.Core.Events
             OpenCaseFunction + "()",
         };
 
+        /// <summary>Con quién pasa el momento, en el lenguaje: "persona.carino += 3".</summary>
+        public const string PersonRoot = "persona";
+
         public EventScope(World world, ContentDatabase content, Character subject, Seed? currentSeed, bool readOnly)
+            : this(world, content, subject, currentSeed, readOnly, null)
         {
+        }
+
+        public EventScope(World world, ContentDatabase content, Character subject, Seed? currentSeed, bool readOnly, Character? person)
+        {
+            Person = person;
             World = world ?? throw new ArgumentNullException(nameof(world));
             Content = content ?? throw new ArgumentNullException(nameof(content));
             Subject = subject ?? throw new ArgumentNullException(nameof(subject));
@@ -96,6 +105,9 @@ namespace MistakesLife.Core.Events
 
         public bool ReadOnly { get; }
 
+        /// <summary>Con quién pasa el momento (el "con" del evento), si es con alguien.</summary>
+        public Character? Person { get; }
+
         public Value GetRoot(string name)
         {
             switch (name)
@@ -104,6 +116,10 @@ namespace MistakesLife.Core.Events
                     return Value.FromObject(new CharacterObject(Subject));
                 case "mundo":
                     return Value.FromObject(new WorldObject(World));
+                case PersonRoot:
+                    return Person == null
+                        ? throw new ScriptException("'persona' solo existe en un evento que dice con quién pasa (con).")
+                        : Value.FromObject(new CharacterObject(Person, Subject));
                 default:
                     throw new ScriptException($"'{name}' no existe.");
             }

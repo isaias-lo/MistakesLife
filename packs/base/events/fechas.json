@@ -1,0 +1,156 @@
+[
+  {
+    "id": "evento.fecha.cumple_mama_nino",
+    "fecha": "cumpleanos",
+    "con": "madre",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.edad >= 6 && jugador.edad < 12",
+    "probabilidad_anual": 0.7,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.fecha.cumple_mama_nino.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.fecha.cumple_mama_nino.tarjeta",
+        "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 2",
+          "jugador.marcar('tarjeta_en_el_refri')",
+          "diario('diario.fecha.cumple_mama_nino.tarjeta')"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.cumple_mama_nino.saludar",
+        "tendencia": "40",
+        "efectos": [
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.cumple_mama_nino.nada",
+        "tendencia": "(100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "persona.carino -= 3",
+          "persona.rencor += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.fecha.cumple_mama_grande",
+    "fecha": "cumpleanos",
+    "con": "madre",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.edad >= 12 && jugador.edad < 18",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.fecha.cumple_mama_grande.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.fecha.cumple_mama_grande.quedarse",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.cumple_mama_grande.mensaje",
+        "condiciones": "jugador.tiene_celular",
+        "tendencia": "jugador.extraversion / 3",
+        "efectos": [
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.cumple_mama_grande.olvidar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 4",
+          "persona.rencor += 2",
+          "diario('diario.fecha.cumple_mama_grande.olvidar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.fecha.cumple_amigo",
+    "fecha": "cumpleanos",
+    "con": "amigo",
+    "lugar": "lugar.casa_amigo",
+    "condiciones": "jugador.edad >= 8 && jugador.edad < 18",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "variantes": [
+      "evento.fecha.cumple_amigo.2",
+      "evento.fecha.cumple_amigo.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.fecha.cumple_amigo.hecho",
+        "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",
+        "efectos": [
+          "persona.carino += 4",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.cumple_amigo.sin_regalo",
+        "tendencia": "jugador.extraversion / 3",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.cumple_amigo.excusa",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.carino -= 4",
+          "diario('diario.fecha.cumple_amigo.excusa')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.fecha.navidad",
+    "fecha": "24-12",
+    "con": "madre",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.edad >= 6 && jugador.edad < 18",
+    "probabilidad_anual": 0.5,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.fecha.navidad.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.fecha.navidad.abrazo",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.navidad.no_importa",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.navidad.reclamar",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 5",
+          "persona.rencor += 2",
+          "diario('diario.fecha.navidad.reclamar')"
+        ]
+      }
+    ]
+  }
+]

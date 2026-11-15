@@ -89,7 +89,7 @@ namespace MistakesLife.Core.Saving
                     continue;
                 }
 
-                world.AddPendingEvent(new PendingEvent(p.EventId, p.CharacterId, Date(p.Week), p.SeedId, p.AvailableOptions.ToList()));
+                world.AddPendingEvent(new PendingEvent(p.EventId, p.CharacterId, Date(p.Week), p.SeedId, p.AvailableOptions.ToList(), p.PersonId));
             }
 
             foreach (EventRecordData e in data.EventHistory)

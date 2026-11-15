@@ -33,6 +33,21 @@ namespace MistakesLife.Core.Life
         /// <summary>Lo que hay en un bloque (null si está libre). <paramref name="day"/> va de 0 (lunes) a 6 (domingo).</summary>
         public string? Get(int day, RoutineBlock block) => _slots[Index(day, block)];
 
+        /// <summary>Cuántas veces por semana está esa actividad en el horario.</summary>
+        public int Count(string activityId)
+        {
+            int count = 0;
+            foreach (string? slot in _slots)
+            {
+                if (slot == activityId)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
         public void Set(int day, RoutineBlock block, string? activityId) => _slots[Index(day, block)] = activityId;
 
         private static int Index(int day, RoutineBlock block)

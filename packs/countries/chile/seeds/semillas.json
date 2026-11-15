@@ -62,5 +62,13 @@
     "fuerza": 60,
     "vence_anios": 1,
     "dormir_min_semanas": 2
+  },
+  {
+    "id": "semilla.libreta_firmada",
+    "tipo": "negativa",
+    "fuerza": 80,
+    "vence_anios": 1,
+    "dormir_min_semanas": 10,
+    "condiciones": "semilla('semilla.libreta_firmada').testigo != nada"
   }
 ]

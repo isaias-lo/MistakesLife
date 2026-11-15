@@ -69,6 +69,21 @@ namespace MistakesLife.Core.Analysis
 
         public double AverageEventsPerLife { get; internal set; }
 
+        /// <summary>
+        /// Etapas de la tabla de ritmo del rediseño (docs/rediseno-vida.md): edad desde y
+        /// hasta (sin incluir), y cuántas veces se detiene el tiempo por año en la meta.
+        /// </summary>
+        public static readonly (int From, int To, string Goal)[] PaceStages =
+        {
+            (0, 6, "3 a 5"), (6, 18, "10 a 15"), (18, 31, "15 a 25"), (31, 66, "8 a 12"), (66, 200, "5 a 8"),
+        };
+
+        /// <summary>
+        /// Cuántas veces por año se detuvo el tiempo por un evento que pedía decidir, en cada
+        /// etapa de <see cref="PaceStages"/> (null si ninguna vida llegó a esa etapa).
+        /// </summary>
+        public double?[] StopsPerYear { get; } = new double?[PaceStages.Length];
+
         /// <summary>Vidas que siguen vivas al final y tienen trabajo (con sueldo).</summary>
         public int Working { get; internal set; }
 
@@ -189,6 +204,18 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"# Simulación de {Lives} vidas hasta los {FinalAge} años");
             sb.AppendLine();
             sb.AppendLine($"- Eventos por vida (promedio): {AverageEventsPerLife.ToString("0.0", ci)}");
+            var pace = new List<string>();
+            for (int i = 0; i < PaceStages.Length; i++)
+            {
+                if (StopsPerYear[i].HasValue)
+                {
+                    (int from, int to, string goal) = PaceStages[i];
+                    string ages = to >= 200 ? $"{from}+" : $"{from}-{to - 1}";
+                    pace.Add($"{ages}: {StopsPerYear[i]!.Value.ToString("0.0", ci)} (meta {goal})");
+                }
+            }
+
+            sb.AppendLine($"- Veces que se detiene el tiempo por año, según la edad: {string.Join("; ", pace)}");
             sb.AppendLine($"- Salud / felicidad / inteligencia al final (promedio): {AverageHealth.ToString("0", ci)} / {AverageHappiness.ToString("0", ci)} / {AverageSmarts.ToString("0", ci)}");
             sb.AppendLine($"- Muertes antes de los {FinalAge}: {Deaths}");
             sb.AppendLine($"- Siguen vivos al final: {Alive}; los porcentajes de trabajo, estudio, búsqueda y jubilación son sobre ellos");

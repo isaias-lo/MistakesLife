@@ -1,5 +1,7 @@
 [
   { "id": "escena.casa.foto_ahijado", "lugar": "casa", "condiciones": "jugador.tiene('padrino_de_un_ahijado')" },
   { "id": "escena.casa.foto_viaje_pareja", "lugar": "casa", "condiciones": "jugador.tiene('foto_viaje_pareja') && jugador.pareja != nada" },
-  { "id": "escena.casa.postal_amigo_lejos", "lugar": "casa", "condiciones": "jugador.tiene('postal_amigo_lejos')" }
+  { "id": "escena.casa.postal_amigo_lejos", "lugar": "casa", "condiciones": "jugador.tiene('postal_amigo_lejos')" },
+  { "id": "escena.casa.camiseta_seleccion", "lugar": "casa", "condiciones": "jugador.tiene('seleccion_comunal') && jugador.edad < 25" },
+  { "id": "escena.casa.tarjeta_refri", "lugar": "casa", "condiciones": "jugador.tiene('tarjeta_en_el_refri') && jugador.edad < 18" }
 ]

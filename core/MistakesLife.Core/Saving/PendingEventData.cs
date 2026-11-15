@@ -13,6 +13,9 @@ namespace MistakesLife.Core.Saving
 
         public int? SeedId { get; set; }
 
+        /// <summary>Con quién pasa el momento (versión 20 en adelante).</summary>
+        public int? PersonId { get; set; }
+
         public List<int> AvailableOptions { get; set; } = new List<int>();
     }
 }

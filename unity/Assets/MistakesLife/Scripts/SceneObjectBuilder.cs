@@ -78,6 +78,8 @@ namespace MistakesLife.Unity
             "escena.casa.postal_amigo_lejos" => "ancla.muro_lateral",
             "escena.casa.foto_viaje_pareja" => "ancla.cuadro_derecha",
             "escena.casa.mecedora" => "ancla.mecedora",
+            "escena.casa.camiseta_seleccion" => "ancla.muro_lateral",
+            "escena.casa.tarjeta_refri" => "ancla.muro_lateral",
             _ => null,
         };
 
@@ -388,6 +390,19 @@ namespace MistakesLife.Unity
                     kit.Box("Foto del bautizo (lámina)", new Vector3(0.05f, 1.7f, 0.45f), new Vector3(0.02f, 0.29f, 0.24f), new Color(0.72f, 0.84f, 0.95f));
                     kit.Ball("Guagua de blanco", new Vector3(0.065f, 1.66f, 0.45f), 0.12f, Color.white);
                     kit.Ball("Cara de la guagua", new Vector3(0.07f, 1.75f, 0.45f), 0.06f, new Color(0.95f, 0.80f, 0.68f));
+                    break;
+                case "escena.casa.camiseta_seleccion":
+                    // La camiseta de la selección de la comuna, colgada en la pared con su número.
+                    kit.Box("Camiseta de la selección", new Vector3(0.03f, 0.95f, -0.4f), new Vector3(0.01f, 0.32f, 0.3f), new Color(0.80f, 0.15f, 0.15f));
+                    kit.Box("Mangas de la camiseta", new Vector3(0.03f, 1.06f, -0.4f), new Vector3(0.01f, 0.09f, 0.46f), new Color(0.80f, 0.15f, 0.15f));
+                    kit.Box("Número de la camiseta", new Vector3(0.037f, 0.94f, -0.4f), new Vector3(0.005f, 0.12f, 0.09f), Palette.Paper);
+                    break;
+                case "escena.casa.tarjeta_refri":
+                    // La tarjeta de cumpleaños que le hiciste a tu mamá: ella la pegó en la pared con cinta.
+                    GameObject card = kit.Box("Tarjeta para tu mamá", new Vector3(0.03f, 1.2f, 0.05f), new Vector3(0.01f, 0.2f, 0.16f), new Color(0.98f, 0.85f, 0.35f));
+                    card.transform.localRotation = Quaternion.Euler(5f, 0f, 0f);
+                    kit.Ball("Corazón de la tarjeta", new Vector3(0.04f, 1.2f, 0.05f), 0.035f, Palette.Alarm);
+                    kit.Box("Cinta de la tarjeta", new Vector3(0.037f, 1.31f, 0.05f), new Vector3(0.005f, 0.03f, 0.08f), new Color(0.91f, 0.84f, 0.59f));
                     break;
                 case "escena.casa.postal_amigo_lejos":
                     // La postal que te mandó tu amigo que se fue lejos, clavada con una chinche.

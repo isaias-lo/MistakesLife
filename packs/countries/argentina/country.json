@@ -33,6 +33,7 @@
       ]
     }
   ],
+  "inicio_ano_escolar": "01-03",
   "etapas_educacion": [
     { "id": "etapa.argentina.jardin_maternal", "edad_desde": 0, "edad_hasta": 3 },
     { "id": "etapa.argentina.sala_de_3", "edad_desde": 3, "edad_hasta": 4 },

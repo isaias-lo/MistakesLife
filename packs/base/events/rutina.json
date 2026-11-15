@@ -1,0 +1,318 @@
+[
+  {
+    "id": "evento.rutina.plaza_timbres",
+    "actividad": "actividad.plaza_amigos",
+    "con": "amigo",
+    "lugar": "lugar.plaza",
+    "condiciones": "jugador.edad >= 8 && jugador.edad < 13",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.rutina.plaza_timbres.ir",
+        "tendencia": "jugador.extraversion / 2 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.carino += 4",
+          "jugador.felicidad += 3",
+          "diario('diario.rutina.plaza_timbres')"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.plaza_timbres.mirar",
+        "tendencia": "30",
+        "efectos": [
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.plaza_timbres.no",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 2",
+          "persona.respeto += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.rutina.plaza_cigarro",
+    "actividad": "actividad.plaza_amigos",
+    "con": "amigo",
+    "lugar": "lugar.plaza",
+    "condiciones": "jugador.edad >= 13 && jugador.edad < 18",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.rutina.plaza_cigarro.probar",
+        "tendencia": "jugador.apertura / 3 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.salud -= 1",
+          "jugador.marcar('probo_cigarro')",
+          "diario('diario.rutina.plaza_cigarro')"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.plaza_cigarro.no",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.plaza_cigarro.irse",
+        "tendencia": "jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.rutina.once_mama_pega",
+    "actividad": "actividad.once_mama",
+    "con": "madre",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.edad >= 9 && jugador.edad < 18",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.rutina.once_mama_pega.escuchar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 6",
+          "persona.confianza += 4",
+          "diario('diario.rutina.once_mama_pega')"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.once_mama_pega.renuncia",
+        "tendencia": "jugador.extraversion / 3",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.once_mama_pega.celular",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 4",
+          "persona.rencor += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.rutina.once_mama_pregunta",
+    "actividad": "actividad.once_mama",
+    "con": "madre",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.edad >= 12 && jugador.edad < 18",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.rutina.once_mama_pregunta.contar",
+        "tendencia": "jugador.extraversion / 3 + jugador.madre.confianza / 3",
+        "efectos": [
+          "persona.confianza += 5",
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.once_mama_pregunta.cambiar",
+        "tendencia": "40",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.rutina.once_mama_pregunta.mal",
+        "tendencia": "jugador.neuroticismo / 3",
+        "efectos": [
+          "persona.carino -= 4",
+          "persona.rencor += 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.rutina.fuente_quebrada",
+    "actividad": "actividad.ayudar_casa",
+    "con": "madre",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.edad >= 8 && jugador.edad < 15",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.rutina.fuente_quebrada.contar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.confianza += 4",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.fuente_quebrada.esconder",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "plantar('semilla.fuente_escondida', persona)",
+          "diario('diario.rutina.fuente_escondida')"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.fuente_quebrada.trizada",
+        "tendencia": "(100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "persona.confianza -= 2",
+          "plantar('semilla.fuente_escondida', persona)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.mama_encuentra_fuente",
+    "semilla": "semilla.fuente_escondida",
+    "condiciones": "semilla('semilla.fuente_escondida').testigo != nada",
+    "opciones": [
+      {
+        "texto": "opcion.mama_encuentra_fuente.confesar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "semilla('semilla.fuente_escondida').testigo.confianza -= 3",
+          "semilla('semilla.fuente_escondida').testigo.carino += 1",
+          "diario('diario.mama_encuentra_fuente.confesar')"
+        ]
+      },
+      {
+        "texto": "opcion.mama_encuentra_fuente.leso",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "semilla('semilla.fuente_escondida').testigo.confianza -= 8",
+          "semilla('semilla.fuente_escondida').testigo.rencor += 4",
+          "diario('diario.mama_encuentra_fuente.leso')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.rutina.estudiar_guia",
+    "actividad": "actividad.estudiar",
+    "lugar": "lugar.pieza",
+    "condiciones": "jugador.edad >= 9 && jugador.edad < 18",
+    "probabilidad_anual": 0.4,
+    "veces_maximas": 2,
+    "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.rutina.estudiar_guia.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.rutina.estudiar_guia.mama",
+        "condiciones": "jugador.madre != nada",
+        "tendencia": "jugador.madre.confianza / 3",
+        "efectos": [
+          "jugador.madre.carino += 2",
+          "jugador.inteligencia += 2"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.estudiar_guia.solo",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.inteligencia += 1",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.estudiar_guia.copiar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.inteligencia -= 1",
+          "diario('diario.rutina.estudiar_guia.copiar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.rutina.seleccion_comunal",
+    "actividad": "actividad.deporte",
+    "lugar": "lugar.cancha",
+    "condiciones": "jugador.edad >= 10 && jugador.edad < 16 && jugador.salud >= 60",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.rutina.seleccion_comunal.si",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.extraversion / 3",
+        "efectos": [
+          "jugador.marcar('seleccion_comunal')",
+          "jugador.salud += 2",
+          "jugador.felicidad += 2",
+          "diario('diario.rutina.seleccion_comunal')"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.seleccion_comunal.no",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.rutina.video_companero",
+    "actividad": "actividad.celular",
+    "lugar": "lugar.pieza",
+    "condiciones": "jugador.edad >= 11 && jugador.edad < 18",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.rutina.video_companero.reenviar",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + jugador.extraversion / 5",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "plantar('semilla.video_reenviado')"
+        ]
+      },
+      {
+        "texto": "opcion.rutina.video_companero.salir",
+        "tendencia": "jugador.neuroticismo / 4",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.rutina.video_companero.borrar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.felicidad -= 1",
+          "diario('diario.rutina.video_companero.borrar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.citan_apoderado_video",
+    "semilla": "semilla.video_reenviado",
+    "condiciones": "jugador.madre != nada && jugador.edad < 18",
+    "opciones": [
+      {
+        "texto": "opcion.citan_apoderado_video.reconocer",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.madre.confianza -= 2",
+          "jugador.madre.respeto += 2",
+          "diario('diario.citan_apoderado_video.reconocer')"
+        ]
+      },
+      {
+        "texto": "opcion.citan_apoderado_video.negar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.madre.confianza -= 6",
+          "diario('diario.citan_apoderado_video.negar')"
+        ]
+      }
+    ]
+  }
+]
