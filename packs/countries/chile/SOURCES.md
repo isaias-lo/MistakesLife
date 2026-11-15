@@ -236,3 +236,9 @@ Del [Código del Trabajo (BCN)](https://www.bcn.cl/leychile/navegar?idNorma=2074
 - Feriado proporcional (art. 73): si el contrato termina antes de tomar los días, se pagan. Los días hábiles se pagan como corridos (sumando sábados, domingos y feriados que caen entre medio); el juego usa 1,4 días pagados por día hábil (7 días corridos por cada 5 hábiles) y el sueldo diario = sueldo mensual / 30.
 - Renuncia voluntaria (art. 159 n.º 2): con aviso al empleador con 30 días de anticipación, firmada ante un ministro de fe (inspector del trabajo, notario) o hoy por la plataforma de la DT. No da indemnización por años de servicio; sí se pagan los días trabajados y el feriado proporcional. Si el trabajador no avisa con 30 días, la ley no le impone una multa.
 - Pedir aumento: la respuesta sigue la encuesta "Raise Anatomy" de [PayScale](https://www.payscale.com) (2018, unas 160 mil personas, EE. UU.): de quienes pidieron, el 39 % recibió lo que pidió, el 31 % recibió menos y el 30 % nada. No hay una encuesta igual de grande en Chile; el juego la usa como base y la mueve por desempeño, respeto del jefe y economía (calibración del juego).
+
+## Futuros juntos (R6d): recomendar y vivir juntos
+
+- Recomendar en tu pega ("pituto"): la probabilidad de que contraten a quien recomiendas es la misma que la de una entrevista que llega por contacto en `busqueda_trabajo` (35 % + 20 %).
+- Subarrendar: el Código Civil (art. 1946) no permite al arrendatario subarrendar sin facultad expresa del dueño; la Ley 18.101 (art. 5) la da por implícita solo en contratos de plazo fijo de más de un año. Los contratos del juego son de 12 meses, así que hace falta permiso.
+- Que a quien vive contigo no le alcance para el arriendo: 9 % al año, cerca de la tasa de desocupación del INE (alrededor de 8,5 % en 2024). Es una estimación: no es lo mismo quedar desocupado que no poder pagar.

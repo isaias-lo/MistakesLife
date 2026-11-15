@@ -148,6 +148,45 @@ namespace MistakesLife.Core.Events
             return TryOccur(world, null, ev, player, random);
         }
 
+        /// <summary>
+        /// Los momentos que el jugador puede pedir ahora con esa persona (los "a_pedido" con
+        /// `con` en los que esa persona calza), para los botones de su ficha.
+        /// </summary>
+        public IReadOnlyList<EventDefinition> RequestableWith(World world, int personId)
+        {
+            Character player = world.Player;
+            if (!player.IsAlive || world.PendingEvents.Any(p => p.CharacterId == player.Id)
+                || !world.TryGetCharacter(personId, out Character? person) || !person.IsAlive)
+            {
+                return Array.Empty<EventDefinition>();
+            }
+
+            return Content.Events
+                .Where(e => e.OnRequest != null && e.With != null && CanRequestWith(world, e, player, person))
+                .OrderBy(e => e.Id, StringComparer.Ordinal)
+                .ToList();
+        }
+
+        /// <summary>El jugador pide un momento con esa persona (un botón de su ficha). Devuelve si pasó.</summary>
+        public bool Request(World world, string eventId, int personId)
+        {
+            EventDefinition? ev = Content.Events.FirstOrDefault(e => e.Id == eventId && e.OnRequest != null && e.With != null);
+            Character player = world.Player;
+            if (ev == null || !player.IsAlive || world.PendingEvents.Any(p => p.CharacterId == player.Id)
+                || !world.TryGetCharacter(personId, out Character? person) || !CanRequestWith(world, ev, player, person))
+            {
+                return false;
+            }
+
+            Occur(world, null, ev, player, null, person);
+            return true;
+        }
+
+        private bool CanRequestWith(World world, EventDefinition ev, Character player, Character person) =>
+            CanRepeat(world, ev, player)
+            && ChatSystem.PeopleAs(world, player, ev.With!, minAge: 0).Any(p => p.Id == person.Id)
+            && Passes(ev, new EventScope(world, Content, player, null, readOnly: true, person));
+
         private bool CanRequest(World world, EventDefinition ev, Character player)
         {
             if (ev.With == null)

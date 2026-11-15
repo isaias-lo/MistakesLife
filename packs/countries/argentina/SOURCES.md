@@ -65,3 +65,9 @@ De la [Ley de Contrato de Trabajo 20.744 (InfoLEG)](https://servicios.infoleg.go
 - Pago (art. 155): el día de vacaciones vale el sueldo mensual dividido por 25. Al terminar el contrato se pagan las no gozadas, proporcionales al tiempo trabajado (art. 156).
 - Renuncia (art. 240): por telegrama o carta documento, gratis para el trabajador. Preaviso del trabajador (art. 231): 15 días. Si no lo da, debe al empleador la indemnización sustitutiva de esos días (art. 232), que se descuenta de lo que le pagan; el juego lo cobra como medio sueldo.
 - Pedir aumento: misma base que Chile (encuesta "Raise Anatomy" de PayScale, 2018: 39 % todo, 31 % menos, 30 % nada).
+
+## Futuros juntos (R6d): recomendar y vivir juntos
+
+- Recomendar en tu laburo: misma probabilidad que una entrevista por contacto en `busqueda_trabajo` (35 % + 20 %).
+- Subalquilar: el Código Civil y Comercial (art. 1213) no permite al locatario ceder ni sublocar sin el consentimiento del locador.
+- Que a quien vive con vos no le alcance para el alquiler: el juego usa 9 % al año, la misma estimación que en Chile; la desocupación del INDEC ronda el 7 % (2024).

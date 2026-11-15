@@ -183,6 +183,13 @@ namespace MistakesLife.Core.Devices
                 case "equipo":
                     ids.AddRange(Work.WorkRules.Colleagues(world, character).Select(c => c.Id));
                     break;
+                case "companero_casa":
+                    if (Economy.HousingRules.Roommate(world, character) is Character roommate)
+                    {
+                        ids.Add(roommate.Id);
+                    }
+
+                    break;
                 case "profe":
                     if (Education.SchoolRules.Teacher(world, character) is Character teacher)
                     {

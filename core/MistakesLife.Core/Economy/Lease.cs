@@ -53,6 +53,12 @@ namespace MistakesLife.Core.Economy
         /// <summary>Garantía que dejó al firmar (a precios de ese día); se devuelve al irse.</summary>
         public decimal Deposit { get; }
 
+        /// <summary>
+        /// Con quién comparte el arriendo (id de personaje: un amigo que se vino a vivir con él), o
+        /// null. Paga su parte cada mes (ver <see cref="ExpenseSystem"/>).
+        /// </summary>
+        public int? RoommateId { get; set; }
+
         /// <summary>Lo que se paga este mes, a precios del último reajuste.</summary>
         public decimal MonthlyRent => PayrollCalculator.ToToday(BaseRent, AdjustedPriceIndex);
     }

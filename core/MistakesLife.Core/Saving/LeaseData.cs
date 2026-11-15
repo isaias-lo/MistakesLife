@@ -17,5 +17,8 @@ namespace MistakesLife.Core.Saving
         public int MonthsLeft { get; set; }
 
         public decimal Deposit { get; set; }
+
+        /// <summary>Con quién comparte el arriendo, o null (desde la versión 32).</summary>
+        public int? RoommateId { get; set; }
     }
 }

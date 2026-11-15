@@ -1,0 +1,318 @@
+[
+  {
+    "id": "evento.futuro.recomendar_amigo",
+    "texto": "evento.futuro.recomendar",
+    "con": "amigo",
+    "a_pedido": {
+      "texto": "accion.persona.recomendar",
+      "por_ano": "0.08 + jugador.amabilidad / 1000"
+    },
+    "condiciones": "jugador.tiene_equipo && !jugador.renuncio && persona.edad >= 18 && persona.edad <= 60 && !persona.en_tu_equipo",
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.recomendar.si",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.recomendar()",
+          "persona.carino += 4",
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.recomendar.solo_aviso",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.recomendar.no",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.futuro.recomendar_colega",
+    "texto": "evento.futuro.recomendar",
+    "con": "colega",
+    "a_pedido": {
+      "texto": "accion.persona.recomendar",
+      "por_ano": "0.05"
+    },
+    "condiciones": "jugador.tiene_equipo && !jugador.renuncio && persona.edad >= 18 && persona.edad <= 60 && !persona.en_tu_equipo",
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.recomendar.si",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.recomendar()",
+          "persona.carino += 4",
+          "persona.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.recomendar.solo_aviso",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.recomendar.no",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.futuro.recomendado_cumple",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "persona.recomendado && persona.responsabilidad >= 55",
+    "probabilidad_anual": 0.5,
+    "veces_maximas": 2,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.recomendado_cumple.celebrar",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.desempeno += 3",
+          "persona.carino += 4",
+          "diario('diario.futuro.recomendado_cumple')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.recomendado_cumple.discreto",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.desempeno += 3",
+          "persona.confianza += 2",
+          "diario('diario.futuro.recomendado_cumple')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.futuro.recomendado_falla",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "persona.recomendado && persona.responsabilidad < 45",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 2,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.recomendado_falla.defender",
+        "tendencia": "jugador.amabilidad / 2 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.desempeno -= 4",
+          "persona.carino += 5",
+          "persona.confianza += 3",
+          "diario('diario.futuro.recomendado_falla')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.recomendado_falla.hablar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 5",
+        "efectos": [
+          "jugador.desempeno -= 1",
+          "persona.confianza += 2",
+          "persona.respeto += 2",
+          "diario('diario.futuro.recomendado_falla')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.recomendado_falla.desmarcarse",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 6",
+          "persona.rencor += 4",
+          "diario('diario.futuro.recomendado_falla')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.futuro.vivir_juntos",
+    "con": "amigo",
+    "lugar": "lugar.casa",
+    "a_pedido": {
+      "texto": "accion.persona.vivir_juntos",
+      "por_ano": "0.06 + jugador.extraversion / 1000"
+    },
+    "condiciones": "jugador.vivienda != nada && jugador.vivienda != 'vivienda.pieza' && !jugador.comparte_arriendo && jugador.pareja == nada && persona.edad >= 18",
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.vivir_juntos.con_permiso",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.compartir_arriendo()",
+          "persona.carino += 4",
+          "diario('diario.futuro.vivir_juntos')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.vivir_juntos.sin_permiso",
+        "tendencia": "(100 - jugador.responsabilidad) / 2 + jugador.apertura / 5",
+        "efectos": [
+          "jugador.compartir_arriendo()",
+          "persona.carino += 4",
+          "plantar('semilla.subarriendo_sin_permiso', persona)",
+          "diario('diario.futuro.vivir_juntos')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.vivir_juntos.no",
+        "tendencia": "(100 - jugador.extraversion) / 3 + jugador.neuroticismo / 5",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.futuro.dueno_descubre",
+    "semilla": "semilla.subarriendo_sin_permiso",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.comparte_arriendo",
+    "opciones": [
+      {
+        "texto": "opcion.futuro.dueno_descubre.disculpas",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "diario('diario.futuro.dueno_descubre')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.dueno_descubre.que_se_vaya",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "jugador.dejar_de_compartir()",
+          "semilla('semilla.subarriendo_sin_permiso').testigo.carino -= 6",
+          "diario('diario.futuro.dueno_descubre')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.futuro.companero_sin_plata",
+    "con": "companero_casa",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.comparte_arriendo",
+    "probabilidad_anual": 0.09,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.companero_sin_plata.pagar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.dinero -= jugador.arriendo / 2",
+          "persona.carino += 6",
+          "diario('diario.futuro.companero_sin_plata')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.companero_sin_plata.prestar",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.dinero -= jugador.arriendo / 2",
+          "persona.confianza += 3",
+          "plantar('semilla.le_prestaste_arriendo', persona)",
+          "diario('diario.futuro.companero_sin_plata')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.companero_sin_plata.irse",
+        "tendencia": "(100 - jugador.amabilidad) / 2 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.dejar_de_compartir()",
+          "persona.carino -= 10",
+          "persona.rencor += 6",
+          "diario('diario.futuro.companero_se_fue')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.futuro.prestamo_devuelto",
+    "semilla": "semilla.le_prestaste_arriendo",
+    "condiciones": "semilla('semilla.le_prestaste_arriendo').testigo != nada && semilla('semilla.le_prestaste_arriendo').testigo.responsabilidad >= 50",
+    "efectos": [
+      "jugador.dinero += jugador.arriendo / 2",
+      "semilla('semilla.le_prestaste_arriendo').testigo.confianza += 5",
+      "diario('diario.futuro.prestamo_devuelto')"
+    ]
+  },
+  {
+    "id": "evento.futuro.prestamo_olvidado",
+    "semilla": "semilla.le_prestaste_arriendo",
+    "condiciones": "semilla('semilla.le_prestaste_arriendo').testigo != nada && semilla('semilla.le_prestaste_arriendo').testigo.responsabilidad < 50",
+    "opciones": [
+      {
+        "texto": "opcion.futuro.prestamo_olvidado.cobrar",
+        "tendencia": "jugador.responsabilidad / 2 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "semilla('semilla.le_prestaste_arriendo').testigo.rencor += 3",
+          "diario('diario.futuro.prestamo_olvidado')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.prestamo_olvidado.dejarlo",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "semilla('semilla.le_prestaste_arriendo').testigo.confianza -= 5",
+          "diario('diario.futuro.prestamo_olvidado')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.futuro.dejar_de_vivir_juntos",
+    "con": "companero_casa",
+    "lugar": "lugar.casa",
+    "a_pedido": {
+      "texto": "accion.persona.dejar_de_vivir_juntos",
+      "por_ano": "0.12 + jugador.neuroticismo / 1000"
+    },
+    "condiciones": "jugador.comparte_arriendo",
+    "enfriamiento_semanas": 8,
+    "opciones": [
+      {
+        "texto": "opcion.futuro.dejar_de_vivir_juntos.calma",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.dejar_de_compartir()",
+          "persona.carino -= 2",
+          "diario('diario.futuro.companero_se_fue')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.dejar_de_vivir_juntos.espacio",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "jugador.dejar_de_compartir()",
+          "persona.carino -= 6",
+          "persona.rencor += 2",
+          "diario('diario.futuro.companero_se_fue')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.dejar_de_vivir_juntos.no",
+        "tendencia": "jugador.neuroticismo / 3",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  }
+]

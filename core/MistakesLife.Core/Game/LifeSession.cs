@@ -382,6 +382,12 @@ namespace MistakesLife.Core.Game
         /// <summary>El jugador pide un momento con su botón: si se puede, queda pendiente ahora. Devuelve si pasó.</summary>
         public bool Request(string eventId) => Events.Request(World, eventId);
 
+        /// <summary>Los momentos que el jugador puede pedir ahora con esa persona (recomendarla, arrendar juntos...).</summary>
+        public IReadOnlyList<Content.EventDefinition> RequestableWith(int personId) => Events.RequestableWith(World, personId);
+
+        /// <summary>El jugador pide un momento con esa persona: si se puede, queda pendiente ahora. Devuelve si pasó.</summary>
+        public bool Request(string eventId, int personId) => Events.Request(World, eventId, personId);
+
         /// <summary>
         /// El jugador abre un correo de su bandeja (la posición en
         /// <see cref="MailAccount.Messages"/>): queda leído. Leer no cambia la vida;

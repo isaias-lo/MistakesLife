@@ -12,5 +12,8 @@ namespace MistakesLife.Core.Saving
         public List<int> LeftIds { get; set; } = new List<int>();
 
         public int MonthsInJob { get; set; }
+
+        /// <summary>Quienes entraron recomendados por el jugador (desde la versión 32).</summary>
+        public List<int> RecommendedIds { get; set; } = new List<int>();
     }
 }

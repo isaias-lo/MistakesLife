@@ -135,6 +135,7 @@ namespace MistakesLife.Core.Saving
                 Lease = d.Lease == null ? null : new Lease(d.Lease.TypeId, d.Lease.CommuneId, d.Lease.BaseRent, d.Lease.AdjustedPriceIndex, d.Lease.MonthsLeft, d.Lease.Deposit)
                 {
                     MonthsSinceAdjustment = d.Lease.MonthsSinceAdjustment,
+                    RoommateId = d.Lease.RoommateId,
                 },
                 GroceryBasketId = d.GroceryBasketId,
                 PensionFund = d.PensionFund,
@@ -350,6 +351,7 @@ namespace MistakesLife.Core.Saving
                 var team = new Work.WorkTeam { BossId = d.Team.BossId, MonthsInJob = d.Team.MonthsInJob };
                 team.ColleagueIds.AddRange(d.Team.ColleagueIds);
                 team.LeftIds.AddRange(d.Team.LeftIds);
+                team.RecommendedIds.AddRange(d.Team.RecommendedIds ?? new System.Collections.Generic.List<int>());
                 character.Team = team;
             }
 

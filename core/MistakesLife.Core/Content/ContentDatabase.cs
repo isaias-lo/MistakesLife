@@ -1954,7 +1954,7 @@ namespace MistakesLife.Core.Content
 
                 if (country.Economy != null)
                 {
-                    foreach (string key in Work.RaiseRules.Journals)
+                    foreach (string key in Work.RaiseRules.Journals.Concat(Work.ReferralRules.Journals))
                     {
                         yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
                     }
