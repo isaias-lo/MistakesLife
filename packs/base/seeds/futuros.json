@@ -1,0 +1,17 @@
+[
+  {
+    "id": "semilla.subarriendo_sin_permiso",
+    "tipo": "negativa",
+    "fuerza": 40,
+    "vence_anios": 5,
+    "dormir_min_semanas": 8,
+    "condiciones": "jugador.comparte_arriendo"
+  },
+  {
+    "id": "semilla.le_prestaste_arriendo",
+    "tipo": "positiva",
+    "fuerza": 60,
+    "vence_anios": 2,
+    "dormir_min_semanas": 8
+  }
+]

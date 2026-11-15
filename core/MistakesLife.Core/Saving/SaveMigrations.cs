@@ -290,6 +290,8 @@ namespace MistakesLife.Core.Saving
             [29] = save => { },
             // 30 → 31: los días de vacaciones legales de cada trabajo (parten en cero y se ganan mes a mes) y el último día de quien renunció con aviso (nadie).
             [30] = save => { },
+            // 31 → 32: con quién comparte el arriendo y a quiénes recomendó en su equipo (nadie todavía).
+            [31] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

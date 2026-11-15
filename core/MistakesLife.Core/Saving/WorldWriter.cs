@@ -175,6 +175,7 @@ namespace MistakesLife.Core.Saving
                     MonthsSinceAdjustment = c.Lease.MonthsSinceAdjustment,
                     MonthsLeft = c.Lease.MonthsLeft,
                     Deposit = c.Lease.Deposit,
+                    RoommateId = c.Lease.RoommateId,
                 },
                 GroceryBasketId = c.GroceryBasketId,
                 Services = new Dictionary<string, string>(c.Services),
@@ -252,6 +253,7 @@ namespace MistakesLife.Core.Saving
                 Team = c.Team == null ? null : new WorkTeamData
                 {
                     BossId = c.Team.BossId, ColleagueIds = c.Team.ColleagueIds.ToList(), LeftIds = c.Team.LeftIds.ToList(), MonthsInJob = c.Team.MonthsInJob,
+                    RecommendedIds = c.Team.RecommendedIds.ToList(),
                 },
                 SchoolRecord = c.SchoolRecord == null ? null : new SchoolRecordData
                 {

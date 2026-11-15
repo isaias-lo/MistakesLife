@@ -42,6 +42,7 @@ namespace MistakesLife.Unity
             "escena.casa.delantal_garzon" => "ancla.puerta",
             "escena.casa.casco_obra" => "ancla.puerta",
             "escena.casa.caja_pega" => "ancla.puerta",
+            "escena.casa.cosas_companero" => "ancla.puerta",
             "escena.casa.maleta" => "ancla.ropero",
             "escena.casa.comprobante_cae" => "ancla.mesa",
             "escena.casa.notebook" => "ancla.mesa",
@@ -147,6 +148,15 @@ namespace MistakesLife.Unity
                     kit.Box("Caja con tus cosas de la pega", new Vector3(0.62f, 0.14f, 0.3f), new Vector3(0.4f, 0.28f, 0.3f), new Color(0.72f, 0.55f, 0.36f));
                     kit.Box("Taza de la pega", new Vector3(0.55f, 0.32f, 0.26f), new Vector3(0.08f, 0.1f, 0.08f), Color.white);
                     kit.Box("Carpeta de la pega", new Vector3(0.7f, 0.33f, 0.34f), new Vector3(0.03f, 0.12f, 0.2f), new Color(0.20f, 0.35f, 0.60f));
+                    break;
+                case "escena.casa.cosas_companero":
+                    // Vives con un amigo: sus zapatillas y su mochila, de otro color que las tuyas, junto a la puerta.
+                    kit.Box("Mochila de tu compañero de casa", new Vector3(0.12f, 0.2f, -0.62f), new Vector3(0.3f, 0.4f, 0.2f), new Color(0.24f, 0.52f, 0.36f));
+                    for (int shoe = 0; shoe < 2; shoe++)
+                    {
+                        kit.Box("Zapatilla de tu compañero de casa", new Vector3(0.5f, 0.05f, -0.58f - (shoe * 0.13f)), new Vector3(0.26f, 0.1f, 0.1f), new Color(0.92f, 0.92f, 0.95f));
+                    }
+
                     break;
                 case "escena.casa.maleta":
                     // Vacaciones ganadas y sin tomar: la maleta espera parada al lado del ropero.

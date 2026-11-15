@@ -5,6 +5,8 @@ using MistakesLife.Core.Content;
 using MistakesLife.Core.Decisions;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
+using MistakesLife.Core.Life;
+using MistakesLife.Core.Worlds;
 using MistakesLife.Core.Randomness;
 using MistakesLife.Core.Scripting;
 using MistakesLife.Core.Time;
@@ -403,6 +405,47 @@ namespace MistakesLife.Core.Tests
             {
                 Effect.Parse(effect).Apply(scope);
             }
+        }
+
+        /// <summary>
+        /// Vidas que viven con un amigo (rediseño R6d): a los 26 arriendan un departamento y le
+        /// proponen a una amistad vivir juntos, con o sin permiso del dueño, para los caminos que
+        /// salen de compartir el arriendo (que no le alcance, el préstamo, que el dueño se entere).
+        /// En una vida al azar casi nadie lo pide.
+        /// </summary>
+        public static HashSet<string> RoommateEvents(ContentDatabase content, int lives, int startAge = 26, int finalAge = 40)
+        {
+            var seen = new HashSet<string>();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 900 + (ulong)i);
+                Play(session, startAge);
+                if (!session.World.Player.IsAlive)
+                {
+                    continue;
+                }
+
+                World world = session.World;
+                var scope = new EventScope(world, content, world.Player, null, readOnly: false);
+                var friendsBefore = RelationshipRules.WithBond(world, world.Player, RelationshipBond.Friend).Select(c => c.Id).ToList();
+                foreach (string effect in new[] { "jugador.dejar_de_compartir()", "jugador.marcar('vive_independiente')", "jugador.arrendar('vivienda.departamento')", "jugador.conocer('amistad')" })
+                {
+                    Effect.Parse(effect).Apply(scope);
+                }
+
+                int friend = RelationshipRules.WithBond(world, world.Player, RelationshipBond.Friend).Select(c => c.Id).Except(friendsBefore).First();
+                int before = world.EventHistory.Count;
+                if (session.Request("evento.futuro.vivir_juntos", friend))
+                {
+                    // La mitad con permiso del dueño y la otra mitad sin.
+                    session.Choose(session.Pending!.AvailableOptions[i % 2]);
+                }
+
+                Play(session, finalAge);
+                seen.UnionWith(world.EventHistory.Skip(before).Select(r => r.EventId));
+            }
+
+            return seen;
         }
 
         private static void Play(LifeSession session, int age)

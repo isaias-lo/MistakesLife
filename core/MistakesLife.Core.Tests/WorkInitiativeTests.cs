@@ -248,7 +248,8 @@ namespace MistakesLife.Core.Tests
 
             ChooseRequested(session, "evento.pega.renunciar", "opcion.pega.renunciar.hoy");
             Assert.Null(world.Player.Job);
-            Assert.Equal(money + vacationPay - System.Math.Round(salary / 2, 6), world.Player.Money, 0);
+            // El dinero se redondea a pesos al aplicar cada efecto: se acepta un peso de diferencia.
+            Assert.InRange(world.Player.Money, money + vacationPay - (salary / 2) - 1, money + vacationPay - (salary / 2) + 1);
         }
 
         [Fact]

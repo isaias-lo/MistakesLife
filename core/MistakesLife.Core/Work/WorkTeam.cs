@@ -19,6 +19,9 @@ namespace MistakesLife.Core.Work
         /// <summary>Quienes dejaron el equipo en el último cambio del año (para verlos en gris, con "Se fue").</summary>
         public List<int> LeftIds { get; } = new List<int>();
 
+        /// <summary>Quienes entraron al equipo porque los recomendó el jugador (ver <see cref="ReferralRules"/>).</summary>
+        public List<int> RecommendedIds { get; } = new List<int>();
+
         /// <summary>
         /// Los meses que llevaba en el trabajo la última vez que se miró: si el trabajo de ahora
         /// lleva menos, es un trabajo nuevo y el equipo se vuelve a armar.

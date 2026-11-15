@@ -454,6 +454,16 @@ namespace MistakesLife.Core.Presentation
             return new TeamView(boss == null ? null : Person(boss, bossTag), colleagues, left, actions, ContractStatus(player));
         }
 
+        /// <summary>
+        /// Lo que puedes pedir ahora con esa persona (recomendarla en tu pega, proponerle vivir
+        /// juntos...): los botones de su línea en "Tu gente". Los de la pega con tu jefe van en el equipo.
+        /// </summary>
+        public IReadOnlyList<ActionView> PersonActions(int personId) =>
+            Session.RequestableWith(personId)
+                .Where(e => e.Place != WorkplacePlace)
+                .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey)))
+                .ToList();
+
         /// <summary>El lugar de los momentos de la pega: sus botones van en la pantalla del equipo.</summary>
         public const string WorkplacePlace = "lugar.trabajo";
 

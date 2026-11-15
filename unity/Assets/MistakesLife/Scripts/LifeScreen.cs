@@ -1152,6 +1152,23 @@ namespace MistakesLife.Unity
             string age = person.IsAlive ? person.AgeInYears.ToString() : presenter.Text("ui.fallecido");
             string feeling = person.Feeling.Length > 0 ? $", {person.Feeling}" : string.Empty;
             UiFactory.Label(_historyBody, $"{person.Relation}: {person.Name} ({age}{feeling})", 34, UiFactory.Ink);
+
+            // Futuros juntos: lo que puedes pedir con esta persona (recomendarla, vivir juntos...).
+            // El botón solo pide el momento; se decide en la carta, como cualquier momento.
+            foreach (ActionView action in presenter.PersonActions(person.Id))
+            {
+                string eventId = action.EventId;
+                int personId = person.Id;
+                UiFactory.MakeButton(_historyBody, action.Label, UiFactory.Option, UiFactory.Ink, () =>
+                {
+                    Sounds.Play(Sound.PencilTap);
+                    if (presenter.Session.Request(eventId, personId))
+                    {
+                        ShowHistory(false);
+                        MailRead();
+                    }
+                }, 32, 96, 20);
+            }
         }
 
         /// <summary>Volver al pasado: las cargas que quedan y un botón por cada momento al que se puede volver.</summary>
