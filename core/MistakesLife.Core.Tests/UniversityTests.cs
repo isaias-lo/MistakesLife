@@ -101,7 +101,73 @@ namespace MistakesLife.Core.Tests
             Assert.Equal(0, studies.GradedSemesters);
             Assert.Equal(0, studies.Preparation);
             Assert.Equal(1, player.SchoolClass!.Level);
+            Assert.Equal(1, studies.SemestersTaken); // lo cursó aunque no lo aprobó
             Assert.Contains(world.Journal, j => j.TextKey == "diario.estudios.ramo_reprobado");
+        }
+
+        private static bool Holds(World world, string condition) =>
+            Scripting.Expression.Parse(condition).IsTrue(new EventScope(world, Content, world.Player, null, readOnly: true));
+
+        private static void Choose(World world, string eventId, string optionKey)
+        {
+            EventOptionDefinition option = Content.GetEvent(eventId).Options.Single(o => o.TextKey == optionKey);
+            foreach (string effect in option.Effects)
+            {
+                Run(world, effect);
+            }
+        }
+
+        [Fact]
+        public void SinGratuidad_ConCae_DebeElArancelDeReferenciaYPagaLaDiferenciaCadaMes()
+        {
+            World world = StartStudying();
+            decimal before = world.Player.Money;
+
+            Choose(world, "evento.sin_gratuidad", "opcion.financiar.credito");
+
+            Assert.True(Holds(world, "jugador.deuda_de('deuda.chile.cae') >= 3000000"));
+            Assert.Equal("servicio.arancel.brecha_universidad", world.Player.Services["servicio.arancel"]);
+            Assert.True(world.Player.Money < before); // la matrícula
+            Assert.True(Holds(world, "tarifa('servicio.arancel.brecha_universidad') > 0"));
+        }
+
+        [Fact]
+        public void Gratuidad_AlPasarseDeLaDuracionFormal_SeAcabaYLlegaElMomentoDeMarzo()
+        {
+            World world = StartStudying("carrera.software.nivel.analista_programador");
+            Run(world, "jugador.marcar('gratuidad')");
+            Run(world, "jugador.contratar('servicio.arancel.gratuidad')");
+            world.Player.Stats.Smarts = 0;
+            string condition = Content.GetEvent("evento.estudios.fin_gratuidad").Conditions!;
+            University().AdvanceWeeks(world, 1, out _);
+
+            // Cinco semestres cursados (la duración formal) sin haber aprobado todos.
+            for (int i = 0; i < 5; i++)
+            {
+                Run(world, "jugador.estudiar_semestre(-3)");
+                University().AdvanceWeeks(world, CareerStudies.WeeksPerSemester, out _);
+            }
+
+            Assert.Equal(5, world.Player.Studies!.SemestersTaken);
+            Assert.True(world.Player.Studies.CompletedSemesters < 5);
+            Assert.True(Holds(world, condition));
+
+            Choose(world, "evento.estudios.fin_gratuidad", "opcion.fin_gratuidad.pagar");
+            Assert.Equal("servicio.arancel.mitad_instituto", world.Player.Services["servicio.arancel"]);
+            Assert.False(Holds(world, condition));
+        }
+
+        [Fact]
+        public void Arancel_SoloSeCobraMientrasEstudia()
+        {
+            World world = StartStudying();
+            Run(world, "jugador.contratar('servicio.arancel.pago_universidad')");
+            string charged = MistakesLife.Core.Economy.ServiceRules.ServicesFor(Content, world.Player).Single(s => s.Id == "servicio.arancel").Conditions!;
+            Assert.True(Holds(world, charged));
+
+            Run(world, "jugador.desertar()");
+
+            Assert.False(Holds(world, charged));
         }
 
         [Fact]
