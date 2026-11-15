@@ -249,24 +249,35 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Casa_JovenSinPareja_SigueConSusPadres()
         {
-            LifePresenter presenter = NewGame(7);
-            while (presenter.Snapshot().AgeInYears < 20 && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir)
+            // La primera vida (desde la partida 7) que llega viva y sin pareja a los 20: cuál es
+            // depende del contenido, así que se busca en vez de fijar una partida.
+            LifePresenter? found = null;
+            for (ulong seed = 7; seed < 40 && found == null; seed++)
             {
-                if (presenter.Phase == LifePhase.Choosing)
+                LifePresenter presenter = NewGame(seed);
+                while (presenter.Snapshot().AgeInYears < 20 && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir)
                 {
-                    presenter.Choose(0);
+                    if (presenter.Phase == LifePhase.Choosing)
+                    {
+                        presenter.Choose(0);
+                    }
+                    else
+                    {
+                        presenter.AdvanceWeek();
+                    }
                 }
-                else
+
+                var candidate = presenter.Session.World.Player;
+                if (candidate.IsAlive && candidate.PartnerId == null)
                 {
-                    presenter.AdvanceWeek();
+                    found = presenter;
                 }
             }
 
-            var player = presenter.Session.World.Player;
-            Assert.True(player.IsAlive);
-            Assert.Null(player.PartnerId);
-            HomeView home = presenter.Snapshot().Home;
-            bool motherAlive = player.MotherId.HasValue && presenter.Session.World.GetCharacter(player.MotherId.Value).IsAlive;
+            Assert.NotNull(found);
+            var player = found!.Session.World.Player;
+            HomeView home = found.Snapshot().Home;
+            bool motherAlive = player.MotherId.HasValue && found.Session.World.GetCharacter(player.MotherId.Value).IsAlive;
             Assert.Equal(motherAlive, home.Members.Any(m => m.Relation == "Mamá"));
         }
 
