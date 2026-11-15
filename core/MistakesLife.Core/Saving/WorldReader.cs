@@ -324,6 +324,16 @@ namespace MistakesLife.Core.Saving
                 });
             }
 
+            if (d.SchoolClass != null)
+            {
+                var cls = new Education.SchoolClass(d.SchoolClass.StageId, d.SchoolClass.Level, d.SchoolClass.Letter, d.SchoolClass.SchoolYear, d.SchoolClass.Students)
+                {
+                    TeacherId = d.SchoolClass.TeacherId,
+                };
+                cls.ClassmateIds.AddRange(d.SchoolClass.ClassmateIds);
+                character.SchoolClass = cls;
+            }
+
             if (!d.IsAlive)
             {
                 character.RestoreDeath(Date(d.DeathWeek ?? d.BirthWeek), d.DeathCauseId ?? Character.CauseNatural);

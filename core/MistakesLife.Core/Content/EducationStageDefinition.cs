@@ -23,5 +23,12 @@ namespace MistakesLife.Core.Content
         /// <summary>Si la ley la exige.</summary>
         [JsonProperty("obligatoria")]
         public bool Mandatory { get; set; }
+
+        /// <summary>
+        /// Si en esta etapa se va a un curso, con compañeros y profe jefe ("curso"):
+        /// en Chile, básica y media.
+        /// </summary>
+        [JsonProperty("curso")]
+        public bool HasClass { get; set; }
     }
 }

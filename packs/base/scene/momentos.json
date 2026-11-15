@@ -3,5 +3,7 @@
   { "id": "escena.casa.foto_viaje_pareja", "lugar": "casa", "condiciones": "jugador.tiene('foto_viaje_pareja') && jugador.pareja != nada" },
   { "id": "escena.casa.postal_amigo_lejos", "lugar": "casa", "condiciones": "jugador.tiene('postal_amigo_lejos')" },
   { "id": "escena.casa.camiseta_seleccion", "lugar": "casa", "condiciones": "jugador.tiene('seleccion_comunal') && jugador.edad < 25" },
-  { "id": "escena.casa.tarjeta_refri", "lugar": "casa", "condiciones": "jugador.tiene('tarjeta_en_el_refri') && jugador.edad < 18" }
+  { "id": "escena.casa.tarjeta_refri", "lugar": "casa", "condiciones": "jugador.tiene('tarjeta_en_el_refri') && jugador.edad < 18" },
+  { "id": "escena.casa.afiche_lista", "lugar": "casa", "condiciones": "jugador.tiene('lista_centro_alumnos') && jugador.edad < 19" },
+  { "id": "escena.casa.folletos_estudios", "lugar": "casa", "condiciones": "jugador.tiene('pregunto_por_estudiar') && jugador.edad < 19" }
 ]

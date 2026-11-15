@@ -29,5 +29,8 @@
   "opcion.reunion_apoderados_libreta.contar": "Contarle todo antes de que pregunte",
   "opcion.reunion_apoderados_libreta.culpar": "Decir que la profe se confundió de alumno",
   "diario.reunion_apoderados_libreta.contar": "Le confesé lo de la firma. Me castigó, pero después me ayudó con matemáticas.",
-  "diario.reunion_apoderados_libreta.culpar": "Le dije a mi mamá que la profe se había confundido. Ninguna de las dos me creyó."
+  "diario.reunion_apoderados_libreta.culpar": "Le dije a mi mamá que la profe se había confundido. Ninguna de las dos me creyó.",
+
+  "curso.etapa.chile.basica": "{0}º básico {1}",
+  "curso.etapa.chile.media": "{0}º medio {1}"
 }

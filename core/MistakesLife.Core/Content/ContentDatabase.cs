@@ -787,6 +787,42 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, $"inicio_ano_escolar '{country.SchoolYearStart}' no se entiende: usa día-mes, por ejemplo \"04-03\"."));
                 }
             }
+
+            if (country.SchoolYearEnd != null)
+            {
+                country.SchoolYearEndDay = ParseDayMonth(country.SchoolYearEnd);
+                if (country.SchoolYearEndDay == null || country.SchoolYearStart == null)
+                {
+                    _errors.Add(new ContentError(where, $"fin_ano_escolar '{country.SchoolYearEnd}' no se entiende o falta inicio_ano_escolar: usa día-mes, por ejemplo \"13-12\"."));
+                }
+            }
+
+            if (country.WinterBreak != null)
+            {
+                country.WinterBreak.FromDay = ParseDayMonth(country.WinterBreak.From);
+                country.WinterBreak.ToDay = ParseDayMonth(country.WinterBreak.To);
+                if (country.WinterBreak.FromDay == null || country.WinterBreak.ToDay == null)
+                {
+                    _errors.Add(new ContentError(where, "vacaciones_invierno necesita 'desde' y 'hasta' como día-mes, por ejemplo \"23-06\"."));
+                }
+            }
+
+            if (country.SchoolClass != null)
+            {
+                SchoolClassDefinition cls = country.SchoolClass;
+                if (cls.Named < 1 || cls.Students < cls.Named + 1)
+                {
+                    _errors.Add(new ContentError(where, "curso: con_nombre debe ser 1 o más y alumnos debe ser mayor que con_nombre (te cuenta a ti)."));
+                }
+
+                foreach (double chance in new[] { cls.TeacherChange, cls.KeepOnNewStage, cls.YearlyChange, cls.FemaleTeachers })
+                {
+                    if (chance < 0 || chance > 1)
+                    {
+                        _errors.Add(new ContentError(where, "curso: las probabilidades van de 0 a 1."));
+                    }
+                }
+            }
             if (country.BirthWeight < 0)
             {
                 _errors.Add(new ContentError(where, "peso_nacimiento no puede ser negativo (0: solo se nace ahí si se elige)."));

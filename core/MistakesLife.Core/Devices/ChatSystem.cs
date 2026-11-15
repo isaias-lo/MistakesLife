@@ -155,6 +155,16 @@ namespace MistakesLife.Core.Devices
                 case "ex":
                     ids.AddRange(RelationshipRules.WithBond(world, character, RelationshipBond.Ex).Select(c => c.Id));
                     break;
+                case "companero":
+                    ids.AddRange(Education.SchoolRules.Classmates(world, character).Select(c => c.Id));
+                    break;
+                case "profe":
+                    if (Education.SchoolRules.Teacher(world, character) is Character teacher)
+                    {
+                        ids.Add(teacher.Id);
+                    }
+
+                    break;
                 default:
                     throw new ArgumentException($"'{role}' no es alguien que escribe ({string.Join(", ", ChatDefinition.Senders)}).", nameof(role));
             }

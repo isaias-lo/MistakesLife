@@ -88,7 +88,7 @@ namespace MistakesLife.ConsoleGame
                 }
 
                 _output.WriteLine();
-                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta lo importante | s: una semana | a: un año | e: estado | h: horario | l: lo que quiero | r: tus reglas | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
+                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta lo importante | s: una semana | a: un año | e: estado | h: horario | l: lo que quiero | r: tus reglas | k: tu curso | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
                 _output.Write("> ");
                 string? command = _input.ReadLine();
                 if (command == null)
@@ -135,6 +135,9 @@ namespace MistakesLife.ConsoleGame
                         }
 
                         break;
+                    case "k":
+                        PrintSchoolClass();
+                        break;
                     case "d":
                         PrintFullJournal();
                         break;
@@ -152,7 +155,7 @@ namespace MistakesLife.ConsoleGame
                         _output.WriteLine("Hasta pronto.");
                         return;
                     default:
-                        _output.WriteLine("No entendí. Usa Enter, s, a, e, h, l, r, d, c, g, v o q.");
+                        _output.WriteLine("No entendí. Usa Enter, s, a, e, h, l, r, k, d, c, g, v o q.");
                         break;
                 }
             }
@@ -370,6 +373,29 @@ namespace MistakesLife.ConsoleGame
             }
         }
 
+        /// <summary>Muestra tu curso: el nombre, tu profe jefe y tus compañeros, del que más quieres al que menos.</summary>
+        private void PrintSchoolClass()
+        {
+            var presenter = new LifePresenter(_session);
+            SchoolClassView? cls = presenter.SchoolClass();
+            if (cls == null)
+            {
+                _output.WriteLine("No vas a un curso ahora.");
+                return;
+            }
+
+            _output.WriteLine(presenter.Text("ui.curso.titulo", cls.Name, cls.Students));
+            if (cls.Teacher != null)
+            {
+                _output.WriteLine(presenter.Text("ui.curso.profe_jefe", cls.Teacher));
+            }
+
+            foreach (ClassmateView mate in cls.Classmates)
+            {
+                _output.WriteLine($"  - {mate.Name} (cariño {mate.Affection}){(mate.Bond == null ? string.Empty : " · " + mate.Bond)}");
+            }
+        }
+
         private static string WithPerson(string text, Character? person) =>
             person == null ? text : text.Replace(LifePresenter.PersonMark, person.FirstName);
 
@@ -452,12 +478,13 @@ namespace MistakesLife.ConsoleGame
                 _output.WriteLine($"({moment})");
             }
 
-            _output.WriteLine(WithPerson(_session.Text(definition.TextKeyFor(_session.World.TimesHappened(pending.EventId, pending.CharacterId))), person));
+            _output.WriteLine(view?.Text ?? WithPerson(_session.Text(definition.TextKeyFor(_session.World.TimesHappened(pending.EventId, pending.CharacterId))), person));
             for (int i = 0; i < pending.AvailableOptions.Count; i++)
             {
                 EventOptionDefinition option = definition.Options[pending.AvailableOptions[i]];
                 string intuition = _session.TimeMachine.PreviousChoice(pending) == pending.AvailableOptions[i] ? " (la otra vez elegiste esto)" : string.Empty;
-                _output.WriteLine($"  {i + 1}. {WithPerson(_session.Text(option.TextKey), person)}{intuition}");
+                string optionText = view != null && i < view.Options.Count ? view.Options[i] : WithPerson(_session.Text(option.TextKey), person);
+                _output.WriteLine($"  {i + 1}. {optionText}{intuition}");
             }
 
             if (view != null && view.AllowsRule)

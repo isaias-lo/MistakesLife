@@ -65,6 +65,7 @@ namespace MistakesLife.Core.Game
             Events = new EventSystem(content, eventRules);
             _routine = new RoutineSystem(content);
             _cycle = new WeekCycle()
+                .Register(new Education.SchoolSystem(content))
                 .Register(_routine)
                 .Register(new EconomySystem(content))
                 .Register(new NewsSystem(content))

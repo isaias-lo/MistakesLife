@@ -65,6 +65,8 @@ Un mismo texto se dice distinto en cada país ("pega" en Chile, "laburo" en Arge
 - `nivel_hogar_min`/`max`: rango del nivel socioeconómico (0 a 100) de un hogar de esa comuna.
 - `etapas_educacion`: en orden, sin solaparse; `edad_hasta` no se incluye.
 - `inicio_ano_escolar`: día-mes en que empiezan las clases (`"04-03"` en Chile). Ese día, cada año, quien va al colegio arma su horario del año nuevo. Opcional.
+- `fin_ano_escolar`: día-mes en que terminan las clases (`"13-12"`); desde ahí hasta `inicio_ano_escolar` son las vacaciones de verano. `vacaciones_invierno`: `{ "desde": "23-06", "hasta": "04-07" }` (los dos días incluidos). Con eso, `jugador.en_clases` dice si esa semana hay clases. Opcionales.
+- `curso`: cómo es un curso del colegio: `alumnos` (cuántos, contándote), `con_nombre` (con cuántos tienes trato: tienen nombre y aparecen en los momentos), y probabilidades de 0 a 1: `cambio_profe_jefe` (de un año al otro, 0.3 si falta), `siguen_al_cambiar_etapa` (de básica a media, 0.4), `cambios_por_ano` (alguien se va y llega alguien nuevo, 0.3) y `profes_mujeres` (0.7). En `etapas_educacion`, `"curso": true` marca las etapas en que se va a un curso (en Chile, básica y media). Cómo se llama el curso va en el idioma del país: `"curso.etapa.chile.basica": "{0}º básico {1}"` (el número y la letra).
 - Al nacer se eligen país, ciudad y comuna según los pesos, una madre y un padre con nombres del país, y el hijo lleva el primer apellido del padre y luego el de la madre.
 
 ### Mortalidad (campo `mortalidad` de country.json)
@@ -585,7 +587,7 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `opciones` | Lo que puede elegir el jugador; cada una con `texto`, `condiciones` y `efectos` | — |
 | `opciones[].tendencia` | Qué tan atractiva es la opción para quien decide solo (el simulador y, más adelante, los personajes del mundo), como número de 0 en adelante. Ejemplo: `"jugador.amabilidad"` o `"(100 - jugador.responsabilidad) / 3"`. El jugador no la ve. Si falta, vale 50 | 50 |
 | `opciones_carreras` | Agrega una opción por cada nivel de carrera, antes de las propias (ver Carrera) | false |
-| `con` | Con quién pasa: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival` o `ex`. Al ocurrir se elige a una persona de verdad, con nombre (si no hay nadie así, no pasa). En el evento se le habla como `persona` (`persona.carino += 3`, `plantar('semilla.x', persona)`) y en los textos de la escena y de las opciones `{persona}` se cambia por su nombre. En el diario no se usa `{persona}` | — |
+| `con` | Con quién pasa: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival`, `ex`, `companero` (alguien de tu curso: se elige más seguido a quien quieres más) o `profe` (tu profe jefe; en los textos `{persona}` dice "la profe Carolina" o "el profe Juan", así que no la pongas al empezar una frase). Al ocurrir se elige a una persona de verdad, con nombre (si no hay nadie así, no pasa). En el evento se le habla como `persona` (`persona.carino += 3`, `plantar('semilla.x', persona)`) y en los textos de la escena y de las opciones `{persona}` se cambia por su nombre. En el diario no se usa `{persona}` | — |
 | `lugar` | Dónde pasa: clave `lugar.<nombre>` con su texto en `lang/` ("La plaza", "Tu sala"). La pantalla lo muestra junto a la persona | — |
 | `actividad` | El momento nace de tu horario: solo pasa si esa actividad está en tu semana. Pide `probabilidad_anual`, que es la probabilidad en un año haciéndola **una vez por semana** (si la haces tres veces, es más probable) | — |
 | `regla` | Grupo para las reglas propias del jugador (`regla.prueba`, con su texto en `lang/`: "Cuando hay prueba o tarea"). Cuando el jugador elige "hacer esto siempre", la regla sirve para todos los eventos del grupo. Sin grupo, sirve solo para este evento. Un `dia_clave` y un evento de `semilla` nunca admiten regla: se viven cada vez | — |
@@ -778,7 +780,7 @@ Cada archivo es una lista:
 | `edad_minima`, `edad_maxima` | Edades en que tiene sentido |
 | `condiciones` | Condición extra en el lenguaje de condiciones (por ejemplo `jugador.tiene_celular`) |
 | `franjas` | `tarde`, `noche` o las dos (por defecto, las dos) |
-| `con` | Con quién se hace: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival` o `ex`. Solo se puede elegir si esa persona existe, y el cariño se mueve con ella |
+| `con` | Con quién se hace: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival`, `ex`, `companero` o `profe`. Solo se puede elegir si esa persona existe, y el cariño se mueve con ella |
 | `aporta` | Cuánto mueve por cada bloque en que está, de -3 a 3: `animo`, `mente`, `salud`, `carino` (este último necesita `con`) |
 | `tendencia` | Qué tan probable es que la elija alguien sin el jugador (simulador, horario sugerido); por defecto 50 |
 
@@ -869,6 +871,9 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.pais`, `jugador.ciudad`, `jugador.comuna` | Ids del lugar donde vive, por ejemplo `'comuna.puente_alto'` |
 | `jugador.nivel_hogar` | Nivel socioeconómico del hogar, 0 a 100 |
 | `jugador.etapa` | Etapa educativa actual, por ejemplo `'etapa.chile.basica'`, o `''` |
+| `jugador.en_clases` | Si va a un curso y esa semana hay clases (no son vacaciones de verano ni de invierno) |
+| `jugador.curso` | En qué año de su etapa va (1 a 8 en básica, 1 a 4 en media), o 0 si no va a un curso |
+| `jugador.companeros` | Cuántos compañeros con nombre tiene en su curso |
 | `jugador.madre`, `jugador.padre` | Otro personaje con los mismos datos (`jugador.madre.edad`), o `nada` si no hay |
 | `jugador.pareja` | Su pareja actual (otro personaje: `jugador.pareja.edad`), o `nada`. Usa `jugador.pareja != nada && ...` antes de leer sus datos |
 | `jugador.hijos` | Cuántos hijos vivos tiene (biológicos o adoptados) |

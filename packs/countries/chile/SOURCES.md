@@ -200,3 +200,13 @@ Anotado de memoria y por verificar en [Ley Chile (BCN)](https://www.bcn.cl/leych
 - Quiebra del empleador: Ley 20.720 de liquidación. Las remuneraciones e indemnizaciones de los trabajadores son créditos de primera clase (Código Civil art. 2472), que se pagan antes que los demás. Que se pague el 60 % de lo verificado es una estimación.
 - Posesión efectiva: Ley 19.903. La de una herencia sin testamento se pide en el Registro Civil; se publica en el Diario Oficial y se inscribe en el Registro Nacional de Posesiones Efectivas. Es gratis si la herencia vale hasta 15 UTA; el arancel (~1,8 UTM hasta 45 UTA y ~2,5 UTM sobre eso) es aproximado. Impuesto a la herencia (Ley 16.271): exento hasta 50 UTA por heredero; el juego cobra 1 % de lo que pasa del exento (el primer tramo), sin los tramos más altos.
 - Juzgado de Policía Local (Ley 18.287): ve las faltas como ruidos molestos (ordenanzas municipales, en el juego 2 UTM) y beber alcohol en la vía pública (Ley 19.925, art. 26; en el juego 1 UTM). Si la multa no se paga, el juez puede cambiarla por reclusión nocturna (art. 23). UTM ≈ $68.000 de dinero del inicio.
+
+## El curso del colegio (country.json: fin_ano_escolar, vacaciones_invierno, curso)
+
+Anotado de memoria y por verificar en el [calendario escolar del Mineduc](https://www.mineduc.cl) y en las [estadísticas de la educación](https://centroestudios.mineduc.cl):
+
+- Calendario escolar de la Región Metropolitana: las clases parten la primera semana de marzo (el juego usa el 4 de marzo), las vacaciones de invierno son dos semanas desde fines de junio (23 de junio al 4 de julio) y el año termina a mediados de diciembre (13 de diciembre). Cambian un poco cada año y por región.
+- Alumnos por curso: el promedio en básica y media ronda los 30 a 33 (más en particulares subvencionados, menos en municipales); el juego usa 32. Con 10 compañeros el jugador tiene trato (nombre, cariño, momentos): una estimación de con cuántos se conversa de verdad, por calibrar.
+- Profesores: cerca del 72 % de quienes hacen clases en el colegio son mujeres (más en básica, menos en media).
+- Edad del curso: entra al mismo curso quien cumple 6 años antes del 31 de marzo, así que los compañeros nacen hasta 9 meses antes y unos 3 meses después que el jugador.
+- Que la profe jefe cambie un año de cada tres, que siga contigo el 40 % del curso al pasar a media y que cada año alguien se cambie de colegio (30 %) son estimaciones por calibrar.

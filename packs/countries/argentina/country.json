@@ -34,12 +34,15 @@
     }
   ],
   "inicio_ano_escolar": "01-03",
+  "fin_ano_escolar": "19-12",
+  "vacaciones_invierno": { "desde": "21-07", "hasta": "01-08" },
+  "curso": { "alumnos": 28, "con_nombre": 10, "cambio_profe_jefe": 0.3, "siguen_al_cambiar_etapa": 0.4, "cambios_por_ano": 0.3, "profes_mujeres": 0.75 },
   "etapas_educacion": [
     { "id": "etapa.argentina.jardin_maternal", "edad_desde": 0, "edad_hasta": 3 },
     { "id": "etapa.argentina.sala_de_3", "edad_desde": 3, "edad_hasta": 4 },
     { "id": "etapa.argentina.salas_de_4_y_5", "edad_desde": 4, "edad_hasta": 6, "obligatoria": true },
-    { "id": "etapa.argentina.primaria", "edad_desde": 6, "edad_hasta": 12, "obligatoria": true },
-    { "id": "etapa.argentina.secundaria", "edad_desde": 12, "edad_hasta": 18, "obligatoria": true }
+    { "id": "etapa.argentina.primaria", "edad_desde": 6, "edad_hasta": 12, "obligatoria": true, "curso": true },
+    { "id": "etapa.argentina.secundaria", "edad_desde": 12, "edad_hasta": 18, "obligatoria": true, "curso": true }
   ],
   "mortalidad": [
     { "edad": 0, "femenino": 0.0075, "masculino": 0.0092 },

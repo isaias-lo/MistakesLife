@@ -236,6 +236,12 @@ namespace MistakesLife.Core.Saving
                     WishId = w.WishId, StageKey = w.StageKey, SinceWeek = w.Since.TotalWeeks, PersonId = w.PersonId,
                     Highlighted = w.Highlighted, State = (int)w.State, ClosedWeek = w.Closed?.TotalWeeks,
                 }).ToList(),
+                SchoolClass = c.SchoolClass == null ? null : new SchoolClassData
+                {
+                    StageId = c.SchoolClass.StageId, Level = c.SchoolClass.Level, Letter = c.SchoolClass.Letter,
+                    SchoolYear = c.SchoolClass.SchoolYear, Students = c.SchoolClass.Students,
+                    TeacherId = c.SchoolClass.TeacherId, ClassmateIds = c.SchoolClass.ClassmateIds.ToList(),
+                },
                 Degrees = c.Degrees.ToList(),
                 IsAlive = c.IsAlive,
                 DeathWeek = c.DeathDate?.TotalWeeks,

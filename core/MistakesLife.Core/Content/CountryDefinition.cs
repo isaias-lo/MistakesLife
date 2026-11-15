@@ -56,6 +56,25 @@ namespace MistakesLife.Core.Content
         [JsonIgnore]
         public int? SchoolYearStartDay { get; internal set; }
 
+        /// <summary>
+        /// Día en que terminan las clases ("13-12"). Desde ese día y hasta
+        /// <see cref="SchoolYearStart"/> son las vacaciones de verano. Opcional.
+        /// </summary>
+        [JsonProperty("fin_ano_escolar")]
+        public string? SchoolYearEnd { get; set; }
+
+        /// <summary>El día del año (desde 0) de <see cref="SchoolYearEnd"/>; null si no tiene.</summary>
+        [JsonIgnore]
+        public int? SchoolYearEndDay { get; internal set; }
+
+        /// <summary>Las vacaciones de invierno del colegio, si el país las tiene. Opcional.</summary>
+        [JsonProperty("vacaciones_invierno")]
+        public DayRangeDefinition? WinterBreak { get; set; }
+
+        /// <summary>Cómo es un curso del colegio (cuántos alumnos, con cuántos tienes trato). Opcional.</summary>
+        [JsonProperty("curso")]
+        public SchoolClassDefinition? SchoolClass { get; set; }
+
         [JsonProperty("etapas_educacion")]
         public List<EducationStageDefinition> EducationStages { get; set; } = new List<EducationStageDefinition>();
 
@@ -156,6 +175,39 @@ namespace MistakesLife.Core.Content
 
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Si esa semana hay clases: está entre <see cref="SchoolYearStart"/> y
+        /// <see cref="SchoolYearEnd"/> y no son las vacaciones de invierno. Si el país no
+        /// tiene calendario escolar, siempre hay clases.
+        /// </summary>
+        public bool IsSchoolTime(Time.GameDate date)
+        {
+            int week = date.DayOfYear / 7;
+            if (SchoolYearStartDay.HasValue && SchoolYearEndDay.HasValue)
+            {
+                int start = SchoolYearStartDay.Value / 7;
+                int end = SchoolYearEndDay.Value / 7;
+                bool inYear = start <= end ? week >= start && week < end : week >= start || week < end;
+                if (!inYear)
+                {
+                    return false;
+                }
+            }
+
+            if (WinterBreak?.FromDay != null && WinterBreak.ToDay != null)
+            {
+                int from = WinterBreak.FromDay.Value / 7;
+                int to = WinterBreak.ToDay.Value / 7;
+                bool inBreak = from <= to ? week >= from && week <= to : week >= from || week <= to;
+                if (inBreak)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         /// <summary>La etapa que corresponde a una edad, o null.</summary>
         public EducationStageDefinition? StageForAge(int ageInYears)

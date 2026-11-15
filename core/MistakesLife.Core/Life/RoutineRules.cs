@@ -80,12 +80,10 @@ namespace MistakesLife.Core.Life
             {
                 // En el colegio, el horario es de un año escolar: cada año, el día que
                 // empiezan las clases, se arma de nuevo (aparecen actividades de más grande).
-                int? start = character.Residence == null ? null : content.GetCountry(character.Residence.CountryId).SchoolYearStartDay;
-                if (start.HasValue)
+                int? schoolYear = character.Residence == null ? null : Education.SchoolRules.SchoolYearIndex(content.GetCountry(character.Residence.CountryId), world.Date);
+                if (schoolYear.HasValue)
                 {
-                    int startWeek = Math.Min(start.Value / 7, GameDate.WeeksPerYear - 1);
-                    int schoolYear = (int)Math.Floor((world.Date.TotalWeeks - startWeek) / (double)GameDate.WeeksPerYear);
-                    return stage + SchoolYearMark + schoolYear.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    return stage + SchoolYearMark + schoolYear.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
                 }
 
                 return stage;

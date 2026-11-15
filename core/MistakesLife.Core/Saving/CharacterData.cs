@@ -140,6 +140,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>Lo que quiere y quiso (desde la versión 21); null si nada.</summary>
         public List<WishData>? Wishes { get; set; }
 
+        /// <summary>El curso del colegio (desde la versión 22); null si no va a un curso.</summary>
+        public SchoolClassData? SchoolClass { get; set; }
+
         public List<string> Degrees { get; set; } = new List<string>();
 
         public bool IsAlive { get; set; } = true;

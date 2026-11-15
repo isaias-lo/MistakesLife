@@ -104,7 +104,8 @@ namespace MistakesLife.Core.Life
         /// Llega a la vida de <paramref name="person"/> alguien nuevo: un amigo, un
         /// colega o un rival, del mismo lugar y de edad parecida (casi la misma en
         /// el colegio; hasta <see cref="MaxAdultAgeGap"/> años de diferencia de
-        /// adulto). Queda con ese lazo en ambos sentidos.
+        /// adulto). Queda con ese lazo en ambos sentidos. Si va a un curso, el amigo
+        /// o rival es un compañero de su curso con quien todavía no tenía lazo.
         /// </summary>
         public static Character CreateAcquaintance(World world, ContentDatabase content, Character person, RelationshipBond bond)
         {
@@ -116,6 +117,16 @@ namespace MistakesLife.Core.Life
 
             CountryDefinition country = content.GetCountry(person.Residence!.CountryId);
             GameRandom random = RandomFor(world, person, "conocido");
+
+            // En el colegio, a quien conoces es a alguien de tu curso, no a un desconocido.
+            if (bond != RelationshipBond.Colleague && Education.SchoolRules.UnboundClassmate(world, person, random) is Character mate)
+            {
+                RelationshipRules.SetBond(world, person, mate, bond);
+                RelationshipRules.AtLeastAsClose(world, person, mate, bond);
+                RelationshipRules.AtLeastAsClose(world, mate, person, bond);
+                return mate;
+            }
+
             Sex sex = WorldFactory.RandomSex(random);
             int personAge = person.AgeInYears(world.Date);
             int gap = personAge < 18 ? MaxSchoolAgeGap : MaxAdultAgeGap;
