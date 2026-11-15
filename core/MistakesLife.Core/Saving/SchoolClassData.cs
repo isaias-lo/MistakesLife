@@ -18,5 +18,7 @@ namespace MistakesLife.Core.Saving
         public int? TeacherId { get; set; }
 
         public List<int> ClassmateIds { get; set; } = new List<int>();
+
+        public List<int> LeftIds { get; set; } = new List<int>();
     }
 }

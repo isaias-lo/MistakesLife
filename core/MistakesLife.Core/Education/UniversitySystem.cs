@@ -19,7 +19,8 @@ namespace MistakesLife.Core.Education
     /// ramo rojo, ese semestre no cuenta: lo vuelve a cursar ("diario.estudios.ramo_reprobado"),
     /// y la carrera dura más que lo formal, como en la vida real.</item>
     /// <item>Después pasa al semestre siguiente: profe nuevo, y alguien de la sección a veces no sigue.</item>
-    /// <item>Cada mes, los compañeros que se tienen cariño de verdad se vuelven amigos.</item>
+    /// <item>Cada mes, el cariño sube un poco con quienes ya viviste algo, y los compañeros que se tienen
+    /// cariño de verdad se vuelven amigos.</item>
     /// </list>
     /// Va después de <see cref="CareerSystem"/> y antes de los eventos, para que un evento
     /// de titulación ya vea el semestre corregido.
@@ -80,9 +81,13 @@ namespace MistakesLife.Core.Education
                 return;
             }
 
-            if (context.Date.IsFirstWeekOfMonth && SchoolRules.NewFriendships(world, player).Count > 0)
+            if (context.Date.IsFirstWeekOfMonth)
             {
-                world.WriteJournal(player.Id, "diario.curso.amistad");
+                UniversityRules.ShareMonth(world, player);
+                if (SchoolRules.NewFriendships(world, player).Count > 0)
+                {
+                    world.WriteJournal(player.Id, "diario.curso.amistad");
+                }
             }
         }
 

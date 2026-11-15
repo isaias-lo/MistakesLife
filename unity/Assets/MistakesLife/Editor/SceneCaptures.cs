@@ -317,6 +317,9 @@ namespace MistakesLife.Unity.Editor
             // La carpeta del juzgado, con un juicio por deudas que ya avanzó unas semanas.
             count += CourtFolder(content, folder);
 
+            // Los estudios: la libreta y el curso del colegio, y la libreta, la sección y la malla de la U.
+            count += Studies(content, folder);
+
             // Hasta que aparezca un evento, para que se vea la tarjeta de papel.
             for (int week = 0; week < 5 * 52 && life.Phase == LifePhase.Living; week++)
             {
@@ -364,6 +367,34 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>
+        /// Los estudios: una vida en Chile a los 13 (libreta y curso del colegio) que después
+        /// estudia software y a los 20 muestra su libreta del semestre, su sección y su malla.
+        /// </summary>
+        private static int Studies(ContentDatabase content, string folder)
+        {
+            var life = new LifePresenter(new LifeSession(content, 1, "pais.chile"));
+            int count = 0;
+            if (LiveUntil(life, content, "carrera.software.", 13) && life.Phase == LifePhase.Living)
+            {
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-libreta.png"), studies: 0);
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-curso.png"), studies: 1);
+            }
+
+            if (LiveUntil(life, content, "carrera.software.", 20) && life.Phase == LifePhase.Living && life.StudyPlan() != null)
+            {
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-libreta-u.png"), studies: 0);
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-seccion.png"), studies: 1);
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-malla.png"), studies: 2);
+            }
+            else
+            {
+                Debug.LogWarning("Capturas: a los 20 la vida no estudia una carrera; no salen la sección ni la malla.");
+            }
+
+            return count;
+        }
+
+        /// <summary>
         /// La carpeta del juzgado: una vida en Chile hasta los 30 a la que le abren un juicio por
         /// deudas, y unas semanas después, para que se vea la línea del proceso avanzando.
         /// </summary>
@@ -396,7 +427,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -416,6 +447,11 @@ namespace MistakesLife.Unity.Editor
                 if (court)
                 {
                     screen.OpenCourtForCapture();
+                }
+
+                if (studies >= 0)
+                {
+                    screen.OpenStudiesForCapture(studies);
                 }
 
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));

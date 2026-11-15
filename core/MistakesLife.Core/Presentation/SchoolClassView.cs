@@ -5,8 +5,9 @@ namespace MistakesLife.Core.Presentation
     /// <summary>Tu curso del colegio, listo para mostrar ("8º básico B", tu profe jefe y tus compañeros).</summary>
     public sealed class SchoolClassView
     {
-        public SchoolClassView(string name, int students, string? teacher, IReadOnlyList<ClassmateView> classmates, bool section = false)
+        public SchoolClassView(string name, int students, string? teacher, IReadOnlyList<ClassmateView> classmates, bool section = false, IReadOnlyList<ClassmateView>? left = null)
         {
+            Left = left ?? new List<ClassmateView>();
             Section = section;
             Name = name;
             Students = students;
@@ -28,5 +29,8 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>Los compañeros con nombre, del que más quieres al que menos.</summary>
         public IReadOnlyList<ClassmateView> Classmates { get; }
+
+        /// <summary>Quienes dejaron la sección al cerrar el último semestre (se muestran en gris, con "Se fue").</summary>
+        public IReadOnlyList<ClassmateView> Left { get; }
     }
 }

@@ -94,7 +94,7 @@ namespace MistakesLife.Core.Saving
 
             foreach (EventRecordData e in data.EventHistory)
             {
-                world.RecordEvent(new EventRecord(Date(e.Week), e.EventId, e.CharacterId, e.ChosenOption));
+                world.RecordEvent(new EventRecord(Date(e.Week), e.EventId, e.CharacterId, e.ChosenOption, e.PersonId));
             }
 
             return world;
@@ -341,6 +341,7 @@ namespace MistakesLife.Core.Saving
                     TeacherId = d.SchoolClass.TeacherId,
                 };
                 cls.ClassmateIds.AddRange(d.SchoolClass.ClassmateIds);
+                cls.LeftIds.AddRange(d.SchoolClass.LeftIds);
                 character.SchoolClass = cls;
             }
 

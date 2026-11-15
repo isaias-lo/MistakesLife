@@ -439,6 +439,33 @@ namespace MistakesLife.ConsoleGame
             foreach (ClassmateView mate in cls.Classmates)
             {
                 _output.WriteLine($"  - {mate.Name} (cariño {mate.Affection}){(mate.Bond == null ? string.Empty : " · " + mate.Bond)}");
+                if (mate.Memory != null)
+                {
+                    _output.WriteLine($"      {mate.Memory}");
+                }
+            }
+
+            StudyPlanView? plan = presenter.StudyPlan();
+            if (plan == null)
+            {
+                return;
+            }
+
+            _output.WriteLine(presenter.Text("ui.malla.titulo") + ": " + plan.Career + " · " + plan.Progress);
+            foreach (PlanSemesterView semester in plan.Semesters)
+            {
+                string state = semester.State switch
+                {
+                    PlanSemesterState.Approved => " [" + presenter.Text("ui.malla.aprobado") + "]",
+                    PlanSemesterState.Current => " [" + presenter.Text("ui.malla.cursando") + "]",
+                    PlanSemesterState.Retaking => " [" + presenter.Text("ui.malla.repites") + "]",
+                    _ => string.Empty,
+                };
+                _output.WriteLine($"  {semester.Name}{state}: {string.Join(", ", semester.Courses)}");
+                if (semester.FailedCourses.Count > 0)
+                {
+                    _output.WriteLine("    " + presenter.Text("ui.malla.rojos", string.Join(", ", semester.FailedCourses)));
+                }
             }
         }
 

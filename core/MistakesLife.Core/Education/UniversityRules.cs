@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
+using MistakesLife.Core.Life;
 using MistakesLife.Core.Randomness;
 using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
@@ -94,9 +95,17 @@ namespace MistakesLife.Core.Education
             }
 
             section.ClassmateIds.RemoveAll(id => !world.TryGetCharacter(id, out Character? c) || !c.IsAlive);
-            int before = section.ClassmateIds.Count;
-            section.ClassmateIds.RemoveAll(id => random.Chance(LeavesPerSemester) && (player.RelationshipWith(id)?.Bond ?? RelationshipBond.None) == RelationshipBond.None);
-            if (section.ClassmateIds.Count < before)
+            section.LeftIds.Clear();
+            foreach (int id in section.ClassmateIds)
+            {
+                if (random.Chance(LeavesPerSemester) && (player.RelationshipWith(id)?.Bond ?? RelationshipBond.None) == RelationshipBond.None)
+                {
+                    section.LeftIds.Add(id);
+                }
+            }
+
+            section.ClassmateIds.RemoveAll(section.LeftIds.Contains);
+            if (section.LeftIds.Count > 0)
             {
                 journal.Add("diario.seccion.se_fue");
             }
@@ -133,6 +142,27 @@ namespace MistakesLife.Core.Education
             }
 
             return marks;
+        }
+
+        /// <summary>Cariño que suma cada mes, a los dos, compartir la sección con alguien con quien ya viviste un momento.</summary>
+        public const int SharedMonthAffection = 1;
+
+        /// <summary>
+        /// En la U ves todos los días a la gente con la que ya viviste algo (te sientas con ellos,
+        /// almuerzan juntos): cada mes el cariño sube un poco, a los dos. Con quien nunca viviste
+        /// nada no pasa nada: siguen siendo caras de la sección.
+        /// </summary>
+        public static void ShareMonth(World world, Character player)
+        {
+            IReadOnlyDictionary<int, int> shared = SchoolRules.SharedMoments(world, player);
+            foreach (Character mate in SchoolRules.Classmates(world, player))
+            {
+                if (shared.ContainsKey(mate.Id))
+                {
+                    RelationshipRules.Edit(world, player, mate).Affection += SharedMonthAffection;
+                    RelationshipRules.Edit(world, mate, player).Affection += SharedMonthAffection;
+                }
+            }
         }
 
         /// <summary>El número romano de un ramo que se repite en la malla (Cálculo I, II, III...).</summary>

@@ -212,14 +212,15 @@ namespace MistakesLife.Core.Events
 
         /// <summary>
         /// En un curso no pasas el mismo tiempo con todos: un momento con un compañero cae
-        /// más seguido con los que quieres más (el peso crece con el cuadrado del cariño).
+        /// más seguido con los que se quieren más (el peso crece con el cuadrado del cariño; cuenta
+        /// el mayor de los dos, porque quien te quiere también te busca).
         /// Así se arma tu grupo y recuerdas sus nombres.
         /// </summary>
         private static Character CloserClassmate(World world, Character player, IReadOnlyList<Character> people, GameRandom random)
         {
             var weights = people.Select(p =>
             {
-                int affection = RelationshipRules.Feelings(world, player, p).Affection;
+                int affection = Math.Max(RelationshipRules.Feelings(world, player, p).Affection, RelationshipRules.Feelings(world, p, player).Affection);
                 return 1 + (affection * affection / 100);
             }).ToList();
             return people[random.PickWeightedIndex(weights)];
@@ -259,7 +260,7 @@ namespace MistakesLife.Core.Events
                 effect.Apply(scope);
             }
 
-            Finish(world, definition, subject, seed, optionIndex);
+            Finish(world, definition, subject, seed, optionIndex, person?.Id);
         }
 
         /// <summary>
@@ -342,9 +343,9 @@ namespace MistakesLife.Core.Events
             world.AddPendingEvent(new PendingEvent(definition.Id, subject.Id, world.Date, seed?.Id, options, person?.Id));
         }
 
-        private static void Finish(World world, EventDefinition definition, Character subject, Seed? seed, int? option)
+        private static void Finish(World world, EventDefinition definition, Character subject, Seed? seed, int? option, int? personId = null)
         {
-            world.RecordEvent(new EventRecord(world.Date, definition.Id, subject.Id, option));
+            world.RecordEvent(new EventRecord(world.Date, definition.Id, subject.Id, option, personId));
             if (seed != null && seed.IsOpen)
             {
                 world.Seeds.Resolve(seed, world.Date);

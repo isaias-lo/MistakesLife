@@ -56,6 +56,7 @@ namespace MistakesLife.Unity
         private PhoneScreen _phone = null!;
         private MoneyScreen _money = null!;
         private CourtScreen _court = null!;
+        private StudiesScreen _studies = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
         private float _sheetWidth;
@@ -176,6 +177,12 @@ namespace MistakesLife.Unity
         public void OpenCourtForCapture()
         {
             _court.Show(_presenter!);
+        }
+
+        /// <summary>Abre tus estudios en una hoja (0 notas, 1 curso o sección, 2 malla), para las capturas.</summary>
+        public void OpenStudiesForCapture(int page)
+        {
+            _studies.Show(_presenter!, page);
         }
 
         /// <summary>Abre Tu dinero encima de la vida, para las capturas.</summary>
@@ -331,6 +338,7 @@ namespace MistakesLife.Unity
             _phone = new PhoneScreen(safe) { Changed = MailRead };
             _money = new MoneyScreen(safe);
             _court = new CourtScreen(safe);
+            _studies = new StudiesScreen(safe);
 
             // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
             // si se moviera antes, el orden la devolvería a su lugar y se vería dos veces.
@@ -402,6 +410,10 @@ namespace MistakesLife.Unity
             else if (id == "escena.casa.carta_tribunal" || id == "escena.casa.sello_embargo")
             {
                 _court.Show(presenter);
+            }
+            else if ((id == "escena.casa.mochila" || id == "escena.casa.credencial_u") && StudiesScreen.HasStudies(presenter))
+            {
+                _studies.Show(presenter);
             }
         }
 
@@ -775,13 +787,29 @@ namespace MistakesLife.Unity
                 Things.ClockThing(things, presenter.Text("ui.cosas.volver"), () => PickMoment(true));
             }
 
-            // La carpeta del juzgado, solo si tienes o tuviste una causa. Si ya hay cuatro cosas,
-            // va en una segunda fila.
-            IReadOnlyList<CourtCaseView> cases = presenter.CourtCases();
+            // La libreta, si estudias (notas, curso o carrera), y la carpeta del juzgado, solo si
+            // tienes o tuviste una causa. Si ya hay cuatro cosas, van en una segunda fila.
             RectTransform? more = null;
+            if (StudiesScreen.HasStudies(presenter))
+            {
+                RectTransform row = things.childCount < 4 ? things : (more ??= Row(_sheetBody, "Mas cosas"));
+                ReportCardView? card = presenter.ReportCard();
+                bool red = false;
+                if (card != null)
+                {
+                    foreach (SubjectGradesView subject in card.Subjects)
+                    {
+                        red |= subject.Failing;
+                    }
+                }
+
+                Things.NotebookThing(row, presenter.Text("ui.cosas.libreta"), red, () => _studies.Show(presenter));
+            }
+
+            IReadOnlyList<CourtCaseView> cases = presenter.CourtCases();
             if (cases.Count > 0)
             {
-                RectTransform row = things.childCount < 4 ? things : (more = Row(_sheetBody, "Mas cosas"));
+                RectTransform row = things.childCount < 4 ? things : (more ??= Row(_sheetBody, "Mas cosas"));
                 bool open = false;
                 foreach (CourtCaseView courtCase in cases)
                 {
@@ -1162,10 +1190,13 @@ namespace MistakesLife.Unity
         /// <summary>Avanza una semana o, con <paramref name="untilSomething"/>, hasta que pase algo (máximo un año).</summary>
         private void Advance(bool untilSomething)
         {
+            Sounds.Play(Sound.WoodKnock);
             LifeSnapshot before = _presenter!.Snapshot();
+            StudyMark studiesBefore = StudyMark.Of(_presenter);
             int weeks = untilSomething ? _presenter.AdvanceUntilSomething() : _presenter.AdvanceWeek();
             _chapter = _presenter.TakeClosedChapter() ?? _chapter;
             RememberStep(before, weeks);
+            studiesBefore.PlayChange(StudyMark.Of(_presenter));
             Refresh();
             Save();
         }

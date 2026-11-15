@@ -38,5 +38,8 @@ namespace MistakesLife.Core.Education
 
         /// <summary>Los compañeros con nombre, por id, en el orden en que llegaron.</summary>
         public List<int> ClassmateIds { get; } = new List<int>();
+
+        /// <summary>Quienes dejaron la sección al cerrar el último semestre (para verlos en gris, con "Se fue").</summary>
+        public List<int> LeftIds { get; } = new List<int>();
     }
 }

@@ -10,5 +10,8 @@ namespace MistakesLife.Core.Saving
         public int CharacterId { get; set; }
 
         public int? ChosenOption { get; set; }
+
+        /// <summary>Desde la versión 28.</summary>
+        public int? PersonId { get; set; }
     }
 }
