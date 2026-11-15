@@ -502,6 +502,17 @@ namespace MistakesLife.ConsoleGame
                 _output.WriteLine($"({moment})");
             }
 
+            SeedOriginView? origin = view?.Origin;
+            if (origin != null)
+            {
+                _output.WriteLine($"  [{origin.Title} — {string.Join(" · ", new[] { origin.When, origin.Place, origin.Person }.Where(x => x != null))}]");
+                _output.WriteLine($"  [{origin.Moment}]");
+                if (origin.Choice != null)
+                {
+                    _output.WriteLine($"  [{origin.Choice}]");
+                }
+            }
+
             _output.WriteLine(view?.Text ?? WithPerson(_session.Text(definition.TextKeyFor(_session.World.TimesHappened(pending.EventId, pending.CharacterId))), person));
             for (int i = 0; i < pending.AvailableOptions.Count; i++)
             {
@@ -516,6 +527,11 @@ namespace MistakesLife.ConsoleGame
                 _output.WriteLine("  (Con ! al final, por ejemplo 1!, lo haces siempre: si vuelve a pasar, no te pregunto.)");
             }
 
+            if (origin?.GoBackLabel != null)
+            {
+                _output.WriteLine($"  (o escribe o: {origin.GoBackLabel})");
+            }
+
             while (true)
             {
                 _output.Write(CanGoBack() ? "Elige una opción (o v para volver al pasado): " : "Elige una opción: ");
@@ -523,6 +539,13 @@ namespace MistakesLife.ConsoleGame
                 if (answer == null)
                 {
                     return false;
+                }
+
+                if (answer.Trim().ToLowerInvariant() == "o" && origin?.GoBackLabel != null)
+                {
+                    presenter.GoBackToOrigin();
+                    _output.WriteLine("Vuelves a ese día. Algo te dice que esta vez lo pienses mejor.");
+                    return true;
                 }
 
                 if (answer.Trim().ToLowerInvariant() == "v" && CanGoBack())

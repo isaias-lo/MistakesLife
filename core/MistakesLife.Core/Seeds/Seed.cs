@@ -52,6 +52,9 @@ namespace MistakesLife.Core.Seeds
         /// <summary>Origen: edad del dueño al plantarla.</summary>
         public int OwnerAgeAtPlanting { get; }
 
+        /// <summary>El momento en que se plantó (evento, opción, lugar y persona), si se sabe.</summary>
+        public SeedOrigin? Origin { get; internal set; }
+
         /// <summary>Semilla de la que nació esta, si la hay.</summary>
         public int? ParentSeedId { get; }
 

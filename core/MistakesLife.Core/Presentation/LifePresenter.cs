@@ -934,7 +934,66 @@ namespace MistakesLife.Core.Presentation
                 PersonId = person?.Id,
                 Place = definition.Place == null ? null : T(definition.Place),
                 AllowsRule = definition.AllowsOwnRule,
+                Origin = seed == null ? null : OriginOf(seed),
             };
+        }
+
+        /// <summary>
+        /// "Esto viene de acá": el día en que nació la semilla que hoy despierta. Null si la
+        /// semilla no sabe de dónde viene (partidas viejas, o la plantó una regla y no un momento).
+        /// </summary>
+        private SeedOriginView? OriginOf(Seed seed)
+        {
+            SeedOrigin? origin = seed.Origin;
+            if (origin == null || !Session.Content.TryGetEvent(origin.EventId, out EventDefinition? definition) || definition == null)
+            {
+                return null;
+            }
+
+            World world = Session.World;
+            // La persona de ese día: la del momento o, si el momento no tenía, la que quedó
+            // ligada a la semilla (el amigo al que le prestaste plata).
+            int? personId = origin.PersonId ?? (seed.Witnesses.Count > 0 ? seed.Witnesses.First() : (int?)null);
+            Character? person = personId.HasValue && world.TryGetCharacter(personId.Value, out Character? c) ? c : null;
+            string? personName = person == null ? null : PersonName(definition, person);
+            string moment = WithPerson(T(definition.ResolvedTextKey), personName);
+            string? choice = origin.OptionTextKey == null ? null : WithPerson(T(origin.OptionTextKey), personName);
+            string when = string.Format(CultureInfo.InvariantCulture, T("ui.fecha.otro_ano"),
+                string.Format(CultureInfo.InvariantCulture, T("ui.fecha.dia"), seed.PlantedDate.DayOfMonth, T("ui.mes." + seed.PlantedDate.Month)),
+                AgeLabel(world.Player, seed.PlantedDate));
+
+            // A qué foto se puede volver para cambiarlo: la última sacada antes de ese día
+            // (la de esa misma decisión, si era día clave, o el comienzo de esa etapa).
+            TimeMachine machine = Session.TimeMachine;
+            WorldSnapshot? snapshot = machine.Snapshots
+                .Where(s => s.PlayerId == world.PlayerId && s.Date <= seed.PlantedDate && machine.CanGoBackTo(s))
+                .OrderBy(s => s.Date)
+                .LastOrDefault();
+
+            return new SeedOriginView(
+                T("ui.origen.titulo"),
+                when,
+                origin.PlaceKey == null ? null : T(origin.PlaceKey),
+                person == null ? null : PersonInMoment(definition, person),
+                WithTest(moment),
+                choice == null ? null : Text("ui.origen.elegiste", choice),
+                snapshot?.Id,
+                snapshot == null ? null : Text("ui.origen.volver", snapshot.PlayerAgeInYears));
+        }
+
+        /// <summary>
+        /// Vuelve al pasado justo frente al error: a la foto que ofrece
+        /// <see cref="SeedOriginView.SnapshotId"/> del momento que se está viendo. Gasta una carga.
+        /// </summary>
+        public void GoBackToOrigin()
+        {
+            int? snapshotId = Session.Pending == null ? null : EventOf(Session.Pending).Origin?.SnapshotId;
+            if (!snapshotId.HasValue)
+            {
+                throw new InvalidOperationException("Este momento no tiene un día al que volver.");
+            }
+
+            Session.GoBack(snapshotId.Value);
         }
 
         /// <summary>

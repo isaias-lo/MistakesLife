@@ -100,6 +100,9 @@ namespace MistakesLife.Core.Events
         /// <summary>El personaje a quien le pasa el evento (por ahora, el jugador).</summary>
         public Character Subject { get; }
 
+        /// <summary>El momento que se está viviendo: lo que se plante ahora recordará que nació acá.</summary>
+        internal SeedOrigin? Origin { get; set; }
+
         /// <summary>La semilla que despertó y provocó este evento, si la hay.</summary>
         public Seed? CurrentSeed { get; }
 
@@ -246,7 +249,8 @@ namespace MistakesLife.Core.Events
                 return;
             }
 
-            World.Seeds.Plant(type.ToSeedDefinition(Content), Subject.Id, World.Date, Subject.AgeInYears(World.Date), witness == null ? null : new[] { witness.Id });
+            Seed seed = World.Seeds.Plant(type.ToSeedDefinition(Content), Subject.Id, World.Date, Subject.AgeInYears(World.Date), witness == null ? null : new[] { witness.Id });
+            seed.Origin = Origin;
         }
 
         /// <summary>

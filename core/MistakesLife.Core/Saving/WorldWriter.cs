@@ -284,6 +284,10 @@ namespace MistakesLife.Core.Saving
                 State = s.State.ToString(),
                 AwakenedWeek = s.AwakenedDate?.TotalWeeks,
                 ClosedWeek = s.ClosedDate?.TotalWeeks,
+                OriginEventId = s.Origin?.EventId,
+                OriginOption = s.Origin?.OptionTextKey,
+                OriginPlace = s.Origin?.PlaceKey,
+                OriginPersonId = s.Origin?.PersonId,
             };
         }
 

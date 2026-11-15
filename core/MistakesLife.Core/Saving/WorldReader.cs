@@ -396,6 +396,9 @@ namespace MistakesLife.Core.Saving
                 Parse<SeedState>(s.State),
                 s.AwakenedWeek.HasValue ? Date(s.AwakenedWeek.Value) : (GameDate?)null,
                 s.ClosedWeek.HasValue ? Date(s.ClosedWeek.Value) : (GameDate?)null);
+            seed.Origin = s.OriginEventId == null
+                ? null
+                : new SeedOrigin(s.OriginEventId, s.OriginOption, s.OriginPlace, s.OriginPersonId);
         }
 
         private static Value ReadLaw(LawChangeData law)

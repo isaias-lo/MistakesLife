@@ -36,5 +36,14 @@ namespace MistakesLife.Core.Saving
         public int? AwakenedWeek { get; set; }
 
         public int? ClosedWeek { get; set; }
+
+        /// <summary>De dónde viene (desde la versión 25): evento, opción, lugar y persona.</summary>
+        public string? OriginEventId { get; set; }
+
+        public string? OriginOption { get; set; }
+
+        public string? OriginPlace { get; set; }
+
+        public int? OriginPersonId { get; set; }
     }
 }
