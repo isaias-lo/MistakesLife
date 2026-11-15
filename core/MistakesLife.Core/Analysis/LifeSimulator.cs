@@ -84,6 +84,7 @@ namespace MistakesLife.Core.Analysis
                 var chooser = new GameRandom(seed).Fork("simulador.decisiones");
                 var decider = new AutoDecider(_content);
                 var texter = new GameRandom(seed).Fork("simulador.mensajito");
+                var initiative = new GameRandom(seed).Fork("simulador.iniciativa");
                 int target = finalAge * GameDate.WeeksPerYear;
 
                 while (session.World.Player.IsAlive && session.World.Player.AgeInWeeks(session.World.Date) < target)
@@ -108,6 +109,11 @@ namespace MistakesLife.Core.Analysis
 
                     // Como quien juega mira el celular seguido: avanza de a un mes y contesta sus mensajes.
                     AnswerChats(session, texter);
+                    if (TakeInitiative(session, initiative))
+                    {
+                        continue;
+                    }
+
                     session.Advance(Math.Min(ChatCheckWeeks, target - session.World.Player.AgeInWeeks(session.World.Date)));
                 }
 
@@ -373,6 +379,26 @@ namespace MistakesLife.Core.Analysis
 
         /// <summary>Cada cuántas semanas, como mucho, la vida simulada mira Mensajito.</summary>
         public const int ChatCheckWeeks = 4;
+
+        /// <summary>
+        /// Lo que quien juega pide por su cuenta (los botones "a_pedido": pedir un aumento,
+        /// tomar vacaciones, renunciar): cada mes, cada uno con la probabilidad de su
+        /// "por_ano" / 12 para esa personalidad. Devuelve si pidió algo (queda pendiente).
+        /// </summary>
+        private static bool TakeInitiative(LifeSession session, GameRandom chooser)
+        {
+            foreach (Content.EventDefinition ev in session.Requestable())
+            {
+                var scope = new Events.EventScope(session.World, session.Content, session.World.Player, null, readOnly: true);
+                double perMonth = Math.Max(0, ev.OnRequest!.PerYearFor(scope)) / 12;
+                if (chooser.Chance(Math.Min(1, perMonth)) && session.Request(ev.Id))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         private static void AnswerChats(LifeSession session, GameRandom chooser)
         {

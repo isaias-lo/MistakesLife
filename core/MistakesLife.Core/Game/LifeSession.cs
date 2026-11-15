@@ -72,6 +72,7 @@ namespace MistakesLife.Core.Game
                 .Register(new Courts.CourtSystem(content))
                 .Register(new Work.OccupationSystem(content))
                 .Register(new PayrollSystem(content))
+                .Register(new Work.VacationSystem(content))
                 .Register(new PensionSystem(content))
                 .Register(new TaxSystem(content))
                 .Register(new ExpenseSystem(content))
@@ -374,6 +375,12 @@ namespace MistakesLife.Core.Game
 
             wishes[index].Highlighted = highlighted;
         }
+
+        /// <summary>Los momentos que el jugador puede pedir ahora (pedir un aumento, tomar vacaciones...).</summary>
+        public IReadOnlyList<Content.EventDefinition> Requestable() => Events.Requestable(World);
+
+        /// <summary>El jugador pide un momento con su botón: si se puede, queda pendiente ahora. Devuelve si pasó.</summary>
+        public bool Request(string eventId) => Events.Request(World, eventId);
 
         /// <summary>
         /// El jugador abre un correo de su bandeja (la posición en

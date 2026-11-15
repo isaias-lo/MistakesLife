@@ -225,3 +225,14 @@ Anotado de memoria y por verificar en [Ley Chile (BCN)](https://www.bcn.cl/leych
 - Arancel anual promedio de pregrado (estimaciones redondeadas de [mifuturo.cl](https://www.mifuturo.cl) y SIES 2024, por revisar por carrera): universidad ~$4.200.000, instituto profesional ~$2.000.000, CFT ~$1.700.000. En el juego, `servicio.arancel.pago_*` cobra 1/12 cada mes mientras estudia; matrícula anual ~$200.000 en marzo.
 - Gratuidad (Ley 21.091): cubre arancel y matrícula durante la duración formal de la carrera. Si se pasa, el primer año extra paga la mitad del arancel regulado y después el arancel completo. En el juego cuenta los semestres cursados (`jugador.semestres_cursados`), no los aprobados. Solo cubre el primer título (por eso no se da a quien ya está titulado).
 
+
+## Lo que decides tú en la pega (R6c): vacaciones, aumento y renuncia
+
+Del [Código del Trabajo (BCN)](https://www.bcn.cl/leychile/navegar?idNorma=207436) y la [Dirección del Trabajo](https://www.dt.gob.cl):
+
+- Feriado anual (art. 67): con más de un año de servicio, 15 días hábiles con remuneración íntegra. El sábado no cuenta como hábil para el feriado. En el juego se ganan mes a mes (1,25 días por mes) desde el primer mes, como el feriado proporcional.
+- Feriado progresivo (art. 68): con 10 años de trabajo, para uno o más empleadores, un día más por cada 3 nuevos años trabajados; solo se pueden hacer valer hasta 10 años con empleadores anteriores. En el juego los años anteriores salen de los meses cotizados.
+- Acumulación (art. 70): el feriado se puede acumular hasta por dos períodos consecutivos. En el juego, lo que pasa de dos años de días se pierde.
+- Feriado proporcional (art. 73): si el contrato termina antes de tomar los días, se pagan. Los días hábiles se pagan como corridos (sumando sábados, domingos y feriados que caen entre medio); el juego usa 1,4 días pagados por día hábil (7 días corridos por cada 5 hábiles) y el sueldo diario = sueldo mensual / 30.
+- Renuncia voluntaria (art. 159 n.º 2): con aviso al empleador con 30 días de anticipación, firmada ante un ministro de fe (inspector del trabajo, notario) o hoy por la plataforma de la DT. No da indemnización por años de servicio; sí se pagan los días trabajados y el feriado proporcional. Si el trabajador no avisa con 30 días, la ley no le impone una multa.
+- Pedir aumento: la respuesta sigue la encuesta "Raise Anatomy" de [PayScale](https://www.payscale.com) (2018, unas 160 mil personas, EE. UU.): de quienes pidieron, el 39 % recibió lo que pidió, el 31 % recibió menos y el 30 % nada. No hay una encuesta igual de grande en Chile; el juego la usa como base y la mueve por desempeño, respeto del jefe y economía (calibración del juego).

@@ -673,6 +673,11 @@ namespace MistakesLife.Core.Content
 
                 _checkedCountry = ev.CountryId == null ? null : _countries[ev.CountryId];
                 ev.CompiledConditions = CompileCondition(where, ev.Conditions);
+                if (ev.OnRequest != null)
+                {
+                    ev.OnRequest.CompiledPerYear = CompileCondition(where + ", a_pedido", ev.OnRequest.PerYear);
+                }
+
                 CompileEffects(where, ev.Effects, ev.CompiledEffects);
                 for (int i = 0; i < ev.Options.Count; i++)
                 {
@@ -1034,6 +1039,11 @@ namespace MistakesLife.Core.Content
                 if (country.Economy.JobSearch != null)
                 {
                     ValidateJobSearch($"{where}, economia.busqueda_trabajo", country.Economy.JobSearch);
+                }
+
+                if (country.Economy.Vacations != null)
+                {
+                    ValidateVacations($"{where}, economia.vacaciones", country.Economy.Vacations);
                 }
             }
 
@@ -1408,6 +1418,34 @@ namespace MistakesLife.Core.Content
             if (inflation.Regime(inflation.InitialRegime) == null)
             {
                 _errors.Add(new ContentError(where, $"regimen_inicial '{inflation.InitialRegime}' no es uno de sus regímenes."));
+            }
+        }
+
+        private void ValidateVacations(string where, VacationsDefinition vacations)
+        {
+            if (vacations.Tiers.Count == 0 || vacations.Tiers[0].FromYears != 0)
+            {
+                _errors.Add(new ContentError(where, "los tramos deben partir con uno desde 0 años."));
+            }
+
+            for (int i = 0; i < vacations.Tiers.Count; i++)
+            {
+                if (vacations.Tiers[i].Days <= 0 || (i > 0 && vacations.Tiers[i].FromYears <= vacations.Tiers[i - 1].FromYears))
+                {
+                    _errors.Add(new ContentError(where, "cada tramo tiene días positivos y empieza después del anterior."));
+                }
+            }
+
+            if (vacations.Unit != "habiles" && vacations.Unit != "corridos")
+            {
+                _errors.Add(new ContentError(where, $"la unidad '{vacations.Unit}' no existe (habiles o corridos)."));
+            }
+
+            if (vacations.MaxYearsSaved < 1 || vacations.DayDivisor <= 0 || vacations.PaidDaysPerDay <= 0
+                || vacations.ProgressiveFromYears < 0 || vacations.ProgressiveEveryYears < 0 || vacations.ProgressiveMaxPriorYears < 0
+                || (vacations.ProgressiveFromYears > 0 && vacations.ProgressiveEveryYears == 0))
+            {
+                _errors.Add(new ContentError(where, "acumula_maximo_anos, divisor_dia y dias_pagados_por_dia deben ser positivos, y el progresivo necesita cada cuántos años."));
             }
         }
 
@@ -1914,6 +1952,14 @@ namespace MistakesLife.Core.Content
                     }
                 }
 
+                if (country.Economy != null)
+                {
+                    foreach (string key in Work.RaiseRules.Journals)
+                    {
+                        yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
+                    }
+                }
+
                 if (country.Economy?.Inheritance != null)
                 {
                     yield return new KeyValuePair<string, string>(Economy.InheritanceSettlement.ReceivedJournal, $"país {country.Id}");
@@ -2014,6 +2060,11 @@ namespace MistakesLife.Core.Content
                 if (ev.RuleGroup != null)
                 {
                     yield return new KeyValuePair<string, string>(ev.RuleGroup, where);
+                }
+
+                if (ev.OnRequest != null)
+                {
+                    yield return new KeyValuePair<string, string>(ev.OnRequest.TextKey, where);
                 }
                 foreach (EventOptionDefinition option in ev.Options)
                 {
@@ -2452,6 +2503,16 @@ namespace MistakesLife.Core.Content
                 _errors.Add(new ContentError(where, $"la actividad '{ev.Activity}' no existe."));
             }
 
+            if (ev.OnRequest != null && (ev.Activity != null || ev.Date != null || ev.AnnualProbability.HasValue || ev.SeedType != null))
+            {
+                _errors.Add(new ContentError(where, "un momento a_pedido lo empieza el jugador: no lleva actividad, fecha, probabilidad_anual ni semilla."));
+            }
+
+            if (ev.OnRequest != null && !ev.OnRequest.TextKey.StartsWith("accion.", StringComparison.Ordinal))
+            {
+                _errors.Add(new ContentError(where, $"el texto del botón '{ev.OnRequest.TextKey}' debe empezar con 'accion.'."));
+            }
+
             if (ev.Activity != null && ev.Date != null)
             {
                 _errors.Add(new ContentError(where, "un momento nace del horario (actividad) o de una fecha, no de las dos."));
@@ -2469,7 +2530,7 @@ namespace MistakesLife.Core.Content
 
             if (ev.IsScheduled && ev.With == null && ev.Place == null)
             {
-                _errors.Add(new ContentError(where, "un momento con actividad o fecha necesita con quién (con) o dónde (lugar): sin persona ni lugar con nombre, no detiene el tiempo."));
+                _errors.Add(new ContentError(where, "un momento con actividad, fecha o a_pedido necesita con quién (con) o dónde (lugar): sin persona ni lugar con nombre, no detiene el tiempo."));
             }
 
             if (ev.Date != null && !ev.OnBirthday)

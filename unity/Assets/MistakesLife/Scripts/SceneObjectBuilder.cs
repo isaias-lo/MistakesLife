@@ -41,6 +41,8 @@ namespace MistakesLife.Unity
             "escena.casa.polera_tienda" => "ancla.puerta",
             "escena.casa.delantal_garzon" => "ancla.puerta",
             "escena.casa.casco_obra" => "ancla.puerta",
+            "escena.casa.caja_pega" => "ancla.puerta",
+            "escena.casa.maleta" => "ancla.ropero",
             "escena.casa.comprobante_cae" => "ancla.mesa",
             "escena.casa.notebook" => "ancla.mesa",
             "escena.casa.avisos_trabajo" => "ancla.mesa",
@@ -139,6 +141,18 @@ namespace MistakesLife.Unity
                         kit.Box("Puntera del zapato", new Vector3(0.45f, 0.06f, bootZ), new Vector3(0.04f, 0.1f, 0.1f), new Color(0.25f, 0.18f, 0.12f));
                     }
 
+                    break;
+                case "escena.casa.caja_pega":
+                    // Renunciaste: la caja de cartón con tus cosas de la pega, a medio llenar junto a la puerta.
+                    kit.Box("Caja con tus cosas de la pega", new Vector3(0.62f, 0.14f, 0.3f), new Vector3(0.4f, 0.28f, 0.3f), new Color(0.72f, 0.55f, 0.36f));
+                    kit.Box("Taza de la pega", new Vector3(0.55f, 0.32f, 0.26f), new Vector3(0.08f, 0.1f, 0.08f), Color.white);
+                    kit.Box("Carpeta de la pega", new Vector3(0.7f, 0.33f, 0.34f), new Vector3(0.03f, 0.12f, 0.2f), new Color(0.20f, 0.35f, 0.60f));
+                    break;
+                case "escena.casa.maleta":
+                    // Vacaciones ganadas y sin tomar: la maleta espera parada al lado del ropero.
+                    kit.Box("Maleta", new Vector3(0.45f, 0.3f, -0.3f), new Vector3(0.36f, 0.5f, 0.18f), new Color(0.55f, 0.18f, 0.16f));
+                    kit.Box("Manilla de la maleta", new Vector3(0.45f, 0.58f, -0.3f), new Vector3(0.12f, 0.03f, 0.03f), new Color(0.15f, 0.15f, 0.16f));
+                    kit.Box("Correa de la maleta", new Vector3(0.45f, 0.3f, -0.395f), new Vector3(0.36f, 0.04f, 0.01f), new Color(0.85f, 0.75f, 0.45f));
                     break;
                 case "escena.casa.comprobante_cae":
                     // El comprobante del crédito de estudios, doblado bajo un clip, al lado de las cuentas.

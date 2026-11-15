@@ -476,6 +476,8 @@ namespace MistakesLife.Core.Saving
             job.VariablePay = data.VariablePay;
             job.Tips = data.Tips;
             job.Challenge = data.Challenge;
+            job.VacationDays = data.VacationDays;
+            job.LeavingWeek = data.LeavingWeek;
             job.CompanyId = data.CompanyId;
             return job;
         }

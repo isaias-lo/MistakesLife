@@ -346,7 +346,7 @@ namespace MistakesLife.Unity
             _money = new MoneyScreen(safe);
             _court = new CourtScreen(safe);
             _studies = new StudiesScreen(safe);
-            _team = new TeamScreen(safe);
+            _team = new TeamScreen(safe) { Changed = MailRead };
 
             // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
             // si se moviera antes, el orden la devolvería a su lugar y se vería dos veces.

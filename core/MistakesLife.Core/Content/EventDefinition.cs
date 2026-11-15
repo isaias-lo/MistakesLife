@@ -134,9 +134,19 @@ namespace MistakesLife.Core.Content
         [JsonIgnore]
         public int? FixedDayOfYear { get; internal set; }
 
-        /// <summary>Si es un momento que nace del horario o del calendario (no compite al azar con los demás eventos).</summary>
+        /// <summary>
+        /// Si se indica, el momento lo pide el jugador con un botón (ver <see cref="RequestDefinition"/>)
+        /// y nunca pasa solo. Opcional.
+        /// </summary>
+        [JsonProperty("a_pedido")]
+        public RequestDefinition? OnRequest { get; set; }
+
+        /// <summary>
+        /// Si es un momento que nace del horario, del calendario o de lo que pide el jugador
+        /// (no compite al azar con los demás eventos).
+        /// </summary>
         [JsonIgnore]
-        public bool IsScheduled => Activity != null || Date != null;
+        public bool IsScheduled => Activity != null || Date != null || OnRequest != null;
 
         /// <summary>
         /// Grupo para las reglas propias del jugador ("regla.prueba"): una regla hecha en

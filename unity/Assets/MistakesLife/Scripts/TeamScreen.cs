@@ -12,7 +12,9 @@ namespace MistakesLife.Unity
     /// franja color corcho con el título y, en una tarjeta de papel, la jefatura arriba y los
     /// colegas abajo, cada uno con su cara, su nombre, qué son y lo último que vivieron juntos.
     /// Quienes se fueron este año, al final y en gris. Lo da <see cref="LifePresenter.Team"/>.
-    /// Regla: aquí no se decide nada.
+    /// Abajo, "Lo que decides tú": tus vacaciones ganadas y un botón por cada cosa que puedes
+    /// pedir (aumento, vacaciones, renunciar). El botón solo pide el momento al núcleo
+    /// (<c>Session.Request</c>); la decisión se toma después en la carta, como cualquier momento.
     /// </summary>
     public sealed class TeamScreen
     {
@@ -29,6 +31,9 @@ namespace MistakesLife.Unity
         {
             _parent = parent;
         }
+
+        /// <summary>Se llama después de pedir un momento, para que la vida dibuje su carta.</summary>
+        public System.Action? Changed { get; set; }
 
         public bool IsOpen => _layer != null && _layer.gameObject.activeSelf;
 
@@ -117,6 +122,33 @@ namespace MistakesLife.Unity
             {
                 StudiesScreen.Line(sheet);
                 StudiesScreen.PersonRow(sheet, mate, true);
+            }
+
+            if (team.Status == null && team.Actions.Count == 0)
+            {
+                return;
+            }
+
+            RectTransform yours = UiFactory.Column(_body, "Lo que decides tú", 28, 16, UiFactory.Paper);
+            UiFactory.Label(yours, presenter.Text("ui.pega.decides_tu"), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold)
+                .margin = new Vector4(16f, 8f, 16f, 0f);
+            if (team.Status != null)
+            {
+                UiFactory.Label(yours, team.Status, 36, UiFactory.PaperInk).margin = new Vector4(16f, 0f, 16f, 8f);
+            }
+
+            foreach (ActionView action in team.Actions)
+            {
+                string eventId = action.EventId;
+                UiFactory.MakeButton(yours, action.Label, UiFactory.PaperOption, UiFactory.PaperInk, () =>
+                {
+                    Sounds.Play(Sound.PencilTap);
+                    if (presenter.Session.Request(eventId))
+                    {
+                        Close();
+                        Changed?.Invoke();
+                    }
+                });
             }
         }
     }

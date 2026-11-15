@@ -1,0 +1,139 @@
+[
+  {
+    "id": "evento.pega.pedir_aumento",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "a_pedido": {
+      "texto": "accion.pega.pedir_aumento",
+      "por_ano": "0.2 + jugador.extraversion / 400 + (jugador.desempeno - 50) / 200"
+    },
+    "condiciones": "jugador.trabaja && jugador.tipo_trabajo == 'dependiente' && jugador.meses_en_trabajo >= 6 && !jugador.renuncio",
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.pega.pedir_aumento.cinco",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": ["jugador.pedir_aumento(5)", "persona.respeto += 1"]
+      },
+      {
+        "texto": "opcion.pega.pedir_aumento.diez",
+        "tendencia": "jugador.extraversion / 2 + (100 - jugador.amabilidad) / 5",
+        "efectos": ["jugador.pedir_aumento(10)"]
+      },
+      {
+        "texto": "opcion.pega.pedir_aumento.otra_oferta",
+        "condiciones": "jugador.tiene_oferta",
+        "tendencia": "(100 - jugador.amabilidad) / 2 + jugador.extraversion / 4",
+        "efectos": ["jugador.pedir_aumento(15)", "persona.confianza -= 2"]
+      },
+      {
+        "texto": "opcion.pega.pedir_aumento.no_todavia",
+        "tendencia": "jugador.neuroticismo / 2 + (100 - jugador.extraversion) / 4",
+        "efectos": ["jugador.felicidad -= 1"]
+      }
+    ]
+  },
+  {
+    "id": "evento.pega.vacaciones",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "a_pedido": {
+      "texto": "accion.pega.tomar_vacaciones",
+      "por_ano": "1.2"
+    },
+    "condiciones": "jugador.trabaja && jugador.tipo_trabajo == 'dependiente' && jugador.dias_vacaciones >= 10 && !jugador.renuncio",
+    "enfriamiento_semanas": 8,
+    "opciones": [
+      {
+        "texto": "opcion.pega.vacaciones.todas",
+        "tendencia": "40 + (100 - jugador.responsabilidad) / 4",
+        "efectos": ["jugador.tomar_vacaciones(jugador.dias_vacaciones)", "jugador.felicidad += 6", "jugador.salud += 2", "diario('diario.pega.vacaciones')"]
+      },
+      {
+        "texto": "opcion.pega.vacaciones.diez",
+        "condiciones": "jugador.pais == 'pais.chile' && jugador.dias_vacaciones >= 15",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": ["jugador.tomar_vacaciones(10)", "jugador.felicidad += 4", "jugador.salud += 1", "diario('diario.pega.vacaciones')"]
+      },
+      {
+        "texto": "opcion.pega.vacaciones.pareja",
+        "condiciones": "jugador.pareja != nada",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": ["jugador.tomar_vacaciones(jugador.dias_vacaciones)", "jugador.felicidad += 6", "jugador.pareja.carino += 4", "diario('diario.pega.vacaciones_pareja')"]
+      },
+      {
+        "texto": "opcion.pega.vacaciones.guardar",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.neuroticismo / 3",
+        "efectos": ["persona.respeto += 1", "jugador.felicidad -= 1"]
+      }
+    ]
+  },
+  {
+    "id": "evento.pega.renunciar",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "a_pedido": {
+      "texto": "accion.pega.renunciar",
+      "por_ano": "0.03 + si(jugador.felicidad < 40, 0.1, 0) + si(jugador.tiene_oferta, 0.5, 0)"
+    },
+    "condiciones": "jugador.trabaja && !jugador.renuncio",
+    "enfriamiento_semanas": 4,
+    "opciones": [
+      {
+        "texto": "opcion.pega.renunciar.con_aviso",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 3",
+        "efectos": ["jugador.avisar_renuncia(si(jugador.pais == 'pais.chile', 4, 2))", "persona.respeto += 2", "diario('diario.pega.renuncia_aviso')"]
+      },
+      {
+        "texto": "opcion.pega.renunciar.hoy",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.neuroticismo / 3",
+        "efectos": [
+          "jugador.cobrar_vacaciones()",
+          "jugador.dinero -= si(jugador.pais == 'pais.argentina' && jugador.tipo_trabajo == 'dependiente', jugador.sueldo / 2, 0)",
+          "persona.respeto -= 3",
+          "persona.rencor += 5",
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "diario('diario.pega.renuncia_hoy')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.renunciar.no",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.apertura) / 4",
+        "efectos": ["jugador.felicidad -= 1"]
+      }
+    ]
+  },
+  {
+    "id": "evento.pega.ultimo_dia",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.trabaja && jugador.renuncio && jugador.semanas_para_irse <= 0",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.pega.ultimo_dia.despedirse",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.cobrar_vacaciones()",
+          "jugador.felicidad += 2",
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "diario('diario.pega.ultimo_dia')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.ultimo_dia.callado",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.cobrar_vacaciones()",
+          "jugador.desmarcar('trabajando')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "diario('diario.pega.ultimo_dia')"
+        ]
+      }
+    ]
+  }
+]
