@@ -130,6 +130,9 @@ namespace MistakesLife.Core.Content
         public CareerLevelDefinition GetCareerLevel(string id) =>
             _careerLevels.TryGetValue(id, out CareerLevelDefinition? level) ? level : throw new KeyNotFoundException($"No existe el nivel de carrera '{id}'.");
 
+        /// <summary>Si existe ese nivel de carrera.</summary>
+        public bool HasCareerLevel(string id) => _careerLevels.ContainsKey(id);
+
         public CareerAreaDefinition GetCareerArea(string id) =>
             _careerAreas.TryGetValue(id, out CareerAreaDefinition? area) ? area : throw new KeyNotFoundException($"No existe el área de carrera '{id}'.");
 
@@ -1469,6 +1472,34 @@ namespace MistakesLife.Core.Content
         {
             string where = $"carrera {career.Id}";
             CheckId(where, career.Id, "carrera.");
+            foreach (CourseDefinition course in career.Courses)
+            {
+                CheckId(where + ", ramos", course.Id, "ramo.");
+                if (course.Institutions.Any(i => !CareerLevelDefinition.Institutions.Contains(i)))
+                {
+                    _errors.Add(new ContentError($"{where}, {course.Id}", $"instituciones debe ser de: {string.Join(", ", CareerLevelDefinition.Institutions)}."));
+                }
+
+                if (course.FromSemester < 1 || course.LastSemester < course.FromSemester)
+                {
+                    _errors.Add(new ContentError($"{where}, {course.Id}", "desde va de 1 en adelante y hasta no puede ser menor que desde."));
+                }
+            }
+
+            // Si la carrera tiene ramos, cada semestre de cada nivel tiene al menos uno.
+            if (career.Courses.Count > 0)
+            {
+                foreach (CareerLevelDefinition level in career.Levels)
+                {
+                    for (int semester = 1; semester <= level.Semesters; semester++)
+                    {
+                        if (!career.Courses.Any(c => c.In(level.Institution, semester, level.Semesters)))
+                        {
+                            _errors.Add(new ContentError($"{where}, {level.Id}", $"el semestre {semester} no tiene ramos."));
+                        }
+                    }
+                }
+            }
             foreach (string name in career.CompanyNames)
             {
                 CheckId(where + ", nombres_empresa", name, "empresa.");
@@ -1891,6 +1922,11 @@ namespace MistakesLife.Core.Content
                 foreach (CareerAreaDefinition area in career.Areas)
                 {
                     yield return new KeyValuePair<string, string>(area.Id, $"carrera {career.Id}");
+                }
+
+                foreach (CourseDefinition course in career.Courses)
+                {
+                    yield return new KeyValuePair<string, string>(course.Id, $"carrera {career.Id}");
                 }
 
                 foreach (string name in career.CompanyNames)

@@ -315,6 +315,36 @@
     "peso": 3
   },
   {
+    "diario": "diario.seccion.nueva",
+    "titulo": "capitulo.seccion.nueva",
+    "peso": 6
+  },
+  {
+    "diario": "diario.universidad.paro",
+    "titulo": "capitulo.universidad.paro",
+    "peso": 3
+  },
+  {
+    "diario": "diario.universidad.examen_filtrado",
+    "titulo": "capitulo.universidad.examen_filtrado",
+    "peso": 4
+  },
+  {
+    "diario": "diario.universidad.ayudantia",
+    "titulo": "capitulo.universidad.ayudantia",
+    "peso": 3
+  },
+  {
+    "diario": "diario.universidad.investigacion",
+    "titulo": "capitulo.universidad.investigacion",
+    "peso": 3
+  },
+  {
+    "diario": "diario.universidad.titulo_juntos",
+    "titulo": "capitulo.universidad.titulo_juntos",
+    "peso": 3
+  },
+  {
     "diario": "diario.fecha.cumple_amigo.excusa",
     "titulo": "capitulo.fecha.cumple_amigo.excusa",
     "peso": 3

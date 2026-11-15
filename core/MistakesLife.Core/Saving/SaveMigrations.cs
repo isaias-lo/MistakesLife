@@ -254,6 +254,19 @@ namespace MistakesLife.Core.Saving
             // Versión 24 → 25: cada semilla recuerda de dónde viene. Las semillas viejas no lo
             // saben: simplemente no muestran "Esto viene de acá".
             [24] = save => { },
+
+            // Versión 25 → 26: notas en la universidad, el CFT y el instituto. Quien ya estudiaba
+            // tiene sus semestres aprobados "con notas": las notas llegan desde el próximo.
+            [25] = save =>
+            {
+                foreach (JToken studies in save.SelectTokens("$..Studies").ToList())
+                {
+                    if (studies is JObject s && s["CompletedSemesters"] != null)
+                    {
+                        s["GradedSemesters"] = s["CompletedSemesters"];
+                    }
+                }
+            },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

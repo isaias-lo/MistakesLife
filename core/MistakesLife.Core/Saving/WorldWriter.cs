@@ -220,6 +220,11 @@ namespace MistakesLife.Core.Saving
                     RequiredSemesters = c.Studies.RequiredSemesters,
                     CompletedSemesters = c.Studies.CompletedSemesters,
                     WeeksIntoSemester = c.Studies.WeeksIntoSemester,
+                    GradedSemesters = c.Studies.GradedSemesters,
+                    Preparation = c.Studies.Preparation,
+                    LastMarksSemester = c.Studies.LastMarksSemester,
+                    LastMarks = new SortedDictionary<string, double>(c.Studies.LastMarks),
+                    SemesterAverages = c.Studies.SemesterAverages.ToList(),
                 },
                 Routine = c.Routine == null ? null : new RoutineData
                 {

@@ -276,6 +276,11 @@ namespace MistakesLife.Core.Presentation
             Character player = Session.World.Player;
             Education.SchoolRecord? record = player.SchoolRecord;
             GradeScaleDefinition? scale = player.Residence == null ? null : Session.Content.GetCountry(player.Residence.CountryId).GradeScale;
+            if (player.Studies != null && scale != null)
+            {
+                return SemesterReportCard(player.Studies, scale);
+            }
+
             if (record == null || scale == null)
             {
                 return null;
@@ -295,6 +300,39 @@ namespace MistakesLife.Core.Presentation
                 .ToList();
             double? general = Education.GradeRules.General(averages, scale);
             return new ReportCardView(subjects, general.HasValue ? MarkText(general.Value) : null, finals, record.RepeatedYears);
+        }
+
+        /// <summary>
+        /// La libreta de la universidad, el CFT o el instituto: las notas finales del último
+        /// semestre cerrado o, si todavía no cierra ninguno, los ramos del semestre que cursa.
+        /// </summary>
+        private ReportCardView SemesterReportCard(CareerStudies studies, GradeScaleDefinition scale)
+        {
+            if (studies.LastMarks.Count > 0)
+            {
+                CareerDefinition career = Session.Content.GetCareer(studies.CareerId);
+                var order = career.Courses.Select(c => c.Id).ToList();
+                var finals = studies.LastMarks
+                    .OrderBy(m => order.IndexOf(m.Key))
+                    .Select(m => new SubjectGradesView(CourseName(studies, m.Key, studies.LastMarksSemester), new List<string>(), MarkText(m.Value), m.Value < scale.Pass))
+                    .ToList();
+                string? last = studies.SemesterAverages.Count == 0 ? null : MarkText(studies.SemesterAverages[studies.SemesterAverages.Count - 1]);
+                return new ReportCardView(finals, last, true, 0, semester: true);
+            }
+
+            int semester = studies.CompletedSemesters + 1;
+            var courses = Education.UniversityRules.Courses(Session.Content, studies, semester)
+                .Select(c => new SubjectGradesView(CourseName(studies, c.Id, semester), new List<string>(), string.Empty, false))
+                .ToList();
+            return new ReportCardView(courses, null, false, 0, semester: true);
+        }
+
+        /// <summary>El nombre de un ramo con su número, como en la malla: "Cálculo II".</summary>
+        private string CourseName(CareerStudies studies, string courseId, int semester)
+        {
+            CourseDefinition? course = Session.Content.GetCareer(studies.CareerId).Courses.FirstOrDefault(c => c.Id == courseId);
+            int number = course?.Number(semester) ?? 0;
+            return number > 0 ? T(courseId) + " " + Education.UniversityRules.Roman(number) : T(courseId);
         }
 
         /// <summary>Tu curso del colegio; null si no vas a un curso.</summary>
@@ -321,7 +359,11 @@ namespace MistakesLife.Core.Presentation
                     RelationshipRules.BondKey(x.Feelings.Bond) is string bond ? T("ui.relacion." + bond) : null,
                     x.Feelings.Affection))
                 .ToList();
-            return new SchoolClassView(Text("curso." + cls.StageId, cls.Level, cls.Letter), cls.Students, teacherName, mates);
+            bool section = player.Studies != null && Education.UniversityRules.InSection(player);
+            string name = section
+                ? Text("ui.seccion", cls.Level, cls.Letter, T(player.Studies!.CareerId))
+                : Text("curso." + cls.StageId, cls.Level, cls.Letter);
+            return new SchoolClassView(name, cls.Students, teacherName, mates, section);
         }
 
         /// <summary>Marca (o desmarca) con destacador algo que quiere (posición de <see cref="WishView.Index"/>).</summary>

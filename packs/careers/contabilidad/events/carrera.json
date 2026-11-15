@@ -30,18 +30,6 @@
     ]
   },
   {
-    "id": "evento.contabilidad.ramo_reprobado",
-    "condiciones": "jugador.estudia == 'carrera.contabilidad' && jugador.inteligencia < 50",
-    "peso": 6,
-    "enfriamiento_semanas": 52,
-    "efectos": [
-      "jugador.felicidad -= 4",
-      "jugador.semestres_aprobados -= 1",
-      "jugador.inteligencia += 2",
-      "diario('diario.contabilidad.ramo_reprobado')"
-    ]
-  },
-  {
     "id": "evento.contabilidad.operacion_renta",
     "condiciones": "jugador.estudia == 'carrera.contabilidad' && jugador.semestres_aprobados >= 2",
     "peso": 8,

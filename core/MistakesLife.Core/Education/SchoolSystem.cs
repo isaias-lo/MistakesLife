@@ -43,7 +43,12 @@ namespace MistakesLife.Core.Education
             EducationStageDefinition? stage = SchoolRules.ClassStage(world, _content, player);
             if (stage == null)
             {
-                player.SchoolClass = null;
+                // La sección de la universidad la lleva UniversitySystem.
+                if (!UniversityRules.IsSection(_content, player.SchoolClass))
+                {
+                    player.SchoolClass = null;
+                }
+
                 return;
             }
 

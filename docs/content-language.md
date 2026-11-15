@@ -481,8 +481,28 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 | `niveles[].condiciones` | Quién puede entrar. Opcional |
 | `niveles[].tendencia` | Qué tan atractivo es el nivel para quien decide solo (como `tendencia` en las opciones). Opcional |
 | `niveles[].sueldo_relativo` | Cuánto gana un titulado de este nivel frente al sueldo típico de su país (`2.0` = el doble). Lo usa `sueldo_titulo()`. Si falta, 1 |
+| `ramos` | La malla: los ramos de la carrera por semestre (ver abajo). Si una carrera tiene ramos, cada semestre de cada nivel tiene que tener al menos uno (la carga lo revisa) |
 
-Lo que pasa mientras se estudia (ramos, práctica, titulación) va en los eventos del paquete. Al titularse, el evento de la carrera pregunta a qué área postular (`jugador.postular_en('área')`); el trabajo llega después, buscándolo (ver `economia.busqueda_trabajo`). La titulación la decide un evento con `jugador.titularse()`: así cada carrera pone sus requisitos (por ejemplo, la práctica). La duración real suele ser mayor que la formal: un evento puede restar semestres con `jugador.semestres_aprobados -= 1`.
+### Ramos y sección (campo `ramos` de career.json, rediseño R5a)
+
+```json
+"ramos": [
+  { "id": "ramo.software.calculo", "desde": 1, "hasta": 4, "instituciones": ["universidad"] },
+  { "id": "ramo.software.programacion", "desde": 1, "hasta": 2, "instituciones": ["universidad", "instituto"] },
+  { "id": "ramo.software.memoria", "ultimo": true, "instituciones": ["universidad"] }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Empieza con `ramo.`; su texto en `lang/` es el nombre del ramo ("Cálculo") |
+| `desde`, `hasta` | En qué semestres del plan se cursa. Con `hasta`, se numera como en la malla: Cálculo I, II, III y IV. Sin `hasta`, solo el semestre `desde` |
+| `instituciones` | En qué tipo de institución se cursa (`cft`, `instituto`, `universidad`). Vacío: en todas. Así una carrera puede tener mallas distintas por nivel |
+| `ultimo` | En vez de `desde`: el último semestre del nivel, sea cual sea su largo (la memoria, el seminario de título) |
+
+Quien estudia tiene una **sección** (`UniversitySystem`): diez compañeros con nombre, de 18 años o algo mayores (algunos vienen de trabajar), y un profe o profesora del semestre. Los momentos pueden ser `con` `companero` o `profe`, como en el colegio. Al cerrar cada semestre se pone nota a cada ramo; dependen de lo mismo que en el colegio, cuestan un poco más y de cuánto se preparó (`jugador.estudiar_semestre(n)` en los momentos). Si queda un ramo rojo, el semestre no cuenta y se vuelve a cursar (`diario.estudios.ramo_reprobado`): no hace falta un evento al azar para reprobar. Cada año llega un profe nuevo, y a veces alguien de la sección no sigue (`diario.seccion.se_fue`): su lugar no siempre se llena, así que la sección se achica con los años (nunca baja de seis con nombre).
+
+Lo que pasa mientras se estudia (ramos, práctica, titulación) va en los eventos del paquete. Al titularse, el evento de la carrera pregunta a qué área postular (`jugador.postular_en('área')`); el trabajo llega después, buscándolo (ver `economia.busqueda_trabajo`). La titulación la decide un evento con `jugador.titularse()`: así cada carrera pone sus requisitos (por ejemplo, la práctica). La duración real suele ser mayor que la formal: los ramos rojos ya la alargan (ver "Ramos y sección"), y un evento también puede restar semestres con `jugador.semestres_aprobados -= 1` (botar un ramo).
 
 ### Áreas y cargos (campos `areas` y `cargos` de career.json)
 
@@ -908,6 +928,8 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.promedio` | Su promedio general del año que va (en vacaciones, el del año pasado), en la escala de 1 a 7, o 0 |
 | `jugador.rojos` | En cuántos ramos va con promedio rojo este año |
 | `jugador.repitio` | Cuántos años repitió |
+| `jugador.en_la_u` | Si estudia en la universidad, el CFT o el instituto y ya tiene sección (sus compañeros con nombre) |
+| `jugador.estudiar_semestre(n)` | Suma `n` (de -3 a 3 en total) a cuánto se prepara este semestre: estudiar en grupo suma, la fiesta antes del examen resta. Cada punto mueve la nota de los ramos unas 0,3. Se vuelve a 0 al cerrar el semestre (solo efectos, mientras estudia) |
 | `jugador.madre`, `jugador.padre` | Otro personaje con los mismos datos (`jugador.madre.edad`), o `nada` si no hay |
 | `jugador.pareja` | Su pareja actual (otro personaje: `jugador.pareja.edad`), o `nada`. Usa `jugador.pareja != nada && ...` antes de leer sus datos |
 | `jugador.hijos` | Cuántos hijos vivos tiene (biológicos o adoptados) |

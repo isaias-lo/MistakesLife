@@ -176,6 +176,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(Education.SchoolRules.InClasses(((EventScope)scope).World, ((EventScope)scope).Content, _character));
                 case "curso":
                     return Value.FromNumber(_character.SchoolClass?.Level ?? 0);
+                case "en_la_u":
+                    return Value.FromBool(Education.UniversityRules.InSection(_character));
                 case "companeros":
                     return Value.FromNumber(Education.SchoolRules.Classmates(((EventScope)scope).World, _character).Count);
                 case "prueba_anunciada":
@@ -595,6 +597,20 @@ namespace MistakesLife.Core.Events
                         }
 
                         record.TestPreparation = Math.Max(record.TestPreparation, Math.Max(0, Math.Min(Education.GradeRules.MaxPreparation, (int)args[0].AsNumber("preparar_prueba"))));
+                        return Value.Null;
+                    }
+                case "estudiar_semestre":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.estudiar_semestre");
+                        RequireStudies(method);
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Number)
+                        {
+                            throw new ScriptException("jugador.estudiar_semestre necesita un número (por ejemplo 1 si estudia, -1 si no).");
+                        }
+
+                        CareerStudies studies = _character.Studies!;
+                        int max = Education.UniversityRules.MaxPreparation;
+                        studies.Preparation = Math.Max(-max, Math.Min(max, studies.Preparation + (int)args[0].AsNumber("estudiar_semestre")));
                         return Value.Null;
                     }
                 case "titularse":

@@ -30,18 +30,6 @@
     ]
   },
   {
-    "id": "evento.software.ramo_reprobado",
-    "condiciones": "jugador.estudia == 'carrera.software' && jugador.inteligencia < 50",
-    "peso": 6,
-    "enfriamiento_semanas": 52,
-    "efectos": [
-      "jugador.felicidad -= 4",
-      "jugador.semestres_aprobados -= 1",
-      "jugador.inteligencia += 2",
-      "diario('diario.software.ramo_reprobado')"
-    ]
-  },
-  {
     "id": "evento.software.proyecto_personal",
     "condiciones": "jugador.estudia == 'carrera.software'",
     "peso": 6,

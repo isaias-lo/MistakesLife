@@ -8,8 +8,9 @@ namespace MistakesLife.Core.Presentation
     /// </summary>
     public sealed class ReportCardView
     {
-        public ReportCardView(IReadOnlyList<SubjectGradesView> subjects, string? general, bool finals, int repeatedYears)
+        public ReportCardView(IReadOnlyList<SubjectGradesView> subjects, string? general, bool finals, int repeatedYears, bool semester = false)
         {
+            Semester = semester;
             Subjects = subjects;
             General = general;
             Finals = finals;
@@ -24,6 +25,9 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>Si son las notas finales del año que terminó (en vacaciones) y no las del año que va.</summary>
         public bool Finals { get; }
+
+        /// <summary>Si es la libreta de un semestre de la universidad, el CFT o el instituto: las finales son del último semestre cerrado.</summary>
+        public bool Semester { get; }
 
         /// <summary>Cuántos años repitió.</summary>
         public int RepeatedYears { get; }
