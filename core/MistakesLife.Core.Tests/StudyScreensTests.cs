@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Education;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Game;
+using MistakesLife.Core.Life;
 using MistakesLife.Core.Presentation;
 using MistakesLife.Core.Simulation;
 using MistakesLife.Core.Time;
@@ -91,6 +93,55 @@ namespace MistakesLife.Core.Tests
 
             World loaded = LifeSession.LoadFromBytes(Content, session.SaveToBytes()).World;
             Assert.Equal(left, loaded.Player.SchoolClass!.LeftIds);
+        }
+
+        [Fact]
+        public void Seccion_ConQuienVivisteMomentos_SeAcercaCadaMesYSeVuelveAmistad()
+        {
+            // Juega vidas que estudian hasta que alguien de la sección se vuelva amistad.
+            for (ulong seed = 1; seed <= 20; seed++)
+            {
+                var session = new LifeSession(Content, seed, "pais.chile");
+                session.TimeMachine.Enabled = false;
+                World world = session.World;
+                bool checkedMonth = false;
+                while (world.Player.IsAlive && session.PlayerAgeInYears < 26)
+                {
+                    if (session.Pending != null)
+                    {
+                        session.Choose(session.Pending.AvailableOptions[0]);
+                        continue;
+                    }
+
+                    Character player = world.Player;
+                    if (UniversityRules.InSection(player))
+                    {
+                        var shared = SchoolRules.SharedMoments(world, player);
+                        Character? mate = SchoolRules.Classmates(world, player).FirstOrDefault(c => shared.ContainsKey(c.Id) && RelationshipRules.Feelings(world, c, player).Affection < 90);
+                        Character? stranger = SchoolRules.Classmates(world, player).FirstOrDefault(c => !shared.ContainsKey(c.Id));
+                        if (!checkedMonth && mate != null && stranger != null)
+                        {
+                            int mine = RelationshipRules.Feelings(world, player, mate).Affection;
+                            int theirs = RelationshipRules.Feelings(world, mate, player).Affection;
+                            int strangerBefore = RelationshipRules.Feelings(world, stranger, player).Affection;
+                            UniversityRules.ShareMonth(world, player);
+                            Assert.Equal(Math.Min(100, mine + UniversityRules.SharedMonthAffection), RelationshipRules.Feelings(world, player, mate).Affection);
+                            Assert.Equal(theirs + UniversityRules.SharedMonthAffection, RelationshipRules.Feelings(world, mate, player).Affection);
+                            Assert.Equal(strangerBefore, RelationshipRules.Feelings(world, stranger, player).Affection);
+                            checkedMonth = true;
+                        }
+
+                        if (checkedMonth && SchoolRules.Classmates(world, player).Any(c => RelationshipRules.Feelings(world, player, c).Bond == RelationshipBond.Friend && shared.ContainsKey(c.Id)))
+                        {
+                            return;
+                        }
+                    }
+
+                    session.Advance(1);
+                }
+            }
+
+            Assert.Fail("en ninguna vida la sección dejó una amistad");
         }
 
         [Fact]

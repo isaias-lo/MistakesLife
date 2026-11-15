@@ -49,6 +49,12 @@ namespace MistakesLife.Core.Education
         public const int FriendshipAffection = 60;
 
         /// <summary>
+        /// Momentos vividos juntos (en los que elegiste algo) que cuentan como tu cariño: lo que
+        /// sientes tú no lo mueve el contenido, lo muestras pasando tiempo con esa persona.
+        /// </summary>
+        public const int FriendshipMoments = 2;
+
+        /// <summary>
         /// El año escolar de una fecha (cuenta desde el inicio de la partida y cambia el día
         /// que empiezan las clases); null si el país no dice cuándo empiezan.
         /// </summary>
@@ -192,18 +198,22 @@ namespace MistakesLife.Core.Education
         }
 
         /// <summary>
-        /// Los compañeros que se tienen cariño de verdad (los dos, sobre
-        /// <see cref="FriendshipAffection"/>) y todavía no son amigos, pasan a serlo.
+        /// Los compañeros que se tienen cariño de verdad y todavía no son amigos, pasan a serlo.
+        /// El compañero te quiere (sobre <see cref="FriendshipAffection"/>) y tú también: o tu
+        /// cariño ya llega a eso, o han vivido juntos al menos <see cref="FriendshipMoments"/>
+        /// momentos (los momentos mueven lo que siente la otra persona; lo tuyo es haber estado ahí).
         /// Devuelve a los amigos nuevos.
         /// </summary>
         public static IReadOnlyList<Character> NewFriendships(World world, Character player)
         {
             var friends = new List<Character>();
+            IReadOnlyDictionary<int, int> shared = SharedMoments(world, player);
             foreach (Character mate in Classmates(world, player))
             {
                 Relationship mine = RelationshipRules.Feelings(world, player, mate);
                 Relationship theirs = RelationshipRules.Feelings(world, mate, player);
-                if (mine.Bond == RelationshipBond.None && mine.Affection >= FriendshipAffection && theirs.Affection >= FriendshipAffection)
+                bool yours = mine.Affection >= FriendshipAffection || (shared.TryGetValue(mate.Id, out int moments) && moments >= FriendshipMoments);
+                if (mine.Bond == RelationshipBond.None && yours && theirs.Affection >= FriendshipAffection)
                 {
                     RelationshipRules.SetBond(world, player, mate, RelationshipBond.Friend);
                     friends.Add(mate);
@@ -211,6 +221,21 @@ namespace MistakesLife.Core.Education
             }
 
             return friends;
+        }
+
+        /// <summary>Cuántos momentos vivió el jugador con cada persona (por id), contando solo los que eligió algo.</summary>
+        public static IReadOnlyDictionary<int, int> SharedMoments(World world, Character player)
+        {
+            var shared = new Dictionary<int, int>();
+            foreach (Events.EventRecord record in world.EventHistory)
+            {
+                if (record.CharacterId == player.Id && record.PersonId.HasValue && record.ChosenOption.HasValue)
+                {
+                    shared[record.PersonId.Value] = shared.TryGetValue(record.PersonId.Value, out int count) ? count + 1 : 1;
+                }
+            }
+
+            return shared;
         }
 
         /// <summary>
