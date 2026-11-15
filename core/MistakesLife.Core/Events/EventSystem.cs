@@ -229,16 +229,49 @@ namespace MistakesLife.Core.Events
             EventDefinition definition = Content.GetEvent(pending.EventId);
             Character subject = world.GetCharacter(pending.CharacterId);
             Seed? seed = pending.SeedId.HasValue ? world.Seeds.Get(pending.SeedId.Value) : null;
-            Character? person = PersonOf(world, pending);
-            var scope = new EventScope(world, Content, subject, seed, readOnly: false, person);
+            world.RemovePendingEvent(pending);
+            ApplyOption(world, definition, subject, seed, PersonOf(world, pending), optionIndex);
+        }
 
+        private void ApplyOption(World world, EventDefinition definition, Character subject, Seed? seed, Character? person, int optionIndex)
+        {
+            var scope = new EventScope(world, Content, subject, seed, readOnly: false, person);
             foreach (var effect in definition.Options[optionIndex].CompiledEffects)
             {
                 effect.Apply(scope);
             }
 
-            world.RemovePendingEvent(pending);
             Finish(world, definition, subject, seed, optionIndex);
+        }
+
+        /// <summary>
+        /// La regla propia que decide este evento, si hay una y su opción está disponible:
+        /// devuelve la opción (índice en el evento) o null si hay que preguntar.
+        /// </summary>
+        public static int? RuleChoice(Character subject, EventDefinition definition, IReadOnlyList<int> available, out OwnRule? rule)
+        {
+            rule = null;
+            if (!definition.AllowsOwnRule)
+            {
+                return null;
+            }
+
+            rule = subject.OwnRules.FirstOrDefault(r => r.Key == definition.RuleKey);
+            if (rule == null)
+            {
+                return null;
+            }
+
+            foreach (int option in available)
+            {
+                if (definition.Options[option].RuleKey == rule.Choice)
+                {
+                    return option;
+                }
+            }
+
+            rule = null;
+            return null;
         }
 
         /// <summary>Con quién pasa el momento pendiente; null si es sin nadie o esa persona ya no está.</summary>
@@ -272,6 +305,16 @@ namespace MistakesLife.Core.Events
             if (options.Count == 0)
             {
                 Finish(world, definition, subject, seed, null);
+                return;
+            }
+
+            // Lo ya decidido no se vuelve a preguntar: si el jugador tiene una regla, se elige sola.
+            int? ruled = RuleChoice(subject, definition, options, out OwnRule? rule);
+            if (ruled.HasValue && rule != null)
+            {
+                rule.TimesUsed++;
+                rule.LastUsed = world.Date;
+                ApplyOption(world, definition, subject, seed, person, ruled.Value);
                 return;
             }
 

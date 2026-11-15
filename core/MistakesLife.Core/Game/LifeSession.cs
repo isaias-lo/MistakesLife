@@ -86,7 +86,8 @@ namespace MistakesLife.Core.Game
                 .Register(Events)
                 .Register(new BirthdaySystem())
                 .Register(new MailSystem(content))
-                .Register(new ChatSystem(content));
+                .Register(new ChatSystem(content))
+                .Register(new WishSystem(content));
         }
 
         private static World NewWorld(ContentDatabase content, ulong seed, string? countryId)
@@ -326,6 +327,47 @@ namespace MistakesLife.Core.Game
             PendingEvent pending = Pending ?? throw new InvalidOperationException("No hay un evento pendiente.");
             Events.Choose(World, pending, optionIndex);
             TakeSnapshots();
+        }
+
+        /// <summary>
+        /// Responde el evento pendiente y deja una regla propia: si vuelve a pasar (este
+        /// evento o uno de su grupo, como "cuando hay prueba"), se elige lo mismo sin preguntar.
+        /// Reemplaza la regla que hubiera para lo mismo.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Si este evento no admite regla (un día clave o un error que vuelve).</exception>
+        public void ChooseAlways(int optionIndex)
+        {
+            PendingEvent pending = Pending ?? throw new InvalidOperationException("No hay un evento pendiente.");
+            EventDefinition definition = Content.GetEvent(pending.EventId);
+            if (!definition.AllowsOwnRule)
+            {
+                throw new InvalidOperationException("Este momento se vive cada vez: no admite regla.");
+            }
+
+            if (!pending.AvailableOptions.Contains(optionIndex))
+            {
+                throw new ArgumentOutOfRangeException(nameof(optionIndex), "Esa opción no está disponible.");
+            }
+
+            List<OwnRule> rules = World.Player.OwnRules;
+            rules.RemoveAll(r => r.Key == definition.RuleKey);
+            rules.Add(new OwnRule(definition.RuleKey, definition.Options[optionIndex].RuleKey));
+            Choose(optionIndex);
+        }
+
+        /// <summary>Borra una regla propia: la próxima vez se vuelve a preguntar.</summary>
+        public void RemoveRule(string key) => World.Player.OwnRules.RemoveAll(r => r.Key == key);
+
+        /// <summary>Marca (o desmarca) con destacador algo que quiere: lo persigue.</summary>
+        public void HighlightWish(int index, bool highlighted)
+        {
+            List<Wish> wishes = World.Player.Wishes;
+            if (index < 0 || index >= wishes.Count || wishes[index].State != WishState.Open)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Eso ya no es algo que quiera ahora.");
+            }
+
+            wishes[index].Highlighted = highlighted;
         }
 
         /// <summary>

@@ -138,6 +138,25 @@ namespace MistakesLife.Core.Content
         [JsonIgnore]
         public bool IsScheduled => Activity != null || Date != null;
 
+        /// <summary>
+        /// Grupo para las reglas propias del jugador ("regla.prueba"): una regla hecha en
+        /// un evento del grupo sirve para todos los del grupo. Su texto ("Cuando hay prueba")
+        /// va en lang/. Si falta, la regla sirve solo para este evento.
+        /// </summary>
+        [JsonProperty("regla")]
+        public string? RuleGroup { get; set; }
+
+        /// <summary>A qué se aplica una regla propia hecha en este evento.</summary>
+        [JsonIgnore]
+        public string RuleKey => RuleGroup ?? Id;
+
+        /// <summary>
+        /// Si el jugador puede decir "si vuelve a pasar, haz lo mismo". Un día clave y lo que
+        /// despierta una semilla (un error que vuelve) siempre se viven: no admiten regla.
+        /// </summary>
+        [JsonIgnore]
+        public bool AllowsOwnRule => !KeyDay && SeedType == null && Options.Count > 1;
+
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
 

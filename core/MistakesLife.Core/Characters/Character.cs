@@ -328,6 +328,12 @@ namespace MistakesLife.Core.Characters
         /// <summary>El horario del jugador (qué hace cada tarde y noche); null antes de los 6 años o para quien no es jugador.</summary>
         public Life.Routine? Routine { get; set; }
 
+        /// <summary>Las reglas propias del jugador ("si hay prueba, estudio"): lo ya decidido no se vuelve a preguntar.</summary>
+        public System.Collections.Generic.List<Life.OwnRule> OwnRules { get; } = new System.Collections.Generic.List<Life.OwnRule>();
+
+        /// <summary>Lo que quiere en esta etapa y lo que quiso antes (cumplido, perdido o que pasó).</summary>
+        public System.Collections.Generic.List<Life.Wish> Wishes { get; } = new System.Collections.Generic.List<Life.Wish>();
+
         private readonly List<string> _degrees = new List<string>();
 
         /// <summary>Niveles de carrera en que se tituló (ids de nivel), en orden.</summary>

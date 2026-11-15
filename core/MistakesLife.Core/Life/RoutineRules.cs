@@ -52,6 +52,9 @@ namespace MistakesLife.Core.Life
         /// <summary>Si el horario es el de un año escolar (se arma cada vez que empiezan las clases).</summary>
         public static bool IsSchoolYear(Routine routine) => routine.StageKey.Contains(SchoolYearMark);
 
+        /// <summary>Cuánto más seguido sugiere el horario una actividad que ayuda a lo que el jugador persigue.</summary>
+        public const double PursuedWishFactor = 3;
+
         /// <summary>Probabilidad de mantener una actividad del horario anterior al armar uno nuevo.</summary>
         public const double KeepChance = 0.7;
 
@@ -137,6 +140,13 @@ namespace MistakesLife.Core.Life
         {
             var routine = new Routine(StageKey(world, content, character));
             var scope = new EventScope(world, content, character, null, readOnly: true);
+
+            // Lo que persigue (lo que quiero, marcado) le da dirección al horario.
+            var pursued = new HashSet<string>(character.Wishes
+                .Where(w => w.State == WishState.Open && w.Highlighted)
+                .Select(w => content.Wish(w.WishId)?.Activity)
+                .Where(a => a != null)
+                .Select(a => a!));
             for (int day = 0; day < Routine.Days; day++)
             {
                 foreach (RoutineBlock block in new[] { RoutineBlock.Afternoon, RoutineBlock.Night })
@@ -161,7 +171,8 @@ namespace MistakesLife.Core.Life
                     }
 
                     double[] weights = options
-                        .Select(a => a.CompiledTendency == null ? 50 : Math.Max(0, a.CompiledTendency.Evaluate(scope).AsNumber("tendencia de " + a.Id)))
+                        .Select(a => (a.CompiledTendency == null ? 50 : Math.Max(0, a.CompiledTendency.Evaluate(scope).AsNumber("tendencia de " + a.Id)))
+                            * (pursued.Contains(a.Id) ? PursuedWishFactor : 1))
                         .ToArray();
                     routine.Set(day, block, PickWeighted(options, weights, random)?.Id);
                 }

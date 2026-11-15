@@ -36,7 +36,8 @@ namespace MistakesLife.Core.Presentation
             "ui.edad.semanas", "ui.edad.un_ano", "ui.edad.anos", "ui.fecha.hoy", "ui.fecha.dia", "ui.fecha.otro_ano",
             "ui.horario.titulo", "ui.horario.libre", "ui.horario.tarde", "ui.horario.noche", "ui.horario.sube", "ui.horario.baja", "ui.horario.igual", "ui.horario.nuevo", "ui.horario.nuevo_ano",
             "ui.horario.dia.0", "ui.horario.dia.1", "ui.horario.dia.2", "ui.horario.dia.3", "ui.horario.dia.4", "ui.horario.dia.5", "ui.horario.dia.6",
-            "ui.momento.con", "ui.momento.madre", "ui.momento.padre",
+            "ui.momento.con", "ui.momento.madre", "ui.momento.padre", "ui.regla.siempre",
+            "ui.deseo.titulo", "ui.deseo.cumplido", "ui.deseo.perdido", "ui.deseo.paso",
             "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
             "ui.dinero", "ui.separador_miles",
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
@@ -192,6 +193,81 @@ namespace MistakesLife.Core.Presentation
         /// <see cref="MaxYearsPerStep"/> años. Devuelve las semanas que pasaron.
         /// </summary>
         public int AdvanceUntilSomething() => Advance(MaxYearsPerStep * GameDate.WeeksPerYear);
+
+        /// <summary>
+        /// Responde el evento pendiente y deja una regla propia ("hacer esto siempre"): si
+        /// vuelve a pasar, se elige lo mismo sin detener el tiempo. Solo si <see cref="EventView.AllowsRule"/>.
+        /// </summary>
+        public void ChooseAlways(int optionPosition)
+        {
+            PendingEvent pending = Session.Pending ?? throw new InvalidOperationException("No hay un evento pendiente.");
+            if (optionPosition < 0 || optionPosition >= pending.AvailableOptions.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(optionPosition), $"El evento tiene {pending.AvailableOptions.Count} opciones.");
+            }
+
+            Session.ChooseAlways(pending.AvailableOptions[optionPosition]);
+        }
+
+        /// <summary>Las reglas propias del jugador, en el orden en que las hizo.</summary>
+        public IReadOnlyList<RuleView> Rules()
+        {
+            var views = new List<RuleView>();
+            foreach (OwnRule rule in Session.World.Player.OwnRules)
+            {
+                EventDefinition? sample = Session.Content.Events.FirstOrDefault(e => e.RuleKey == rule.Key);
+                EventOptionDefinition? option = sample == null ? null : Session.Content.Events
+                    .Where(e => e.RuleKey == rule.Key)
+                    .SelectMany(e => e.Options)
+                    .FirstOrDefault(o => o.RuleKey == rule.Choice);
+                if (sample == null || option == null)
+                {
+                    continue;
+                }
+
+                string situation = sample.RuleGroup != null ? T(sample.RuleGroup) : T(sample.ResolvedTextKey);
+                views.Add(new RuleView(rule.Key, situation, T(option.TextKey), rule.TimesUsed));
+            }
+
+            return views;
+        }
+
+        /// <summary>Borra una regla propia: la próxima vez se vuelve a preguntar.</summary>
+        public void RemoveRule(string key) => Session.RemoveRule(key);
+
+        /// <summary>
+        /// Lo que quiere en esta etapa (la nota "lo que quiero"): lo abierto y lo que ya se
+        /// cumplió o se perdió en la misma etapa, en orden.
+        /// </summary>
+        public IReadOnlyList<WishView> Wishes()
+        {
+            Character player = Session.World.Player;
+            string? stage = player.Routine?.StageKey;
+            var views = new List<WishView>();
+            for (int i = 0; i < player.Wishes.Count; i++)
+            {
+                Wish wish = player.Wishes[i];
+                WishDefinition? definition = Session.Content.Wish(wish.WishId);
+                if (definition == null || wish.StageKey != stage)
+                {
+                    continue;
+                }
+
+                string? state = wish.State switch
+                {
+                    WishState.Done => T("ui.deseo.cumplido"),
+                    WishState.Lost => T("ui.deseo.perdido"),
+                    WishState.Faded => T("ui.deseo.paso"),
+                    _ => null,
+                };
+                views.Add(new WishView(i, WithPerson(T(definition.Id), WishSystem.PersonOf(Session.World, wish)), wish.Highlighted, wish.State == WishState.Open, state));
+            }
+
+            return views;
+        }
+
+        /// <summary>Marca (o desmarca) con destacador algo que quiere (posición de <see cref="WishView.Index"/>).</summary>
+        public void HighlightWish(int index, bool highlighted) => Session.HighlightWish(index, highlighted);
 
         /// <summary>Avanza una sola semana (o nada, si hay que decidir algo primero).</summary>
         public int AdvanceWeek() => Advance(1);
@@ -800,6 +876,7 @@ namespace MistakesLife.Core.Presentation
                 Person = person == null ? null : PersonInMoment(definition, person),
                 PersonId = person?.Id,
                 Place = definition.Place == null ? null : T(definition.Place),
+                AllowsRule = definition.AllowsOwnRule,
             };
         }
 

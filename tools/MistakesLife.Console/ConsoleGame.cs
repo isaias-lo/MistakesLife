@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MistakesLife.Core.Characters;
@@ -73,6 +74,11 @@ namespace MistakesLife.ConsoleGame
                 {
                     _output.WriteLine();
                     _output.WriteLine(_session.Text(RoutineRules.IsSchoolYear(_session.World.Player.Routine) ? "ui.horario.nuevo_ano" : "ui.horario.nuevo"));
+                    if (!AskWishes())
+                    {
+                        return;
+                    }
+
                     if (!AskRoutine())
                     {
                         return;
@@ -82,7 +88,7 @@ namespace MistakesLife.ConsoleGame
                 }
 
                 _output.WriteLine();
-                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta lo importante | s: una semana | a: un año | e: estado | h: horario | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
+                _output.WriteLine($"[{DateLabel()}] Enter: seguir hasta lo importante | s: una semana | a: un año | e: estado | h: horario | l: lo que quiero | r: tus reglas | d: diario | c: correo | g: guardar | v: volver al pasado | q: salir");
                 _output.Write("> ");
                 string? command = _input.ReadLine();
                 if (command == null)
@@ -115,6 +121,20 @@ namespace MistakesLife.ConsoleGame
                         }
 
                         break;
+                    case "l":
+                        if (!AskWishes())
+                        {
+                            return;
+                        }
+
+                        break;
+                    case "r":
+                        if (!AskRules())
+                        {
+                            return;
+                        }
+
+                        break;
                     case "d":
                         PrintFullJournal();
                         break;
@@ -132,7 +152,7 @@ namespace MistakesLife.ConsoleGame
                         _output.WriteLine("Hasta pronto.");
                         return;
                     default:
-                        _output.WriteLine("No entendí. Usa Enter, s, a, e, h, d, c, g, v o q.");
+                        _output.WriteLine("No entendí. Usa Enter, s, a, e, h, l, r, d, c, g, v o q.");
                         break;
                 }
             }
@@ -262,6 +282,94 @@ namespace MistakesLife.ConsoleGame
         }
 
         /// <summary>Semanas que corre el tiempo con Enter: hasta que pase algo, máximo unos años.</summary>
+        /// <summary>
+        /// Lo que quiero: muestra lo de esta etapa y deja marcar con destacador lo que persigue.
+        /// Devuelve false si se acabó la entrada.
+        /// </summary>
+        private bool AskWishes()
+        {
+            var presenter = new LifePresenter(_session);
+            while (true)
+            {
+                IReadOnlyList<WishView> wishes = presenter.Wishes();
+                _output.WriteLine();
+                _output.WriteLine(_session.Text("ui.deseo.titulo") + ":");
+                if (wishes.Count == 0)
+                {
+                    _output.WriteLine("  (por ahora nada en especial)");
+                    return true;
+                }
+
+                for (int i = 0; i < wishes.Count; i++)
+                {
+                    WishView wish = wishes[i];
+                    string mark = wish.Highlighted ? "[destacado] " : string.Empty;
+                    string state = wish.State == null ? string.Empty : $" ({wish.State})";
+                    _output.WriteLine($"  {i + 1}. {mark}{wish.Text}{state}");
+                }
+
+                _output.Write("Escribe el número de lo que persigues para marcarlo o desmarcarlo (Enter para seguir): ");
+                string? answer = _input.ReadLine();
+                if (answer == null)
+                {
+                    return false;
+                }
+
+                if (answer.Trim().Length == 0)
+                {
+                    return true;
+                }
+
+                if (int.TryParse(answer.Trim(), out int number) && number >= 1 && number <= wishes.Count && wishes[number - 1].Open)
+                {
+                    presenter.HighlightWish(wishes[number - 1].Index, !wishes[number - 1].Highlighted);
+                }
+                else
+                {
+                    _output.WriteLine("Ese no se puede marcar.");
+                }
+            }
+        }
+
+        /// <summary>Tus reglas: las muestra y deja borrarlas. Devuelve false si se acabó la entrada.</summary>
+        private bool AskRules()
+        {
+            var presenter = new LifePresenter(_session);
+            while (true)
+            {
+                IReadOnlyList<RuleView> rules = presenter.Rules();
+                _output.WriteLine();
+                if (rules.Count == 0)
+                {
+                    _output.WriteLine("No tienes reglas. En un momento, elige con ! al final (por ejemplo 1!) para hacerlo siempre.");
+                    return true;
+                }
+
+                _output.WriteLine("Tus reglas:");
+                for (int i = 0; i < rules.Count; i++)
+                {
+                    _output.WriteLine($"  {i + 1}. {rules[i].Situation} → {rules[i].Choice} (se usó sola {rules[i].TimesUsed} veces)");
+                }
+
+                _output.Write("Escribe el número de una regla para borrarla (Enter para seguir): ");
+                string? answer = _input.ReadLine();
+                if (answer == null)
+                {
+                    return false;
+                }
+
+                if (answer.Trim().Length == 0)
+                {
+                    return true;
+                }
+
+                if (int.TryParse(answer.Trim(), out int number) && number >= 1 && number <= rules.Count)
+                {
+                    presenter.RemoveRule(rules[number - 1].Key);
+                }
+            }
+        }
+
         private static string WithPerson(string text, Character? person) =>
             person == null ? text : text.Replace(LifePresenter.PersonMark, person.FirstName);
 
@@ -352,6 +460,11 @@ namespace MistakesLife.ConsoleGame
                 _output.WriteLine($"  {i + 1}. {WithPerson(_session.Text(option.TextKey), person)}{intuition}");
             }
 
+            if (view != null && view.AllowsRule)
+            {
+                _output.WriteLine("  (Con ! al final, por ejemplo 1!, lo haces siempre: si vuelve a pasar, no te pregunto.)");
+            }
+
             while (true)
             {
                 _output.Write(CanGoBack() ? "Elige una opción (o v para volver al pasado): " : "Elige una opción: ");
@@ -371,9 +484,25 @@ namespace MistakesLife.ConsoleGame
                     continue;
                 }
 
-                if (int.TryParse(answer.Trim(), out int number) && number >= 1 && number <= pending.AvailableOptions.Count)
+                string picked = answer.Trim();
+                bool forever = view != null && view.AllowsRule && picked.EndsWith("!", StringComparison.Ordinal);
+                if (forever)
                 {
-                    _session.Choose(pending.AvailableOptions[number - 1]);
+                    picked = picked.Substring(0, picked.Length - 1).Trim();
+                }
+
+                if (int.TryParse(picked, out int number) && number >= 1 && number <= pending.AvailableOptions.Count)
+                {
+                    if (forever)
+                    {
+                        _session.ChooseAlways(pending.AvailableOptions[number - 1]);
+                        _output.WriteLine("Anotado en tus reglas: si vuelve a pasar, haces lo mismo sin que te pregunte (r para verlas).");
+                    }
+                    else
+                    {
+                        _session.Choose(pending.AvailableOptions[number - 1]);
+                    }
+
                     return true;
                 }
 
