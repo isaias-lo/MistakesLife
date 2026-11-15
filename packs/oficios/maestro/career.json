@@ -1,0 +1,81 @@
+{
+  "id": "oficio.maestro",
+  "marca_trabajo": "trabaja_construccion",
+  "lugar_de_trabajo": "lugar_trabajo.obra",
+  "oficio": {
+    "sueldo_base": 1.05,
+    "sueldo_base_por_pais": {
+      "pais.argentina": 1.95
+    },
+    "pago_variable": "trato",
+    "variable_tipico": 0.25,
+    "temporada": [
+      1.05,
+      0.95,
+      1.05,
+      1.0,
+      0.9,
+      0.75,
+      0.75,
+      0.85,
+      0.95,
+      1.05,
+      1.1,
+      1.05
+    ],
+    "jefatura": "oficio.maestro.jefatura"
+  },
+  "nombres_empresa": [
+    "empresa.maestro.constructora_los_andes",
+    "empresa.maestro.edifica_sur",
+    "empresa.maestro.obras_del_maipo",
+    "empresa.maestro.inmobiliaria_pacifico",
+    "empresa.maestro.constructora_cerro_alto",
+    "empresa.maestro.ingenieria_y_obras_nuble"
+  ],
+  "niveles": [],
+  "areas": [
+    {
+      "id": "oficio.maestro.area.obra_gruesa",
+      "sueldo_relativo": 1.0,
+      "requisitos": "jugador.edad >= 18"
+    },
+    {
+      "id": "oficio.maestro.area.terminaciones",
+      "sueldo_relativo": 1.05,
+      "requisitos": "jugador.edad >= 18"
+    },
+    {
+      "id": "oficio.maestro.area.carpinteria",
+      "sueldo_relativo": 1.05,
+      "requisitos": "jugador.edad >= 18"
+    }
+  ],
+  "cargos": [
+    {
+      "id": "oficio.maestro.cargo.jornal",
+      "sueldo_relativo": 1.0
+    },
+    {
+      "id": "oficio.maestro.cargo.maestro_segunda",
+      "sueldo_relativo": 1.25,
+      "meses_minimos": 12,
+      "desempeno_minimo": 45
+    },
+    {
+      "id": "oficio.maestro.cargo.maestro_primera",
+      "sueldo_relativo": 1.5,
+      "meses_minimos": 24,
+      "desempeno_minimo": 55,
+      "requisitos": "jugador.tiene('desafio_maestro_primera')"
+    },
+    {
+      "id": "oficio.maestro.cargo.capataz",
+      "sueldo_relativo": 1.95,
+      "meses_minimos": 36,
+      "desempeno_minimo": 60,
+      "requisitos": "jugador.tiene('desafio_maestro_capataz') && jugador.extraversion >= 30",
+      "siguientes": []
+    }
+  ]
+}

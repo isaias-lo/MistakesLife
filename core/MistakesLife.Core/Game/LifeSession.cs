@@ -70,6 +70,7 @@ namespace MistakesLife.Core.Game
                 .Register(new EconomySystem(content))
                 .Register(new NewsSystem(content))
                 .Register(new Courts.CourtSystem(content))
+                .Register(new Work.OccupationSystem(content))
                 .Register(new PayrollSystem(content))
                 .Register(new PensionSystem(content))
                 .Register(new TaxSystem(content))

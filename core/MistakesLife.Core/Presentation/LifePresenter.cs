@@ -45,7 +45,7 @@ namespace MistakesLife.Core.Presentation
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
             "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
-            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
+            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.oficio.meta", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
             "ui.boton.volver_pasado", "ui.boton.cancelar", "ui.pasado.titulo", "ui.pasado.cargas", "ui.pasado.etapa", "ui.pasado.decision", "ui.intuicion",
             "ui.gente", "ui.relacion.amistad", "ui.relacion.colega", "ui.relacion.rival", "ui.relacion.ex",
             "ui.sentir.muy_unidos", "ui.sentir.buena", "ui.sentir.tibia", "ui.sentir.distanciados", "ui.sentir.rencor",
@@ -443,7 +443,11 @@ namespace MistakesLife.Core.Presentation
                 .Where(id => world.TryGetCharacter(id, out Character? _))
                 .Select(id => Person(world.GetCharacter(id), T("ui.relacion.se_fue")))
                 .ToList();
-            return new TeamView(boss == null ? null : Person(boss, T(boss.Gender == Gender.Female ? "ui.pega.jefa" : "ui.pega.jefe_m")), colleagues, left);
+            string? bossKey = Work.OccupationRules.CareerOf(Session.Content, player.Job)?.Occupation!.BossKey;
+            string bossTag = bossKey != null
+                ? T(bossKey + (boss?.Gender == Gender.Female ? ".f" : ".m"))
+                : T(boss?.Gender == Gender.Female ? "ui.pega.jefa" : "ui.pega.jefe_m");
+            return new TeamView(boss == null ? null : Person(boss, bossTag), colleagues, left);
         }
 
         /// <summary>Tu curso del colegio; null si no vas a un curso.</summary>
@@ -1354,7 +1358,9 @@ namespace MistakesLife.Core.Presentation
         /// se le dice "la profe Carolina" o "el profe Juan"; a los demás, por su nombre.
         /// </summary>
         private string PersonName(EventDefinition definition, Character person) =>
-            definition.With == "profe" || definition.With == "jefe"
+            definition.With == "jefe" && Work.OccupationRules.CareerOf(Session.Content, Session.World.Player.Job)?.Occupation!.BossKey is string bossKey
+                ? Text(bossKey + ".momento" + (person.Gender == Gender.Female ? ".f" : ".m"), person.FirstName)
+            : definition.With == "profe" || definition.With == "jefe"
                 ? Text("ui.momento." + definition.With + (person.Gender == Gender.Female ? ".f" : ".m"), person.FirstName)
                 : definition.With == "apoderado"
                     ? T(person.Sex == Sex.Female ? "ui.momento.madre" : "ui.momento.padre")
@@ -1604,9 +1610,16 @@ namespace MistakesLife.Core.Presentation
             string? companyText = sizeId == null ? null
                 : company!.NameId != null ? Text("ui.trabajo.empresa", T(company.NameId), T(sizeId))
                 : Text("ui.trabajo.empresa_sin_nombre", T(sizeId));
-            if (player.Degrees.Count == 0)
+            if (player.Degrees.Count == 0 && player.Job.Position == null)
             {
                 return new WorkplaceView(null, null, 1, freelance, figure, 0, companyText, sizeId);
+            }
+
+            double bestRelative = player.Degrees.Count == 0 ? 1 : player.Degrees.Max(d => Session.Content.GetCareerLevel(d).SalaryRelative);
+            if (player.Degrees.Count == 0)
+            {
+                // Sin título, con cargo: trabaja en un oficio.
+                return OccupationWorkplace(player, figure, freelance, companyText, sizeId, bestRelative);
             }
 
             CareerLevelDefinition best = player.Degrees
@@ -1621,15 +1634,27 @@ namespace MistakesLife.Core.Presentation
             }
 
             // Con cargo, manda la carrera del cargo (puede trabajar en algo distinto a su mejor título).
+            return OccupationWorkplace(player, figure, freelance, companyText, sizeId, best.SalaryRelative);
+        }
+
+        /// <summary>El lugar de trabajo de quien tiene un cargo: el de la carrera o el oficio de ese cargo.</summary>
+        private WorkplaceView OccupationWorkplace(Character player, HomeMemberView figure, bool freelance, string? companyText, string? sizeId, double salaryRelative)
+        {
+            CareerPosition position = player.Job!.Position!;
             CareerPositionDefinition current = Session.Content.GetCareerPosition(position.PositionId);
             CareerDefinition jobCareer = Session.Content.GetCareer(current.CareerId);
             string caption = Text("ui.trabajo.cargo", T(position.PositionId), T(position.AreaId), player.Job.Performance);
+            if (jobCareer.IsOccupation && player.Job.GoalPercent > 0)
+            {
+                caption += " · " + Text("ui.oficio.meta", player.Job.GoalPercent);
+            }
+
             if (companyText != null)
             {
                 caption = companyText + " · " + caption;
             }
 
-            return new WorkplaceView(jobCareer.Id, jobCareer.WorkplaceKind, best.SalaryRelative, freelance, figure, RankOf(jobCareer, current), caption, sizeId);
+            return new WorkplaceView(jobCareer.Id, jobCareer.WorkplaceKind, salaryRelative, freelance, figure, RankOf(jobCareer, current), caption, sizeId);
         }
 
         /// <summary>

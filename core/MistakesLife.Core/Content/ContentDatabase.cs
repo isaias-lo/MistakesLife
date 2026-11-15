@@ -1471,7 +1471,26 @@ namespace MistakesLife.Core.Content
         private void ValidateCareer(CareerDefinition career)
         {
             string where = $"carrera {career.Id}";
-            CheckId(where, career.Id, "carrera.");
+            CheckId(where, career.Id, career.IsOccupation ? "oficio." : "carrera.");
+            if (career.Occupation != null)
+            {
+                OccupationDefinition job = career.Occupation;
+                if (job.BaseSalary <= 0 || job.BaseSalaryByCountry.Values.Any(v => v <= 0) || job.TypicalVariable < 0 || (job.Season.Count != 0 && job.Season.Count != 12) || job.Season.Any(m => m <= 0))
+                {
+                    _errors.Add(new ContentError(where + ", oficio", "sueldo_base mayor que 0, variable_tipico desde 0 y temporada con 12 meses mayores que 0."));
+                }
+
+                if (job.VariableKind != null && !OccupationDefinition.VariableKinds.Contains(job.VariableKind))
+                {
+                    _errors.Add(new ContentError(where + ", oficio", $"pago_variable debe ser uno de: {string.Join(", ", OccupationDefinition.VariableKinds)}."));
+                }
+
+                if (career.Levels.Count > 0)
+                {
+                    _errors.Add(new ContentError(where, "un oficio no tiene niveles de estudio."));
+                }
+            }
+
             foreach (CourseDefinition course in career.Courses)
             {
                 CheckId(where + ", ramos", course.Id, "ramo.");
@@ -1510,7 +1529,7 @@ namespace MistakesLife.Core.Content
                 _errors.Add(new ContentError(where, $"lugar_de_trabajo debe ser uno de: {string.Join(", ", CareerDefinition.WorkplaceKinds)}."));
             }
 
-            if (career.Levels.Count == 0)
+            if (career.Levels.Count == 0 && !career.IsOccupation)
             {
                 _errors.Add(new ContentError(where, "debe tener al menos un nivel."));
             }
@@ -1922,6 +1941,14 @@ namespace MistakesLife.Core.Content
                 foreach (CareerAreaDefinition area in career.Areas)
                 {
                     yield return new KeyValuePair<string, string>(area.Id, $"carrera {career.Id}");
+                }
+
+                if (career.Occupation?.BossKey is string bossKey)
+                {
+                    foreach (string suffix in new[] { ".f", ".m", ".momento.f", ".momento.m" })
+                    {
+                        yield return new KeyValuePair<string, string>(bossKey + suffix, $"oficio {career.Id}");
+                    }
                 }
 
                 foreach (CourseDefinition course in career.Courses)

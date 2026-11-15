@@ -351,6 +351,13 @@ namespace MistakesLife.Core.Saving
             MonthsInPosition = job.MonthsInPosition,
             MonthsInJob = job.MonthsInJob,
             Performance = job.Performance,
+            GoalPercent = job.GoalPercent,
+            MonthsUnderGoal = job.MonthsUnderGoal,
+            MonthsOnGoal = job.MonthsOnGoal,
+            Warnings = job.Warnings,
+            VariablePay = job.VariablePay,
+            Tips = job.Tips,
+            Challenge = job.Challenge,
             CompanyId = job.CompanyId,
         };
     }

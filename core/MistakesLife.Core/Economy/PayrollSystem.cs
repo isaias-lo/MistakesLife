@@ -51,7 +51,7 @@ namespace MistakesLife.Core.Economy
 
                 Job job = character.Job!;
                 job.AdvanceMonth(economy.PriceIndex, rules.Salaries?.AdjustmentMonths ?? 12);
-                Payslip payslip = PayrollCalculator.Compute(context.Date, job.Kind, job.Salary, rules.Payroll, economy.PriceIndex);
+                Payslip payslip = PayrollCalculator.Compute(context.Date, job.Kind, job.Salary + job.VariablePay, rules.Payroll, economy.PriceIndex);
                 character.Money += payslip.Net;
                 character.LastPayslip = payslip;
                 character.AddIncome(context.Date.Year, payslip);

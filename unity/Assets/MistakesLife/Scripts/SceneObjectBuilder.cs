@@ -38,6 +38,9 @@ namespace MistakesLife.Unity
             "escena.casa.libros" => "ancla.mesa",
             "escena.casa.credencial_u" => "ancla.mesa",
             "escena.casa.credencial_pega" => "ancla.puerta",
+            "escena.casa.polera_tienda" => "ancla.puerta",
+            "escena.casa.delantal_garzon" => "ancla.puerta",
+            "escena.casa.casco_obra" => "ancla.puerta",
             "escena.casa.comprobante_cae" => "ancla.mesa",
             "escena.casa.notebook" => "ancla.mesa",
             "escena.casa.avisos_trabajo" => "ancla.mesa",
@@ -109,6 +112,33 @@ namespace MistakesLife.Unity
                     kit.Box("Cordón de la tarjeta del trabajo", new Vector3(0.04f, 1.24f, 0.52f), new Vector3(0.01f, 0.2f, 0.012f), new Color(0.55f, 0.18f, 0.16f));
                     kit.Box("Tarjeta del trabajo", new Vector3(0.045f, 1.1f, 0.52f), new Vector3(0.008f, 0.11f, 0.08f), Palette.Paper);
                     kit.Box("Foto de la tarjeta", new Vector3(0.05f, 1.12f, 0.52f), new Vector3(0.004f, 0.04f, 0.035f), new Color(0.55f, 0.45f, 0.38f));
+                    break;
+                case "escena.casa.polera_tienda":
+                    // La polera de la tienda en su colgador, con la piocha del nombre prendida.
+                    kit.Box("Gancho de la polera", new Vector3(0.03f, 1.35f, 0.3f), new Vector3(0.04f, 0.04f, 0.04f), Palette.DarkWood);
+                    kit.Box("Polera de la tienda", new Vector3(0.05f, 1.12f, 0.3f), new Vector3(0.02f, 0.4f, 0.3f), new Color(0.20f, 0.24f, 0.32f));
+                    kit.Box("Manga de la polera", new Vector3(0.05f, 1.26f, 0.12f), new Vector3(0.02f, 0.12f, 0.08f), new Color(0.20f, 0.24f, 0.32f));
+                    kit.Box("Manga de la polera", new Vector3(0.05f, 1.26f, 0.48f), new Vector3(0.02f, 0.12f, 0.08f), new Color(0.20f, 0.24f, 0.32f));
+                    kit.Box("Piocha con el nombre", new Vector3(0.065f, 1.2f, 0.38f), new Vector3(0.006f, 0.03f, 0.07f), Palette.Paper);
+                    break;
+                case "escena.casa.delantal_garzon":
+                    // El delantal negro largo del restorán y la libreta de comandas en el bolsillo.
+                    kit.Box("Gancho del delantal del restorán", new Vector3(0.03f, 1.35f, 0.3f), new Vector3(0.04f, 0.04f, 0.04f), Palette.DarkWood);
+                    kit.Box("Delantal del restorán", new Vector3(0.045f, 1.02f, 0.3f), new Vector3(0.012f, 0.62f, 0.3f), new Color(0.12f, 0.12f, 0.14f));
+                    kit.Box("Bolsillo del delantal", new Vector3(0.055f, 0.95f, 0.3f), new Vector3(0.008f, 0.1f, 0.22f), new Color(0.18f, 0.18f, 0.20f));
+                    kit.Box("Libreta de comandas", new Vector3(0.062f, 1.0f, 0.24f), new Vector3(0.006f, 0.08f, 0.06f), Palette.Paper);
+                    break;
+                case "escena.casa.casco_obra":
+                    // El casco blanco y los zapatos de seguridad en el suelo, junto a la puerta.
+                    kit.Ball("Casco de la obra", new Vector3(0.32f, 0.1f, 0.05f), 0.24f, new Color(0.95f, 0.95f, 0.93f));
+                    kit.Box("Visera del casco", new Vector3(0.32f, 0.04f, -0.08f), new Vector3(0.18f, 0.015f, 0.08f), new Color(0.92f, 0.92f, 0.90f));
+                    for (int boot = 0; boot < 2; boot++)
+                    {
+                        float bootZ = -0.25f - (boot * 0.14f);
+                        kit.Box("Zapato de seguridad", new Vector3(0.32f, 0.06f, bootZ), new Vector3(0.28f, 0.12f, 0.11f), new Color(0.35f, 0.25f, 0.18f));
+                        kit.Box("Puntera del zapato", new Vector3(0.45f, 0.06f, bootZ), new Vector3(0.04f, 0.1f, 0.1f), new Color(0.25f, 0.18f, 0.12f));
+                    }
+
                     break;
                 case "escena.casa.comprobante_cae":
                     // El comprobante del crédito de estudios, doblado bajo un clip, al lado de las cuentas.

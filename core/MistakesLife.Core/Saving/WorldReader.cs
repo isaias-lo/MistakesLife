@@ -469,6 +469,13 @@ namespace MistakesLife.Core.Saving
             job.MonthsInPosition = data.MonthsInPosition;
             job.MonthsInJob = data.MonthsInJob;
             job.Performance = data.Performance;
+            job.GoalPercent = data.GoalPercent;
+            job.MonthsUnderGoal = data.MonthsUnderGoal;
+            job.MonthsOnGoal = data.MonthsOnGoal;
+            job.Warnings = data.Warnings;
+            job.VariablePay = data.VariablePay;
+            job.Tips = data.Tips;
+            job.Challenge = data.Challenge;
             job.CompanyId = data.CompanyId;
             return job;
         }

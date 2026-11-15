@@ -1,0 +1,389 @@
+[
+  {
+    "id": "evento.vendedor.aviso",
+    "condiciones": "jugador.tiene('buscando_trabajo') && (jugador.busca_en == nada || jugador.busca_en == 'cualquier_trabajo') && (!jugador.titulado || jugador.semanas_buscando >= 26) && jugador.edad >= 18 && jugador.edad < 62",
+    "peso": 40,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.aviso.vestuario",
+        "tendencia": "jugador.extraversion / 2 + 10",
+        "efectos": [
+          "jugador.postular_en('oficio.vendedor.area.vestuario')"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.aviso.tecnologia",
+        "tendencia": "jugador.apertura / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.postular_en('oficio.vendedor.area.tecnologia')"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.aviso.calzado",
+        "tendencia": "jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.postular_en('oficio.vendedor.area.calzado')"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.aviso.seguir",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.domingos",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.meses_en_trabajo >= 1",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.domingos.aceptar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.respeto += 2",
+          "jugador.felicidad -= 3",
+          "jugador.desempeno += 2"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.domingos.cambiar",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.domingos.reclamar",
+        "tendencia": "(100 - jugador.amabilidad) / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.respeto -= 1",
+          "persona.rencor += 2",
+          "jugador.felicidad += 1",
+          "diario('diario.vendedor.domingos')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.cierre_dia",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.meses_en_trabajo >= 1",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.cierre_dia.atacar",
+        "tendencia": "jugador.extraversion / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.desempeno += 3",
+          "jugador.felicidad -= 1",
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.cierre_dia.normal",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.cierre_dia.rendirse",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.venta_robada",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.meses_en_trabajo >= 2",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.venta_robada.reclamar",
+        "tendencia": "(100 - jugador.amabilidad) / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino -= 4",
+          "persona.rencor += 3",
+          "jugador.desempeno += 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.venta_robada.jefatura",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 2",
+          "jugador.desempeno += 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.venta_robada.dejar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 2",
+          "jugador.felicidad -= 2",
+          "diario('diario.vendedor.venta_robada')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.inventario",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.meses_en_trabajo >= 3",
+    "probabilidad_anual": 0.7,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.inventario.quedarse",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "persona.respeto += 3",
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.inventario.turno",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.vendedor.inventario.excusa",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "persona.confianza -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.merma",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.meses_en_trabajo >= 3",
+    "probabilidad_anual": 0.4,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.merma.decir",
+        "tendencia": "jugador.responsabilidad / 3 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "persona.respeto += 1",
+          "persona.rencor += 1",
+          "diario('diario.vendedor.merma')"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.merma.vigilar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.merma.callar",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.de_pie",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.meses_en_trabajo >= 2",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.de_pie.silla",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.salud += 1",
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.de_pie.aguantar",
+        "tendencia": "jugador.neuroticismo / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.salud -= 2",
+          "jugador.desempeno += 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.de_pie.zapatos",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.dinero -= precio(45000)",
+          "jugador.salud += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.cliente",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.meses_en_trabajo >= 1",
+    "probabilidad_anual": 0.7,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.cliente.calma",
+        "tendencia": "jugador.amabilidad / 2 + (100 - jugador.neuroticismo) / 4",
+        "efectos": [
+          "persona.respeto += 3",
+          "jugador.desempeno += 2"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.cliente.jefatura",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.respeto -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.cliente.responder",
+        "tendencia": "jugador.neuroticismo / 2 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "persona.respeto -= 4",
+          "jugador.desempeno -= 3",
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.desafio.encargado",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.cargo == 'oficio.vendedor.cargo.vendedor' && jugador.meses_en_cargo >= 15 && jugador.desempeno >= 50 && !jugador.tiene('desafio_vendedor_encargado') && !jugador.en_desafio",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 4,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.desafio.encargado.preparar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 1",
+          "jugador.felicidad -= 1",
+          "jugador.desafio('desafio_vendedor_encargado')"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.desafio.encargado.asi_no_mas",
+        "tendencia": "jugador.extraversion / 3",
+        "efectos": [
+          "jugador.desafio('desafio_vendedor_encargado')",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.desafio.encargado.no",
+        "tendencia": "(100 - jugador.extraversion) / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.desafio.subgerente",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.cargo == 'oficio.vendedor.cargo.encargado' && jugador.meses_en_cargo >= 20 && jugador.desempeno >= 53 && !jugador.tiene('desafio_vendedor_subgerente') && !jugador.en_desafio",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 4,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.desafio.subgerente.preparar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 1",
+          "jugador.felicidad -= 1",
+          "jugador.desafio('desafio_vendedor_subgerente')"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.desafio.subgerente.asi_no_mas",
+        "tendencia": "jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.desafio('desafio_vendedor_subgerente')",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.desafio.subgerente.no",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.vendedor.desafio.jefe_tienda",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.vendedor' && jugador.cargo == 'oficio.vendedor.cargo.subgerente' && jugador.meses_en_cargo >= 26 && jugador.desempeno >= 57 && !jugador.tiene('desafio_vendedor_jefe_tienda') && !jugador.en_desafio",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 4,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.vendedor.desafio.jefe_tienda.preparar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 1",
+          "jugador.felicidad -= 1",
+          "jugador.desafio('desafio_vendedor_jefe_tienda')"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.desafio.jefe_tienda.asi_no_mas",
+        "tendencia": "jugador.apertura / 3",
+        "efectos": [
+          "jugador.desafio('desafio_vendedor_jefe_tienda')",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.vendedor.desafio.jefe_tienda.no",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  }
+]

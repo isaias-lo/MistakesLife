@@ -199,6 +199,9 @@ namespace MistakesLife.Unity.Editor
                 ("carrera.psicologia", "lugar_trabajo.consulta", "consulta-rango3", 3, Grande),
                 ("carrera.otra", null, "oficina_comun-rango3", 3, Grande),
                 ("carrera.software", "lugar_trabajo.oficina_abierta", "oficina_abierta-micro", 0, "empresa.tamano.micro"),
+                ("oficio.vendedor", "lugar_trabajo.tienda", "tienda", 0, Grande),
+                ("oficio.garzon", "lugar_trabajo.restoran", "restoran", 0, "empresa.tamano.pequena"),
+                ("oficio.maestro", "lugar_trabajo.obra", "obra", 0, Grande),
             };
             var home = new HomeView("comuna.puente_alto", 50, LifeStage.Adult, new[] { player });
             int count = 0;

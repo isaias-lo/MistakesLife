@@ -353,9 +353,10 @@ namespace MistakesLife.Core.Tests
             // del guardado (no se escriben los ceros ni los false) volvió a unos 112 KB. La sección de la
             // universidad (R5a: hasta 10 compañeros con nombre y un profe por año) la dejó en 119,5 KB. El equipo
             // de la pega (R6a: jefe y 5 colegas por trabajo, que van cambiando con los años y quedan como
-            // personas que conociste) la lleva a unos 141 KB. El tope deja margen para el contenido nuevo
-            // sin dejar que se dispare.
-            Assert.True(bytes < 150_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
+            // personas que conociste) la lleva a unos 141 KB. Con los oficios (R6b) esta vida busca medio
+            // año con título, trabaja de vendedor y después de maestro: cada trabajo trae su equipo y llega
+            // a unos 158 KB. El tope deja margen para el contenido nuevo sin dejar que se dispare.
+            Assert.True(bytes < 175_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }
 
         [Fact]

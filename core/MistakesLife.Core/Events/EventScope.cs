@@ -369,6 +369,16 @@ namespace MistakesLife.Core.Events
             return Math.Max((double)salaries.Minimum, Math.Round((double)salaries.Typical * relative));
         }
 
+        /// <summary>
+        /// La base del sueldo de un cargo de esa carrera para esa persona: en una carrera, lo
+        /// que vale su mejor título; en un oficio, el sueldo base del oficio (veces el sueldo
+        /// mínimo), porque ahí el título no cuenta.
+        /// </summary>
+        internal double SalaryBasisOf(Character person, CareerDefinition career) =>
+            career.Occupation != null
+                ? Math.Round((double)Salaries().Minimum * career.Occupation.BaseSalaryIn(SubjectCountry().Id))
+                : DegreeSalaryOf(person);
+
         private static void NoArgs(string function, Value[] args)
         {
             if (args.Length != 0)
