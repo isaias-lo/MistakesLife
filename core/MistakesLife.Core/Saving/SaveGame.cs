@@ -30,6 +30,11 @@ namespace MistakesLife.Core.Saving
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             NullValueHandling = NullValueHandling.Ignore,
+
+            // Desde la versión 24 no se escriben los valores que son los de siempre (0, false, o el
+            // [DefaultValue] del dato): una persona que solo es compañera de curso ocupa la mitad.
+            // Al leer, lo que falta queda con ese mismo valor.
+            DefaultValueHandling = DefaultValueHandling.Ignore,
             Formatting = Formatting.None,
             Culture = System.Globalization.CultureInfo.InvariantCulture,
         };

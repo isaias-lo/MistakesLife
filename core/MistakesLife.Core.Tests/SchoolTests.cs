@@ -172,5 +172,34 @@ namespace MistakesLife.Core.Tests
             Assert.Equal(10, view.Classmates.Count);
             Assert.True(view.Classmates.Zip(view.Classmates.Skip(1), (a, b) => a.Affection >= b.Affection).All(x => x));
         }
-    }
+    
+        [Fact]
+        public void Apoderado_EsLaMama_YSiNoEstaElPapa()
+        {
+            World world = LiveUntil(9, 20);
+            Character mother = world.GetCharacter(world.Player.MotherId!.Value);
+
+            Assert.Equal(mother.Id, Devices.ChatSystem.PeopleAs(world, world.Player, "apoderado", 0).Single().Id);
+
+            mother.Die(world.Date);
+            var guardian = Devices.ChatSystem.PeopleAs(world, world.Player, "apoderado", 0);
+            if (world.Player.FatherId.HasValue)
+            {
+                Assert.Equal(world.Player.FatherId.Value, guardian.Single().Id);
+            }
+            else
+            {
+                Assert.Empty(guardian);
+            }
+        }
+
+        [Fact]
+        public void ReunionDeApoderados_TraeDeVueltaLaCimarra()
+        {
+            EventDefinition ev = Content.GetEvent("evento.apoderados.cimarra");
+
+            Assert.Equal("apoderado", ev.With);
+            Assert.Contains("hizo_cimarra", ev.Conditions!);
+        }
+}
 }
