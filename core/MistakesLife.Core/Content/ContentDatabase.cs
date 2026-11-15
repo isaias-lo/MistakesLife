@@ -652,6 +652,11 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, "veces_maximas debe ser mayor que 0."));
                 }
 
+                if (ev.PerPerson && ev.With == null)
+                {
+                    _errors.Add(new ContentError(where, "por_persona necesita con: cuenta las veces con cada persona."));
+                }
+
                 if (ev.Variants.Any(string.IsNullOrWhiteSpace) || ev.AllTextKeys.Distinct().Count() != ev.Variants.Count + 1)
                 {
                     _errors.Add(new ContentError(where, "las variantes no pueden estar vacías ni repetir el texto principal u otra variante."));

@@ -576,7 +576,7 @@ namespace MistakesLife.ConsoleGame
                 }
             }
 
-            _output.WriteLine(view?.Text ?? WithPerson(_session.Text(definition.TextKeyFor(_session.World.TimesHappened(pending.EventId, pending.CharacterId))), person));
+            _output.WriteLine(view?.Text ?? WithPerson(_session.Text(definition.TextKeyFor(_session.World.TimesHappened(definition, pending.CharacterId, pending.PersonId))), person));
             for (int i = 0; i < pending.AvailableOptions.Count; i++)
             {
                 EventOptionDefinition option = definition.Options[pending.AvailableOptions[i]];

@@ -674,6 +674,7 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `unico` | Solo una vez en la vida | false |
 | `enfriamiento_semanas` | Semanas mínimas antes de que el mismo evento se repita | 0 |
 | `veces_maximas` | Cuántas veces como máximo puede pasar en la vida (`unico` es lo mismo que 1). No lo uses en eventos que sacan al jugador de un problema (por ejemplo, salir de DICOM) ni en los buenos momentos de toda la vida: la vejez se queda vacía | sin tope |
+| `por_persona` | Con `con`: el tope de `veces_maximas` y las `variantes` se cuentan con cada persona. Con tu pareja de hoy el aniversario empieza desde su primer texto, aunque con la anterior ya hayas vivido todas sus formas; y nunca se lee dos veces igual con la misma persona | false |
 | `variantes` | Otras claves de texto para contar la escena cuando vuelve a pasar: la 1.ª vez se usa `texto`, la 2.ª la primera variante, y así; al acabarse vuelven a empezar. Las opciones son las mismas, así que cada variante debe calzar con ellas. Convención: `<id>.2`, `<id>.3`… | — |
 | `probabilidad_anual` | Probabilidad real de que ocurra en un año (0 a 1), por ejemplo `0.04` para un robo según ENUSC. El evento no compite por `peso`: cada semana tiene su propia oportunidad. Úsala cuando haya una estadística | — |
 | `efectos` | Se aplican apenas ocurre | — |
@@ -711,7 +712,7 @@ Regla del rediseño (`docs/rediseno-vida.md`): **un momento detiene el tiempo so
 }
 ```
 
-Cada semana se prueba, en este orden: lo que despierta una semilla, los momentos con fecha de esta semana, los momentos de tu horario, los eventos con `probabilidad_anual` y, al final, uno al azar por `peso`. Los momentos tienen su propio azar, así que agregar uno no cambia qué otros eventos salen. Regla de repeticiones: usa `unico` o `veces_maximas` con `variantes`, para que un cumpleaños no se lea igual cada año.
+Cada semana se prueba, en este orden: lo que despierta una semilla, los momentos con fecha de esta semana, los momentos de tu horario, los eventos con `probabilidad_anual` y, al final, uno al azar por `peso`. Los momentos tienen su propio azar, así que agregar uno no cambia qué otros eventos salen. Regla de repeticiones (R7): un evento no se vuelve a leer igual con la misma persona (o sin persona). Usa `con` para que hable de alguien con nombre, `unico` o `veces_maximas` con `variantes` (y `por_persona` si el tope es con cada persona), para que un cumpleaños no se lea igual cada año. El simulador de vidas cuenta lo que se rompe en la sección "Repeticiones sin razón": el mismo texto con la misma persona o sin persona (lo que pide el jugador con un botón no cuenta).
 
 ## Capítulos del año (chapters/)
 

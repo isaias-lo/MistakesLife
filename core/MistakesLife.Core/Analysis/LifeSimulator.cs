@@ -281,6 +281,12 @@ namespace MistakesLife.Core.Analysis
 
                 var lived = session.World.EventHistory.Where(r => r.CharacterId == player.Id).ToList();
                 totalEvents += lived.Count;
+                foreach (KeyValuePair<string, int> repeat in RepetitionRules.RepeatsWithoutReason(lived, _content))
+                {
+                    report.RepeatsWithoutReason[repeat.Key] = report.RepeatsWithoutReason.TryGetValue(repeat.Key, out int r) ? r + repeat.Value : repeat.Value;
+                    report.LivesWithRepeats[repeat.Key] = report.LivesWithRepeats.TryGetValue(repeat.Key, out int l) ? l + 1 : 1;
+                }
+
                 foreach (var group in lived.GroupBy(r => r.EventId))
                 {
                     report.LivesWithEvent[group.Key] = report.LivesWithEvent.TryGetValue(group.Key, out int n) ? n + 1 : 1;

@@ -33,6 +33,14 @@ namespace MistakesLife.Core.Content
         [JsonProperty("veces_maximas")]
         public int? MaxTimes { get; set; }
 
+        /// <summary>
+        /// Si es true (y el evento pasa <see cref="With"/> alguien), <see cref="MaxTimes"/> y las
+        /// <see cref="Variants"/> se cuentan con cada persona: con tu pareja de hoy el aniversario
+        /// se cuenta de nuevo, aunque con la anterior ya hayas vivido todas sus formas.
+        /// </summary>
+        [JsonProperty("por_persona")]
+        public bool PerPerson { get; set; }
+
         /// <summary>Cuándo puede pasar (lenguaje de condiciones). Opcional.</summary>
         [JsonProperty("condiciones")]
         public string? Conditions { get; set; }
