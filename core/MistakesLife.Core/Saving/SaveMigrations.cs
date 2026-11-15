@@ -280,6 +280,10 @@ namespace MistakesLife.Core.Saving
                     }
                 }
             },
+
+            // 27 → 28: cada evento vivido guarda con quién fue (PersonId). Los viejos no lo
+            // saben: quedan sin persona.
+            [27] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

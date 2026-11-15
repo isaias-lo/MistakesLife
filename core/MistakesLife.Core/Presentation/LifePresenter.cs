@@ -335,6 +335,82 @@ namespace MistakesLife.Core.Presentation
             return number > 0 ? T(courseId) + " " + Education.UniversityRules.Roman(number) : T(courseId);
         }
 
+        /// <summary>El último momento que el jugador vivió con cada persona (por id).</summary>
+        private static IReadOnlyDictionary<int, Events.EventRecord> LastMomentWith(World world, Character player)
+        {
+            var last = new Dictionary<int, Events.EventRecord>();
+            foreach (Events.EventRecord record in world.EventHistory)
+            {
+                if (record.CharacterId == player.Id && record.PersonId.HasValue && record.ChosenOption.HasValue)
+                {
+                    last[record.PersonId.Value] = record;
+                }
+            }
+
+            return last;
+        }
+
+        /// <summary>
+        /// Un momento vivido con alguien, en una línea: la línea del diario que dejó lo que elegiste
+        /// o, si no dejó ninguna, "Elegiste: «...»". Nada inventado: sale de lo que pasó.
+        /// </summary>
+        private string? Memory(Events.EventRecord record, Character person)
+        {
+            if (!Session.Content.TryGetEvent(record.EventId, out EventDefinition? definition) || record.ChosenOption!.Value >= definition!.Options.Count)
+            {
+                return null;
+            }
+
+            EventOptionDefinition option = definition.Options[record.ChosenOption.Value];
+            foreach (string effect in option.Effects)
+            {
+                System.Text.RegularExpressions.Match journal = System.Text.RegularExpressions.Regex.Match(effect, @"^\s*diario\(\s*'([^']+)'\s*\)\s*$");
+                if (journal.Success)
+                {
+                    return WithPerson(T(journal.Groups[1].Value), person);
+                }
+            }
+
+            return Text("ui.origen.elegiste", WithPerson(T(option.TextKey), person));
+        }
+
+        /// <summary>
+        /// Tu malla: todos los semestres del plan que estudias, con los aprobados, el que cursas
+        /// (o repites, con los ramos que quedaron rojos) y los que faltan. Null si no estudias una carrera.
+        /// </summary>
+        public StudyPlanView? StudyPlan()
+        {
+            Character player = Session.World.Player;
+            CareerStudies? studies = player.Studies;
+            if (studies == null)
+            {
+                return null;
+            }
+
+            GradeScaleDefinition? scale = player.Residence == null ? null : Session.Content.GetCountry(player.Residence.CountryId).GradeScale;
+            int current = studies.CompletedSemesters + 1;
+            bool retaking = studies.LastMarksSemester == current && scale != null && studies.LastMarks.Values.Any(m => m < scale.Pass);
+            var semesters = new List<PlanSemesterView>();
+            for (int semester = 1; semester <= studies.RequiredSemesters; semester++)
+            {
+                int number = semester;
+                var courses = Education.UniversityRules.Courses(Session.Content, studies, number)
+                    .Select(c => CourseName(studies, c.Id, number))
+                    .ToList();
+                PlanSemesterState state = semester < current ? PlanSemesterState.Approved
+                    : semester > current ? PlanSemesterState.Future
+                    : retaking ? PlanSemesterState.Retaking
+                    : PlanSemesterState.Current;
+                var failed = state == PlanSemesterState.Retaking
+                    ? studies.LastMarks.Where(m => m.Value < scale!.Pass).Select(m => CourseName(studies, m.Key, number) + " · " + MarkText(m.Value)).ToList()
+                    : new List<string>();
+                semesters.Add(new PlanSemesterView(semester, Text("ui.malla.semestre", Education.UniversityRules.Roman(semester)), state, courses, failed));
+            }
+
+            string progress = Text("ui.malla.progreso", Math.Min(current, studies.RequiredSemesters), studies.RequiredSemesters, studies.SemestersTaken);
+            return new StudyPlanView(T(studies.CareerId), progress, semesters);
+        }
+
         /// <summary>Tu curso del colegio; null si no vas a un curso.</summary>
         public SchoolClassView? SchoolClass()
         {
@@ -349,6 +425,7 @@ namespace MistakesLife.Core.Presentation
             Character? teacher = Education.SchoolRules.Teacher(world, player);
             string? teacherName = teacher == null ? null
                 : Text(teacher.Gender == Gender.Female ? "ui.momento.profe.f" : "ui.momento.profe.m", teacher.FirstName + " " + teacher.LastName.Split(' ')[0]);
+            IReadOnlyDictionary<int, Events.EventRecord> lastMoments = LastMomentWith(world, player);
             var mates = Education.SchoolRules.Classmates(world, player)
                 .Select(c => (Person: c, Feelings: RelationshipRules.Feelings(world, player, c)))
                 .OrderByDescending(x => x.Feelings.Affection)
@@ -357,13 +434,24 @@ namespace MistakesLife.Core.Presentation
                     x.Person.Id,
                     x.Person.FirstName + " " + x.Person.LastName.Split(' ')[0],
                     RelationshipRules.BondKey(x.Feelings.Bond) is string bond ? T("ui.relacion." + bond) : null,
-                    x.Feelings.Affection))
+                    x.Feelings.Affection,
+                    lastMoments.TryGetValue(x.Person.Id, out Events.EventRecord? moment) ? Memory(moment, x.Person) : null))
+                .ToList();
+            var left = cls.LeftIds
+                .Where(id => world.TryGetCharacter(id, out Character? _))
+                .Select(id => world.GetCharacter(id))
+                .Select(c => new ClassmateView(
+                    c.Id,
+                    c.FirstName + " " + c.LastName.Split(' ')[0],
+                    T("ui.relacion.se_fue"),
+                    RelationshipRules.Feelings(world, player, c).Affection,
+                    lastMoments.TryGetValue(c.Id, out Events.EventRecord? moment) ? Memory(moment, c) : null))
                 .ToList();
             bool section = player.Studies != null && Education.UniversityRules.InSection(player);
             string name = section
                 ? Text("ui.seccion", cls.Level, cls.Letter, T(player.Studies!.CareerId))
                 : Text("curso." + cls.StageId, cls.Level, cls.Letter);
-            return new SchoolClassView(name, cls.Students, teacherName, mates, section);
+            return new SchoolClassView(name, cls.Students, teacherName, mates, section, left);
         }
 
         /// <summary>Marca (o desmarca) con destacador algo que quiere (posición de <see cref="WishView.Index"/>).</summary>

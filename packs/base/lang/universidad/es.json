@@ -103,5 +103,16 @@
   "ui.seccion.titulo": "Tu sección: {0} ({1} alumnos)",
   "ui.seccion.profe": "Este semestre te hace clases {0}",
   "ui.notas.fin_semestre": "Notas finales del último semestre",
-  "ui.notas.ramos_semestre": "Tus ramos de este semestre (todavía sin notas)"
+  "ui.notas.ramos_semestre": "Tus ramos de este semestre (todavía sin notas)",
+  "ui.malla.titulo": "Tu malla",
+  "ui.malla.semestre": "Semestre {0}",
+  "ui.malla.progreso": "Vas en el semestre {0} de {1} · llevas {2} cursados",
+  "ui.malla.aprobado": "Aprobado",
+  "ui.malla.cursando": "Lo estás cursando",
+  "ui.malla.repites": "Lo repites",
+  "ui.malla.rojos": "Quedaron rojos: {0}",
+  "ui.estudios.pestana.seccion": "Sección",
+  "ui.estudios.pestana.malla": "Malla",
+  "ui.notas.aviso_u": "Si un ramo queda rojo, ese semestre no cuenta: lo vuelves a cursar.",
+  "ui.relacion.se_fue": "Se fue"
 }

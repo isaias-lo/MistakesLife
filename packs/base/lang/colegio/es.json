@@ -127,5 +127,9 @@
   "diario.curso.llego_nuevo": "Llegó alguien nuevo al curso. Todos le miraban el primer día.",
   "diario.curso.amistad": "Sin darme cuenta, ya tengo una amistad de verdad en mi curso.",
   "ui.momento.profe.f": "la profe {0}",
-  "ui.momento.profe.m": "el profe {0}"
+  "ui.momento.profe.m": "el profe {0}",
+  "ui.cosas.libreta": "Libreta",
+  "ui.estudios.pestana.notas": "Notas",
+  "ui.estudios.pestana.curso": "Curso",
+  "ui.notas.final": "Final"
 }

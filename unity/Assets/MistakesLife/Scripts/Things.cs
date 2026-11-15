@@ -120,6 +120,23 @@ namespace MistakesLife.Unity
             return button;
         }
 
+        /// <summary>
+        /// La libreta de notas, azul, con su etiqueta blanca y las rayas de las hojas asomadas.
+        /// Si hay un ramo rojo, la etiqueta lleva una marca roja.
+        /// </summary>
+        public static Button NotebookThing(Transform parent, string caption, bool red, UnityAction onClick)
+        {
+            RectTransform drawing = Tile(parent, "Libreta", caption, red ? UiFactory.Bad : UiFactory.MutedInk, Face.Body, onClick, out Button button);
+            Piece(drawing, "Hojas", UiFactory.Paper, new Vector2(118f, 146f), new Vector2(8f, -2f), 4f, 2.4f);
+            Image cover = Piece(drawing, "Tapa", StudiesScreen.SchoolBand, new Vector2(118f, 146f), Vector2.zero, -3f, 2.4f);
+            button.targetGraphic = cover;
+            RectTransform label = (RectTransform)Piece((RectTransform)cover.transform, "Etiqueta", UiFactory.Paper, new Vector2(78f, 40f), new Vector2(0f, 28f), 0f, 3f).transform;
+            Piece(label, "Linea", UiFactory.PaperMutedInk, new Vector2(54f, 4f), new Vector2(0f, 4f), 0f, 6f);
+            Piece(label, "Linea 2", red ? UiFactory.KeyInk : UiFactory.PaperMutedInk, new Vector2(36f, 4f), new Vector2(-9f, -8f), 0f, 6f);
+            Piece((RectTransform)cover.transform, "Elastico", UiFactory.Hex(0x16294F), new Vector2(8f, 146f), new Vector2(40f, 0f), 0f, 6f);
+            return button;
+        }
+
         /// <summary>Un hueco del mismo alto, para que las cosas queden en columnas parejas.</summary>
         public static void Empty(Transform parent)
         {

@@ -94,9 +94,17 @@ namespace MistakesLife.Core.Education
             }
 
             section.ClassmateIds.RemoveAll(id => !world.TryGetCharacter(id, out Character? c) || !c.IsAlive);
-            int before = section.ClassmateIds.Count;
-            section.ClassmateIds.RemoveAll(id => random.Chance(LeavesPerSemester) && (player.RelationshipWith(id)?.Bond ?? RelationshipBond.None) == RelationshipBond.None);
-            if (section.ClassmateIds.Count < before)
+            section.LeftIds.Clear();
+            foreach (int id in section.ClassmateIds)
+            {
+                if (random.Chance(LeavesPerSemester) && (player.RelationshipWith(id)?.Bond ?? RelationshipBond.None) == RelationshipBond.None)
+                {
+                    section.LeftIds.Add(id);
+                }
+            }
+
+            section.ClassmateIds.RemoveAll(section.LeftIds.Contains);
+            if (section.LeftIds.Count > 0)
             {
                 journal.Add("diario.seccion.se_fue");
             }

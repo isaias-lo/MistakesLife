@@ -259,7 +259,7 @@ namespace MistakesLife.Core.Events
                 effect.Apply(scope);
             }
 
-            Finish(world, definition, subject, seed, optionIndex);
+            Finish(world, definition, subject, seed, optionIndex, person?.Id);
         }
 
         /// <summary>
@@ -342,9 +342,9 @@ namespace MistakesLife.Core.Events
             world.AddPendingEvent(new PendingEvent(definition.Id, subject.Id, world.Date, seed?.Id, options, person?.Id));
         }
 
-        private static void Finish(World world, EventDefinition definition, Character subject, Seed? seed, int? option)
+        private static void Finish(World world, EventDefinition definition, Character subject, Seed? seed, int? option, int? personId = null)
         {
-            world.RecordEvent(new EventRecord(world.Date, definition.Id, subject.Id, option));
+            world.RecordEvent(new EventRecord(world.Date, definition.Id, subject.Id, option, personId));
             if (seed != null && seed.IsOpen)
             {
                 world.Seeds.Resolve(seed, world.Date);

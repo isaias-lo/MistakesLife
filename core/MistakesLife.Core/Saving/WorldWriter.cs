@@ -61,6 +61,7 @@ namespace MistakesLife.Core.Saving
                     EventId = e.EventId,
                     CharacterId = e.CharacterId,
                     ChosenOption = e.ChosenOption,
+                    PersonId = e.PersonId,
                 }).ToList(),
             };
             return data;
@@ -246,7 +247,7 @@ namespace MistakesLife.Core.Saving
                 {
                     StageId = c.SchoolClass.StageId, Level = c.SchoolClass.Level, Letter = c.SchoolClass.Letter,
                     SchoolYear = c.SchoolClass.SchoolYear, Students = c.SchoolClass.Students,
-                    TeacherId = c.SchoolClass.TeacherId, ClassmateIds = c.SchoolClass.ClassmateIds.ToList(),
+                    TeacherId = c.SchoolClass.TeacherId, ClassmateIds = c.SchoolClass.ClassmateIds.ToList(), LeftIds = c.SchoolClass.LeftIds.ToList(),
                 },
                 SchoolRecord = c.SchoolRecord == null ? null : new SchoolRecordData
                 {
