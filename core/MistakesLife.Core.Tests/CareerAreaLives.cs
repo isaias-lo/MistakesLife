@@ -31,8 +31,9 @@ namespace MistakesLife.Core.Tests
             var seen = new HashSet<string>();
             foreach (CareerDefinition career in content.Careers)
             {
-                CareerLevelDefinition best = career.Levels.OrderByDescending(l => l.SalaryRelative).First();
-                string shortName = career.Id.Substring("carrera.".Length);
+                // Un oficio no se estudia: se entra directo al área.
+                CareerLevelDefinition? best = career.Levels.OrderByDescending(l => l.SalaryRelative).FirstOrDefault();
+                string workFlag = career.WorkFlag ?? "trabaja_" + career.Id.Substring(career.Id.IndexOf('.') + 1);
                 foreach (CareerAreaDefinition area in career.Areas)
                 {
                     for (int i = 0; i < livesPerArea; i++)
@@ -50,12 +51,16 @@ namespace MistakesLife.Core.Tests
                             effects.Add("jugador.desertar()");
                         }
 
-                        effects.Add($"estudiar('{best.Id}')");
-                        effects.Add("jugador.titularse()");
+                        if (best != null)
+                        {
+                            effects.Add($"estudiar('{best.Id}')");
+                            effects.Add("jugador.titularse()");
+                        }
+
                         effects.AddRange(RequirementFlags.Select(f => $"jugador.marcar('{f}')"));
                         effects.Add("jugador.desmarcar('buscando_trabajo')");
                         effects.Add("jugador.marcar('trabajando')");
-                        effects.Add($"jugador.marcar('trabaja_{shortName}')");
+                        effects.Add($"jugador.marcar('{workFlag}')");
                         effects.Add($"jugador.trabajar_en('{area.Id}')");
                         var scope = new EventScope(session.World, content, session.World.Player, null, readOnly: false);
                         foreach (string effect in effects)
@@ -82,7 +87,7 @@ namespace MistakesLife.Core.Tests
         {
             var seen = new HashSet<string>();
             ulong lifeSeed = 900;
-            foreach (CareerDefinition career in content.Careers)
+            foreach (CareerDefinition career in content.Careers.Where(c => !c.IsOccupation))
             {
                 var session = new LifeSession(content, lifeSeed++);
                 Play(session, startAge);
@@ -191,7 +196,7 @@ namespace MistakesLife.Core.Tests
         public static HashSet<string> StrugglingWorkerEvents(ContentDatabase content, int lives, int startAge = 30, int finalAge = 42)
         {
             var seen = new HashSet<string>();
-            CareerDefinition career = content.Careers.First();
+            CareerDefinition career = content.Careers.First(c => !c.IsOccupation);
             CareerLevelDefinition best = career.Levels.OrderByDescending(l => l.SalaryRelative).First();
             string shortName = career.Id.Substring("carrera.".Length);
             CareerAreaDefinition area = career.Areas.First();
@@ -246,7 +251,7 @@ namespace MistakesLife.Core.Tests
         public static HashSet<string> TopOfCareerEvents(ContentDatabase content, int lives, int startAge = 28, int finalAge = 60)
         {
             var seen = new HashSet<string>();
-            CareerDefinition career = content.Careers.First();
+            CareerDefinition career = content.Careers.First(c => !c.IsOccupation);
             CareerLevelDefinition best = career.Levels.OrderByDescending(l => l.SalaryRelative).First();
             string shortName = career.Id.Substring("carrera.".Length);
             CareerAreaDefinition area = career.Areas.First();
