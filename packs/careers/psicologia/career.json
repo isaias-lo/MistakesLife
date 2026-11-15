@@ -104,5 +104,151 @@
       "meses_minimos": 72,
       "desempeno_minimo": 65
     }
+  ],
+  "ramos": [
+    {
+      "id": "ramo.psicologia.introduccion_psicologia",
+      "desde": 1,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.historia_psicologia",
+      "desde": 1,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.bases_biologicas",
+      "desde": 1,
+      "hasta": 2,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.procesos_psicologicos",
+      "desde": 1,
+      "hasta": 2,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.estadistica",
+      "desde": 2,
+      "hasta": 3,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.psicologia_desarrollo",
+      "desde": 2,
+      "hasta": 4,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.psicologia_social",
+      "desde": 3,
+      "hasta": 4,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.metodologia",
+      "desde": 3,
+      "hasta": 5,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.personalidad",
+      "desde": 4,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.psicopatologia",
+      "desde": 5,
+      "hasta": 6,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.evaluacion_psicologica",
+      "desde": 5,
+      "hasta": 6,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.psicologia_clinica",
+      "desde": 6,
+      "hasta": 7,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.psicologia_organizacional",
+      "desde": 7,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.psicologia_educacional",
+      "desde": 7,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.psicologia_comunitaria",
+      "desde": 8,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.etica",
+      "desde": 8,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.taller_integracion",
+      "desde": 8,
+      "hasta": 9,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.electivo",
+      "desde": 9,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.psicologia.seminario_tesis",
+      "desde": 9,
+      "hasta": 10,
+      "instituciones": [
+        "universidad"
+      ]
+    }
   ]
 }

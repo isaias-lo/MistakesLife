@@ -127,5 +127,294 @@
       "requisitos": "jugador.titulado_en('carrera.software.nivel.ingenieria_civil_computacion') || jugador.tiene('magister')",
       "siguientes": []
     }
+  ],
+  "ramos": [
+    {
+      "id": "ramo.software.calculo",
+      "desde": 1,
+      "hasta": 4,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.algebra",
+      "desde": 1,
+      "hasta": 2,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.programacion",
+      "desde": 1,
+      "hasta": 2,
+      "instituciones": [
+        "universidad",
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.introduccion_ingenieria",
+      "desde": 1,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.fisica",
+      "desde": 2,
+      "hasta": 4,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.estructuras_datos",
+      "desde": 3,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.matematicas_discretas",
+      "desde": 3,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.base_datos",
+      "desde": 4,
+      "hasta": 5,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.probabilidades",
+      "desde": 4,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.algoritmos",
+      "desde": 5,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.arquitectura_computadores",
+      "desde": 5,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.ecuaciones_diferenciales",
+      "desde": 5,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.sistemas_operativos",
+      "desde": 6,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.ingenieria_software",
+      "desde": 6,
+      "hasta": 7,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.lenguajes_programacion",
+      "desde": 6,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.redes",
+      "desde": 7,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.inteligencia_artificial",
+      "desde": 7,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.sistemas_distribuidos",
+      "desde": 8,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.seguridad_informatica",
+      "desde": 8,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.economia",
+      "desde": 8,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.gestion_proyectos",
+      "desde": 9,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.taller_desarrollo",
+      "desde": 9,
+      "hasta": 10,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.electivo",
+      "desde": 9,
+      "hasta": 10,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.memoria",
+      "ultimo": true,
+      "instituciones": [
+        "universidad"
+      ]
+    },
+    {
+      "id": "ramo.software.matematica",
+      "desde": 1,
+      "hasta": 2,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.fundamentos_tic",
+      "desde": 1,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.ingles",
+      "desde": 1,
+      "hasta": 4,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.modelamiento_datos",
+      "desde": 2,
+      "hasta": 3,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.programacion_objetos",
+      "desde": 3,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.estadistica",
+      "desde": 3,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.desarrollo_web",
+      "desde": 4,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.desarrollo_movil",
+      "desde": 4,
+      "hasta": 5,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.etica_profesional",
+      "desde": 5,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.arquitectura_software",
+      "desde": 6,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.gestion_proyectos_ti",
+      "desde": 6,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.ciberseguridad",
+      "desde": 7,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.inteligencia_negocios",
+      "desde": 7,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.evaluacion_proyectos",
+      "desde": 7,
+      "hasta": 8,
+      "instituciones": [
+        "instituto"
+      ]
+    },
+    {
+      "id": "ramo.software.proyecto_titulo",
+      "ultimo": true,
+      "instituciones": [
+        "instituto"
+      ]
+    }
   ]
 }

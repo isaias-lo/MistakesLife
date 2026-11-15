@@ -391,13 +391,25 @@ namespace MistakesLife.ConsoleGame
         {
             var presenter = new LifePresenter(_session);
             ReportCardView? card = presenter.ReportCard();
+            if (card != null && card.Semester && card.General == null)
+            {
+                // Primer semestre: todavía sin notas, pero ya con sus ramos.
+                _output.WriteLine(presenter.Text("ui.notas.ramos_semestre") + ":");
+                foreach (SubjectGradesView subject in card.Subjects)
+                {
+                    _output.WriteLine($"  {subject.Name}");
+                }
+
+                return;
+            }
+
             if (card == null || card.General == null)
             {
                 _output.WriteLine(presenter.Text("ui.notas.sin_notas"));
                 return;
             }
 
-            _output.WriteLine(presenter.Text(card.Finals ? "ui.notas.fin_ano" : "ui.notas.titulo") + ":");
+            _output.WriteLine(presenter.Text(card.Finals ? (card.Semester ? "ui.notas.fin_semestre" : "ui.notas.fin_ano") : "ui.notas.titulo") + ":");
             foreach (SubjectGradesView subject in card.Subjects)
             {
                 string marks = subject.Marks.Count == 0 ? string.Empty : "  " + string.Join("  ", subject.Marks) + "  →";
@@ -418,10 +430,10 @@ namespace MistakesLife.ConsoleGame
                 return;
             }
 
-            _output.WriteLine(presenter.Text("ui.curso.titulo", cls.Name, cls.Students));
+            _output.WriteLine(presenter.Text(cls.Section ? "ui.seccion.titulo" : "ui.curso.titulo", cls.Name, cls.Students));
             if (cls.Teacher != null)
             {
-                _output.WriteLine(presenter.Text("ui.curso.profe_jefe", cls.Teacher));
+                _output.WriteLine(presenter.Text(cls.Section ? "ui.seccion.profe" : "ui.curso.profe_jefe", cls.Teacher));
             }
 
             foreach (ClassmateView mate in cls.Classmates)

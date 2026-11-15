@@ -286,7 +286,16 @@ namespace MistakesLife.Core.Saving
                 {
                     CompletedSemesters = s.CompletedSemesters,
                     WeeksIntoSemester = s.WeeksIntoSemester,
+                    GradedSemesters = s.GradedSemesters,
+                    Preparation = s.Preparation,
+                    LastMarksSemester = s.LastMarksSemester,
                 };
+                foreach (KeyValuePair<string, double> mark in s.LastMarks)
+                {
+                    character.Studies.LastMarks[mark.Key] = mark.Value;
+                }
+
+                character.Studies.SemesterAverages.AddRange(s.SemesterAverages);
             }
 
             foreach (string degree in d.Degrees)

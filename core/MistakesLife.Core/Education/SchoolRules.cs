@@ -223,7 +223,7 @@ namespace MistakesLife.Core.Education
             return free.Count == 0 ? null : free[random.NextInt(free.Count)];
         }
 
-        private static Character CreateClassmate(World world, ContentDatabase content, Character player, SchoolClass cls, GameRandom random)
+        internal static Character CreateClassmate(World world, ContentDatabase content, Character player, SchoolClass cls, GameRandom random, GameDate? birthDate = null)
         {
             CountryDefinition country = content.GetCountry(player.Residence!.CountryId);
             Sex sex = WorldFactory.RandomSex(random);
@@ -244,7 +244,7 @@ namespace MistakesLife.Core.Education
             string lastName = WorldFactory.Surnames(country, random.Pick(country.Names.Surnames), random.Pick(country.Names.Surnames));
             // Quien repitió va con los de un año menos (ver SameCohort).
             int behind = (player.SchoolRecord?.RepeatedYears ?? 0) * GameDate.WeeksPerYear;
-            var birth = new GameDate(player.BirthDate.TotalWeeks + behind + random.NextInt(OldestClassmateWeeks, YoungestClassmateWeeks + 1));
+            var birth = birthDate ?? new GameDate(player.BirthDate.TotalWeeks + behind + random.NextInt(OldestClassmateWeeks, YoungestClassmateWeeks + 1));
 
             Character mate = WorldFactory.NewPerson(world, random, firstName, lastName, sex, birth);
             mate.Residence = player.Residence;
@@ -258,13 +258,13 @@ namespace MistakesLife.Core.Education
             return mate;
         }
 
-        private static Character CreateTeacher(World world, ContentDatabase content, Character player, SchoolClassDefinition rules, GameRandom random)
+        internal static Character CreateTeacher(World world, ContentDatabase content, Character player, SchoolClassDefinition rules, GameRandom random, int minAge = MinTeacherAge, int maxAge = MaxTeacherAge)
         {
             CountryDefinition country = content.GetCountry(player.Residence!.CountryId);
             Sex sex = random.Chance(rules.FemaleTeachers) ? Sex.Female : Sex.Male;
             string firstName = random.Pick(sex == Sex.Female ? country.Names.Female : country.Names.Male);
             string lastName = WorldFactory.Surnames(country, random.Pick(country.Names.Surnames), random.Pick(country.Names.Surnames));
-            int age = random.NextInt(MinTeacherAge, MaxTeacherAge + 1);
+            int age = random.NextInt(minAge, maxAge + 1);
 
             Character teacher = WorldFactory.NewPerson(world, random, firstName, lastName, sex, WorldFactory.BirthDateForAge(world.Date, age, random));
             teacher.Residence = player.Residence;

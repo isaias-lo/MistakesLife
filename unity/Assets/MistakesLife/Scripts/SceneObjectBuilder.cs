@@ -36,6 +36,7 @@ namespace MistakesLife.Unity
         private static string? AnchorOf(string id) => id switch
         {
             "escena.casa.libros" => "ancla.mesa",
+            "escena.casa.credencial_u" => "ancla.mesa",
             "escena.casa.notebook" => "ancla.mesa",
             "escena.casa.avisos_trabajo" => "ancla.mesa",
             "escena.casa.cuentas" => "ancla.mesa",
@@ -93,6 +94,12 @@ namespace MistakesLife.Unity
             {
                 case "escena.casa.libros":
                     Books(kit, new Vector3(-0.45f, 0.44f, -0.15f));
+                    break;
+                case "escena.casa.credencial_u":
+                    // La credencial de la U (o del CFT o instituto) con su cordón, sobre la mesa.
+                    kit.Box("Credencial de estudiante", new Vector3(-0.15f, 0.445f, -0.3f), new Vector3(0.14f, 0.01f, 0.09f), Palette.Paper);
+                    kit.Box("Foto de la credencial", new Vector3(-0.19f, 0.452f, -0.3f), new Vector3(0.04f, 0.005f, 0.05f), new Color(0.55f, 0.45f, 0.38f));
+                    kit.Box("Cordón de la credencial", new Vector3(-0.15f, 0.443f, -0.22f), new Vector3(0.22f, 0.006f, 0.015f), new Color(0.20f, 0.30f, 0.55f));
                     break;
                 case "escena.casa.mochila":
                     kit.Box("Mochila", new Vector3(0f, 0.22f, 0f), new Vector3(0.4f, 0.44f, 0.24f), new Color(0.25f, 0.45f, 0.75f));

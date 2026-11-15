@@ -350,9 +350,10 @@ namespace MistakesLife.Core.Tests
             // suman unos 2 KB (solo del jugador, en cada foto). El curso del colegio (R3a/R3b) suma
             // unas 25 personas con nombre (compañeros de básica y media y sus profes jefe) y los
             // promedios de cada año: con los momentos de R3c esta vida llegó a 120,9 KB, y desde la versión 24
-            // del guardado (no se escriben los ceros ni los false) volvió a unos 112 KB. El tope deja margen para el
-            // contenido nuevo sin dejar que se dispare.
-            Assert.True(bytes < 120_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
+            // del guardado (no se escriben los ceros ni los false) volvió a unos 112 KB. La sección de la
+            // universidad (R5a: hasta 10 compañeros con nombre y un profe por año) la dejó en 119,5 KB. El tope
+            // deja margen para el contenido nuevo sin dejar que se dispare.
+            Assert.True(bytes < 128_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }
 
         [Fact]

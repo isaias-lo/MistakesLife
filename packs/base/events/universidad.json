@@ -1,0 +1,624 @@
+[
+  {
+    "id": "evento.universidad.primer_dia",
+    "con": "companero",
+    "lugar": "lugar.campus",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 0 && jugador.semestres_aprobados <= 0",
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.primer_dia.juntos",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 7",
+          "persona.confianza += 3",
+          "diario('diario.universidad.primer_dia')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.primer_dia.mapa",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.primer_dia.tarde",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.estudiar_semestre(-1)",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ],
+    "peso": 60
+  },
+  {
+    "id": "evento.universidad.fiesta_mechones",
+    "con": "companero",
+    "lugar": "lugar.campus",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 0 && jugador.semestres_aprobados <= 1",
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.fiesta_mechones.ir",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "persona.carino += 6",
+          "jugador.felicidad += 4",
+          "jugador.salud -= 1",
+          "jugador.estudiar_semestre(-1)",
+          "diario('diario.universidad.fiesta_mechones')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.fiesta_mechones.rato",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 3",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.fiesta_mechones.no",
+        "tendencia": "(100 - jugador.extraversion) / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ],
+    "peso": 30
+  },
+  {
+    "id": "evento.universidad.grupo_estudio",
+    "con": "companero",
+    "lugar": "lugar.biblioteca",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 0 && jugador.semestres_aprobados < jugador.semestres_carrera - 1",
+    "probabilidad_anual": 0.9,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.grupo_estudio.ir",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.estudiar_semestre(2)",
+          "persona.carino += 4",
+          "persona.respeto += 2",
+          "diario('diario.universidad.grupo_estudio')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.grupo_estudio.solo",
+        "tendencia": "jugador.responsabilidad / 2 + (100 - jugador.extraversion) / 4",
+        "efectos": [
+          "jugador.estudiar_semestre(1)"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.grupo_estudio.nada",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.estudiar_semestre(-1)",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.trabajo_grupo",
+    "con": "companero",
+    "lugar": "lugar.biblioteca",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 1 && jugador.semestres_aprobados < jugador.semestres_carrera - 1",
+    "probabilidad_anual": 0.8,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.trabajo_grupo.hablar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.respeto += 4",
+          "persona.carino -= 1",
+          "jugador.estudiar_semestre(1)"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.trabajo_grupo.hacer",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino += 3",
+          "persona.respeto -= 3",
+          "jugador.felicidad -= 2",
+          "jugador.estudiar_semestre(1)"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.trabajo_grupo.sacar",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 7",
+          "persona.rencor += 8",
+          "diario('diario.universidad.saque_del_grupo')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.apuntes",
+    "con": "companero",
+    "lugar": "lugar.casino",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 0 && jugador.semestres_aprobados < jugador.semestres_carrera - 1",
+    "probabilidad_anual": 0.7,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.apuntes.pasar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.carino += 6",
+          "persona.confianza += 4",
+          "diario('diario.universidad.apuntes')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.apuntes.explicar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.carino += 8",
+          "persona.respeto += 3",
+          "jugador.estudiar_semestre(1)"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.apuntes.no",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.revision",
+    "con": "profe",
+    "lugar": "lugar.sala_u",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 0 && jugador.semestres_aprobados < jugador.semestres_carrera - 1",
+    "probabilidad_anual": 0.7,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.revision.ir",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.respeto += 5",
+          "jugador.estudiar_semestre(1)",
+          "diario('diario.universidad.revision')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.revision.reclamar",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.respeto -= 4",
+          "persona.rencor += 4"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.revision.dejar",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.estudiar_semestre(1)",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.ayudantia",
+    "con": "profe",
+    "lugar": "lugar.sala_u",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 2 && jugador.inteligencia >= 60",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.ayudantia.aceptar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.marcar('fue_ayudante')",
+          "persona.respeto += 6",
+          "jugador.estudiar_semestre(1)",
+          "jugador.inteligencia += 1",
+          "diario('diario.universidad.ayudantia')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.ayudantia.pensar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.respeto -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.ayudantia.no",
+        "tendencia": "si(jugador.trabaja, 60, 20)",
+        "efectos": [
+          "persona.respeto += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.examen_filtrado",
+    "con": "companero",
+    "lugar": "lugar.casino",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 1 && jugador.semestres_aprobados < jugador.semestres_carrera - 1",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.examen_filtrado.no_mirar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.estudiar_semestre(1)",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.examen_filtrado.mirar",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.estudiar_semestre(2)",
+          "jugador.marcar('miro_examen_filtrado')",
+          "persona.confianza += 3",
+          "diario('diario.universidad.examen_filtrado')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.examen_filtrado.avisar",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.rencor += 3",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.almuerzo",
+    "con": "companero",
+    "lugar": "lugar.casino",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 0 && jugador.semestres_aprobados <= 3",
+    "probabilidad_anual": 0.8,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.almuerzo.sentarse",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.almuerzo.rapido",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino += 1",
+          "jugador.estudiar_semestre(1)"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.almuerzo.afuera",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.dejar_carrera",
+    "con": "companero",
+    "lugar": "lugar.campus",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 2 && jugador.semestres_aprobados < jugador.semestres_carrera - 2",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.dejar_carrera.beca",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino += 8",
+          "persona.confianza += 5",
+          "diario('diario.universidad.dejar_carrera')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.dejar_carrera.apoyar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 4"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.dejar_carrera.suerte",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.paro",
+    "con": "companero",
+    "lugar": "lugar.campus",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 0 && jugador.semestres_aprobados < jugador.semestres_carrera - 1",
+    "probabilidad_anual": 0.4,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.paro.si",
+        "tendencia": "jugador.apertura / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino += 4",
+          "jugador.estudiar_semestre(-1)",
+          "jugador.felicidad += 1",
+          "diario('diario.universidad.paro')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.paro.no",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.paro.irse",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.titulo_juntos",
+    "con": "companero",
+    "lugar": "lugar.biblioteca",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= jugador.semestres_carrera - 2 && jugador.semestres_aprobados < jugador.semestres_carrera",
+    "probabilidad_anual": 1.0,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.titulo_juntos.aceptar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino += 6",
+          "persona.confianza += 4",
+          "jugador.estudiar_semestre(1)",
+          "diario('diario.universidad.titulo_juntos')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.titulo_juntos.solo",
+        "tendencia": "(100 - jugador.extraversion) / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino -= 2",
+          "jugador.estudiar_semestre(1)"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.titulo_juntos.otro",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 5",
+          "persona.rencor += 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.viaje",
+    "con": "companero",
+    "lugar": "lugar.campus",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 0 && jugador.semestres_aprobados <= 4",
+    "probabilidad_anual": 0.7,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.viaje.juntos",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 6",
+          "persona.confianza += 2",
+          "diario('diario.universidad.viaje')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.viaje.audifonos",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.viaje.no",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.puerta",
+    "con": "profe",
+    "lugar": "lugar.sala_u",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 0 && jugador.semestres_aprobados < jugador.semestres_carrera - 1",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.puerta.esperar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.puerta.pedir",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.puerta.irse",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.estudiar_semestre(-1)",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.explicar",
+    "con": "companero",
+    "lugar": "lugar.biblioteca",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 1 && jugador.semestres_aprobados < jugador.semestres_carrera - 1 && jugador.inteligencia >= 50",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.explicar.explicar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino += 5",
+          "persona.respeto += 4",
+          "jugador.estudiar_semestre(1)"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.explicar.video",
+        "tendencia": "jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.explicar.no",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.cumpleanos",
+    "con": "companero",
+    "lugar": "lugar.casino",
+    "condiciones": "jugador.en_la_u",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.cumpleanos.organizar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino += 7",
+          "jugador.felicidad += 2",
+          "diario('diario.universidad.cumpleanos')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.cumpleanos.poner",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 3"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.cumpleanos.no",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": []
+      }
+    ],
+    "fecha": "cumpleanos"
+  },
+  {
+    "id": "evento.universidad.investigacion",
+    "con": "profe",
+    "lugar": "lugar.sala_u",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados >= 4 && jugador.semestres_aprobados < jugador.semestres_carrera - 1",
+    "probabilidad_anual": 0.4,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.investigacion.aceptar",
+        "tendencia": "jugador.apertura / 2 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.marcar('investigo_con_profe')",
+          "persona.respeto += 6",
+          "jugador.inteligencia += 1",
+          "jugador.felicidad -= 1",
+          "diario('diario.universidad.investigacion')"
+        ]
+      },
+      {
+        "texto": "opcion.universidad.investigacion.no",
+        "tendencia": "40",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.universidad.examenes",
+    "lugar": "lugar.biblioteca",
+    "condiciones": "jugador.en_la_u && jugador.semestres_aprobados < jugador.semestres_carrera",
+    "probabilidad_anual": 1.0,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.universidad.examenes.estudiar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.estudiar_semestre(2)",
+          "jugador.felicidad -= 2",
+          "jugador.salud -= 1"
+        ],
+        "regla": "estudiar"
+      },
+      {
+        "texto": "opcion.universidad.examenes.repasar",
+        "tendencia": "45",
+        "efectos": [
+          "jugador.estudiar_semestre(1)"
+        ],
+        "regla": "repasar"
+      },
+      {
+        "texto": "opcion.universidad.examenes.nada",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ],
+        "regla": "nada"
+      }
+    ],
+    "veces_maximas": 12,
+    "enfriamiento_semanas": 20,
+    "regla": "regla.prueba",
+    "variantes": [
+      "evento.universidad.examenes.2",
+      "evento.universidad.examenes.3",
+      "evento.universidad.examenes.4",
+      "evento.universidad.examenes.5",
+      "evento.universidad.examenes.6",
+      "evento.universidad.examenes.7",
+      "evento.universidad.examenes.8",
+      "evento.universidad.examenes.9"
+    ]
+  }
+]

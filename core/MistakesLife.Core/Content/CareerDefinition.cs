@@ -41,6 +41,13 @@ namespace MistakesLife.Core.Content
         public List<CareerPositionDefinition> Positions { get; set; } = new List<CareerPositionDefinition>();
 
         /// <summary>
+        /// Los ramos de la carrera, por semestre. Cada nivel toma los de su institución
+        /// y largo; cada semestre de cada nivel tiene que tener al menos uno.
+        /// </summary>
+        [JsonProperty("ramos")]
+        public List<CourseDefinition> Courses { get; set; } = new List<CourseDefinition>();
+
+        /// <summary>
         /// Cómo se ve el lugar donde trabaja quien tiene este título (uno de
         /// <see cref="WorkplaceKinds"/>). Opcional: sin él se dibuja una oficina común.
         /// </summary>
