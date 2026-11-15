@@ -43,6 +43,7 @@ namespace MistakesLife.Unity
             "escena.casa.casco_obra" => "ancla.puerta",
             "escena.casa.caja_pega" => "ancla.puerta",
             "escena.casa.cosas_companero" => "ancla.puerta",
+            "escena.casa.negocio" => "ancla.mesa",
             "escena.casa.maleta" => "ancla.ropero",
             "escena.casa.comprobante_cae" => "ancla.mesa",
             "escena.casa.notebook" => "ancla.mesa",
@@ -157,6 +158,12 @@ namespace MistakesLife.Unity
                         kit.Box("Zapatilla de tu compañero de casa", new Vector3(0.5f, 0.05f, -0.58f - (shoe * 0.13f)), new Vector3(0.26f, 0.1f, 0.1f), new Color(0.92f, 0.92f, 0.95f));
                     }
 
+                    break;
+                case "escena.casa.negocio":
+                    // Tienes un negocio con un socio: la caja chica metálica y el cuaderno de cuentas sobre la mesa.
+                    kit.Box("Caja chica del negocio", new Vector3(-0.25f, 0.48f, 0.25f), new Vector3(0.2f, 0.08f, 0.14f), new Color(0.25f, 0.42f, 0.36f));
+                    kit.Box("Manilla de la caja chica", new Vector3(-0.25f, 0.53f, 0.25f), new Vector3(0.08f, 0.015f, 0.02f), new Color(0.7f, 0.7f, 0.72f));
+                    kit.Box("Cuaderno de cuentas del negocio", new Vector3(-0.02f, 0.45f, 0.27f), new Vector3(0.16f, 0.02f, 0.22f), new Color(0.60f, 0.20f, 0.18f));
                     break;
                 case "escena.casa.maleta":
                     // Vacaciones ganadas y sin tomar: la maleta espera parada al lado del ropero.

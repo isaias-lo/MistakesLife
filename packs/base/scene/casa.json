@@ -7,6 +7,7 @@
   { "id": "escena.casa.casco_obra", "lugar": "casa", "condiciones": "jugador.oficio == 'oficio.maestro'" },
   { "id": "escena.casa.caja_pega", "lugar": "casa", "condiciones": "jugador.renuncio" },
   { "id": "escena.casa.cosas_companero", "lugar": "casa", "condiciones": "jugador.comparte_arriendo" },
+  { "id": "escena.casa.negocio", "lugar": "casa", "condiciones": "jugador.tiene_negocio" },
   { "id": "escena.casa.maleta", "lugar": "casa", "condiciones": "jugador.dias_vacaciones >= 10" },
   { "id": "escena.casa.mochila", "lugar": "casa", "condiciones": "jugador.edad >= 6 && jugador.edad < 18" },
   { "id": "escena.casa.diploma", "lugar": "casa", "condiciones": "jugador.titulado" },

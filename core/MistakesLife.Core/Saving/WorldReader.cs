@@ -160,6 +160,16 @@ namespace MistakesLife.Core.Saving
             character.Job = JobOf(d.Job);
             character.PendingInheritance = d.PendingInheritance;
 
+            if (d.Venture != null)
+            {
+                character.Venture = new Venture(d.Venture.PartnerId, d.Venture.Formal, d.Venture.Contribution, d.Venture.Luck)
+                {
+                    MonthsOpen = d.Venture.MonthsOpen,
+                    LastShare = d.Venture.LastShare,
+                    TotalShare = d.Venture.TotalShare,
+                };
+            }
+
             if (d.JobSearch != null)
             {
                 character.JobSearch = new JobSearch(d.JobSearch.Target)

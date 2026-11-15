@@ -294,6 +294,13 @@
       "divisor_dia": 30,
       "dias_pagados_por_dia": 1.4
     },
+    "negocios": {
+      "ganancia_formal": 3.7,
+      "ganancia_informal": 0.92,
+      "variacion": 1.47,
+      "cierre_primer_ano": 0.152,
+      "cierre_anual": 0.137
+    },
     "busqueda_trabajo": {
       "formas": [
         { "id": "busqueda.forma.portales", "postulaciones_semana": 10, "entrevista_semanal": 0.08, "exito_extra": -0.08 },

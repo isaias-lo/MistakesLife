@@ -71,3 +71,8 @@ De la [Ley de Contrato de Trabajo 20.744 (InfoLEG)](https://servicios.infoleg.go
 - Recomendar en tu laburo: misma probabilidad que una entrevista por contacto en `busqueda_trabajo` (35 % + 20 %).
 - Subalquilar: el Código Civil y Comercial (art. 1213) no permite al locatario ceder ni sublocar sin el consentimiento del locador.
 - Que a quien vive con vos no le alcance para el alquiler: el juego usa 9 % al año, la misma estimación que en Chile; la desocupación del INDEC ronda el 7 % (2024).
+
+## Ser socios (R6d2): negocios chicos
+
+- No hay todavía una encuesta argentina cargada: el juego usa las mismas proporciones de Chile (ganancia en salarios mínimos de la EME del INE y cierre de empresas nuevas de Chile). Por reemplazar con datos del INDEC o del Ministerio de Economía (dinámica empresarial).
+- Formal: la Sociedad por Acciones Simplificada (SAS, Ley 27.349) se inscribe y después se da de alta en ARCA (ex AFIP).

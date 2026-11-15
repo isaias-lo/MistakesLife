@@ -28,13 +28,15 @@ namespace MistakesLife.Core.Events
     /// dias_vacaciones (días de vacaciones ganados y no tomados en su trabajo),
     /// pago_vacaciones (lo que le pagarían por ellos al salir; de su último trabajo si ya no trabaja),
     /// renuncio (si ya avisó que se va), semanas_para_irse (cuántas semanas le quedan del aviso),
+    /// tiene_negocio, negocio_formal, meses_negocio, ganancia_negocio (su parte del último mes) y
+    /// ganado_negocio (todo lo que ha recibido) de su negocio con un socio,
     /// tiene_equipo (si trabaja con su equipo armado: jefe y colegas),
     /// comparte_arriendo (si alguien se vino a vivir con él y paga su parte).
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada), en_tu_equipo (si
     /// trabaja en el equipo de ese alguien), recomendado (si entró a ese equipo recomendado por él)
-    /// y vive_contigo (si comparte el arriendo de ese alguien).
+    /// vive_contigo (si comparte el arriendo de ese alguien) y es_tu_socio (si es su socio en un negocio).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
@@ -47,6 +49,8 @@ namespace MistakesLife.Core.Events
     /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo(), cambiar_de_empresa(),
     /// nuevo_contrato() (mismo empleador y mismo equipo, antigüedad desde cero: la obra siguiente),
     /// pedir_aumento(porcentaje) (con su jefe: puede recibir todo, la mitad o nada; ver Work.RaiseRules),
+    /// abrir_negocio(aporte, 'formal' | 'informal') (con la persona del evento como socio; el aporte en la moneda de hoy),
+    /// cerrar_negocio(),
     /// recomendar() (recomienda en su equipo a la persona del evento; ver Work.ReferralRules),
     /// compartir_arriendo() (la persona del evento se viene a vivir con él y paga su parte), dejar_de_compartir(),
     /// avisar_renuncia(semanas) (renuncia con aviso: se va en esas semanas),
@@ -329,6 +333,18 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(Work.WorkRules.InTeam(Viewer(member)) && Viewer(member).Team!.RecommendedIds.Contains(_character.Id));
                 case "vive_contigo":
                     return Value.FromBool(Economy.HousingRules.Roommate(((EventScope)scope).World, Viewer(member))?.Id == _character.Id);
+                case "tiene_negocio":
+                    return Value.FromBool(_character.Venture != null);
+                case "negocio_formal":
+                    return Value.FromBool(_character.Venture?.Formal ?? false);
+                case "meses_negocio":
+                    return Value.FromNumber(_character.Venture?.MonthsOpen ?? 0);
+                case "ganancia_negocio":
+                    return Value.FromNumber((double)(_character.Venture?.LastShare ?? 0));
+                case "ganado_negocio":
+                    return Value.FromNumber((double)(_character.Venture?.TotalShare ?? 0));
+                case "es_tu_socio":
+                    return Value.FromBool(Viewer(member).Venture?.PartnerId == _character.Id);
                 case "tiene_equipo":
                     return Value.FromBool(Work.WorkRules.InTeam(_character));
                 case "comparte_arriendo":
@@ -968,6 +984,29 @@ namespace MistakesLife.Core.Events
                     }
 
                     Work.RaiseRules.Ask(((EventScope)scope).World, ((EventScope)scope).Content, _character, ((EventScope)scope).Person, args[0].AsNumber("jugador.pedir_aumento()"));
+                    return Value.Null;
+                case "abrir_negocio":
+                    ((EventScope)scope).RequireWritable("jugador.abrir_negocio");
+                    if (args.Length != 2 || ((EventScope)scope).Person == null || _character.Venture != null)
+                    {
+                        throw new ScriptException("jugador.abrir_negocio(aporte, 'formal' o 'informal') necesita un evento con persona (con) y que no tenga otro negocio (revisa jugador.tiene_negocio).");
+                    }
+
+                    string form = args[1].AsText("jugador.abrir_negocio()");
+                    if (form != "formal" && form != "informal")
+                    {
+                        throw new ScriptException($"jugador.abrir_negocio(): la forma '{form}' no existe (formal o informal).");
+                    }
+
+                    Content.VenturesDefinition ventureRules = (_character.Residence == null ? null : ((EventScope)scope).Content.GetCountry(_character.Residence.CountryId).Economy?.Ventures)
+                        ?? throw new ScriptException("jugador.abrir_negocio(): en su país no hay economia.negocios.");
+                    Work.VentureRules.Open(((EventScope)scope).World, ventureRules, _character, ((EventScope)scope).Person!, form == "formal",
+                        Math.Round((decimal)args[0].AsNumber("jugador.abrir_negocio()"), MidpointRounding.AwayFromZero), PriceIndex((EventScope)scope));
+                    return Value.Null;
+                case "cerrar_negocio":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.cerrar_negocio");
+                    Work.VentureRules.Close(((EventScope)scope).World, _character, failed: false);
                     return Value.Null;
                 case "recomendar":
                     NoArguments(method, args);

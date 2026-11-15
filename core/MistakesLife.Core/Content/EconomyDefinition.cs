@@ -68,5 +68,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Las vacaciones legales de quien trabaja con contrato, o null si el país no las tiene cargadas.</summary>
         [JsonProperty("vacaciones")]
         public VacationsDefinition? Vacations { get; set; }
+
+        /// <summary>Cómo le va a un negocio chico entre socios, o null si en el país no se puede armar uno.</summary>
+        [JsonProperty("negocios")]
+        public VenturesDefinition? Ventures { get; set; }
     }
 }

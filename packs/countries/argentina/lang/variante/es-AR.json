@@ -175,5 +175,15 @@
   "opcion.futuro.dejar_de_vivir_juntos.espacio": "Decirle que necesitás tu espacio, ya",
   "evento.futuro.recomendado_falla": "{persona} llegó tarde otra vez y dejó una entrega a medias. Tu jefe te pregunta, delante de todos, por qué lo recomendaste.",
   "opcion.futuro.recomendado_falla.hablar": "Decir que vas a hablar con él",
-  "opcion.futuro.recomendado_falla.desmarcarse": "Decir que no respondés por él"
+  "opcion.futuro.recomendado_falla.desmarcarse": "Decir que no respondés por él",
+  "evento.futuro.socios": "Hace tiempo que vienen hablando de la idea con {persona}: un negocio propio, a medias. Cada uno pondría un salario mínimo para arrancar. Se puede armar una SAS e inscribirla en ARCA, o arrancar de palabra, sin papeles.",
+  "opcion.futuro.socios.formal": "Armar la SAS y hacerlo bien",
+  "opcion.futuro.socios.informal": "Arrancar de palabra, sin papeles",
+  "evento.negocio.socio_caja": "Cerrás la caja del mes y no cierra. Le preguntás a {persona} y, después de un silencio, reconoce que sacó plata \"para una urgencia\".",
+  "opcion.negocio.socio_caja.conversar": "Charlarlo y poner reglas claras para la caja",
+  "opcion.negocio.socio_caja.cerrar": "Decirle que así no podés seguir y cerrar",
+  "evento.negocio.buen_mes": "Fue el mejor mes desde que abrieron. {persona} te muestra los números con una sonrisa que no le entra en la cara.",
+  "evento.negocio.mal_mes": "Otro mes malo en el negocio: lo que entró apenas alcanzó para los gastos. {persona} te pregunta qué hacen.",
+  "opcion.negocio.mal_mes.aguantar": "Bancar: los negocios tardan en arrancar",
+  "evento.negocio.cerrar": "Le pedís a {persona} que charlen del negocio. Hace semanas que pensás si vale la pena seguir."
 }

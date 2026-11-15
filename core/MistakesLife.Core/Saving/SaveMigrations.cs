@@ -292,6 +292,8 @@ namespace MistakesLife.Core.Saving
             [30] = save => { },
             // 31 → 32: con quién comparte el arriendo y a quiénes recomendó en su equipo (nadie todavía).
             [31] = save => { },
+            // 32 → 33: el negocio con un socio (nadie tiene uno todavía).
+            [32] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

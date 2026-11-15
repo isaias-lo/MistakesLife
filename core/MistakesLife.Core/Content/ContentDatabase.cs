@@ -1041,6 +1041,14 @@ namespace MistakesLife.Core.Content
                     ValidateJobSearch($"{where}, economia.busqueda_trabajo", country.Economy.JobSearch);
                 }
 
+                if (country.Economy.Ventures is VenturesDefinition ventures
+                    && (ventures.FormalProfit <= 0 || ventures.InformalProfit <= 0 || ventures.Spread < 0
+                        || ventures.FirstYearClosure < 0 || ventures.FirstYearClosure >= 1 || ventures.YearlyClosure < 0 || ventures.YearlyClosure >= 1
+                        || ventures.FormalTax < 0 || ventures.FormalTax >= 1))
+                {
+                    _errors.Add(new ContentError($"{where}, economia.negocios", "las ganancias deben ser positivas y las probabilidades e impuesto entre 0 y 1."));
+                }
+
                 if (country.Economy.Vacations != null)
                 {
                     ValidateVacations($"{where}, economia.vacaciones", country.Economy.Vacations);
@@ -1954,7 +1962,7 @@ namespace MistakesLife.Core.Content
 
                 if (country.Economy != null)
                 {
-                    foreach (string key in Work.RaiseRules.Journals.Concat(Work.ReferralRules.Journals))
+                    foreach (string key in Work.RaiseRules.Journals.Concat(Work.ReferralRules.Journals).Concat(Work.VentureRules.Journals))
                     {
                         yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
                     }

@@ -107,6 +107,16 @@ namespace MistakesLife.Core.Saving
                 Job = JobOf(c.Job),
                 LastJob = JobOf(c.LastJob),
                 PendingInheritance = c.PendingInheritance,
+                Venture = c.Venture == null ? null : new VentureData
+                {
+                    PartnerId = c.Venture.PartnerId,
+                    Formal = c.Venture.Formal,
+                    Contribution = c.Venture.Contribution,
+                    MonthsOpen = c.Venture.MonthsOpen,
+                    LastShare = c.Venture.LastShare,
+                    TotalShare = c.Venture.TotalShare,
+                    Luck = c.Venture.Luck,
+                },
                 JobSearch = c.JobSearch == null ? null : new JobSearchData
                 {
                     Target = c.JobSearch.Target,

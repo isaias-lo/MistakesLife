@@ -18,7 +18,7 @@ namespace MistakesLife.Core.Content
     public sealed class ChatDefinition
     {
         /// <summary>Quién puede escribir: la persona con ese lugar en la vida del jugador.</summary>
-        public static readonly string[] Senders = { "madre", "padre", "pareja", "hijo", "amigo", "colega", "rival", "ex", "companero", "profe", "apoderado", "jefe", "equipo", "companero_casa" };
+        public static readonly string[] Senders = { "madre", "padre", "pareja", "hijo", "amigo", "colega", "rival", "ex", "companero", "profe", "apoderado", "jefe", "equipo", "companero_casa", "socio" };
 
         /// <summary>Id estable: <c>chat.&lt;quien&gt;.&lt;nombre&gt;</c>.</summary>
         [JsonProperty("id", Required = Required.Always)]

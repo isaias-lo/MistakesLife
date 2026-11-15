@@ -73,6 +73,7 @@ namespace MistakesLife.Core.Game
                 .Register(new Work.OccupationSystem(content))
                 .Register(new PayrollSystem(content))
                 .Register(new Work.VacationSystem(content))
+                .Register(new Work.VentureSystem(content))
                 .Register(new PensionSystem(content))
                 .Register(new TaxSystem(content))
                 .Register(new ExpenseSystem(content))
