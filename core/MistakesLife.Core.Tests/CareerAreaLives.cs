@@ -209,6 +209,66 @@ namespace MistakesLife.Core.Tests
         }
 
         /// <summary>
+        /// Vidas que trabajan muy bien y ascienden cada vez que pueden, hasta llegar a lo más
+        /// alto de la carrera (en vidas al azar, pocas llegan): para el evento de la cima.
+        /// </summary>
+        public static HashSet<string> TopOfCareerEvents(ContentDatabase content, int lives, int startAge = 28, int finalAge = 60)
+        {
+            var seen = new HashSet<string>();
+            CareerDefinition career = content.Careers.First();
+            CareerLevelDefinition best = career.Levels.OrderByDescending(l => l.SalaryRelative).First();
+            string shortName = career.Id.Substring("carrera.".Length);
+            CareerAreaDefinition area = career.Areas.First();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 1300 + (ulong)i);
+                Play(session, startAge);
+                if (!session.World.Player.IsAlive)
+                {
+                    continue;
+                }
+
+                var effects = new List<string>();
+                if (session.World.Player.Studies != null)
+                {
+                    effects.Add("jugador.desertar()");
+                }
+
+                effects.Add($"estudiar('{best.Id}')");
+                effects.Add("jugador.titularse()");
+                effects.AddRange(RequirementFlags.Select(f => $"jugador.marcar('{f}')"));
+                effects.Add("jugador.desmarcar('buscando_trabajo')");
+                effects.Add("jugador.marcar('trabajando')");
+                effects.Add($"jugador.marcar('trabaja_{shortName}')");
+                effects.Add($"jugador.trabajar_en('{area.Id}')");
+                Apply(session, effects);
+
+                int before = session.World.EventHistory.Count;
+                for (int year = startAge + 1; year < finalAge && session.World.Player.IsAlive && session.World.Player.Job?.Position != null; year++)
+                {
+                    Apply(session, new[] { "jugador.desempeno = 95" });
+                    Play(session, year);
+                    var check = new EventScope(session.World, content, session.World.Player, null, readOnly: true);
+                    if (session.World.Player.IsAlive && session.World.Player.Job?.Position != null
+                        && Expression.Parse("jugador.puede_ascender").Evaluate(check).AsBool("prueba"))
+                    {
+                        Apply(session, new[] { "jugador.ascender()" });
+                    }
+
+                    if (session.World.Player.IsAlive && Expression.Parse("jugador.en_la_cima").Evaluate(check).AsBool("prueba"))
+                    {
+                        Play(session, System.Math.Min(finalAge, year + 2));
+                        break;
+                    }
+                }
+
+                seen.UnionWith(session.World.EventHistory.Skip(before).Select(r => r.EventId));
+            }
+
+            return seen;
+        }
+
+        /// <summary>
         /// Vidas de personas de 30 años con dos hijos chicos que se separan de su pareja,
         /// hasta los 50, para los caminos poco comunes de la pensión de alimentos y el
         /// cuidado personal (el juicio por los niños, el registro de deudores): en una vida

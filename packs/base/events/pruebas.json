@@ -5,6 +5,7 @@
     "lugar": "lugar.casa",
     "condiciones": "jugador.prueba_anunciada && jugador.edad >= 6 && jugador.edad < 10",
     "probabilidad_anual": 1,
+    "veces_maximas": 5,
     "variantes": [
       "evento.prueba.aviso_libreta.2",
       "evento.prueba.aviso_libreta.3",
@@ -45,6 +46,7 @@
     "lugar": "lugar.sala",
     "condiciones": "jugador.prueba_anunciada && jugador.rojos == 0 && jugador.edad >= 10 && jugador.edad < 18",
     "probabilidad_anual": 1,
+    "veces_maximas": 8,
     "variantes": [
       "evento.prueba.anunciada.2",
       "evento.prueba.anunciada.3",
@@ -88,6 +90,7 @@
     "lugar": "lugar.sala",
     "condiciones": "jugador.prueba_anunciada && jugador.rojos > 0 && jugador.edad >= 10 && jugador.edad < 18",
     "probabilidad_anual": 1,
+    "veces_maximas": 2,
     "variantes": [
       "evento.prueba.anunciada_rojo.2"
     ],
@@ -125,6 +128,7 @@
     "lugar": "lugar.sala",
     "condiciones": "jugador.prueba_devuelta && !jugador.prueba_aprobada && jugador.edad >= 8",
     "probabilidad_anual": 1,
+    "veces_maximas": 2,
     "variantes": [
       "evento.prueba.devuelta_roja.2"
     ],

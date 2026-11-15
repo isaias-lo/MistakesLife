@@ -205,7 +205,7 @@
   },
   {
     "id": "evento.colegio.rival_patio",
-    "con": "rival",
+    "con": "companero",
     "lugar": "lugar.patio",
     "condiciones": "jugador.en_clases && jugador.edad >= 9 && jugador.edad < 18",
     "probabilidad_anual": 0.5,
