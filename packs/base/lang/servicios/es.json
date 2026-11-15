@@ -81,5 +81,12 @@
   "opcion.revisar_colegio_hijos.seguir": "Siguen en el mismo colegio.",
   "opcion.revisar_colegio_hijos.gratuito": "Los cambias a un colegio gratuito.",
   "opcion.revisar_colegio_hijos.copago": "Los cambias a un colegio con mensualidad baja.",
-  "opcion.revisar_colegio_hijos.particular": "Los cambias a un colegio particular pagado."
+  "opcion.revisar_colegio_hijos.particular": "Los cambias a un colegio particular pagado.",
+  "lugar.dinero": "Tu dinero",
+  "ui.dinero.decides_tu": "Lo que decides tú",
+  "accion.dinero.revisar_plan_celular": "Revisar el plan del celular",
+  "accion.dinero.revisar_transporte": "Cambiar cómo te mueves",
+  "accion.dinero.revisar_internet": "Revisar el internet de la casa",
+  "accion.dinero.revisar_cuentas": "Revisar las cuentas de la casa",
+  "accion.dinero.revisar_aporte_a_la_casa": "Cambiar lo que aportas en la casa"
 }

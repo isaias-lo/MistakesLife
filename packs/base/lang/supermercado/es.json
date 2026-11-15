@@ -11,5 +11,6 @@
   "opcion.revisar_compra.seguir": "Sigues comprando igual.",
   "opcion.revisar_compra.justa": "Te ajustas: compras lo justo y dejas los gustos para otro momento.",
   "opcion.revisar_compra.basica": "Vuelves a la canasta básica: comer bien sin pasarte.",
-  "opcion.revisar_compra.con_antojos": "Te das gustos: bebidas, picoteo y comer afuera de vez en cuando."
+  "opcion.revisar_compra.con_antojos": "Te das gustos: bebidas, picoteo y comer afuera de vez en cuando.",
+  "accion.dinero.revisar_compra": "Cambiar la compra del supermercado"
 }

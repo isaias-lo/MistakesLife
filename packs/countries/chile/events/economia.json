@@ -31,8 +31,12 @@
   },
   {
     "id": "evento.irse_de_la_casa",
+    "lugar": "lugar.dinero",
+    "a_pedido": {
+      "texto": "accion.dinero.irse_de_la_casa",
+      "por_ano": "0.15 + jugador.extraversion / 400 + si(jugador.pareja != nada, 0.15, 0)"
+    },
     "condiciones": "jugador.edad >= 20 && !jugador.tiene('vive_independiente') && (jugador.trabaja || jugador.pareja != nada)",
-    "probabilidad_anual": 0.2,
     "enfriamiento_semanas": 52,
     "opciones": [
       {
@@ -81,7 +85,10 @@
     "enfriamiento_semanas": 52,
     "variantes": [
       "evento.fin_de_mes_en_rojo.2",
-      "evento.fin_de_mes_en_rojo.3"
+      "evento.fin_de_mes_en_rojo.3",
+      "evento.fin_de_mes_en_rojo.4",
+      "evento.fin_de_mes_en_rojo.5",
+      "evento.fin_de_mes_en_rojo.6"
     ],
     "opciones": [
       {
@@ -118,7 +125,8 @@
           "jugador.felicidad -= 3"
         ]
       }
-    ]
+    ],
+    "veces_maximas": 6
   },
   {
     "id": "evento.cobranza",
@@ -128,7 +136,9 @@
     "variantes": [
       "evento.cobranza.2",
       "evento.cobranza.3",
-      "evento.cobranza.4"
+      "evento.cobranza.4",
+      "evento.cobranza.5",
+      "evento.cobranza.6"
     ],
     "opciones": [
       {
@@ -146,6 +156,32 @@
         "efectos": [
           "jugador.felicidad -= 3"
         ]
+      }
+    ],
+    "veces_maximas": 6
+  },
+  {
+    "id": "evento.dinero.repactar",
+    "lugar": "lugar.dinero",
+    "a_pedido": {
+      "texto": "accion.dinero.repactar",
+      "por_ano": "jugador.responsabilidad / 60"
+    },
+    "condiciones": "jugador.moroso && jugador.puede_repactar",
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.cobranza.repactar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.repactar()",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.dinero.repactar.todavia_no",
+        "tendencia": "100 - jugador.responsabilidad",
+        "efectos": []
       }
     ]
   },
@@ -166,6 +202,10 @@
         "texto": "opcion.oferta_tarjeta.rechazar",
         "tendencia": "jugador.responsabilidad * 0.6"
       }
+    ],
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.oferta_tarjeta.2"
     ]
   },
   {
@@ -173,10 +213,12 @@
     "condiciones": "jugador.tiene('tarjeta_credito') && !jugador.moroso",
     "probabilidad_anual": 0.35,
     "enfriamiento_semanas": 78,
-    "veces_maximas": 9,
+    "veces_maximas": 5,
     "variantes": [
       "evento.compra_tarjeta.2",
-      "evento.compra_tarjeta.3"
+      "evento.compra_tarjeta.3",
+      "evento.compra_tarjeta.4",
+      "evento.compra_tarjeta.5"
     ],
     "opciones": [
       {
