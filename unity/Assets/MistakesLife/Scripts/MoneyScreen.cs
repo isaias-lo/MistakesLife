@@ -12,7 +12,9 @@ namespace MistakesLife.Unity
     /// sale del cajero. Arriba, lo que tienes; después, cada movimiento del último mes con el
     /// nombre de lo que lo causó y cuántos días de sueldo es; al final, lo que debes.
     /// Regla de Isaias, nada se inventa: solo se dibuja lo que da LifePresenter.Money()
-    /// (lo que el núcleo de verdad cobró y pagó). Aquí no se decide nada.
+    /// (lo que el núcleo de verdad cobró y pagó). Al final, "Lo que decides tú": los botones de
+    /// LifePresenter.MoneyActions() (revisar la compra, el plan, repactar...). Al apretar uno se
+    /// cierra la billetera y la decisión se toma en la carta, como cualquier momento.
     /// </summary>
     public sealed class MoneyScreen
     {
@@ -28,6 +30,9 @@ namespace MistakesLife.Unity
         {
             _parent = parent;
         }
+
+        /// <summary>Se llama cuando pediste algo, para que la vida se vuelva a dibujar con la carta.</summary>
+        public System.Action? Changed { get; set; }
 
         public bool IsOpen => _layer != null && _layer.gameObject.activeSelf;
 
@@ -109,6 +114,34 @@ namespace MistakesLife.Unity
                 {
                     Line(debt, UiFactory.PaperInk);
                 }
+            }
+
+            DrawActions(presenter);
+        }
+
+        /// <summary>Los botones de lo que puedes decidir sobre tu plata, al final del papel.</summary>
+        private void DrawActions(LifePresenter presenter)
+        {
+            var actions = presenter.MoneyActions();
+            if (actions.Count == 0)
+            {
+                return;
+            }
+
+            Cut();
+            UiFactory.Label(_body, presenter.Text("ui.dinero.decides_tu").ToUpperInvariant(), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold, Face.Mono);
+            foreach (ActionView action in actions)
+            {
+                string eventId = action.EventId;
+                UiFactory.MakeButton(_body, action.Label, UiFactory.PaperOption, UiFactory.PaperInk, () =>
+                {
+                    Sounds.Play(Sound.PencilTap);
+                    if (presenter.Session.Request(eventId))
+                    {
+                        Close();
+                        Changed?.Invoke();
+                    }
+                });
             }
         }
 

@@ -11,5 +11,6 @@
   "opcion.revisar_gastos_personales.seguir": "Sigues igual.",
   "opcion.revisar_gastos_personales.austero": "Te aprietas el cinturón: solo lo justo por un tiempo.",
   "opcion.revisar_gastos_personales.normal": "Vuelves a gastar como cualquiera.",
-  "opcion.revisar_gastos_personales.gustos": "Te das más gustos: para eso trabajas."
+  "opcion.revisar_gastos_personales.gustos": "Te das más gustos: para eso trabajas.",
+  "accion.dinero.revisar_gastos_personales": "Revisar tus gastos personales"
 }

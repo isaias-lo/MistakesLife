@@ -343,7 +343,7 @@ namespace MistakesLife.Unity
 
             BuildHistory(safe);
             _phone = new PhoneScreen(safe) { Changed = MailRead };
-            _money = new MoneyScreen(safe);
+            _money = new MoneyScreen(safe) { Changed = MailRead };
             _court = new CourtScreen(safe);
             _studies = new StudiesScreen(safe);
             _team = new TeamScreen(safe) { Changed = MailRead };

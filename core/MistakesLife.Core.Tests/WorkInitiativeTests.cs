@@ -26,7 +26,8 @@ namespace MistakesLife.Core.Tests
             var session = new LifeSession(Content, seed, country);
             session.TimeMachine.Enabled = false;
             World world = session.World;
-            new Simulation.WeekCycle().AdvanceWeeks(world, (22 * GameDate.WeeksPerYear) - world.Player.AgeInWeeks(world.Date), out _);
+            // A los 26 ya no corre el fin de contrato de los jóvenes (18 a 24), que podría cortar la pega en medio de la prueba.
+            new Simulation.WeekCycle().AdvanceWeeks(world, (26 * GameDate.WeeksPerYear) - world.Player.AgeInWeeks(world.Date), out _);
             Run(world, "jugador.dejar_trabajo()");
             Run(world, "jugador.desmarcar('buscando_trabajo')");
             Run(world, "jugador.marcar('trabajando')");
