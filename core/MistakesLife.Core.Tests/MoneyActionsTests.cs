@@ -21,7 +21,8 @@ namespace MistakesLife.Core.Tests
         {
             "evento.revisar_compra", "evento.revisar_plan_celular", "evento.revisar_transporte", "evento.revisar_internet",
             "evento.revisar_cuentas", "evento.revisar_aporte_a_la_casa", "evento.chile.revisar_gastos_personales",
-            "evento.irse_de_la_casa", "evento.dinero.repactar",
+            "evento.irse_de_la_casa", "evento.dinero.repactar", "evento.revisar_colegio_hijos", "evento.revisar_jardin_hijos",
+            "evento.reparar_grietas",
         };
 
         [Fact]

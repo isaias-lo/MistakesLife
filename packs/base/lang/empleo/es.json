@@ -39,5 +39,18 @@
   "evento.oferta_trabajo_informal.3": "Una señora del barrio tiene un taller de costura en su casa y le faltan manos para un pedido grande. Paga en efectivo, sin contrato ni aportes.",
   "evento.oferta_trabajo_informal.4": "En un taller de muebles de la avenida buscan a alguien para lijar y barnizar. \"Acá no hay contrato, pero se paga todos los viernes\".",
   "evento.dejar_de_buscar.2": "Otro mes sin respuestas. Ya ni abres el correo con ganas.",
-  "evento.dejar_de_buscar.3": "Te llaman para una entrevista y al final el puesto era otra cosa: comisión pura y sin contrato. Vuelves a la casa sin ánimo."
+  "evento.dejar_de_buscar.3": "Te llaman para una entrevista y al final el puesto era otra cosa: comisión pura y sin contrato. Vuelves a la casa sin ánimo.",
+  "evento.cuidar_hijos_en_casa.2": "Otra vez uno de los niños está enfermo y no lo reciben en la sala cuna. Con tu pareja vuelven a la misma conversación: ¿alguien debería quedarse en la casa?",
+  "evento.oferta_trabajo_informal.5": "Una vecina que vende almuerzos necesita a alguien que reparta a las oficinas del sector. Paga en efectivo al final del día, sin contrato.",
+  "evento.oferta_trabajo_informal.6": "En una bodega de la avenida descargan camiones de madrugada y buscan gente. Pagan por jornada y nadie habla de contrato.",
+  "evento.oferta_trabajo_informal.7": "El primo de un amigo arma eventos y le falta gente para montar escenarios los fines de semana. Paga en efectivo, sin contrato ni aportes.",
+  "evento.fin_trabajo_informal.2": "Llegas a trabajar y el local está cerrado con candado. El dueño te escribe más tarde: se acabó. Sin contrato, no hay nada que reclamar.",
+  "evento.fin_trabajo_informal.3": "Bajaron los pedidos y el dueño te dice que desde la próxima semana ya no te necesita. Te paga los días que van, en efectivo, y eso es todo.",
+  "evento.volver_a_buscar_trabajo.2": "Pasó un tiempo y ya respiraste. Abres de nuevo los avisos de trabajo.",
+  "evento.volver_a_buscar_trabajo.3": "Las cuentas no esperan: decides que es hora de volver a buscar trabajo.",
+  "evento.dejar_de_buscar.4": "Te piden experiencia hasta para el puesto más básico. Cierras el computador y no sabes si volver a abrirlo mañana.",
+  "evento.dejar_de_buscar.5": "Una entrevista más que termina en \"te llamamos\". Nadie llama.",
+  "evento.contrato_tras_informal.2": "Al dueño le hicieron una fiscalización y ahora tiene que formalizar a todos: te ofrece contrato, con descuentos de jubilación y salud.",
+  "evento.oferta_trabajo_informal.8": "En el almacén de la esquina buscan a alguien para reponer y atender en las tardes. \"Por ahora es sin contrato\", te dice el dueño.",
+  "evento.oferta_trabajo_informal.9": "Un conocido que hace mudanzas necesita ayuda los fines de semana. Paga por flete, en efectivo y sin papeles."
 }

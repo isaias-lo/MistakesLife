@@ -34,7 +34,8 @@
     ],
     "variantes": [
       "evento.garzon.aviso.2",
-      "evento.garzon.aviso.3"
+      "evento.garzon.aviso.3",
+      "evento.garzon.aviso.4"
     ]
   },
   {
@@ -45,6 +46,10 @@
     "probabilidad_anual": 0.9,
     "veces_maximas": 3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.garzon.turno_cortado.2",
+      "evento.garzon.turno_cortado.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.garzon.turno_cortado.local",
@@ -82,6 +87,10 @@
     "probabilidad_anual": 0.8,
     "veces_maximas": 3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.garzon.mesa_dificil.2",
+      "evento.garzon.mesa_dificil.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.garzon.mesa_dificil.sonreir",
@@ -151,6 +160,10 @@
     "probabilidad_anual": 0.5,
     "veces_maximas": 3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.garzon.bandeja.2",
+      "evento.garzon.bandeja.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.garzon.bandeja.aceptar",
@@ -279,6 +292,9 @@
     "probabilidad_anual": 0.9,
     "veces_maximas": 4,
     "enfriamiento_semanas": 30,
+    "variantes": [
+      "evento.garzon.desafio.jefe_salon.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.garzon.desafio.jefe_salon.preparar",

@@ -1405,7 +1405,10 @@ namespace MistakesLife.Core.Presentation
         /// "tu mamá" y "tu papá" (también cuando van como apoderado); a los demás, por su nombre.
         /// </summary>
         private string PersonInMoment(EventDefinition definition, Character person) =>
-            definition.With == "madre" || definition.With == "padre" ? T("ui.momento." + definition.With) : PersonName(definition, person);
+            definition.With == "madre" || definition.With == "padre" ? T("ui.momento." + definition.With)
+            : definition.With == EventDefinition.WitnessRole && Session.World.Player.MotherId == person.Id ? T("ui.momento.madre")
+            : definition.With == EventDefinition.WitnessRole && Session.World.Player.FatherId == person.Id ? T("ui.momento.padre")
+            : PersonName(definition, person);
 
         /// <summary>
         /// El nombre con que el texto de un momento nombra a la persona: a quien hace clases

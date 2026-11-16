@@ -65,5 +65,13 @@
   "opcion.garzon.desafio.administrador.asi_no_mas": "Confiar en lo que sabes del salón",
   "opcion.garzon.desafio.administrador.no": "Decir que no te interesa administrar",
   "evento.garzon.aviso.2": "Un amigo que trabaja de garzón te cuenta que en su restorán buscan a alguien para el turno de la noche.",
-  "evento.garzon.aviso.3": "En el grupo de vecinos alguien comparte un aviso: \"Se necesita garzón o garzona para fines de semana. Buenas propinas\"."
+  "evento.garzon.aviso.3": "En el grupo de vecinos alguien comparte un aviso: \"Se necesita garzón o garzona para fines de semana. Buenas propinas\".",
+  "evento.garzon.aviso.4": "Pasas frente a una cafetería que abre la próxima semana. En la puerta dice: \"Buscamos garzones y baristas. Deja tu currículum adentro\".",
+  "evento.garzon.turno_cortado.2": "Esta semana te toca turno cortado todos los días. Entre el almuerzo y la cena te quedas en una plaza cerca del local, mirando el celular. {persona} dice que el próximo mes va a mejorar.",
+  "evento.garzon.turno_cortado.3": "{persona} arma los turnos y otra vez te deja el cortado del fin de semana: almuerzo y cena, con tres horas sueltas al medio.",
+  "evento.garzon.mesa_dificil.2": "Un cliente devuelve el plato dos veces y a la tercera pide hablar con el encargado. {persona} sale de la cocina secándose las manos.",
+  "evento.garzon.mesa_dificil.3": "Una mesa de oficina se va sin pagar el último pedido: dos jarras y una tabla. {persona} te pregunta quién la atendió.",
+  "evento.garzon.bandeja.2": "Chocas con alguien en la puerta de la cocina y se te va un plato de fondo al suelo. {persona} dice que lo vas a pagar tú. La ley no permite descontar eso del sueldo.",
+  "evento.garzon.bandeja.3": "Se te resbala una botella de vino abierta sobre el mantel de una mesa. Los clientes se ríen, pero {persona} anota algo en su libreta.",
+  "evento.garzon.desafio.jefe_salon.2": "Viene el Día de la Madre y el salón está reservado completo. {persona} te pasa otra vez el plano: \"Probemos de nuevo. Si el mes cierra bien, quedas de jefe de salón\"."
 }

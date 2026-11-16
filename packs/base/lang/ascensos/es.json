@@ -16,7 +16,7 @@
   "evento.plazo_imposible": "Al cliente le prometieron un plazo imposible y {persona} te avisa que el trabajo cae en tu equipo.",
   "opcion.credito_robado.reclamar": "Lo aclaras, con pruebas.",
   "opcion.credito_robado.callar": "Te callas para no hacer problemas.",
-  "evento.credito_robado": "Alguien de tu equipo presentó tu trabajo como suyo en una reunión con gerencia.",
+  "evento.credito_robado": "{persona} presentó tu trabajo como suyo en una reunión con gerencia.",
   "opcion.curso_empresa.tomar": "Lo tomas.",
   "opcion.curso_empresa.no": "No, prefieres tu tiempo libre.",
   "evento.curso_empresa": "La empresa ofrece pagarte un curso de perfeccionamiento, fuera del horario.",
@@ -28,5 +28,7 @@
   "diario.reconocimiento_trabajo": "Me eligieron como la persona destacada del año en el trabajo.",
   "diario.cima_carrera": "Llegué a lo más alto de mi carrera.",
   "evento.plazo_imposible.2": "Viernes a las seis, {persona} aparece en tu puesto: \"Necesito esto para el lunes temprano\".",
-  "evento.oferta_ascenso.2": "Te llaman a conversar con {persona}: quedó libre un cargo arriba tuyo y están pensando en ti."
+  "evento.oferta_ascenso.2": "Te llaman a conversar con {persona}: quedó libre un cargo arriba tuyo y están pensando en ti.",
+  "evento.curso_empresa.2": "Recursos humanos manda un correo: hay cupos para un diplomado pagado por la empresa, los sábados en la mañana durante cuatro meses.",
+  "evento.curso_empresa.3": "Te ofrecen una certificación en tu área, pagada por la empresa. Las clases son en línea, de noche, dos veces por semana."
 }

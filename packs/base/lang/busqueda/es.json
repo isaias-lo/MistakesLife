@@ -32,7 +32,7 @@
   "opcion.busqueda.contraoferta.aceptar": "Firmas contento.",
   "evento.busqueda.contraoferta_igual": "Te dicen que el sueldo es el que es, pero la oferta sigue en pie.",
   "opcion.busqueda.contraoferta.aceptar_igual": "Aceptas igual. Valía la pena preguntar.",
-  "evento.busqueda.devolver_favor": "Quien te recomendó para tu trabajo te escribe: su sobrino está buscando trabajo y le pregunta si podrías recomendarlo a él.",
+  "evento.busqueda.devolver_favor": "{persona}, que te recomendó para tu trabajo, te escribe: su sobrino está buscando trabajo y te pregunta si podrías recomendarlo.",
   "opcion.busqueda.devolver_favor.recomendar": "Lo recomiendas. Te ayudaron cuando lo necesitabas.",
   "opcion.busqueda.devolver_favor.excusarse": "Le dices que no puedes. Tu nombre también está en juego.",
   "evento.busqueda.cv_descubierto": "En el trabajo alguien revisa tu currículum con detalle. Lo que dijiste en la entrevista no calza con lo que hiciste de verdad.",
@@ -46,5 +46,14 @@
   "evento.busqueda.como_buscar.4": "Se acabó el trabajo y otra vez toca buscar. Esta vez ya sabes qué preguntan en las entrevistas y qué no poner en el currículum.",
   "evento.busqueda.como_buscar.5": "Vuelves a buscar trabajo con más años encima que la última vez. El currículum ya no cabe en una hoja. ¿Por dónde empiezas?",
   "evento.busqueda.cambiar_forma.3": "Revisas el correo y cuentas: van más de cuarenta postulaciones este mes. Respondieron dos.",
-  "evento.busqueda.cambiar_forma.4": "Te enteras de que un excompañero encontró trabajo en dos semanas gracias a un conocido. Tú llevas meses."
+  "evento.busqueda.cambiar_forma.4": "Te enteras de que un excompañero encontró trabajo en dos semanas gracias a un conocido. Tú llevas meses.",
+  "evento.busqueda.devolver_favor.2": "{persona} te escribe de nuevo: ahora es una vecina suya la que busca trabajo. \"Tú sabes cómo es eso\", te dice.",
+  "evento.busqueda.cv_descubierto.2": "Tu jefatura quiere que le muestres al equipo cómo hacías ese trabajo que pusiste en el currículum. El problema: nunca lo hiciste.",
+  "evento.busqueda.como_buscar.6": "Vuelves a mirar avisos de trabajo. Esta vez anotas en un cuaderno cada postulación, con su fecha, para no perder la cuenta.",
+  "evento.busqueda.como_buscar.7": "Toca buscar de nuevo. Te sirves un café, abres el correo y piensas a quién avisarle que estás buscando.",
+  "evento.busqueda.como_buscar.8": "Otra búsqueda. Ya conoces los portales, sabes que muchos avisos están tomados hace rato y que un buen contacto vale más que diez postulaciones.",
+  "evento.busqueda.cambiar_forma.5": "Otra semana sin llamadas. Abres el portal de empleos y te das cuenta de que estás postulando a los mismos avisos que hace un mes.",
+  "evento.busqueda.cambiar_forma.6": "Te llama una entrevistadora de hace meses solo para decirte que el puesto ya se llenó. Cuelgas y te quedas mirando la pantalla.",
+  "evento.busqueda.como_buscar.9": "Se terminó tu último trabajo. Esta vez te das una semana para ordenar tus papeles antes de salir a buscar.",
+  "evento.busqueda.como_buscar.10": "Otra vez en búsqueda. Le pides a alguien de confianza que lea tu currículum y te diga, con honestidad, qué le cambiaría."
 }

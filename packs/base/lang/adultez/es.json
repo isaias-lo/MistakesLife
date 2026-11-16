@@ -37,5 +37,11 @@
   "opcion.soledad_vejez.llamar_hijos": "Llamas a tus hijos. Quedan de venir a almorzar el domingo.",
   "opcion.soledad_vejez.club": "Te inscribes en el club del adulto mayor de la junta de vecinos.",
   "opcion.soledad_vejez.quedarse": "Prendes la tele y te quedas en la casa.",
-  "accion.pega.jubilarse": "Dejar de trabajar y vivir de la pensión"
+  "accion.pega.jubilarse": "Dejar de trabajar y vivir de la pensión",
+  "evento.soledad_vejez.2": "Suena el teléfono y es una encuesta. Te das cuenta de que fue la primera voz que escuchaste en toda la semana.",
+  "evento.soledad_vejez.3": "Almuerzas mirando la tele, como cada día. Al otro lado de la pared se escucha a la familia del vecino conversando.",
+  "evento.control_medico.2": "Te cuesta más subir la escalera que hace un par de años. En la farmacia te toman la presión gratis y te sale alta: \"Debería ir a control\", te dicen.",
+  "evento.control_medico.3": "Un amigo de tu edad tuvo un susto con el corazón y no para de decirte que te hagas exámenes. Ya va siendo hora.",
+  "evento.perder_trabajo.2": "Apenas llegas al trabajo te piden que pases a una sala. Hay alguien de recursos humanos con una carpeta: te están despidiendo, y ese mismo día entregas tus cosas.",
+  "evento.perder_trabajo.3": "Hace semanas que se habla de despidos. Hoy te toca: una reunión de diez minutos, la carta en la mano y un \"no es nada personal\"."
 }

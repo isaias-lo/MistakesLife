@@ -18,5 +18,11 @@
   "opcion.fin_contrato.departamento": "Buscas un departamento en la comuna y te cambias.",
   "opcion.fin_contrato.casa": "Arriendan una casa, con patio y espacio para todos.",
   "opcion.fin_contrato.volver_familia": "Entregas las llaves y vuelves a la casa de tu familia.",
-  "evento.fin_contrato_arriendo.2": "Llega el aviso del dueño: el contrato vence a fin de mes. Miras la casa, las cuentas y lo que gastas en llegar al trabajo, y piensas si te quedas o te mueves."
+  "evento.fin_contrato_arriendo.2": "Llega el aviso del dueño: el contrato vence a fin de mes. Miras la casa, las cuentas y lo que gastas en llegar al trabajo, y piensas si te quedas o te mueves.",
+  "evento.fin_contrato_arriendo.3": "Faltan dos meses para que venza el contrato y el dueño te escribe: quiere saber si sigues, y te adelanta que el arriendo se reajusta.",
+  "evento.fin_contrato_arriendo.4": "Vence el contrato. Ya conoces cada mancha de humedad de la casa y el ruido del vecino de arriba. El dueño espera tu respuesta esta semana.",
+  "evento.desalojo.2": "El dueño ya no contesta tus mensajes y te deja una carta por debajo de la puerta: tienes hasta fin de mes para entregar la casa.",
+  "evento.desalojo.3": "Debes varios meses de arriendo. El dueño vino en persona a decirte que esto no da para más: a fin de mes te tienes que ir.",
+  "evento.dejar_la_pieza.2": "Ya llevas tiempo en la pieza y la plata alcanza. Ves el aviso de un departamento chico cerca del metro: sería solo tuyo, pero todo correría por tu cuenta.",
+  "evento.desalojo.4": "El dueño te avisa que inició los trámites para que dejes la casa. Ya no es una amenaza: te da hasta fin de mes."
 }

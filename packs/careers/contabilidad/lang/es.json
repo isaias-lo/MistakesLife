@@ -41,5 +41,10 @@
   "evento.contabilidad.cierre_anual.2": "Diciembre de nuevo: balances, conciliaciones y el jefe pidiendo todo \"para ayer\". Este cierre viene peor que el anterior.",
   "evento.contabilidad.cierre_anual.3": "Cierre de año con un cliente nuevo que llegó con la contabilidad hecha un desastre. Nadie se va temprano.",
   "evento.contabilidad.primer_trabajo.2": "De nuevo buscando trabajo. ¿A qué tipo de puesto postulas esta vez?",
-  "opcion.contabilidad.trabajo.cualquiera": "Lo que salga, aunque no sea de lo tuyo."
+  "opcion.contabilidad.trabajo.cualquiera": "Lo que salga, aunque no sea de lo tuyo.",
+  "evento.contabilidad.primer_trabajo.3": "Otra vez sin trabajo, pero con años de oficio encima. ¿Vuelves a lo mismo o pruebas en otra área de la contabilidad?",
+  "evento.contabilidad.primer_trabajo.4": "Terminó tu último trabajo. Entre los avisos hay de todo: auditoría, tributaria, remuneraciones. ¿Dónde postulas?",
+  "evento.contabilidad.cierre_anual.4": "Cierre de año y el sistema contable se cae justo el 30 de diciembre. Pasas la noche cuadrando planillas a mano.",
+  "evento.contabilidad.cierre_anual.5": "Último cierre del año con la auditoría externa encima. Cada cuenta que no cuadra hay que explicarla por escrito.",
+  "evento.contabilidad.primer_trabajo.5": "Buscas trabajo otra vez. Una excompañera te dice que en su estudio contable necesitan gente, pero también hay avisos en empresas grandes. ¿Por dónde vas?"
 }

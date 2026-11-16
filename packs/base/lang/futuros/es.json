@@ -32,14 +32,15 @@
   "opcion.futuro.companero_sin_plata.irse": "Decirle que así no puede seguir viviendo contigo",
   "diario.futuro.companero_sin_plata": "Pagué la parte del arriendo de mi amigo. Se quedó sin pega.",
   "diario.futuro.companero_se_fue": "Ya no vivimos juntos. La casa se siente distinta.",
-  "evento.futuro.prestamo_devuelto": "Te llega una transferencia con un mensaje: \"Te lo debía. Gracias por bancarme ese mes\".",
+  "evento.futuro.prestamo_devuelto": "Te llega una transferencia de {persona} con un mensaje: \"Te lo debía. Gracias por bancarme ese mes\".",
   "diario.futuro.prestamo_devuelto": "Me devolvieron la plata del arriendo que presté.",
-  "evento.futuro.prestamo_olvidado": "Han pasado meses y la plata del arriendo que prestaste no vuelve. Nadie la menciona.",
+  "evento.futuro.prestamo_olvidado": "Han pasado meses y la plata del arriendo que le prestaste a {persona} no vuelve. Nadie la menciona.",
   "opcion.futuro.prestamo_olvidado.cobrar": "Cobrársela, aunque sea incómodo",
   "opcion.futuro.prestamo_olvidado.dejarlo": "Dejarlo pasar",
   "diario.futuro.prestamo_olvidado": "La plata que presté para el arriendo no volvió.",
   "evento.futuro.dejar_de_vivir_juntos": "Llevas días pensándolo. Le pides a {persona} que conversen en la cocina.",
   "opcion.futuro.dejar_de_vivir_juntos.calma": "Decirle con calma que es mejor vivir cada uno por su lado",
   "opcion.futuro.dejar_de_vivir_juntos.espacio": "Decirle que necesitas tu espacio, ya",
-  "opcion.futuro.dejar_de_vivir_juntos.no": "Echarte para atrás"
+  "opcion.futuro.dejar_de_vivir_juntos.no": "Echarte para atrás",
+  "evento.futuro.recomendado_falla.2": "{persona} faltó dos lunes seguidos sin avisar. Tu jefe te llama aparte: \"La recomendación fue tuya. ¿Qué está pasando?\"."
 }

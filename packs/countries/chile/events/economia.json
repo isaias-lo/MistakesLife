@@ -3,8 +3,12 @@
     "id": "evento.operacion_renta",
     "condiciones": "jugador.declaracion_pendiente",
     "probabilidad_anual": 1,
-    "enfriamiento_semanas": 2,
+    "enfriamiento_semanas": 4,
     "dia_clave": true,
+    "variantes": [
+      "evento.operacion_renta.2",
+      "evento.operacion_renta.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.renta.declarar_devolucion",

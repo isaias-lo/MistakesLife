@@ -146,6 +146,10 @@
     "condiciones": "(jugador.tiene('sabe_orientacion') && jugador.orientacion != 'asexual' || jugador.tiene('vive_identidad')) && !jugador.tiene('fuera_del_closet') && jugador.edad >= 13",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.salir_del_closet.2",
+      "evento.salir_del_closet.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.salir_del_closet.familia",
@@ -207,9 +211,15 @@
   },
   {
     "id": "evento.marcha_orgullo",
+    "con": "amigo",
+    "por_persona": true,
+    "veces_maximas": 2,
     "condiciones": "jugador.ciudad == 'ciudad.santiago' && jugador.edad >= 15 && mundo.semana >= 24 && mundo.semana <= 28 && (jugador.tiene('fuera_del_closet') || jugador.tiene('fuera_con_amigos') || jugador.apertura >= 75)",
     "probabilidad_anual": 0.95,
     "enfriamiento_semanas": 40,
+    "variantes": [
+      "evento.marcha_orgullo.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.marcha_orgullo.ir",
@@ -230,6 +240,11 @@
     "condiciones": "jugador.edad >= 13 && (jugador.tiene('fuera_del_closet') || jugador.tiene('vive_identidad'))",
     "probabilidad_anual": 0.1,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.discriminacion.2",
+      "evento.discriminacion.3",
+      "evento.discriminacion.4"
+    ],
     "opciones": [
       {
         "texto": "opcion.discriminacion.denunciar",
