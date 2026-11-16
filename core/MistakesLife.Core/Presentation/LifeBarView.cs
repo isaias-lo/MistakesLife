@@ -17,7 +17,7 @@ namespace MistakesLife.Core.Presentation
             Level = level;
         }
 
-        /// <summary>Qué barra es ("felicidad", "salud", "inteligencia"): Unity elige su ícono con esto.</summary>
+        /// <summary>Qué barra es ("felicidad", "salud", "inteligencia", "apariencia", "energia"): Unity elige su ícono con esto.</summary>
         public string Id { get; }
 
         /// <summary>Su nombre para el jugador ("Felicidad").</summary>

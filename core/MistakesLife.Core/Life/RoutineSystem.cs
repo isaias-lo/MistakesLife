@@ -84,7 +84,8 @@ namespace MistakesLife.Core.Life
                 return;
             }
 
-            int mind = RoutineRules.MindTarget(RoutineRules.Total(world, _content, player, routine, "mente"));
+            // Cansado se rinde menos: la falta de energía le baja a lo que lleva tu horario.
+            int mind = RoutineRules.MindTarget(RoutineRules.Total(world, _content, player, routine, "mente")) - EnergyRules.TiredPenalty(player);
             player.Stats.Smarts += Math.Sign(mind - player.Stats.Smarts);
             player.Stats.Health += RoutineRules.HealthStep(RoutineRules.Total(world, _content, player, routine, "salud"));
 

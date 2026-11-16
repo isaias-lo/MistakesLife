@@ -122,13 +122,15 @@ namespace MistakesLife.Core.Economy
 
         /// <summary>
         /// Probabilidad de quedar en la entrevista: la base del país, lo que suma la forma
-        /// de buscar, los puntos de cómo fue (de la opción que eligió, 10 = 10 % más) y su
-        /// extraversión (una persona extrovertida cae mejor en una conversación corta).
+        /// de buscar, los puntos de cómo fue (de la opción que eligió, 10 = 10 % más), su
+        /// extraversión (una persona extrovertida cae mejor en una conversación corta) y su
+        /// apariencia (pesa poco, como en la vida: de 10 % menos a 10 % más).
         /// </summary>
         public static double SuccessChance(JobSearchDefinition rules, JobSearchMethodDefinition? method, Character character, double points)
         {
             double chance = rules.InterviewSuccess + (method?.ExtraSuccess ?? 0) + points / 100.0
-                + (character.Personality.Extraversion - 50) / 500.0;
+                + (character.Personality.Extraversion - 50) / 500.0
+                + (character.Stats.Looks - Stats.UnknownLooks) / 500.0;
             return Math.Max(MinSuccess, Math.Min(MaxSuccess, chance));
         }
 

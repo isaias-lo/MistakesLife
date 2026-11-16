@@ -601,8 +601,7 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>
         /// Las barras de la vida de la pantalla principal, en su orden, con su porcentaje y su
-        /// nivel (verde, amarillo o rojo). Solo las que el personaje de verdad tiene: Energía
-        /// y Apariencia llegan cuando existan en el núcleo, con sus reglas.
+        /// nivel (verde, amarillo o rojo): Felicidad, Salud, Inteligencia, Apariencia y Energía.
         /// </summary>
         public IReadOnlyList<LifeBarView> LifeBars()
         {
@@ -612,6 +611,8 @@ namespace MistakesLife.Core.Presentation
                 Bar("felicidad", stats.Happiness),
                 Bar("salud", stats.Health),
                 Bar("inteligencia", stats.Smarts),
+                Bar("apariencia", stats.Looks),
+                Bar("energia", stats.Energy),
             };
         }
 

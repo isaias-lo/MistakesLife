@@ -175,6 +175,10 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.Stats.Happiness);
                 case "inteligencia":
                     return Value.FromNumber(_character.Stats.Smarts);
+                case "energia":
+                    return Value.FromNumber(_character.Stats.Energy);
+                case "apariencia":
+                    return Value.FromNumber(_character.Stats.Looks);
                 case "vivo":
                     return Value.FromBool(_character.IsAlive);
                 case "sexo":
@@ -703,6 +707,12 @@ namespace MistakesLife.Core.Events
                     break;
                 case "inteligencia":
                     _character.Stats.Smarts = number;
+                    break;
+                case "energia":
+                    _character.Stats.Energy = number;
+                    break;
+                case "apariencia":
+                    _character.Stats.Looks = number;
                     break;
                 case "semestres_aprobados":
                     if (_character.Studies == null)
