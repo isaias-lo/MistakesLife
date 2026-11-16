@@ -553,6 +553,70 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Avanza una sola semana (o nada, si hay que decidir algo primero).</summary>
         public int AdvanceWeek() => Advance(1);
 
+        /// <summary>
+        /// "Seguir un mes": avanza hasta el comienzo del mes que viene, o antes si pasa algo
+        /// importante (un evento, la muerte). Devuelve las semanas que pasaron.
+        /// </summary>
+        public int AdvanceMonth() => Advance(Session.World.Date.WeeksToNextMonth);
+
+        /// <summary>
+        /// "Un año": avanza un año, o menos si pasa algo importante. Es lo mismo que
+        /// <see cref="AdvanceUntilSomething"/> (como mucho <see cref="MaxYearsPerStep"/> año).
+        /// </summary>
+        public int AdvanceYear() => AdvanceUntilSomething();
+
+        /// <summary>
+        /// Lo de arriba de la pantalla principal (docs/diseno-juego.md): el mes y el día, y en
+        /// qué estás (tu curso, tu carrera o tu pega) y en qué comuna vives.
+        /// </summary>
+        public HeaderView Header()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            GameDate date = world.Date;
+            string month = T("ui.mes." + date.Month);
+            month = month.Length > 0 ? char.ToUpperInvariant(month[0]) + month.Substring(1) : month;
+            string day = Text("ui.cabecera.dia", date.DayOfMonth);
+            string commune = player.Residence == null ? string.Empty : T(player.Residence.CommuneId);
+            return new HeaderView(month, day, RoleLabel(player), commune);
+        }
+
+        /// <summary>En qué estás: el curso del colegio, la carrera que estudias o tu pega; vacío si nada.</summary>
+        private string RoleLabel(Character player)
+        {
+            SchoolClassView? cls = SchoolClass();
+            if (cls != null)
+            {
+                return cls.Name;
+            }
+
+            if (player.Studies != null)
+            {
+                return T(player.Studies.CareerId);
+            }
+
+            WorkplaceView? work = Workplace(player);
+            return work?.Caption ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Las barras de la vida de la pantalla principal, en su orden, con su porcentaje y su
+        /// nivel (verde, amarillo o rojo). Solo las que el personaje de verdad tiene: Energía
+        /// y Apariencia llegan cuando existan en el núcleo, con sus reglas.
+        /// </summary>
+        public IReadOnlyList<LifeBarView> LifeBars()
+        {
+            Stats stats = Session.World.Player.Stats;
+            return new List<LifeBarView>
+            {
+                Bar("felicidad", stats.Happiness),
+                Bar("salud", stats.Health),
+                Bar("inteligencia", stats.Smarts),
+            };
+        }
+
+        private LifeBarView Bar(string id, int value) => new LifeBarView(id, Text("ui.barra." + id), value, LifeBarView.LevelOf(value));
+
         /// <summary>Responde el evento pendiente con la opción en esa posición de <see cref="EventView.Options"/>.</summary>
         public void Choose(int optionPosition)
         {
@@ -1306,7 +1370,10 @@ namespace MistakesLife.Core.Presentation
 
         private string T(string key) => Session.Text(key, Language);
 
-        private JournalLine Line(JournalEntry entry) => new JournalLine(AgeLabel(Session.World.Player, entry.Date), T(entry.TextKey));
+        private JournalLine Line(JournalEntry entry) => new JournalLine(
+            AgeLabel(Session.World.Player, entry.Date),
+            T(entry.TextKey),
+            string.Format(CultureInfo.InvariantCulture, T("ui.fecha.dia"), entry.Date.DayOfMonth, T("ui.mes." + entry.Date.Month)));
 
         private EventView EventOf(PendingEvent pending)
         {
