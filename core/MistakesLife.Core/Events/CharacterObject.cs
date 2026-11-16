@@ -1397,7 +1397,7 @@ namespace MistakesLife.Core.Events
             {
                 Content.CareerAreaDefinition area = Area(scope, search.Target);
                 Content.CareerDefinition career = scope.Content.GetCareer(area.CareerId);
-                Economy.Company? company = Economy.CompanyRules.Hire(scope.World, scope.Content, _character, career);
+                Economy.Company? company = Economy.CompanyRules.Hire(scope.World, scope.Content, _character, career, nameId: search.CompanyNameId);
                 Content.CareerPositionDefinition position = Economy.CareerLadder.StartingPosition(scope.Content, _character, area);
                 Place(scope, search.Kind, area, position, company, raise);
                 if (career.WorkFlag != null)

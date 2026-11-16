@@ -55,13 +55,23 @@ namespace MistakesLife.Core.Events
 
             foreach (Seed seed in world.Seeds.Awake.Where(s => s.OwnerId == player.Id).ToList())
             {
+                // Con "con": "testigo", el evento pasa con quien vio lo que hiciste: su nombre
+                // sale en la escena y en Tu gente, en vez de "un amigo". Como cualquier evento,
+                // respeta su "unico", sus "veces_maximas" y su enfriamiento.
+                Character? witness = OldestLivingWitness(world, seed);
                 var scope = new EventScope(world, Content, player, seed, readOnly: true);
+                var witnessScope = new EventScope(world, Content, player, seed, readOnly: true, witness);
                 List<EventDefinition> candidates = Content.Events
-                    .Where(e => e.SeedType == seed.TypeId && Passes(e, scope))
+                    .Where(e => e.SeedType == seed.TypeId && CanRepeat(world, e, player))
+                    .Where(e => e.With != EventDefinition.WitnessRole
+                        ? Passes(e, scope)
+                        : witness != null && Passes(e, witnessScope)
+                            && !(e.PerPerson && e.MaxTimes.HasValue && world.TimesHappened(e.Id, player.Id, witness.Id) >= e.MaxTimes.Value))
                     .ToList();
                 if (candidates.Count > 0)
                 {
-                    Occur(world, context, PickWeighted(candidates, random), player, seed, null);
+                    EventDefinition picked = PickWeighted(candidates, random);
+                    Occur(world, context, picked, player, seed, picked.With == EventDefinition.WitnessRole ? witness : null);
                     return;
                 }
             }
@@ -253,6 +263,20 @@ namespace MistakesLife.Core.Events
 
         private static bool HappenedThisYear(World world, EventDefinition ev, Character player) =>
             world.EventHistory.Any(r => r.EventId == ev.Id && r.CharacterId == player.Id && world.Date.WeeksSince(r.Date) < GameDate.WeeksPerYear);
+
+        /// <summary>El testigo vivo más antiguo de la semilla (el primero que vio lo que pasó), o nadie.</summary>
+        private static Character? OldestLivingWitness(World world, Seed seed)
+        {
+            foreach (int witnessId in seed.Witnesses.OrderBy(w => w))
+            {
+                if (world.TryGetCharacter(witnessId, out Character? witness) && witness.IsAlive)
+                {
+                    return witness;
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Ocurre el evento si se cumplen sus condiciones. Si pasa con alguien, primero se

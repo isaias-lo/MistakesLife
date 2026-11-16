@@ -32,11 +32,20 @@
   "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de DICOM.",
   "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de DICOM, pero ningún banco lo olvida.",
   "evento.busqueda.cambiar_forma.2": "La búsqueda se alarga. Alguien en la once te pregunta \"¿y la pega?\" y no sabes qué decir.",
-  "evento.busqueda.devolver_favor": "Quien te recomendó para tu trabajo te escribe: su sobrino está buscando pega y le pregunta si podrías recomendarlo a él.",
+  "evento.busqueda.devolver_favor": "{persona}, que te recomendó para tu trabajo, te escribe: su sobrino está buscando pega y te pregunta si podrías recomendarlo.",
   "opcion.busqueda.como_buscar.omil": "Vas a la OMIL de la municipalidad a inscribirte en la bolsa de empleo.",
   "busqueda.forma.omil": "OMIL de la municipalidad",
   "opcion.busqueda.oferta.aceptar": "Aceptas. El lunes firmas contrato y empiezas.",
   "remitente.impuestos": "Servicio de impuestos (SII)",
   "correo.estado.herencia.asunto": "Posesión efectiva",
-  "lugar.casino": "El casino"
+  "lugar.casino": "El casino",
+  "evento.oferta_trabajo_informal.2": "El vecino que tiene un taller mecánico necesita a alguien que le ayude con los autos. Paga por día, en efectivo y sin imposiciones.",
+  "evento.oferta_trabajo_informal.3": "Una señora del barrio tiene un taller de costura en su casa y le faltan manos para un pedido grande. Paga en efectivo, sin contrato ni imposiciones.",
+  "evento.busqueda.devolver_favor.2": "{persona} te escribe de nuevo: ahora es una vecina suya la que busca pega. \"Tú sabes cómo es eso\", te dice.",
+  "evento.estudios.semestre_pesado.2": "Semana de pruebas y además hay que entregar un informe en grupo. Alguien del grupo desapareció y el resto se reparte su parte a las dos de la mañana.",
+  "evento.estudios.semestre_pesado.3": "Este semestre te tocó el ramo que todos reprueban. El profe avisa el primer día que la mitad de la sección no va a pasar.",
+  "evento.oferta_trabajo_informal.5": "Una vecina que vende almuerzos necesita a alguien que reparta a las oficinas del sector. Paga en efectivo al final del día, sin contrato ni imposiciones.",
+  "evento.oferta_trabajo_informal.7": "El primo de un amigo arma eventos y le falta gente para montar escenarios los fines de semana. Paga en efectivo, sin contrato ni imposiciones.",
+  "evento.contrato_tras_informal.2": "Al dueño lo fiscalizó la Inspección del Trabajo y ahora tiene que hacerle contrato a todos: te descontarán AFP y salud.",
+  "evento.empresa.quiebra.2": "Llegas a la pega y hay un aviso pegado en la puerta: la empresa entró en liquidación. Nadie sabe qué va a pasar con los finiquitos."
 }

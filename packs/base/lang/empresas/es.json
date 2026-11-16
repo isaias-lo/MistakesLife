@@ -18,5 +18,7 @@
   "opcion.empresa.sueldo_atrasado.irse": "Buscas trabajo en otra empresa y te vas.",
   "evento.empresa.reestructuracion": "Tu empresa anuncia una reestructuración: nuevos jefes, nuevos procesos y equipos que se juntan.",
   "opcion.empresa.reestructuracion.adaptarse": "Te adaptas y aprendes rápido cómo funcionan las cosas ahora.",
-  "opcion.empresa.reestructuracion.resistir": "Te cuesta: extrañas cómo era antes y se te nota en el trabajo."
+  "opcion.empresa.reestructuracion.resistir": "Te cuesta: extrañas cómo era antes y se te nota en el trabajo.",
+  "evento.empresa.reestructuracion.2": "Llegó un gerente nuevo y quiere \"ordenar la casa\": cambian los equipos, los jefes y hasta el puesto de cada uno.",
+  "evento.empresa.quiebra.2": "Llegas al trabajo y hay un aviso pegado en la puerta: la empresa entró en liquidación. Nadie sabe qué va a pasar con lo que les deben."
 }

@@ -62,6 +62,14 @@ namespace MistakesLife.Core.Content
         [JsonProperty("negociacion")]
         public JobNegotiationDefinition Negotiation { get; set; } = new JobNegotiationDefinition();
 
+        /// <summary>
+        /// Empresas que llaman a entrevista cuando se busca "cualquier trabajo" (fuera de una
+        /// carrera u oficio): ids "empresa." con su nombre en lang/. Si falta, la entrevista
+        /// es con "una empresa" sin nombre.
+        /// </summary>
+        [JsonProperty("empresas")]
+        public List<string> Companies { get; set; } = new List<string>();
+
         public JobSearchMethodDefinition? Method(string id) => Methods.FirstOrDefault(m => m.Id == id);
     }
 }

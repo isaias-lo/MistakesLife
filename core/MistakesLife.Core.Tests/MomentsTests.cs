@@ -30,9 +30,9 @@ namespace MistakesLife.Core.Tests
             "evento.pareja_confiesa_deuda", "evento.mama_cuenta_historia", "evento.mama_celular", "evento.papa_consejo",
         };
 
-        private static void Apply(World world, EventOptionDefinition option)
+        private static void Apply(World world, EventOptionDefinition option, Character? person = null)
         {
-            var scope = new EventScope(world, Content, world.Player, null, readOnly: false);
+            var scope = new EventScope(world, Content, world.Player, null, readOnly: false, person);
             foreach (Effect effect in option.CompiledEffects)
             {
                 effect.Apply(scope);
@@ -60,7 +60,7 @@ namespace MistakesLife.Core.Tests
             Effect.Parse("jugador.conocer('amistad')").Apply(new EventScope(world, Content, world.Player, null, readOnly: false));
             Character friend = Assert.Single(RelationshipRules.WithBond(world, world.Player, RelationshipBond.Friend));
 
-            Apply(world, Option("evento.amigo_se_va_del_pais", "opcion.amigo_se_va.despedida"));
+            Apply(world, Option("evento.amigo_se_va_del_pais", "opcion.amigo_se_va.despedida"), friend);
 
             Seed seed = Assert.Single(world.Seeds.OpenFor(world.PlayerId), s => s.TypeId == "semilla.amigo_lejos");
             Assert.True(seed.HasWitness(friend.Id));

@@ -294,11 +294,14 @@ namespace MistakesLife.Core.Saving
             [31] = save => { },
             // 32 → 33: el negocio con un socio (nadie tiene uno todavía).
             [32] = save => { },
-            // 33 → 34: aparece la previsión de salud (Fonasa o un plan de isapre) y la última
+            // 33 → 34: la empresa que te llamó a la entrevista (quien estaba esperando una sigue sin nombre: "una empresa").
+            [33] = save => { },
+
+            // 34 → 35: aparece la previsión de salud (Fonasa o un plan de isapre) y la última
             // atención. En las partidas viejas todos están en la previsión pública, como
             // cualquiera que nunca firmó con una isapre, y nadie se ha atendido: los datos
             // que faltan ya se leen así.
-            [33] = save => { },
+            [34] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

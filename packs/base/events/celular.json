@@ -21,7 +21,7 @@
     "condiciones": "!jugador.tiene_celular && (jugador.tiene('tuvo_celular') || jugador.edad >= 18)",
     "peso": 40,
     "enfriamiento_semanas": 8,
-    "variantes": ["evento.celular.comprar.2"],
+    "variantes": ["evento.celular.comprar.2", "evento.celular.comprar.3", "evento.celular.comprar.4", "evento.celular.comprar.5"],
     "opciones": [
       {
         "texto": "opcion.celular.comprar.nuevo",
@@ -108,7 +108,7 @@
     "condiciones": "jugador.tiene_correo && jugador.edad >= 15 && jugador.dinero > 0",
     "probabilidad_anual": 0.05,
     "veces_maximas": 3,
-    "variantes": ["evento.correo.estafa.2"],
+    "variantes": ["evento.correo.estafa.2", "evento.correo.estafa.3"],
     "efectos": ["jugador.recibir_correo('correo.estafa.banco')"],
     "opciones": [
       {

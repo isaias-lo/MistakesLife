@@ -108,6 +108,9 @@
     "probabilidad_anual": 0.6,
     "veces_maximas": 2,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.futuro.recomendado_falla.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.futuro.recomendado_falla.defender",
@@ -245,6 +248,7 @@
   },
   {
     "id": "evento.futuro.prestamo_devuelto",
+    "con": "testigo",
     "semilla": "semilla.le_prestaste_arriendo",
     "condiciones": "semilla('semilla.le_prestaste_arriendo').testigo != nada && semilla('semilla.le_prestaste_arriendo').testigo.responsabilidad >= 50",
     "efectos": [
@@ -255,6 +259,7 @@
   },
   {
     "id": "evento.futuro.prestamo_olvidado",
+    "con": "testigo",
     "semilla": "semilla.le_prestaste_arriendo",
     "condiciones": "semilla('semilla.le_prestaste_arriendo').testigo != nada && semilla('semilla.le_prestaste_arriendo').testigo.responsabilidad < 50",
     "opciones": [

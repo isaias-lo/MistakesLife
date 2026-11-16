@@ -23,7 +23,9 @@
     ],
     "variantes": [
       "evento.nuevo_amigo_colegio.2",
-      "evento.nuevo_amigo_colegio.3"
+      "evento.nuevo_amigo_colegio.3",
+      "evento.nuevo_amigo_colegio.4",
+      "evento.nuevo_amigo_colegio.5"
     ]
   },
   {
@@ -159,18 +161,26 @@
   },
   {
     "id": "evento.amigo_devuelve_plata",
+    "con": "testigo",
     "semilla": "semilla.presto_plata_amigo",
     "condiciones": "semilla('semilla.presto_plata_amigo').testigo != nada && semilla('semilla.presto_plata_amigo').testigo.responsabilidad >= 45",
     "efectos": [
       "jugador.dinero += precio(100000)",
       "semilla('semilla.presto_plata_amigo').testigo.carino += 5",
       "jugador.felicidad += 2"
+    ],
+    "variantes": [
+      "evento.amigo_devuelve_plata.2"
     ]
   },
   {
     "id": "evento.amigo_no_devuelve_plata",
+    "con": "testigo",
     "semilla": "semilla.presto_plata_amigo",
     "condiciones": "semilla('semilla.presto_plata_amigo').testigo != nada && semilla('semilla.presto_plata_amigo').testigo.responsabilidad < 45",
+    "variantes": [
+      "evento.amigo_no_devuelve_plata.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.amigo_no_devuelve_plata.reclamar",
@@ -248,21 +258,27 @@
       "jugador.felicidad -= 2"
     ],
     "variantes": [
-      "evento.rival_trabajo.2"
+      "evento.rival_trabajo.2",
+      "evento.rival_trabajo.3"
     ]
   },
   {
     "id": "evento.rival_zancadilla",
-    "condiciones": "jugador.rival != nada && jugador.rival.rencor >= 30",
+    "con": "rival",
+    "condiciones": "persona.rencor >= 30",
     "probabilidad_anual": 0.3,
     "enfriamiento_semanas": 26,
+    "variantes": [
+      "evento.rival_zancadilla.2",
+      "evento.rival_zancadilla.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.rival_zancadilla.enfrentar",
         "tendencia": "100 - jugador.amabilidad",
         "efectos": [
-          "jugador.rival.respeto += 10",
-          "jugador.rival.rencor += 10",
+          "persona.respeto += 10",
+          "persona.rencor += 10",
           "jugador.felicidad -= 1"
         ]
       },
@@ -277,8 +293,8 @@
         "texto": "opcion.rival_zancadilla.acercarse",
         "tendencia": "jugador.amabilidad / 2",
         "efectos": [
-          "jugador.rival.rencor -= 20",
-          "jugador.rival.carino += 5"
+          "persona.rencor -= 20",
+          "persona.carino += 5"
         ]
       }
     ]

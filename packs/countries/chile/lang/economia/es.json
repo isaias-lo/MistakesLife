@@ -40,5 +40,19 @@
   "evento.compra_tarjeta.2": "Llega el Cyberday y te llenan el correo de ofertas \"imperdibles\". Hay una que te tienta de verdad.",
   "evento.compra_tarjeta.3": "Se te echó a perder el refrigerador. En la tienda te ofrecen uno nuevo en doce cuotas \"precio contado\".",
   "opcion.irse.pieza": "Arriendas una pieza en una casa compartida. Es chica, pero la luz y el agua vienen incluidas.",
-  "diario.irse_de_la_casa.pieza": "Te fuiste a una pieza en una casa compartida. Tu primer espacio propio, aunque el baño tenga fila."
+  "diario.irse_de_la_casa.pieza": "Te fuiste a una pieza en una casa compartida. Tu primer espacio propio, aunque el baño tenga fila.",
+  "accion.dinero.irse_de_la_casa": "Irte de la casa de tus papás",
+  "accion.dinero.repactar": "Repactar tu deuda para salir de DICOM",
+  "opcion.dinero.repactar.todavia_no": "Mejor no. Con las cuotas nuevas no te alcanzaría para el mes.",
+  "evento.dinero.repactar": "Pides hora en el banco para repactar. La ejecutiva te muestra la simulación: cuotas más largas, más intereses y, al firmar, sales de DICOM.",
+  "evento.cobranza.5": "Te llaman de la cobranza tres veces el mismo día, a la hora de almuerzo, cada vez de un número distinto.",
+  "evento.cobranza.6": "Pasa otro año y la deuda sigue ahí. Te llega un correo: la deuda se vendió a otra empresa de cobranza, que ahora te llama a ti.",
+  "evento.fin_de_mes_en_rojo.4": "Pasas por caja en el supermercado y la tarjeta de débito sale rechazada. Devuelves la mitad de las cosas mientras la fila espera.",
+  "evento.fin_de_mes_en_rojo.5": "El banco te cobra la comisión por sobregiro de la línea. Es poco, pero es plata que no tienes.",
+  "evento.fin_de_mes_en_rojo.6": "Haces la cuenta en un papel: lo que entra no alcanza para lo que sale, y ya no es un mes malo. Hace tiempo que es así.",
+  "evento.compra_tarjeta.4": "Se acerca la Navidad y quieres regalarle algo bonito a tu gente. En la tienda te ofrecen pagarlo en seis cuotas.",
+  "evento.compra_tarjeta.5": "Un amigo se compró un celular nuevo y te muestra la cámara. En la tienda, el mismo modelo sale en 24 cuotas.",
+  "evento.oferta_tarjeta.2": "Vas al banco por otro trámite y la ejecutiva insiste: con tu sueldo calificas para una tarjeta de crédito, y te la mandan a la casa.",
+  "evento.operacion_renta.2": "Sigue pendiente tu declaración de renta. El SII te recuerda que el plazo vence a fin de abril.",
+  "evento.operacion_renta.3": "Quedan pocos días para declarar la renta. La propuesta del SII sigue ahí, esperando que la revises."
 }

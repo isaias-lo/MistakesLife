@@ -1,6 +1,7 @@
 [
   {
     "id": "evento.oferta_ascenso",
+    "con": "jefe",
     "condiciones": "jugador.puede_ascender && jugador.caminos_ascenso == 1 && mundo.ciclo != 'economia.ciclo.crisis'",
     "probabilidad_anual": 0.4,
     "enfriamiento_semanas": 26,
@@ -22,6 +23,9 @@
           "jugador.felicidad += 1"
         ]
       }
+    ],
+    "variantes": [
+      "evento.oferta_ascenso.2"
     ]
   },
   {
@@ -108,6 +112,7 @@
   },
   {
     "id": "evento.plazo_imposible",
+    "con": "jefe",
     "condiciones": "jugador.area != nada",
     "probabilidad_anual": 0.25,
     "enfriamiento_semanas": 52,
@@ -135,10 +140,18 @@
           "jugador.desempeno -= 8"
         ]
       }
+    ],
+    "por_persona": true,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.plazo_imposible.2"
     ]
   },
   {
     "id": "evento.credito_robado",
+    "con": "equipo",
+    "por_persona": true,
+    "veces_maximas": 1,
     "condiciones": "jugador.area != nada && jugador.desempeno >= 55",
     "probabilidad_anual": 0.12,
     "enfriamiento_semanas": 104,
@@ -167,6 +180,10 @@
     "condiciones": "jugador.area != nada && jugador.meses_en_cargo >= 6",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.curso_empresa.2",
+      "evento.curso_empresa.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.curso_empresa.tomar",

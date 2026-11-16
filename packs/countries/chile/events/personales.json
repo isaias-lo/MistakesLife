@@ -35,10 +35,13 @@
   },
   {
     "id": "evento.chile.revisar_gastos_personales",
+    "lugar": "lugar.dinero",
+    "a_pedido": {
+      "texto": "accion.dinero.revisar_gastos_personales",
+      "por_ano": "si(jugador.meses_en_rojo > 0, 1, 0.15) + jugador.responsabilidad / 400"
+    },
     "condiciones": "(jugador.trabaja || jugador.tiene('vive_independiente')) && jugador.servicio('servicio.personales') != nada",
-    "probabilidad_anual": 0.25,
     "enfriamiento_semanas": 52,
-    "veces_maximas": 5,
     "opciones": [
       {
         "texto": "opcion.revisar_gastos_personales.seguir",

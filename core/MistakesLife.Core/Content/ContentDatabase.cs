@@ -1543,6 +1543,11 @@ namespace MistakesLife.Core.Content
                 _errors.Add(new ContentError(where, "debe tener al menos una forma de buscar."));
             }
 
+            foreach (string company in search.Companies)
+            {
+                CheckId($"{where}, empresas", company, "empresa.");
+            }
+
             var seen = new HashSet<string>(StringComparer.Ordinal);
             foreach (JobSearchMethodDefinition method in search.Methods)
             {
@@ -2041,6 +2046,11 @@ namespace MistakesLife.Core.Content
                     foreach (JobSearchMethodDefinition method in country.Economy.JobSearch.Methods)
                     {
                         yield return new KeyValuePair<string, string>(method.Id, $"país {country.Id}");
+                    }
+
+                    foreach (string company in country.Economy.JobSearch.Companies)
+                    {
+                        yield return new KeyValuePair<string, string>(company, $"país {country.Id}");
                     }
 
                     foreach (string key in new[] { Economy.JobSearchRules.RejectionJournal, Economy.JobSearchRules.WithdrawnJournal, Economy.JobSearchRules.HiredJournal, Economy.JobSearchRules.InterviewJournal })
@@ -2605,9 +2615,16 @@ namespace MistakesLife.Core.Content
         /// </summary>
         private void ValidateMoment(string where, EventDefinition ev)
         {
-            if (ev.With != null && Array.IndexOf(ChatDefinition.Senders, ev.With) < 0)
+            if (ev.With == EventDefinition.WitnessRole)
             {
-                _errors.Add(new ContentError(where, $"con '{ev.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+                if (ev.SeedType == null)
+                {
+                    _errors.Add(new ContentError(where, $"con '{EventDefinition.WitnessRole}' solo sirve en un evento de semilla."));
+                }
+            }
+            else if (ev.With != null && Array.IndexOf(ChatDefinition.Senders, ev.With) < 0)
+            {
+                _errors.Add(new ContentError(where, $"con '{ev.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)} o, en un evento de semilla, {EventDefinition.WitnessRole})."));
             }
 
             if (ev.Place != null && !ev.Place.StartsWith("lugar.", StringComparison.Ordinal))

@@ -9,7 +9,8 @@ namespace MistakesLife.Core.Analysis
     /// Regla de repeticiones del rediseño (docs/rediseno-vida.md, R7): un contenido sale una vez
     /// por vida, salvo que haya una razón real para repetirlo. Aquí cuenta como razón que cambie
     /// la persona con quien pasa o la forma de contarlo (otra variante del texto). Lo que pide el
-    /// jugador con un botón (<c>a_pedido</c>) no cuenta: lo eligió él.
+    /// jugador con un botón (<c>a_pedido</c>) no cuenta: lo eligió él. Un texto que nombra la
+    /// empresa que te llamó (<c>{empresa}</c>) tampoco: cada entrevista es en otra.
     /// </summary>
     public static class RepetitionRules
     {
@@ -25,6 +26,11 @@ namespace MistakesLife.Core.Analysis
             foreach (EventRecord record in lived)
             {
                 if (!content.TryGetEvent(record.EventId, out EventDefinition? definition) || definition!.OnRequest != null)
+                {
+                    continue;
+                }
+
+                if (content.Text(definition.ResolvedTextKey).Contains(Presentation.LifePresenter.CompanyMark))
                 {
                     continue;
                 }

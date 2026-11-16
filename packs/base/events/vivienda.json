@@ -5,6 +5,11 @@
     "probabilidad_anual": 1,
     "enfriamiento_semanas": 26,
     "dia_clave": true,
+    "variantes": [
+      "evento.desalojo.2",
+      "evento.desalojo.3",
+      "evento.desalojo.4"
+    ],
     "opciones": [
       {
         "texto": "opcion.desalojo.volver_familia",
@@ -42,6 +47,9 @@
     "condiciones": "jugador.vivienda == 'vivienda.pieza' && jugador.meses_en_rojo == 0 && !jugador.moroso && jugador.edad >= 22",
     "probabilidad_anual": 0.3,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.dejar_la_pieza.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.dejar_la_pieza.arrendar",
@@ -113,7 +121,9 @@
     ],
     "veces_maximas": 4,
     "variantes": [
-      "evento.fin_contrato_arriendo.2"
+      "evento.fin_contrato_arriendo.2",
+      "evento.fin_contrato_arriendo.3",
+      "evento.fin_contrato_arriendo.4"
     ]
   }
 ]

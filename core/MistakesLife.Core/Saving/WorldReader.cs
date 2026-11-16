@@ -186,6 +186,8 @@ namespace MistakesLife.Core.Saving
                     Rejections = d.JobSearch.Rejections,
                     Negotiated = d.JobSearch.Negotiated,
                     Raise = d.JobSearch.Raise,
+                    CompanyNameId = d.JobSearch.CompanyNameId,
+                    LastCompanyNameId = d.JobSearch.LastCompanyNameId,
                 };
             }
 

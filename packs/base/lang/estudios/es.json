@@ -13,5 +13,10 @@
   "diario.estudios.boto_ramo": "Dejé una materia. La carrera se me alarga un semestre.",
   "diario.estudios.ramo_reprobado": "Reprobé una materia. Toca repetirla.",
   "diario.estudios.cambio_carrera": "Me cambié de carrera.",
-  "diario.estudios.deserto": "Dejé la carrera."
+  "diario.estudios.deserto": "Dejé la carrera.",
+  "evento.estudios.volver_a_estudiar.2": "Un colega te cuenta que está estudiando de noche y que el título ya le sirvió para pedir un aumento. Te deja pensando.",
+  "evento.estudios.volver_a_estudiar.3": "Llega la época de matrículas y ves pasar a gente de tu edad con mochila. ¿Y si fuera ahora?",
+  "evento.estudios.semestre_pesado.2": "Semana de exámenes y además hay que entregar un informe en grupo. Alguien del grupo desapareció y el resto se reparte su parte a las dos de la mañana.",
+  "evento.estudios.semestre_pesado.3": "Este semestre te tocó la materia que todos reprueban. El profesor avisa el primer día que la mitad del curso no va a pasar.",
+  "evento.estudios.semestre_pesado.4": "Entre clases, trabajos y el viaje de ida y vuelta, el semestre no te deja tiempo ni para dormir. La biblioteca ya es tu segunda casa."
 }

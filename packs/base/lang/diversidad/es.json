@@ -25,11 +25,17 @@
   "evento.familia_apoya": "Después de escucharte, tu familia te abraza. \"Te queremos igual. Gracias por confiar en nosotros\".",
   "evento.familia_le_cuesta": "A tu familia le cuesta. Hay silencios largos y preguntas que duelen. Esa noche cenas en tu pieza.",
   "evento.familia_acepta_con_el_tiempo": "Con el tiempo, tu familia empezó a entender. Hoy te preguntaron por tu vida como antes. Algo se arregló.",
-  "evento.marcha_orgullo": "Este sábado es la Marcha del Orgullo en Santiago. Tus amistades te invitan a ir.",
+  "evento.marcha_orgullo": "{persona} te escribe: este sábado es la Marcha del Orgullo en Santiago y quiere que vayan juntos.",
   "opcion.marcha_orgullo.ir": "Vas. La Alameda se llena de colores, música y gente que se siente libre.",
   "opcion.marcha_orgullo.no_ir": "Esta vez no vas.",
   "evento.discriminacion": "En la calle, alguien te grita un insulto por quién eres. La gente alrededor mira y nadie dice nada.",
   "opcion.discriminacion.denunciar": "Lo denuncias. La ley contra la discriminación te protege.",
   "opcion.discriminacion.responder": "Le respondes ahí mismo.",
-  "opcion.discriminacion.dejarlo_pasar": "Sigues caminando. Pero te queda dando vueltas todo el día."
+  "opcion.discriminacion.dejarlo_pasar": "Sigues caminando. Pero te queda dando vueltas todo el día.",
+  "evento.marcha_orgullo.2": "Llega otra vez la fecha de la Marcha y {persona} ya tiene la bandera lista: \"¿Vamos este sábado? Nos juntamos en Plaza Italia\".",
+  "evento.discriminacion.2": "En la fila del supermercado, una pareja mayor te mira de arriba abajo y comenta en voz alta. La cajera hace como que no escuchó.",
+  "evento.discriminacion.3": "En un almuerzo familiar, un tío hace un chiste sobre gente como tú. Algunos se ríen; otros miran el plato.",
+  "evento.discriminacion.4": "En un local te niegan la entrada con una excusa que no convence a nadie. Sabes perfectamente por qué fue.",
+  "evento.salir_del_closet.2": "Otra noche dándole vueltas. Escribes un mensaje para contarlo y lo borras antes de mandarlo.",
+  "evento.salir_del_closet.3": "Una persona en quien confías te pregunta cómo estás, de verdad. Sientes que podrías contárselo."
 }

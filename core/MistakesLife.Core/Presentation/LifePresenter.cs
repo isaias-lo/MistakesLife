@@ -45,7 +45,7 @@ namespace MistakesLife.Core.Presentation
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
             "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
-            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.oficio.meta", "ui.pega.te_vas", "ui.pega.vacaciones.habiles", "ui.pega.vacaciones.corridos", "ui.pega.decides_tu", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
+            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.oficio.meta", "ui.pega.te_vas", "ui.pega.vacaciones.habiles", "ui.pega.vacaciones.corridos", "ui.pega.decides_tu", "ui.dinero.decides_tu", "ui.busqueda.una_empresa", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
             "ui.boton.volver_pasado", "ui.boton.cancelar", "ui.pasado.titulo", "ui.pasado.cargas", "ui.pasado.etapa", "ui.pasado.decision", "ui.intuicion",
             "ui.gente", "ui.relacion.amistad", "ui.relacion.colega", "ui.relacion.rival", "ui.relacion.ex",
             "ui.sentir.muy_unidos", "ui.sentir.buena", "ui.sentir.tibia", "ui.sentir.distanciados", "ui.sentir.rencor",
@@ -466,6 +466,20 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>El lugar de los momentos de la pega: sus botones van en la pantalla del equipo.</summary>
         public const string WorkplacePlace = "lugar.trabajo";
+
+        /// <summary>
+        /// Lo que puedes decidir ahora sobre tu plata (revisar la compra, el plan, el transporte,
+        /// repactar una deuda, irte de la casa...): los botones de "Tu dinero". Antes llegaban
+        /// solos cada año; ahora los pides tú cuando quieres (regla de repeticiones, R7b).
+        /// </summary>
+        public IReadOnlyList<ActionView> MoneyActions() =>
+            Session.Requestable()
+                .Where(e => e.Place == WalletPlace)
+                .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey)))
+                .ToList();
+
+        /// <summary>El lugar de las decisiones de plata: sus botones van en Tu dinero.</summary>
+        public const string WalletPlace = "lugar.dinero";
 
         /// <summary>"Te vas en 3 semanas" si renunciaste con aviso; si no, los días de vacaciones ganados.</summary>
         private string? ContractStatus(Character player)
@@ -1391,7 +1405,10 @@ namespace MistakesLife.Core.Presentation
         /// "tu mamá" y "tu papá" (también cuando van como apoderado); a los demás, por su nombre.
         /// </summary>
         private string PersonInMoment(EventDefinition definition, Character person) =>
-            definition.With == "madre" || definition.With == "padre" ? T("ui.momento." + definition.With) : PersonName(definition, person);
+            definition.With == "madre" || definition.With == "padre" ? T("ui.momento." + definition.With)
+            : definition.With == EventDefinition.WitnessRole && Session.World.Player.MotherId == person.Id ? T("ui.momento.madre")
+            : definition.With == EventDefinition.WitnessRole && Session.World.Player.FatherId == person.Id ? T("ui.momento.padre")
+            : PersonName(definition, person);
 
         /// <summary>
         /// El nombre con que el texto de un momento nombra a la persona: a quien hace clases
@@ -1428,12 +1445,21 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Marca de los textos que se cambia por el ramo de la prueba anunciada o devuelta ("Matemática").</summary>
         public const string SubjectMark = "{ramo}";
 
+        /// <summary>Marca de los textos de la búsqueda que se cambia por la empresa que te llamó ("Moda Cordillera").</summary>
+        public const string CompanyMark = "{empresa}";
+
         /// <summary>Marca de los textos que se cambia por la nota de esa prueba ("5,8").</summary>
         public const string MarkMark = "{nota}";
 
         /// <summary>Cambia {ramo} y {nota} por los de la prueba del jugador (la anunciada o la que se devolvió).</summary>
         private string WithTest(string text)
         {
+            if (text.Contains(CompanyMark))
+            {
+                string? company = Session.World.Player.JobSearch?.CompanyNameId;
+                text = text.Replace(CompanyMark, company != null ? T(company) : T("ui.busqueda.una_empresa"));
+            }
+
             Education.SchoolRecord? record = Session.World.Player.SchoolRecord;
             if (record?.TestSubjectId == null)
             {

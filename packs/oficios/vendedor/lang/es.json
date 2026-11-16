@@ -64,5 +64,13 @@
   "evento.vendedor.desafio.jefe_tienda": "La gerencia zonal viene de visita y {persona} te lo dice claro: \"Si este mes la tienda queda entre las mejores de la zona, te proponen como jefe de tienda\".",
   "opcion.vendedor.desafio.jefe_tienda.preparar": "Preparar la tienda, al equipo y cada vitrina",
   "opcion.vendedor.desafio.jefe_tienda.asi_no_mas": "Que la vean como es todos los días",
-  "opcion.vendedor.desafio.jefe_tienda.no": "Decir que no estás buscando ese cargo"
+  "opcion.vendedor.desafio.jefe_tienda.no": "Decir que no estás buscando ese cargo",
+  "evento.vendedor.aviso.2": "En un portal de empleos aparece un aviso: el mall de tu comuna busca vendedores para varias tiendas. Hay entrevistas el sábado.",
+  "evento.vendedor.aviso.3": "Una conocida que trabaja en el mall te cuenta que en su piso están contratando gente para la temporada.",
+  "evento.vendedor.aviso.4": "En la farmacia de la esquina ponen un aviso en la puerta: buscan vendedor o vendedora para el mesón, turnos rotativos.",
+  "evento.vendedor.domingos.2": "La planilla de diciembre llega con todos los domingos ocupados por la temporada de Navidad. {persona} dice que en enero se compensa.",
+  "evento.vendedor.domingos.3": "{persona} cambia la planilla a última hora y te deja el domingo que habías pedido libre para un cumpleaños.",
+  "evento.vendedor.cliente.2": "Un cliente se prueba cinco chaquetas, te hace bajar tallas de la bodega y al final dice que lo va a pensar. {persona} te hace una seña desde la caja.",
+  "evento.vendedor.cliente.3": "Una señora exige el precio de la oferta que terminó ayer y amenaza con dejar un reclamo. {persona} se acerca a ver qué pasa.",
+  "evento.vendedor.desafio.encargado.2": "{persona} vuelve a confiar en ti: \"Para el Black Friday te quiero otra vez a cargo de la sección. Si cierras arriba de la meta, el cargo de encargado es tuyo\"."
 }

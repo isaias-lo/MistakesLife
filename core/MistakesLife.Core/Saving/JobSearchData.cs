@@ -25,5 +25,11 @@ namespace MistakesLife.Core.Saving
         public bool Negotiated { get; set; }
 
         public double Raise { get; set; }
+
+        /// <summary>Desde la versión 34: la empresa que lo llamó a la entrevista de ahora.</summary>
+        public string? CompanyNameId { get; set; }
+
+        /// <summary>Desde la versión 34: la última empresa que lo llamó en esta búsqueda.</summary>
+        public string? LastCompanyNameId { get; set; }
     }
 }

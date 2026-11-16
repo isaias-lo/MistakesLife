@@ -88,5 +88,10 @@
   "correo.juzgado.sentencia_divorcio.asunto": "Sentencia de divorcio ejecutoriada",
   "correo.juzgado.sentencia_divorcio": "La sentencia que decreta el divorcio quedó firme y se envió al Registro Civil para la subinscripción.",
   "correo.juzgado.remate.asunto": "Resultado del remate",
-  "correo.juzgado.remate": "Se realizó el remate de los bienes embargados en tu causa. El monto obtenido se abonó a la deuda."
+  "correo.juzgado.remate": "Se realizó el remate de los bienes embargados en tu causa. El monto obtenido se abonó a la deuda.",
+  "evento.chile.casarse.2": "Vuelven a hablar de casarse. Esta vez fue {persona} quien sacó el tema, mirando las fotos del matrimonio de unos amigos.",
+  "evento.chile.demanda_cobro.2": "Llega una carta certificada de un estudio de abogados: el banco te demandó por la deuda y la causa ya está en un Juzgado Civil.",
+  "evento.chile.demanda_cobro.3": "Revisas la Oficina Judicial Virtual y aparece una causa con tu RUT: el banco te demandó por la deuda en un Juzgado Civil.",
+  "evento.chile.cobro_requerimiento.2": "Un receptor judicial vino dos veces a tu casa sin encontrarte. A la tercera deja la demanda en la puerta: ya cuenta como notificación y corren los plazos.",
+  "evento.chile.cobro_requerimiento.3": "Un receptor judicial te encuentra a la salida de tu casa, temprano en la mañana. Dice tu nombre y te entrega la demanda: el plazo para pagar o defenderte empieza hoy."
 }

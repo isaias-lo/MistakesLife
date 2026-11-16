@@ -114,7 +114,11 @@
     "condiciones": "jugador.titulado_en('carrera.software') && jugador.tiene('buscando_trabajo') && jugador.busca_en == nada",
     "peso": 100,
     "variantes": [
-      "evento.software.primer_trabajo.2"
+      "evento.software.primer_trabajo.2",
+      "evento.software.primer_trabajo.3",
+      "evento.software.primer_trabajo.4",
+      "evento.software.primer_trabajo.5",
+      "evento.software.primer_trabajo.6"
     ],
     "opciones": [
       {

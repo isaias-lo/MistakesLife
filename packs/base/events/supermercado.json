@@ -30,10 +30,13 @@
   },
   {
     "id": "evento.revisar_compra",
+    "lugar": "lugar.dinero",
+    "a_pedido": {
+      "texto": "accion.dinero.revisar_compra",
+      "por_ano": "si(jugador.meses_en_rojo > 0, 1, 0.15) + jugador.responsabilidad / 400"
+    },
     "condiciones": "jugador.tiene('vive_independiente') && jugador.compra != nada",
-    "probabilidad_anual": 0.35,
     "enfriamiento_semanas": 52,
-    "veces_maximas": 8,
     "opciones": [
       {
         "texto": "opcion.revisar_compra.seguir",

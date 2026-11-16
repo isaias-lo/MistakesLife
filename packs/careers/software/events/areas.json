@@ -4,6 +4,10 @@
     "condiciones": "jugador.area == 'carrera.software.area.desarrollo'",
     "probabilidad_anual": 0.25,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.software.caida_produccion.2",
+      "evento.software.caida_produccion.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.software.caida_produccion.arreglar",
@@ -365,6 +369,9 @@
     "condiciones": "jugador.area != nada && jugador.tiene('trabaja_software') && jugador.meses_en_cargo >= 12",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.software.cambiar_area.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.software.cambiar_area.desarrollo",

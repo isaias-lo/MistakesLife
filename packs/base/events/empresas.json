@@ -4,6 +4,9 @@
     "condiciones": "jugador.empresa_quebro",
     "probabilidad_anual": 1,
     "dia_clave": true,
+    "variantes": [
+      "evento.empresa.quiebra.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.empresa.quiebra.buscar",
@@ -83,6 +86,9 @@
     "condiciones": "jugador.empresa_tamano == 'empresa.tamano.grande'",
     "probabilidad_anual": 0.08,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.empresa.reestructuracion.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.empresa.reestructuracion.adaptarse",

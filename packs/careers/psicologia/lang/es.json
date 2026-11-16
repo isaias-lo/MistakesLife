@@ -42,5 +42,7 @@
   "evento.psicologia.agotamiento.2": "Un paciente te cuenta algo muy duro y esa noche no puedes dormir pensando en eso.",
   "evento.psicologia.agotamiento.3": "Te das cuenta de que ya no disfrutas tu trabajo como antes: escuchar a otros todo el día te está pasando la cuenta.",
   "evento.psicologia.primer_trabajo.2": "Otra vez buscando trabajo. ¿Dónde postulas ahora?",
-  "opcion.psicologia.trabajo.cualquiera": "Lo que salga, aunque no sea de lo tuyo."
+  "opcion.psicologia.trabajo.cualquiera": "Lo que salga, aunque no sea de lo tuyo.",
+  "evento.psicologia.agotamiento.4": "Una paciente cancela a última hora por tercera vez y te das cuenta de que sentiste alivio. Eso te preocupa más que la cancelación.",
+  "evento.psicologia.agotamiento.5": "Te tomas unos días libres, pero el celular no deja de sonar: pacientes que necesitan hora, informes pendientes, una supervisión que se movió."
 }
