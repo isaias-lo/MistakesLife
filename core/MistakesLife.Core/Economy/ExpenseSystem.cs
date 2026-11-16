@@ -176,7 +176,8 @@ namespace MistakesLife.Core.Economy
         /// <summary>
         /// Lo que falta pasa a la deuda "deuda_por_deficit" del país (si tiene),
         /// hasta su cupo, y el dinero queda en cero: lo que pasa del cupo son
-        /// cuentas que no se pagaron. Esa deuda suma su interés y cobra sus cuotas como
+        /// cuentas que no se pagaron (y si el banco ya la castigó, no presta más: todo
+        /// queda sin pagar). Esa deuda suma su interés y cobra sus cuotas como
         /// cualquier otra; si no se pagan, lleva al registro de morosos.
         /// </summary>
         private void CoverDeficit(World world, Character player, ExpensesDefinition rules, CountryEconomy economy)
@@ -188,7 +189,7 @@ namespace MistakesLife.Core.Economy
             }
 
             Debt? current = player.Debts.FirstOrDefault(d => d.TypeId == type.Id);
-            decimal covered = -player.Money;
+            decimal covered = current != null && DebtSystem.IsWrittenOff(current, type) ? 0 : -player.Money;
             if (rules.DeficitLimit.HasValue)
             {
                 decimal room = PayrollCalculator.ToToday(rules.DeficitLimit.Value, economy.PriceIndex) - (current?.Balance ?? 0);

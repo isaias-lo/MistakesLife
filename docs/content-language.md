@@ -351,10 +351,12 @@ El sistema de salud del país: una previsión **pública** con tramos según lo 
 ```json
 "deudas": {
   "meses_para_moroso": 3,
+  "meses_prescripcion": 60,
+  "repactar_con_trabajo": true,
   "tipos": [
     { "id": "deuda.chile.cae", "tasa_anual": 0.02, "cuotas": 180, "reajustable": true, "entrega_dinero": false, "se_extingue_al_morir": true,
       "condicion_pago": "jugador.estudia == nada" },
-    { "id": "deuda.chile.consumo", "tasa_anual": 0.3, "cuotas": 36 }
+    { "id": "deuda.chile.consumo", "tasa_anual": 0.3, "cuotas": 36, "cuotas_repactacion": 48, "meses_para_castigo": 6 }
   ]
 }
 ```
@@ -367,8 +369,9 @@ El sistema de salud del país: una previsión **pública** con tramos según lo 
 - El `id` empieza con `deuda.` y es la clave de su nombre en `lang/`. Todo país debe tener los tipos que usan los eventos.
 - `se_paga_con_el_saldo: true` (línea de crédito, sobregiro): cada mes se lleva todo el dinero que haya, hasta lo que se debe. Si no alcanza al pago mínimo, igual queda atrasada.
 - Deudas rotativas (tarjetas): con `pago_minimo` (por ejemplo `0.05`), cada mes se cobra esa parte de lo que se debe, al menos `pago_minimo_monto` (en dinero del inicio del mundo), en vez de cuotas fijas.
-- Con `cuotas_repactacion`, una deuda atrasada se puede repactar con `jugador.repactar()`: queda al día en esas cuotas nuevas y, al mes siguiente, sale del registro de morosos. `jugador.puede_repactar` dice si tiene alguna.
-- Textos obligatorios del diario: `diario.deudas.pagada`, `diario.deudas.moroso`, `diario.deudas.fuera_registro` y `diario.deudas.prescrita`.
+- Con `cuotas_repactacion`, una deuda atrasada se puede repactar con `jugador.repactar()`: queda al día en esas cuotas nuevas y, al mes siguiente, sale del registro de morosos. `jugador.puede_repactar` dice si tiene alguna. Con `repactar_con_trabajo: true` (en `deudas`), solo se puede repactar teniendo trabajo: el banco pide liquidaciones o boletas.
+- Con `meses_para_castigo` (opcional, por tipo), tras esos meses seguidos sin pagar el banco castiga la deuda: la da por perdida y deja de sumarle intereses y reajustes (diario `diario.deudas.castigada`). Se sigue debiendo, sigue en el registro de morosos y puede prescribir. Si es la deuda que cubre lo que falta a fin de mes (la línea de crédito), el banco la cierra: lo que falte queda sin pagar. Si se vuelve a pagar una cuota o se repacta, vuelve a sumar intereses.
+- Textos obligatorios del diario: `diario.deudas.pagada`, `diario.deudas.moroso`, `diario.deudas.fuera_registro`, `diario.deudas.prescrita` y `diario.deudas.castigada`.
 
 #### Empresas (`economia.empresas`)
 

@@ -448,6 +448,40 @@ namespace MistakesLife.Core.Tests
             return seen;
         }
 
+        /// <summary>
+        /// Vidas donde la amistad se enfría (poco cariño con el mejor amigo), para que el
+        /// amigo se aleje: en una vida al azar casi nunca pasa, porque las amistades se cuidan solas.
+        /// Devuelve los eventos que pasaron después.
+        /// </summary>
+        public static HashSet<string> FriendDriftEvents(ContentDatabase content, int lives, int startAge = 14, int finalAge = 18)
+        {
+            var seen = new HashSet<string>();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 1300 + (ulong)i);
+                Play(session, startAge);
+                World world = session.World;
+                var scope = new EventScope(world, content, world.Player, null, readOnly: false);
+                if (!world.Player.IsAlive || !Expression.Parse("jugador.amigo != nada").IsTrue(scope))
+                {
+                    continue;
+                }
+
+                // "jugador.amigo" es el amigo más cercano: se enfrían todas, una por una.
+                int friends = RelationshipRules.WithBond(world, world.Player, RelationshipBond.Friend).Count();
+                for (int f = 0; f < friends; f++)
+                {
+                    Effect.Parse("jugador.amigo.carino -= 100").Apply(scope);
+                }
+
+                int before = world.EventHistory.Count;
+                Play(session, finalAge);
+                seen.UnionWith(world.EventHistory.Skip(before).Select(r => r.EventId));
+            }
+
+            return seen;
+        }
+
         private static void Play(LifeSession session, int age)
         {
             var decider = new AutoDecider(session.Content);

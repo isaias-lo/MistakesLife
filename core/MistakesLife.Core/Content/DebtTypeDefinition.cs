@@ -53,11 +53,6 @@ namespace MistakesLife.Core.Content
         public bool GivesMoney { get; set; } = true;
 
         /// <summary>
-        /// Condición del lenguaje para que se cobren las cuotas; mientras no se
-        /// cumple, la deuda solo suma intereses (por ejemplo, "!jugador.estudia"
-        /// para empezar a pagar al terminar de estudiar). Si falta, se cobra siempre.
-        /// </summary>
-        /// <summary>
         /// Si es true, cada mes paga con todo el dinero que haya (hasta lo que se
         /// debe), como una línea de crédito o un sobregiro de la cuenta corriente.
         /// Igual debe alcanzar al menos el pago mínimo para no quedar atrasada.
@@ -72,6 +67,20 @@ namespace MistakesLife.Core.Content
         [JsonProperty("se_extingue_al_morir")]
         public bool EndsAtDeath { get; set; }
 
+        /// <summary>
+        /// Meses seguidos sin pagar tras los que el banco "castiga" la deuda: la da
+        /// por perdida en sus libros y deja de sumarle intereses (y reajustes). Se sigue
+        /// debiendo, sigue en el registro de morosos y puede prescribir. Si se vuelve a
+        /// pagar o se repacta, vuelve a sumar intereses. Si falta, nunca se castiga.
+        /// </summary>
+        [JsonProperty("meses_para_castigo")]
+        public int? WriteOffMonths { get; set; }
+
+        /// <summary>
+        /// Condición del lenguaje para que se cobren las cuotas; mientras no se
+        /// cumple, la deuda solo suma intereses (por ejemplo, "!jugador.estudia"
+        /// para empezar a pagar al terminar de estudiar). Si falta, se cobra siempre.
+        /// </summary>
         [JsonProperty("condicion_pago")]
         public string? PaymentCondition { get; set; }
 

@@ -21,6 +21,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("meses_prescripcion")]
         public int? MonthsToPrescription { get; set; }
 
+        /// <summary>
+        /// Si para repactar hay que tener trabajo: el banco pide liquidaciones o
+        /// boletas para dar cuotas nuevas. Si es false, cualquiera puede repactar.
+        /// </summary>
+        [JsonProperty("repactar_con_trabajo")]
+        public bool RescheduleNeedsJob { get; set; }
+
         [JsonProperty("tipos", Required = Required.Always)]
         public List<DebtTypeDefinition> Types { get; set; } = new List<DebtTypeDefinition>();
 
