@@ -47,7 +47,8 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Consola_VolverAlPasado_VuelveAlNacimientoYDejaUnaIntuicion()
         {
-            string output = Play(3, string.Concat(Enumerable.Repeat("\n1\n", 20)) + "v\n1\nq\n");
+            // Antes de los 6 años: después, armar el horario y lo que quiero piden otras respuestas.
+            string output = Play(3, string.Concat(Enumerable.Repeat("\n1\n", 12)) + "v\n1\nq\n");
 
             Assert.Contains("Te quedan 1 cargas para volver al pasado.", output);
             Assert.Contains("=== Vuelves al pasado: 0 semanas", output);

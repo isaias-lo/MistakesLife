@@ -1,0 +1,227 @@
+[
+  {
+    "diario": "diario.abuela_cuida",
+    "titulo": "capitulo.abuela_cuida",
+    "peso": 2
+  },
+  {
+    "diario": "diario.chile.alimentos_demanda",
+    "titulo": "capitulo.chile.alimentos_demanda",
+    "peso": 7
+  },
+  {
+    "diario": "diario.chile.alimentos_demandado",
+    "titulo": "capitulo.chile.alimentos_demandado",
+    "peso": 7
+  },
+  {
+    "diario": "diario.chile.auc",
+    "titulo": "capitulo.chile.auc",
+    "peso": 9
+  },
+  {
+    "diario": "diario.chile.cobro_remate",
+    "titulo": "capitulo.chile.cobro_remate",
+    "peso": 8
+  },
+  {
+    "diario": "diario.chile.cuidado_con_otro",
+    "titulo": "capitulo.chile.cuidado_con_otro",
+    "peso": 9
+  },
+  {
+    "diario": "diario.chile.demanda_cobro",
+    "titulo": "capitulo.chile.demanda_cobro",
+    "peso": 6
+  },
+  {
+    "diario": "diario.chile.demanda_despido",
+    "titulo": "capitulo.chile.demanda_despido",
+    "peso": 6
+  },
+  {
+    "diario": "diario.chile.divorcio",
+    "titulo": "capitulo.chile.divorcio",
+    "peso": 9
+  },
+  {
+    "diario": "diario.chile.fin_auc",
+    "titulo": "capitulo.chile.fin_auc",
+    "peso": 9
+  },
+  {
+    "diario": "diario.chile.matrimonio",
+    "titulo": "capitulo.chile.matrimonio",
+    "peso": 9
+  },
+  {
+    "diario": "diario.chile.posesion_efectiva_lista",
+    "titulo": "capitulo.chile.posesion_efectiva_lista",
+    "peso": 4
+  },
+  {
+    "diario": "diario.chile.reclusion_nocturna",
+    "titulo": "capitulo.chile.reclusion_nocturna",
+    "peso": 7
+  },
+  {
+    "diario": "diario.chile.registro_deudores",
+    "titulo": "capitulo.chile.registro_deudores",
+    "peso": 7
+  },
+  {
+    "diario": "diario.chile.separacion_de_hecho",
+    "titulo": "capitulo.chile.separacion_de_hecho",
+    "peso": 9
+  },
+  {
+    "diario": "diario.citacion_policia_local",
+    "titulo": "capitulo.citacion_policia_local",
+    "peso": 3
+  },
+  {
+    "diario": "diario.cobranza_cae",
+    "titulo": "capitulo.cobranza_cae",
+    "peso": 3
+  },
+  {
+    "diario": "diario.egreso_media",
+    "titulo": "capitulo.egreso_media",
+    "peso": 8
+  },
+  {
+    "diario": "diario.etapa.chile.basica",
+    "titulo": "capitulo.etapa.chile.basica",
+    "peso": 4
+  },
+  {
+    "diario": "diario.etapa.chile.kinder",
+    "titulo": "capitulo.etapa.chile.kinder",
+    "peso": 3
+  },
+  {
+    "diario": "diario.etapa.chile.media",
+    "titulo": "capitulo.etapa.chile.media",
+    "peso": 4
+  },
+  {
+    "diario": "diario.etapa.chile.sala_cuna",
+    "titulo": "capitulo.etapa.chile.sala_cuna",
+    "peso": 2
+  },
+  {
+    "diario": "diario.fecha.chile.entrega_notas.firmar",
+    "titulo": "capitulo.fecha.chile.entrega_notas.firmar",
+    "peso": 6
+  },
+  {
+    "diario": "diario.fecha.chile.inicio_clases.burla",
+    "titulo": "capitulo.fecha.chile.inicio_clases.burla",
+    "peso": 4
+  },
+  {
+    "diario": "diario.fecha.chile.inicio_clases.sentarse",
+    "titulo": "capitulo.fecha.chile.inicio_clases.sentarse",
+    "peso": 4
+  },
+  {
+    "diario": "diario.fecha.chile.vacaciones_invierno.amigos",
+    "titulo": "capitulo.fecha.chile.vacaciones_invierno.amigos",
+    "peso": 3
+  },
+  {
+    "diario": "diario.incendio_voluntario",
+    "titulo": "capitulo.incendio_voluntario",
+    "peso": 7
+  },
+  {
+    "diario": "diario.mentira_descubierta",
+    "titulo": "capitulo.mentira_descubierta",
+    "peso": 7
+  },
+  {
+    "diario": "diario.paes_alta",
+    "titulo": "capitulo.paes_alta",
+    "peso": 7
+  },
+  {
+    "diario": "diario.paes_media",
+    "titulo": "capitulo.paes_media",
+    "peso": 7
+  },
+  {
+    "diario": "diario.primer_dia_colegio",
+    "titulo": "capitulo.primer_dia_colegio",
+    "peso": 5
+  },
+  {
+    "diario": "diario.primeros_pasos",
+    "titulo": "capitulo.primeros_pasos",
+    "peso": 3
+  },
+  {
+    "diario": "diario.protestas_marchar",
+    "titulo": "capitulo.protestas_marchar",
+    "peso": 7
+  },
+  {
+    "diario": "diario.reunion_apoderados_libreta.contar",
+    "titulo": "capitulo.reunion_apoderados_libreta.contar",
+    "peso": 6
+  },
+  {
+    "diario": "diario.reunion_apoderados_libreta.culpar",
+    "titulo": "capitulo.reunion_apoderados_libreta.culpar",
+    "peso": 6
+  },
+  {
+    "diario": "diario.robo_celular",
+    "titulo": "capitulo.robo_celular",
+    "peso": 3
+  },
+  {
+    "diario": "diario.subsidio_casa_propia",
+    "titulo": "capitulo.subsidio_casa_propia",
+    "peso": 8
+  },
+  {
+    "diario": "diario.terremoto_a_oscuras",
+    "titulo": "capitulo.terremoto_a_oscuras",
+    "peso": 8
+  },
+  {
+    "diario": "diario.terremoto_hijos",
+    "titulo": "capitulo.terremoto_hijos",
+    "peso": 8
+  },
+  {
+    "diario": "diario.terremoto_nino",
+    "titulo": "capitulo.terremoto_nino",
+    "peso": 8
+  },
+  {
+    "diario": "diario.terremoto_preparado",
+    "titulo": "capitulo.terremoto_preparado",
+    "peso": 8
+  },
+  {
+    "diario": "diario.termino_pololeo",
+    "titulo": "capitulo.termino_pololeo",
+    "peso": 6
+  },
+  {
+    "diario": "diario.irse_de_la_casa",
+    "titulo": "capitulo.irse_de_la_casa",
+    "peso": 8
+  },
+  {
+    "diario": "diario.irse_de_la_casa.pieza",
+    "titulo": "capitulo.irse_de_la_casa.pieza",
+    "peso": 8
+  },
+  {
+    "diario": "diario.votar",
+    "titulo": "capitulo.votar",
+    "peso": 2
+  }
+]

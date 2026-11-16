@@ -193,6 +193,9 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public Economy.JobSearch? JobSearch { get; set; }
 
+        /// <summary>Su negocio con un socio, o null si no tiene. Ver <see cref="Work.VentureRules"/>.</summary>
+        public Economy.Venture? Venture { get; set; }
+
         /// <summary>Su celular, o null si no tiene. Ver <see cref="Devices.PhoneRules"/>.</summary>
         public Devices.Phone? Phone { get; set; }
 
@@ -334,6 +337,24 @@ namespace MistakesLife.Core.Characters
 
         /// <summary>La carrera que estudia ahora, o null si no estudia.</summary>
         public CareerStudies? Studies { get; set; }
+
+        /// <summary>Su curso del colegio (compañeros con nombre y profe jefe), mientras va al colegio.</summary>
+        public Education.SchoolClass? SchoolClass { get; set; }
+
+        /// <summary>Su equipo del trabajo (jefe y colegas con nombre), mientras trabaja con equipo.</summary>
+        public Work.WorkTeam? Team { get; set; }
+
+        /// <summary>Sus notas del colegio: las del año, los promedios de cada año y cuántos años repitió.</summary>
+        public Education.SchoolRecord? SchoolRecord { get; set; }
+
+        /// <summary>El horario del jugador (qué hace cada tarde y noche); null antes de los 6 años o para quien no es jugador.</summary>
+        public Life.Routine? Routine { get; set; }
+
+        /// <summary>Las reglas propias del jugador ("si hay prueba, estudio"): lo ya decidido no se vuelve a preguntar.</summary>
+        public System.Collections.Generic.List<Life.OwnRule> OwnRules { get; } = new System.Collections.Generic.List<Life.OwnRule>();
+
+        /// <summary>Lo que quiere en esta etapa y lo que quiso antes (cumplido, perdido o que pasó).</summary>
+        public System.Collections.Generic.List<Life.Wish> Wishes { get; } = new System.Collections.Generic.List<Life.Wish>();
 
         private readonly List<string> _degrees = new List<string>();
 

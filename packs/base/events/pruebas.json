@@ -1,0 +1,200 @@
+[
+  {
+    "id": "evento.prueba.aviso_libreta",
+    "regla": "regla.prueba",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.prueba_anunciada && jugador.edad >= 6 && jugador.edad < 10",
+    "probabilidad_anual": 1,
+    "veces_maximas": 5,
+    "variantes": [
+      "evento.prueba.aviso_libreta.2",
+      "evento.prueba.aviso_libreta.3",
+      "evento.prueba.aviso_libreta.4",
+      "evento.prueba.aviso_libreta.5"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.prueba.aviso_libreta.estudiar",
+        "regla": "estudiar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.preparar_prueba(3)",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.aviso_libreta.repasar",
+        "regla": "repasar",
+        "tendencia": "40",
+        "efectos": [
+          "jugador.preparar_prueba(1)"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.aviso_libreta.jugar",
+        "regla": "nada",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.prueba.anunciada",
+    "regla": "regla.prueba",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.prueba_anunciada && jugador.rojos == 0 && jugador.edad >= 10 && jugador.edad < 18",
+    "probabilidad_anual": 1,
+    "veces_maximas": 8,
+    "variantes": [
+      "evento.prueba.anunciada.2",
+      "evento.prueba.anunciada.3",
+      "evento.prueba.anunciada.4",
+      "evento.prueba.anunciada.5",
+      "evento.prueba.anunciada.6",
+      "evento.prueba.anunciada.7",
+      "evento.prueba.anunciada.8"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.prueba.anunciada.estudiar",
+        "regla": "estudiar",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.preparar_prueba(3)",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.anunciada.repasar",
+        "regla": "repasar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.preparar_prueba(2)"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.anunciada.nada",
+        "regla": "nada",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.prueba.anunciada_rojo",
+    "regla": "regla.prueba",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.prueba_anunciada && jugador.rojos > 0 && jugador.edad >= 10 && jugador.edad < 18",
+    "probabilidad_anual": 1,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.prueba.anunciada_rojo.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.prueba.anunciada_rojo.estudiar",
+        "regla": "estudiar",
+        "tendencia": "jugador.responsabilidad + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.preparar_prueba(3)",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.anunciada_rojo.repasar",
+        "regla": "repasar",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "jugador.preparar_prueba(2)"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.anunciada_rojo.nada",
+        "regla": "nada",
+        "tendencia": "(100 - jugador.responsabilidad) / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.prueba.devuelta_roja",
+    "con": "profe",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.prueba_devuelta && !jugador.prueba_aprobada && jugador.edad >= 8",
+    "probabilidad_anual": 1,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.prueba.devuelta_roja.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.prueba.devuelta_roja.preguntar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.respeto += 4",
+          "jugador.inteligencia += 1"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.devuelta_roja.guardar",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "jugador.marcar('prueba_roja_escondida')"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.devuelta_roja.broma",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "jugador.felicidad -= 1",
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.prueba.devuelta_buena",
+    "con": "madre",
+    "lugar": "lugar.casa",
+    "veces_maximas": 3,
+    "condiciones": "jugador.prueba_devuelta && jugador.nota_prueba >= 6.5 && jugador.edad >= 6 && jugador.edad < 14",
+    "probabilidad_anual": 1,
+    "variantes": [
+      "evento.prueba.devuelta_buena.2",
+      "evento.prueba.devuelta_buena.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.prueba.devuelta_buena.mostrar",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.devuelta_buena.refri",
+        "tendencia": "jugador.apertura / 2",
+        "efectos": [
+          "persona.carino += 2",
+          "jugador.felicidad += 2",
+          "jugador.marcar('prueba_en_el_refri')"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.devuelta_buena.nada",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  }
+]

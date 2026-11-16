@@ -23,6 +23,19 @@ namespace MistakesLife.Core.Content
         [JsonProperty("tendencia")]
         public string? Tendency { get; set; }
 
+        /// <summary>
+        /// Qué es esta opción para las reglas propias del jugador, cuando el evento tiene
+        /// grupo ("regla" del evento): por ejemplo "estudiar". Opciones de eventos distintos
+        /// del mismo grupo con el mismo valor son "lo mismo" ("si hay prueba, estudio").
+        /// Si falta, la opción se reconoce por su texto.
+        /// </summary>
+        [JsonProperty("regla")]
+        public string? RuleChoice { get; set; }
+
+        /// <summary>Cómo reconoce una regla propia a esta opción.</summary>
+        [JsonIgnore]
+        public string RuleKey => RuleChoice ?? TextKey;
+
         [JsonProperty("efectos")]
         public List<string> Effects { get; set; } = new List<string>();
 

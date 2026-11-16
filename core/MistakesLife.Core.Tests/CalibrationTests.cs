@@ -15,7 +15,9 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Simulador_ALos25_UnaParteSigueEstudiandoYTrabajanMenosQueAntes()
         {
-            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 200, finalAge: 25);
+            // 400 vidas: con 200 el empleo a los 25 salta varios puntos según la suerte de las
+            // primeras vidas (59,9 % con 200 y 65,7 % con 400 en la misma versión).
+            SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 400, finalAge: 25);
 
             // En Chile, a los 25 todavía estudia una parte importante (las carreras se alargan
             // y muchos entran tarde) y trabaja cerca del 70 %.

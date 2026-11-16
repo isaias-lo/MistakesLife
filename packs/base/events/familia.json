@@ -16,11 +16,17 @@
         "texto": "opcion.conocer_pareja.no_es_momento",
         "efectos": []
       }
+    ],
+    "variantes": [
+      "evento.conocer_pareja.2",
+      "evento.conocer_pareja.3",
+      "evento.conocer_pareja.4"
     ]
   },
   {
     "id": "evento.conversar_hijos",
-    "condiciones": "jugador.pareja != nada && jugador.sexo != jugador.pareja.sexo && jugador.edad >= 22 && jugador.hijos < 3 && !jugador.tiene('buscando_hijo') && !jugador.tiene('no_quiere_hijos') && ((jugador.sexo == 'femenino' && jugador.edad <= 42) || (jugador.sexo == 'masculino' && jugador.pareja.edad <= 42))",
+    "con": "pareja",
+    "condiciones": "jugador.sexo != persona.sexo && jugador.edad >= 22 && jugador.hijos < 3 && !jugador.tiene('buscando_hijo') && !jugador.tiene('no_quiere_hijos') && ((jugador.sexo == 'femenino' && jugador.edad <= 42) || (jugador.sexo == 'masculino' && persona.edad <= 42))",
     "probabilidad_anual": 0.4,
     "enfriamiento_semanas": 52,
     "opciones": [
@@ -40,6 +46,11 @@
           "jugador.marcar('no_quiere_hijos')"
         ]
       }
+    ],
+    "por_persona": true,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.conversar_hijos.2"
     ]
   },
   {
@@ -84,23 +95,23 @@
   },
   {
     "id": "evento.crisis_pareja",
-    "condiciones": "jugador.pareja != nada",
+    "con": "pareja",
     "probabilidad_anual": 0.06,
     "enfriamiento_semanas": 52,
     "opciones": [
       {
         "texto": "opcion.crisis_pareja.conversar",
         "efectos": [
-          "jugador.pareja.rencor -= 10",
-          "jugador.pareja.confianza += 3",
+          "persona.rencor -= 10",
+          "persona.confianza += 3",
           "jugador.felicidad -= 3"
         ]
       },
       {
         "texto": "opcion.crisis_pareja.terminar",
         "efectos": [
-          "jugador.pareja.rencor += 20",
-          "jugador.pareja.carino -= 15",
+          "persona.rencor += 20",
+          "persona.carino -= 15",
           "jugador.terminar_pareja()",
           "jugador.desmarcar('buscando_hijo')",
           "jugador.desmarcar('buscando_adopcion')",
@@ -108,6 +119,11 @@
           "jugador.felicidad -= 10"
         ]
       }
+    ],
+    "por_persona": true,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.crisis_pareja.2"
     ]
   },
   {

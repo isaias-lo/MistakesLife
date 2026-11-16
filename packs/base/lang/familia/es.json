@@ -2,7 +2,7 @@
   "evento.conocer_pareja": "En el cumpleaños de una amiga conoces a alguien. Conversan toda la noche y al despedirse te pide tu número.",
   "opcion.conocer_pareja.oportunidad": "Darse una oportunidad.",
   "opcion.conocer_pareja.no_es_momento": "No es el momento. Le das las gracias y no le escribes.",
-  "evento.conversar_hijos": "Una noche, después de cenar, tu pareja te pregunta si alguna vez has pensado en tener hijos.",
+  "evento.conversar_hijos": "Una noche, después de cenar, {persona} te pregunta si alguna vez has pensado en tener hijos.",
   "opcion.conversar_hijos.queremos": "Sí. Deciden intentarlo.",
   "opcion.conversar_hijos.todavia_no": "Todavía no. Primero quieren estar más estables.",
   "opcion.conversar_hijos.no_queremos": "No. Están de acuerdo en que no quieren hijos.",
@@ -11,12 +11,17 @@
   "opcion.embarazo_no_planificado.alegria": "Después del susto, lo reciben con alegría.",
   "opcion.embarazo_no_planificado.cuesta": "Les cuesta, el momento no es el mejor, pero siguen adelante.",
   "opcion.embarazo_no_planificado.interrumpir": "Lo conversan con calma y deciden interrumpir el embarazo, como permite la ley.",
-  "evento.crisis_pareja": "Las discusiones con tu pareja ya son de todos los días. Una noche, uno de los dos dice: \"Así no podemos seguir\".",
+  "evento.crisis_pareja": "Las discusiones con {persona} ya son de todos los días. Una noche, uno de los dos dice: \"Así no podemos seguir\".",
   "opcion.crisis_pareja.conversar": "Se sientan a conversar y deciden intentarlo de nuevo.",
   "opcion.crisis_pareja.terminar": "Terminan. Cada uno sigue su camino.",
   "evento.conversar_adopcion": "Con tu pareja llevan tiempo hablando de formar una familia. Esta noche alguien dice la palabra en voz alta: adoptar.",
   "opcion.conversar_adopcion.postular": "Postulan al programa de adopción. Les advierten que el proceso es largo: evaluaciones, talleres y años de espera.",
   "opcion.conversar_adopcion.todavia_no": "Todavía no. Primero quieren estar más estables.",
   "opcion.conversar_adopcion.no_queremos": "Lo conversan y están de acuerdo: no quieren hijos.",
-  "evento.llega_adopcion": "Suena el teléfono. Es del programa de adopción: hay un niño o una niña que podría ser parte de su familia. Una semana después llega a casa."
+  "evento.llega_adopcion": "Suena el teléfono. Es del programa de adopción: hay un niño o una niña que podría ser parte de su familia. Una semana después llega a casa.",
+  "evento.conversar_hijos.2": "Un sobrino de {persona} pasa el día con ustedes. En la noche vuelve la pregunta: ¿y nosotros, cuándo?",
+  "evento.crisis_pareja.2": "Con {persona} ya casi no se hablan: cada uno en su celular, cada uno en su lado de la cama. Una noche te pregunta si todavía te importa.",
+  "evento.conocer_pareja.2": "En el trabajo te toca un proyecto con alguien de otra área. Al terminar, te invita a tomar algo para celebrar.",
+  "evento.conocer_pareja.3": "Una amiga insiste en presentarte a alguien. Se juntan los tres a comer y la conversación se alarga más de lo esperado.",
+  "evento.conocer_pareja.4": "En la fila del banco alguien te comenta lo lenta que va la cosa. Terminan riéndose y, al salir, te pregunta si quieres un café."
 }

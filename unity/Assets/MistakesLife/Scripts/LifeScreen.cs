@@ -46,6 +46,9 @@ namespace MistakesLife.Unity
 
         /// <summary>Si la parte de abajo muestra la lista de momentos para volver al pasado.</summary>
         private bool _pickingMoment;
+
+        /// <summary>El capítulo del año que se acaba de cerrar, mientras se muestra en la hoja.</summary>
+        private ChapterView? _chapter;
         private ContentDatabase? _content;
         private LifePresenter? _presenter;
         private StartMenu? _menu;
@@ -53,6 +56,8 @@ namespace MistakesLife.Unity
         private PhoneScreen _phone = null!;
         private MoneyScreen _money = null!;
         private CourtScreen _court = null!;
+        private StudiesScreen _studies = null!;
+        private TeamScreen _team = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
         private float _sheetWidth;
@@ -173,6 +178,18 @@ namespace MistakesLife.Unity
         public void OpenCourtForCapture()
         {
             _court.Show(_presenter!);
+        }
+
+        /// <summary>Abre tus estudios en una hoja (0 notas, 1 curso o sección, 2 malla), para las capturas.</summary>
+        public void OpenStudiesForCapture(int page)
+        {
+            _studies.Show(_presenter!, page);
+        }
+
+        /// <summary>Abre tu equipo del trabajo encima de la vida, para las capturas.</summary>
+        public void OpenTeamForCapture()
+        {
+            _team.Show(_presenter!);
         }
 
         /// <summary>Abre Tu dinero encima de la vida, para las capturas.</summary>
@@ -328,6 +345,8 @@ namespace MistakesLife.Unity
             _phone = new PhoneScreen(safe) { Changed = MailRead };
             _money = new MoneyScreen(safe);
             _court = new CourtScreen(safe);
+            _studies = new StudiesScreen(safe);
+            _team = new TeamScreen(safe) { Changed = MailRead };
 
             // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
             // si se moviera antes, el orden la devolvería a su lugar y se vería dos veces.
@@ -399,6 +418,14 @@ namespace MistakesLife.Unity
             else if (id == "escena.casa.carta_tribunal" || id == "escena.casa.sello_embargo")
             {
                 _court.Show(presenter);
+            }
+            else if ((id == "escena.casa.mochila" || id == "escena.casa.credencial_u") && StudiesScreen.HasStudies(presenter))
+            {
+                _studies.Show(presenter);
+            }
+            else if (id == "escena.casa.credencial_pega" && presenter.Team() != null)
+            {
+                _team.Show(presenter);
             }
         }
 
@@ -704,6 +731,12 @@ namespace MistakesLife.Unity
                 return;
             }
 
+            if (_chapter != null)
+            {
+                DrawChapter(presenter, _chapter);
+                return;
+            }
+
             if (life.Phase != LifePhase.Choosing)
             {
                 _shownEvent = null;
@@ -766,13 +799,35 @@ namespace MistakesLife.Unity
                 Things.ClockThing(things, presenter.Text("ui.cosas.volver"), () => PickMoment(true));
             }
 
-            // La carpeta del juzgado, solo si tienes o tuviste una causa. Si ya hay cuatro cosas,
-            // va en una segunda fila.
-            IReadOnlyList<CourtCaseView> cases = presenter.CourtCases();
+            // La libreta, si estudias (notas, curso o carrera), y la carpeta del juzgado, solo si
+            // tienes o tuviste una causa. Si ya hay cuatro cosas, van en una segunda fila.
             RectTransform? more = null;
+            if (StudiesScreen.HasStudies(presenter))
+            {
+                RectTransform row = things.childCount < 4 ? things : (more ??= Row(_sheetBody, "Mas cosas"));
+                ReportCardView? card = presenter.ReportCard();
+                bool red = false;
+                if (card != null)
+                {
+                    foreach (SubjectGradesView subject in card.Subjects)
+                    {
+                        red |= subject.Failing;
+                    }
+                }
+
+                Things.NotebookThing(row, presenter.Text("ui.cosas.libreta"), red, () => _studies.Show(presenter));
+            }
+
+            if (presenter.Team() != null)
+            {
+                RectTransform row = things.childCount < 4 ? things : (more ??= Row(_sheetBody, "Mas cosas"));
+                Things.BadgeThing(row, presenter.Text("ui.cosas.pega"), () => _team.Show(presenter));
+            }
+
+            IReadOnlyList<CourtCaseView> cases = presenter.CourtCases();
             if (cases.Count > 0)
             {
-                RectTransform row = things.childCount < 4 ? things : (more = Row(_sheetBody, "Mas cosas"));
+                RectTransform row = things.childCount < 4 ? things : (more ??= Row(_sheetBody, "Mas cosas"));
                 bool open = false;
                 foreach (CourtCaseView courtCase in cases)
                 {
@@ -866,11 +921,65 @@ namespace MistakesLife.Unity
                 }
             }
 
+            // El diario por capítulos, del año de ahora hacia atrás.
             UiFactory.Label(_historyBody, presenter.Text("ui.diario"), 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
-            foreach (JournalLine line in _journal)
+            IReadOnlyList<ChapterView> chapters = presenter.Chapters();
+            for (int i = chapters.Count - 1; i >= 0; i--)
             {
-                UiFactory.Label(_historyBody, $"{line.AgeLabel}: {line.Text}", 34, UiFactory.Ink);
+                ChapterView chapter = chapters[i];
+                string title = chapter.IsOpen ? presenter.Text("ui.capitulo.abierto") : chapter.Title;
+                UiFactory.Label(_historyBody, $"{title} · {chapter.AgeLabel}", 36, UiFactory.Ink, FontStyles.Normal, Face.Hand);
+                foreach (ChapterMonthView month in chapter.Months)
+                {
+                    UiFactory.Label(_historyBody, $"<b>{month.Month}</b>  {string.Join(" ", month.Lines)}", 30, UiFactory.Ink).richText = true;
+                }
             }
+        }
+
+        /// <summary>
+        /// El año que se cerró, como una página del diario: "CAPÍTULO", el título escrito a mano,
+        /// la edad, la foto del día que le dio el título (un papel chueco) y lo que pasó mes a mes.
+        /// </summary>
+        private void DrawChapter(LifePresenter presenter, ChapterView chapter)
+        {
+            RectTransform page = UiFactory.Column(_sheetBody, "Capitulo", 36, 14, UiFactory.Paper);
+            UiFactory.Label(page, presenter.Text("ui.capitulo.titulo").ToUpperInvariant(), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold);
+            UiFactory.Label(page, chapter.Title, 52, UiFactory.PaperInk, FontStyles.Normal, Face.Hand);
+            UiFactory.Label(page, chapter.AgeLabel, UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Normal);
+            if (chapter.Photo != null)
+            {
+                var parts = new List<string> { chapter.Photo.When };
+                if (chapter.Photo.Place != null)
+                {
+                    parts.Add(chapter.Photo.Place);
+                }
+
+                if (chapter.Photo.Person != null)
+                {
+                    parts.Add(chapter.Photo.Person);
+                }
+
+                RectTransform photo = UiFactory.Column(page, "Foto", 18, 6, UiFactory.PaperOption);
+                photo.localRotation = Quaternion.Euler(0f, 0f, 2f);
+                UiFactory.Label(photo, string.Join(" · ", parts), UiFactory.MinFontSize, UiFactory.PaperInk, FontStyles.Italic);
+            }
+
+            foreach (ChapterMonthView month in chapter.Months)
+            {
+                UiFactory.Label(page, month.Month, UiFactory.MinFontSize, UiFactory.KeyInk, FontStyles.Bold);
+                foreach (string line in month.Lines)
+                {
+                    UiFactory.Label(page, line, 34, UiFactory.PaperInk, FontStyles.Normal, Face.Hand);
+                }
+            }
+
+            UiFactory.MakeButton(page, presenter.Text("ui.boton.siguiente"), UiFactory.Accent, UiFactory.AccentText, CloseChapter);
+        }
+
+        private void CloseChapter()
+        {
+            _chapter = null;
+            Refresh();
         }
 
         /// <summary>
@@ -950,6 +1059,11 @@ namespace MistakesLife.Unity
                 UiFactory.Label(card, pending.Watching, UiFactory.MinFontSize, UiFactory.KeyInk, FontStyles.Italic);
             }
 
+            if (pending.Origin != null)
+            {
+                DrawOrigin(card, pending.Origin);
+            }
+
             for (int i = 0; i < pending.Options.Count; i++)
             {
                 int option = i;
@@ -969,6 +1083,52 @@ namespace MistakesLife.Unity
                 label.alignment = TextAlignmentOptions.Left;
                 label.richText = true;
             }
+        }
+
+        /// <summary>
+        /// "Esto viene de acá": una foto vieja pegada en la hoja, un poco chueca, con el día en
+        /// que empezó lo que hoy vuelve (cuándo, dónde, con quién y qué elegiste) y, si se puede,
+        /// el botón para volver a ese día ahí mismo.
+        /// </summary>
+        private void DrawOrigin(RectTransform card, SeedOriginView origin)
+        {
+            RectTransform photo = UiFactory.Column(card, "Origen", 22, 8, UiFactory.PaperOption);
+            photo.localRotation = Quaternion.Euler(0f, 0f, -1.5f);
+            UiFactory.Label(photo, origin.Title.ToUpperInvariant(), UiFactory.MinFontSize, UiFactory.KeyInk, FontStyles.Bold);
+            var where = new List<string> { origin.When };
+            if (origin.Place != null)
+            {
+                where.Add(origin.Place);
+            }
+
+            if (origin.Person != null)
+            {
+                where.Add(origin.Person);
+            }
+
+            UiFactory.Label(photo, string.Join(" · ", where), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold);
+            UiFactory.Label(photo, origin.Moment, UiFactory.MinFontSize, UiFactory.PaperInk, FontStyles.Italic);
+            if (origin.Choice != null)
+            {
+                UiFactory.Label(photo, origin.Choice, UiFactory.MinFontSize, UiFactory.PaperInk, FontStyles.Normal);
+            }
+
+            if (origin.GoBackLabel != null)
+            {
+                UiFactory.MakeButton(photo, origin.GoBackLabel, UiFactory.Accent, UiFactory.AccentText, GoBackToOrigin);
+            }
+        }
+
+        /// <summary>Vuelve al pasado justo frente al error: al día de la foto "Esto viene de acá".</summary>
+        private void GoBackToOrigin()
+        {
+            _presenter!.GoBackToOrigin();
+            _pickingMoment = false;
+            _chapter = null;
+            _lastStep = null;
+            ReloadJournal();
+            Refresh();
+            Save();
         }
 
         /// <summary>El sello "ESTO SE RECUERDA": un timbre rojo, un poco chueco, como puesto a mano.</summary>
@@ -992,6 +1152,23 @@ namespace MistakesLife.Unity
             string age = person.IsAlive ? person.AgeInYears.ToString() : presenter.Text("ui.fallecido");
             string feeling = person.Feeling.Length > 0 ? $", {person.Feeling}" : string.Empty;
             UiFactory.Label(_historyBody, $"{person.Relation}: {person.Name} ({age}{feeling})", 34, UiFactory.Ink);
+
+            // Futuros juntos: lo que puedes pedir con esta persona (recomendarla, vivir juntos...).
+            // El botón solo pide el momento; se decide en la carta, como cualquier momento.
+            foreach (ActionView action in presenter.PersonActions(person.Id))
+            {
+                string eventId = action.EventId;
+                int personId = person.Id;
+                UiFactory.MakeButton(_historyBody, action.Label, UiFactory.Option, UiFactory.Ink, () =>
+                {
+                    Sounds.Play(Sound.PencilTap);
+                    if (presenter.Session.Request(eventId, personId))
+                    {
+                        ShowHistory(false);
+                        MailRead();
+                    }
+                }, 32, 96, 20);
+            }
         }
 
         /// <summary>Volver al pasado: las cargas que quedan y un botón por cada momento al que se puede volver.</summary>
@@ -1048,9 +1225,13 @@ namespace MistakesLife.Unity
         /// <summary>Avanza una semana o, con <paramref name="untilSomething"/>, hasta que pase algo (máximo un año).</summary>
         private void Advance(bool untilSomething)
         {
+            Sounds.Play(Sound.WoodKnock);
             LifeSnapshot before = _presenter!.Snapshot();
+            StudyMark studiesBefore = StudyMark.Of(_presenter);
             int weeks = untilSomething ? _presenter.AdvanceUntilSomething() : _presenter.AdvanceWeek();
+            _chapter = _presenter.TakeClosedChapter() ?? _chapter;
             RememberStep(before, weeks);
+            studiesBefore.PlayChange(StudyMark.Of(_presenter));
             Refresh();
             Save();
         }
@@ -1081,6 +1262,7 @@ namespace MistakesLife.Unity
         {
             _presenter!.GoBack(moment);
             _pickingMoment = false;
+            _chapter = null;
             _lastStep = null;
             ReloadJournal();
             Refresh();

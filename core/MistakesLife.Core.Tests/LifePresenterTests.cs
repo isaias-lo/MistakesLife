@@ -37,7 +37,7 @@ namespace MistakesLife.Core.Tests
             Assert.False(string.IsNullOrWhiteSpace(snapshot.PlayerName));
             Assert.Equal("Puente Alto, Santiago, Chile", snapshot.Place);
             Assert.Equal("0 semanas", snapshot.AgeLabel);
-            Assert.Matches(@"^Año \d+, semana \d+$", snapshot.DateLabel);
+            Assert.Matches(@"^Lunes \d+ de [a-z]+$", snapshot.DateLabel);
             Assert.Contains(snapshot.Family, p => p.Relation == "Mamá");
             Assert.Null(snapshot.PendingEvent);
             Assert.Equal(7UL, snapshot.Seed);
@@ -249,35 +249,35 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Casa_JovenSinPareja_SigueConSusPadres()
         {
-            // La primera vida (desde la 7) que llega a los 20 viva y sin pareja: cuál es
-            // depende del azar de los eventos, que cambia cuando llegan eventos nuevos.
+            // La primera vida (desde la partida 7) que llega viva y sin pareja a los 20: cuál es
+            // depende del contenido, así que se busca en vez de fijar una partida.
             LifePresenter? found = null;
             for (ulong seed = 7; seed < 40 && found == null; seed++)
             {
-                LifePresenter candidate = NewGame(seed);
-                while (candidate.Snapshot().AgeInYears < 20 && candidate.Phase != LifePhase.Over && candidate.Phase != LifePhase.ChoosingHeir)
+                LifePresenter presenter = NewGame(seed);
+                while (presenter.Snapshot().AgeInYears < 20 && presenter.Phase != LifePhase.Over && presenter.Phase != LifePhase.ChoosingHeir)
                 {
-                    if (candidate.Phase == LifePhase.Choosing)
+                    if (presenter.Phase == LifePhase.Choosing)
                     {
-                        candidate.Choose(0);
+                        presenter.Choose(0);
                     }
                     else
                     {
-                        candidate.AdvanceWeek();
+                        presenter.AdvanceWeek();
                     }
                 }
 
-                if (candidate.Session.World.Player.IsAlive && candidate.Session.World.Player.PartnerId == null)
+                var candidate = presenter.Session.World.Player;
+                if (candidate.IsAlive && candidate.PartnerId == null)
                 {
-                    found = candidate;
+                    found = presenter;
                 }
             }
 
             Assert.NotNull(found);
-            LifePresenter presenter = found!;
-            var player = presenter.Session.World.Player;
-            HomeView home = presenter.Snapshot().Home;
-            bool motherAlive = player.MotherId.HasValue && presenter.Session.World.GetCharacter(player.MotherId.Value).IsAlive;
+            var player = found!.Session.World.Player;
+            HomeView home = found.Snapshot().Home;
+            bool motherAlive = player.MotherId.HasValue && found.Session.World.GetCharacter(player.MotherId.Value).IsAlive;
             Assert.Equal(motherAlive, home.Members.Any(m => m.Relation == "Mamá"));
         }
 

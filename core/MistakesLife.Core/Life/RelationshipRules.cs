@@ -98,6 +98,27 @@ namespace MistakesLife.Core.Life
             stored.Bond = bond;
         }
 
+        /// <summary>
+        /// Cuando alguien que ya conocías se vuelve amigo o rival: lo que siente queda por lo
+        /// menos como al empezar ese lazo (<see cref="Initial"/>). Un amigo te quiere al menos
+        /// tanto como un amigo nuevo; un rival te guarda al menos ese rencor y no más cariño.
+        /// </summary>
+        public static void AtLeastAsClose(World world, Character who, Character toward, RelationshipBond bond)
+        {
+            var start = Initial(bond);
+            Relationship feelings = Edit(world, who, toward);
+            if (bond == RelationshipBond.Rival)
+            {
+                feelings.Affection = Math.Min(feelings.Affection, start.Affection);
+                feelings.Resentment = Math.Max(feelings.Resentment, start.Resentment);
+                return;
+            }
+
+            feelings.Affection = Math.Max(feelings.Affection, start.Affection);
+            feelings.Trust = Math.Max(feelings.Trust, start.Trust);
+            feelings.Respect = Math.Max(feelings.Respect, start.Respect);
+        }
+
         /// <summary>Las personas vivas que tienen ese lazo con <paramref name="person"/>, por id.</summary>
         public static IReadOnlyList<Character> WithBond(World world, Character person, RelationshipBond bond)
         {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace MistakesLife.Core.Characters
 {
@@ -45,6 +46,30 @@ namespace MistakesLife.Core.Characters
         public int WeeksIntoSemester { get; internal set; }
 
         private int _completedSemesters;
+
+        /// <summary>
+        /// Semestres con notas ya puestas. Cuando se aprueba uno nuevo (más aprobados que
+        /// con notas), se le ponen las notas de sus ramos.
+        /// </summary>
+        public int GradedSemesters { get; internal set; }
+
+        /// <summary>Cuánto se preparó este semestre para los certámenes (de -3 a 3), por lo que decidió en sus momentos (<c>jugador.estudiar_semestre(n)</c>).</summary>
+        public int Preparation { get; internal set; }
+
+        /// <summary>Las notas finales del último semestre con notas: ramo → nota (en la escala del país).</summary>
+        public SortedDictionary<string, double> LastMarks { get; } = new SortedDictionary<string, double>(StringComparer.Ordinal);
+
+        /// <summary>
+        /// Semestres cursados (aprobados o no): la gratuidad y los créditos miran cuántos
+        /// semestres lleva estudiando, no cuántos aprobó.
+        /// </summary>
+        public int SemestersTaken { get; internal set; }
+
+        /// <summary>El semestre del plan al que son las <see cref="LastMarks"/> (0 si todavía no hay notas).</summary>
+        public int LastMarksSemester { get; internal set; }
+
+        /// <summary>Promedios de cada semestre con notas, en orden.</summary>
+        public List<double> SemesterAverages { get; } = new List<double>();
 
         /// <summary>Avanza una semana; al completar un semestre lo suma a los aprobados.</summary>
         public void AdvanceWeek()

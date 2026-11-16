@@ -73,6 +73,8 @@ namespace MistakesLife.Core.Analysis
             var realPensions = new List<double>();
             var realDebts = new List<double>();
             long searchWeeks = 0, searchInterviews = 0;
+            var stops = new double[SimulationReport.PaceStages.Length];
+            var stageYears = new double[SimulationReport.PaceStages.Length];
 
             for (int i = 0; i < lives; i++)
             {
@@ -82,6 +84,7 @@ namespace MistakesLife.Core.Analysis
                 var chooser = new GameRandom(seed).Fork("simulador.decisiones");
                 var decider = new AutoDecider(_content);
                 var texter = new GameRandom(seed).Fork("simulador.mensajito");
+                var initiative = new GameRandom(seed).Fork("simulador.iniciativa");
                 int target = finalAge * GameDate.WeeksPerYear;
 
                 while (session.World.Player.IsAlive && session.World.Player.AgeInWeeks(session.World.Date) < target)
@@ -89,6 +92,7 @@ namespace MistakesLife.Core.Analysis
                     PendingEvent? pending = session.Pending;
                     if (pending != null)
                     {
+                        stops[PaceStage(session.PlayerAgeInYears)]++;
                         JobSearch? search = session.World.Player.JobSearch;
                         int weeks = search?.Weeks ?? 0, interviews = search?.Interviews ?? 0;
                         session.Choose(decider.Choose(session.World, pending, chooser));
@@ -105,10 +109,21 @@ namespace MistakesLife.Core.Analysis
 
                     // Como quien juega mira el celular seguido: avanza de a un mes y contesta sus mensajes.
                     AnswerChats(session, texter);
+                    if (TakeInitiative(session, initiative))
+                    {
+                        continue;
+                    }
+
                     session.Advance(Math.Min(ChatCheckWeeks, target - session.World.Player.AgeInWeeks(session.World.Date)));
                 }
 
                 var player = session.World.Player;
+                double yearsLived = (double)player.AgeInWeeks(session.World.Date) / GameDate.WeeksPerYear;
+                for (int st = 0; st < stageYears.Length; st++)
+                {
+                    stageYears[st] += Math.Max(0, Math.Min(yearsLived, SimulationReport.PaceStages[st].To) - SimulationReport.PaceStages[st].From);
+                }
+
                 if (!player.IsAlive)
                 {
                     report.Deaths++;
@@ -266,6 +281,12 @@ namespace MistakesLife.Core.Analysis
 
                 var lived = session.World.EventHistory.Where(r => r.CharacterId == player.Id).ToList();
                 totalEvents += lived.Count;
+                foreach (KeyValuePair<string, int> repeat in RepetitionRules.RepeatsWithoutReason(lived, _content))
+                {
+                    report.RepeatsWithoutReason[repeat.Key] = report.RepeatsWithoutReason.TryGetValue(repeat.Key, out int r) ? r + repeat.Value : repeat.Value;
+                    report.LivesWithRepeats[repeat.Key] = report.LivesWithRepeats.TryGetValue(repeat.Key, out int l) ? l + 1 : 1;
+                }
+
                 foreach (var group in lived.GroupBy(r => r.EventId))
                 {
                     report.LivesWithEvent[group.Key] = report.LivesWithEvent.TryGetValue(group.Key, out int n) ? n + 1 : 1;
@@ -321,6 +342,10 @@ namespace MistakesLife.Core.Analysis
             report.AverageHappiness = happiness / lives;
             report.AverageSmarts = smarts / lives;
             report.AverageEventsPerLife = (double)totalEvents / lives;
+            for (int st = 0; st < stops.Length; st++)
+            {
+                report.StopsPerYear[st] = stageYears[st] > 0 ? stops[st] / stageYears[st] : (double?)null;
+            }
             report.AverageAnnualInflation = inflationLives == 0 ? 0 : inflation / inflationLives;
             report.AverageContributionDensity = densityLives == 0 ? 0 : density / densityLives;
             report.AverageFriends = lives == 0 ? 0 : (double)totalFriends / lives;
@@ -343,10 +368,43 @@ namespace MistakesLife.Core.Analysis
         }
 
         /// <summary>Quien juega contesta la mayoría de sus mensajes de Mensajito (3 de cada 4), con cualquier respuesta; el resto los deja en visto.</summary>
+        private static int PaceStage(int age)
+        {
+            for (int i = 0; i < SimulationReport.PaceStages.Length; i++)
+            {
+                if (age < SimulationReport.PaceStages[i].To)
+                {
+                    return i;
+                }
+            }
+
+            return SimulationReport.PaceStages.Length - 1;
+        }
+
         public const double ChatAnswerChance = 0.75;
 
         /// <summary>Cada cuántas semanas, como mucho, la vida simulada mira Mensajito.</summary>
         public const int ChatCheckWeeks = 4;
+
+        /// <summary>
+        /// Lo que quien juega pide por su cuenta (los botones "a_pedido": pedir un aumento,
+        /// tomar vacaciones, renunciar): cada mes, cada uno con la probabilidad de su
+        /// "por_ano" / 12 para esa personalidad. Devuelve si pidió algo (queda pendiente).
+        /// </summary>
+        private static bool TakeInitiative(LifeSession session, GameRandom chooser)
+        {
+            foreach (Content.EventDefinition ev in session.Requestable())
+            {
+                var scope = new Events.EventScope(session.World, session.Content, session.World.Player, null, readOnly: true);
+                double perMonth = Math.Max(0, ev.OnRequest!.PerYearFor(scope)) / 12;
+                if (chooser.Chance(Math.Min(1, perMonth)) && session.Request(ev.Id))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         private static void AnswerChats(LifeSession session, GameRandom chooser)
         {

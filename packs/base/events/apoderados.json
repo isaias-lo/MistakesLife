@@ -1,0 +1,308 @@
+[
+  {
+    "id": "evento.apoderados.reunion_rojos",
+    "con": "apoderado",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.en_clases && jugador.rojos >= 1 && jugador.edad >= 8 && jugador.edad < 18",
+    "probabilidad_anual": 0.8,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.apoderados.reunion_rojos.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.apoderados.reunion_rojos.contar",
+        "tendencia": "jugador.amabilidad / 3 + (100 - jugador.neuroticismo) / 3",
+        "efectos": [
+          "persona.confianza += 5",
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.reunion_rojos.prometer",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.confianza += 1",
+          "jugador.marcar('prometio_estudiar')"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.reunion_rojos.culpar",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.confianza -= 5",
+          "persona.respeto -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.apoderados.cimarra",
+    "con": "apoderado",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.en_clases && jugador.tiene('hizo_cimarra')",
+    "probabilidad_anual": 0.8,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.apoderados.cimarra.reconocer",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.confianza += 3",
+          "persona.respeto += 2",
+          "jugador.felicidad -= 2",
+          "diario('diario.apoderados.cimarra')"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.cimarra.excusa",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.confianza -= 8",
+          "persona.rencor += 3"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.cimarra.enojarse",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "persona.carino -= 4",
+          "persona.rencor += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.apoderados.anotacion",
+    "con": "apoderado",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.en_clases && jugador.tiene('anotacion_negativa')",
+    "probabilidad_anual": 0.8,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.apoderados.anotacion.version",
+        "tendencia": "jugador.amabilidad / 2 + (100 - jugador.neuroticismo) / 4",
+        "efectos": [
+          "persona.confianza += 4"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.anotacion.perdon",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.respeto += 3",
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.anotacion.mala",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.confianza -= 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.apoderados.prueba_escondida",
+    "con": "apoderado",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.tiene('prueba_roja_escondida') && jugador.edad < 18",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.apoderados.prueba_escondida.verdad",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.confianza += 2",
+          "persona.carino -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.prueba_escondida.ibas",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.confianza -= 4"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.prueba_escondida.quitar",
+        "tendencia": "jugador.neuroticismo / 3",
+        "efectos": [
+          "persona.carino -= 4",
+          "persona.rencor += 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.apoderados.copia",
+    "con": "profe",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.tiene('dejo_copiar')",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.apoderados.copia.decir",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.respeto += 3",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.copia.negar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.respeto -= 4",
+          "persona.confianza -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.copia.callar",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.respeto -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.apoderados.felicitacion",
+    "con": "apoderado",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.en_clases && jugador.promedio >= 6.2 && jugador.edad >= 7",
+    "probabilidad_anual": 0.6,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.apoderados.felicitacion.contar",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.carino += 4",
+          "persona.confianza += 2"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.felicitacion.nada",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.felicitacion.pedir",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 1",
+          "jugador.felicidad += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.rival_patio",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 9 && jugador.edad < 18",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.rival_patio.talla",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "persona.respeto += 4",
+          "persona.rencor += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.rival_patio.ignorar",
+        "tendencia": "(100 - jugador.neuroticismo) / 2",
+        "efectos": [
+          "persona.respeto -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.rival_patio.empujar",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "persona.rencor += 8",
+          "jugador.salud -= 1",
+          "jugador.marcar('anotacion_negativa')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.kiosko",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 9 && jugador.edad < 15",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.kiosko.compartir",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.carino += 7"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.kiosko.prestar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 4",
+          "persona.confianza += 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.kiosko.nada",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.pelota_techo",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 7 && jugador.edad < 13",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.pelota_techo.ayudar",
+        "tendencia": "jugador.apertura / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 2",
+          "jugador.marcar('subio_al_techo')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pelota_techo.auxiliar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pelota_techo.subir",
+        "tendencia": "jugador.apertura / 3",
+        "efectos": [
+          "persona.respeto += 5",
+          "jugador.salud -= 1",
+          "jugador.felicidad += 3"
+        ]
+      }
+    ]
+  }
+]

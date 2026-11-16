@@ -5,8 +5,9 @@ namespace MistakesLife.Core.Events
     /// <summary>Un evento vivido, para el historial.</summary>
     public sealed class EventRecord
     {
-        public EventRecord(GameDate date, string eventId, int characterId, int? chosenOption)
+        public EventRecord(GameDate date, string eventId, int characterId, int? chosenOption, int? personId = null)
         {
+            PersonId = personId;
             Date = date;
             EventId = eventId;
             CharacterId = characterId;
@@ -21,5 +22,8 @@ namespace MistakesLife.Core.Events
 
         /// <summary>Índice de la opción elegida, o null si el evento no tenía opciones.</summary>
         public int? ChosenOption { get; }
+
+        /// <summary>Con quién fue el momento (su <c>con</c>), o null. Así se sabe lo que viviste con cada persona.</summary>
+        public int? PersonId { get; }
     }
 }

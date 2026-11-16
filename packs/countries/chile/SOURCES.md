@@ -52,7 +52,7 @@
 | Cuenta en la AFP: el 10 % del sueldo va al fondo; el resto del descuento (cerca de 1,15 %) es comisión y seguro de invalidez | DL 3.500, [Superintendencia de Pensiones](https://www.spensiones.cl) | `parte_a_la_cuenta` 0.897 (10 / 11,15). Honorarios cotizan 10 % para la pensión sobre el 80 % de lo boleteado (Ley 21.133) |
 | Rentabilidad real de los fondos: entre 3 % y 5 % al año en promedio desde 2000, según el fondo | Superintendencia de Pensiones, de memoria | `rentabilidad_real_anual` 0.035. Por verificar |
 | Pensión Garantizada Universal: $224.004 al mes (febrero 2025), completa con pensión base hasta $789.139 y nada desde $1.252.602 | Ley 21.419, [ChileAtiende](https://www.chileatiende.gob.cl), de memoria | `pension_universal`. La reforma de 2025 (Ley 21.735) la sube a $250.275, primero para mayores de 82. Falta el requisito de no estar en el 10 % más rico. Por verificar |
-| CAE: interés de 2 % al año en UF, se paga en 10, 15 o 20 años desde 18 meses después de egresar; la cuota no puede pasar del 10 % del sueldo | Ley 20.027 y Ley 20.634 (2012), [Comisión Ingresa](https://www.ingresa.cl) | `deuda.chile.cae`: 180 cuotas, se cobra al dejar de estudiar (sin los 18 meses de gracia ni el tope del 10 %). El monto por semestre (1.100.000) es una estimación del arancel de referencia. El proyecto FES lo reemplazaría |
+| CAE: interés de 2 % al año en UF, se paga en 10, 15 o 20 años desde 18 meses después de egresar; la cuota no puede pasar del 10 % del sueldo | Ley 20.027 y Ley 20.634 (2012), [Comisión Ingresa](https://www.ingresa.cl) | `deuda.chile.cae`: 180 cuotas, se cobra al dejar de estudiar (sin los 18 meses de gracia ni el tope del 10 %). Se pide año a año en la matrícula de marzo: el 80 % del arancel (estimación del arancel de referencia; la diferencia, la "brecha", se paga cada mes con `servicio.arancel.brecha_*`). El proyecto FES lo reemplazaría |
 | Crédito de consumo: tasas entre 20 % y 40 % al año; la tasa máxima convencional para créditos pequeños es cerca de 40 % | [CMF](https://www.cmfchile.cl), de memoria | `deuda.chile.consumo`: 30 % al año en 36 cuotas. Por verificar |
 | DICOM: una deuda impaga se informa después de unos 90 días de mora; al pagarla se borra (Ley 20.575) | Ley 19.628 y Ley 20.575 | `meses_para_moroso` 3 |
 | Tarjetas de crédito: interés cercano al máximo convencional (sobre 40 % al año para montos pequeños); pago mínimo de alrededor de 5 % de la deuda | [CMF](https://www.cmfchile.cl), Ley 20.715, de memoria | `deuda.chile.tarjeta`: 40 %, pago mínimo 5 % con al menos 20.000. Por verificar |
@@ -200,6 +200,55 @@ Anotado de memoria y por verificar en [Ley Chile (BCN)](https://www.bcn.cl/leych
 - Quiebra del empleador: Ley 20.720 de liquidación. Las remuneraciones e indemnizaciones de los trabajadores son créditos de primera clase (Código Civil art. 2472), que se pagan antes que los demás. Que se pague el 60 % de lo verificado es una estimación.
 - Posesión efectiva: Ley 19.903. La de una herencia sin testamento se pide en el Registro Civil; se publica en el Diario Oficial y se inscribe en el Registro Nacional de Posesiones Efectivas. Es gratis si la herencia vale hasta 15 UTA; el arancel (~1,8 UTM hasta 45 UTA y ~2,5 UTM sobre eso) es aproximado. Impuesto a la herencia (Ley 16.271): exento hasta 50 UTA por heredero; el juego cobra 1 % de lo que pasa del exento (el primer tramo), sin los tramos más altos.
 - Juzgado de Policía Local (Ley 18.287): ve las faltas como ruidos molestos (ordenanzas municipales, en el juego 2 UTM) y beber alcohol en la vía pública (Ley 19.925, art. 26; en el juego 1 UTM). Si la multa no se paga, el juez puede cambiarla por reclusión nocturna (art. 23). UTM ≈ $68.000 de dinero del inicio.
+
+## El curso del colegio (country.json: fin_ano_escolar, vacaciones_invierno, curso)
+
+Anotado de memoria y por verificar en el [calendario escolar del Mineduc](https://www.mineduc.cl) y en las [estadísticas de la educación](https://centroestudios.mineduc.cl):
+
+- Calendario escolar de la Región Metropolitana: las clases parten la primera semana de marzo (el juego usa el 4 de marzo), las vacaciones de invierno son dos semanas desde fines de junio (23 de junio al 4 de julio) y el año termina a mediados de diciembre (13 de diciembre). Cambian un poco cada año y por región.
+- Alumnos por curso: el promedio en básica y media ronda los 30 a 33 (más en particulares subvencionados, menos en municipales); el juego usa 32. Con 10 compañeros el jugador tiene trato (nombre, cariño, momentos): una estimación de con cuántos se conversa de verdad, por calibrar.
+- Profesores: cerca del 72 % de quienes hacen clases en el colegio son mujeres (más en básica, menos en media).
+- Edad del curso: entra al mismo curso quien cumple 6 años antes del 31 de marzo, así que los compañeros nacen hasta 9 meses antes y unos 3 meses después que el jugador.
+- Que la profe jefe cambie un año de cada tres, que siga contigo el 40 % del curso al pasar a media y que cada año alguien se cambie de colegio (30 %) son estimaciones por calibrar.
+
+## Notas y pasar de curso (country.json: escala_notas, ramos, promocion)
+
+Anotado de memoria y por verificar en [Ley Chile (BCN)](https://www.bcn.cl/leychile) y el [Mineduc](https://www.mineduc.cl):
+
+- Escala de 1,0 a 7,0 con un decimal; se aprueba con 4,0.
+- Promoción: Decreto 67 de 2018 (evaluación, calificación y promoción). Pasa de curso quien aprueba todos los ramos; con uno reprobado, si el promedio general es 4,5 o más; con dos reprobados, si es 5,0 o más. También pide 85 % de asistencia (el juego todavía no la cuenta) y el director puede decidir después de analizar cada caso.
+- Ramos: bases curriculares de básica (Lenguaje y Comunicación hasta 6º, Lengua y Literatura en 7º y 8º, Inglés desde 5º), de 1º y 2º medio (Biología, Física y Química por separado) y el plan común de 3º y 4º medio desde 2020 (Educación Ciudadana, Filosofía y Ciencias para la Ciudadanía). Orientación y Religión no cuentan para pasar de curso. Los electivos de 3º y 4º medio todavía no están.
+- 10 notas por ramo en un año es una estimación (de 4 a 6 por semestre). Que la nota dependa de la inteligencia, la constancia, el estudio del horario, el ánimo y la suerte, con un promedio cercano a 5,6, es una calibración del juego: el promedio de notas de enseñanza media en Chile ronda el 5,7.
+
+## Aranceles y gratuidad (R5b)
+
+- Arancel anual promedio de pregrado (estimaciones redondeadas de [mifuturo.cl](https://www.mifuturo.cl) y SIES 2024, por revisar por carrera): universidad ~$4.200.000, instituto profesional ~$2.000.000, CFT ~$1.700.000. En el juego, `servicio.arancel.pago_*` cobra 1/12 cada mes mientras estudia; matrícula anual ~$200.000 en marzo.
+- Gratuidad (Ley 21.091): cubre arancel y matrícula durante la duración formal de la carrera. Si se pasa, el primer año extra paga la mitad del arancel regulado y después el arancel completo. En el juego cuenta los semestres cursados (`jugador.semestres_cursados`), no los aprobados. Solo cubre el primer título (por eso no se da a quien ya está titulado).
+
+
+## Lo que decides tú en la pega (R6c): vacaciones, aumento y renuncia
+
+Del [Código del Trabajo (BCN)](https://www.bcn.cl/leychile/navegar?idNorma=207436) y la [Dirección del Trabajo](https://www.dt.gob.cl):
+
+- Feriado anual (art. 67): con más de un año de servicio, 15 días hábiles con remuneración íntegra. El sábado no cuenta como hábil para el feriado. En el juego se ganan mes a mes (1,25 días por mes) desde el primer mes, como el feriado proporcional.
+- Feriado progresivo (art. 68): con 10 años de trabajo, para uno o más empleadores, un día más por cada 3 nuevos años trabajados; solo se pueden hacer valer hasta 10 años con empleadores anteriores. En el juego los años anteriores salen de los meses cotizados.
+- Acumulación (art. 70): el feriado se puede acumular hasta por dos períodos consecutivos. En el juego, lo que pasa de dos años de días se pierde.
+- Feriado proporcional (art. 73): si el contrato termina antes de tomar los días, se pagan. Los días hábiles se pagan como corridos (sumando sábados, domingos y feriados que caen entre medio); el juego usa 1,4 días pagados por día hábil (7 días corridos por cada 5 hábiles) y el sueldo diario = sueldo mensual / 30.
+- Renuncia voluntaria (art. 159 n.º 2): con aviso al empleador con 30 días de anticipación, firmada ante un ministro de fe (inspector del trabajo, notario) o hoy por la plataforma de la DT. No da indemnización por años de servicio; sí se pagan los días trabajados y el feriado proporcional. Si el trabajador no avisa con 30 días, la ley no le impone una multa.
+- Pedir aumento: la respuesta sigue la encuesta "Raise Anatomy" de [PayScale](https://www.payscale.com) (2018, unas 160 mil personas, EE. UU.): de quienes pidieron, el 39 % recibió lo que pidió, el 31 % recibió menos y el 30 % nada. No hay una encuesta igual de grande en Chile; el juego la usa como base y la mueve por desempeño, respeto del jefe y economía (calibración del juego).
+
+## Futuros juntos (R6d): recomendar y vivir juntos
+
+- Recomendar en tu pega ("pituto"): la probabilidad de que contraten a quien recomiendas es la misma que la de una entrevista que llega por contacto en `busqueda_trabajo` (35 % + 20 %).
+- Subarrendar: el Código Civil (art. 1946) no permite al arrendatario subarrendar sin facultad expresa del dueño; la Ley 18.101 (art. 5) la da por implícita solo en contratos de plazo fijo de más de un año. Los contratos del juego son de 12 meses, así que hace falta permiso.
+- Que a quien vive contigo no le alcance para el arriendo: 9 % al año, cerca de la tasa de desocupación del INE (alrededor de 8,5 % en 2024). Es una estimación: no es lo mismo quedar desocupado que no poder pagar.
+
+## Ser socios (R6d2): negocios chicos
+
+- Ganancia de cada socio: [Encuesta de Microemprendimiento del INE](https://www.ine.gob.cl/estadisticas/sociales/mercado-laboral/microemprendimiento). VI EME (2019): ganancia mensual promedio de los formales $1.115.856 y de los informales $277.668, con un sueldo mínimo de $301.000 ese año: 3,7 y 0,92 sueldos mínimos. VIII EME (2025): promedio $828.612 y el 76,9 % gana el promedio o menos (de ahí `variacion` 1,47).
+- Cierre: cerca del 15,2 % de las microempresas cierra en su primer año (Ministerio de Economía, Boletín de Dinámica Empresarial 2005-2014). La supervivencia al quinto año ronda el 47 % (Banco Central, Demografía de Empresas): con 15,2 % el primer año, eso da cerca de 13,7 % por año después.
+- Formal: la SpA se constituye gratis en el Registro de Empresas y Sociedades (Empresa en un Día, Ley 20.659) y después se da inicio de actividades en el SII.
+- Que la ganancia dependa de la responsabilidad de los dos y de la economía, y que no dependa del aporte, son calibraciones del juego.
 
 ## Salud real, parte 1: Fonasa, isapres y lo que cuesta atenderse (S1, 2026-11-14)
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Scripting;
+using MistakesLife.Core.Time;
 using Newtonsoft.Json;
 
 namespace MistakesLife.Core.Content
@@ -18,7 +19,10 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, SeedTypeDefinition> _seedTypes = new SortedDictionary<string, SeedTypeDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, NewsDefinition> _news = new SortedDictionary<string, NewsDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, CourtCaseDefinition> _courtCases = new SortedDictionary<string, CourtCaseDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, ChapterTitleDefinition> _chapterTitles = new SortedDictionary<string, ChapterTitleDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, ActivityDefinition> _activities = new SortedDictionary<string, ActivityDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, WishDefinition> _wishes = new SortedDictionary<string, WishDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, MailDefinition> _mails = new SortedDictionary<string, MailDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, List<MailDefinition>> _mailsByJournal = new Dictionary<string, List<MailDefinition>>(StringComparer.Ordinal);
@@ -50,6 +54,13 @@ namespace MistakesLife.Core.Content
         /// <summary>Los objetos de la escena 3D que dependen de la vida del jugador, ordenados por id.</summary>
         public IEnumerable<SceneObjectDefinition> SceneObjects => _sceneObjects.Values;
 
+        /// <summary>Los títulos de capítulo que pueden dar las líneas del diario (chapters/).</summary>
+        public IEnumerable<ChapterTitleDefinition> ChapterTitles => _chapterTitles.Values;
+
+        /// <summary>El título que puede dar al año esa línea del diario, o null si no da ninguno.</summary>
+        public ChapterTitleDefinition? ChapterTitleFor(string journalKey) =>
+            _chapterTitles.TryGetValue(journalKey, out ChapterTitleDefinition? definition) ? definition : null;
+
         /// <summary>Las noticias del mundo, ordenadas por id.</summary>
         public IEnumerable<NewsDefinition> News => _news.Values;
 
@@ -61,6 +72,16 @@ namespace MistakesLife.Core.Content
         public bool TryGetCourtCase(string id, out CourtCaseDefinition? definition) => _courtCases.TryGetValue(id, out definition);
 
         public IEnumerable<CountryDefinition> Countries => _countries.Values;
+
+        /// <summary>Lo que se puede poner en el horario, ordenado por id.</summary>
+        public IEnumerable<ActivityDefinition> Activities => _activities.Values;
+
+        public ActivityDefinition? Activity(string id) => _activities.TryGetValue(id, out ActivityDefinition? activity) ? activity : null;
+
+        /// <summary>Lo que un personaje puede querer en una etapa (carpeta deseos/), ordenado por id.</summary>
+        public IEnumerable<WishDefinition> Wishes => _wishes.Values;
+
+        public WishDefinition? Wish(string id) => _wishes.TryGetValue(id, out WishDefinition? wish) ? wish : null;
 
         /// <summary>Las apps del celular, ordenadas por id.</summary>
         public IEnumerable<AppDefinition> Apps => _apps.Values;
@@ -108,6 +129,9 @@ namespace MistakesLife.Core.Content
 
         public CareerLevelDefinition GetCareerLevel(string id) =>
             _careerLevels.TryGetValue(id, out CareerLevelDefinition? level) ? level : throw new KeyNotFoundException($"No existe el nivel de carrera '{id}'.");
+
+        /// <summary>Si existe ese nivel de carrera.</summary>
+        public bool HasCareerLevel(string id) => _careerLevels.ContainsKey(id);
 
         public CareerAreaDefinition GetCareerArea(string id) =>
             _careerAreas.TryGetValue(id, out CareerAreaDefinition? area) ? area : throw new KeyNotFoundException($"No existe el área de carrera '{id}'.");
@@ -277,6 +301,28 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega los títulos de capítulo de un archivo JSON de chapters/ (una lista).</summary>
+        public void AddChaptersJson(string packId, string sourceName, string json)
+        {
+            foreach (ChapterTitleDefinition definition in Deserialize<ChapterTitleDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                string where = $"{sourceName} [{definition.JournalKey}]";
+                if (_chapterTitles.ContainsKey(definition.JournalKey))
+                {
+                    _errors.Add(new ContentError(where, "esa línea del diario ya tiene título de capítulo."));
+                    continue;
+                }
+
+                if (definition.Weight < 1 || definition.Weight > ChapterTitleDefinition.MaxWeight)
+                {
+                    _errors.Add(new ContentError(where, $"el peso va de 1 a {ChapterTitleDefinition.MaxWeight}."));
+                }
+
+                _chapterTitles.Add(definition.JournalKey, definition);
+            }
+        }
+
         /// <summary>Agrega los objetos de la escena de un archivo JSON de scene/ (una lista).</summary>
         public void AddSceneJson(string packId, string sourceName, string json)
         {
@@ -290,6 +336,37 @@ namespace MistakesLife.Core.Content
                 }
 
                 _sceneObjects.Add(definition.Id, definition);
+            }
+        }
+
+        /// <summary>Agrega las actividades del horario de un archivo JSON de actividades/ (una lista).</summary>
+        public void AddActivitiesJson(string packId, string sourceName, string json)
+        {
+            foreach (ActivityDefinition definition in Deserialize<ActivityDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_activities.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de actividad repetido."));
+                    continue;
+                }
+
+                _activities.Add(definition.Id, definition);
+            }
+        }
+
+        /// <summary>Agrega los deseos de un archivo JSON de deseos/ (una lista).</summary>
+        public void AddWishesJson(string packId, string sourceName, string json)
+        {
+            foreach (WishDefinition definition in Deserialize<WishDefinition>(sourceName, json))
+            {
+                if (_wishes.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de deseo repetido."));
+                    continue;
+                }
+
+                _wishes.Add(definition.Id, definition);
             }
         }
 
@@ -524,6 +601,8 @@ namespace MistakesLife.Core.Content
             ValidateMails();
             ValidateChats();
             ValidateChatOpeners();
+            ValidateActivities();
+            ValidateWishes();
 
             foreach (SceneObjectDefinition scene in _sceneObjects.Values)
             {
@@ -573,10 +652,17 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, "veces_maximas debe ser mayor que 0."));
                 }
 
+                if (ev.PerPerson && ev.With == null)
+                {
+                    _errors.Add(new ContentError(where, "por_persona necesita con: cuenta las veces con cada persona."));
+                }
+
                 if (ev.Variants.Any(string.IsNullOrWhiteSpace) || ev.AllTextKeys.Distinct().Count() != ev.Variants.Count + 1)
                 {
                     _errors.Add(new ContentError(where, "las variantes no pueden estar vacías ni repetir el texto principal u otra variante."));
                 }
+
+                ValidateMoment(where, ev);
 
                 if (ev.SeedType != null)
                 {
@@ -592,6 +678,11 @@ namespace MistakesLife.Core.Content
 
                 _checkedCountry = ev.CountryId == null ? null : _countries[ev.CountryId];
                 ev.CompiledConditions = CompileCondition(where, ev.Conditions);
+                if (ev.OnRequest != null)
+                {
+                    ev.OnRequest.CompiledPerYear = CompileCondition(where + ", a_pedido", ev.OnRequest.PerYear);
+                }
+
                 CompileEffects(where, ev.Effects, ev.CompiledEffects);
                 for (int i = 0; i < ev.Options.Count; i++)
                 {
@@ -731,6 +822,50 @@ namespace MistakesLife.Core.Content
 
             string where = $"país {country.Id}";
             CheckId(where, country.Id, "pais.");
+            if (country.SchoolYearStart != null)
+            {
+                country.SchoolYearStartDay = ParseDayMonth(country.SchoolYearStart);
+                if (country.SchoolYearStartDay == null)
+                {
+                    _errors.Add(new ContentError(where, $"inicio_ano_escolar '{country.SchoolYearStart}' no se entiende: usa día-mes, por ejemplo \"04-03\"."));
+                }
+            }
+
+            if (country.SchoolYearEnd != null)
+            {
+                country.SchoolYearEndDay = ParseDayMonth(country.SchoolYearEnd);
+                if (country.SchoolYearEndDay == null || country.SchoolYearStart == null)
+                {
+                    _errors.Add(new ContentError(where, $"fin_ano_escolar '{country.SchoolYearEnd}' no se entiende o falta inicio_ano_escolar: usa día-mes, por ejemplo \"13-12\"."));
+                }
+            }
+
+            if (country.WinterBreak != null)
+            {
+                country.WinterBreak.FromDay = ParseDayMonth(country.WinterBreak.From);
+                country.WinterBreak.ToDay = ParseDayMonth(country.WinterBreak.To);
+                if (country.WinterBreak.FromDay == null || country.WinterBreak.ToDay == null)
+                {
+                    _errors.Add(new ContentError(where, "vacaciones_invierno necesita 'desde' y 'hasta' como día-mes, por ejemplo \"23-06\"."));
+                }
+            }
+
+            if (country.SchoolClass != null)
+            {
+                SchoolClassDefinition cls = country.SchoolClass;
+                if (cls.Named < 1 || cls.Students < cls.Named + 1)
+                {
+                    _errors.Add(new ContentError(where, "curso: con_nombre debe ser 1 o más y alumnos debe ser mayor que con_nombre (te cuenta a ti)."));
+                }
+
+                foreach (double chance in new[] { cls.TeacherChange, cls.KeepOnNewStage, cls.YearlyChange, cls.FemaleTeachers })
+                {
+                    if (chance < 0 || chance > 1)
+                    {
+                        _errors.Add(new ContentError(where, "curso: las probabilidades van de 0 a 1."));
+                    }
+                }
+            }
             if (country.BirthWeight < 0)
             {
                 _errors.Add(new ContentError(where, "peso_nacimiento no puede ser negativo (0: solo se nace ahí si se elige)."));
@@ -806,6 +941,36 @@ namespace MistakesLife.Core.Content
                 }
 
                 previousEnd = stage.ToAge;
+                if ((stage.Subjects.Count > 0 || stage.Promotion.Count > 0) && (!stage.HasClass || country.GradeScale == null))
+                {
+                    _errors.Add(new ContentError(stageWhere, "ramos y promocion van solo en etapas con \"curso\": true y en un país con escala_notas."));
+                }
+
+                foreach (SubjectDefinition subject in stage.Subjects)
+                {
+                    CheckId(stageWhere, subject.Id, "ramo.");
+                    if (subject.FromLevel < 1 || subject.ToLevel < subject.FromLevel)
+                    {
+                        _errors.Add(new ContentError(stageWhere, $"ramo {subject.Id}: desde debe ser 1 o más y hasta no puede ser menor que desde."));
+                    }
+                }
+
+                foreach (PromotionRuleDefinition rule in stage.Promotion)
+                {
+                    if (rule.Failed < 0)
+                    {
+                        _errors.Add(new ContentError(stageWhere, "promocion: reprobados no puede ser negativo."));
+                    }
+                }
+            }
+
+            if (country.GradeScale != null)
+            {
+                GradeScaleDefinition scale = country.GradeScale;
+                if (!(scale.Min < scale.Pass && scale.Pass <= scale.Max) || scale.MarksPerYear < 1 || scale.Decimals < 0 || scale.Decimals > 2)
+                {
+                    _errors.Add(new ContentError(where, "escala_notas: debe ser minima < aprueba <= maxima, notas_por_ano 1 o más y decimales de 0 a 2."));
+                }
             }
 
             int previousAge = -1;
@@ -883,6 +1048,19 @@ namespace MistakesLife.Core.Content
                 if (country.Economy.JobSearch != null)
                 {
                     ValidateJobSearch($"{where}, economia.busqueda_trabajo", country.Economy.JobSearch);
+                }
+
+                if (country.Economy.Ventures is VenturesDefinition ventures
+                    && (ventures.FormalProfit <= 0 || ventures.InformalProfit <= 0 || ventures.Spread < 0
+                        || ventures.FirstYearClosure < 0 || ventures.FirstYearClosure >= 1 || ventures.YearlyClosure < 0 || ventures.YearlyClosure >= 1
+                        || ventures.FormalTax < 0 || ventures.FormalTax >= 1))
+                {
+                    _errors.Add(new ContentError($"{where}, economia.negocios", "las ganancias deben ser positivas y las probabilidades e impuesto entre 0 y 1."));
+                }
+
+                if (country.Economy.Vacations != null)
+                {
+                    ValidateVacations($"{where}, economia.vacaciones", country.Economy.Vacations);
                 }
             }
 
@@ -1330,6 +1508,34 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        private void ValidateVacations(string where, VacationsDefinition vacations)
+        {
+            if (vacations.Tiers.Count == 0 || vacations.Tiers[0].FromYears != 0)
+            {
+                _errors.Add(new ContentError(where, "los tramos deben partir con uno desde 0 años."));
+            }
+
+            for (int i = 0; i < vacations.Tiers.Count; i++)
+            {
+                if (vacations.Tiers[i].Days <= 0 || (i > 0 && vacations.Tiers[i].FromYears <= vacations.Tiers[i - 1].FromYears))
+                {
+                    _errors.Add(new ContentError(where, "cada tramo tiene días positivos y empieza después del anterior."));
+                }
+            }
+
+            if (vacations.Unit != "habiles" && vacations.Unit != "corridos")
+            {
+                _errors.Add(new ContentError(where, $"la unidad '{vacations.Unit}' no existe (habiles o corridos)."));
+            }
+
+            if (vacations.MaxYearsSaved < 1 || vacations.DayDivisor <= 0 || vacations.PaidDaysPerDay <= 0
+                || vacations.ProgressiveFromYears < 0 || vacations.ProgressiveEveryYears < 0 || vacations.ProgressiveMaxPriorYears < 0
+                || (vacations.ProgressiveFromYears > 0 && vacations.ProgressiveEveryYears == 0))
+            {
+                _errors.Add(new ContentError(where, "acumula_maximo_anos, divisor_dia y dias_pagados_por_dia deben ser positivos, y el progresivo necesita cada cuántos años."));
+            }
+        }
+
         private void ValidateJobSearch(string where, JobSearchDefinition search)
         {
             if (search.Methods.Count == 0)
@@ -1390,7 +1596,54 @@ namespace MistakesLife.Core.Content
         private void ValidateCareer(CareerDefinition career)
         {
             string where = $"carrera {career.Id}";
-            CheckId(where, career.Id, "carrera.");
+            CheckId(where, career.Id, career.IsOccupation ? "oficio." : "carrera.");
+            if (career.Occupation != null)
+            {
+                OccupationDefinition job = career.Occupation;
+                if (job.BaseSalary <= 0 || job.BaseSalaryByCountry.Values.Any(v => v <= 0) || job.TypicalVariable < 0 || (job.Season.Count != 0 && job.Season.Count != 12) || job.Season.Any(m => m <= 0))
+                {
+                    _errors.Add(new ContentError(where + ", oficio", "sueldo_base mayor que 0, variable_tipico desde 0 y temporada con 12 meses mayores que 0."));
+                }
+
+                if (job.VariableKind != null && !OccupationDefinition.VariableKinds.Contains(job.VariableKind))
+                {
+                    _errors.Add(new ContentError(where + ", oficio", $"pago_variable debe ser uno de: {string.Join(", ", OccupationDefinition.VariableKinds)}."));
+                }
+
+                if (career.Levels.Count > 0)
+                {
+                    _errors.Add(new ContentError(where, "un oficio no tiene niveles de estudio."));
+                }
+            }
+
+            foreach (CourseDefinition course in career.Courses)
+            {
+                CheckId(where + ", ramos", course.Id, "ramo.");
+                if (course.Institutions.Any(i => !CareerLevelDefinition.Institutions.Contains(i)))
+                {
+                    _errors.Add(new ContentError($"{where}, {course.Id}", $"instituciones debe ser de: {string.Join(", ", CareerLevelDefinition.Institutions)}."));
+                }
+
+                if (course.FromSemester < 1 || course.LastSemester < course.FromSemester)
+                {
+                    _errors.Add(new ContentError($"{where}, {course.Id}", "desde va de 1 en adelante y hasta no puede ser menor que desde."));
+                }
+            }
+
+            // Si la carrera tiene ramos, cada semestre de cada nivel tiene al menos uno.
+            if (career.Courses.Count > 0)
+            {
+                foreach (CareerLevelDefinition level in career.Levels)
+                {
+                    for (int semester = 1; semester <= level.Semesters; semester++)
+                    {
+                        if (!career.Courses.Any(c => c.In(level.Institution, semester, level.Semesters)))
+                        {
+                            _errors.Add(new ContentError($"{where}, {level.Id}", $"el semestre {semester} no tiene ramos."));
+                        }
+                    }
+                }
+            }
             foreach (string name in career.CompanyNames)
             {
                 CheckId(where + ", nombres_empresa", name, "empresa.");
@@ -1401,7 +1654,7 @@ namespace MistakesLife.Core.Content
                 _errors.Add(new ContentError(where, $"lugar_de_trabajo debe ser uno de: {string.Join(", ", CareerDefinition.WorkplaceKinds)}."));
             }
 
-            if (career.Levels.Count == 0)
+            if (career.Levels.Count == 0 && !career.IsOccupation)
             {
                 _errors.Add(new ContentError(where, "debe tener al menos un nivel."));
             }
@@ -1618,6 +1871,13 @@ namespace MistakesLife.Core.Content
                 yield return new KeyValuePair<string, string>(app.Id, $"app {app.Id}");
             }
 
+            foreach (ChapterTitleDefinition chapter in _chapterTitles.Values)
+            {
+                // La línea del diario también tiene que existir: si no, el título nunca saldría.
+                yield return new KeyValuePair<string, string>(chapter.TitleKey, $"capítulo {chapter.JournalKey}");
+                yield return new KeyValuePair<string, string>(chapter.JournalKey, $"capítulo {chapter.JournalKey}");
+            }
+
             foreach (MailDefinition mail in _mails.Values)
             {
                 yield return new KeyValuePair<string, string>(mail.Id, $"correo {mail.Id}");
@@ -1643,6 +1903,18 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            foreach (ActivityDefinition activity in _activities.Values)
+            {
+                yield return new KeyValuePair<string, string>(activity.Id, $"actividad {activity.Id}");
+            }
+
+            foreach (WishDefinition wish in _wishes.Values)
+            {
+                yield return new KeyValuePair<string, string>(wish.Id, $"deseo {wish.Id}");
+                yield return new KeyValuePair<string, string>(wish.FulfilledJournalKey, $"deseo {wish.Id}");
+                yield return new KeyValuePair<string, string>(wish.LostJournalKey, $"deseo {wish.Id}");
+            }
+
             foreach (ChatOpenerDefinition opener in _chatOpeners.Values)
             {
                 yield return new KeyValuePair<string, string>(opener.Id, $"escribir {opener.Id}");
@@ -1658,6 +1930,15 @@ namespace MistakesLife.Core.Content
                 {
                     yield return new KeyValuePair<string, string>("diario." + stage.Id, $"país {country.Id}");
                     yield return new KeyValuePair<string, string>(stage.Id, $"país {country.Id}");
+                    if (stage.HasClass)
+                    {
+                        yield return new KeyValuePair<string, string>("curso." + stage.Id, $"país {country.Id}");
+                    }
+
+                    foreach (SubjectDefinition subject in stage.Subjects)
+                    {
+                        yield return new KeyValuePair<string, string>(subject.Id, $"país {country.Id}");
+                    }
                 }
 
                 foreach (CityDefinition city in country.Cities)
@@ -1768,6 +2049,14 @@ namespace MistakesLife.Core.Content
                     }
                 }
 
+                if (country.Economy != null)
+                {
+                    foreach (string key in Work.RaiseRules.Journals.Concat(Work.ReferralRules.Journals).Concat(Work.VentureRules.Journals))
+                    {
+                        yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
+                    }
+                }
+
                 if (country.Economy?.Inheritance != null)
                 {
                     yield return new KeyValuePair<string, string>(Economy.InheritanceSettlement.ReceivedJournal, $"país {country.Id}");
@@ -1795,6 +2084,19 @@ namespace MistakesLife.Core.Content
                 foreach (CareerAreaDefinition area in career.Areas)
                 {
                     yield return new KeyValuePair<string, string>(area.Id, $"carrera {career.Id}");
+                }
+
+                if (career.Occupation?.BossKey is string bossKey)
+                {
+                    foreach (string suffix in new[] { ".f", ".m", ".momento.f", ".momento.m" })
+                    {
+                        yield return new KeyValuePair<string, string>(bossKey + suffix, $"oficio {career.Id}");
+                    }
+                }
+
+                foreach (CourseDefinition course in career.Courses)
+                {
+                    yield return new KeyValuePair<string, string>(course.Id, $"carrera {career.Id}");
                 }
 
                 foreach (string name in career.CompanyNames)
@@ -1845,6 +2147,21 @@ namespace MistakesLife.Core.Content
                 foreach (string key in ev.AllTextKeys)
                 {
                     yield return new KeyValuePair<string, string>(key, where);
+                }
+
+                if (ev.Place != null)
+                {
+                    yield return new KeyValuePair<string, string>(ev.Place, where);
+                }
+
+                if (ev.RuleGroup != null)
+                {
+                    yield return new KeyValuePair<string, string>(ev.RuleGroup, where);
+                }
+
+                if (ev.OnRequest != null)
+                {
+                    yield return new KeyValuePair<string, string>(ev.OnRequest.TextKey, where);
                 }
                 foreach (EventOptionDefinition option in ev.Options)
                 {
@@ -2281,6 +2598,193 @@ namespace MistakesLife.Core.Content
         }
 
         /// <summary>Revisa lo que el jugador puede escribir primero.</summary>
+        /// <summary>
+        /// Revisa con quién, dónde y cuándo pasa un momento. Regla del rediseño: un momento
+        /// que nace del horario o del calendario detiene el tiempo, así que necesita una
+        /// persona o un lugar con nombre.
+        /// </summary>
+        private void ValidateMoment(string where, EventDefinition ev)
+        {
+            if (ev.With != null && Array.IndexOf(ChatDefinition.Senders, ev.With) < 0)
+            {
+                _errors.Add(new ContentError(where, $"con '{ev.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+            }
+
+            if (ev.Place != null && !ev.Place.StartsWith("lugar.", StringComparison.Ordinal))
+            {
+                _errors.Add(new ContentError(where, $"lugar '{ev.Place}' debe empezar con 'lugar.'."));
+            }
+
+            if (ev.Activity != null && !_activities.ContainsKey(ev.Activity))
+            {
+                _errors.Add(new ContentError(where, $"la actividad '{ev.Activity}' no existe."));
+            }
+
+            if (ev.OnRequest != null && (ev.Activity != null || ev.Date != null || ev.AnnualProbability.HasValue || ev.SeedType != null))
+            {
+                _errors.Add(new ContentError(where, "un momento a_pedido lo empieza el jugador: no lleva actividad, fecha, probabilidad_anual ni semilla."));
+            }
+
+            if (ev.OnRequest != null && !ev.OnRequest.TextKey.StartsWith("accion.", StringComparison.Ordinal))
+            {
+                _errors.Add(new ContentError(where, $"el texto del botón '{ev.OnRequest.TextKey}' debe empezar con 'accion.'."));
+            }
+
+            if (ev.Activity != null && ev.Date != null)
+            {
+                _errors.Add(new ContentError(where, "un momento nace del horario (actividad) o de una fecha, no de las dos."));
+            }
+
+            if (ev.Activity != null && !ev.AnnualProbability.HasValue)
+            {
+                _errors.Add(new ContentError(where, "un momento del horario necesita probabilidad_anual (en un año, haciendo la actividad una vez por semana)."));
+            }
+
+            if (ev.IsScheduled && ev.SeedType != null)
+            {
+                _errors.Add(new ContentError(where, "un evento de semilla no lleva actividad ni fecha: ocurre cuando la semilla despierta."));
+            }
+
+            if (ev.IsScheduled && ev.With == null && ev.Place == null)
+            {
+                _errors.Add(new ContentError(where, "un momento con actividad, fecha o a_pedido necesita con quién (con) o dónde (lugar): sin persona ni lugar con nombre, no detiene el tiempo."));
+            }
+
+            if (ev.Date != null && !ev.OnBirthday)
+            {
+                int? day = ParseDayMonth(ev.Date);
+                if (day == null)
+                {
+                    _errors.Add(new ContentError(where, $"fecha '{ev.Date}' no se entiende: usa día-mes, por ejemplo \"24-12\", o \"{EventDefinition.BirthdayDate}\"."));
+                }
+
+                ev.FixedDayOfYear = day;
+            }
+
+            if (ev.OnBirthday && ev.With == null)
+            {
+                _errors.Add(new ContentError(where, "fecha 'cumpleanos' necesita con quién (con): es el cumpleaños de esa persona."));
+            }
+
+            if (ev.RuleGroup != null && !ev.RuleGroup.StartsWith("regla.", StringComparison.Ordinal))
+            {
+                _errors.Add(new ContentError(where, $"regla '{ev.RuleGroup}' debe empezar con 'regla.'."));
+            }
+
+            if (ev.RuleGroup == null && ev.Options.Any(o => o.RuleChoice != null))
+            {
+                _errors.Add(new ContentError(where, "una opción dice regla, pero el evento no dice a qué grupo de reglas pertenece (regla)."));
+            }
+
+            if (ev.With == null && MentionsPerson(ev))
+            {
+                _errors.Add(new ContentError(where, "usa 'persona' pero no dice con quién pasa (con)."));
+            }
+        }
+
+        /// <summary>Lee una fecha "día-mes" ("24-12") como día del año desde 0; null si no se entiende.</summary>
+        private static int? ParseDayMonth(string text)
+        {
+            string[] parts = text.Split('-');
+            return parts.Length == 2 && int.TryParse(parts[0], out int day) && int.TryParse(parts[1], out int month)
+                ? GameDate.DayOfYearOf(day, month)
+                : null;
+        }
+
+        private static readonly System.Text.RegularExpressions.Regex PersonWord =
+            new System.Text.RegularExpressions.Regex(@"(?<![\w.'])persona\b");
+
+        private static bool MentionsPerson(EventDefinition ev)
+        {
+            IEnumerable<string?> expressions = new[] { ev.Conditions }
+                .Concat(ev.Effects)
+                .Concat(ev.Options.SelectMany(o => new[] { o.Conditions, o.Tendency }.Concat(o.Effects)));
+            return expressions.Any(e => e != null && PersonWord.IsMatch(e));
+        }
+
+        private void ValidateWishes()
+        {
+            foreach (WishDefinition wish in _wishes.Values)
+            {
+                string where = $"deseo {wish.Id}";
+                CheckId(where, wish.Id, "deseo.");
+                wish.CompiledConditions = CompileCondition(where, wish.Conditions);
+                wish.CompiledFulfilled = CompileCondition(where, wish.Fulfilled);
+                if (string.IsNullOrWhiteSpace(wish.Fulfilled))
+                {
+                    _errors.Add(new ContentError(where, "falta cumplido: cuándo se cumple."));
+                }
+
+                if (wish.MinAge > wish.MaxAge)
+                {
+                    _errors.Add(new ContentError(where, "edad_minima no puede ser mayor que edad_maxima."));
+                }
+
+                if (wish.Weight <= 0)
+                {
+                    _errors.Add(new ContentError(where, "el peso debe ser mayor que 0."));
+                }
+
+                if (wish.With != null && Array.IndexOf(ChatDefinition.Senders, wish.With) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"con '{wish.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+                }
+
+                if (wish.Activity != null && !_activities.ContainsKey(wish.Activity))
+                {
+                    _errors.Add(new ContentError(where, $"la actividad '{wish.Activity}' no existe."));
+                }
+
+                bool mentions = new[] { wish.Conditions, wish.Fulfilled }.Any(e => e != null && PersonWord.IsMatch(e));
+                if (wish.With == null && mentions)
+                {
+                    _errors.Add(new ContentError(where, "usa 'persona' pero no dice con quién es (con)."));
+                }
+            }
+        }
+
+        private void ValidateActivities()
+        {
+            foreach (ActivityDefinition activity in _activities.Values)
+            {
+                string where = $"actividad {activity.Id}";
+                CheckId(where, activity.Id, "actividad.");
+                activity.CompiledConditions = CompileCondition(where, activity.Conditions);
+                activity.CompiledTendency = CompileCondition(where, activity.Tendency);
+                if (activity.MinAge > activity.MaxAge)
+                {
+                    _errors.Add(new ContentError(where, "edad_minima no puede ser mayor que edad_maxima."));
+                }
+
+                if (activity.With != null && Array.IndexOf(ChatDefinition.Senders, activity.With) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"con '{activity.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+                }
+
+                if (activity.AllowedBlocks.Any(b => Array.IndexOf(ActivityDefinition.Blocks, b) < 0))
+                {
+                    _errors.Add(new ContentError(where, $"franjas solo puede tener: {string.Join(", ", ActivityDefinition.Blocks)}."));
+                }
+
+                foreach (KeyValuePair<string, int> pair in activity.Contributes)
+                {
+                    if (Array.IndexOf(ActivityDefinition.Contributions, pair.Key) < 0)
+                    {
+                        _errors.Add(new ContentError(where, $"aporta '{pair.Key}' no existe (usa {string.Join(", ", ActivityDefinition.Contributions)})."));
+                    }
+                    else if (Math.Abs(pair.Value) > ActivityDefinition.MaxContribution)
+                    {
+                        _errors.Add(new ContentError(where, $"aporta {pair.Key}: va de -{ActivityDefinition.MaxContribution} a {ActivityDefinition.MaxContribution} por bloque."));
+                    }
+                }
+
+                if (activity.Contribution("carino") != 0 && activity.With == null)
+                {
+                    _errors.Add(new ContentError(where, "aporta carino solo tiene sentido si dice con quién (con)."));
+                }
+            }
+        }
+
         private void ValidateChatOpeners()
         {
             foreach (ChatOpenerDefinition opener in _chatOpeners.Values)

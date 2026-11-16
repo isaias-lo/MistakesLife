@@ -102,6 +102,16 @@ namespace MistakesLife.Core.Economy
         /// El arriendo de este mes: reajusta con la inflación cuando toca, descuenta
         /// un mes del contrato y devuelve lo que se paga (a precios de hoy).
         /// </summary>
+        /// <summary>Con quién comparte el arriendo, si sigue vivo y no es su pareja; null si con nadie.</summary>
+        public static Character? Roommate(Worlds.World world, Character character)
+        {
+            int? id = character.Lease?.RoommateId;
+            return id is int roommateId && roommateId != character.PartnerId
+                && world.TryGetCharacter(roommateId, out Character? roommate) && roommate.IsAlive
+                ? roommate
+                : null;
+        }
+
         public static decimal MonthlyRent(ContentDatabase content, Character character, HousingDefinition rules, double priceIndex)
         {
             Lease lease = character.Lease!;

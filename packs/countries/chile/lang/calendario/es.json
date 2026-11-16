@@ -1,0 +1,53 @@
+{
+  "evento.fecha.chile.inicio_clases": "Primer día de clases. Alguien nuevo se sentó solo al fondo de la sala y no levanta la vista del cuaderno.",
+  "evento.fecha.chile.inicio_clases.2": "Vuelta a clases. Cambiaron los puestos y te tocó al lado de alguien que llegó este año y no habla con nadie.",
+  "opcion.fecha.chile.inicio_clases.sentarse": "Ir a hablarle en el recreo",
+  "opcion.fecha.chile.inicio_clases.los_de_siempre": "Quedarte con los de siempre",
+  "opcion.fecha.chile.inicio_clases.burla": "Hacer un chiste para que se rían los demás",
+  "diario.fecha.chile.inicio_clases.sentarse": "En el recreo le hablé al nuevo del curso. Le gustan las mismas cosas que a mí.",
+  "diario.fecha.chile.inicio_clases.burla": "Hice un chiste del nuevo y todos se rieron. Él no.",
+
+  "evento.fecha.chile.dia_madre": "Acto del Día de la Madre en el colegio. Te toca recitar un poema y tu mamá pidió permiso en el trabajo para venir.",
+  "opcion.fecha.chile.dia_madre.recitar": "Recitarlo, aunque se te olvide una parte",
+  "opcion.fecha.chile.dia_madre.guata": "Decir que te duele la guata para no salir",
+  "diario.fecha.chile.dia_madre.recitar": "Recité el poema del Día de la Madre. Se me olvidó una estrofa y mi mamá aplaudió igual.",
+  "diario.fecha.chile.dia_madre.guata": "No salí a recitar. Mi mamá había pedido permiso para venir.",
+
+  "evento.fecha.chile.vacaciones_invierno": "Empiezan las vacaciones de invierno. Tu mamá tiene que trabajar igual y no hay con quién dejarte.",
+  "opcion.fecha.chile.vacaciones_invierno.trabajo": "Ir con ella al trabajo",
+  "opcion.fecha.chile.vacaciones_invierno.solo": "Quedarte solo y prometer no abrirle a nadie",
+  "opcion.fecha.chile.vacaciones_invierno.amigos": "Quedarte solo e invitar a amigos sin decirle",
+  "diario.fecha.chile.vacaciones_invierno.amigos": "En vacaciones invité amigos a la casa sin permiso. Dejamos todo como estaba. Casi todo.",
+
+  "evento.fecha.chile.entrega_notas": "Entrega de notas. Tienes un rojo en matemáticas y la libreta tiene que volver firmada por tu apoderado.",
+  "evento.fecha.chile.entrega_notas.2": "Último día de clases. En la libreta hay dos rojos y una anotación, y hay que devolverla firmada.",
+  "opcion.fecha.chile.entrega_notas.mostrar": "Mostrársela a tu mamá",
+  "opcion.fecha.chile.entrega_notas.firmar": "Firmarla tú, imitando la firma de tu mamá",
+  "diario.fecha.chile.entrega_notas.firmar": "Firmé la libreta yo. Practiqué la firma de mi mamá como diez veces.",
+
+  "evento.reunion_apoderados_libreta": "Tu mamá vuelve de la reunión de apoderados. La profesora le preguntó por qué no fue a hablar de las notas, si había firmado la libreta.",
+  "opcion.reunion_apoderados_libreta.contar": "Contarle todo antes de que pregunte",
+  "opcion.reunion_apoderados_libreta.culpar": "Decir que la profe se confundió de alumno",
+  "diario.reunion_apoderados_libreta.contar": "Le confesé lo de la firma. Me castigó, pero después me ayudó con matemáticas.",
+  "diario.reunion_apoderados_libreta.culpar": "Le dije a mi mamá que la profe se había confundido. Ninguna de las dos me creyó.",
+
+  "curso.etapa.chile.basica": "{0}º básico {1}",
+  "curso.etapa.chile.media": "{0}º medio {1}",
+
+  "ramo.chile.lenguaje": "Lenguaje y Comunicación",
+  "ramo.chile.lengua_literatura": "Lengua y Literatura",
+  "ramo.chile.matematica": "Matemática",
+  "ramo.chile.historia": "Historia",
+  "ramo.chile.ciencias_naturales": "Ciencias Naturales",
+  "ramo.chile.ingles": "Inglés",
+  "ramo.chile.artes": "Artes Visuales",
+  "ramo.chile.musica": "Música",
+  "ramo.chile.educacion_fisica": "Educación Física",
+  "ramo.chile.tecnologia": "Tecnología",
+  "ramo.chile.biologia": "Biología",
+  "ramo.chile.fisica": "Física",
+  "ramo.chile.quimica": "Química",
+  "ramo.chile.educacion_ciudadana": "Educación Ciudadana",
+  "ramo.chile.filosofia": "Filosofía",
+  "ramo.chile.ciencias_ciudadania": "Ciencias para la Ciudadanía"
+}

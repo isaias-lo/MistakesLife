@@ -52,6 +52,7 @@ namespace MistakesLife.Core.Saving
                     CharacterId = p.CharacterId,
                     Week = p.Date.TotalWeeks,
                     SeedId = p.SeedId,
+                    PersonId = p.PersonId,
                     AvailableOptions = p.AvailableOptions.ToList(),
                 }).ToList(),
                 EventHistory = world.EventHistory.Select(e => new EventRecordData
@@ -60,6 +61,7 @@ namespace MistakesLife.Core.Saving
                     EventId = e.EventId,
                     CharacterId = e.CharacterId,
                     ChosenOption = e.ChosenOption,
+                    PersonId = e.PersonId,
                 }).ToList(),
             };
             return data;
@@ -105,6 +107,16 @@ namespace MistakesLife.Core.Saving
                 Job = JobOf(c.Job),
                 LastJob = JobOf(c.LastJob),
                 PendingInheritance = c.PendingInheritance,
+                Venture = c.Venture == null ? null : new VentureData
+                {
+                    PartnerId = c.Venture.PartnerId,
+                    Formal = c.Venture.Formal,
+                    Contribution = c.Venture.Contribution,
+                    MonthsOpen = c.Venture.MonthsOpen,
+                    LastShare = c.Venture.LastShare,
+                    TotalShare = c.Venture.TotalShare,
+                    Luck = c.Venture.Luck,
+                },
                 JobSearch = c.JobSearch == null ? null : new JobSearchData
                 {
                     Target = c.JobSearch.Target,
@@ -173,6 +185,7 @@ namespace MistakesLife.Core.Saving
                     MonthsSinceAdjustment = c.Lease.MonthsSinceAdjustment,
                     MonthsLeft = c.Lease.MonthsLeft,
                     Deposit = c.Lease.Deposit,
+                    RoommateId = c.Lease.RoommateId,
                 },
                 GroceryBasketId = c.GroceryBasketId,
                 Services = new Dictionary<string, string>(c.Services),
@@ -221,6 +234,50 @@ namespace MistakesLife.Core.Saving
                     RequiredSemesters = c.Studies.RequiredSemesters,
                     CompletedSemesters = c.Studies.CompletedSemesters,
                     WeeksIntoSemester = c.Studies.WeeksIntoSemester,
+                    GradedSemesters = c.Studies.GradedSemesters,
+                    Preparation = c.Studies.Preparation,
+                    LastMarksSemester = c.Studies.LastMarksSemester,
+                    SemestersTaken = c.Studies.SemestersTaken,
+                    LastMarks = new SortedDictionary<string, double>(c.Studies.LastMarks),
+                    SemesterAverages = c.Studies.SemesterAverages.ToList(),
+                },
+                Routine = c.Routine == null ? null : new RoutineData
+                {
+                    StageKey = c.Routine.StageKey,
+                    Confirmed = c.Routine.Confirmed,
+                    Slots = c.Routine.Slots.ToList(),
+                },
+                OwnRules = c.OwnRules.Count == 0 ? null : c.OwnRules.Select(r => new OwnRuleData
+                {
+                    Key = r.Key, Choice = r.Choice, TimesUsed = r.TimesUsed, LastUsedWeek = r.LastUsed?.TotalWeeks,
+                }).ToList(),
+                Wishes = c.Wishes.Count == 0 ? null : c.Wishes.Select(w => new WishData
+                {
+                    WishId = w.WishId, StageKey = w.StageKey, SinceWeek = w.Since.TotalWeeks, PersonId = w.PersonId,
+                    Highlighted = w.Highlighted, State = (int)w.State, ClosedWeek = w.Closed?.TotalWeeks,
+                }).ToList(),
+                SchoolClass = c.SchoolClass == null ? null : new SchoolClassData
+                {
+                    StageId = c.SchoolClass.StageId, Level = c.SchoolClass.Level, Letter = c.SchoolClass.Letter,
+                    SchoolYear = c.SchoolClass.SchoolYear, Students = c.SchoolClass.Students,
+                    TeacherId = c.SchoolClass.TeacherId, ClassmateIds = c.SchoolClass.ClassmateIds.ToList(), LeftIds = c.SchoolClass.LeftIds.ToList(),
+                },
+                Team = c.Team == null ? null : new WorkTeamData
+                {
+                    BossId = c.Team.BossId, ColleagueIds = c.Team.ColleagueIds.ToList(), LeftIds = c.Team.LeftIds.ToList(), MonthsInJob = c.Team.MonthsInJob,
+                    RecommendedIds = c.Team.RecommendedIds.ToList(),
+                },
+                SchoolRecord = c.SchoolRecord == null ? null : new SchoolRecordData
+                {
+                    Marks = c.SchoolRecord.Marks.Count == 0 ? null : c.SchoolRecord.Marks.ToDictionary(m => m.Key, m => m.Value.ToList()),
+                    YearAverages = c.SchoolRecord.YearAverages.Count == 0 ? null : c.SchoolRecord.YearAverages.ToList(),
+                    LastFinals = c.SchoolRecord.LastFinals.Count == 0 ? null : c.SchoolRecord.LastFinals.ToDictionary(f => f.Key, f => f.Value),
+                    RepeatedYears = c.SchoolRecord.RepeatedYears,
+                    TestSubjectId = c.SchoolRecord.TestSubjectId,
+                    TestWeek = c.SchoolRecord.TestWeek,
+                    TestPreparation = c.SchoolRecord.TestPreparation,
+                    TestMark = c.SchoolRecord.TestMark,
+                    TestReturnedWeek = c.SchoolRecord.TestReturnedWeek,
                 },
                 Degrees = c.Degrees.ToList(),
                 IsAlive = c.IsAlive,
@@ -252,6 +309,10 @@ namespace MistakesLife.Core.Saving
                 State = s.State.ToString(),
                 AwakenedWeek = s.AwakenedDate?.TotalWeeks,
                 ClosedWeek = s.ClosedDate?.TotalWeeks,
+                OriginEventId = s.Origin?.EventId,
+                OriginOption = s.Origin?.OptionTextKey,
+                OriginPlace = s.Origin?.PlaceKey,
+                OriginPersonId = s.Origin?.PersonId,
             };
         }
 
@@ -304,6 +365,15 @@ namespace MistakesLife.Core.Saving
             MonthsInPosition = job.MonthsInPosition,
             MonthsInJob = job.MonthsInJob,
             Performance = job.Performance,
+            GoalPercent = job.GoalPercent,
+            MonthsUnderGoal = job.MonthsUnderGoal,
+            MonthsOnGoal = job.MonthsOnGoal,
+            Warnings = job.Warnings,
+            VariablePay = job.VariablePay,
+            Tips = job.Tips,
+            Challenge = job.Challenge,
+            VacationDays = job.VacationDays,
+            LeavingWeek = job.LeavingWeek,
             CompanyId = job.CompanyId,
         };
     }

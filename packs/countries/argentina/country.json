@@ -33,12 +33,40 @@
       ]
     }
   ],
+  "inicio_ano_escolar": "01-03",
+  "fin_ano_escolar": "19-12",
+  "vacaciones_invierno": { "desde": "21-07", "hasta": "01-08" },
+  "curso": { "alumnos": 28, "con_nombre": 10, "cambio_profe_jefe": 0.3, "siguen_al_cambiar_etapa": 0.4, "cambios_por_ano": 0.3, "profes_mujeres": 0.75 },
+  "escala_notas": { "minima": 1, "maxima": 10, "aprueba": 6, "decimales": 0, "notas_por_ano": 9 },
   "etapas_educacion": [
     { "id": "etapa.argentina.jardin_maternal", "edad_desde": 0, "edad_hasta": 3 },
     { "id": "etapa.argentina.sala_de_3", "edad_desde": 3, "edad_hasta": 4 },
     { "id": "etapa.argentina.salas_de_4_y_5", "edad_desde": 4, "edad_hasta": 6, "obligatoria": true },
-    { "id": "etapa.argentina.primaria", "edad_desde": 6, "edad_hasta": 12, "obligatoria": true },
-    { "id": "etapa.argentina.secundaria", "edad_desde": 12, "edad_hasta": 18, "obligatoria": true }
+    { "id": "etapa.argentina.primaria", "edad_desde": 6, "edad_hasta": 12, "obligatoria": true, "curso": true,
+      "ramos": [
+        { "id": "ramo.argentina.practicas_lenguaje" },
+        { "id": "ramo.argentina.matematica" },
+        { "id": "ramo.argentina.ciencias_sociales" },
+        { "id": "ramo.argentina.ciencias_naturales" },
+        { "id": "ramo.argentina.ingles", "desde": 4 },
+        { "id": "ramo.argentina.educacion_artistica", "prueba_escrita": false },
+        { "id": "ramo.argentina.educacion_fisica", "prueba_escrita": false }
+      ] },
+    { "id": "etapa.argentina.secundaria", "edad_desde": 12, "edad_hasta": 18, "obligatoria": true, "curso": true,
+      "ramos": [
+        { "id": "ramo.argentina.lengua_literatura" },
+        { "id": "ramo.argentina.matematica" },
+        { "id": "ramo.argentina.historia" },
+        { "id": "ramo.argentina.geografia" },
+        { "id": "ramo.argentina.biologia", "hasta": 4 },
+        { "id": "ramo.argentina.fisica", "desde": 3 },
+        { "id": "ramo.argentina.quimica", "desde": 3 },
+        { "id": "ramo.argentina.ingles" },
+        { "id": "ramo.argentina.educacion_fisica", "prueba_escrita": false },
+        { "id": "ramo.argentina.educacion_ciudadana", "hasta": 3 },
+        { "id": "ramo.argentina.artes", "hasta": 3, "prueba_escrita": false }
+      ],
+      "promocion": [{ "reprobados": 2 }] }
   ],
   "mortalidad": [
     { "edad": 0, "femenino": 0.0075, "masculino": 0.0092 },
@@ -211,6 +239,26 @@
         { "id": "empresa.tamano.mediana", "peso": 0.15, "sueldo_relativo": 1.0, "cargo_maximo": 4, "quiebra_anual": 0.035, "crece_anual": 0.03, "achica_anual": 0.05 },
         { "id": "empresa.tamano.grande", "peso": 0.4, "sueldo_relativo": 1.15, "quiebra_anual": 0.015, "achica_anual": 0.03 }
       ]
+    },
+    "vacaciones": {
+      "tramos": [
+        { "desde_anos": 0, "dias": 14 },
+        { "desde_anos": 5, "dias": 21 },
+        { "desde_anos": 10, "dias": 28 },
+        { "desde_anos": 20, "dias": 35 }
+      ],
+      "unidad": "corridos",
+      "acumula_maximo_anos": 1,
+      "se_pagan_al_salir": true,
+      "divisor_dia": 25,
+      "dias_pagados_por_dia": 1
+    },
+    "negocios": {
+      "ganancia_formal": 3.7,
+      "ganancia_informal": 0.92,
+      "variacion": 1.47,
+      "cierre_primer_ano": 0.152,
+      "cierre_anual": 0.137
     },
     "busqueda_trabajo": {
       "formas": [

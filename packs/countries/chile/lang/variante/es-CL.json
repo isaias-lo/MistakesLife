@@ -11,12 +11,11 @@
   "opcion.fin_trabajo_informal.buscar": "Vuelves a buscar pega.",
   "evento.pololito_vejez": "Un vecino te ofrece un pololito: unas horas a la semana, sin contrato, por algo de plata extra.",
   "evento.nuevo_amigo_colegio": "En el recreo, alguien de tu curso se te acerca para jugar a la pelota y compartir la colación.",
-  "evento.colega_nuevo": "En la pega empiezas a almorzar con alguien de tu equipo.",
+  "evento.colega_nuevo": "Trabajando por tu cuenta, conoces a alguien del rubro y empiezan a pasarse datos de pega.",
   "evento.colega_amistad": "Tu colega te invita a salir después de la pega con su grupo de amigos.",
   "evento.rival_trabajo": "En la pega hay alguien que compite contigo por todo y no lo disimula.",
   "evento.estudios.semestre_pesado": "Este semestre viene pesado: tres pruebas la misma semana, trabajos en grupo y un ramo que no entiendes.",
   "opcion.estudios.semestre_pesado.botar_ramo": "Botas un ramo para respirar. Lo tomarás de nuevo más adelante.",
-  "evento.estudios.ramo_reprobado": "Reprobaste un ramo. Vas a tener que repetirlo y la carrera se alarga.",
   "diario.estudios.boto_ramo": "Boté un ramo. La carrera se me alarga un semestre.",
   "diario.estudios.ramo_reprobado": "Reprobé un ramo. Toca repetirlo.",
   "evento.jubilacion": "Llegaste a la edad legal de jubilación. En la AFP te muestran cuánto sería tu pensión.",
@@ -38,5 +37,6 @@
   "busqueda.forma.omil": "OMIL de la municipalidad",
   "opcion.busqueda.oferta.aceptar": "Aceptas. El lunes firmas contrato y empiezas.",
   "remitente.impuestos": "Servicio de impuestos (SII)",
-  "correo.estado.herencia.asunto": "Posesión efectiva"
+  "correo.estado.herencia.asunto": "Posesión efectiva",
+  "lugar.casino": "El casino"
 }

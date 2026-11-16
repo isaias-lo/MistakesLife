@@ -346,10 +346,17 @@ namespace MistakesLife.Core.Tests
             int bytes = session.SaveToBytes().Length;
             // Con 10 fotos, una vida a los 85 pesa entre 73 y 86 KB según la vida (en main ya había
             // vidas sobre 80 KB). Mensajito suma unos 8 KB (hasta 12 chats de 15 mensajes, en cada
-            // foto). La salud (S1) suma unos 8 KB en esta vida (de 92,8 a 101 KB): enfermarse y
-            // las urgencias pasan unas 50 veces en la vida y quedan en la historia de eventos.
-            // El tope deja margen para el contenido nuevo sin dejar que se dispare.
-            Assert.True(bytes < 110_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
+            // foto). Antes de R2c esta vida ya pesaba 98,7 KB; lo que quiero y las reglas propias
+            // suman unos 2 KB (solo del jugador, en cada foto). El curso del colegio (R3a/R3b) suma
+            // unas 25 personas con nombre (compañeros de básica y media y sus profes jefe) y los
+            // promedios de cada año: con los momentos de R3c esta vida llegó a 120,9 KB, y desde la versión 24
+            // del guardado (no se escriben los ceros ni los false) volvió a unos 112 KB. La sección de la
+            // universidad (R5a: hasta 10 compañeros con nombre y un profe por año) la dejó en 119,5 KB. El equipo
+            // de la pega (R6a: jefe y 5 colegas por trabajo, que van cambiando con los años y quedan como
+            // personas que conociste) la lleva a unos 141 KB. Con los oficios (R6b) esta vida busca medio
+            // año con título, trabaja de vendedor y después de maestro: cada trabajo trae su equipo y llega
+            // a unos 158 KB. El tope deja margen para el contenido nuevo sin dejar que se dispare.
+            Assert.True(bytes < 175_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }
 
         [Fact]

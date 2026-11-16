@@ -39,3 +39,40 @@ Primera versión (A2). **Todos los valores son de memoria y están por verificar
 | Deudas: préstamo personal y tarjeta de crédito con tasas muy altas (60 % y 80 % al año); figurar en el Veraz | Banco Central (BCRA), de memoria | Tasas nominales: con la inflación, la tasa real es más baja. Prescripción de 5 años (Código Civil y Comercial, art. 2560) |
 | Herencia: se responde por las deudas solo con lo heredado | Código Civil y Comercial, art. 2317 | `beneficio_inventario` true. La porción de la pareja es igual a la de cada hijo (`porciones_pareja` 1) |
 | Empresas: más micro y pequeñas empresas que en Chile, y más quiebras | Estimación de memoria | Por verificar |
+
+## El curso de la escuela (country.json: fin_ano_escolar, vacaciones_invierno, curso)
+
+Anotado de memoria y por verificar en el calendario escolar de la Ciudad y de la Provincia de Buenos Aires:
+
+- Calendario: las clases empiezan a fines de febrero o los primeros días de marzo (el juego usa el 1 de marzo), las vacaciones de invierno son dos semanas en julio (en la Provincia, del 21 de julio al 1 de agosto) y el año termina cerca del 19 de diciembre.
+- Alumnos por curso: cerca de 28 en primaria y secundaria; con 10 el jugador tiene trato (estimación por calibrar).
+- Docentes: cerca del 75 % son mujeres.
+- Lo demás (cambios de docente, quiénes siguen al pasar a secundaria) se toma igual que en Chile, por calibrar.
+
+## Notas (country.json: escala_notas, ramos, promocion)
+
+- Escala de 1 a 10 en números enteros; en la secundaria de la Ciudad de Buenos Aires se aprueba con 6 (en la Provincia, con 7).
+- En la secundaria se pasa de año con hasta dos materias previas (se rinden después); con más, se repite. En la primaria el juego no hace repetir.
+- Ramos: los de los diseños curriculares de la Ciudad (Prácticas del Lenguaje en primaria; Lengua y Literatura, Historia, Geografía y las ciencias en secundaria). 9 notas por materia al año (tres por trimestre) es una estimación.
+
+## Lo que decides tú en la pega (R6c): vacaciones, aumento y renuncia
+
+De la [Ley de Contrato de Trabajo 20.744 (InfoLEG)](https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25552/texact.htm):
+
+- Vacaciones (art. 150): días corridos según la antigüedad: 14 si no pasa de 5 años, 21 si pasa de 5 y no de 10, 28 si pasa de 10 y no de 20, y 35 si pasa de 20. El juego cuenta los años cumplidos con el empleador (cambia de tramo al cumplir 5, 10 y 20, unos meses antes que la ley).
+- Se ganan mes a mes en el juego; la ley pide haber trabajado la mitad de los días hábiles del año (si no, un día por cada 20 trabajados, art. 153), que el juego todavía no cuenta.
+- No se acumulan ni se cambian por plata mientras dura el contrato (art. 162): en el juego se juntan como máximo las de un año.
+- Pago (art. 155): el día de vacaciones vale el sueldo mensual dividido por 25. Al terminar el contrato se pagan las no gozadas, proporcionales al tiempo trabajado (art. 156).
+- Renuncia (art. 240): por telegrama o carta documento, gratis para el trabajador. Preaviso del trabajador (art. 231): 15 días. Si no lo da, debe al empleador la indemnización sustitutiva de esos días (art. 232), que se descuenta de lo que le pagan; el juego lo cobra como medio sueldo.
+- Pedir aumento: misma base que Chile (encuesta "Raise Anatomy" de PayScale, 2018: 39 % todo, 31 % menos, 30 % nada).
+
+## Futuros juntos (R6d): recomendar y vivir juntos
+
+- Recomendar en tu laburo: misma probabilidad que una entrevista por contacto en `busqueda_trabajo` (35 % + 20 %).
+- Subalquilar: el Código Civil y Comercial (art. 1213) no permite al locatario ceder ni sublocar sin el consentimiento del locador.
+- Que a quien vive con vos no le alcance para el alquiler: el juego usa 9 % al año, la misma estimación que en Chile; la desocupación del INDEC ronda el 7 % (2024).
+
+## Ser socios (R6d2): negocios chicos
+
+- No hay todavía una encuesta argentina cargada: el juego usa las mismas proporciones de Chile (ganancia en salarios mínimos de la EME del INE y cierre de empresas nuevas de Chile). Por reemplazar con datos del INDEC o del Ministerio de Economía (dinámica empresarial).
+- Formal: la Sociedad por Acciones Simplificada (SAS, Ley 27.349) se inscribe y después se da de alta en ARCA (ex AFIP).

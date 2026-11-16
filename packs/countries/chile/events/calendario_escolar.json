@@ -1,0 +1,152 @@
+[
+  {
+    "id": "evento.fecha.chile.inicio_clases",
+    "fecha": "04-03",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.edad >= 7 && jugador.edad < 18 && (jugador.etapa == 'etapa.chile.basica' || jugador.etapa == 'etapa.chile.media')",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 2,
+    "variantes": ["evento.fecha.chile.inicio_clases.2"],
+    "opciones": [
+      {
+        "texto": "opcion.fecha.chile.inicio_clases.sentarse",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 3",
+        "efectos": [
+          "jugador.conocer('amistad')",
+          "jugador.felicidad += 1",
+          "diario('diario.fecha.chile.inicio_clases.sentarse')"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.chile.inicio_clases.los_de_siempre",
+        "tendencia": "40",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.fecha.chile.inicio_clases.burla",
+        "tendencia": "(100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "diario('diario.fecha.chile.inicio_clases.burla')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.fecha.chile.dia_madre",
+    "fecha": "11-05",
+    "con": "madre",
+    "lugar": "lugar.colegio",
+    "condiciones": "jugador.edad >= 6 && jugador.edad < 11 && (jugador.etapa == 'etapa.chile.basica' || jugador.etapa == 'etapa.chile.media')",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.fecha.chile.dia_madre.recitar",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 2",
+          "diario('diario.fecha.chile.dia_madre.recitar')"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.chile.dia_madre.guata",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "persona.carino -= 3",
+          "diario('diario.fecha.chile.dia_madre.guata')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.fecha.chile.vacaciones_invierno",
+    "fecha": "07-07",
+    "con": "madre",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.edad >= 8 && jugador.edad < 15",
+    "probabilidad_anual": 0.5,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.fecha.chile.vacaciones_invierno.trabajo",
+        "tendencia": "jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.chile.vacaciones_invierno.solo",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.confianza += 2"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.chile.vacaciones_invierno.amigos",
+        "condiciones": "jugador.amigo != nada",
+        "tendencia": "jugador.extraversion / 3 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.felicidad += 3",
+          "jugador.amigo.carino += 3",
+          "persona.confianza -= 3",
+          "diario('diario.fecha.chile.vacaciones_invierno.amigos')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.fecha.chile.entrega_notas",
+    "fecha": "12-12",
+    "con": "madre",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.edad >= 9 && jugador.edad < 18 && (jugador.etapa == 'etapa.chile.basica' || jugador.etapa == 'etapa.chile.media') && jugador.inteligencia < 45",
+    "probabilidad_anual": 0.8,
+    "veces_maximas": 2,
+    "variantes": ["evento.fecha.chile.entrega_notas.2"],
+    "opciones": [
+      {
+        "texto": "opcion.fecha.chile.entrega_notas.mostrar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.confianza += 3",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.fecha.chile.entrega_notas.firmar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.neuroticismo / 5",
+        "efectos": [
+          "plantar('semilla.libreta_firmada', persona)",
+          "diario('diario.fecha.chile.entrega_notas.firmar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.reunion_apoderados_libreta",
+    "semilla": "semilla.libreta_firmada",
+    "condiciones": "semilla('semilla.libreta_firmada').testigo != nada",
+    "opciones": [
+      {
+        "texto": "opcion.reunion_apoderados_libreta.contar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "semilla('semilla.libreta_firmada').testigo.confianza -= 3",
+          "diario('diario.reunion_apoderados_libreta.contar')"
+        ]
+      },
+      {
+        "texto": "opcion.reunion_apoderados_libreta.culpar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "semilla('semilla.libreta_firmada').testigo.confianza -= 8",
+          "semilla('semilla.libreta_firmada').testigo.rencor += 3",
+          "diario('diario.reunion_apoderados_libreta.culpar')"
+        ]
+      }
+    ]
+  }
+]

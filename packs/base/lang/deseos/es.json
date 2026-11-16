@@ -1,0 +1,44 @@
+{
+  "ui.deseo.titulo": "Lo que quiero",
+  "ui.deseo.cumplido": "Se cumplió",
+  "ui.deseo.perdido": "No pasó",
+  "ui.deseo.paso": "Se me pasó",
+  "ui.regla.siempre": "Hacer esto siempre",
+  "regla.prueba": "Cuando hay prueba o tarea",
+
+  "deseo.amigo_de_verdad": "Tener un amigo de verdad",
+  "deseo.amigo_de_verdad.cumplido": "Por fin tengo un amigo de verdad. Ya no paso los recreos sin nadie.",
+  "deseo.amigo_de_verdad.perdido": "Otro año sin un amigo de verdad. Los recreos se hacen largos.",
+
+  "deseo.buenas_notas": "Que me vaya bien en el colegio",
+  "deseo.buenas_notas.cumplido": "Me está yendo bien en el colegio. En la casa lo notaron.",
+  "deseo.buenas_notas.perdido": "Quería que me fuera bien este año y no me fue.",
+
+  "deseo.mama_tiempo": "Pasar más tiempo con mi mamá",
+  "deseo.mama_tiempo.cumplido": "Con mi mamá estamos más cerca que nunca.",
+  "deseo.mama_tiempo.perdido": "Este año casi no vi a mi mamá. Siempre había algo.",
+
+  "deseo.celular_propio": "Tener mi propio celular",
+  "deseo.celular_propio.cumplido": "Tengo celular. El primero que es mío.",
+  "deseo.celular_propio.perdido": "Todos en el curso tienen celular menos yo.",
+
+  "deseo.entrar_equipo": "Entrar a un equipo",
+  "deseo.entrar_equipo.cumplido": "Quedé en el equipo. Tengo camiseta con número.",
+  "deseo.entrar_equipo.perdido": "No quedé en ningún equipo este año.",
+
+  "deseo.mas_amigos": "Que {persona} no sea mi único amigo",
+  "deseo.mas_amigos.cumplido": "Ya no tengo un solo amigo: ahora somos un grupo.",
+  "deseo.mas_amigos.perdido": "Sigo teniendo un solo amigo. Si se enoja conmigo, me quedo sin nadie.",
+
+  "deseo.alguien_me_guste": "Que alguien me guste de vuelta",
+  "deseo.alguien_me_guste.cumplido": "Le gusto a alguien que me gusta. No lo puedo creer.",
+  "deseo.alguien_me_guste.perdido": "Se terminó el año y nadie me miró de vuelta.",
+
+  "deseo.plata_propia": "Tener mi propia plata",
+  "deseo.plata_propia.cumplido": "Tengo plata mía. No le tengo que pedir a nadie.",
+  "deseo.plata_propia.perdido": "Sigo pidiendo plata para todo.",
+
+  "deseo.estar_bien": "Estar bien de nuevo",
+  "deseo.estar_bien.cumplido": "Me siento mejor. No sé bien qué cambió, pero cambió.",
+  "deseo.estar_bien.perdido": "Seguí mal todo el año y no se lo conté a nadie."
+}

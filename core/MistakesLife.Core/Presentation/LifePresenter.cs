@@ -33,11 +33,19 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Claves de texto que usa la pantalla; deben existir en el idioma base.</summary>
         public static readonly IReadOnlyList<string> TextKeys = new[]
         {
-            "ui.edad.semanas", "ui.edad.un_ano", "ui.edad.anos", "ui.fecha", "ui.dinero", "ui.separador_miles",
+            "ui.edad.semanas", "ui.edad.un_ano", "ui.edad.anos", "ui.fecha.hoy", "ui.fecha.dia", "ui.fecha.otro_ano",
+            "ui.horario.titulo", "ui.horario.libre", "ui.horario.tarde", "ui.horario.noche", "ui.horario.sube", "ui.horario.baja", "ui.horario.igual", "ui.horario.nuevo", "ui.horario.nuevo_ano",
+            "ui.horario.dia.0", "ui.horario.dia.1", "ui.horario.dia.2", "ui.horario.dia.3", "ui.horario.dia.4", "ui.horario.dia.5", "ui.horario.dia.6",
+            "ui.momento.con", "ui.momento.madre", "ui.momento.padre", "ui.regla.siempre",
+            "ui.momento.profe.f", "ui.momento.profe.m", "ui.momento.jefe.f", "ui.momento.jefe.m", "ui.curso.titulo", "ui.curso.profe_jefe",
+            "ui.notas.titulo", "ui.notas.promedio", "ui.notas.sin_notas", "ui.notas.fin_ano",
+            "ui.deseo.titulo", "ui.deseo.cumplido", "ui.deseo.perdido", "ui.deseo.paso",
+            "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
+            "ui.dinero", "ui.separador_miles",
             "ui.relacion.madre", "ui.relacion.padre", "ui.relacion.pareja", "ui.relacion.hija", "ui.relacion.hijo",
             "ui.boton.seguir_viviendo", "ui.boton.seguir_con", "ui.boton.nueva_vida", "ui.salud", "ui.felicidad", "ui.inteligencia",
             "ui.dinero_titulo", "ui.diario", "ui.familia", "ui.generacion", "ui.partida", "ui.legado", "ui.fin", "ui.fallecido",
-            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
+            "ui.vista.casa", "ui.vista.barrio", "ui.vista.trabajo", "ui.trabajo.cargo", "ui.oficio.meta", "ui.pega.te_vas", "ui.pega.vacaciones.habiles", "ui.pega.vacaciones.corridos", "ui.pega.decides_tu", "ui.lugar.casa", "ui.lugar.colegio", "ui.lugar.estudios", "ui.lugar.trabajo",
             "ui.boton.volver_pasado", "ui.boton.cancelar", "ui.pasado.titulo", "ui.pasado.cargas", "ui.pasado.etapa", "ui.pasado.decision", "ui.intuicion",
             "ui.gente", "ui.relacion.amistad", "ui.relacion.colega", "ui.relacion.rival", "ui.relacion.ex",
             "ui.sentir.muy_unidos", "ui.sentir.buena", "ui.sentir.tibia", "ui.sentir.distanciados", "ui.sentir.rencor",
@@ -52,6 +60,8 @@ namespace MistakesLife.Core.Presentation
             "ui.dinero.titulo", "ui.dinero.tienes", "ui.dinero.movimientos", "ui.dinero.sin_movimientos", "ui.dinero.sueldo", "ui.dinero.cuotas",
             "ui.dinero.salio", "ui.dinero.mes_en_dias", "ui.dinero.dias", "ui.dinero.un_dia", "ui.dinero.menos_de_un_dia", "ui.dinero.debes", "ui.dinero.atrasada",
             "ui.cosas.tu_gente", "ui.cosas.volver", "ui.vista.girar",
+            "ui.origen.titulo", "ui.origen.elegiste", "ui.origen.volver",
+            "ui.capitulo.nacer", "ui.capitulo.cumpli", "ui.capitulo.titulo", "ui.capitulo.abierto",
         };
 
         /// <summary>
@@ -104,7 +114,7 @@ namespace MistakesLife.Core.Presentation
                 FullName(player),
                 Session.PlayerAgeInYears,
                 AgeLabel(player, world.Date),
-                string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), world.Date.Year, world.Date.WeekOfYear),
+                Today(world.Date),
                 Place(player),
                 player.Stats.Health,
                 player.Stats.Happiness,
@@ -187,6 +197,344 @@ namespace MistakesLife.Core.Presentation
         /// <see cref="MaxYearsPerStep"/> años. Devuelve las semanas que pasaron.
         /// </summary>
         public int AdvanceUntilSomething() => Advance(MaxYearsPerStep * GameDate.WeeksPerYear);
+
+        /// <summary>
+        /// Responde el evento pendiente y deja una regla propia ("hacer esto siempre"): si
+        /// vuelve a pasar, se elige lo mismo sin detener el tiempo. Solo si <see cref="EventView.AllowsRule"/>.
+        /// </summary>
+        public void ChooseAlways(int optionPosition)
+        {
+            PendingEvent pending = Session.Pending ?? throw new InvalidOperationException("No hay un evento pendiente.");
+            if (optionPosition < 0 || optionPosition >= pending.AvailableOptions.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(optionPosition), $"El evento tiene {pending.AvailableOptions.Count} opciones.");
+            }
+
+            Session.ChooseAlways(pending.AvailableOptions[optionPosition]);
+        }
+
+        /// <summary>Las reglas propias del jugador, en el orden en que las hizo.</summary>
+        public IReadOnlyList<RuleView> Rules()
+        {
+            var views = new List<RuleView>();
+            foreach (OwnRule rule in Session.World.Player.OwnRules)
+            {
+                EventDefinition? sample = Session.Content.Events.FirstOrDefault(e => e.RuleKey == rule.Key);
+                EventOptionDefinition? option = sample == null ? null : Session.Content.Events
+                    .Where(e => e.RuleKey == rule.Key)
+                    .SelectMany(e => e.Options)
+                    .FirstOrDefault(o => o.RuleKey == rule.Choice);
+                if (sample == null || option == null)
+                {
+                    continue;
+                }
+
+                string situation = sample.RuleGroup != null ? T(sample.RuleGroup) : T(sample.ResolvedTextKey);
+                views.Add(new RuleView(rule.Key, situation, T(option.TextKey), rule.TimesUsed));
+            }
+
+            return views;
+        }
+
+        /// <summary>Borra una regla propia: la próxima vez se vuelve a preguntar.</summary>
+        public void RemoveRule(string key) => Session.RemoveRule(key);
+
+        /// <summary>
+        /// Lo que quiere en esta etapa (la nota "lo que quiero"): lo abierto y lo que ya se
+        /// cumplió o se perdió en la misma etapa, en orden.
+        /// </summary>
+        public IReadOnlyList<WishView> Wishes()
+        {
+            Character player = Session.World.Player;
+            string? stage = player.Routine?.StageKey;
+            var views = new List<WishView>();
+            for (int i = 0; i < player.Wishes.Count; i++)
+            {
+                Wish wish = player.Wishes[i];
+                WishDefinition? definition = Session.Content.Wish(wish.WishId);
+                if (definition == null || wish.StageKey != stage)
+                {
+                    continue;
+                }
+
+                string? state = wish.State switch
+                {
+                    WishState.Done => T("ui.deseo.cumplido"),
+                    WishState.Lost => T("ui.deseo.perdido"),
+                    WishState.Faded => T("ui.deseo.paso"),
+                    _ => null,
+                };
+                views.Add(new WishView(i, WithPerson(T(definition.Id), WishSystem.PersonOf(Session.World, wish)), wish.Highlighted, wish.State == WishState.Open, state));
+            }
+
+            return views;
+        }
+
+        /// <summary>Tu libreta de notas; null si nunca has tenido notas.</summary>
+        public ReportCardView? ReportCard()
+        {
+            Character player = Session.World.Player;
+            Education.SchoolRecord? record = player.SchoolRecord;
+            GradeScaleDefinition? scale = player.Residence == null ? null : Session.Content.GetCountry(player.Residence.CountryId).GradeScale;
+            if (player.Studies != null && scale != null)
+            {
+                return SemesterReportCard(player.Studies, scale);
+            }
+
+            if (record == null || scale == null)
+            {
+                return null;
+            }
+
+            bool finals = record.Marks.Count == 0;
+            SortedDictionary<string, double> averages = finals ? record.LastFinals : Education.GradeRules.Finals(record, scale);
+            var order = Session.Content.GetCountry(player.Residence!.CountryId).EducationStages
+                .SelectMany(st => st.Subjects).Select(sub => sub.Id).Distinct().ToList();
+            var subjects = averages
+                .OrderBy(a => order.IndexOf(a.Key))
+                .Select(a => new SubjectGradesView(
+                    T(a.Key),
+                    finals || !record.Marks.TryGetValue(a.Key, out List<double>? marks) ? new List<string>() : marks.Select(MarkText).ToList(),
+                    MarkText(a.Value),
+                    a.Value < scale.Pass))
+                .ToList();
+            double? general = Education.GradeRules.General(averages, scale);
+            return new ReportCardView(subjects, general.HasValue ? MarkText(general.Value) : null, finals, record.RepeatedYears);
+        }
+
+        /// <summary>
+        /// La libreta de la universidad, el CFT o el instituto: las notas finales del último
+        /// semestre cerrado o, si todavía no cierra ninguno, los ramos del semestre que cursa.
+        /// </summary>
+        private ReportCardView SemesterReportCard(CareerStudies studies, GradeScaleDefinition scale)
+        {
+            if (studies.LastMarks.Count > 0)
+            {
+                CareerDefinition career = Session.Content.GetCareer(studies.CareerId);
+                var order = career.Courses.Select(c => c.Id).ToList();
+                var finals = studies.LastMarks
+                    .OrderBy(m => order.IndexOf(m.Key))
+                    .Select(m => new SubjectGradesView(CourseName(studies, m.Key, studies.LastMarksSemester), new List<string>(), MarkText(m.Value), m.Value < scale.Pass))
+                    .ToList();
+                string? last = studies.SemesterAverages.Count == 0 ? null : MarkText(studies.SemesterAverages[studies.SemesterAverages.Count - 1]);
+                return new ReportCardView(finals, last, true, 0, semester: true);
+            }
+
+            int semester = studies.CompletedSemesters + 1;
+            var courses = Education.UniversityRules.Courses(Session.Content, studies, semester)
+                .Select(c => new SubjectGradesView(CourseName(studies, c.Id, semester), new List<string>(), string.Empty, false))
+                .ToList();
+            return new ReportCardView(courses, null, false, 0, semester: true);
+        }
+
+        /// <summary>El nombre de un ramo con su número, como en la malla: "Cálculo II".</summary>
+        private string CourseName(CareerStudies studies, string courseId, int semester)
+        {
+            CourseDefinition? course = Session.Content.GetCareer(studies.CareerId).Courses.FirstOrDefault(c => c.Id == courseId);
+            int number = course?.Number(semester) ?? 0;
+            return number > 0 ? T(courseId) + " " + Education.UniversityRules.Roman(number) : T(courseId);
+        }
+
+        /// <summary>El último momento que el jugador vivió con cada persona (por id).</summary>
+        private static IReadOnlyDictionary<int, Events.EventRecord> LastMomentWith(World world, Character player)
+        {
+            var last = new Dictionary<int, Events.EventRecord>();
+            foreach (Events.EventRecord record in world.EventHistory)
+            {
+                if (record.CharacterId == player.Id && record.PersonId.HasValue && record.ChosenOption.HasValue)
+                {
+                    last[record.PersonId.Value] = record;
+                }
+            }
+
+            return last;
+        }
+
+        /// <summary>
+        /// Un momento vivido con alguien, en una línea: la línea del diario que dejó lo que elegiste
+        /// o, si no dejó ninguna, "Elegiste: «...»". Nada inventado: sale de lo que pasó.
+        /// </summary>
+        private string? Memory(Events.EventRecord record, Character person)
+        {
+            if (!Session.Content.TryGetEvent(record.EventId, out EventDefinition? definition) || record.ChosenOption!.Value >= definition!.Options.Count)
+            {
+                return null;
+            }
+
+            EventOptionDefinition option = definition.Options[record.ChosenOption.Value];
+            foreach (string effect in option.Effects)
+            {
+                System.Text.RegularExpressions.Match journal = System.Text.RegularExpressions.Regex.Match(effect, @"^\s*diario\(\s*'([^']+)'\s*\)\s*$");
+                if (journal.Success)
+                {
+                    return WithPerson(T(journal.Groups[1].Value), person);
+                }
+            }
+
+            return Text("ui.origen.elegiste", WithPerson(T(option.TextKey), person));
+        }
+
+        /// <summary>
+        /// Tu malla: todos los semestres del plan que estudias, con los aprobados, el que cursas
+        /// (o repites, con los ramos que quedaron rojos) y los que faltan. Null si no estudias una carrera.
+        /// </summary>
+        public StudyPlanView? StudyPlan()
+        {
+            Character player = Session.World.Player;
+            CareerStudies? studies = player.Studies;
+            if (studies == null)
+            {
+                return null;
+            }
+
+            GradeScaleDefinition? scale = player.Residence == null ? null : Session.Content.GetCountry(player.Residence.CountryId).GradeScale;
+            int current = studies.CompletedSemesters + 1;
+            bool retaking = studies.LastMarksSemester == current && scale != null && studies.LastMarks.Values.Any(m => m < scale.Pass);
+            var semesters = new List<PlanSemesterView>();
+            for (int semester = 1; semester <= studies.RequiredSemesters; semester++)
+            {
+                int number = semester;
+                var courses = Education.UniversityRules.Courses(Session.Content, studies, number)
+                    .Select(c => CourseName(studies, c.Id, number))
+                    .ToList();
+                PlanSemesterState state = semester < current ? PlanSemesterState.Approved
+                    : semester > current ? PlanSemesterState.Future
+                    : retaking ? PlanSemesterState.Retaking
+                    : PlanSemesterState.Current;
+                var failed = state == PlanSemesterState.Retaking
+                    ? studies.LastMarks.Where(m => m.Value < scale!.Pass).Select(m => CourseName(studies, m.Key, number) + " · " + MarkText(m.Value)).ToList()
+                    : new List<string>();
+                semesters.Add(new PlanSemesterView(semester, Text("ui.malla.semestre", Education.UniversityRules.Roman(semester)), state, courses, failed));
+            }
+
+            string progress = Text("ui.malla.progreso", Math.Min(current, studies.RequiredSemesters), studies.RequiredSemesters, studies.SemestersTaken);
+            return new StudyPlanView(T(studies.CareerId), progress, semesters);
+        }
+
+        /// <summary>Tu equipo del trabajo; null si no trabajas con equipo.</summary>
+        public TeamView? Team()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            if (!Work.WorkRules.InTeam(player))
+            {
+                return null;
+            }
+
+            IReadOnlyDictionary<int, Events.EventRecord> lastMoments = LastMomentWith(world, player);
+            ClassmateView Person(Character c, string? bond) => new ClassmateView(
+                c.Id,
+                c.FirstName + " " + c.LastName.Split(' ')[0],
+                bond,
+                RelationshipRules.Feelings(world, player, c).Affection,
+                lastMoments.TryGetValue(c.Id, out Events.EventRecord? moment) ? Memory(moment, c) : null);
+            string? BondWord(Character c) =>
+                RelationshipRules.Feelings(world, player, c).Bond is RelationshipBond b && b != RelationshipBond.Colleague && RelationshipRules.BondKey(b) is string key
+                    ? T("ui.relacion." + key)
+                    : null;
+
+            Character? boss = Work.WorkRules.Boss(world, player);
+            var colleagues = Work.WorkRules.Colleagues(world, player)
+                .OrderByDescending(c => RelationshipRules.Feelings(world, player, c).Affection)
+                .ThenBy(c => c.Id)
+                .Select(c => Person(c, BondWord(c)))
+                .ToList();
+            var left = player.Team!.LeftIds
+                .Where(id => world.TryGetCharacter(id, out Character? _))
+                .Select(id => Person(world.GetCharacter(id), T("ui.relacion.se_fue")))
+                .ToList();
+            string? bossKey = Work.OccupationRules.CareerOf(Session.Content, player.Job)?.Occupation!.BossKey;
+            string bossTag = bossKey != null
+                ? T(bossKey + (boss?.Gender == Gender.Female ? ".f" : ".m"))
+                : T(boss?.Gender == Gender.Female ? "ui.pega.jefa" : "ui.pega.jefe_m");
+            var actions = Session.Requestable()
+                .Where(e => e.Place == WorkplacePlace)
+                .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey)))
+                .ToList();
+            return new TeamView(boss == null ? null : Person(boss, bossTag), colleagues, left, actions, ContractStatus(player));
+        }
+
+        /// <summary>
+        /// Lo que puedes pedir ahora con esa persona (recomendarla en tu pega, proponerle vivir
+        /// juntos...): los botones de su línea en "Tu gente". Los de la pega con tu jefe van en el equipo.
+        /// </summary>
+        public IReadOnlyList<ActionView> PersonActions(int personId) =>
+            Session.RequestableWith(personId)
+                .Where(e => e.Place != WorkplacePlace)
+                .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey)))
+                .ToList();
+
+        /// <summary>El lugar de los momentos de la pega: sus botones van en la pantalla del equipo.</summary>
+        public const string WorkplacePlace = "lugar.trabajo";
+
+        /// <summary>"Te vas en 3 semanas" si renunciaste con aviso; si no, los días de vacaciones ganados.</summary>
+        private string? ContractStatus(Character player)
+        {
+            Job? job = player.Job;
+            if (job == null)
+            {
+                return null;
+            }
+
+            if (job.LeavingWeek.HasValue)
+            {
+                return Text("ui.pega.te_vas", Math.Max(0, job.LeavingWeek.Value - Session.World.Date.TotalWeeks));
+            }
+
+            VacationsDefinition? vacations = player.Residence == null ? null : Session.Content.GetCountry(player.Residence.CountryId).Economy?.Vacations;
+            if (job.Kind != JobKind.Employee || vacations == null)
+            {
+                return null;
+            }
+
+            return Text("ui.pega.vacaciones." + vacations.Unit, (int)Math.Floor(job.VacationDays));
+        }
+
+        /// <summary>Tu curso del colegio; null si no vas a un curso.</summary>
+        public SchoolClassView? SchoolClass()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            Education.SchoolClass? cls = player.SchoolClass;
+            if (cls == null)
+            {
+                return null;
+            }
+
+            Character? teacher = Education.SchoolRules.Teacher(world, player);
+            string? teacherName = teacher == null ? null
+                : Text(teacher.Gender == Gender.Female ? "ui.momento.profe.f" : "ui.momento.profe.m", teacher.FirstName + " " + teacher.LastName.Split(' ')[0]);
+            IReadOnlyDictionary<int, Events.EventRecord> lastMoments = LastMomentWith(world, player);
+            var mates = Education.SchoolRules.Classmates(world, player)
+                .Select(c => (Person: c, Feelings: RelationshipRules.Feelings(world, player, c)))
+                .OrderByDescending(x => x.Feelings.Affection)
+                .ThenBy(x => x.Person.Id)
+                .Select(x => new ClassmateView(
+                    x.Person.Id,
+                    x.Person.FirstName + " " + x.Person.LastName.Split(' ')[0],
+                    RelationshipRules.BondKey(x.Feelings.Bond) is string bond ? T("ui.relacion." + bond) : null,
+                    x.Feelings.Affection,
+                    lastMoments.TryGetValue(x.Person.Id, out Events.EventRecord? moment) ? Memory(moment, x.Person) : null))
+                .ToList();
+            var left = cls.LeftIds
+                .Where(id => world.TryGetCharacter(id, out Character? _))
+                .Select(id => world.GetCharacter(id))
+                .Select(c => new ClassmateView(
+                    c.Id,
+                    c.FirstName + " " + c.LastName.Split(' ')[0],
+                    T("ui.relacion.se_fue"),
+                    RelationshipRules.Feelings(world, player, c).Affection,
+                    lastMoments.TryGetValue(c.Id, out Events.EventRecord? moment) ? Memory(moment, c) : null))
+                .ToList();
+            bool section = player.Studies != null && Education.UniversityRules.InSection(player);
+            string name = section
+                ? Text("ui.seccion", cls.Level, cls.Letter, T(player.Studies!.CareerId))
+                : Text("curso." + cls.StageId, cls.Level, cls.Letter);
+            return new SchoolClassView(name, cls.Students, teacherName, mates, section, left);
+        }
+
+        /// <summary>Marca (o desmarca) con destacador algo que quiere (posición de <see cref="WishView.Index"/>).</summary>
+        public void HighlightWish(int index, bool highlighted) => Session.HighlightWish(index, highlighted);
 
         /// <summary>Avanza una sola semana (o nada, si hay que decidir algo primero).</summary>
         public int AdvanceWeek() => Advance(1);
@@ -325,7 +673,7 @@ namespace MistakesLife.Core.Presentation
                     courtCase.Rit,
                     T(definition.Id),
                     T(definition.CourtKey),
-                    string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), courtCase.Opened.Year, courtCase.Opened.WeekOfYear),
+                    DateLabel(courtCase.Opened),
                     courtCase.IsOpen,
                     courtCase.Outcome == null ? null : T(definition.OutcomeTextKey(courtCase.Outcome)),
                     stages,
@@ -444,7 +792,7 @@ namespace MistakesLife.Core.Presentation
                     definition == null ? message.MailId : T(definition.SubjectKey),
                     T(message.MailId),
                     definition?.Topic ?? string.Empty,
-                    string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), message.Date.Year, message.Date.WeekOfYear),
+                    DateLabel(message.Date),
                     AgeLabel(player, message.Date),
                     WhenLabel(Session.World.Date.WeeksSince(message.Date)),
                     message.Read));
@@ -543,6 +891,50 @@ namespace MistakesLife.Core.Presentation
                 .ToList();
         }
 
+        /// <summary>El horario del jugador, o null si todavía no tiene (antes de los 6 años).</summary>
+        public RoutineView? Routine()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            Life.Routine? routine = player.Routine;
+            if (routine == null)
+            {
+                return null;
+            }
+
+            var slots = new List<RoutineSlotView>();
+            for (int day = 0; day < Life.Routine.Days; day++)
+            {
+                foreach (Life.RoutineBlock block in new[] { Life.RoutineBlock.Afternoon, Life.RoutineBlock.Night })
+                {
+                    string? id = routine.Get(day, block);
+                    Content.ActivityDefinition? activity = id == null ? null : Session.Content.Activity(id);
+                    bool available = activity == null || Life.RoutineRules.IsAvailable(world, Session.Content, player, activity);
+                    slots.Add(new RoutineSlotView(day, block, id, T(id ?? "ui.horario.libre"), available));
+                }
+            }
+
+            int mood = Life.RoutineRules.MoodTarget(Life.RoutineRules.Total(world, Session.Content, player, routine, "animo")) - player.Stats.Happiness;
+            int mind = Life.RoutineRules.MindTarget(Life.RoutineRules.Total(world, Session.Content, player, routine, "mente")) - player.Stats.Smarts;
+            int health = Life.RoutineRules.HealthStep(Life.RoutineRules.Total(world, Session.Content, player, routine, "salud"));
+            return new RoutineView(slots, routine.Confirmed, Trend(mood), Trend(mind), Trend(health));
+        }
+
+        /// <summary>Lo que se puede pegar en ese bloque del horario hoy.</summary>
+        public IReadOnlyList<RoutineOptionView> RoutineOptions(Life.RoutineBlock block) =>
+            Life.RoutineRules.Options(Session.World, Session.Content, Session.World.Player, block)
+                .Select(a => new RoutineOptionView(a.Id, T(a.Id)))
+                .ToList();
+
+        /// <summary>Pone una actividad (por su id) en un bloque, o lo deja libre con null.</summary>
+        public void SetRoutine(int day, Life.RoutineBlock block, string? activityId) => Session.SetRoutine(day, block, activityId);
+
+        /// <summary>"Así queda mi semestre": la vida sigue con este horario hasta que lo cambie.</summary>
+        public void ConfirmRoutine() => Session.ConfirmRoutine();
+
+        private string Trend(int direction) =>
+            T(direction > 0 ? "ui.horario.sube" : direction < 0 ? "ui.horario.baja" : "ui.horario.igual");
+
         /// <summary>El jugador le escribe primero a esa persona uno de <see cref="ChatView.Openers"/> (por su id).</summary>
         public void WriteChat(int otherId, string openerId) => Session.WriteChat(otherId, openerId);
 
@@ -598,7 +990,7 @@ namespace MistakesLife.Core.Presentation
                 record.NewsId,
                 T(record.TextKey),
                 topic,
-                string.Format(CultureInfo.InvariantCulture, T("ui.fecha"), record.Date.Year, record.Date.WeekOfYear),
+                DateLabel(record.Date),
                 AgeLabel(world.Player, record.Date),
                 world.Date.WeeksSince(record.Date),
                 record.CityId != null);
@@ -716,7 +1108,186 @@ namespace MistakesLife.Core.Presentation
         private int Advance(int maxWeeks)
         {
             LifePhase phase = Phase;
-            return phase == LifePhase.Living ? Session.Advance(maxWeeks) : 0;
+            if (phase != LifePhase.Living)
+            {
+                return 0;
+            }
+
+            int year = Session.World.Date.Year;
+            int playerId = Session.World.PlayerId;
+            int weeks = Session.Advance(maxWeeks);
+            if (Session.World.Date.Year > year && Session.World.PlayerId == playerId)
+            {
+                _closedChapter = Chapter(Session.World.Date.Year - 1);
+            }
+
+            return weeks;
+        }
+
+        private ChapterView? _closedChapter;
+
+        /// <summary>
+        /// El capítulo del año que se acaba de cerrar, una sola vez: la pantalla lo muestra al
+        /// pasar de año (después vive en <see cref="Chapters"/>). Null si no se cerró ninguno.
+        /// </summary>
+        public ChapterView? TakeClosedChapter()
+        {
+            ChapterView? chapter = _closedChapter;
+            _closedChapter = null;
+            return chapter;
+        }
+
+        /// <summary>
+        /// Un año como capítulo. El título lo da la línea del diario de más peso de ese año
+        /// (chapters/ en los paquetes; si empatan, la más nueva). Un título (su texto) sale una sola vez
+        /// por vida: si un año anterior ya lo usó, gana la siguiente línea. Si ninguna da
+        /// título, el año se llama por la edad ("El año en que cumplí 9").
+        /// </summary>
+        public ChapterView Chapter(int year)
+        {
+            var used = new HashSet<string>(StringComparer.Ordinal);
+            World world = Session.World;
+            int first = world.Player.BirthDate.Year;
+            for (int y = first; y < year; y++)
+            {
+                string? title = TitleText(BestTitle(y, used, out _, out _));
+                if (title != null)
+                {
+                    used.Add(title);
+                }
+            }
+
+            return ChapterWith(year, used);
+        }
+
+        /// <summary>
+        /// El diario por capítulos: un capítulo por cada año vivido en que pasó algo, del
+        /// primero al de ahora (el último puede estar abierto todavía).
+        /// </summary>
+        public IReadOnlyList<ChapterView> Chapters()
+        {
+            World world = Session.World;
+            var years = new HashSet<int>(world.Journal.Where(e => e.CharacterId == world.PlayerId).Select(e => e.Date.Year));
+            var used = new HashSet<string>(StringComparer.Ordinal);
+            var chapters = new List<ChapterView>();
+            for (int y = world.Player.BirthDate.Year; y <= world.Date.Year; y++)
+            {
+                if (years.Contains(y))
+                {
+                    chapters.Add(ChapterWith(y, used));
+                }
+                else
+                {
+                    string? title = TitleText(BestTitle(y, used, out _, out _));
+                    if (title != null)
+                    {
+                        used.Add(title);
+                    }
+                }
+            }
+
+            return chapters;
+        }
+
+        /// <summary>Arma el capítulo de ese año sin repetir los títulos ya usados (y suma el suyo).</summary>
+        private ChapterView ChapterWith(int year, HashSet<string> used)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            GameDate end = new GameDate((year * GameDate.WeeksPerYear) - 1);
+            int age = player.AgeInYears(end);
+            ChapterTitleDefinition? title = BestTitle(year, used, out JournalEntry? best, out Character? person);
+            if (title != null)
+            {
+                used.Add(T(title.TitleKey));
+            }
+
+            string text = title != null
+                ? WithPerson(T(title.TitleKey), person?.FirstName)
+                : age == 0 ? T("ui.capitulo.nacer") : Text("ui.capitulo.cumpli", age);
+            var months = world.Journal
+                .Where(e => e.CharacterId == player.Id && e.Date.Year == year)
+                .GroupBy(e => e.Date.Month)
+                .OrderBy(g => g.Key)
+                .Select(g => new ChapterMonthView(T("ui.mes." + g.Key), g.Select(e => T(e.TextKey)).ToList()))
+                .ToList();
+            return new ChapterView(year, text, AgeLabel(player, end), months, best == null ? null : PhotoOf(best, person), year == world.Date.Year);
+        }
+
+        /// <summary>El texto de un título sin la persona: dos líneas que titulan igual cuentan como el mismo título.</summary>
+        private string? TitleText(ChapterTitleDefinition? title) => title == null ? null : T(title.TitleKey);
+
+        /// <summary>
+        /// La línea del diario que titula el año: la de más peso cuyo título no se haya usado
+        /// (si empatan, la más nueva). Null si ninguna da título.
+        /// </summary>
+        private ChapterTitleDefinition? BestTitle(int year, HashSet<string> used, out JournalEntry? best, out Character? bestPerson)
+        {
+            World world = Session.World;
+            best = null;
+            bestPerson = null;
+            ChapterTitleDefinition? bestTitle = null;
+            foreach (JournalEntry entry in world.Journal.Where(e => e.CharacterId == world.PlayerId && e.Date.Year == year))
+            {
+                ChapterTitleDefinition? title = Session.Content.ChapterTitleFor(entry.TextKey);
+                if (title == null || used.Contains(T(title.TitleKey)) || (bestTitle != null && title.Weight < bestTitle.Weight))
+                {
+                    continue;
+                }
+
+                Character? person = PersonOnThatDay(entry.Date);
+                if (person == null && T(title.TitleKey).Contains(PersonMark))
+                {
+                    continue; // el título nombra a alguien que no sabemos quién es
+                }
+
+                best = entry;
+                bestTitle = title;
+                bestPerson = person;
+            }
+
+            return bestTitle;
+        }
+
+        /// <summary>
+        /// La persona de un día: la del momento que plantó una semilla ese día (la que quedó
+        /// ligada a lo que hiciste). Null si ese día no dejó a nadie.
+        /// </summary>
+        private Character? PersonOnThatDay(GameDate date)
+        {
+            World world = Session.World;
+            foreach (Seed seed in world.Seeds.All.Where(s => s.OwnerId == world.PlayerId && s.PlantedDate == date && s.Origin != null))
+            {
+                int? id = seed.Origin!.PersonId ?? (seed.Witnesses.Count > 0 ? seed.Witnesses.First() : (int?)null);
+                if (id.HasValue && world.TryGetCharacter(id.Value, out Character? person))
+                {
+                    return person;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>La foto del capítulo: el día de esa línea y, si se sabe, dónde y con quién.</summary>
+        private ChapterPhotoView PhotoOf(JournalEntry entry, Character? person)
+        {
+            World world = Session.World;
+            string? placeKey = world.Seeds.All
+                .Where(s => s.OwnerId == world.PlayerId && s.PlantedDate == entry.Date && s.Origin?.PlaceKey != null)
+                .Select(s => s.Origin!.PlaceKey)
+                .FirstOrDefault();
+            if (placeKey == null)
+            {
+                // Si ese día pasó un solo momento, su lugar.
+                var records = world.EventHistory.Where(r => r.CharacterId == world.PlayerId && r.Date == entry.Date).ToList();
+                if (records.Count == 1 && Session.Content.TryGetEvent(records[0].EventId, out EventDefinition? definition))
+                {
+                    placeKey = definition?.Place;
+                }
+            }
+
+            string when = string.Format(CultureInfo.InvariantCulture, T("ui.fecha.dia"), entry.Date.DayOfMonth, T("ui.mes." + entry.Date.Month));
+            return new ChapterPhotoView(when, placeKey == null ? null : T(placeKey), person?.FirstName, person?.Id);
         }
 
         private string T(string key) => Session.Text(key, Language);
@@ -726,10 +1297,12 @@ namespace MistakesLife.Core.Presentation
         private EventView EventOf(PendingEvent pending)
         {
             EventDefinition definition = Session.Content.GetEvent(pending.EventId);
-            var options = pending.AvailableOptions.Select(i => T(definition.Options[i].TextKey)).ToList();
+            Character? person = EventSystem.PersonOf(Session.World, pending);
+            string? personName = person == null ? null : PersonName(definition, person);
+            var options = pending.AvailableOptions.Select(i => WithTest(WithPerson(T(definition.Options[i].TextKey), personName))).ToList();
             int? previous = Session.TimeMachine.PreviousChoice(pending);
             int position = previous.HasValue ? IndexOf(pending.AvailableOptions, previous.Value) : -1;
-            string textKey = definition.TextKeyFor(Session.World.TimesHappened(pending.EventId, pending.CharacterId));
+            string textKey = definition.TextKeyFor(Session.World.TimesHappened(definition, pending.CharacterId, pending.PersonId));
 
             // Quién mira y quién lo va a notar: los testigos de las semillas, sin aplicar nada.
             World world = Session.World;
@@ -745,8 +1318,147 @@ namespace MistakesLife.Core.Presentation
             string watchers = seed == null ? string.Empty : Names(seed.Witnesses.Select(id => world.TryGetCharacter(id, out Character? c) ? c : null));
             string? watching = watchers.Length == 0 ? null : Text("ui.evento.miran", watchers);
 
-            return new EventView(pending.EventId, T(textKey), options, position >= 0 ? position : (int?)null, definition.KeyDay, remembered, watching, noticedBy);
+            return new EventView(pending.EventId, WithTest(WithPerson(T(textKey), personName)), options, position >= 0 ? position : (int?)null, definition.KeyDay, remembered, watching, noticedBy)
+            {
+                Person = person == null ? null : PersonInMoment(definition, person),
+                PersonId = person?.Id,
+                Place = definition.Place == null ? null : T(definition.Place),
+                AllowsRule = definition.AllowsOwnRule,
+                Origin = seed == null ? null : OriginOf(seed),
+            };
         }
+
+        /// <summary>
+        /// "Esto viene de acá": el día en que nació la semilla que hoy despierta. Null si la
+        /// semilla no sabe de dónde viene (partidas viejas, o la plantó una regla y no un momento).
+        /// </summary>
+        private SeedOriginView? OriginOf(Seed seed)
+        {
+            SeedOrigin? origin = seed.Origin;
+            if (origin == null || !Session.Content.TryGetEvent(origin.EventId, out EventDefinition? definition) || definition == null)
+            {
+                return null;
+            }
+
+            World world = Session.World;
+            // La persona de ese día: la del momento o, si el momento no tenía, la que quedó
+            // ligada a la semilla (el amigo al que le prestaste plata).
+            int? personId = origin.PersonId ?? (seed.Witnesses.Count > 0 ? seed.Witnesses.First() : (int?)null);
+            Character? person = personId.HasValue && world.TryGetCharacter(personId.Value, out Character? c) ? c : null;
+            string? personName = person == null ? null : PersonName(definition, person);
+            string moment = WithPerson(T(definition.ResolvedTextKey), personName);
+            string? choice = origin.OptionTextKey == null ? null : WithPerson(T(origin.OptionTextKey), personName);
+            string when = string.Format(CultureInfo.InvariantCulture, T("ui.fecha.otro_ano"),
+                string.Format(CultureInfo.InvariantCulture, T("ui.fecha.dia"), seed.PlantedDate.DayOfMonth, T("ui.mes." + seed.PlantedDate.Month)),
+                AgeLabel(world.Player, seed.PlantedDate));
+
+            // A qué foto se puede volver para cambiarlo: la última sacada antes de ese día
+            // (la de esa misma decisión, si era día clave, o el comienzo de esa etapa).
+            TimeMachine machine = Session.TimeMachine;
+            WorldSnapshot? snapshot = machine.Snapshots
+                .Where(s => s.PlayerId == world.PlayerId && s.Date <= seed.PlantedDate && machine.CanGoBackTo(s))
+                .OrderBy(s => s.Date)
+                .LastOrDefault();
+
+            return new SeedOriginView(
+                T("ui.origen.titulo"),
+                when,
+                origin.PlaceKey == null ? null : T(origin.PlaceKey),
+                person == null ? null : PersonInMoment(definition, person),
+                WithTest(moment),
+                choice == null ? null : Text("ui.origen.elegiste", choice),
+                snapshot?.Id,
+                snapshot == null ? null : Text("ui.origen.volver", snapshot.PlayerAgeInYears));
+        }
+
+        /// <summary>
+        /// Vuelve al pasado justo frente al error: a la foto que ofrece
+        /// <see cref="SeedOriginView.SnapshotId"/> del momento que se está viendo. Gasta una carga.
+        /// </summary>
+        public void GoBackToOrigin()
+        {
+            int? snapshotId = Session.Pending == null ? null : EventOf(Session.Pending).Origin?.SnapshotId;
+            if (!snapshotId.HasValue)
+            {
+                throw new InvalidOperationException("Este momento no tiene un día al que volver.");
+            }
+
+            Session.GoBack(snapshotId.Value);
+        }
+
+        /// <summary>
+        /// Cómo se nombra a la persona del momento: a la mamá y al papá se les dice
+        /// "tu mamá" y "tu papá" (también cuando van como apoderado); a los demás, por su nombre.
+        /// </summary>
+        private string PersonInMoment(EventDefinition definition, Character person) =>
+            definition.With == "madre" || definition.With == "padre" ? T("ui.momento." + definition.With) : PersonName(definition, person);
+
+        /// <summary>
+        /// El nombre con que el texto de un momento nombra a la persona: a quien hace clases
+        /// se le dice "la profe Carolina" o "el profe Juan"; a los demás, por su nombre.
+        /// </summary>
+        private string PersonName(EventDefinition definition, Character person) =>
+            definition.With == "jefe" && Work.OccupationRules.CareerOf(Session.Content, Session.World.Player.Job)?.Occupation!.BossKey is string bossKey
+                ? Text(bossKey + ".momento" + (person.Gender == Gender.Female ? ".f" : ".m"), person.FirstName)
+            : definition.With == "profe" || definition.With == "jefe"
+                ? Text("ui.momento." + definition.With + (person.Gender == Gender.Female ? ".f" : ".m"), person.FirstName)
+                : definition.With == "apoderado"
+                    ? T(person.Sex == Sex.Female ? "ui.momento.madre" : "ui.momento.padre")
+                    : person.FirstName;
+
+        /// <summary>
+        /// La línea de con quién y dónde pasa el momento ("Con tu mamá · Tu casa"); null si no dice ninguna.
+        /// </summary>
+        public string? MomentLine(EventView view)
+        {
+            var parts = new List<string>();
+            if (view.Person != null)
+            {
+                parts.Add(Text("ui.momento.con", view.Person));
+            }
+
+            if (view.Place != null)
+            {
+                parts.Add(view.Place);
+            }
+
+            return parts.Count == 0 ? null : string.Join(" · ", parts);
+        }
+
+        /// <summary>Marca de los textos que se cambia por el ramo de la prueba anunciada o devuelta ("Matemática").</summary>
+        public const string SubjectMark = "{ramo}";
+
+        /// <summary>Marca de los textos que se cambia por la nota de esa prueba ("5,8").</summary>
+        public const string MarkMark = "{nota}";
+
+        /// <summary>Cambia {ramo} y {nota} por los de la prueba del jugador (la anunciada o la que se devolvió).</summary>
+        private string WithTest(string text)
+        {
+            Education.SchoolRecord? record = Session.World.Player.SchoolRecord;
+            if (record?.TestSubjectId == null)
+            {
+                return text;
+            }
+
+            text = text.Replace(SubjectMark, T(record.TestSubjectId));
+            return record.TestMark.HasValue ? text.Replace(MarkMark, MarkText(record.TestMark.Value)) : text;
+        }
+
+        /// <summary>Una nota como se escribe en el país ("5,8" en Chile, "7" en Argentina).</summary>
+        public string MarkText(double mark)
+        {
+            int decimals = Session.World.Player.Residence == null ? 1
+                : Session.Content.GetCountry(Session.World.Player.Residence.CountryId).GradeScale?.Decimals ?? 1;
+            return mark.ToString("F" + decimals.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).Replace('.', ',');
+        }
+
+        /// <summary>Marca de los textos que se cambia por el nombre de la persona del momento.</summary>
+        public const string PersonMark = "{persona}";
+
+        private static string WithPerson(string text, Character? person) => WithPerson(text, person?.FirstName);
+
+        private static string WithPerson(string text, string? name) =>
+            name == null ? text : text.Replace(PersonMark, name);
 
         /// <summary>Los nombres de pila de las personas vivas, en una lista ("Pedro, Ana y Luis"); vacío si no hay.</summary>
         private string Names(IEnumerable<Character?> people)
@@ -808,7 +1520,27 @@ namespace MistakesLife.Core.Presentation
             return years == 1 ? T("ui.hace.un_ano") : string.Format(CultureInfo.InvariantCulture, T("ui.hace.anos"), years);
         }
 
-                private string AgeLabel(Character character, GameDate date)
+        /// <summary>El día de hoy para la cabecera: "Lunes 12 de marzo" (cada semana empieza un lunes).</summary>
+        private string Today(GameDate date) =>
+            string.Format(CultureInfo.InvariantCulture, T("ui.fecha.hoy"), date.DayOfMonth, T("ui.mes." + date.Month));
+
+        /// <summary>
+        /// Una fecha pasada como la diría una persona: "12 de marzo" si es de este año
+        /// y "12 de marzo · 13 años" (la edad que tenías) si es de otro. Nunca "año 103, semana 10".
+        /// </summary>
+        private string DateLabel(GameDate date)
+        {
+            string day = string.Format(CultureInfo.InvariantCulture, T("ui.fecha.dia"), date.DayOfMonth, T("ui.mes." + date.Month));
+            World world = Session.World;
+            if (date.Year == world.Date.Year || date < world.Player.BirthDate)
+            {
+                return day;
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, T("ui.fecha.otro_ano"), day, AgeLabel(world.Player, date));
+        }
+
+        private string AgeLabel(Character character, GameDate date)
         {
             int weeks = character.AgeInWeeks(date);
             int years = weeks / GameDate.WeeksPerYear;
@@ -918,9 +1650,16 @@ namespace MistakesLife.Core.Presentation
             string? companyText = sizeId == null ? null
                 : company!.NameId != null ? Text("ui.trabajo.empresa", T(company.NameId), T(sizeId))
                 : Text("ui.trabajo.empresa_sin_nombre", T(sizeId));
-            if (player.Degrees.Count == 0)
+            if (player.Degrees.Count == 0 && player.Job.Position == null)
             {
                 return new WorkplaceView(null, null, 1, freelance, figure, 0, companyText, sizeId);
+            }
+
+            double bestRelative = player.Degrees.Count == 0 ? 1 : player.Degrees.Max(d => Session.Content.GetCareerLevel(d).SalaryRelative);
+            if (player.Degrees.Count == 0)
+            {
+                // Sin título, con cargo: trabaja en un oficio.
+                return OccupationWorkplace(player, figure, freelance, companyText, sizeId, bestRelative);
             }
 
             CareerLevelDefinition best = player.Degrees
@@ -935,15 +1674,27 @@ namespace MistakesLife.Core.Presentation
             }
 
             // Con cargo, manda la carrera del cargo (puede trabajar en algo distinto a su mejor título).
+            return OccupationWorkplace(player, figure, freelance, companyText, sizeId, best.SalaryRelative);
+        }
+
+        /// <summary>El lugar de trabajo de quien tiene un cargo: el de la carrera o el oficio de ese cargo.</summary>
+        private WorkplaceView OccupationWorkplace(Character player, HomeMemberView figure, bool freelance, string? companyText, string? sizeId, double salaryRelative)
+        {
+            CareerPosition position = player.Job!.Position!;
             CareerPositionDefinition current = Session.Content.GetCareerPosition(position.PositionId);
             CareerDefinition jobCareer = Session.Content.GetCareer(current.CareerId);
             string caption = Text("ui.trabajo.cargo", T(position.PositionId), T(position.AreaId), player.Job.Performance);
+            if (jobCareer.IsOccupation && player.Job.GoalPercent > 0)
+            {
+                caption += " · " + Text("ui.oficio.meta", player.Job.GoalPercent);
+            }
+
             if (companyText != null)
             {
                 caption = companyText + " · " + caption;
             }
 
-            return new WorkplaceView(jobCareer.Id, jobCareer.WorkplaceKind, best.SalaryRelative, freelance, figure, RankOf(jobCareer, current), caption, sizeId);
+            return new WorkplaceView(jobCareer.Id, jobCareer.WorkplaceKind, salaryRelative, freelance, figure, RankOf(jobCareer, current), caption, sizeId);
         }
 
         /// <summary>

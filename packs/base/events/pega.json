@@ -1,0 +1,531 @@
+[
+  {
+    "id": "evento.pega.primer_dia",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 0 && jugador.meses_en_trabajo <= 1",
+    "opciones": [
+      {
+        "texto": "opcion.pega.primer_dia.seguir",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 7",
+          "persona.confianza += 3",
+          "diario('diario.pega.primer_dia')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.primer_dia.solo",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.pega.primer_dia.jefe",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.carino -= 2",
+          "jugador.desempeno += 1"
+        ]
+      }
+    ],
+    "peso": 60,
+    "veces_maximas": 8
+  },
+  {
+    "id": "evento.pega.tarea_extra",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 1",
+    "opciones": [
+      {
+        "texto": "opcion.pega.tarea_extra.tomar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "persona.respeto += 4",
+          "jugador.salud -= 1",
+          "diario('diario.pega.tarea_extra')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.tarea_extra.callar",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "persona.respeto -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.pega.tarea_extra.no_puedo",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.respeto += 1",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.8,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.plazo",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 2",
+    "opciones": [
+      {
+        "texto": "opcion.pega.plazo.quedarse",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 2",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.plazo.pedir",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.respeto += 2",
+          "jugador.desempeno -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.pega.plazo.medias",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno -= 5",
+          "persona.confianza -= 4",
+          "diario('diario.pega.entrega_a_medias')"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.error",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 2",
+    "opciones": [
+      {
+        "texto": "opcion.pega.error.avisar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.respeto += 5",
+          "persona.confianza += 3",
+          "jugador.desempeno -= 1",
+          "diario('diario.pega.error_avisado')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.error.arreglar",
+        "tendencia": "jugador.responsabilidad / 3 + (100 - jugador.extraversion) / 4",
+        "efectos": [
+          "jugador.salud -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.pega.error.dejar",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.desempeno -= 4",
+          "persona.confianza -= 3"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.5,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.almuerzo",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 0",
+    "opciones": [
+      {
+        "texto": "opcion.pega.almuerzo.sentarse",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.almuerzo.rapido",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino += 1",
+          "jugador.desempeno += 1"
+        ]
+      },
+      {
+        "texto": "opcion.pega.almuerzo.solo",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.vaca",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 1",
+    "opciones": [
+      {
+        "texto": "opcion.pega.vaca.poner",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.dinero -= precio(5000)",
+          "persona.carino += 3"
+        ]
+      },
+      {
+        "texto": "opcion.pega.vaca.mas",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 3",
+        "efectos": [
+          "jugador.dinero -= precio(15000)",
+          "persona.carino += 6",
+          "persona.confianza += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.vaca.no",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 2"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.after",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 1",
+    "opciones": [
+      {
+        "texto": "opcion.pega.after.ir",
+        "tendencia": "jugador.extraversion",
+        "efectos": [
+          "persona.carino += 6",
+          "jugador.felicidad += 3",
+          "jugador.salud -= 1",
+          "jugador.dinero -= precio(12000)",
+          "diario('diario.pega.after')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.after.una",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 3",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.dinero -= precio(4000)"
+        ]
+      },
+      {
+        "texto": "opcion.pega.after.no",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.cubrir",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 2",
+    "opciones": [
+      {
+        "texto": "opcion.pega.cubrir.cubrir",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.carino += 7",
+          "persona.confianza += 4",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.cubrir.cambio",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.carino += 3",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.cubrir.no",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.domingo",
+    "con": "jefe",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 2",
+    "opciones": [
+      {
+        "texto": "opcion.pega.domingo.mandar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.respeto += 3",
+          "jugador.desempeno += 2",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.domingo.manana",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.pega.domingo.visto",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + (100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "persona.confianza -= 3",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.5,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.bano",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 2",
+    "opciones": [
+      {
+        "texto": "opcion.pega.bano.preguntar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "persona.carino += 8",
+          "persona.confianza += 5",
+          "diario('diario.pega.bano')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.bano.ofrecer",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 3"
+        ]
+      },
+      {
+        "texto": "opcion.pega.bano.salir",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.4,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.pelambre",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 3",
+    "opciones": [
+      {
+        "texto": "opcion.pega.pelambre.seguir",
+        "tendencia": "(100 - jugador.amabilidad) / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.confianza += 3",
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.pelambre.cortar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 2",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.pelambre.escuchar",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.confianza += 1"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.5,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.felicitacion",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 4 && jugador.desempeno >= 65",
+    "opciones": [
+      {
+        "texto": "opcion.pega.felicitacion.agradecer",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.respeto += 3",
+          "jugador.felicidad += 4",
+          "diario('diario.pega.felicitacion')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.felicitacion.aumento",
+        "tendencia": "jugador.extraversion / 2 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "persona.respeto += 1",
+          "jugador.marcar('pidio_aumento')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.felicitacion.nada",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.llamado",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 3 && jugador.desempeno <= 40",
+    "opciones": [
+      {
+        "texto": "opcion.pega.llamado.escuchar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno += 6",
+          "persona.respeto += 3",
+          "diario('diario.pega.llamado')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.llamado.defender",
+        "tendencia": "(100 - jugador.amabilidad) / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.respeto -= 3",
+          "persona.rencor += 3",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.pega.llamado.callar",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "jugador.felicidad -= 3"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.7,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 26
+  },
+  {
+    "id": "evento.pega.se_va",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 10",
+    "opciones": [
+      {
+        "texto": "opcion.pega.se_va.contacto",
+        "tendencia": "jugador.extraversion / 2 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.carino += 6",
+          "persona.confianza += 3",
+          "persona.vincular('amistad')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.se_va.suerte",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 3"
+        ]
+      },
+      {
+        "texto": "opcion.pega.se_va.envidia",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "persona.carino -= 1",
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.35,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104
+  },
+  {
+    "id": "evento.pega.sindicato",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && jugador.meses_en_trabajo >= 6",
+    "opciones": [
+      {
+        "texto": "opcion.pega.sindicato.firmar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",
+        "efectos": [
+          "jugador.marcar('sindicalizado')",
+          "persona.carino += 5",
+          "persona.confianza += 3",
+          "diario('diario.pega.sindicato')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.sindicato.pensar",
+        "tendencia": "(100 - jugador.extraversion) / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.pega.sindicato.no",
+        "tendencia": "(100 - jugador.apertura) / 2",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      }
+    ],
+    "probabilidad_anual": 0.3,
+    "unico": true
+  }
+]

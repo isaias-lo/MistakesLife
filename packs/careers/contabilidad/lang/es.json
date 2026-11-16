@@ -10,8 +10,6 @@
   "opcion.contabilidad.balance.cuadrar": "Revisas asiento por asiento hasta encontrar el error.",
   "opcion.contabilidad.balance.ayuda": "Después de la prueba le pides al compañero de al lado que te explique.",
   "opcion.contabilidad.balance.dejar": "Lo entregas así; total, es la primera.",
-  "evento.contabilidad.ramo_reprobado": "Repruebas Tributación I. El IVA, el PPM y el F29 no te entraron este semestre.",
-  "diario.contabilidad.ramo_reprobado": "Reprobé un ramo. Voy a tener que tomarlo de nuevo.",
   "evento.contabilidad.operacion_renta": "Llega abril y con él la Operación Renta. Tu tía, que vende sopaipillas, te pide que le hagas la declaración de impuestos.",
   "opcion.contabilidad.renta.ayudar": "Se la haces con calma y le explicas qué es cada cosa.",
   "opcion.contabilidad.renta.cobrar": "Se la haces, pero le cobras algo.",

@@ -74,6 +74,8 @@
         "efectos": [
           "jugador.desmarcar('trabajando')",
           "jugador.dejar_trabajo()",
+          "jugador.dejar_de_buscar()",
+          "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('jubilado')",
           "jugador.jubilarse()",
           "jugador.felicidad += 4"
@@ -85,6 +87,8 @@
         "efectos": [
           "jugador.desmarcar('trabajando')",
           "jugador.dejar_trabajo()",
+          "jugador.dejar_de_buscar()",
+          "jugador.desmarcar('buscando_trabajo')",
           "jugador.marcar('jubilado')",
           "jugador.jubilarse()",
           "jugador.marcar('pension_baja')",

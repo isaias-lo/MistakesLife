@@ -20,13 +20,17 @@ namespace MistakesLife.Core.Content
             "lugar_trabajo.oficina_abierta",
             "lugar_trabajo.oficina_cubiculos",
             "lugar_trabajo.consulta",
+            "lugar_trabajo.tienda",
+            "lugar_trabajo.restoran",
+            "lugar_trabajo.obra",
         };
 
         /// <summary>Por ejemplo "carrera.contabilidad". Es también la clave de su nombre.</summary>
         [JsonProperty("id", Required = Required.Always)]
         public string Id { get; set; } = string.Empty;
 
-        [JsonProperty("niveles", Required = Required.Always)]
+        /// <summary>Los niveles de estudio. Un oficio no tiene (se aprende trabajando).</summary>
+        [JsonProperty("niveles")]
         public List<CareerLevelDefinition> Levels { get; set; } = new List<CareerLevelDefinition>();
 
         /// <summary>
@@ -39,6 +43,13 @@ namespace MistakesLife.Core.Content
         /// <summary>La escalera de cargos de la carrera, del inicial a la cima. Un área puede tener la suya.</summary>
         [JsonProperty("cargos")]
         public List<CareerPositionDefinition> Positions { get; set; } = new List<CareerPositionDefinition>();
+
+        /// <summary>
+        /// Los ramos de la carrera, por semestre. Cada nivel toma los de su institución
+        /// y largo; cada semestre de cada nivel tiene que tener al menos uno.
+        /// </summary>
+        [JsonProperty("ramos")]
+        public List<CourseDefinition> Courses { get; set; } = new List<CourseDefinition>();
 
         /// <summary>
         /// Cómo se ve el lugar donde trabaja quien tiene este título (uno de
@@ -61,6 +72,16 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("marca_trabajo")]
         public string? WorkFlag { get; set; }
+
+        /// <summary>
+        /// Si es un oficio (se trabaja sin título; su id empieza con "oficio."): sueldo, meta y
+        /// pago variable. Null en una carrera de estudios.
+        /// </summary>
+        [JsonProperty("oficio")]
+        public OccupationDefinition? Occupation { get; set; }
+
+        [JsonIgnore]
+        public bool IsOccupation => Occupation != null;
 
         [JsonIgnore]
         public string PackId { get; internal set; } = string.Empty;

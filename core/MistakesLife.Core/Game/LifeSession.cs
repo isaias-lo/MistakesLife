@@ -23,6 +23,8 @@ namespace MistakesLife.Core.Game
     public sealed class LifeSession
     {
         private readonly WeekCycle _cycle;
+
+        private readonly RoutineSystem _routine;
         private int _journalRead;
 
         public LifeSession(ContentDatabase content, ulong seed)
@@ -61,19 +63,28 @@ namespace MistakesLife.Core.Game
             _journalRead = journalRead;
             TimeMachine = new TimeMachine(0);
             Events = new EventSystem(content, eventRules);
+            _routine = new RoutineSystem(content);
             _cycle = new WeekCycle()
+                .Register(new Education.SchoolSystem(content))
+                .Register(_routine)
                 .Register(new EconomySystem(content))
                 .Register(new NewsSystem(content))
                 .Register(new Courts.CourtSystem(content))
+                .Register(new Work.OccupationSystem(content))
                 .Register(new PayrollSystem(content))
+                .Register(new Work.VacationSystem(content))
+                .Register(new Work.VentureSystem(content))
                 .Register(new PensionSystem(content))
                 .Register(new TaxSystem(content))
                 .Register(new ExpenseSystem(content))
                 .Register(new DebtSystem(content))
                 .Register(new EducationSystem(content))
+                .Register(new Education.GradeSystem(content))
                 .Register(new CareerSystem())
+                .Register(new Education.UniversitySystem(content))
                 .Register(new CompanySystem(content))
                 .Register(new JobSearchSystem(content))
+                .Register(new Work.WorkSystem(content))
                 .Register(new AgingSystem())
                 .Register(new MortalitySystem(content))
                 .Register(new RelativesFamilySystem(content))
@@ -82,7 +93,8 @@ namespace MistakesLife.Core.Game
                 .Register(Events)
                 .Register(new BirthdaySystem())
                 .Register(new MailSystem(content))
-                .Register(new ChatSystem(content));
+                .Register(new ChatSystem(content))
+                .Register(new WishSystem(content));
         }
 
         private static World NewWorld(ContentDatabase content, ulong seed, string? countryId)
@@ -325,6 +337,59 @@ namespace MistakesLife.Core.Game
         }
 
         /// <summary>
+        /// Responde el evento pendiente y deja una regla propia: si vuelve a pasar (este
+        /// evento o uno de su grupo, como "cuando hay prueba"), se elige lo mismo sin preguntar.
+        /// Reemplaza la regla que hubiera para lo mismo.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Si este evento no admite regla (un día clave o un error que vuelve).</exception>
+        public void ChooseAlways(int optionIndex)
+        {
+            PendingEvent pending = Pending ?? throw new InvalidOperationException("No hay un evento pendiente.");
+            EventDefinition definition = Content.GetEvent(pending.EventId);
+            if (!definition.AllowsOwnRule)
+            {
+                throw new InvalidOperationException("Este momento se vive cada vez: no admite regla.");
+            }
+
+            if (!pending.AvailableOptions.Contains(optionIndex))
+            {
+                throw new ArgumentOutOfRangeException(nameof(optionIndex), "Esa opción no está disponible.");
+            }
+
+            List<OwnRule> rules = World.Player.OwnRules;
+            rules.RemoveAll(r => r.Key == definition.RuleKey);
+            rules.Add(new OwnRule(definition.RuleKey, definition.Options[optionIndex].RuleKey));
+            Choose(optionIndex);
+        }
+
+        /// <summary>Borra una regla propia: la próxima vez se vuelve a preguntar.</summary>
+        public void RemoveRule(string key) => World.Player.OwnRules.RemoveAll(r => r.Key == key);
+
+        /// <summary>Marca (o desmarca) con destacador algo que quiere: lo persigue.</summary>
+        public void HighlightWish(int index, bool highlighted)
+        {
+            List<Wish> wishes = World.Player.Wishes;
+            if (index < 0 || index >= wishes.Count || wishes[index].State != WishState.Open)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Eso ya no es algo que quiera ahora.");
+            }
+
+            wishes[index].Highlighted = highlighted;
+        }
+
+        /// <summary>Los momentos que el jugador puede pedir ahora (pedir un aumento, tomar vacaciones...).</summary>
+        public IReadOnlyList<Content.EventDefinition> Requestable() => Events.Requestable(World);
+
+        /// <summary>El jugador pide un momento con su botón: si se puede, queda pendiente ahora. Devuelve si pasó.</summary>
+        public bool Request(string eventId) => Events.Request(World, eventId);
+
+        /// <summary>Los momentos que el jugador puede pedir ahora con esa persona (recomendarla, arrendar juntos...).</summary>
+        public IReadOnlyList<Content.EventDefinition> RequestableWith(int personId) => Events.RequestableWith(World, personId);
+
+        /// <summary>El jugador pide un momento con esa persona: si se puede, queda pendiente ahora. Devuelve si pasó.</summary>
+        public bool Request(string eventId, int personId) => Events.Request(World, eventId, personId);
+
+        /// <summary>
         /// El jugador abre un correo de su bandeja (la posición en
         /// <see cref="MailAccount.Messages"/>): queda leído. Leer no cambia la vida;
         /// lo que importa del correo ya pasó o lo pregunta un evento.
@@ -371,6 +436,39 @@ namespace MistakesLife.Core.Game
             }
 
             ChatSystem.Write(World, Content, World.Player, otherId, openerId);
+        }
+
+        /// <summary>
+        /// Si el tiempo se detiene para que el jugador arme su horario al empezar cada
+        /// etapa. Lo encienden las pantallas (consola, Unity); apagado, la vida sigue
+        /// con el horario sugerido (simulador y pruebas).
+        /// </summary>
+        public bool AsksForRoutine
+        {
+            get => _routine.StopsForNewRoutine;
+            set => _routine.StopsForNewRoutine = value;
+        }
+
+        /// <summary>
+        /// El jugador pone una actividad (por su id) en un bloque de su horario, o lo deja
+        /// libre con null. Solo vale lo que <see cref="RoutineRules.Options"/> permite hoy.
+        /// </summary>
+        public void SetRoutine(int day, RoutineBlock block, string? activityId)
+        {
+            Routine routine = World.Player.Routine ?? throw new InvalidOperationException("Todavía no hay horario (empieza a los 6 años).");
+            if (activityId != null && !RoutineRules.Options(World, Content, World.Player, block).Any(a => a.Id == activityId))
+            {
+                throw new InvalidOperationException($"'{activityId}' no se puede poner ahí ahora.");
+            }
+
+            routine.Set(day, block, activityId);
+        }
+
+        /// <summary>El jugador deja su horario como está; la vida sigue con él hasta que lo cambie.</summary>
+        public void ConfirmRoutine()
+        {
+            Routine routine = World.Player.Routine ?? throw new InvalidOperationException("Todavía no hay horario (empieza a los 6 años).");
+            routine.Confirmed = true;
         }
 
         /// <summary>Entradas nuevas del diario del jugador desde la última vez que se pidieron.</summary>

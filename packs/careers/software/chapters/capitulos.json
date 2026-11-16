@@ -1,0 +1,27 @@
+[
+  {
+    "diario": "diario.software.titulacion",
+    "titulo": "capitulo.software.titulacion",
+    "peso": 8
+  },
+  {
+    "diario": "diario.software.reclutador",
+    "titulo": "capitulo.software.reclutador",
+    "peso": 5
+  },
+  {
+    "diario": "diario.software.oculto_bug_sale_a_la_luz",
+    "titulo": "capitulo.software.oculto_bug_sale_a_la_luz",
+    "peso": 8
+  },
+  {
+    "diario": "diario.software.modelo_sesgado_sale_a_la_luz",
+    "titulo": "capitulo.software.modelo_sesgado_sale_a_la_luz",
+    "peso": 8
+  },
+  {
+    "diario": "diario.software.entrego_clave_sale_a_la_luz",
+    "titulo": "capitulo.software.entrego_clave_sale_a_la_luz",
+    "peso": 8
+  }
+]

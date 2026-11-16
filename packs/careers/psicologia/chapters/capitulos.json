@@ -1,0 +1,22 @@
+[
+  {
+    "diario": "diario.psicologia.titulacion",
+    "titulo": "capitulo.psicologia.titulacion",
+    "peso": 8
+  },
+  {
+    "diario": "diario.psicologia.informe_comprado_sale_a_la_luz",
+    "titulo": "capitulo.psicologia.informe_comprado_sale_a_la_luz",
+    "peso": 8
+  },
+  {
+    "diario": "diario.psicologia.callo_maltrato_sale_a_la_luz",
+    "titulo": "capitulo.psicologia.callo_maltrato_sale_a_la_luz",
+    "peso": 8
+  },
+  {
+    "diario": "diario.psicologia.paciente_agradecido",
+    "titulo": "capitulo.psicologia.paciente_agradecido",
+    "peso": 5
+  }
+]

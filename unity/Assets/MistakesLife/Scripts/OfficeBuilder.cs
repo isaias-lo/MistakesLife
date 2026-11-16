@@ -9,8 +9,8 @@ namespace MistakesLife.Unity
     /// <summary>
     /// Arma el lugar de trabajo del jugador estilo maqueta. El tipo de lugar lo dice el
     /// paquete de la carrera (<see cref="WorkplaceView.Kind"/>); aquí solo se dibuja:
-    /// oficina abierta, oficina con cubículos, consulta, oficina común o, sin título,
-    /// un local de atención. Un título que paga más se nota en un lugar más cuidado.
+    /// oficina abierta, oficina con cubículos, consulta, oficina común, los lugares de los
+    /// oficios (tienda, restorán y obra) o, sin título ni oficio, un local de atención. Un título que paga más se nota en un lugar más cuidado.
     /// Cada tipo de lugar tiene sus anclas (Resources/Lugares/&lt;lugar&gt;.prefab) y cada mueble
     /// su id ("oficina_abierta.mesa", "trabajo.planta"...) para cambiarlo por un modelo.
     /// </summary>
@@ -24,8 +24,8 @@ namespace MistakesLife.Unity
         private static readonly Color Paper = new Color(0.97f, 0.97f, 0.95f);
         private static readonly Color Cabinet = new Color(0.50f, 0.52f, 0.55f);
 
-        /// <summary>Los cinco lugares de trabajo, por el nombre de su archivo de anclas.</summary>
-        public static readonly string[] Places = { "oficina_abierta", "oficina_cubiculos", "consulta", "oficina", "local" };
+        /// <summary>Los lugares de trabajo, por el nombre de su archivo de anclas.</summary>
+        public static readonly string[] Places = { "oficina_abierta", "oficina_cubiculos", "consulta", "oficina", "local", "tienda", "restoran", "obra" };
 
         /// <summary>Qué lugar se dibuja para este trabajo.</summary>
         public static string PlaceOf(WorkplaceView work) => work.Kind switch
@@ -33,6 +33,9 @@ namespace MistakesLife.Unity
             "lugar_trabajo.oficina_abierta" => "oficina_abierta",
             "lugar_trabajo.oficina_cubiculos" => "oficina_cubiculos",
             "lugar_trabajo.consulta" => "consulta",
+            "lugar_trabajo.tienda" => "tienda",
+            "lugar_trabajo.restoran" => "restoran",
+            "lugar_trabajo.obra" => "obra",
             _ => work.CareerId == null ? "local" : "oficina",
         };
 
@@ -89,6 +92,34 @@ namespace MistakesLife.Unity
                     anchors["ancla.jugador"] = new Vector3(0f, 0f, 1.6f);
                     anchors["ancla.colega_1"] = new Vector3(0.4f, 0f, -0.8f);
                     break;
+                case "tienda":
+                    anchors["ancla.vitrina"] = new Vector3(0f, 0f, (Depth / 2f) - 0.35f);
+                    anchors["ancla.percheros"] = new Vector3(-1.6f, 0f, 0.6f);
+                    anchors["ancla.caja"] = new Vector3(2.4f, 0f, 1.4f);
+                    anchors["ancla.jugador"] = new Vector3(0.6f, 0f, 0.2f);
+                    anchors["ancla.colega_1"] = new Vector3(2.4f, 0f, 0.6f);
+                    anchors["ancla.colega_2"] = new Vector3(-1.6f, 0f, -1.2f);
+                    anchors["ancla.colega_3"] = new Vector3(0.8f, 0f, -1.8f);
+                    break;
+                case "restoran":
+                    anchors["ancla.barra"] = new Vector3(-2.2f, 0f, 2.3f);
+                    anchors["ancla.mesa_1"] = new Vector3(-1.2f, 0f, 0.2f);
+                    anchors["ancla.mesa_2"] = new Vector3(1.4f, 0f, 0.6f);
+                    anchors["ancla.mesa_3"] = new Vector3(0.6f, 0f, -1.7f);
+                    anchors["ancla.jugador"] = new Vector3(0.2f, 0f, 0.6f);
+                    anchors["ancla.colega_1"] = new Vector3(-2.2f, 0f, 1.5f);
+                    anchors["ancla.colega_2"] = new Vector3(2.4f, 0f, -0.6f);
+                    anchors["ancla.colega_3"] = new Vector3(-1.8f, 0f, -1.6f);
+                    break;
+                case "obra":
+                    anchors["ancla.andamio"] = new Vector3(-1.4f, 0f, 2.2f);
+                    anchors["ancla.betonera"] = new Vector3(2.2f, 0f, 1.2f);
+                    anchors["ancla.ladrillos"] = new Vector3(-2.6f, 0f, -0.4f);
+                    anchors["ancla.jugador"] = new Vector3(0.4f, 0f, 0.4f);
+                    anchors["ancla.colega_1"] = new Vector3(-1.4f, 0f, 1.2f);
+                    anchors["ancla.colega_2"] = new Vector3(2.0f, 0f, -0.4f);
+                    anchors["ancla.colega_3"] = new Vector3(-0.6f, 0f, -1.8f);
+                    break;
                 default:
                     anchors["ancla.escritorio"] = new Vector3(-0.6f, 0f, 1.2f);
                     anchors["ancla.archivador"] = new Vector3(2.4f, 0f, 2.6f);
@@ -122,6 +153,15 @@ namespace MistakesLife.Unity
                     break;
                 case "local":
                     Counter(kit, anchors, work);
+                    break;
+                case "tienda":
+                    Shop(kit, anchors, work);
+                    break;
+                case "restoran":
+                    Restaurant(kit, anchors, work);
+                    break;
+                case "obra":
+                    Site(kit, anchors, work);
                     break;
                 default:
                     PlainOffice(kit, anchors, work);
@@ -342,6 +382,113 @@ namespace MistakesLife.Unity
 
             Player(kit, anchors, work);
             Colleagues(kit, anchors, work, 1);
+        }
+
+        /// <summary>Vendedor: una tienda del mall con vitrina, percheros con ropa y la caja.</summary>
+        private static void Shop(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        {
+            Models.Place(kit, anchors["ancla.vitrina"], "tienda.vitrina", k =>
+            {
+                k.Box("Vitrina", new Vector3(0f, 1.2f, 0f), new Vector3(4.6f, 1.8f, 0.05f), new Color(0.70f, 0.84f, 0.92f));
+                k.Box("Marco de la vitrina", new Vector3(0f, 2.15f, 0f), new Vector3(4.7f, 0.1f, 0.12f), new Color(0.25f, 0.26f, 0.30f));
+                // Un maniquí con ropa del mes.
+                k.Box("Maniqui", new Vector3(-1.2f, 0.9f, -0.25f), new Vector3(0.35f, 1.0f, 0.22f), new Color(0.32f, 0.45f, 0.62f));
+                k.Ball("Cabeza del maniqui", new Vector3(-1.2f, 1.55f, -0.25f), 0.24f, new Color(0.90f, 0.88f, 0.84f));
+                k.Box("Cartel de oferta", new Vector3(1.4f, 1.5f, -0.04f), new Vector3(0.8f, 0.45f, 0.02f), new Color(0.85f, 0.25f, 0.25f));
+            });
+            Models.Place(kit, anchors["ancla.percheros"], "tienda.percheros", k =>
+            {
+                for (int rack = 0; rack < 2; rack++)
+                {
+                    float z = rack * -1.1f;
+                    k.Box("Barra del perchero", new Vector3(0f, 1.25f, z), new Vector3(1.6f, 0.04f, 0.04f), new Color(0.40f, 0.42f, 0.45f));
+                    k.Box("Pata del perchero", new Vector3(-0.78f, 0.62f, z), new Vector3(0.04f, 1.25f, 0.04f), new Color(0.40f, 0.42f, 0.45f));
+                    k.Box("Pata del perchero", new Vector3(0.78f, 0.62f, z), new Vector3(0.04f, 1.25f, 0.04f), new Color(0.40f, 0.42f, 0.45f));
+                    for (int item = 0; item < 5; item++)
+                    {
+                        Color cloth = item % 3 == 0 ? new Color(0.20f, 0.30f, 0.50f) : item % 3 == 1 ? new Color(0.80f, 0.80f, 0.78f) : new Color(0.55f, 0.25f, 0.30f);
+                        k.Box("Prenda", new Vector3(-0.6f + (item * 0.3f), 0.95f, z), new Vector3(0.08f, 0.55f, 0.4f), cloth);
+                    }
+                }
+            });
+            Models.Place(kit, anchors["ancla.caja"], "tienda.caja", k =>
+            {
+                k.Box("Meson de la caja", new Vector3(0f, 0.5f, 0f), new Vector3(1.6f, 1.0f, 0.6f), new Color(0.88f, 0.87f, 0.84f));
+                k.Box("Caja registradora", new Vector3(0.3f, 1.12f, 0f), new Vector3(0.45f, 0.25f, 0.35f), Palette.Screen);
+                k.Box("Bolsas", new Vector3(-0.45f, 1.1f, 0f), new Vector3(0.35f, 0.2f, 0.25f), new Color(0.95f, 0.95f, 0.93f));
+            });
+
+            Player(kit, anchors, work);
+            Colleagues(kit, anchors, work, 3);
+        }
+
+        /// <summary>Garzón: un salón con barra, mesas puestas y la ventanilla de la cocina.</summary>
+        private static void Restaurant(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        {
+            Color wood = new Color(0.52f, 0.36f, 0.24f);
+            Color cloth = new Color(0.95f, 0.94f, 0.90f);
+            Models.Place(kit, anchors["ancla.barra"], "restoran.barra", k =>
+            {
+                k.Box("Barra", new Vector3(0f, 0.55f, 0f), new Vector3(2.8f, 1.1f, 0.6f), wood);
+                k.Box("Cubierta de la barra", new Vector3(0f, 1.12f, 0f), new Vector3(2.9f, 0.05f, 0.7f), new Color(0.25f, 0.22f, 0.20f));
+                k.Box("Ventanilla de la cocina", new Vector3(0.4f, 1.7f, 0.6f), new Vector3(1.4f, 0.6f, 0.04f), new Color(0.95f, 0.80f, 0.55f));
+                for (int i = 0; i < 4; i++)
+                {
+                    k.Box("Botella", new Vector3(-1.1f + (i * 0.25f), 1.3f, 0.1f), new Vector3(0.08f, 0.3f, 0.08f), i % 2 == 0 ? new Color(0.30f, 0.45f, 0.30f) : new Color(0.50f, 0.25f, 0.20f));
+                }
+            });
+            int tables = IsMicro(work) ? 2 : 3;
+            for (int i = 1; i <= tables; i++)
+            {
+                Models.Place(kit, anchors[$"ancla.mesa_{i}"], "restoran.mesa", k =>
+                {
+                    k.Box("Mesa", new Vector3(0f, 0.72f, 0f), new Vector3(1.1f, 0.05f, 1.1f), cloth);
+                    k.Box("Pata de la mesa", new Vector3(0f, 0.36f, 0f), new Vector3(0.1f, 0.72f, 0.1f), wood);
+                    k.Box("Silla", new Vector3(-0.8f, 0.45f, 0f), new Vector3(0.45f, 0.08f, 0.45f), wood);
+                    k.Box("Silla", new Vector3(0.8f, 0.45f, 0f), new Vector3(0.45f, 0.08f, 0.45f), wood);
+                    k.Box("Plato", new Vector3(-0.25f, 0.77f, 0f), new Vector3(0.28f, 0.02f, 0.28f), Color.white);
+                    k.Box("Plato", new Vector3(0.25f, 0.77f, 0f), new Vector3(0.28f, 0.02f, 0.28f), Color.white);
+                });
+            }
+
+            Player(kit, anchors, work);
+            Colleagues(kit, anchors, work, 3);
+        }
+
+        /// <summary>Maestro: una obra con andamio, betonera, ladrillos y cascos.</summary>
+        private static void Site(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        {
+            Color steel = new Color(0.45f, 0.47f, 0.50f);
+            Models.Place(kit, anchors["ancla.andamio"], "obra.andamio", k =>
+            {
+                k.Box("Muro en obra", new Vector3(0f, 1.2f, 0.4f), new Vector3(3.2f, 2.4f, 0.2f), new Color(0.68f, 0.66f, 0.62f));
+                for (int x = 0; x < 3; x++)
+                {
+                    k.Box("Pilar del andamio", new Vector3(-1.4f + (x * 1.4f), 1.1f, 0f), new Vector3(0.06f, 2.2f, 0.06f), steel);
+                }
+
+                k.Box("Tablón del andamio", new Vector3(0f, 1.2f, 0f), new Vector3(3.0f, 0.06f, 0.5f), new Color(0.70f, 0.55f, 0.35f));
+                k.Box("Malla de seguridad", new Vector3(0f, 1.8f, -0.25f), new Vector3(3.0f, 0.9f, 0.02f), new Color(0.30f, 0.60f, 0.35f));
+            });
+            Models.Place(kit, anchors["ancla.betonera"], "obra.betonera", k =>
+            {
+                k.Ball("Tambor de la betonera", new Vector3(0f, 0.8f, 0f), 0.8f, new Color(0.85f, 0.45f, 0.20f));
+                k.Box("Base de la betonera", new Vector3(0f, 0.25f, 0f), new Vector3(0.8f, 0.5f, 0.6f), steel);
+                k.Box("Saco de cemento", new Vector3(0.8f, 0.15f, 0.2f), new Vector3(0.45f, 0.3f, 0.3f), new Color(0.85f, 0.82f, 0.72f));
+                k.Box("Saco de cemento", new Vector3(0.8f, 0.42f, 0.2f), new Vector3(0.45f, 0.25f, 0.3f), new Color(0.82f, 0.79f, 0.70f));
+            });
+            Models.Place(kit, anchors["ancla.ladrillos"], "obra.ladrillos", k =>
+            {
+                for (int row = 0; row < 3; row++)
+                {
+                    k.Box("Ladrillos", new Vector3(0f, 0.12f + (row * 0.22f), 0f), new Vector3(0.9f, 0.2f, 0.6f), new Color(0.70f, 0.35f, 0.25f));
+                }
+
+                k.Box("Carretilla", new Vector3(0.9f, 0.3f, 0.9f), new Vector3(0.6f, 0.3f, 0.9f), new Color(0.25f, 0.40f, 0.60f));
+            });
+
+            Player(kit, anchors, work);
+            Colleagues(kit, anchors, work, 3);
         }
 
         /// <summary>

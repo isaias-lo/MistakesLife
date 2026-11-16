@@ -9,6 +9,7 @@ packs/<paquete>/
   seeds/*.json    ← lista de tipos de semilla
   events/*.json   ← lista de eventos
   news/*.json     ← noticias del mundo (temblores, temporales, crisis, elecciones)
+  chapters/*.json ← títulos que las líneas del diario le dan al año (capítulos)
   lang/es.json    ← textos que ve el jugador (clave → texto), uno por idioma
 ```
 
@@ -64,6 +65,10 @@ Un mismo texto se dice distinto en cada país ("pega" en Chile, "laburo" en Arge
 - En el país mismo, `peso_nacimiento` (1 si falta) elige en qué país se nace. Con 0 nadie nace ahí por azar: solo se juega eligiéndolo (`new LifeSession(contenido, semilla, "pais.argentina")` o `--pais pais.argentina` en el simulador). Sirve mientras un país todavía no tiene sus eventos de vida.
 - `nivel_hogar_min`/`max`: rango del nivel socioeconómico (0 a 100) de un hogar de esa comuna.
 - `etapas_educacion`: en orden, sin solaparse; `edad_hasta` no se incluye.
+- `inicio_ano_escolar`: día-mes en que empiezan las clases (`"04-03"` en Chile). Ese día, cada año, quien va al colegio arma su horario del año nuevo. Opcional.
+- `fin_ano_escolar`: día-mes en que terminan las clases (`"13-12"`); desde ahí hasta `inicio_ano_escolar` son las vacaciones de verano. `vacaciones_invierno`: `{ "desde": "23-06", "hasta": "04-07" }` (los dos días incluidos). Con eso, `jugador.en_clases` dice si esa semana hay clases. Opcionales.
+- `curso`: cómo es un curso del colegio: `alumnos` (cuántos, contándote), `con_nombre` (con cuántos tienes trato: tienen nombre y aparecen en los momentos), y probabilidades de 0 a 1: `cambio_profe_jefe` (de un año al otro, 0.3 si falta), `siguen_al_cambiar_etapa` (de básica a media, 0.4), `cambios_por_ano` (alguien se va y llega alguien nuevo, 0.3) y `profes_mujeres` (0.7). En `etapas_educacion`, `"curso": true` marca las etapas en que se va a un curso (en Chile, básica y media). Esas etapas pueden tener `ramos` (`[{ "id": "ramo.chile.ingles", "desde": 5 }]`: en qué cursos de la etapa se tiene, de 1 en adelante; el nombre va en el idioma del país; `"prueba_escrita": false` si sus notas no vienen de pruebas que se estudian, como Educación Física, y entonces no se anuncia como momento) y `promocion` (formas de pasar de curso; basta una: `{ "reprobados": 1, "promedio_minimo": 4.5 }`; sin ninguna siempre se pasa).
+- `escala_notas`: `{ "minima": 1.0, "maxima": 7.0, "aprueba": 4.0, "decimales": 1, "notas_por_ano": 10 }` (notas por ramo en un año). Sin ella no hay notas. Cómo se llama el curso va en el idioma del país: `"curso.etapa.chile.basica": "{0}º básico {1}"` (el número y la letra).
 - Al nacer se eligen país, ciudad y comuna según los pesos, una madre y un padre con nombres del país, y el hijo lleva el primer apellido del padre y luego el de la madre.
 
 ### Mortalidad (campo `mortalidad` de country.json)
@@ -236,7 +241,7 @@ Lo que se paga cada mes porque el jugador lo **contrató** (el plan del celular;
 - `condiciones` (opcional): cuándo se cobra lo contratado. En el celular, el prepago solo se paga si tiene celular (si se lo robaron, no carga), pero un plan sigue llegando en la boleta.
 - `compartido` (opcional): se divide en dos si tiene pareja.
 - `cantidad` (opcional): una expresión que dice por cuántos se paga cada mes. El jardín se paga por cada hijo chico (`"jugador.hijos_en_casa_entre(0, 3)"`) y el colegio por cada hijo en edad escolar (`"jugador.hijos_en_casa_entre(4, 17)"`). Si da 0, ese mes no se cobra. Si falta, se paga una vez.
-- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) `servicio.internet` (basico, rapido; compartido) `servicio.cuentas` (cuidando, normal, sin_cuidar: luz, agua y gas; compartido; no se cobra si el arriendo incluye las cuentas) `servicio.jardin_hijos` (en_casa, publico, particular; por cada hijo de 0 a 3 años; compartido) `servicio.colegio_hijos` (gratuito, copago, particular; por cada hijo de 4 a 17 años; compartido) y, solo en Chile, `servicio.personales` (austero, normal, gustos: ropa, salidas y cuidado personal).
+- Servicios que ya existen: `servicio.celular` (prepago, plan, plan_ilimitado) `servicio.transporte` (caminando, bus, bus_y_metro: el pasaje por 44 viajes al mes) `servicio.internet` (basico, rapido; compartido) `servicio.cuentas` (cuidando, normal, sin_cuidar: luz, agua y gas; compartido; no se cobra si el arriendo incluye las cuentas) `servicio.jardin_hijos` (en_casa, publico, particular; por cada hijo de 0 a 3 años; compartido) `servicio.colegio_hijos` (gratuito, copago, particular; por cada hijo de 4 a 17 años; compartido) y, solo en Chile, `servicio.personales` (austero, normal, gustos: ropa, salidas y cuidado personal) y `servicio.arancel` (gratuidad, familia, y por institución `pago_*`, `brecha_*` que es lo que no cubre el CAE, y `mitad_*` al pasarse de la duración formal con gratuidad; solo se cobra mientras estudia).
 - Todo país debe tener los servicios y opciones que usan los eventos.
 
 #### Salud (`economia.salud`)
@@ -413,6 +418,43 @@ Ningún trabajo con contrato llega solo: el jugador lo busca. Primero dice qué 
 - La búsqueda dura mientras tenga la marca `buscando_trabajo`; al quitarla se borra sola.
 - Textos obligatorios: el de cada forma y los cuatro del diario (`diario.busqueda.llamado` se anota cuando lo llaman a entrevista). Opcional: un país sin `busqueda_trabajo` no tiene formas de buscar (nadie consigue trabajo buscando).
 
+#### Vacaciones legales (`economia.vacaciones`, rediseño R6c)
+
+Quien trabaja con contrato gana sus días de vacaciones mes a mes (`sistema.vacaciones`, después de los sueldos) y los toma cuando quiere, con el botón "Tomar tus vacaciones" del equipo (un momento `a_pedido`). Si se va sin tomarlos, se le pagan con `jugador.cobrar_vacaciones()`.
+
+```json
+"vacaciones": {
+  "tramos": [{ "desde_anos": 0, "dias": 15 }],
+  "unidad": "habiles",
+  "progresivo_desde_anos": 10, "progresivo_cada_anos": 3, "progresivo_maximo_anos_anteriores": 10,
+  "acumula_maximo_anos": 2,
+  "se_pagan_al_salir": true,
+  "divisor_dia": 30,
+  "dias_pagados_por_dia": 1.4
+}
+```
+
+- `tramos`: días al año según los años con el mismo empleador (Argentina: 14, 21, 28 y 35 desde los 0, 5, 10 y 20 años). El primero parte en 0.
+- `unidad`: `habiles` o `corridos` (solo cambia el texto de la pantalla).
+- Feriado progresivo (opcional): con `progresivo_desde_anos` años trabajados en total, un día más por cada `progresivo_cada_anos` años nuevos; de empleadores anteriores cuentan hasta `progresivo_maximo_anos_anteriores` (salen de los meses cotizados).
+- `acumula_maximo_anos`: cuántos años de días se pueden juntar; lo que pasa de ahí se pierde.
+- Al salir se paga cada día ganado como `dias_pagados_por_dia` días de sueldo, y un día de sueldo es el sueldo mensual / `divisor_dia` (Argentina: 25 y 1).
+- Opcional: en un país sin `vacaciones`, nadie gana días.
+
+#### Negocios entre socios (`economia.negocios`, rediseño R6d2)
+
+Un negocio chico con una persona de tu vida (`jugador.abrir_negocio(aporte, 'formal' | 'informal')`). Cada mes (`sistema.negocios`, después de los sueldos) a cada socio le toca su parte de la ganancia, o el negocio cierra.
+
+```json
+"negocios": { "ganancia_formal": 3.7, "ganancia_informal": 0.92, "variacion": 1.47, "cierre_primer_ano": 0.152, "cierre_anual": 0.137 }
+```
+
+- `ganancia_formal` y `ganancia_informal`: lo que gana al mes **cada socio** de un negocio típico, en sueldos mínimos (en Chile, la Encuesta de Microemprendimiento del INE). Se multiplica por lo bien que lo llevan los dos (su responsabilidad, de 0,5 a 1,5), por la economía (como en los oficios), por la suerte del negocio y por una variación chica de cada mes.
+- `variacion`: qué tan distinto es un negocio de otro (desviación del logaritmo). La suerte se elige al abrir: la mayoría gana menos que el promedio y unos pocos mucho más (con 1,47, el 77 % queda bajo el promedio, como en la encuesta).
+- `cierre_primer_ano` y `cierre_anual`: probabilidad de cerrar en el primer año y en cada año siguiente; llevarlo mal la sube hasta 1,5 veces y llevarlo bien la baja a la mitad.
+- `impuesto_formal` (opcional): se descuenta de la ganancia formal si la del país está medida antes de impuestos.
+- Si quiebra, se anota `diario.negocio.quebro`; lo puesto se pierde. Si el socio muere, cierra. Textos obligatorios del diario: `diario.negocio.abrio`, `diario.negocio.cerro`, `diario.negocio.quebro`.
+
 #### Herencia (`economia.herencia`)
 
 ```json
@@ -500,7 +542,7 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 | Campo | Qué es |
 |---|---|
 | `id` | Empieza con `carrera.`; es también la clave de su nombre en `lang/` |
-| `lugar_de_trabajo` | Opcional. Cómo se dibuja donde trabaja quien tiene el título: `lugar_trabajo.oficina_abierta` (mesas compartidas con pantallas), `lugar_trabajo.oficina_cubiculos` (cubículos y archivadores) o `lugar_trabajo.consulta` (sillones frente a frente). Sin él, una oficina común. Un tipo nuevo hay que dibujarlo en Unity |
+| `lugar_de_trabajo` | Opcional. Cómo se dibuja donde trabaja quien tiene el título: `lugar_trabajo.oficina_abierta` (mesas compartidas con pantallas), `lugar_trabajo.oficina_cubiculos` (cubículos y archivadores), `lugar_trabajo.consulta` (sillones frente a frente), `lugar_trabajo.tienda` (vitrina, percheros y caja), `lugar_trabajo.restoran` (barra y mesas puestas) o `lugar_trabajo.obra` (andamio, betonera y ladrillos). Sin él, una oficina común. Un tipo nuevo hay que dibujarlo en Unity |
 | `marca_trabajo` | Opcional. Marca que recibe quien entra a trabajar en esta carrera al aceptar una oferta (por ejemplo `trabaja_software`), para los eventos de la carrera |
 | `nombres_empresa` | Opcional. Claves de texto (empiezan con `empresa.`) para los nombres de las empresas de esta carrera. Cada empresa nueva toma uno que no use otra empresa abierta. Ver `economia.empresas` en country.json |
 | `niveles[].id` | Empieza con el id de la carrera + `.nivel.`. Su texto es la opción ("Analista programador en un instituto…") y `<id>.titulo` el nombre del título |
@@ -509,8 +551,30 @@ Cada paquete de carrera tiene un `career.json` con sus **niveles de estudio**. E
 | `niveles[].condiciones` | Quién puede entrar. Opcional |
 | `niveles[].tendencia` | Qué tan atractivo es el nivel para quien decide solo (como `tendencia` en las opciones). Opcional |
 | `niveles[].sueldo_relativo` | Cuánto gana un titulado de este nivel frente al sueldo típico de su país (`2.0` = el doble). Lo usa `sueldo_titulo()`. Si falta, 1 |
+| `ramos` | La malla: los ramos de la carrera por semestre (ver abajo). Si una carrera tiene ramos, cada semestre de cada nivel tiene que tener al menos uno (la carga lo revisa) |
 
-Lo que pasa mientras se estudia (ramos, práctica, titulación) va en los eventos del paquete. Al titularse, el evento de la carrera pregunta a qué área postular (`jugador.postular_en('área')`); el trabajo llega después, buscándolo (ver `economia.busqueda_trabajo`). La titulación la decide un evento con `jugador.titularse()`: así cada carrera pone sus requisitos (por ejemplo, la práctica). La duración real suele ser mayor que la formal: un evento puede restar semestres con `jugador.semestres_aprobados -= 1`.
+### Ramos y sección (campo `ramos` de career.json, rediseño R5a)
+
+```json
+"ramos": [
+  { "id": "ramo.software.calculo", "desde": 1, "hasta": 4, "instituciones": ["universidad"] },
+  { "id": "ramo.software.programacion", "desde": 1, "hasta": 2, "instituciones": ["universidad", "instituto"] },
+  { "id": "ramo.software.memoria", "ultimo": true, "instituciones": ["universidad"] }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | Empieza con `ramo.`; su texto en `lang/` es el nombre del ramo ("Cálculo") |
+| `desde`, `hasta` | En qué semestres del plan se cursa. Con `hasta`, se numera como en la malla: Cálculo I, II, III y IV. Sin `hasta`, solo el semestre `desde` |
+| `instituciones` | En qué tipo de institución se cursa (`cft`, `instituto`, `universidad`). Vacío: en todas. Así una carrera puede tener mallas distintas por nivel |
+| `ultimo` | En vez de `desde`: el último semestre del nivel, sea cual sea su largo (la memoria, el seminario de título) |
+
+Quien trabaja con contrato o informal tiene un **equipo** (`WorkSystem`): un jefe o una jefa y cinco colegas con nombre, que desde el primer día son colegas tuyos (`vincular('colega')`) y lo siguen siendo cuando dejas el trabajo (pueden recomendarte después). A honorarios se trabaja solo. Cada año alguien se va (`diario.pega.se_fue`, nunca tus amigos), a veces llega alguien (`diario.pega.llego_alguien`) y a veces cambia la jefatura (`diario.pega.jefe_nuevo`). Cada mes el cariño sube un punto, a los dos, con quien ya viviste un momento, y quien te quiere y con quien viviste 2 momentos se vuelve amistad (`diario.pega.amistad`). En las condiciones, `jugador.en_la_pega` dice si trabaja con equipo. Los momentos de todos los trabajos están en `packs/base/events/pega.json`.
+
+Quien estudia tiene una **sección** (`UniversitySystem`): diez compañeros con nombre, de 18 años o algo mayores (algunos vienen de trabajar), y un profe o profesora del semestre. Los momentos pueden ser `con` `companero` o `profe`, como en el colegio. Al cerrar cada semestre se pone nota a cada ramo; dependen de lo mismo que en el colegio, cuestan un poco más y de cuánto se preparó (`jugador.estudiar_semestre(n)` en los momentos). Si queda un ramo rojo, el semestre no cuenta y se vuelve a cursar (`diario.estudios.ramo_reprobado`): no hace falta un evento al azar para reprobar. Cada año llega un profe nuevo, y a veces alguien de la sección no sigue (`diario.seccion.se_fue`): su lugar no siempre se llena, así que la sección se achica con los años (nunca baja de seis con nombre).
+
+Lo que pasa mientras se estudia (ramos, práctica, titulación) va en los eventos del paquete. Al titularse, el evento de la carrera pregunta a qué área postular (`jugador.postular_en('área')`); el trabajo llega después, buscándolo (ver `economia.busqueda_trabajo`). La titulación la decide un evento con `jugador.titularse()`: así cada carrera pone sus requisitos (por ejemplo, la práctica). La duración real suele ser mayor que la formal: los ramos rojos ya la alargan (ver "Ramos y sección"), y un evento también puede restar semestres con `jugador.semestres_aprobados -= 1` (botar un ramo).
 
 ### Áreas y cargos (campos `areas` y `cargos` de career.json)
 
@@ -551,6 +615,38 @@ Reglas del núcleo, iguales para toda carrera:
 - **Ascender:** se puede cuando cumple los meses, el desempeño y los requisitos de algún cargo siguiente. Lo da un evento (`jugador.ascender()`), así el contenido decide la probabilidad, la crisis económica o si la persona lo rechaza.
 
 Los eventos de ascenso comunes a toda carrera (oferta de ascenso, mala racha, bajar de cargo, despido, cima) están en el paquete del país (`events/ascensos.json`); los de cada área, en su paquete de carrera (`events/areas.json`).
+
+### Oficios (bloque `oficio` de career.json, rediseño R6b)
+
+Un **oficio** es una carrera que se trabaja sin título: vendedor de tienda, garzón, maestro de la construcción (`packs/oficios/`). Su id empieza con `oficio.` (no `carrera.`), no tiene `niveles` y cualquiera que cumpla los `requisitos` del área puede entrar (normalmente `jugador.edad >= 18`). Tiene áreas y cargos como cualquier carrera y, además:
+
+```json
+"oficio": {
+  "sueldo_base": 1.0,
+  "sueldo_base_por_pais": { "pais.argentina": 3.0 },
+  "pago_variable": "comision",
+  "variable_tipico": 0.75,
+  "temporada": [0.85, 0.85, 0.95, 0.9, 1.05, 1.0, 0.95, 0.95, 1.05, 0.95, 1.1, 1.45],
+  "jefatura": "oficio.vendedor.jefatura"
+}
+```
+
+| Campo | Qué es |
+|---|---|
+| `sueldo_base` | El sueldo del primer cargo, en veces el sueldo mínimo del país (en un oficio el título no cuenta). El de cada cargo es este × área × cargo. Si falta, 1 |
+| `sueldo_base_por_pais` | El mismo número para un país donde el oficio paga distinto frente a su mínimo (los convenios de Argentina). Opcional |
+| `pago_variable` | `comision` o `trato` (entran en la liquidación: son imponibles) o `propina` (la pagan los clientes: no es sueldo, llega directo a su dinero). Opcional |
+| `variable_tipico` | Lo variable de un mes en que cumple justo la meta, frente al sueldo (0,75 = tres cuartos del sueldo). Si falta, 0 |
+| `temporada` | Cuánto se mueve el trabajo cada mes, de enero a diciembre (diciembre en el comercio, el invierno en la obra). Cambia lo que se gana, no la meta. Opcional |
+| `jefatura` | Clave del nombre de la jefatura: sus textos son `<clave>.f` y `<clave>.m` (en la pantalla del equipo: "Jefa de tienda") y `<clave>.momento.f` y `<clave>.momento.m` (en los momentos `con` `jefe`: "tu jefa de tienda, {0},"). Opcional |
+
+Reglas del núcleo (`OccupationSystem`), iguales para todo oficio:
+
+- **La meta del mes:** al empezar cada mes se cierra el mes anterior. Se cumple, en porcentaje, 66 + 0,8 × desempeño (106 % con desempeño 50), más o menos 12 de suerte, por la economía (en una crisis, la mitad de lo que baja la contratación). Un mes de 125 % o más sube el desempeño en 1; uno bajo 85 %, lo baja en 1.
+- **Lo variable:** sueldo × `variable_tipico` × cumplimiento × temporada. La comisión y el trato suman al sueldo bruto de la liquidación de ese mes; las propinas llegan a su dinero.
+- **Bajo la meta:** el núcleo solo cuenta los meses seguidos bajo la meta (`jugador.meses_bajo_meta`). Los eventos deciden qué pasa (en `packs/base/events/oficios.json`: llamado de atención a los 3 meses, amonestación por escrito 2 meses después y despido 2 meses después de eso), con `jugador.amonestaciones`. Seis meses seguidos cumpliendo dejan atrás una amonestación.
+- **Desafío antes de ascender:** un cargo puede pedir en sus `requisitos` una marca de desafío (`jugador.tiene('desafio_vendedor_encargado')`). Un momento la ofrece con `jugador.desafio('desafio_vendedor_encargado')`: si ese mes cierra sobre el 118 % de la meta, gana la marca (`diario.oficio.desafio_logrado`); si no, `diario.oficio.desafio_fallido` y lo puede volver a intentar.
+- **Cómo se llega:** cada oficio tiene un evento de aviso ("Se busca vendedor/a") para quien busca trabajo sin título, o con título y más de medio año buscando, que lo hace postular a un área con `jugador.postular_en`.
 
 **Convención entre paquetes:** el país marca `puede_universidad` cuando el jugador cumple lo que su país exige para entrar a la universidad (en Chile, un buen puntaje PAES). Las carreras usan esa marca en vez de conocer la PAES.
 
@@ -611,14 +707,69 @@ Toda semilla necesita al menos un evento que la use (campo `semilla` del evento)
 | `unico` | Solo una vez en la vida | false |
 | `enfriamiento_semanas` | Semanas mínimas antes de que el mismo evento se repita | 0 |
 | `veces_maximas` | Cuántas veces como máximo puede pasar en la vida (`unico` es lo mismo que 1). No lo uses en eventos que sacan al jugador de un problema (por ejemplo, salir de DICOM) ni en los buenos momentos de toda la vida: la vejez se queda vacía | sin tope |
+| `por_persona` | Con `con`: el tope de `veces_maximas` y las `variantes` se cuentan con cada persona. Con tu pareja de hoy el aniversario empieza desde su primer texto, aunque con la anterior ya hayas vivido todas sus formas; y nunca se lee dos veces igual con la misma persona | false |
 | `variantes` | Otras claves de texto para contar la escena cuando vuelve a pasar: la 1.ª vez se usa `texto`, la 2.ª la primera variante, y así; al acabarse vuelven a empezar. Las opciones son las mismas, así que cada variante debe calzar con ellas. Convención: `<id>.2`, `<id>.3`… | — |
 | `probabilidad_anual` | Probabilidad real de que ocurra en un año (0 a 1), por ejemplo `0.04` para un robo según ENUSC. El evento no compite por `peso`: cada semana tiene su propia oportunidad. Úsala cuando haya una estadística | — |
 | `efectos` | Se aplican apenas ocurre | — |
 | `opciones` | Lo que puede elegir el jugador; cada una con `texto`, `condiciones` y `efectos` | — |
 | `opciones[].tendencia` | Qué tan atractiva es la opción para quien decide solo (el simulador y, más adelante, los personajes del mundo), como número de 0 en adelante. Ejemplo: `"jugador.amabilidad"` o `"(100 - jugador.responsabilidad) / 3"`. El jugador no la ve. Si falta, vale 50 | 50 |
 | `opciones_carreras` | Agrega una opción por cada nivel de carrera, antes de las propias (ver Carrera) | false |
+| `con` | Con quién pasa: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival`, `ex`, `companero` (alguien de tu curso: se elige más seguido a quien quieres más), `apoderado` (quien va a las reuniones del colegio: tu mamá, o tu papá si no está; en los textos `{persona}` dice "tu mamá" o "tu papá") o `profe` (tu profe jefe; en los textos `{persona}` dice "la profe Carolina" o "el profe Juan", así que no la pongas al empezar una frase), `jefe` (tu jefe o jefa del trabajo; `{persona}` dice "tu jefa Carolina" o "tu jefe Juan"), `equipo` (un colega de tu equipo de hoy: se elige más seguido a quien se quieren más) `companero_casa` (el amigo que vive contigo y comparte el arriendo) o `socio` (tu socio en el negocio). Al ocurrir se elige a una persona de verdad, con nombre (si no hay nadie así, no pasa). En el evento se le habla como `persona` (`persona.carino += 3`, `plantar('semilla.x', persona)`) y en los textos de la escena y de las opciones `{persona}` se cambia por su nombre. En el diario no se usa `{persona}` | — |
+| `lugar` | Dónde pasa: clave `lugar.<nombre>` con su texto en `lang/` ("La plaza", "Tu sala"). La pantalla lo muestra junto a la persona | — |
+| `actividad` | El momento nace de tu horario: solo pasa si esa actividad está en tu semana. Pide `probabilidad_anual`, que es la probabilidad en un año haciéndola **una vez por semana** (si la haces tres veces, es más probable) | — |
+| `regla` | Grupo para las reglas propias del jugador (`regla.prueba`, con su texto en `lang/`: "Cuando hay prueba o tarea"). Cuando el jugador elige "hacer esto siempre", la regla sirve para todos los eventos del grupo. Sin grupo, sirve solo para este evento. Un `dia_clave` y un evento de `semilla` nunca admiten regla: se viven cada vez | — |
+| `opciones[].regla` | Qué es la opción para las reglas del grupo (`estudiar`, `copiar`): opciones de eventos distintos con el mismo valor son "lo mismo". Pide `regla` en el evento | su texto |
+| `{ramo}`, `{nota}` | En los textos de un evento se cambian por el ramo de la prueba anunciada o devuelta ("Matemática") y su nota ("5,8") | — |
+| `a_pedido` | El momento lo **pide el jugador** con un botón (rediseño R6c): `{ "texto": "accion.pega.pedir_aumento", "por_ano": "0.2 + jugador.extraversion / 400" }`. Nunca pasa solo: aparece como botón mientras se cumplan sus `condiciones` (y `enfriamiento_semanas`, y haya alguien para `con`) y, al apretarlo, pasa ahí mismo. `texto` es la clave del botón y empieza con `accion.`; `por_ano` dice cuántas veces al año lo pediría alguien con esa personalidad, solo para el simulador de vidas. No lleva `actividad`, `fecha`, `probabilidad_anual` ni `semilla`, y necesita `con` o `lugar`. Los de `lugar.trabajo` salen en la pantalla de tu equipo; los demás con `con` salen como botones en la línea de cada persona de "Tu gente" que calce (futuros juntos, R6d): recomendarla en tu pega, proponerle vivir juntos. En el código: `LifeSession.Requestable()`, `LifeSession.Request(id)`, y con una persona `LifeSession.RequestableWith(personId)` y `LifeSession.Request(id, personId)` | — |
+| `fecha` | El momento tiene fecha: `"24-12"` (día-mes) pasa la semana de ese día, y `"cumpleanos"` la semana del cumpleaños de la persona de `con`. Pasa como mucho una vez al año. Con `probabilidad_anual`, esa es la probabilidad de que ese año se viva como momento | — |
 
 Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla se cierra al terminar el evento.
+
+### Momentos (rediseño R2b)
+
+Regla del rediseño (`docs/rediseno-vida.md`): **un momento detiene el tiempo solo si tiene persona o lugar con nombre y algo en juego**. Por eso un evento con `actividad` o `fecha` debe tener `con` o `lugar` (la carga lo revisa). Ejemplo, en `packs/base/events/rutina.json`:
+
+```json
+{
+  "id": "evento.rutina.fuente_quebrada",
+  "actividad": "actividad.ayudar_casa",
+  "con": "madre",
+  "lugar": "lugar.casa",
+  "condiciones": "jugador.edad >= 8 && jugador.edad < 15",
+  "probabilidad_anual": 0.6,
+  "unico": true,
+  "opciones": [
+    { "texto": "opcion.rutina.fuente_quebrada.contar", "efectos": ["persona.confianza += 4"] },
+    { "texto": "opcion.rutina.fuente_quebrada.esconder", "efectos": ["plantar('semilla.fuente_escondida', persona)"] }
+  ]
+}
+```
+
+Cada semana se prueba, en este orden: lo que despierta una semilla, los momentos con fecha de esta semana, los momentos de tu horario, los eventos con `probabilidad_anual` y, al final, uno al azar por `peso`. Los momentos tienen su propio azar, así que agregar uno no cambia qué otros eventos salen. Regla de repeticiones (R7): un evento no se vuelve a leer igual con la misma persona (o sin persona). Usa `con` para que hable de alguien con nombre, `unico` o `veces_maximas` con `variantes` (y `por_persona` si el tope es con cada persona), para que un cumpleaños no se lea igual cada año. El simulador de vidas cuenta lo que se rompe en la sección "Repeticiones sin razón": el mismo texto con la misma persona o sin persona (lo que pide el jugador con un botón no cuenta).
+
+## Capítulos del año (chapters/)
+
+Cada año de la vida se cierra como un **capítulo del diario** con título propio. El título no se inventa: lo da una línea del diario que de verdad se escribió ese año. Cada archivo de `chapters/` es una lista:
+
+```json
+[
+  { "diario": "diario.muerte_madre", "titulo": "capitulo.muerte_madre", "peso": 10 },
+  { "diario": "diario.amigo_se_va", "titulo": "capitulo.amigo_se_va", "peso": 6 }
+]
+```
+
+| Campo | Qué es |
+|---|---|
+| `diario` | La clave de la línea del diario (tiene que existir en `lang/`) |
+| `titulo` | La clave del título en `lang/` ("El año en que murió mi mamá"). Puede usar `{persona}`: el nombre de la persona ligada a una semilla plantada ese mismo día; si no hay nadie, esa línea no titula el año |
+| `peso` | 1 a 10: cuánto marca el año. 10 es lo que cambia la vida (nacer, morir alguien cercano); 1, algo que apenas se nota |
+
+Reglas:
+
+- Gana la línea de más peso del año; si empatan, la más nueva.
+- Un mismo título (su texto) sale **una sola vez por vida**: si ya tituló un año anterior, gana la siguiente línea de ese año.
+- Si ninguna línea del año da título, el año se llama por la edad ("El año en que cumplí 9"; el primero, "El año en que nací").
+- Pon cada título en el paquete donde vive su línea del diario, y escribe los textos en primera persona y sin palabras de un solo país en `base` (las variantes `es-AR` pueden cambiarlos).
 
 ## Noticias (news/)
 
@@ -767,6 +918,56 @@ El jugador también puede escribirle primero a la gente de su vida ("Nuevo chat"
 
 No se puede escribir a quien espera que le contestes, ni dos veces sin respuesta, ni repetir lo mismo en medio año, ni mientras hay un evento por decidir. Unity las lee con `LifePresenter.ChatContacts()` y `Chat(id).Openers`, y escribe con `WriteChat(id, idDelMensaje)`.
 
+## Tu horario (actividades/)
+
+Lo que el jugador puede pegar en su horario (rediseño R2, `docs/rediseno-vida.md`). El horario tiene 14 bloques: la tarde y la noche de cada día, de lunes a domingo. La mañana no se llena: la ponen el colegio, los estudios o el trabajo. Desde los 6 años, cada vez que cambia de etapa (por ejemplo, al entrar a estudiar) y, en el colegio, cada año el día que empiezan las clases (`inicio_ano_escolar` del país), el juego le sugiere un horario y detiene el tiempo para que lo arme. El sugerido mantiene casi todo lo del horario anterior que todavía se puede hacer (70 %) y elige lo demás según su forma de ser. Después la vida sigue sola con él.
+
+Cada archivo es una lista:
+
+```json
+{ "id": "actividad.plaza_amigos", "edad_minima": 8, "edad_maxima": 17, "franjas": ["tarde"], "con": "amigo",
+  "aporta": { "animo": 2, "salud": 1, "carino": 1 }, "tendencia": "jugador.extraversion" }
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | `actividad.<nombre>`; es también la clave de su nombre en `lang/` (corto, como en un sticker: "plaza con los amigos") |
+| `edad_minima`, `edad_maxima` | Edades en que tiene sentido |
+| `condiciones` | Condición extra en el lenguaje de condiciones (por ejemplo `jugador.tiene_celular`) |
+| `franjas` | `tarde`, `noche` o las dos (por defecto, las dos) |
+| `con` | Con quién se hace: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival`, `ex`, `companero` o `profe`. Solo se puede elegir si esa persona existe, y el cariño se mueve con ella |
+| `aporta` | Cuánto mueve por cada bloque en que está, de -3 a 3: `animo`, `mente`, `salud`, `carino` (este último necesita `con`) |
+| `tendencia` | Qué tan probable es que la elija alguien sin el jugador (simulador, horario sugerido); por defecto 50 |
+
+Cómo pesa (`RoutineSystem`):
+
+- **Ánimo:** cada semana se acerca un punto a `50 + 2 × (suma de animo)`, entre 15 y 85. Así el ánimo no se queda pegado en 0 ni en 100: los eventos lo sacuden y el horario lo devuelve a lo que tu vida da.
+- **Mente:** cada mes se acerca un punto a `50 + 2 × (suma de mente)`, entre 15 y 90. Estudiar sirve, pero de a poco; dejarlo también se nota.
+- **Salud:** cada mes sube o baja un punto si la suma de salud es 4 o más (o -4 o menos). El envejecimiento hace el resto.
+- **Cariño:** cada mes, con cada persona de `con`, sube lo que diga `carino` en los dos sentidos (lo que tú sientes y lo que siente esa persona).
+- Si una actividad deja de tener sentido (ya no hay amigos, pasó la edad), queda en el horario pero no cuenta hasta que la cambies.
+
+## Lo que quiero (deseos/)
+
+Rediseño R2c. En cada etapa del horario (cada año escolar, la universidad, un trabajo) el personaje quiere hasta 3 cosas que **nacen de su vida**: se eligen entre los deseos cuyas condiciones se cumplen y que todavía no tiene. El jugador marca con destacador los que persigue: el horario sugerido pone más seguido su `actividad`. Cada mes se revisa si se cumplió (ánimo +3, o +6 si lo perseguía, y su línea en el diario). Al cambiar de etapa, lo que perseguía y no pasó queda "perdido" (ánimo -3 y su línea en el diario); lo demás se le pasa sin pena. Lo mismo no se quiere dos etapas seguidas.
+
+```json
+{ "id": "deseo.amigo_de_verdad", "edad_minima": 6, "edad_maxima": 17,
+  "condiciones": "jugador.amigos == 0", "cumplido": "jugador.amigos >= 1",
+  "actividad": "actividad.plaza_amigos", "peso": 30 }
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | `deseo.<nombre>`; es la clave de su frase en `lang/` ("Tener un amigo de verdad"). También deben existir `<id>.cumplido` y `<id>.perdido`, las líneas del diario |
+| `edad_minima`, `edad_maxima` | Edades en que tiene sentido |
+| `condiciones` | De qué vida nace (si falta, de cualquiera) |
+| `cumplido` | Cuándo se cumple (obligatorio). Si ya se cumple, el deseo no nace |
+| `con` | Con quién es (como en los eventos): en las condiciones es `persona` y en la frase `{persona}` |
+| `actividad` | La actividad del horario que ayuda: si lo persigue, se sugiere más |
+| `peso` | Qué tan probable es frente a otros deseos (10) |
+| `repetible` | Si se puede volver a querer en otra etapa después de cumplirlo (false) |
+
 ## Juzgados (courts/) y vida civil
 
 Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `C-1532-81`), un tribunal y etapas con sus plazos, como la carpeta de cartulina del juzgado. Una causa **nunca empieza sola**: la abre un evento con `abrir_causa('causa.x')` por algo que hizo el jugador (dejó de pagar una deuda, se casó y se separó). Los tipos de causa van en `courts/*.json` del paquete de **un país** (cada país tiene sus tribunales y plazos):
@@ -825,6 +1026,20 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.pais`, `jugador.ciudad`, `jugador.comuna` | Ids del lugar donde vive, por ejemplo `'comuna.puente_alto'` |
 | `jugador.nivel_hogar` | Nivel socioeconómico del hogar, 0 a 100 |
 | `jugador.etapa` | Etapa educativa actual, por ejemplo `'etapa.chile.basica'`, o `''` |
+| `jugador.en_clases` | Si va a un curso y esa semana hay clases (no son vacaciones de verano ni de invierno) |
+| `jugador.curso` | En qué año de su etapa va (1 a 8 en básica, 1 a 4 en media), o 0 si no va a un curso |
+| `jugador.companeros` | Cuántos compañeros con nombre tiene en su curso |
+| `jugador.prueba_anunciada` | Si hay una prueba anunciada para la semana que viene (la que se juega como momento). Con ella se puede usar `jugador.preparar_prueba(n)`, de 0 a 3: cada punto sube la nota unas 0,3 |
+| `jugador.prueba_devuelta` | Si esta semana le devolvieron la prueba anunciada con su nota |
+| `jugador.nota_prueba` | La nota de esa prueba, en la escala de 1 a 7 (en Argentina se lleva a esa escala), o 0 |
+| `jugador.prueba_aprobada` | Si esa prueba quedó aprobada |
+| `jugador.promedio` | Su promedio general del año que va (en vacaciones, el del año pasado), en la escala de 1 a 7, o 0 |
+| `jugador.rojos` | En cuántos ramos va con promedio rojo este año |
+| `jugador.repitio` | Cuántos años repitió |
+| `jugador.semestres_cursados` | Semestres que cursó en la carrera que estudia, aprobados o no (la gratuidad mira estos) |
+| `jugador.en_la_u` | Si estudia en la universidad, el CFT o el instituto y ya tiene sección (sus compañeros con nombre) |
+| `jugador.en_la_pega` | Si trabaja (con contrato o informal) y ya tiene su equipo: jefe o jefa y colegas con nombre |
+| `jugador.estudiar_semestre(n)` | Suma `n` (de -3 a 3 en total) a cuánto se prepara este semestre: estudiar en grupo suma, la fiesta antes del examen resta. Cada punto mueve la nota de los ramos unas 0,3. Se vuelve a 0 al cerrar el semestre (solo efectos, mientras estudia) |
 | `jugador.madre`, `jugador.padre` | Otro personaje con los mismos datos (`jugador.madre.edad`), o `nada` si no hay |
 | `jugador.pareja` | Su pareja actual (otro personaje: `jugador.pareja.edad`), o `nada`. Usa `jugador.pareja != nada && ...` antes de leer sus datos |
 | `jugador.hijos` | Cuántos hijos vivos tiene (biológicos o adoptados) |
@@ -893,14 +1108,30 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.dejar_trabajo()` | Deja de trabajar y de recibir sueldo (solo efectos) |
 | `jugador.trabaja`, `jugador.tipo_trabajo` | Si tiene trabajo; `'dependiente'`, `'honorarios'`, `'informal'` o `nada` |
 | `jugador.trabajar_en('área')`, `jugador.trabajar_en('área', 'honorarios')` | Empieza un trabajo en esa área de su carrera, en el cargo que le da su experiencia y con el sueldo de ese cargo. Es un error si no puede (revisa antes `puede_trabajar_en`). Con `jugador.trabajar_en(jugador.area)` cambia de contrato sin perder el cargo (solo efectos) |
-| `jugador.puede_trabajar_en('área')` | Si tiene un título de esa carrera y cumple los requisitos del área |
+| `jugador.puede_trabajar_en('área')` | Si tiene un título de esa carrera (un oficio no lo pide) y cumple los requisitos del área |
 | `jugador.area`, `jugador.cargo` | Área y cargo de su trabajo actual (`'carrera.software.cargo.senior'`), o `nada` si no trabaja en su carrera |
 | `jugador.cargo_anterior`, `jugador.ultimo_cargo` | El cargo de más abajo en su escalera (`nada` en el inicial), y el cargo actual o el último que tuvo en su carrera |
 | `jugador.meses_en_cargo` | Meses de experiencia en el cargo actual |
+| `jugador.ultima_area` | El área actual o la última que tuvo (para volver a la misma: `jugador.trabajar_en(jugador.ultima_area)`) |
+| `jugador.oficio` | El oficio de su trabajo actual (`'oficio.garzon'`), o `nada` |
+| `jugador.meta`, `jugador.meses_bajo_meta`, `jugador.amonestaciones` | En un oficio: cuánto cumplió de la meta el último mes (en %), los meses seguidos bajo la meta y los llamados o amonestaciones que lleva. Los dos últimos se pueden cambiar (`jugador.amonestaciones = 1`, `jugador.meses_bajo_meta = 0`) |
+| `jugador.pago_variable` | La comisión, el trato o las propinas del último mes (a precios de hoy) |
+| `jugador.nuevo_contrato()` | Un contrato nuevo con el mismo empleador y el mismo equipo (la obra siguiente de la constructora): la antigüedad vuelve a cero (solo efectos) |
+| `jugador.desafio('marca')`, `jugador.en_desafio` | Empieza el desafío de este mes en un oficio (solo efectos; ver "Oficios"), y si hay uno en curso |
+| `jugador.pedir_aumento(porcentaje)` | Pide un aumento a la persona del evento (su jefe). Sale todo, la mitad o nada (encuesta de PayScale: 39 %, 31 % y 30 %), movido por el desempeño, el respeto del jefe, la economía y lo mucho que pide (más de un 10 % resta). Sube el sueldo base y lo anota en el diario (`diario.pega.aumento_completo`, `_parcial` o `_no`) (solo efectos) |
+| `jugador.dias_vacaciones`, `jugador.tomar_vacaciones(días)` | Los días de vacaciones ganados y no tomados (enteros), y tomarlos (solo efectos; tiene que tener esos días) |
+| `jugador.pago_vacaciones`, `jugador.cobrar_vacaciones()` | Lo que le pagarían por los días no tomados (de su trabajo o, si ya no trabaja, del último), y recibir ese pago: los días quedan en cero (solo efectos) |
+| `jugador.avisar_renuncia(semanas)`, `jugador.renuncio`, `jugador.semanas_para_irse` | Renuncia con aviso: se va en esas semanas (Chile 4, Argentina 2); si ya avisó, y cuántas semanas le quedan. El último día lo hace un evento (`evento.pega.ultimo_dia`) |
+| `jugador.abrir_negocio(aporte, forma)`, `jugador.cerrar_negocio()` | Abre un negocio con la persona del evento como socio: pone el aporte (en la moneda de hoy, por ejemplo `precio(sueldo_minimo())`), `'formal'` (una empresa) o `'informal'` (de palabra); y lo cierra de común acuerdo (solo efectos) |
+| `jugador.tiene_negocio`, `jugador.negocio_formal`, `jugador.meses_negocio`, `jugador.ganancia_negocio`, `jugador.ganado_negocio`, `persona.es_tu_socio` | Si tiene negocio, si es formal, los meses abierto, su parte del último mes y todo lo que ha recibido (en la moneda de hoy), y si esa persona es su socio |
+| `jugador.tiene_equipo` | Si trabaja con su equipo armado (jefe y colegas) |
+| `jugador.recomendar()` | Recomienda en su equipo a la persona del evento. La contratan con la probabilidad de una entrevista por contacto del país (`exito_entrevista` + `exito_extra` de la forma con `necesita_contacto`; en Chile 55 %): entra a su equipo y lo anota en el diario (`diario.pega.recomendado_entra` o `_no`) (solo efectos) |
+| `persona.en_tu_equipo`, `persona.recomendado` | Si esa persona trabaja en tu equipo, y si entró recomendada por ti |
+| `jugador.compartir_arriendo()`, `jugador.dejar_de_compartir()`, `jugador.comparte_arriendo`, `persona.vive_contigo` | La persona del evento se viene a vivir con él y paga su parte del arriendo cada mes (el arriendo se divide entre él, su pareja y quien lo comparte); dejar de compartir; si comparte; y si esa persona es quien vive con él |
 | `jugador.meses_en_trabajo` | Meses con el empleador actual (la antigüedad; sigue al ascender en la misma empresa) |
 | `jugador.ultimo_sueldo`, `jugador.meses_ultimo_trabajo`, `jugador.tipo_ultimo_trabajo` | El sueldo bruto, la antigüedad y el tipo (`'dependiente'`...) del último trabajo que dejó: sirven para el finiquito o una demanda después de un despido |
 | `jugador.herencia_pendiente`, `jugador.recibir_herencia()` | Lo heredado que espera un trámite (a precios de hoy), y el efecto que lo entrega |
-| `jugador.desempeno` | Qué tan bien trabaja, 0 a 100. Se puede cambiar solo en un trabajo de su carrera (`jugador.desempeno += 5`) |
+| `jugador.desempeno` | Qué tan bien trabaja, 0 a 100. Se puede cambiar en cualquier trabajo (`jugador.desempeno += 5`); en un trabajo de su carrera cuenta para ascender |
 | `jugador.puede_ascender`, `jugador.caminos_ascenso` | Si puede ascender ahora, y a cuántos cargos (2 cuando hay que elegir camino) |
 | `jugador.puede_ascender_a('cargo')` | Si puede ascender ahora a ese cargo |
 | `jugador.ascender()`, `jugador.ascender('cargo')` | Asciende y le suben el sueldo; con dos caminos hay que nombrar el cargo. Es un error si no puede (solo efectos) |

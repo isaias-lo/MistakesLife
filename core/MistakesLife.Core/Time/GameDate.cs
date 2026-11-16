@@ -4,8 +4,9 @@ namespace MistakesLife.Core.Time
 {
     /// <summary>
     /// Fecha dentro del calendario propio del juego. El tiempo avanza de a una
-    /// semana; un año tiene 52 semanas. No hay años reales: el año 1 es el
-    /// año en que empieza el mundo.
+    /// semana, que siempre empieza un lunes; un año tiene 52 semanas y sus meses
+    /// tienen los días de siempre (enero 31, febrero 28...). No hay años reales:
+    /// el año 1 es el año en que empieza el mundo.
     /// </summary>
     public readonly struct GameDate : IEquatable<GameDate>, IComparable<GameDate>
     {
@@ -30,16 +31,81 @@ namespace MistakesLife.Core.Time
         /// <summary>Semana dentro del año, de 1 a 52.</summary>
         public int WeekOfYear => (TotalWeeks % WeeksPerYear) + 1;
 
+        /// <summary>Días que dura cada mes del calendario del juego (no hay años bisiestos).</summary>
+        private static readonly int[] DaysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
         /// <summary>
-        /// Mes del año, de 1 a 12. Las 52 semanas se reparten entre los 12 meses:
-        /// algunos meses tienen 4 semanas y otros 5.
+        /// Día del año en que empieza esta semana, desde 0 (1 de enero). Cada semana
+        /// empieza un lunes; las 52 semanas cubren 364 días y el 31 de diciembre
+        /// queda dentro de la última.
         /// </summary>
-        public int Month => (WeekIndexInYear * 12 / WeeksPerYear) + 1;
+        public int DayOfYear => WeekIndexInYear * 7;
+
+        /// <summary>Mes del año, de 1 a 12: el mes del lunes en que empieza la semana.</summary>
+        public int Month => MonthOfDay(DayOfYear);
+
+        /// <summary>Día del mes del lunes en que empieza la semana, de 1 a 31.</summary>
+        public int DayOfMonth
+        {
+            get
+            {
+                int day = DayOfYear;
+                int month = 0;
+                while (day >= DaysInMonth[month])
+                {
+                    day -= DaysInMonth[month];
+                    month++;
+                }
+
+                return day + 1;
+            }
+        }
 
         /// <summary>Si esta es la primera semana de su mes (ahí se pagan sueldos y cuentas, y suben los precios).</summary>
-        public bool IsFirstWeekOfMonth => WeekIndexInYear == 0 || Month != ((WeekIndexInYear - 1) * 12 / WeeksPerYear) + 1;
+        public bool IsFirstWeekOfMonth => WeekIndexInYear == 0 || Month != MonthOfDay(DayOfYear - 7);
 
         private int WeekIndexInYear => TotalWeeks % WeeksPerYear;
+
+        /// <summary>
+        /// Si el día del año <paramref name="dayOfYear"/> (desde 0) cae en esta semana.
+        /// El 31 de diciembre cae en la última semana del año.
+        /// </summary>
+        public bool ContainsDayOfYear(int dayOfYear) => Math.Min(dayOfYear / 7, WeeksPerYear - 1) == WeekIndexInYear;
+
+        /// <summary>Si esta semana es la misma semana del año que <paramref name="other"/> (por ejemplo, la del cumpleaños).</summary>
+        public bool SameWeekOfYear(GameDate other) => WeekIndexInYear == other.WeekIndexInYear;
+
+        /// <summary>
+        /// El día del año (desde 0) de un día y un mes (1 a 12). Null si esa fecha no existe
+        /// (por ejemplo, 30 de febrero).
+        /// </summary>
+        public static int? DayOfYearOf(int day, int month)
+        {
+            if (month < 1 || month > 12 || day < 1 || day > DaysInMonth[month - 1])
+            {
+                return null;
+            }
+
+            int total = day - 1;
+            for (int m = 0; m < month - 1; m++)
+            {
+                total += DaysInMonth[m];
+            }
+
+            return total;
+        }
+
+        private static int MonthOfDay(int dayOfYear)
+        {
+            int month = 0;
+            while (month < 11 && dayOfYear >= DaysInMonth[month])
+            {
+                dayOfYear -= DaysInMonth[month];
+                month++;
+            }
+
+            return month + 1;
+        }
 
         public static GameDate Start => new GameDate(0);
 

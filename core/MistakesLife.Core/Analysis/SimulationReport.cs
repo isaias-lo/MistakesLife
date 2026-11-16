@@ -25,6 +25,18 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Eventos del contenido que no aparecieron en ninguna vida.</summary>
         public List<string> NeverSeenEvents { get; } = new List<string>();
 
+        /// <summary>
+        /// Veces en total que un evento se volvió a leer igual, con la misma persona o sin
+        /// persona (regla de repeticiones, <see cref="RepetitionRules"/>).
+        /// </summary>
+        public SortedDictionary<string, int> RepeatsWithoutReason { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        /// <summary>Vidas en que cada evento se repitió sin razón al menos una vez.</summary>
+        public SortedDictionary<string, int> LivesWithRepeats { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        /// <summary>Promedio por vida de repeticiones sin razón, sumando todos los eventos.</summary>
+        public double RepeatsPerLife => Lives == 0 ? 0 : (double)RepeatsWithoutReason.Values.Sum() / Lives;
+
         /// <summary>Cuántas veces salió cada noticia en los últimos 12 años de cada vida (lo que el mundo recuerda).</summary>
         public SortedDictionary<string, int> NewsCount { get; } = new SortedDictionary<string, int>(StringComparer.Ordinal);
 
@@ -68,6 +80,21 @@ namespace MistakesLife.Core.Analysis
         public double AverageSmarts { get; internal set; }
 
         public double AverageEventsPerLife { get; internal set; }
+
+        /// <summary>
+        /// Etapas de la tabla de ritmo del rediseño (docs/rediseno-vida.md): edad desde y
+        /// hasta (sin incluir), y cuántas veces se detiene el tiempo por año en la meta.
+        /// </summary>
+        public static readonly (int From, int To, string Goal)[] PaceStages =
+        {
+            (0, 6, "3 a 5"), (6, 18, "10 a 15"), (18, 31, "15 a 25"), (31, 66, "8 a 12"), (66, 200, "5 a 8"),
+        };
+
+        /// <summary>
+        /// Cuántas veces por año se detuvo el tiempo por un evento que pedía decidir, en cada
+        /// etapa de <see cref="PaceStages"/> (null si ninguna vida llegó a esa etapa).
+        /// </summary>
+        public double?[] StopsPerYear { get; } = new double?[PaceStages.Length];
 
         /// <summary>Vidas que siguen vivas al final y tienen trabajo (con sueldo).</summary>
         public int Working { get; internal set; }
@@ -189,6 +216,18 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"# Simulación de {Lives} vidas hasta los {FinalAge} años");
             sb.AppendLine();
             sb.AppendLine($"- Eventos por vida (promedio): {AverageEventsPerLife.ToString("0.0", ci)}");
+            var pace = new List<string>();
+            for (int i = 0; i < PaceStages.Length; i++)
+            {
+                if (StopsPerYear[i].HasValue)
+                {
+                    (int from, int to, string goal) = PaceStages[i];
+                    string ages = to >= 200 ? $"{from}+" : $"{from}-{to - 1}";
+                    pace.Add($"{ages}: {StopsPerYear[i]!.Value.ToString("0.0", ci)} (meta {goal})");
+                }
+            }
+
+            sb.AppendLine($"- Veces que se detiene el tiempo por año, según la edad: {string.Join("; ", pace)}");
             sb.AppendLine($"- Salud / felicidad / inteligencia al final (promedio): {AverageHealth.ToString("0", ci)} / {AverageHappiness.ToString("0", ci)} / {AverageSmarts.ToString("0", ci)}");
             sb.AppendLine($"- Muertes antes de los {FinalAge}: {Deaths}");
             sb.AppendLine($"- Siguen vivos al final: {Alive}; los porcentajes de trabajo, estudio, búsqueda y jubilación son sobre ellos");
@@ -288,6 +327,24 @@ namespace MistakesLife.Core.Analysis
                 foreach (var courtCase in CourtCaseCount.OrderByDescending(c => c.Value).ThenBy(c => c.Key, StringComparer.Ordinal))
                 {
                     sb.AppendLine($"| {courtCase.Key} | {courtCase.Value} | {(100.0 * courtCase.Value / Math.Max(1, Lives)).ToString("0.0", ci)} |");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("## Repeticiones sin razón");
+            sb.AppendLine();
+            sb.AppendLine("Un evento que se vuelve a leer igual: el mismo texto, con la misma persona o sin persona. Lo que pide el jugador con un botón no cuenta.");
+            sb.AppendLine();
+            sb.AppendLine($"- Por vida (promedio): {RepeatsPerLife.ToString("0.0", ci)}");
+            if (RepeatsWithoutReason.Count > 0)
+            {
+                sb.AppendLine();
+                sb.AppendLine("| Evento | Vidas donde se repite | Repeticiones en total | Por vida (donde se repite) |");
+                sb.AppendLine("|---|---:|---:|---:|");
+                foreach (var repeat in RepeatsWithoutReason.OrderByDescending(r => r.Value).ThenBy(r => r.Key, StringComparer.Ordinal))
+                {
+                    int livesWith = LivesWithRepeats[repeat.Key];
+                    sb.AppendLine($"| {repeat.Key} | {livesWith} | {repeat.Value} | {((double)repeat.Value / livesWith).ToString("0.0", ci)} |");
                 }
             }
 

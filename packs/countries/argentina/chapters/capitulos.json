@@ -1,0 +1,17 @@
+[
+  {
+    "diario": "diario.economia.inflacion.hiper",
+    "titulo": "capitulo.economia.inflacion.hiper",
+    "peso": 6
+  },
+  {
+    "diario": "diario.etapa.argentina.primaria",
+    "titulo": "capitulo.etapa.argentina.primaria",
+    "peso": 4
+  },
+  {
+    "diario": "diario.etapa.argentina.secundaria",
+    "titulo": "capitulo.etapa.argentina.secundaria",
+    "peso": 4
+  }
+]

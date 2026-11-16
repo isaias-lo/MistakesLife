@@ -33,6 +33,14 @@ namespace MistakesLife.Core.Content
         [JsonProperty("veces_maximas")]
         public int? MaxTimes { get; set; }
 
+        /// <summary>
+        /// Si es true (y el evento pasa <see cref="With"/> alguien), <see cref="MaxTimes"/> y las
+        /// <see cref="Variants"/> se cuentan con cada persona: con tu pareja de hoy el aniversario
+        /// se cuenta de nuevo, aunque con la anterior ya hayas vivido todas sus formas.
+        /// </summary>
+        [JsonProperty("por_persona")]
+        public bool PerPerson { get; set; }
+
         /// <summary>Cuándo puede pasar (lenguaje de condiciones). Opcional.</summary>
         [JsonProperty("condiciones")]
         public string? Conditions { get; set; }
@@ -91,6 +99,81 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("opciones_carreras")]
         public bool CareerOptions { get; set; }
+
+        /// <summary>
+        /// Con quién pasa el momento: un lugar en la vida del jugador (madre, padre,
+        /// pareja, hijo, amigo, colega, rival, ex). Al ocurrir se elige a una persona
+        /// de verdad, con nombre, y en el evento se le habla como "persona"
+        /// (por ejemplo "persona.carino += 3"). Si no hay nadie así, el evento no pasa.
+        /// En los textos, {persona} se cambia por su nombre. Opcional.
+        /// </summary>
+        [JsonProperty("con")]
+        public string? With { get; set; }
+
+        /// <summary>Dónde pasa el momento: la clave de un lugar con nombre ("lugar.plaza"). Opcional.</summary>
+        [JsonProperty("lugar")]
+        public string? Place { get; set; }
+
+        /// <summary>
+        /// Si se indica, el momento nace de tu horario: solo pasa si esa actividad está
+        /// en tu semana, y es más probable mientras más veces la tengas.
+        /// <see cref="AnnualProbability"/> es la probabilidad en un año haciéndola una vez por semana.
+        /// </summary>
+        [JsonProperty("actividad")]
+        public string? Activity { get; set; }
+
+        /// <summary>
+        /// Si se indica, el momento tiene fecha: "24-12" (día-mes) pasa la semana de ese día,
+        /// y "cumpleanos" pasa la semana del cumpleaños de la persona (pide "con").
+        /// Pasa como mucho una vez al año. Si además tiene <see cref="AnnualProbability"/>,
+        /// esa es la probabilidad de que ese año se viva como momento.
+        /// </summary>
+        [JsonProperty("fecha")]
+        public string? Date { get; set; }
+
+        /// <summary>Valor de "fecha" para los cumpleaños.</summary>
+        public const string BirthdayDate = "cumpleanos";
+
+        /// <summary>Si la fecha es el cumpleaños de la persona.</summary>
+        [JsonIgnore]
+        public bool OnBirthday => Date == BirthdayDate;
+
+        /// <summary>El día del año (desde 0) de una fecha fija como "24-12"; null si no tiene o es un cumpleaños.</summary>
+        [JsonIgnore]
+        public int? FixedDayOfYear { get; internal set; }
+
+        /// <summary>
+        /// Si se indica, el momento lo pide el jugador con un botón (ver <see cref="RequestDefinition"/>)
+        /// y nunca pasa solo. Opcional.
+        /// </summary>
+        [JsonProperty("a_pedido")]
+        public RequestDefinition? OnRequest { get; set; }
+
+        /// <summary>
+        /// Si es un momento que nace del horario, del calendario o de lo que pide el jugador
+        /// (no compite al azar con los demás eventos).
+        /// </summary>
+        [JsonIgnore]
+        public bool IsScheduled => Activity != null || Date != null || OnRequest != null;
+
+        /// <summary>
+        /// Grupo para las reglas propias del jugador ("regla.prueba"): una regla hecha en
+        /// un evento del grupo sirve para todos los del grupo. Su texto ("Cuando hay prueba")
+        /// va en lang/. Si falta, la regla sirve solo para este evento.
+        /// </summary>
+        [JsonProperty("regla")]
+        public string? RuleGroup { get; set; }
+
+        /// <summary>A qué se aplica una regla propia hecha en este evento.</summary>
+        [JsonIgnore]
+        public string RuleKey => RuleGroup ?? Id;
+
+        /// <summary>
+        /// Si el jugador puede decir "si vuelve a pasar, haz lo mismo". Un día clave y lo que
+        /// despierta una semilla (un error que vuelve) siempre se viven: no admiten regla.
+        /// </summary>
+        [JsonIgnore]
+        public bool AllowsOwnRule => !KeyDay && SeedType == null && Options.Count > 1;
 
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;

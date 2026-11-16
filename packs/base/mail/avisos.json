@@ -11,7 +11,7 @@
 
   { "id": "correo.estudio.resultados_admision", "remitente": "remitente.admision", "tema": "estudio", "al_anotar": ["diario.paes_media", "diario.paes_alta"] },
   { "id": "correo.estudio.ramo_reprobado", "remitente": "remitente.universidad", "tema": "estudio",
-    "al_anotar": ["diario.estudios.ramo_reprobado", "diario.software.ramo_reprobado", "diario.contabilidad.ramo_reprobado", "diario.psicologia.ramo_reprobado"] },
+    "al_anotar": ["diario.estudios.ramo_reprobado"] },
   { "id": "correo.estudio.titulacion", "remitente": "remitente.universidad", "tema": "estudio",
     "al_anotar": ["diario.software.titulacion", "diario.contabilidad.titulacion", "diario.psicologia.titulacion"] },
 

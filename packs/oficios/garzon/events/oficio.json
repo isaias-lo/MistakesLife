@@ -1,0 +1,378 @@
+[
+  {
+    "id": "evento.garzon.aviso",
+    "condiciones": "jugador.tiene('buscando_trabajo') && (jugador.busca_en == nada || jugador.busca_en == 'cualquier_trabajo') && (!jugador.titulado || jugador.semanas_buscando >= 26) && jugador.edad >= 18 && jugador.edad < 62",
+    "peso": 40,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.aviso.restoran",
+        "tendencia": "jugador.extraversion / 2 + 10",
+        "efectos": [
+          "jugador.postular_en('oficio.garzon.area.restoran')"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.aviso.cafeteria",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.postular_en('oficio.garzon.area.cafeteria')"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.aviso.hotel",
+        "tendencia": "jugador.apertura / 3",
+        "efectos": [
+          "jugador.postular_en('oficio.garzon.area.hotel')"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.aviso.seguir",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.turno_cortado",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.meses_en_trabajo >= 1",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.turno_cortado.local",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "jugador.felicidad -= 2",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.turno_cortado.casa",
+        "tendencia": "jugador.extraversion / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.salud -= 1",
+          "jugador.dinero -= precio(1600)"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.turno_cortado.corrido",
+        "tendencia": "jugador.extraversion / 2 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "persona.respeto -= 1",
+          "jugador.felicidad += 1",
+          "diario('diario.garzon.turno_corrido')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.mesa_dificil",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.meses_en_trabajo >= 1",
+    "probabilidad_anual": 0.8,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.mesa_dificil.sonreir",
+        "tendencia": "jugador.amabilidad / 2 + (100 - jugador.neuroticismo) / 4",
+        "efectos": [
+          "persona.respeto += 2",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.mesa_dificil.explicar",
+        "tendencia": "jugador.extraversion / 3",
+        "efectos": [
+          "jugador.dinero += precio(5000)",
+          "persona.respeto -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.mesa_dificil.mala_cara",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "persona.respeto -= 3",
+          "jugador.desempeno -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.pozo",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.meses_en_trabajo >= 2",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.pozo.si",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.carino += 4",
+          "jugador.dinero -= precio(8000)"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.pozo.no",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.pozo.votar",
+        "tendencia": "jugador.extraversion / 3 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino += 1",
+          "persona.respeto += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.bandeja",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.meses_en_trabajo >= 1",
+    "probabilidad_anual": 0.5,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.bandeja.aceptar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.dinero -= precio(12000)",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.bandeja.decir",
+        "tendencia": "jugador.responsabilidad / 3 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "persona.respeto += 1",
+          "persona.rencor += 2",
+          "diario('diario.garzon.bandeja')"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.bandeja.reponer",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.dinero -= precio(12000)",
+          "persona.respeto += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.cocina",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.meses_en_trabajo >= 1",
+    "probabilidad_anual": 0.8,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 104,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.cocina.paciencia",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.desempeno += 2"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.cocina.apurar",
+        "tendencia": "jugador.extraversion / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.cocina.culpar",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.carino -= 5",
+          "persona.rencor += 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.fin_de_ano",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.meses_en_trabajo >= 2 && mundo.mes == 12",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 40,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.fin_de_ano.todo",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desempeno += 4",
+          "jugador.salud -= 2",
+          "jugador.dinero += precio(30000)"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.fin_de_ano.algunos",
+        "tendencia": "(100 - jugador.neuroticismo) / 3",
+        "efectos": []
+      },
+      {
+        "texto": "opcion.garzon.fin_de_ano.faltar",
+        "tendencia": "jugador.amabilidad / 3",
+        "efectos": [
+          "persona.respeto -= 3",
+          "jugador.felicidad += 3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.cliente_fijo",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.meses_en_trabajo >= 4",
+    "probabilidad_anual": 0.5,
+    "veces_maximas": 1,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.cliente_fijo.conversar",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "jugador.conocer('colega')",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.cliente_fijo.servir",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.dinero += precio(5000)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.desafio.jefe_salon",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.cargo == 'oficio.garzon.cargo.garzon' && jugador.meses_en_cargo >= 20 && jugador.desempeno >= 50 && !jugador.tiene('desafio_garzon_jefe_salon') && !jugador.en_desafio",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 4,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.desafio.jefe_salon.preparar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 1",
+          "jugador.felicidad -= 1",
+          "jugador.desafio('desafio_garzon_jefe_salon')"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.desafio.jefe_salon.asi_no_mas",
+        "tendencia": "jugador.extraversion / 3",
+        "efectos": [
+          "jugador.desafio('desafio_garzon_jefe_salon')",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.desafio.jefe_salon.no",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.desafio.maitre",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.cargo == 'oficio.garzon.cargo.jefe_salon' && jugador.meses_en_cargo >= 26 && jugador.desempeno >= 55 && !jugador.tiene('desafio_garzon_maitre') && !jugador.en_desafio",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 4,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.desafio.maitre.preparar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 1",
+          "jugador.felicidad -= 1",
+          "jugador.desafio('desafio_garzon_maitre')"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.desafio.maitre.asi_no_mas",
+        "tendencia": "jugador.apertura / 3",
+        "efectos": [
+          "jugador.desafio('desafio_garzon_maitre')",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.desafio.maitre.no",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.garzon.desafio.administrador",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio == 'oficio.garzon' && jugador.cargo == 'oficio.garzon.cargo.maitre' && jugador.meses_en_cargo >= 32 && jugador.desempeno >= 57 && !jugador.tiene('desafio_garzon_administrador') && !jugador.en_desafio",
+    "probabilidad_anual": 0.9,
+    "veces_maximas": 4,
+    "enfriamiento_semanas": 30,
+    "opciones": [
+      {
+        "texto": "opcion.garzon.desafio.administrador.preparar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.desempeno += 5",
+          "jugador.salud -= 1",
+          "jugador.felicidad -= 1",
+          "jugador.desafio('desafio_garzon_administrador')"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.desafio.administrador.asi_no_mas",
+        "tendencia": "jugador.extraversion / 3",
+        "efectos": [
+          "jugador.desafio('desafio_garzon_administrador')",
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.garzon.desafio.administrador.no",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  }
+]

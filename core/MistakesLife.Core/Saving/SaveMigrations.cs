@@ -226,17 +226,79 @@ namespace MistakesLife.Core.Saving
             // le había escrito a nadie: ningún chat espera respuesta suya.
             [17] = save => { },
 
-            // 18 → 19: aparece la previsión de salud (Fonasa o un plan de isapre) y la
-            // última atención. En las partidas viejas todos están en la previsión pública,
-            // como cualquiera que nunca firmó con una isapre, y nadie se ha atendido.
-            [18] = save =>
+            // 18 → 19: aparece el horario (qué hace el jugador cada tarde y noche). En las
+            // partidas viejas nadie tiene uno: la próxima semana se le sugiere uno y se
+            // detiene el tiempo para que lo arme.
+            [18] = save => { },
+
+            // Versión 19 → 20: un evento pendiente puede pasar con alguien (PersonId).
+            // En partidas viejas ningún evento pendiente tiene persona: no hay nada que cambiar.
+            [19] = save => { },
+
+            // Versión 20 → 21: reglas propias y lo que quiero. Las partidas viejas no tienen
+            // ninguna: las listas quedan vacías y los deseos nacen con la etapa que sigue.
+            [20] = save => { },
+
+            // Versión 21 → 22: el curso del colegio. En partidas viejas nadie tiene curso:
+            // se arma la próxima semana de clases, con los amigos de su edad adentro.
+            [21] = save => { },
+
+            // Versión 22 → 23: las notas del colegio. En partidas viejas nadie tiene notas:
+            // empiezan a llegar la próxima semana de clases.
+            [22] = save => { },
+
+            // Versión 23 → 24: ya no se escriben los valores que son los de siempre (0, false).
+            // Los guardados viejos los traen escritos y se leen igual: no hay nada que cambiar.
+            [23] = save => { },
+
+            // Versión 24 → 25: cada semilla recuerda de dónde viene. Las semillas viejas no lo
+            // saben: simplemente no muestran "Esto viene de acá".
+            [24] = save => { },
+
+            // Versión 25 → 26: notas en la universidad, el CFT y el instituto. Quien ya estudiaba
+            // tiene sus semestres aprobados "con notas": las notas llegan desde el próximo.
+            [25] = save =>
             {
-                foreach (JObject character in save.SelectTokens("world.characters[*]").OfType<JObject>())
+                foreach (JToken studies in save.SelectTokens("$..Studies").ToList())
                 {
-                    character["healthPlanId"] ??= JValue.CreateNull();
-                    character["lastHealthCareWeek"] ??= JValue.CreateNull();
+                    if (studies is JObject s && s["CompletedSemesters"] != null)
+                    {
+                        s["GradedSemesters"] = s["CompletedSemesters"];
+                    }
                 }
             },
+
+            // 26 → 27: semestres cursados (aprobados o no). En un guardado viejo, lo mejor
+            // que se sabe es cuántos aprobó.
+            [26] = save =>
+            {
+                foreach (JToken studies in save.SelectTokens("$..Studies").ToList())
+                {
+                    if (studies is JObject s && s["CompletedSemesters"] != null)
+                    {
+                        s["SemestersTaken"] = s["CompletedSemesters"];
+                    }
+                }
+            },
+
+            // 27 → 28: cada evento vivido guarda con quién fue (PersonId). Los viejos no lo
+            // saben: quedan sin persona.
+            [27] = save => { },
+            // 28 → 29: el equipo del trabajo (se arma solo la próxima semana).
+            [28] = save => { },
+            // 29 → 30: la meta, las amonestaciones y lo variable de los oficios (todo parte en cero).
+            [29] = save => { },
+            // 30 → 31: los días de vacaciones legales de cada trabajo (parten en cero y se ganan mes a mes) y el último día de quien renunció con aviso (nadie).
+            [30] = save => { },
+            // 31 → 32: con quién comparte el arriendo y a quiénes recomendó en su equipo (nadie todavía).
+            [31] = save => { },
+            // 32 → 33: el negocio con un socio (nadie tiene uno todavía).
+            [32] = save => { },
+            // 33 → 34: aparece la previsión de salud (Fonasa o un plan de isapre) y la última
+            // atención. En las partidas viejas todos están en la previsión pública, como
+            // cualquiera que nunca firmó con una isapre, y nadie se ha atendido: los datos
+            // que faltan ya se leen así.
+            [33] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

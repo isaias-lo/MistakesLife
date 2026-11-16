@@ -41,6 +41,27 @@ namespace MistakesLife.Core.Presentation
             IntuitionOption = intuitionOption;
         }
 
+        /// <summary>Con quién pasa el momento: su nombre de pila ("Tomás"). Null si es sin nadie en particular.</summary>
+        public string? Person { get; internal set; }
+
+        /// <summary>Id de esa persona (para mostrar su retrato o su ficha). Null si es sin nadie.</summary>
+        public int? PersonId { get; internal set; }
+
+        /// <summary>Dónde pasa el momento, ya en el idioma del jugador ("La plaza"). Null si no tiene lugar.</summary>
+        public string? Place { get; internal set; }
+
+        /// <summary>
+        /// Si se puede elegir "hacer esto siempre" (una regla propia): no en un día clave ni
+        /// en un error que vuelve, que se viven cada vez.
+        /// </summary>
+        public bool AllowsRule { get; internal set; }
+
+        /// <summary>
+        /// "Esto viene de acá": si lo que pasa ahora es un error que vuelve, el día en que
+        /// empezó (fecha, lugar, persona, qué elegiste). Null si no viene de ningún momento.
+        /// </summary>
+        public SeedOriginView? Origin { get; internal set; }
+
         /// <summary>Id del evento (sirve para elegir una ilustración o una escena).</summary>
         public string EventId { get; }
 

@@ -26,17 +26,6 @@
     ]
   },
   {
-    "id": "evento.estudios.ramo_reprobado",
-    "condiciones": "jugador.estudia != nada && jugador.semestres_aprobados >= 1",
-    "probabilidad_anual": 0.3,
-    "enfriamiento_semanas": 26,
-    "efectos": [
-      "jugador.semestres_aprobados -= 1",
-      "jugador.felicidad -= 3",
-      "diario('diario.estudios.ramo_reprobado')"
-    ]
-  },
-  {
     "id": "evento.estudios.dudas_de_carrera",
     "condiciones": "jugador.estudia != nada && jugador.semestres_aprobados <= 2",
     "probabilidad_anual": 0.6,

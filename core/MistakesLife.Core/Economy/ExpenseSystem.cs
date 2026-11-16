@@ -61,11 +61,13 @@ namespace MistakesLife.Core.Economy
             HousingDefinition? housing = HousingRules.RulesFor(_content, player);
             if (player.Lease != null && housing != null)
             {
-                // El arriendo sale del contrato que firmó el jugador; con pareja se divide.
+                // El arriendo sale del contrato que firmó el jugador; se divide con la pareja y
+                // con quien lo comparte (un amigo que se vino a vivir con él).
                 decimal rent = HousingRules.MonthlyRent(_content, player, housing, economy.PriceIndex);
-                if (hasPartner)
+                int payers = 1 + (hasPartner ? 1 : 0) + (HousingRules.Roommate(world, player) != null ? 1 : 0);
+                if (payers > 1)
                 {
-                    rent = Math.Round(rent / 2, MidpointRounding.AwayFromZero);
+                    rent = Math.Round(rent / payers, MidpointRounding.AwayFromZero);
                 }
 
                 if (rent > 0)

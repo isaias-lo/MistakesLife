@@ -1,0 +1,115 @@
+[
+  {
+    "id": "evento.oficio.llamado",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio != nada && jugador.en_la_pega && jugador.meses_bajo_meta >= 3 && jugador.amonestaciones == 0",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 8,
+    "opciones": [
+      {
+        "texto": "opcion.oficio.llamado.compromiso",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.desempeno += 6",
+          "persona.respeto += 2",
+          "jugador.amonestaciones = 1",
+          "jugador.meses_bajo_meta = 0",
+          "diario('diario.oficio.llamado')"
+        ]
+      },
+      {
+        "texto": "opcion.oficio.llamado.explicar",
+        "tendencia": "jugador.extraversion / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.desempeno += 2",
+          "jugador.amonestaciones = 1",
+          "jugador.meses_bajo_meta = 0"
+        ]
+      },
+      {
+        "texto": "opcion.oficio.llamado.molestarse",
+        "tendencia": "(100 - jugador.amabilidad) / 2",
+        "efectos": [
+          "persona.respeto -= 3",
+          "persona.rencor += 3",
+          "jugador.amonestaciones = 1",
+          "jugador.meses_bajo_meta = 0"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.oficio.amonestacion",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio != nada && jugador.en_la_pega && jugador.meses_bajo_meta >= 2 && jugador.amonestaciones == 1",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 8,
+    "opciones": [
+      {
+        "texto": "opcion.oficio.amonestacion.firmar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.desempeno += 7",
+          "jugador.felicidad -= 3",
+          "jugador.amonestaciones = 2",
+          "jugador.meses_bajo_meta = 0",
+          "diario('diario.oficio.amonestacion')"
+        ]
+      },
+      {
+        "texto": "opcion.oficio.amonestacion.observacion",
+        "tendencia": "jugador.responsabilidad / 3 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "jugador.desempeno += 3",
+          "persona.respeto += 1",
+          "jugador.amonestaciones = 2",
+          "jugador.meses_bajo_meta = 0"
+        ]
+      },
+      {
+        "texto": "opcion.oficio.amonestacion.no_firmar",
+        "tendencia": "(100 - jugador.amabilidad) / 2 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.rencor += 4",
+          "jugador.amonestaciones = 2",
+          "jugador.meses_bajo_meta = 0"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.oficio.despido",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.oficio != nada && jugador.en_la_pega && jugador.meses_bajo_meta >= 2 && jugador.amonestaciones >= 2",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 8,
+    "opciones": [
+      {
+        "texto": "opcion.oficio.despido.aceptar",
+        "tendencia": "jugador.amabilidad / 2 + (100 - jugador.neuroticismo) / 4",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.marcar('despedido_necesidades')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 10",
+          "diario('diario.oficio.despido')"
+        ]
+      },
+      {
+        "texto": "opcion.oficio.despido.preguntar",
+        "tendencia": "jugador.responsabilidad / 3 + (100 - jugador.amabilidad) / 4",
+        "efectos": [
+          "jugador.desmarcar('trabajando')",
+          "jugador.marcar('despedido_necesidades')",
+          "jugador.dejar_trabajo()",
+          "jugador.marcar('buscando_trabajo')",
+          "jugador.felicidad -= 12"
+        ]
+      }
+    ]
+  }
+]

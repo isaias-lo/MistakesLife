@@ -11,6 +11,7 @@
         "efectos": [
           "jugador.dinero += (si(jugador.ultimo_sueldo > precio(3500000), precio(3500000), jugador.ultimo_sueldo)) * (si(jugador.meses_ultimo_trabajo / 12 > 11, 11, jugador.meses_ultimo_trabajo / 12)) + jugador.ultimo_sueldo",
           "jugador.desmarcar('despedido_necesidades')",
+          "jugador.cobrar_vacaciones()",
           "diario('diario.chile.finiquito_indemnizacion')"
         ]
       },
@@ -24,6 +25,7 @@
           "causa('causa.chile.despido').monto = ((si(jugador.ultimo_sueldo > precio(3500000), precio(3500000), jugador.ultimo_sueldo)) * (si(jugador.meses_ultimo_trabajo / 12 > 11, 11, jugador.meses_ultimo_trabajo / 12))) * 0.3",
           "jugador.marcar('demanda_por_necesidades')",
           "jugador.desmarcar('despedido_necesidades')",
+          "jugador.cobrar_vacaciones()",
           "diario('diario.chile.demanda_despido')"
         ]
       },
@@ -33,6 +35,7 @@
         "efectos": [
           "jugador.dinero += jugador.ultimo_sueldo",
           "jugador.desmarcar('despedido_necesidades')",
+          "jugador.cobrar_vacaciones()",
           "diario('diario.chile.finiquito_aviso')"
         ]
       },

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using MistakesLife.Core.Characters;
+using MistakesLife.Core.Content;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Randomness;
 using MistakesLife.Core.Seeds;
@@ -70,6 +71,28 @@ namespace MistakesLife.Core.Worlds
 
         /// <summary>Eventos ya vividos.</summary>
         public IReadOnlyList<EventRecord> EventHistory => _eventHistory;
+
+        /// <summary>Cuántas veces le pasó ya un evento a un personaje con una persona (o sin nadie, si es null).</summary>
+        public int TimesHappened(string eventId, int characterId, int? personId)
+        {
+            int count = 0;
+            foreach (EventRecord record in _eventHistory)
+            {
+                if (record.EventId == eventId && record.CharacterId == characterId && record.PersonId == personId)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// Cuántas veces le pasó antes al personaje, como lo cuenta el evento: con esa persona si
+        /// es <c>por_persona</c>, o en toda su vida si no.
+        /// </summary>
+        public int TimesHappened(EventDefinition definition, int characterId, int? personId) =>
+            definition.PerPerson ? TimesHappened(definition.Id, characterId, personId) : TimesHappened(definition.Id, characterId);
 
         /// <summary>Cuántas veces le pasó ya un evento a un personaje (según el historial).</summary>
         public int TimesHappened(string eventId, int characterId)

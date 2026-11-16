@@ -89,12 +89,12 @@ namespace MistakesLife.Core.Saving
                     continue;
                 }
 
-                world.AddPendingEvent(new PendingEvent(p.EventId, p.CharacterId, Date(p.Week), p.SeedId, p.AvailableOptions.ToList()));
+                world.AddPendingEvent(new PendingEvent(p.EventId, p.CharacterId, Date(p.Week), p.SeedId, p.AvailableOptions.ToList(), p.PersonId));
             }
 
             foreach (EventRecordData e in data.EventHistory)
             {
-                world.RecordEvent(new EventRecord(Date(e.Week), e.EventId, e.CharacterId, e.ChosenOption));
+                world.RecordEvent(new EventRecord(Date(e.Week), e.EventId, e.CharacterId, e.ChosenOption, e.PersonId));
             }
 
             return world;
@@ -135,6 +135,7 @@ namespace MistakesLife.Core.Saving
                 Lease = d.Lease == null ? null : new Lease(d.Lease.TypeId, d.Lease.CommuneId, d.Lease.BaseRent, d.Lease.AdjustedPriceIndex, d.Lease.MonthsLeft, d.Lease.Deposit)
                 {
                     MonthsSinceAdjustment = d.Lease.MonthsSinceAdjustment,
+                    RoommateId = d.Lease.RoommateId,
                 },
                 GroceryBasketId = d.GroceryBasketId,
                 HealthPlanId = d.HealthPlanId,
@@ -160,6 +161,16 @@ namespace MistakesLife.Core.Saving
             character.LastJob = JobOf(d.LastJob);
             character.Job = JobOf(d.Job);
             character.PendingInheritance = d.PendingInheritance;
+
+            if (d.Venture != null)
+            {
+                character.Venture = new Venture(d.Venture.PartnerId, d.Venture.Formal, d.Venture.Contribution, d.Venture.Luck)
+                {
+                    MonthsOpen = d.Venture.MonthsOpen,
+                    LastShare = d.Venture.LastShare,
+                    TotalShare = d.Venture.TotalShare,
+                };
+            }
 
             if (d.JobSearch != null)
             {
@@ -288,12 +299,97 @@ namespace MistakesLife.Core.Saving
                 {
                     CompletedSemesters = s.CompletedSemesters,
                     WeeksIntoSemester = s.WeeksIntoSemester,
+                    GradedSemesters = s.GradedSemesters,
+                    Preparation = s.Preparation,
+                    LastMarksSemester = s.LastMarksSemester,
+                    SemestersTaken = s.SemestersTaken,
                 };
+                foreach (KeyValuePair<string, double> mark in s.LastMarks)
+                {
+                    character.Studies.LastMarks[mark.Key] = mark.Value;
+                }
+
+                character.Studies.SemesterAverages.AddRange(s.SemesterAverages);
             }
 
             foreach (string degree in d.Degrees)
             {
                 character.RestoreDegree(degree);
+            }
+
+            if (d.Routine != null)
+            {
+                var routine = new Life.Routine(d.Routine.StageKey) { Confirmed = d.Routine.Confirmed };
+                for (int i = 0; i < d.Routine.Slots.Count && i < Life.Routine.Days * Life.Routine.BlocksPerDay; i++)
+                {
+                    routine.Set(i / Life.Routine.BlocksPerDay, (Life.RoutineBlock)(i % Life.Routine.BlocksPerDay), d.Routine.Slots[i]);
+                }
+
+                character.Routine = routine;
+            }
+
+            foreach (OwnRuleData r in d.OwnRules ?? new List<OwnRuleData>())
+            {
+                character.OwnRules.Add(new Life.OwnRule(r.Key, r.Choice)
+                {
+                    TimesUsed = r.TimesUsed,
+                    LastUsed = r.LastUsedWeek.HasValue ? Date(r.LastUsedWeek.Value) : (GameDate?)null,
+                });
+            }
+
+            foreach (WishData w in d.Wishes ?? new List<WishData>())
+            {
+                character.Wishes.Add(new Life.Wish(w.WishId, w.StageKey, Date(w.SinceWeek), w.PersonId)
+                {
+                    Highlighted = w.Highlighted,
+                    State = (Life.WishState)w.State,
+                    Closed = w.ClosedWeek.HasValue ? Date(w.ClosedWeek.Value) : (GameDate?)null,
+                });
+            }
+
+            if (d.SchoolClass != null)
+            {
+                var cls = new Education.SchoolClass(d.SchoolClass.StageId, d.SchoolClass.Level, d.SchoolClass.Letter, d.SchoolClass.SchoolYear, d.SchoolClass.Students)
+                {
+                    TeacherId = d.SchoolClass.TeacherId,
+                };
+                cls.ClassmateIds.AddRange(d.SchoolClass.ClassmateIds);
+                cls.LeftIds.AddRange(d.SchoolClass.LeftIds);
+                character.SchoolClass = cls;
+            }
+
+            if (d.Team != null)
+            {
+                var team = new Work.WorkTeam { BossId = d.Team.BossId, MonthsInJob = d.Team.MonthsInJob };
+                team.ColleagueIds.AddRange(d.Team.ColleagueIds);
+                team.LeftIds.AddRange(d.Team.LeftIds);
+                team.RecommendedIds.AddRange(d.Team.RecommendedIds ?? new System.Collections.Generic.List<int>());
+                character.Team = team;
+            }
+
+            if (d.SchoolRecord != null)
+            {
+                var record = new Education.SchoolRecord
+                {
+                    RepeatedYears = d.SchoolRecord.RepeatedYears,
+                    TestSubjectId = d.SchoolRecord.TestSubjectId,
+                    TestWeek = d.SchoolRecord.TestWeek,
+                    TestPreparation = d.SchoolRecord.TestPreparation,
+                    TestMark = d.SchoolRecord.TestMark,
+                    TestReturnedWeek = d.SchoolRecord.TestReturnedWeek,
+                };
+                foreach (var marks in d.SchoolRecord.Marks ?? new Dictionary<string, List<double>>())
+                {
+                    record.Marks[marks.Key] = marks.Value.ToList();
+                }
+
+                record.YearAverages.AddRange(d.SchoolRecord.YearAverages ?? new List<double>());
+                foreach (var final in d.SchoolRecord.LastFinals ?? new Dictionary<string, double>())
+                {
+                    record.LastFinals[final.Key] = final.Value;
+                }
+
+                character.SchoolRecord = record;
             }
 
             if (!d.IsAlive)
@@ -333,6 +429,9 @@ namespace MistakesLife.Core.Saving
                 Parse<SeedState>(s.State),
                 s.AwakenedWeek.HasValue ? Date(s.AwakenedWeek.Value) : (GameDate?)null,
                 s.ClosedWeek.HasValue ? Date(s.ClosedWeek.Value) : (GameDate?)null);
+            seed.Origin = s.OriginEventId == null
+                ? null
+                : new SeedOrigin(s.OriginEventId, s.OriginOption, s.OriginPlace, s.OriginPersonId);
         }
 
         private static Value ReadLaw(LawChangeData law)
@@ -384,6 +483,15 @@ namespace MistakesLife.Core.Saving
             job.MonthsInPosition = data.MonthsInPosition;
             job.MonthsInJob = data.MonthsInJob;
             job.Performance = data.Performance;
+            job.GoalPercent = data.GoalPercent;
+            job.MonthsUnderGoal = data.MonthsUnderGoal;
+            job.MonthsOnGoal = data.MonthsOnGoal;
+            job.Warnings = data.Warnings;
+            job.VariablePay = data.VariablePay;
+            job.Tips = data.Tips;
+            job.Challenge = data.Challenge;
+            job.VacationDays = data.VacationDays;
+            job.LeavingWeek = data.LeavingWeek;
             job.CompanyId = data.CompanyId;
             return job;
         }

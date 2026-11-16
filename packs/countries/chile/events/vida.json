@@ -162,13 +162,15 @@
   },
   {
     "id": "evento.prueba_dificil",
-    "condiciones": "jugador.edad >= 9 && jugador.edad < 18",
+    "regla": "regla.prueba",
+    "condiciones": "jugador.edad >= 9 && jugador.edad < 18 && jugador.en_clases",
     "peso": 8,
     "enfriamiento_semanas": 52,
     "variantes": ["evento.prueba_dificil.2", "evento.prueba_dificil.3"],
     "opciones": [
       {
         "texto": "opcion.prueba.estudiar",
+        "regla": "estudiar",
         "tendencia": "jugador.responsabilidad",
         "efectos": [
           "jugador.inteligencia += 2",
@@ -177,6 +179,7 @@
       },
       {
         "texto": "opcion.prueba.copiar",
+        "regla": "copiar",
         "tendencia": "(100 - jugador.responsabilidad) / 3 + (100 - jugador.amabilidad) / 6",
         "efectos": [
           "plantar('semilla.copio_prueba_colegio')"
@@ -184,6 +187,7 @@
       },
       {
         "texto": "opcion.prueba.nada",
+        "regla": "nada",
         "tendencia": "(100 - jugador.responsabilidad) / 3",
         "efectos": [
           "jugador.inteligencia -= 1"
@@ -467,18 +471,19 @@
   },
   {
     "id": "evento.gratuidad",
-    "condiciones": "jugador.estudia != nada && !jugador.tiene('financiamiento') && jugador.nivel_hogar <= 60",
+    "condiciones": "jugador.estudia != nada && !jugador.tiene('financiamiento') && !jugador.titulado && jugador.nivel_hogar <= 60",
     "peso": 100,
     "unico": true,
     "efectos": [
       "jugador.marcar('financiamiento')",
       "jugador.marcar('gratuidad')",
+      "jugador.contratar('servicio.arancel.gratuidad')",
       "jugador.felicidad += 5"
     ]
   },
   {
     "id": "evento.sin_gratuidad",
-    "condiciones": "jugador.estudia != nada && !jugador.tiene('financiamiento') && jugador.nivel_hogar > 60",
+    "condiciones": "jugador.estudia != nada && !jugador.tiene('financiamiento') && (jugador.nivel_hogar > 60 || jugador.titulado)",
     "peso": 100,
     "dia_clave": true,
     "unico": true,
@@ -488,9 +493,21 @@
         "tendencia": "50",
         "efectos": [
           "jugador.marcar('financiamiento')",
-          "jugador.endeudarse('deuda.chile.cae', 1100000 * (jugador.semestres_carrera - jugador.semestres_aprobados))",
+          "jugador.marcar('usa_cae')",
+          "jugador.endeudarse('deuda.chile.cae', si(jugador.institucion == 'universidad', 3360000, si(jugador.institucion == 'instituto', 1600000, 1360000)))",
+          "jugador.contratar(si(jugador.institucion == 'universidad', 'servicio.arancel.brecha_universidad', si(jugador.institucion == 'instituto', 'servicio.arancel.brecha_instituto', 'servicio.arancel.brecha_cft')))",
+          "jugador.dinero -= precio(200000)",
           "plantar('semilla.deuda_cae')"
         ]
+      },
+      {
+        "texto": "opcion.financiar.familia",
+        "tendencia": "(jugador.nivel_hogar - 50) * 2",
+        "efectos": [
+          "jugador.marcar('financiamiento')",
+          "jugador.contratar('servicio.arancel.familia')"
+        ],
+        "condiciones": "jugador.nivel_hogar >= 75 && !jugador.titulado"
       },
       {
         "texto": "opcion.financiar.trabajar",
@@ -499,10 +516,182 @@
           "jugador.marcar('financiamiento')",
           "jugador.marcar('trabaja_y_estudia')",
           "jugador.trabajar(sueldo_minimo() / 2)",
+          "jugador.contratar(si(jugador.institucion == 'universidad', 'servicio.arancel.pago_universidad', si(jugador.institucion == 'instituto', 'servicio.arancel.pago_instituto', 'servicio.arancel.pago_cft')))",
+          "jugador.dinero -= precio(200000)",
           "jugador.salud -= 3"
         ]
       }
     ]
+  },
+  {
+    "id": "evento.estudios.matricula_cae",
+    "fecha": "01-03",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.estudia != nada && jugador.semestres_cursados >= 1 && jugador.semestres_aprobados < jugador.semestres_carrera && jugador.tiene('usa_cae')",
+    "opciones": [
+      {
+        "texto": "opcion.matricula_cae.renovar",
+        "tendencia": "60",
+        "efectos": [
+          "jugador.endeudarse('deuda.chile.cae', si(jugador.institucion == 'universidad', 3360000, si(jugador.institucion == 'instituto', 1600000, 1360000)))",
+          "jugador.dinero -= precio(200000)"
+        ]
+      },
+      {
+        "texto": "opcion.matricula_cae.pagar",
+        "tendencia": "jugador.responsabilidad / 3 + si(jugador.trabaja, 20, 0)",
+        "efectos": [
+          "jugador.desmarcar('usa_cae')",
+          "jugador.contratar(si(jugador.institucion == 'universidad', 'servicio.arancel.pago_universidad', si(jugador.institucion == 'instituto', 'servicio.arancel.pago_instituto', 'servicio.arancel.pago_cft')))",
+          "jugador.dinero -= precio(200000)"
+        ],
+        "condiciones": "jugador.trabaja"
+      },
+      {
+        "texto": "opcion.matricula_cae.dejar",
+        "tendencia": "(100 - jugador.responsabilidad) / 6",
+        "efectos": [
+          "jugador.desertar()",
+          "jugador.marcar('deserto')",
+          "jugador.desmarcar('quiere_estudiar')",
+          "jugador.marcar('buscando_trabajo')",
+          "diario('diario.estudios.deserto')"
+        ]
+      }
+    ],
+    "veces_maximas": 5,
+    "variantes": [
+      "evento.estudios.matricula_cae.2",
+      "evento.estudios.matricula_cae.3",
+      "evento.estudios.matricula_cae.4",
+      "evento.estudios.matricula_cae.5"
+    ]
+  },
+  {
+    "id": "evento.estudios.matricula_pago",
+    "fecha": "01-03",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.estudia != nada && jugador.semestres_cursados >= 1 && jugador.semestres_aprobados < jugador.semestres_carrera && !jugador.tiene('usa_cae') && !jugador.tiene('gratuidad') && jugador.servicio('servicio.arancel') != 'servicio.arancel.familia'",
+    "opciones": [
+      {
+        "texto": "opcion.matricula_pago.seguir",
+        "tendencia": "55",
+        "efectos": [
+          "jugador.dinero -= precio(200000)"
+        ]
+      },
+      {
+        "texto": "opcion.matricula_pago.cae",
+        "tendencia": "(100 - jugador.nivel_hogar) / 2",
+        "efectos": [
+          "jugador.marcar('usa_cae')",
+          "jugador.endeudarse('deuda.chile.cae', si(jugador.institucion == 'universidad', 3360000, si(jugador.institucion == 'instituto', 1600000, 1360000)))",
+          "jugador.contratar(si(jugador.institucion == 'universidad', 'servicio.arancel.brecha_universidad', si(jugador.institucion == 'instituto', 'servicio.arancel.brecha_instituto', 'servicio.arancel.brecha_cft')))",
+          "jugador.dinero -= precio(200000)",
+          "plantar('semilla.deuda_cae')"
+        ],
+        "condiciones": "!jugador.titulado"
+      },
+      {
+        "texto": "opcion.matricula_pago.dejar",
+        "tendencia": "(100 - jugador.responsabilidad) / 6",
+        "efectos": [
+          "jugador.desertar()",
+          "jugador.marcar('deserto')",
+          "jugador.desmarcar('quiere_estudiar')",
+          "jugador.marcar('buscando_trabajo')",
+          "diario('diario.estudios.deserto')"
+        ]
+      }
+    ],
+    "veces_maximas": 5,
+    "variantes": [
+      "evento.estudios.matricula_pago.2",
+      "evento.estudios.matricula_pago.3",
+      "evento.estudios.matricula_pago.4",
+      "evento.estudios.matricula_pago.5"
+    ]
+  },
+  {
+    "id": "evento.estudios.fin_gratuidad",
+    "fecha": "01-03",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.estudia != nada && jugador.semestres_cursados >= 1 && jugador.semestres_aprobados < jugador.semestres_carrera && jugador.tiene('gratuidad') && jugador.semestres_cursados >= jugador.semestres_carrera && jugador.servicio('servicio.arancel') == 'servicio.arancel.gratuidad'",
+    "opciones": [
+      {
+        "texto": "opcion.fin_gratuidad.pagar",
+        "tendencia": "55",
+        "efectos": [
+          "jugador.contratar(si(jugador.institucion == 'universidad', 'servicio.arancel.mitad_universidad', si(jugador.institucion == 'instituto', 'servicio.arancel.mitad_instituto', 'servicio.arancel.mitad_cft')))",
+          "jugador.dinero -= precio(200000)",
+          "diario('diario.estudios.fin_gratuidad')"
+        ]
+      },
+      {
+        "texto": "opcion.fin_gratuidad.cae",
+        "tendencia": "40",
+        "efectos": [
+          "jugador.marcar('usa_cae')",
+          "jugador.endeudarse('deuda.chile.cae', si(jugador.institucion == 'universidad', 1680000, si(jugador.institucion == 'instituto', 800000, 680000)))",
+          "jugador.dinero -= precio(200000)",
+          "plantar('semilla.deuda_cae')",
+          "diario('diario.estudios.fin_gratuidad')"
+        ]
+      },
+      {
+        "texto": "opcion.fin_gratuidad.dejar",
+        "tendencia": "(100 - jugador.responsabilidad) / 5",
+        "efectos": [
+          "jugador.desertar()",
+          "jugador.marcar('deserto')",
+          "jugador.desmarcar('quiere_estudiar')",
+          "jugador.marcar('buscando_trabajo')",
+          "diario('diario.estudios.deserto')"
+        ]
+      }
+    ],
+    "unico": true
+  },
+  {
+    "id": "evento.estudios.gratuidad_completa",
+    "fecha": "01-03",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.estudia != nada && jugador.semestres_cursados >= 1 && jugador.semestres_aprobados < jugador.semestres_carrera && jugador.tiene('gratuidad') && jugador.semestres_cursados >= jugador.semestres_carrera + 2 && !jugador.tiene('usa_cae')",
+    "opciones": [
+      {
+        "texto": "opcion.gratuidad_completa.pagar",
+        "tendencia": "50",
+        "efectos": [
+          "jugador.desmarcar('gratuidad')",
+          "jugador.contratar(si(jugador.institucion == 'universidad', 'servicio.arancel.pago_universidad', si(jugador.institucion == 'instituto', 'servicio.arancel.pago_instituto', 'servicio.arancel.pago_cft')))",
+          "jugador.dinero -= precio(200000)"
+        ]
+      },
+      {
+        "texto": "opcion.gratuidad_completa.cae",
+        "tendencia": "45",
+        "efectos": [
+          "jugador.desmarcar('gratuidad')",
+          "jugador.marcar('usa_cae')",
+          "jugador.endeudarse('deuda.chile.cae', si(jugador.institucion == 'universidad', 3360000, si(jugador.institucion == 'instituto', 1600000, 1360000)))",
+          "jugador.contratar(si(jugador.institucion == 'universidad', 'servicio.arancel.brecha_universidad', si(jugador.institucion == 'instituto', 'servicio.arancel.brecha_instituto', 'servicio.arancel.brecha_cft')))",
+          "jugador.dinero -= precio(200000)",
+          "plantar('semilla.deuda_cae')"
+        ]
+      },
+      {
+        "texto": "opcion.gratuidad_completa.dejar",
+        "tendencia": "(100 - jugador.responsabilidad) / 5",
+        "efectos": [
+          "jugador.desertar()",
+          "jugador.marcar('deserto')",
+          "jugador.desmarcar('quiere_estudiar')",
+          "jugador.marcar('buscando_trabajo')",
+          "diario('diario.estudios.deserto')"
+        ]
+      }
+    ],
+    "unico": true
   },
   {
     "id": "evento.amigo_de_la_infancia",

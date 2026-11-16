@@ -1,0 +1,19 @@
+{
+  "diario.oficio.llamado": "Me llamaron la atención en la pega: tres meses bajo la meta.",
+  "evento.oficio.llamado": "{persona} te pide que pases a la oficina y te muestra la planilla: tres meses seguidos bajo la meta. \"Necesito que esto cambie. No te lo voy a decir de nuevo de palabra\".",
+  "opcion.oficio.llamado.compromiso": "Reconocerlo y decir qué vas a cambiar",
+  "opcion.oficio.llamado.explicar": "Explicar que los meses han estado malos para todos",
+  "opcion.oficio.llamado.molestarse": "Decir que la meta es imposible",
+  "diario.oficio.amonestacion": "Me amonestaron por escrito en la pega. Una más y me echan.",
+  "evento.oficio.amonestacion": "Otra vez bajo la meta. {persona} te entrega una carta de amonestación por escrito, como dice el reglamento interno, y te pide que firmes que la recibiste. Una copia queda en tu carpeta.",
+  "opcion.oficio.amonestacion.firmar": "Firmar que la recibiste y ponerte las pilas",
+  "opcion.oficio.amonestacion.observacion": "Firmar, pero escribir tus observaciones al lado",
+  "opcion.oficio.amonestacion.no_firmar": "Negarte a firmar",
+  "diario.oficio.despido": "Me despidieron. La carta dice necesidades de la empresa, pero fue por la meta.",
+  "evento.oficio.despido": "{persona} te espera con alguien de recursos humanos y un sobre. Es la carta de despido. Dice \"necesidades de la empresa\", aunque los dos saben que es por la meta.",
+  "opcion.oficio.despido.aceptar": "Recibir la carta sin discutir",
+  "opcion.oficio.despido.preguntar": "Preguntar por qué dice eso si fue por la meta",
+  "ui.oficio.meta": "meta del mes: {0} %",
+  "diario.oficio.desafio_logrado": "Cerré el mes del desafío sobre la meta. Ahora sí me pueden ascender.",
+  "diario.oficio.desafio_fallido": "No llegué a la meta del desafío. Habrá otra oportunidad."
+}

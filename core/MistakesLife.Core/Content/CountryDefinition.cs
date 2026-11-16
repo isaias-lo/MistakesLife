@@ -45,6 +45,40 @@ namespace MistakesLife.Core.Content
         [JsonProperty("ciudades")]
         public List<CityDefinition> Cities { get; set; } = new List<CityDefinition>();
 
+        /// <summary>
+        /// Día en que empieza el año escolar ("04-03" = 4 de marzo). Cada año, ese día,
+        /// quien va al colegio arma su horario del año. Opcional.
+        /// </summary>
+        [JsonProperty("inicio_ano_escolar")]
+        public string? SchoolYearStart { get; set; }
+
+        /// <summary>El día del año (desde 0) de <see cref="SchoolYearStart"/>; null si no tiene.</summary>
+        [JsonIgnore]
+        public int? SchoolYearStartDay { get; internal set; }
+
+        /// <summary>
+        /// Día en que terminan las clases ("13-12"). Desde ese día y hasta
+        /// <see cref="SchoolYearStart"/> son las vacaciones de verano. Opcional.
+        /// </summary>
+        [JsonProperty("fin_ano_escolar")]
+        public string? SchoolYearEnd { get; set; }
+
+        /// <summary>El día del año (desde 0) de <see cref="SchoolYearEnd"/>; null si no tiene.</summary>
+        [JsonIgnore]
+        public int? SchoolYearEndDay { get; internal set; }
+
+        /// <summary>Las vacaciones de invierno del colegio, si el país las tiene. Opcional.</summary>
+        [JsonProperty("vacaciones_invierno")]
+        public DayRangeDefinition? WinterBreak { get; set; }
+
+        /// <summary>Cómo es un curso del colegio (cuántos alumnos, con cuántos tienes trato). Opcional.</summary>
+        [JsonProperty("curso")]
+        public SchoolClassDefinition? SchoolClass { get; set; }
+
+        /// <summary>Cómo se ponen las notas en el colegio (de 1,0 a 7,0 en Chile). Opcional: sin ella no hay notas.</summary>
+        [JsonProperty("escala_notas")]
+        public GradeScaleDefinition? GradeScale { get; set; }
+
         [JsonProperty("etapas_educacion")]
         public List<EducationStageDefinition> EducationStages { get; set; } = new List<EducationStageDefinition>();
 
@@ -145,6 +179,68 @@ namespace MistakesLife.Core.Content
 
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Si esa semana hay clases: está entre <see cref="SchoolYearStart"/> y
+        /// <see cref="SchoolYearEnd"/> y no son las vacaciones de invierno. Si el país no
+        /// tiene calendario escolar, siempre hay clases.
+        /// </summary>
+        public bool IsSchoolTime(Time.GameDate date)
+        {
+            int week = date.DayOfYear / 7;
+            if (SchoolYearStartDay.HasValue && SchoolYearEndDay.HasValue)
+            {
+                int start = SchoolYearStartDay.Value / 7;
+                int end = SchoolYearEndDay.Value / 7;
+                bool inYear = start <= end ? week >= start && week < end : week >= start || week < end;
+                if (!inYear)
+                {
+                    return false;
+                }
+            }
+
+            if (WinterBreak?.FromDay != null && WinterBreak.ToDay != null)
+            {
+                int from = WinterBreak.FromDay.Value / 7;
+                int to = WinterBreak.ToDay.Value / 7;
+                bool inBreak = from <= to ? week >= from && week <= to : week >= from || week <= to;
+                if (inBreak)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>Si esa semana son las vacaciones de verano (entre el fin y el inicio del año escolar).</summary>
+        public bool IsSummerBreak(Time.GameDate date)
+        {
+            if (!SchoolYearStartDay.HasValue || !SchoolYearEndDay.HasValue)
+            {
+                return false;
+            }
+
+            int week = date.DayOfYear / 7;
+            int start = SchoolYearStartDay.Value / 7;
+            int end = SchoolYearEndDay.Value / 7;
+            return start <= end ? week >= end || week < start : week >= end && week < start;
+        }
+
+        /// <summary>Cuántas semanas de clases tiene un año escolar.</summary>
+        public int SchoolWeeksPerYear()
+        {
+            int weeks = 0;
+            for (int i = 0; i < Time.GameDate.WeeksPerYear; i++)
+            {
+                if (IsSchoolTime(new Time.GameDate(i)))
+                {
+                    weeks++;
+                }
+            }
+
+            return weeks;
+        }
 
         /// <summary>La etapa que corresponde a una edad, o null.</summary>
         public EducationStageDefinition? StageForAge(int ageInYears)

@@ -9,7 +9,13 @@ namespace MistakesLife.Core.Events
     public sealed class PendingEvent
     {
         public PendingEvent(string eventId, int characterId, GameDate date, int? seedId, IReadOnlyList<int> availableOptions)
+            : this(eventId, characterId, date, seedId, availableOptions, null)
         {
+        }
+
+        public PendingEvent(string eventId, int characterId, GameDate date, int? seedId, IReadOnlyList<int> availableOptions, int? personId)
+        {
+            PersonId = personId;
             EventId = eventId;
             CharacterId = characterId;
             Date = date;
@@ -25,6 +31,9 @@ namespace MistakesLife.Core.Events
 
         /// <summary>La semilla que lo provocó, si la hay.</summary>
         public int? SeedId { get; }
+
+        /// <summary>Con quién pasa el momento (el "con" del evento), si es con alguien.</summary>
+        public int? PersonId { get; }
 
         /// <summary>Índices (desde 0) de las opciones que el jugador puede elegir.</summary>
         public IReadOnlyList<int> AvailableOptions { get; }

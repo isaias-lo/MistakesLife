@@ -28,18 +28,6 @@
     ]
   },
   {
-    "id": "evento.psicologia.ramo_reprobado",
-    "condiciones": "jugador.estudia == 'carrera.psicologia' && jugador.inteligencia < 50",
-    "peso": 6,
-    "enfriamiento_semanas": 52,
-    "efectos": [
-      "jugador.felicidad -= 4",
-      "jugador.semestres_aprobados -= 1",
-      "jugador.inteligencia += 2",
-      "diario('diario.psicologia.ramo_reprobado')"
-    ]
-  },
-  {
     "id": "evento.psicologia.amigos_consejo",
     "condiciones": "jugador.estudia == 'carrera.psicologia' && jugador.semestres_aprobados >= 1",
     "peso": 8,

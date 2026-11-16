@@ -20,14 +20,24 @@ namespace MistakesLife.Core.Events
     /// vivienda, arriendo, meses_contrato, cuentas_incluidas, compra,
     /// fondo_pension, pension_estimada, meses_cotizados, jubilado, pension, pension_universal,
     /// deuda, cuotas_deudas, moroso, puede_repactar, amigos, amigo, colega, rival, ex,
-    /// area, cargo, cargo_anterior, ultimo_cargo, meses_en_cargo, desempeno (se puede cambiar),
+    /// area, cargo, cargo_anterior, ultimo_cargo, ultima_area, meses_en_cargo, desempeno (se puede cambiar),
+    /// oficio, meta, meses_bajo_meta y amonestaciones (se pueden cambiar), pago_variable, en_desafio,
     /// puede_ascender, caminos_ascenso, en_la_cima, busqueda, busca_en, semanas_buscando,
     /// postulaciones, entrevistas, rechazos, entrevista_pendiente, tiene_oferta, oferta_area,
     /// oferta_negociada, oferta_mejorada, contacto, mensajes_sin_leer,
+    /// dias_vacaciones (días de vacaciones ganados y no tomados en su trabajo),
+    /// pago_vacaciones (lo que le pagarían por ellos al salir; de su último trabajo si ya no trabaja),
+    /// renuncio (si ya avisó que se va), semanas_para_irse (cuántas semanas le quedan del aviso),
+    /// tiene_negocio, negocio_formal, meses_negocio, ganancia_negocio (su parte del último mes) y
+    /// ganado_negocio (todo lo que ha recibido) de su negocio con un socio,
+    /// tiene_equipo (si trabaja con su equipo armado: jefe y colegas),
+    /// comparte_arriendo (si alguien se vino a vivir con él y paga su parte),
     /// prevision, prevision_privada, tramo_salud, precio_plan_salud, semanas_desde_atencion.
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
-    /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada).
+    /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada), en_tu_equipo (si
+    /// trabaja en el equipo de ese alguien), recomendado (si entró a ese equipo recomendado por él)
+    /// vive_contigo (si comparte el arriendo de ese alguien) y es_tu_socio (si es su socio en un negocio).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
@@ -38,6 +48,15 @@ namespace MistakesLife.Core.Events
     /// conocer('amistad' | 'colega' | 'rival'); en otra persona, vincular('lazo') y alejarse(),
     /// trabajar_en('área') o trabajar_en('área', 'honorarios'), puede_trabajar_en('área'),
     /// ascender() o ascender('cargo'), puede_ascender_a('cargo'), bajar_cargo(), cambiar_de_empresa(),
+    /// nuevo_contrato() (mismo empleador y mismo equipo, antigüedad desde cero: la obra siguiente),
+    /// pedir_aumento(porcentaje) (con su jefe: puede recibir todo, la mitad o nada; ver Work.RaiseRules),
+    /// abrir_negocio(aporte, 'formal' | 'informal') (con la persona del evento como socio; el aporte en la moneda de hoy),
+    /// cerrar_negocio(),
+    /// recomendar() (recomienda en su equipo a la persona del evento; ver Work.ReferralRules),
+    /// compartir_arriendo() (la persona del evento se viene a vivir con él y paga su parte), dejar_de_compartir(),
+    /// avisar_renuncia(semanas) (renuncia con aviso: se va en esas semanas),
+    /// tomar_vacaciones(días), cobrar_vacaciones() (recibe el pago de los días no tomados y quedan en cero),
+    /// desafio('marca') (en un oficio: el desafío de este mes; si cierra el mes sobre el 118 %, gana la marca),
     /// postular_en('área' o 'cualquier_trabajo'), buscar_trabajo('forma'), puede_buscar_con('forma'),
     /// dar_entrevista(puntos), aceptar_oferta(), negociar_oferta(), rechazar_oferta(), dejar_de_buscar(),
     /// dar_celular(), perder_celular(), instalar_app('app'), desinstalar_app('app'), tiene_app('app'),
@@ -186,6 +205,31 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.HouseholdLevel);
                 case "etapa":
                     return Value.FromText(_character.EducationStageId ?? string.Empty);
+                case "en_clases":
+                    return Value.FromBool(Education.SchoolRules.InClasses(((EventScope)scope).World, ((EventScope)scope).Content, _character));
+                case "curso":
+                    return Value.FromNumber(_character.SchoolClass?.Level ?? 0);
+                case "en_la_u":
+                    return Value.FromBool(Education.UniversityRules.InSection(_character));
+                case "en_la_pega":
+                    return Value.FromBool(Work.WorkRules.InTeam(_character));
+                case "companeros":
+                    return Value.FromNumber(Education.SchoolRules.Classmates(((EventScope)scope).World, _character).Count);
+                case "prueba_anunciada":
+                    return Value.FromBool(_character.SchoolRecord?.TestPending ?? false);
+                case "prueba_devuelta":
+                    return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord returned && returned.TestMark.HasValue && returned.TestReturnedWeek == date.TotalWeeks);
+                case "nota_prueba":
+                    return Value.FromNumber(_character.SchoolRecord?.TestMark is double testMark && Scale(scope) is Content.GradeScaleDefinition testScale
+                        ? Education.GradeRules.OnSevenScale(testMark, testScale) : 0);
+                case "prueba_aprobada":
+                    return Value.FromBool(_character.SchoolRecord?.TestMark is double passMark && Scale(scope) is Content.GradeScaleDefinition passScale && passMark >= passScale.Pass);
+                case "promedio":
+                    return Value.FromNumber(Education.GradeRules.CurrentAverageOnSeven(_character, Scale(scope)));
+                case "rojos":
+                    return Value.FromNumber(Education.GradeRules.CurrentFailed(_character, Scale(scope)));
+                case "repitio":
+                    return Value.FromNumber(_character.SchoolRecord?.RepeatedYears ?? 0);
                 case "estudia":
                     return TextOrNull(_character.Studies?.CareerId);
                 case "nivel_estudio":
@@ -194,6 +238,8 @@ namespace MistakesLife.Core.Events
                     return TextOrNull(_character.Studies?.Institution);
                 case "semestres_aprobados":
                     return Value.FromNumber(_character.Studies?.CompletedSemesters ?? 0);
+                case "semestres_cursados":
+                    return Value.FromNumber(_character.Studies?.SemestersTaken ?? 0);
                 case "semestres_carrera":
                     return Value.FromNumber(_character.Studies?.RequiredSemesters ?? 0);
                 case "titulado":
@@ -309,6 +355,28 @@ namespace MistakesLife.Core.Events
                 case "respeto":
                 case "rencor":
                     return Value.FromNumber(Feeling(RelationshipRules.Feelings(((EventScope)scope).World, _character, Viewer(member)), member));
+                case "en_tu_equipo":
+                    return Value.FromBool(Work.WorkRules.Colleagues(((EventScope)scope).World, Viewer(member)).Any(c => c.Id == _character.Id));
+                case "recomendado":
+                    return Value.FromBool(Work.WorkRules.InTeam(Viewer(member)) && Viewer(member).Team!.RecommendedIds.Contains(_character.Id));
+                case "vive_contigo":
+                    return Value.FromBool(Economy.HousingRules.Roommate(((EventScope)scope).World, Viewer(member))?.Id == _character.Id);
+                case "tiene_negocio":
+                    return Value.FromBool(_character.Venture != null);
+                case "negocio_formal":
+                    return Value.FromBool(_character.Venture?.Formal ?? false);
+                case "meses_negocio":
+                    return Value.FromNumber(_character.Venture?.MonthsOpen ?? 0);
+                case "ganancia_negocio":
+                    return Value.FromNumber((double)(_character.Venture?.LastShare ?? 0));
+                case "ganado_negocio":
+                    return Value.FromNumber((double)(_character.Venture?.TotalShare ?? 0));
+                case "es_tu_socio":
+                    return Value.FromBool(Viewer(member).Venture?.PartnerId == _character.Id);
+                case "tiene_equipo":
+                    return Value.FromBool(Work.WorkRules.InTeam(_character));
+                case "comparte_arriendo":
+                    return Value.FromBool(Economy.HousingRules.Roommate(((EventScope)scope).World, _character) != null);
                 case "vinculo":
                     string? bond = RelationshipRules.BondKey(_character.RelationshipWith(Viewer(member).Id)?.Bond ?? RelationshipBond.None);
                     return TextOrNull(bond);
@@ -332,10 +400,32 @@ namespace MistakesLife.Core.Events
                         : TextOrNull(((EventScope)scope).Content.GetCareerPosition(_character.Job.Position.PositionId).Previous?.Id);
                 case "ultimo_cargo":
                     return TextOrNull((_character.Job?.Position ?? _character.LastPosition)?.PositionId);
+                case "ultima_area":
+                    return TextOrNull((_character.Job?.Position ?? _character.LastPosition)?.AreaId);
                 case "meses_en_cargo":
                     return Value.FromNumber(_character.Job?.Position == null ? 0 : _character.Job.MonthsInPosition);
                 case "desempeno":
-                    return Value.FromNumber(_character.Job?.Position == null ? 0 : _character.Job.Performance);
+                    return Value.FromNumber(_character.Job == null ? 0 : _character.Job.Performance);
+                case "oficio":
+                    return TextOrNull(Work.OccupationRules.CareerOf(((EventScope)scope).Content, _character.Job)?.Id);
+                case "meta":
+                    return Value.FromNumber(_character.Job?.GoalPercent ?? 0);
+                case "en_desafio":
+                    return Value.FromBool(_character.Job?.Challenge != null);
+                case "meses_bajo_meta":
+                    return Value.FromNumber(_character.Job?.MonthsUnderGoal ?? 0);
+                case "amonestaciones":
+                    return Value.FromNumber(_character.Job?.Warnings ?? 0);
+                case "dias_vacaciones":
+                    return Value.FromNumber(Math.Floor(_character.Job?.VacationDays ?? 0));
+                case "renuncio":
+                    return Value.FromBool(_character.Job?.LeavingWeek != null);
+                case "semanas_para_irse":
+                    return Value.FromNumber(_character.Job?.LeavingWeek == null ? 0 : Math.Max(0, _character.Job.LeavingWeek.Value - ((EventScope)scope).World.Date.TotalWeeks));
+                case "pago_vacaciones":
+                    return Value.FromNumber((double)VacationPay((EventScope)scope));
+                case "pago_variable":
+                    return Value.FromNumber((double)((_character.Job?.VariablePay ?? 0) + (_character.Job?.Tips ?? 0)));
                 case "puede_ascender":
                     return Value.FromBool(Promotions(scope).Count > 0);
                 case "caminos_ascenso":
@@ -502,6 +592,18 @@ namespace MistakesLife.Core.Events
         }
 
         /// <summary>La persona por quien se preguntan los sentimientos; error si se llegó directo (jugador.carino).</summary>
+        /// <summary>Lo que le pagarían por las vacaciones no tomadas (de su trabajo, o del último).</summary>
+        private decimal VacationPay(EventScope scope)
+        {
+            Economy.Job? job = _character.Job ?? _character.LastJob;
+            if (job == null || _character.Residence == null)
+            {
+                return 0;
+            }
+
+            return Work.VacationRules.PayFor(scope.Content.GetCountry(_character.Residence.CountryId).Economy?.Vacations, job);
+        }
+
         private Character Viewer(string member)
         {
             return _viewer ?? throw new ScriptException(
@@ -573,12 +675,28 @@ namespace MistakesLife.Core.Events
                     _character.Stats.Health = number;
                     break;
                 case "desempeno":
-                    if (_character.Job?.Position == null)
+                    if (_character.Job == null)
                     {
-                        throw new ScriptException("jugador.desempeno solo se puede cambiar en un trabajo de su carrera (revisa jugador.area != nada).");
+                        throw new ScriptException("jugador.desempeno solo se puede cambiar si trabaja (revisa jugador.trabaja).");
                     }
 
                     _character.Job.Performance = number;
+                    break;
+                case "amonestaciones":
+                    if (_character.Job == null)
+                    {
+                        throw new ScriptException("jugador.amonestaciones solo se puede cambiar si trabaja (revisa jugador.trabaja).");
+                    }
+
+                    _character.Job.Warnings = Math.Max(0, number);
+                    break;
+                case "meses_bajo_meta":
+                    if (_character.Job == null)
+                    {
+                        throw new ScriptException("jugador.meses_bajo_meta solo se puede cambiar si trabaja (revisa jugador.trabaja).");
+                    }
+
+                    _character.Job.MonthsUnderGoal = Math.Max(0, number);
                     break;
                 case "felicidad":
                     _character.Stats.Happiness = number;
@@ -599,10 +717,45 @@ namespace MistakesLife.Core.Events
             }
         }
 
+        /// <summary>La escala de notas del país donde vive, o null.</summary>
+        private Content.GradeScaleDefinition? Scale(IScriptScope scope) =>
+            _character.Residence == null ? null : ((EventScope)scope).Content.GetCountry(_character.Residence.CountryId).GradeScale;
+
         public Value Call(string method, Value[] args, IScriptScope scope)
         {
             switch (method)
             {
+                case "preparar_prueba":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.preparar_prueba");
+                        Education.SchoolRecord? record = _character.SchoolRecord;
+                        if (record == null || !record.TestPending)
+                        {
+                            throw new ScriptException("jugador.preparar_prueba solo sirve con una prueba anunciada (revisa jugador.prueba_anunciada).");
+                        }
+
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Number)
+                        {
+                            throw new ScriptException("jugador.preparar_prueba necesita un número de 0 a 3.");
+                        }
+
+                        record.TestPreparation = Math.Max(record.TestPreparation, Math.Max(0, Math.Min(Education.GradeRules.MaxPreparation, (int)args[0].AsNumber("preparar_prueba"))));
+                        return Value.Null;
+                    }
+                case "estudiar_semestre":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.estudiar_semestre");
+                        RequireStudies(method);
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Number)
+                        {
+                            throw new ScriptException("jugador.estudiar_semestre necesita un número (por ejemplo 1 si estudia, -1 si no).");
+                        }
+
+                        CareerStudies studies = _character.Studies!;
+                        int max = Education.UniversityRules.MaxPreparation;
+                        studies.Preparation = Math.Max(-max, Math.Min(max, studies.Preparation + (int)args[0].AsNumber("estudiar_semestre")));
+                        return Value.Null;
+                    }
                 case "titularse":
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.titularse");
@@ -868,6 +1021,123 @@ namespace MistakesLife.Core.Events
                     }
 
                     Economy.JobSearchRules.Interview(((EventScope)scope).World, ((EventScope)scope).Content, _character, args[0].AsNumber("jugador.dar_entrevista()"));
+                    return Value.Null;
+                case "nuevo_contrato":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.nuevo_contrato");
+                    if (_character.Job == null)
+                    {
+                        throw new ScriptException("jugador.nuevo_contrato(): no trabaja (revisa jugador.trabaja).");
+                    }
+
+                    // Un contrato nuevo con el mismo empleador (la obra siguiente de la constructora):
+                    // la antigüedad vuelve a cero, pero el equipo es el mismo.
+                    _character.Job.MonthsInJob = 0;
+                    if (_character.Team != null)
+                    {
+                        _character.Team.MonthsInJob = 0;
+                    }
+
+                    return Value.Null;
+                case "pedir_aumento":
+                    ((EventScope)scope).RequireWritable("jugador.pedir_aumento");
+                    if (args.Length != 1 || _character.Job == null)
+                    {
+                        throw new ScriptException("jugador.pedir_aumento(porcentaje) necesita que trabaje y cuánto pide: pedir_aumento(10).");
+                    }
+
+                    Work.RaiseRules.Ask(((EventScope)scope).World, ((EventScope)scope).Content, _character, ((EventScope)scope).Person, args[0].AsNumber("jugador.pedir_aumento()"));
+                    return Value.Null;
+                case "abrir_negocio":
+                    ((EventScope)scope).RequireWritable("jugador.abrir_negocio");
+                    if (args.Length != 2 || ((EventScope)scope).Person == null || _character.Venture != null)
+                    {
+                        throw new ScriptException("jugador.abrir_negocio(aporte, 'formal' o 'informal') necesita un evento con persona (con) y que no tenga otro negocio (revisa jugador.tiene_negocio).");
+                    }
+
+                    string form = args[1].AsText("jugador.abrir_negocio()");
+                    if (form != "formal" && form != "informal")
+                    {
+                        throw new ScriptException($"jugador.abrir_negocio(): la forma '{form}' no existe (formal o informal).");
+                    }
+
+                    Content.VenturesDefinition ventureRules = (_character.Residence == null ? null : ((EventScope)scope).Content.GetCountry(_character.Residence.CountryId).Economy?.Ventures)
+                        ?? throw new ScriptException("jugador.abrir_negocio(): en su país no hay economia.negocios.");
+                    Work.VentureRules.Open(((EventScope)scope).World, ventureRules, _character, ((EventScope)scope).Person!, form == "formal",
+                        Math.Round((decimal)args[0].AsNumber("jugador.abrir_negocio()"), MidpointRounding.AwayFromZero), PriceIndex((EventScope)scope));
+                    return Value.Null;
+                case "cerrar_negocio":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.cerrar_negocio");
+                    Work.VentureRules.Close(((EventScope)scope).World, _character, failed: false);
+                    return Value.Null;
+                case "recomendar":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.recomendar");
+                    if (!Work.WorkRules.InTeam(_character) || ((EventScope)scope).Person == null)
+                    {
+                        throw new ScriptException("jugador.recomendar() necesita un equipo en la pega y un evento con persona (con).");
+                    }
+
+                    Work.ReferralRules.Recommend(((EventScope)scope).World, ((EventScope)scope).Content, _character, ((EventScope)scope).Person!);
+                    return Value.Null;
+                case "compartir_arriendo":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.compartir_arriendo");
+                    if (_character.Lease == null || ((EventScope)scope).Person == null)
+                    {
+                        throw new ScriptException("jugador.compartir_arriendo() necesita un arriendo (revisa jugador.vivienda) y un evento con persona (con).");
+                    }
+
+                    _character.Lease.RoommateId = ((EventScope)scope).Person!.Id;
+                    return Value.Null;
+                case "dejar_de_compartir":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.dejar_de_compartir");
+                    if (_character.Lease != null)
+                    {
+                        _character.Lease.RoommateId = null;
+                    }
+
+                    return Value.Null;
+                case "avisar_renuncia":
+                    ((EventScope)scope).RequireWritable("jugador.avisar_renuncia");
+                    if (args.Length != 1 || _character.Job == null)
+                    {
+                        throw new ScriptException("jugador.avisar_renuncia(semanas) necesita que trabaje y en cuántas semanas se va.");
+                    }
+
+                    _character.Job.LeavingWeek = ((EventScope)scope).World.Date.TotalWeeks + (int)Math.Round(args[0].AsNumber("jugador.avisar_renuncia()"), MidpointRounding.AwayFromZero);
+                    return Value.Null;
+                case "tomar_vacaciones":
+                    ((EventScope)scope).RequireWritable("jugador.tomar_vacaciones");
+                    double days = args.Length == 1 ? args[0].AsNumber("jugador.tomar_vacaciones()") : -1;
+                    if (_character.Job == null || days <= 0 || days > _character.Job.VacationDays + 1e-9)
+                    {
+                        throw new ScriptException("jugador.tomar_vacaciones(días) necesita esos días ganados (revisa jugador.dias_vacaciones).");
+                    }
+
+                    _character.Job.VacationDays -= days;
+                    return Value.Null;
+                case "cobrar_vacaciones":
+                    NoArguments(method, args);
+                    ((EventScope)scope).RequireWritable("jugador.cobrar_vacaciones");
+                    Economy.Job? paidJob = _character.Job ?? _character.LastJob;
+                    _character.Money += VacationPay((EventScope)scope);
+                    if (paidJob != null)
+                    {
+                        paidJob.VacationDays = 0;
+                    }
+
+                    return Value.Null;
+                case "desafio":
+                    ((EventScope)scope).RequireWritable("jugador.desafio");
+                    if (Work.OccupationRules.CareerOf(((EventScope)scope).Content, _character.Job) == null)
+                    {
+                        throw new ScriptException("jugador.desafio(): solo hay desafíos en un oficio (revisa jugador.oficio != nada).");
+                    }
+
+                    _character.Job!.Challenge = EventScope.SingleText("jugador.desafio", args);
                     return Value.Null;
                 case "aceptar_oferta":
                     NoArguments(method, args);
@@ -1239,10 +1509,14 @@ namespace MistakesLife.Core.Events
         {
             Content.CompanySizeDefinition? size = company == null ? null : scope.Content.GetCountry(company.CountryId).Economy?.Companies?.Size(company.SizeId);
             position = Economy.CompanyRules.Cap(position, size?.MaxPositionDepth);
-            decimal salary = Economy.CareerLadder.Salary(scope.DegreeSalaryOf(_character), area, position);
+            Content.CareerDefinition career = scope.Content.GetCareer(area.CareerId);
+            decimal salary = Economy.CareerLadder.Salary(scope.SalaryBasisOf(_character, career), area, position);
             if (size != null)
             {
-                salary = Math.Round(salary * (decimal)size.SalaryRelative, MidpointRounding.AwayFromZero);
+                // En un oficio el sueldo base ya es el piso (el mínimo o el convenio): una empresa
+                // chica no paga menos, una grande puede pagar algo más.
+                double relative = career.IsOccupation ? Math.Max(1, size.SalaryRelative) : size.SalaryRelative;
+                salary = Math.Round(salary * (decimal)relative, MidpointRounding.AwayFromZero);
             }
 
             salary = Math.Round(salary * raise, MidpointRounding.AwayFromZero);

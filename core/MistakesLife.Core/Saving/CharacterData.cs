@@ -68,6 +68,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>Su búsqueda de trabajo, o null (desde la versión 9).</summary>
         public JobSearchData? JobSearch { get; set; }
 
+        /// <summary>Su negocio con un socio, o null (desde la versión 33).</summary>
+        public VentureData? Venture { get; set; }
+
         /// <summary>Su celular, o null (desde la versión 12).</summary>
         public PhoneData? Phone { get; set; }
 
@@ -137,8 +140,27 @@ namespace MistakesLife.Core.Saving
 
         public StudiesData? Studies { get; set; }
 
+        /// <summary>El horario (desde la versión 19).</summary>
+        public RoutineData? Routine { get; set; }
+
+        /// <summary>Las reglas propias (desde la versión 21); null si no tiene, para que el guardado no crezca.</summary>
+        public List<OwnRuleData>? OwnRules { get; set; }
+
+        /// <summary>Lo que quiere y quiso (desde la versión 21); null si nada.</summary>
+        public List<WishData>? Wishes { get; set; }
+
+        /// <summary>El curso del colegio (desde la versión 22); null si no va a un curso.</summary>
+        public SchoolClassData? SchoolClass { get; set; }
+
+        /// <summary>El equipo del trabajo (desde la versión 29); null si no trabaja con equipo.</summary>
+        public WorkTeamData? Team { get; set; }
+
+        /// <summary>Las notas del colegio (desde la versión 23); null si nunca tuvo.</summary>
+        public SchoolRecordData? SchoolRecord { get; set; }
+
         public List<string> Degrees { get; set; } = new List<string>();
 
+        [System.ComponentModel.DefaultValue(true)]
         public bool IsAlive { get; set; } = true;
 
         public int? DeathWeek { get; set; }
