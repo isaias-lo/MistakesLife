@@ -38,7 +38,7 @@ El núcleo sigue avanzando de a una semana por dentro; "Un mes" y "Un año" son 
 
 ### Volver al pasado
 
-Es un **botón circular chico** al lado de los botones de avanzar, y **solo aparece si el jugador lo compró**. También sigue apareciendo frente al error que vuelve, como ya existe. Antes de programarlo, Isaias quiere ver bocetos de los dos botones (Seguir grande más círculo chico, o dos círculos).
+Es un **botón circular chico** al lado de los botones de avanzar, y **solo aparece si el jugador lo compró**. También sigue apareciendo frente al error que vuelve, como ya existe. Isaias vio 8 formas de ordenar los tres botones y eligió la 1: el círculo chico de Volver al pasado, "Seguir un mes" ancho y "Un año" al lado (boceto M1Ancho, y S1Filas con las barras). Mientras no exista la tienda, el círculo aparece si quedan cargas y un momento al que volver.
 
 ## Pantalla principal, barras, íconos y letras
 
@@ -287,5 +287,5 @@ Todo lo que este documento no cambia sigue igual: el ritmo "rutina + momentos" (
 
 ### Próximos pasos
 
-1. **Bocetos antes de programar** cada módulo, con opciones para que Isaias elija: primero los dos botones de avanzar con Volver al pasado, luego la ficha de persona, Estudios y Dinero.
+1. **Bocetos antes de programar** cada módulo, con opciones para que Isaias elija: los botones de avanzar ya están elegidos; siguen la ficha de persona, Estudios y Dinero.
 2. Recién con bocetos aprobados se programa, un módulo por PR (ver la serie D en `docs/roadmap.md`).

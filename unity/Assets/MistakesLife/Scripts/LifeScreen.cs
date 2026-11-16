@@ -11,11 +11,13 @@ using UnityEngine.UI;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// La pantalla de la vida (docs/archivo/diseno-app.md, "Pantalla de la vida"): la casa en 3D en toda
-    /// la pantalla; arriba el retrato, el nombre, la edad y la fecha; a la derecha Casa, Barrio y
-    /// Trabajo; abajo una hoja con la última línea del diario, el estado en palabras, tus cosas y
-    /// "Vivir la semana". Cuando pasa algo, la hoja muestra el evento en papel. La familia, tu
-    /// gente y el diario completo se abren aparte.
+    /// La pantalla principal (docs/diseno-juego.md, "Pantalla principal", boceto S1Filas aprobado).
+    /// De arriba hacia abajo: la cabecera (retrato, nombre y edad, curso y comuna, el mes y el
+    /// día), la escena 3D del lugar donde estás, "Lo que pasa" (lo que trajo el último paso),
+    /// las barras de la vida con su ícono y su porcentaje, los botones (el círculo de Volver al
+    /// pasado, "Seguir un mes" y "Un año") y la barra de grupos (Tu gente, Estudios, Dinero,
+    /// Celular y Más). Cuando pasa algo importante, la carta del momento ocupa el lugar de las
+    /// barras y los botones hasta que el jugador decide.
     /// Se crea sola al apretar Play, en cualquier escena: no hay que configurar nada.
     /// Regla: aquí no se decide nada. Se dibuja la foto de LifePresenter (núcleo) y se le pasan los toques.
     /// </summary>
@@ -24,11 +26,35 @@ namespace MistakesLife.Unity
         /// <summary>Cuántas líneas del diario se muestran (las más nuevas primero).</summary>
         private const int JournalLines = 60;
 
-        /// <summary>Cuántas líneas nuevas del diario se destacan en "Lo que pasó".</summary>
-        private const int NewsLines = 2;
+        /// <summary>Cuántas líneas nuevas del diario se destacan en "Lo que pasa".</summary>
+        private const int NewsLines = 3;
 
         /// <summary>Alto máximo de lo que va en la hoja de abajo; si es más largo, tiene scroll.</summary>
         private const float MaxSheetBody = 860f;
+
+        /// <summary>Alto máximo de "Lo que pasa" en un mes normal (el resto es para el 3D y las barras).</summary>
+        private const float MaxWhatHappens = 420f;
+
+        /// <summary>Fondo de las barras y de la barra de grupos (boceto S1Filas).</summary>
+        private static readonly Color Panel = UiFactory.Hex(0x1B2338);
+
+        /// <summary>Fondo vacío de cada barra y la línea de arriba de la barra de grupos.</summary>
+        private static readonly Color PanelLine = UiFactory.Hex(0x2A3350);
+
+        /// <summary>Colores de una barra según cómo va: verde, amarilla o roja.</summary>
+        private static readonly Color BarGood = UiFactory.Hex(0x3BAE7A);
+        private static readonly Color BarMiddle = UiFactory.Hex(0xE0A93B);
+        private static readonly Color BarLow = UiFactory.Hex(0xD9534F);
+
+        /// <summary>El botón "Un año": azul, el segundo en importancia.</summary>
+        private static readonly Color YearButton = UiFactory.Hex(0x24407A);
+
+        /// <summary>La línea de color de cada cosa de "Lo que pasa": azul lo tuyo, ámbar las noticias.</summary>
+        private static readonly Color JournalStrip = UiFactory.Hex(0x5B8DB8);
+        private static readonly Color NewsStrip = UiFactory.Hex(0xE0A93B);
+
+        /// <summary>Gris de las etiquetas chicas en mayúscula ("LO QUE PASA").</summary>
+        private static readonly Color LabelInk = UiFactory.Hex(0x9AA4BD);
 
         /// <summary>Cuánto se estiran los fondos de la barra y la hoja fuera de la pantalla.</summary>
         private const float Beyond = 400f;
@@ -36,13 +62,19 @@ namespace MistakesLife.Unity
         /// <summary>Cuánto demora la carta del evento en subir.</summary>
         private const float SlideSeconds = 0.35f;
 
-        /// <summary>Ancho de los botones Casa, Barrio y Trabajo (angostos, para tapar poco la pieza).</summary>
+        /// <summary>Ancho de cada botón Casa, Barrio y Trabajo (van en fila, arriba a la derecha del 3D).</summary>
         private const float ViewSwitchWidth = 180f;
+
+        /// <summary>Alto de la etiqueta de adónde vas, abajo del 3D (dos líneas).</summary>
+        private const float PlaceHeight = 100f;
 
         private readonly List<JournalLine> _journal = new List<JournalLine>();
 
         /// <summary>Las líneas del diario que trajo el último paso (las más nuevas primero).</summary>
         private readonly List<JournalLine> _lastNews = new List<JournalLine>();
+
+        /// <summary>La noticia del país o la ciudad que salió en el último paso, si salió alguna.</summary>
+        private NewsView? _lastHeadline;
 
         /// <summary>Si la parte de abajo muestra la lista de momentos para volver al pasado.</summary>
         private bool _pickingMoment;
@@ -91,6 +123,12 @@ namespace MistakesLife.Unity
         private TextMeshProUGUI _details = null!;
         private TextMeshProUGUI _initial = null!;
         private RectTransform _summary = null!;
+        private TextMeshProUGUI _monthLabel = null!;
+        private TextMeshProUGUI _dayLabel = null!;
+        private RectTransform _bars = null!;
+        private RectTransform _groups = null!;
+        private RectTransform _more = null!;
+        private RectTransform _moreBody = null!;
         private RectTransform _sheetBody = null!;
         private LayoutElement _sheetSize = null!;
         private RectTransform _footer = null!;
@@ -106,7 +144,6 @@ namespace MistakesLife.Unity
         private string _placeCaption = string.Empty;
         private string? _workCaption;
         private TextMeshProUGUI _placeLabel = null!;
-        private Button _menuButton = null!;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void CreateOnPlay()
@@ -138,6 +175,7 @@ namespace MistakesLife.Unity
             {
                 // Sin contenido no hay juego: se muestra el error para poder copiarlo.
                 _name.text = "Error";
+                _details.textWrappingMode = TextWrappingModes.Normal;
                 _details.text = ex.Message;
                 Debug.LogException(ex);
             }
@@ -219,6 +257,8 @@ namespace MistakesLife.Unity
             _pickingMoment = false;
             _lastStep = null;
             _presenter.TakeNewJournal();
+            _presenter.TakeNewNews();
+            _lastHeadline = null;
             Refresh();
             Save();
             _tutorial!.ShowFirstTime();
@@ -263,6 +303,8 @@ namespace MistakesLife.Unity
             }
 
             _presenter.TakeNewJournal();
+            _presenter.TakeNewNews();
+            _lastHeadline = null;
         }
 
         /// <summary>Guarda la partida después de cada paso (la app se puede cerrar en cualquier momento).</summary>
@@ -318,7 +360,7 @@ namespace MistakesLife.Unity
             RectTransform focus = UiFactory.Child(page, "Hueco");
             LayoutElement room = focus.gameObject.AddComponent<LayoutElement>();
             room.flexibleHeight = 1;
-            room.minHeight = 380;
+            room.minHeight = 420;
             _home.Focus = focus;
             OrbitPad pad = OrbitPad.AddTo(focus, _home);
             pad.Tapped = TapScene;
@@ -326,22 +368,28 @@ namespace MistakesLife.Unity
             BuildViewSwitch(focus);
             BuildOrbitHint(focus);
 
-            // La hoja de abajo, oscura para leer encima del 3D.
-            RectTransform sheet = UiFactory.Column(page, "Hoja", 28, 16);
-            Backdrop(sheet, UiFactory.Background, 0f, Beyond);
+            // La hoja de abajo, oscura para leer encima del 3D: lo que pasa, las barras y los botones.
+            RectTransform sheet = UiFactory.Column(page, "Hoja", 0, 24);
+            VerticalLayoutGroup sheetLayout = sheet.GetComponent<VerticalLayoutGroup>();
+            sheetLayout.padding = new RectOffset(44, 44, 28, 28);
+            sheet.gameObject.AddComponent<Image>().color = UiFactory.Background;
             _sheet = sheet;
             // La hoja mide lo que tiene: todo el alto que sobra es para el 3D.
             sheet.gameObject.AddComponent<LayoutElement>().flexibleHeight = 0;
             _sheetFade = sheet.gameObject.AddComponent<CanvasGroup>();
-            _summary = UiFactory.Column(sheet, "Lo que paso", 0, 6);
-            _sheetBody = UiFactory.ScrollColumn(sheet, "Cuerpo", 0, 16);
+            _summary = UiFactory.Column(sheet, "Lo que pasa", 0, 8);
+            _sheetBody = UiFactory.ScrollColumn(sheet, "Cuerpo", 0, 20);
             RectTransform scroll = (RectTransform)_sheetBody.parent!.parent!;
             scroll.GetComponent<Image>().color = Color.clear;
             _sheetSize = scroll.GetComponent<LayoutElement>();
             _sheetSize.flexibleHeight = 0;
-            _footer = UiFactory.Column(sheet, "Acciones", 0, 12);
+            _bars = UiFactory.Column(sheet, "Barras de la vida", 0, 18, Panel);
+            _bars.GetComponent<VerticalLayoutGroup>().padding = new RectOffset(38, 38, 28, 28);
+            _footer = UiFactory.Column(sheet, "Botones", 0, 12);
 
+            BuildGroupBar(page);
             BuildHistory(safe);
+            BuildMore(safe);
             _phone = new PhoneScreen(safe) { Changed = MailRead };
             _money = new MoneyScreen(safe) { Changed = MailRead };
             _court = new CourtScreen(safe);
@@ -365,7 +413,8 @@ namespace MistakesLife.Unity
             _orbitHint.anchorMin = _orbitHint.anchorMax = new Vector2(0.5f, 0f);
             _orbitHint.pivot = new Vector2(0.5f, 0f);
             _orbitHint.sizeDelta = new Vector2(460f, 72f);
-            _orbitHint.anchoredPosition = new Vector2(0f, 20f);
+            // Encima de la etiqueta del lugar, que va abajo del todo.
+            _orbitHint.anchoredPosition = new Vector2(0f, PlaceHeight + 32f);
             UiFactory.RoundedImage(_orbitHint.gameObject, Translucent(UiFactory.Background, 0.75f)).raycastTarget = false;
             _orbitHintLabel = UiFactory.Label(_orbitHint, string.Empty, UiFactory.MinFontSize, UiFactory.Ink);
             UiFactory.Stretch(_orbitHintLabel.rectTransform);
@@ -446,51 +495,100 @@ namespace MistakesLife.Unity
             LifeSnapshot life = presenter.Snapshot();
             _home.Show(life.Home, life.DailyPlace, life.Workplace);
             DrawSheet(presenter, life);
+            DrawGroups(presenter);
             FitSheet();
         }
 
-        /// <summary>Arriba: retrato con anillo amarillo, nombre y edad, la fecha y el lugar; el botón Menú a la derecha.</summary>
+        /// <summary>
+        /// Arriba, siempre a la vista: el retrato con anillo amarillo (lo tuyo) y tus iniciales,
+        /// tu nombre y edad, tu curso o pega y tu comuna, y a la derecha el mes en grande y el día.
+        /// </summary>
         private void BuildTopBar(RectTransform page)
         {
             RectTransform top = UiFactory.Child(page, "Arriba");
-            Backdrop(top, UiFactory.Card, Beyond, 0f);
+            Backdrop(top, Translucent(UiFactory.Background, 0.92f), Beyond, 0f);
             HorizontalLayoutGroup row = top.gameObject.AddComponent<HorizontalLayoutGroup>();
-            row.padding = new RectOffset(24, 24, 20, 20);
-            row.spacing = 20;
+            row.padding = new RectOffset(44, 44, 30, 26);
+            row.spacing = 28;
             row.childAlignment = TextAnchor.MiddleLeft;
             row.childControlWidth = true;
             row.childControlHeight = true;
             row.childForceExpandWidth = false;
             row.childForceExpandHeight = false;
 
-            // Retrato: anillo amarillo (lo tuyo) con la inicial; el juguete de madera llega en U18c.
             RectTransform ring = UiFactory.Child(top, "Retrato");
-            UiFactory.RoundedImage(ring.gameObject, UiFactory.Accent);
+            Image ringImage = ring.gameObject.AddComponent<Image>();
+            ringImage.sprite = Icons.Get(Icons.Disc);
+            ringImage.color = UiFactory.Accent;
             LayoutElement size = ring.gameObject.AddComponent<LayoutElement>();
-            size.minWidth = size.preferredWidth = 124;
-            size.minHeight = size.preferredHeight = 124;
+            size.minWidth = size.preferredWidth = 112;
+            size.minHeight = size.preferredHeight = 112;
             RectTransform face = UiFactory.Child(ring, "Cara");
             UiFactory.Stretch(face);
-            face.offsetMin = new Vector2(8f, 8f);
-            face.offsetMax = new Vector2(-8f, -8f);
-            UiFactory.RoundedImage(face.gameObject, UiFactory.Card);
-            _initial = UiFactory.Label(face, string.Empty, 56, UiFactory.Ink, FontStyles.Normal, Face.Title);
+            face.offsetMin = new Vector2(6f, 6f);
+            face.offsetMax = new Vector2(-6f, -6f);
+            Image faceImage = face.gameObject.AddComponent<Image>();
+            faceImage.sprite = Icons.Get(Icons.Disc);
+            faceImage.color = UiFactory.Hex(0xE8C3A0);
+            _initial = UiFactory.Label(face, string.Empty, 40, UiFactory.Hex(0x3B2A22), FontStyles.Bold);
             UiFactory.Stretch(_initial.rectTransform);
             _initial.alignment = TextAlignmentOptions.Center;
 
-            RectTransform who = UiFactory.Column(top, "Quien", 0, 4);
+            RectTransform who = UiFactory.Column(top, "Quien", 0, 2);
             who.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
-            _name = UiFactory.Label(who, string.Empty, 46, UiFactory.Ink, FontStyles.Normal, Face.Title);
-            _details = UiFactory.Label(who, string.Empty, UiFactory.MinFontSize, UiFactory.MutedInk);
+            _name = UiFactory.Label(who, string.Empty, 46, UiFactory.Ink, FontStyles.Bold);
+            _name.overflowMode = TextOverflowModes.Ellipsis;
+            _name.textWrappingMode = TextWrappingModes.NoWrap;
+            _details = UiFactory.Label(who, string.Empty, 37, UiFactory.MutedInk, FontStyles.Bold);
+            _details.overflowMode = TextOverflowModes.Ellipsis;
+            _details.textWrappingMode = TextWrappingModes.NoWrap;
 
-            _menuButton = UiFactory.MakeButton(top, string.Empty, UiFactory.Option, UiFactory.Ink, ShowMenu, UiFactory.MinFontSize, 0, 12);
-            LayoutElement menu = _menuButton.GetComponent<LayoutElement>();
-            menu.minWidth = menu.preferredWidth = 170;
+            RectTransform when = UiFactory.Column(top, "Cuando", 0, 2);
+            when.GetComponent<VerticalLayoutGroup>().childAlignment = TextAnchor.MiddleRight;
+            _monthLabel = UiFactory.Label(when, string.Empty, 55, UiFactory.Ink, FontStyles.Normal, Face.Title);
+            _monthLabel.alignment = TextAlignmentOptions.Right;
+            _monthLabel.textWrappingMode = TextWrappingModes.NoWrap;
+            _dayLabel = UiFactory.Label(when, string.Empty, 36, UiFactory.MutedInk, FontStyles.Bold);
+            _dayLabel.alignment = TextAlignmentOptions.Right;
+            _dayLabel.textWrappingMode = TextWrappingModes.NoWrap;
         }
 
         /// <summary>
-        /// En el hueco: botones para ver la casa, el barrio o el trabajo (a la derecha, uno bajo
-        /// el otro) y una etiqueta abajo que dice adónde va el personaje esta semana.
+        /// Abajo de todo: la barra de grupos (Tu gente, Estudios, Dinero, Celular y Más), con su
+        /// ícono de línea fina y un punto rojo si hay algo nuevo. Se llena en <see cref="DrawGroups"/>.
+        /// </summary>
+        private void BuildGroupBar(RectTransform page)
+        {
+            _groups = UiFactory.Child(page, "Grupos");
+            Backdrop(_groups, Panel, 0f, Beyond);
+            RectTransform line = UiFactory.Child(_groups, "Linea");
+            line.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
+            line.gameObject.AddComponent<Image>().color = PanelLine;
+            line.anchorMin = new Vector2(0f, 1f);
+            line.anchorMax = new Vector2(1f, 1f);
+            line.offsetMin = new Vector2(-Beyond, -3f);
+            line.offsetMax = new Vector2(Beyond, 0f);
+            HorizontalLayoutGroup row = _groups.gameObject.AddComponent<HorizontalLayoutGroup>();
+            row.padding = new RectOffset(16, 16, 22, 22);
+            row.childControlWidth = true;
+            row.childControlHeight = true;
+            row.childForceExpandWidth = true;
+            row.childForceExpandHeight = true;
+        }
+
+        /// <summary>"Más": una hoja con los grupos que no caben abajo y el menú del juego.</summary>
+        private void BuildMore(RectTransform safe)
+        {
+            _more = UiFactory.Column(safe, "Mas", 44, 20, UiFactory.Background);
+            UiFactory.Stretch(_more);
+            _moreBody = UiFactory.ScrollColumn(_more, "Lista", 0, 20);
+            ((RectTransform)_moreBody.parent!.parent!).GetComponent<Image>().color = Color.clear;
+            _more.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// En el hueco del 3D: botones para ver la casa, el barrio o el trabajo (en fila, arriba a
+        /// la derecha) y, abajo, una etiqueta que dice adónde va el personaje (o su cargo en Trabajo).
         /// </summary>
         private void BuildViewSwitch(RectTransform window)
         {
@@ -499,8 +597,8 @@ namespace MistakesLife.Unity
             buttons.anchorMin = new Vector2(1f, 1f);
             buttons.anchorMax = new Vector2(1f, 1f);
             buttons.pivot = new Vector2(1f, 1f);
-            buttons.anchoredPosition = new Vector2(-16f, -16f);
-            VerticalLayoutGroup column = buttons.gameObject.AddComponent<VerticalLayoutGroup>();
+            buttons.anchoredPosition = new Vector2(-24f, -20f);
+            HorizontalLayoutGroup column = buttons.gameObject.AddComponent<HorizontalLayoutGroup>();
             column.spacing = 8;
             column.childControlWidth = true;
             column.childControlHeight = true;
@@ -512,13 +610,12 @@ namespace MistakesLife.Unity
             SizeViewSwitch(3);
 
             RectTransform place = UiFactory.Child(window, "Lugar");
-            // Arriba a la izquierda, al lado de los botones, para no tapar el piso de la pieza.
-            // Tiene espacio para dos líneas: empresa y cargo juntos son largos.
-            place.anchorMin = new Vector2(0f, 1f);
-            place.anchorMax = new Vector2(1f, 1f);
-            place.pivot = new Vector2(0f, 1f);
-            place.offsetMin = new Vector2(16f, -116f);
-            place.offsetMax = new Vector2(-(ViewSwitchWidth + 32f), -16f);
+            // Abajo, a lo ancho: con dos líneas caben empresa y cargo, que juntos son largos.
+            place.anchorMin = new Vector2(0f, 0f);
+            place.anchorMax = new Vector2(1f, 0f);
+            place.pivot = new Vector2(0.5f, 0f);
+            place.offsetMin = new Vector2(24f, 16f);
+            place.offsetMax = new Vector2(-24f, 16f + PlaceHeight);
             UiFactory.RoundedImage(place.gameObject, Translucent(UiFactory.Background, 0.85f));
             _placeLabel = UiFactory.Label(place, string.Empty, UiFactory.MinFontSize, UiFactory.Ink, FontStyles.Bold);
             UiFactory.Stretch(_placeLabel.rectTransform);
@@ -531,7 +628,7 @@ namespace MistakesLife.Unity
 
         private void SizeViewSwitch(int count)
         {
-            _viewButtons.sizeDelta = new Vector2(ViewSwitchWidth, (count * UiFactory.MinButtonHeight) + ((count - 1) * 8f));
+            _viewButtons.sizeDelta = new Vector2((count * ViewSwitchWidth) + ((count - 1) * 8f), UiFactory.MinButtonHeight);
         }
 
         /// <summary>Tu gente y el diario completo: una hoja aparte, encima de todo, que se cierra con un botón.</summary>
@@ -624,12 +721,16 @@ namespace MistakesLife.Unity
                 _journal.Insert(0, line);
             }
 
-            // Lo que se anotó en el diario en este paso se muestra arriba de la hoja, en "Lo que pasó".
+            // Lo que se anotó en el diario en este paso se muestra en "Lo que pasa".
             _lastNews.Clear();
             for (int i = fresh.Count - 1; i >= 0 && _lastNews.Count < NewsLines; i--)
             {
                 _lastNews.Add(fresh[i]);
             }
+
+            // Y la noticia más nueva del país o la ciudad, si salió una en este paso.
+            IReadOnlyList<NewsView> headlines = presenter.TakeNewNews();
+            _lastHeadline = headlines.Count > 0 ? headlines[headlines.Count - 1] : null;
 
             if (_journal.Count > JournalLines)
             {
@@ -637,11 +738,23 @@ namespace MistakesLife.Unity
             }
 
             LifeSnapshot life = presenter.Snapshot();
-            _name.text = $"{life.PlayerName}, {life.AgeLabel}";
-            // La fecha y el lugar en dos líneas, para que el lugar no se corte a la mitad.
-            _details.text = $"{life.DateLabel}\n{life.Place}";
-            _initial.text = life.PlayerName.Length > 0 ? life.PlayerName.Substring(0, 1) : string.Empty;
-            _menuButton.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.boton.menu");
+            HeaderView header = presenter.Header();
+            _name.text = $"{life.PlayerName} · {life.AgeLabel}";
+            var details = new List<string>();
+            if (header.Role.Length > 0)
+            {
+                details.Add(header.Role);
+            }
+
+            if (header.Commune.Length > 0)
+            {
+                details.Add(header.Commune);
+            }
+
+            _details.text = string.Join(" · ", details);
+            _initial.text = Initials(life.PlayerName);
+            _monthLabel.text = header.Month;
+            _dayLabel.text = header.Day;
 
             _home.Show(life.Home, life.DailyPlace, life.Workplace);
             _home.SetMood(life.Happiness);
@@ -663,7 +776,9 @@ namespace MistakesLife.Unity
             ShowCaption();
             DrawLastStep(presenter);
             DrawSheet(presenter, life);
+            DrawBars(presenter, life);
             DrawActions(presenter, life);
+            DrawGroups(presenter);
             FitSheet();
             if (_history.gameObject.activeSelf)
             {
@@ -679,7 +794,10 @@ namespace MistakesLife.Unity
             Canvas.ForceUpdateCanvases();
             LayoutRebuilder.ForceRebuildLayoutImmediate(_page);
             float height = LayoutUtility.GetPreferredHeight(_sheetBody);
-            _sheetSize.preferredHeight = Mathf.Min(height, MaxSheetBody);
+            // En un mes normal "Lo que pasa" es corto, para dejar a la vista el 3D y las barras;
+            // la carta de un momento, un capítulo o la lista de volver al pasado tienen más alto.
+            bool normal = _presenter != null && _presenter.Phase == LifePhase.Living && !_pickingMoment && _chapter == null;
+            _sheetSize.preferredHeight = Mathf.Min(height, normal ? MaxWhatHappens : MaxSheetBody);
             LayoutRebuilder.ForceRebuildLayoutImmediate(_page);
             _sheetBody.anchoredPosition = Vector2.zero;
             _sheetWidth = _sheetBody.rect.width;
@@ -767,118 +885,268 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>
-        /// Una semana normal: la última línea del diario con la letra a mano, el estado en palabras
-        /// (sin números) y "tus cosas": el dinero, tu gente y el diario, y volver al pasado si se puede.
+        /// Un mes normal: "Lo que pasa" con lo que trajo el último paso (lo que quedó en tu
+        /// diario, con su día, y la noticia del país si salió una). Si el paso no trajo nada, la
+        /// última línea del diario; si todavía no hay ninguna, una línea que lo dice.
         /// </summary>
         private void DrawWeek(LifePresenter presenter, LifeSnapshot life)
         {
-            if (_journal.Count > 0)
+            var lines = new List<JournalLine>(_lastNews);
+            if (lines.Count == 0 && _journal.Count > 0)
             {
-                UiFactory.Label(_sheetBody, _journal[0].Text, 42, UiFactory.Ink, FontStyles.Normal, Face.Hand);
+                lines.Add(_journal[0]);
             }
 
-            RectTransform states = Row(_sheetBody, "Estado");
-            State(states, presenter.Text("ui.salud"), presenter.StateWord("salud", life.Health));
-            State(states, presenter.Text("ui.animo"), presenter.StateWord("animo", life.Happiness));
-            State(states, presenter.Text("ui.mente"), presenter.StateWord("mente", life.Smarts));
+            if (_lastHeadline != null)
+            {
+                string tag = presenter.Text("ui.lo_que_pasa.noticias");
+                if (_lastHeadline.DateLabel.Length > 0)
+                {
+                    tag += " · " + _lastHeadline.DateLabel;
+                }
 
-            // Tus cosas, como objetos de la vida (docs/archivo/diseno-app.md): la billetera, el celular,
-            // las fotos de tu gente y, si se puede, el reloj para volver al pasado.
-            RectTransform things = Row(_sheetBody, "Tus cosas");
-            MoneyView money = presenter.Money();
-            Things.WalletThing(things, money.BalanceLabel, money.Debts.Count > 0, () => _money.Show(presenter));
+                Happening(_sheetBody, tag, _lastHeadline.Headline, NewsStrip);
+            }
+
+            foreach (JournalLine line in lines)
+            {
+                Happening(_sheetBody, line.DateLabel.Length > 0 ? line.DateLabel : line.AgeLabel, line.Text, JournalStrip);
+            }
+
+            if (lines.Count == 0 && _lastHeadline == null)
+            {
+                UiFactory.Label(_sheetBody, presenter.Text("ui.lo_que_pasa.vacio"), 40, UiFactory.MutedInk);
+            }
+        }
+
+        /// <summary>
+        /// Una cosa de "Lo que pasa": una tarjeta de papel con su línea de color a la izquierda,
+        /// cuándo fue (chico, en mayúscula) y qué pasó, con letra grande y legible.
+        /// </summary>
+        private static void Happening(RectTransform parent, string when, string text, Color strip)
+        {
+            RectTransform card = UiFactory.Child(parent, "Lo que pasa");
+            UiFactory.RoundedImage(card.gameObject, UiFactory.Paper);
+            HorizontalLayoutGroup row = card.gameObject.AddComponent<HorizontalLayoutGroup>();
+            row.padding = new RectOffset(30, 32, 26, 26);
+            row.spacing = 28;
+            row.childControlWidth = true;
+            row.childControlHeight = true;
+            row.childForceExpandWidth = false;
+            row.childForceExpandHeight = true;
+
+            RectTransform line = UiFactory.Child(card, "Linea");
+            UiFactory.RoundedImage(line.gameObject, strip);
+            LayoutElement lineSize = line.gameObject.AddComponent<LayoutElement>();
+            lineSize.minWidth = lineSize.preferredWidth = 11;
+
+            RectTransform words = UiFactory.Column(card, "Texto", 0, 4);
+            words.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+            UiFactory.Label(words, when.ToUpperInvariant(), 33, UiFactory.PaperMutedInk, FontStyles.Bold).characterSpacing = 2f;
+            UiFactory.Label(words, text, 41, UiFactory.PaperInk);
+        }
+
+        /// <summary>
+        /// Las barras de la vida (boceto S1Filas): cada una con su ícono propio, su nombre, la
+        /// barra verde, amarilla o roja y su porcentaje. Solo en un mes normal: cuando hay que
+        /// decidir algo, la carta ocupa su lugar.
+        /// </summary>
+        private void DrawBars(LifePresenter presenter, LifeSnapshot life)
+        {
+            UiFactory.Clear(_bars);
+            bool show = life.Phase == LifePhase.Living && !_pickingMoment && _chapter == null;
+            _bars.gameObject.SetActive(show);
+            if (!show)
+            {
+                return;
+            }
+
+            foreach (LifeBarView bar in presenter.LifeBars())
+            {
+                RectTransform row = UiFactory.Child(_bars, bar.Label);
+                HorizontalLayoutGroup layout = row.gameObject.AddComponent<HorizontalLayoutGroup>();
+                layout.spacing = 28;
+                layout.childAlignment = TextAnchor.MiddleLeft;
+                layout.childControlWidth = true;
+                layout.childControlHeight = true;
+                layout.childForceExpandWidth = false;
+                layout.childForceExpandHeight = false;
+
+                Icons.BarIcon(row, bar.Id, 72f);
+                TextMeshProUGUI name = UiFactory.Label(row, bar.Label, 40, UiFactory.Ink, FontStyles.Bold);
+                LayoutElement nameSize = name.gameObject.AddComponent<LayoutElement>();
+                nameSize.minWidth = nameSize.preferredWidth = 255;
+
+                RectTransform back = UiFactory.Child(row, "Barra");
+                UiFactory.RoundedImage(back.gameObject, PanelLine);
+                LayoutElement backSize = back.gameObject.AddComponent<LayoutElement>();
+                backSize.flexibleWidth = 1;
+                backSize.minHeight = backSize.preferredHeight = 34;
+                RectTransform fill = UiFactory.Child(back, "Relleno");
+                UiFactory.RoundedImage(fill.gameObject, LevelColor(bar.Level));
+                UiFactory.Stretch(fill);
+                // Una barra en 0 no deja ni la punta redonda: se ve vacía, como debe.
+                fill.anchorMax = new Vector2(Mathf.Clamp01(bar.Value / 100f), 1f);
+                fill.gameObject.SetActive(bar.Value > 0);
+
+                TextMeshProUGUI percent = UiFactory.Label(row, bar.Value + "%", 39, UiFactory.Ink, FontStyles.Bold);
+                percent.alignment = TextAlignmentOptions.Right;
+                LayoutElement percentSize = percent.gameObject.AddComponent<LayoutElement>();
+                percentSize.minWidth = percentSize.preferredWidth = 110;
+            }
+        }
+
+        private static Color LevelColor(LifeBarLevel level) =>
+            level == LifeBarLevel.Good ? BarGood : level == LifeBarLevel.Middle ? BarMiddle : BarLow;
+
+        /// <summary>
+        /// La barra de grupos: Tu gente, Estudios (o Trabajo, si trabajas y no estudias),
+        /// Dinero, Celular y Más. Un grupo que todavía no tienes (sin celular, sin estudios ni
+        /// pega) se ve apagado y no abre nada. El punto rojo dice que hay algo nuevo o en problemas.
+        /// </summary>
+        private void DrawGroups(LifePresenter presenter)
+        {
+            UiFactory.Clear(_groups);
+            bool living = presenter.Phase == LifePhase.Living;
+            bool studies = StudiesScreen.HasStudies(presenter);
+            bool team = presenter.Team() != null;
             PhoneView phone = presenter.Phone();
-            if (phone.HasPhone || phone.HasMail)
-            {
-                Things.PhoneThing(things, presenter.Text("ui.boton.celular"), phone.UnreadMail + phone.UnreadChats, () => _phone.Show(presenter));
-            }
+            bool hasPhone = phone.HasPhone || phone.HasMail;
+            MoneyView money = presenter.Money();
 
-            Things.PhotosThing(things, presenter.Text("ui.cosas.tu_gente"), () => ShowHistory(true));
-            if (presenter.TimeTravel().CanGoBack)
+            bool failing = false;
+            ReportCardView? card = presenter.ReportCard();
+            if (card != null)
             {
-                Things.ClockThing(things, presenter.Text("ui.cosas.volver"), () => PickMoment(true));
-            }
-
-            // La libreta, si estudias (notas, curso o carrera), y la carpeta del juzgado, solo si
-            // tienes o tuviste una causa. Si ya hay cuatro cosas, van en una segunda fila.
-            RectTransform? more = null;
-            if (StudiesScreen.HasStudies(presenter))
-            {
-                RectTransform row = things.childCount < 4 ? things : (more ??= Row(_sheetBody, "Mas cosas"));
-                ReportCardView? card = presenter.ReportCard();
-                bool red = false;
-                if (card != null)
+                foreach (SubjectGradesView subject in card.Subjects)
                 {
-                    foreach (SubjectGradesView subject in card.Subjects)
-                    {
-                        red |= subject.Failing;
-                    }
+                    failing |= subject.Failing;
                 }
-
-                Things.NotebookThing(row, presenter.Text("ui.cosas.libreta"), red, () => _studies.Show(presenter));
             }
 
-            if (presenter.Team() != null)
+            Group(Icons.People, presenter.Text("ui.grupo.tu_gente"), living, false, () => ShowHistory(true), Sound.PhotoClick);
+            if (studies || !team)
             {
-                RectTransform row = things.childCount < 4 ? things : (more ??= Row(_sheetBody, "Mas cosas"));
-                Things.BadgeThing(row, presenter.Text("ui.cosas.pega"), () => _team.Show(presenter));
+                Group(Icons.Studies, presenter.Text("ui.grupo.estudios"), living && studies, failing, () => _studies.Show(presenter), Sound.PageTurn);
             }
-
-            IReadOnlyList<CourtCaseView> cases = presenter.CourtCases();
-            if (cases.Count > 0)
+            else
             {
-                RectTransform row = things.childCount < 4 ? things : (more ??= Row(_sheetBody, "Mas cosas"));
-                bool open = false;
-                foreach (CourtCaseView courtCase in cases)
-                {
-                    open |= courtCase.IsOpen;
-                }
-
-                Things.FolderThing(row, presenter.Text("ui.cosas.juzgado"), open, () => _court.Show(presenter));
+                Group(Icons.Studies, presenter.Text("ui.grupo.trabajo"), living, false, () => _team.Show(presenter), Sound.PageTurn);
             }
 
-            // Siempre cuatro columnas, para que las cosas no cambien de tamaño cuando aparece una.
-            while (things.childCount < 4)
-            {
-                Things.Empty(things);
-            }
-
-            while (more != null && more.childCount < 4)
-            {
-                Things.Empty(more);
-            }
-
-            Even(states);
-            Even(things);
-            if (more != null)
-            {
-                Even(more);
-            }
+            Group(Icons.Money, presenter.Text("ui.grupo.dinero"), living, money.Debts.Count > 0, () => _money.Show(presenter), Sound.Register);
+            Group(Icons.Phone, presenter.Text("ui.grupo.celular"), living && hasPhone, phone.UnreadMail + phone.UnreadChats > 0, () => _phone.Show(presenter), Sound.PencilTap);
+            Group(Icons.More, presenter.Text("ui.grupo.mas"), true, false, () => ShowMore(true), Sound.PageTurn);
         }
 
-        /// <summary>Todas las cosas de la fila con el mismo ancho, como columnas.</summary>
-        private static void Even(RectTransform row)
+        /// <summary>Un botón de la barra de grupos: ícono de línea fina, nombre chico y, si hay algo, el punto rojo.</summary>
+        private void Group(string icon, string label, bool enabled, bool dot, UnityEngine.Events.UnityAction open, Sound sound)
         {
-            for (int i = 0; i < row.childCount; i++)
+            RectTransform item = UiFactory.Column(_groups, label, 0, 10);
+            VerticalLayoutGroup layout = item.GetComponent<VerticalLayoutGroup>();
+            layout.childAlignment = TextAnchor.MiddleCenter;
+            layout.childControlWidth = false;
+            // Una imagen transparente para que se pueda tocar todo el botón, no solo el dibujo.
+            Image hit = item.gameObject.AddComponent<Image>();
+            hit.color = Color.clear;
+            Button button = item.gameObject.AddComponent<Button>();
+            button.targetGraphic = hit;
+            button.interactable = enabled;
+            button.onClick.AddListener(() =>
             {
-                GameObject item = row.GetChild(i).gameObject;
-                LayoutElement element = item.GetComponent<LayoutElement>();
-                if (element == null)
-                {
-                    element = item.AddComponent<LayoutElement>();
-                }
-                element.minWidth = 0;
-                element.preferredWidth = 0;
-                element.flexibleWidth = 1;
+                Sounds.Play(sound);
+                open();
+            });
+
+            Color color = enabled ? UiFactory.MutedInk : Translucent(UiFactory.MutedInk, 0.35f);
+            Image drawing = Icons.Place(item, icon, 72f, color);
+            if (dot && enabled)
+            {
+                RectTransform red = UiFactory.Child(drawing.rectTransform, "Punto rojo");
+                Image redImage = red.gameObject.AddComponent<Image>();
+                redImage.sprite = Icons.Get(Icons.Disc);
+                redImage.color = BarLow;
+                red.anchorMin = red.anchorMax = new Vector2(1f, 1f);
+                red.sizeDelta = new Vector2(25f, 25f);
+                red.anchoredPosition = new Vector2(2f, -2f);
             }
+
+            TextMeshProUGUI name = UiFactory.Label(item, label, UiFactory.MinFontSize, color, FontStyles.Bold);
+            name.alignment = TextAlignmentOptions.Center;
+            name.textWrappingMode = TextWrappingModes.NoWrap;
+            name.rectTransform.sizeDelta = new Vector2(210f, 44f);
         }
 
-        /// <summary>Un estado: su nombre chico y, debajo, la palabra.</summary>
-        private static void State(RectTransform row, string name, string word)
+        /// <summary>Abre o cierra "Más": los grupos que no caben abajo y el menú del juego.</summary>
+        private void ShowMore(bool show)
         {
-            RectTransform box = UiFactory.Column(row, name, 0, 2);
-            UiFactory.Label(box, name, UiFactory.MinFontSize, UiFactory.MutedInk);
-            UiFactory.Label(box, word, 38, UiFactory.Ink, FontStyles.Bold);
+            _more.gameObject.SetActive(show);
+            if (!show || _presenter == null)
+            {
+                return;
+            }
+
+            LifePresenter presenter = _presenter;
+            UiFactory.Clear(_moreBody);
+            _moreBody.anchoredPosition = Vector2.zero;
+            UiFactory.Label(_moreBody, presenter.Text("ui.mas.titulo"), 52, UiFactory.Ink, FontStyles.Normal, Face.Title);
+            bool living = presenter.Phase == LifePhase.Living;
+            if (living && StudiesScreen.HasStudies(presenter) && presenter.Team() != null)
+            {
+                // Si estudias y trabajas a la vez, Estudios va abajo y la pega aquí.
+                MoreRow(Icons.Studies, presenter.Text("ui.grupo.trabajo"), () => _team.Show(presenter));
+            }
+
+            if (living && presenter.CourtCases().Count > 0)
+            {
+                MoreRow(Icons.Law, presenter.Text("ui.grupo.tramites"), () => _court.Show(presenter));
+            }
+
+            if (living)
+            {
+                MoreRow(Icons.History, presenter.Text("ui.grupo.historia"), () => ShowHistory(true));
+            }
+
+            MoreRow(Icons.Menu, presenter.Text("ui.mas.menu"), ShowMenu);
+            UiFactory.MakeButton(_moreBody, presenter.Text("ui.boton.cerrar"), UiFactory.Option, UiFactory.Ink, () => ShowMore(false));
+        }
+
+        /// <summary>Una fila de "Más": ícono y nombre, ancha y fácil de tocar.</summary>
+        private void MoreRow(string icon, string label, UnityEngine.Events.UnityAction open)
+        {
+            RectTransform row = UiFactory.Child(_moreBody, label);
+            Image back = UiFactory.RoundedImage(row.gameObject, Panel);
+            HorizontalLayoutGroup layout = row.gameObject.AddComponent<HorizontalLayoutGroup>();
+            layout.padding = new RectOffset(36, 36, 30, 30);
+            layout.spacing = 32;
+            layout.childAlignment = TextAnchor.MiddleLeft;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = false;
+            Button button = row.gameObject.AddComponent<Button>();
+            button.targetGraphic = back;
+            button.onClick.AddListener(() =>
+            {
+                Sounds.Play(Sound.PageTurn);
+                ShowMore(false);
+                open();
+            });
+            Icons.Place(row, icon, 72f, UiFactory.Ink);
+            UiFactory.Label(row, label, 44, UiFactory.Ink, FontStyles.Bold).gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+        }
+
+        /// <summary>Las iniciales del nombre y el primer apellido ("Valentina Rojas Pérez" → "VR").</summary>
+        private static string Initials(string fullName)
+        {
+            string[] parts = fullName.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            string first = parts[0].Substring(0, 1);
+            return parts.Length > 1 ? first + parts[1].Substring(0, 1) : first;
         }
 
         /// <summary>Una fila de cosas del mismo ancho.</summary>
@@ -983,24 +1251,26 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>
-        /// "Lo que pasó" en el último toque, arriba de la hoja: cuánto tiempo corrió, lo que quedó
-        /// en el diario y los cambios, en verde lo bueno y en rojo lo malo.
+        /// El título "LO QUE PASA" arriba de la hoja, con cuánto tiempo corrió en el último
+        /// toque, y debajo los cambios que trajo, en verde lo bueno y en rojo lo malo.
         /// </summary>
         private void DrawLastStep(LifePresenter presenter)
         {
             UiFactory.Clear(_summary);
-            if (_lastStep == null && _lastNews.Count == 0)
+            bool normal = presenter.Phase == LifePhase.Living && !_pickingMoment && _chapter == null;
+            if (!normal && _lastStep == null)
             {
                 return;
             }
 
-            string title = presenter.Text("ui.paso.titulo");
+            string title = presenter.Text("ui.lo_que_pasa");
             if (_lastStep != null && _lastStep.ElapsedLabel.Length > 0)
             {
                 title += " · " + _lastStep.ElapsedLabel;
             }
 
-            UiFactory.Label(_summary, title, UiFactory.MinFontSize, UiFactory.MutedInk, FontStyles.Bold);
+            TextMeshProUGUI head = UiFactory.Label(_summary, title.ToUpperInvariant(), UiFactory.MinFontSize, LabelInk, FontStyles.Bold);
+            head.characterSpacing = 4f;
             if (_lastStep != null && _lastStep.Changes.Count > 0)
             {
                 var parts = new List<string>();
@@ -1010,7 +1280,7 @@ namespace MistakesLife.Unity
                     parts.Add($"<color=#{color}>{change.Label}</color>");
                 }
 
-                TextMeshProUGUI changes = UiFactory.Label(_summary, string.Join("     ", parts), UiFactory.MinFontSize, UiFactory.Ink, FontStyles.Bold);
+                TextMeshProUGUI changes = UiFactory.Label(_summary, string.Join("     ", parts), 38, UiFactory.Ink, FontStyles.Bold);
                 changes.richText = true;
             }
         }
@@ -1187,9 +1457,10 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>
-        /// Botones de abajo: "Vivir la semana" (amarillo) y "Seguir viviendo" (hasta que pase algo),
-        /// o empezar otra vida al final. "Volver al pasado" va en tus cosas durante la semana y
-        /// aquí cuando hay un evento o la vida terminó.
+        /// Los botones (boceto S1Filas, diseño 1 de los tres botones): el círculo chico de Volver
+        /// al pasado con sus cargas (solo si hay cargas y un momento al que volver), "Seguir un
+        /// mes" ancho y amarillo, y "Un año" al lado. Los dos se detienen si pasa algo importante.
+        /// Cuando hay que decidir algo o la vida terminó, Volver al pasado va como botón ancho.
         /// </summary>
         private void DrawActions(LifePresenter presenter, LifeSnapshot life)
         {
@@ -1199,22 +1470,30 @@ namespace MistakesLife.Unity
                 return;
             }
 
-            if (life.Phase != LifePhase.Living && presenter.TimeTravel().CanGoBack)
+            TimeTravelView travel = presenter.TimeTravel();
+            if (life.Phase != LifePhase.Living && travel.CanGoBack)
             {
                 UiFactory.MakeButton(_footer, presenter.Text("ui.boton.volver_pasado"), UiFactory.Option, UiFactory.Ink, () => PickMoment(true));
             }
 
-            if (life.Phase == LifePhase.Living)
+            if (life.Phase == LifePhase.Living && _chapter == null)
             {
-                // Dos ritmos: una semana a la vez, o correr hasta que pase algo (como mucho un año).
                 RectTransform row = Row(_footer, "Avanzar");
                 HorizontalLayoutGroup layout = row.GetComponent<HorizontalLayoutGroup>();
+                layout.spacing = 28;
+                layout.childAlignment = TextAnchor.MiddleCenter;
                 layout.childForceExpandWidth = false;
                 layout.childForceExpandHeight = false;
-                Button week = UiFactory.MakeButton(row, presenter.Text("ui.boton.una_semana"), UiFactory.Accent, UiFactory.AccentText, () => Advance(false));
-                week.GetComponent<LayoutElement>().flexibleWidth = 3;
-                Button jump = UiFactory.MakeButton(row, presenter.Text("ui.boton.seguir_viviendo"), UiFactory.Option, UiFactory.Ink, () => Advance(true));
-                jump.GetComponent<LayoutElement>().flexibleWidth = 2;
+                if (travel.CanGoBack && travel.Charges > 0)
+                {
+                    GoBackCircle(row, presenter, travel.Charges);
+                }
+
+                Button month = TimeButton(row, presenter.Text("ui.boton.un_mes"), presenter.Text("ui.boton.un_mes.nota"), UiFactory.Accent, UiFactory.Hex(0x2A2008), UiFactory.Hex(0xB98F1E), AdvanceMonth);
+                month.GetComponent<LayoutElement>().flexibleWidth = 1;
+                Button year = TimeButton(row, presenter.Text("ui.boton.un_ano"), null, YearButton, UiFactory.Ink, UiFactory.Hex(0x14254A), AdvanceYear);
+                LayoutElement yearSize = year.GetComponent<LayoutElement>();
+                yearSize.minWidth = yearSize.preferredWidth = 230;
             }
             else if (life.Phase == LifePhase.Over)
             {
@@ -1222,13 +1501,98 @@ namespace MistakesLife.Unity
             }
         }
 
-        /// <summary>Avanza una semana o, con <paramref name="untilSomething"/>, hasta que pase algo (máximo un año).</summary>
-        private void Advance(bool untilSomething)
+        /// <summary>
+        /// Un botón de avanzar el tiempo: con su sombra abajo (se ve apretable), el nombre en la
+        /// letra de títulos y, si tiene, una nota chica debajo.
+        /// </summary>
+        private static Button TimeButton(RectTransform row, string text, string? note, Color color, Color ink, Color shadow, UnityEngine.Events.UnityAction onClick)
+        {
+            RectTransform rect = UiFactory.Child(row, text);
+            LayoutElement size = rect.gameObject.AddComponent<LayoutElement>();
+            size.minHeight = size.preferredHeight = 172;
+
+            RectTransform under = UiFactory.Child(rect, "Sombra");
+            UiFactory.RoundedImage(under.gameObject, shadow).raycastTarget = false;
+            UiFactory.Stretch(under);
+            under.offsetMin = new Vector2(0f, -11f);
+            under.offsetMax = new Vector2(0f, -11f);
+
+            RectTransform face = UiFactory.Column(rect, "Boton", 0, 0, color);
+            UiFactory.Stretch(face);
+            VerticalLayoutGroup layout = face.GetComponent<VerticalLayoutGroup>();
+            layout.childAlignment = TextAnchor.MiddleCenter;
+            layout.padding = new RectOffset(16, 16, 12, 12);
+            Button button = rect.gameObject.AddComponent<Button>();
+            button.targetGraphic = face.GetComponent<Image>();
+            button.onClick.AddListener(onClick);
+
+            TextMeshProUGUI label = UiFactory.Label(face, text, 55, ink, FontStyles.Normal, Face.Title);
+            label.alignment = TextAlignmentOptions.Center;
+            label.textWrappingMode = TextWrappingModes.NoWrap;
+            if (note != null)
+            {
+                TextMeshProUGUI small = UiFactory.Label(face, note, UiFactory.MinFontSize, ink, FontStyles.Bold);
+                small.alignment = TextAlignmentOptions.Center;
+            }
+
+            return button;
+        }
+
+        /// <summary>El círculo chico de Volver al pasado: el reloj con la flecha hacia atrás y, en la esquina, las cargas que quedan.</summary>
+        private void GoBackCircle(RectTransform row, LifePresenter presenter, int charges)
+        {
+            RectTransform rect = UiFactory.Child(row, "Volver al pasado");
+            LayoutElement size = rect.gameObject.AddComponent<LayoutElement>();
+            size.minWidth = size.preferredWidth = 138;
+            size.minHeight = size.preferredHeight = 138;
+            Image rim = rect.gameObject.AddComponent<Image>();
+            rim.sprite = Icons.Get(Icons.Disc);
+            rim.color = UiFactory.Hex(0x6C7898);
+            RectTransform inside = UiFactory.Child(rect, "Fondo");
+            UiFactory.Stretch(inside);
+            inside.offsetMin = new Vector2(6f, 6f);
+            inside.offsetMax = new Vector2(-6f, -6f);
+            Image fill = inside.gameObject.AddComponent<Image>();
+            fill.sprite = Icons.Get(Icons.Disc);
+            fill.color = Panel;
+            fill.raycastTarget = false;
+            Image clock = Icons.Place(rect, Icons.GoBack, 70f, UiFactory.MutedInk);
+            clock.rectTransform.anchoredPosition = Vector2.zero;
+
+            RectTransform badge = UiFactory.Child(rect, "Cargas");
+            Image badgeImage = badge.gameObject.AddComponent<Image>();
+            badgeImage.sprite = Icons.Get(Icons.Disc);
+            badgeImage.color = UiFactory.Hex(0x8FA0C4);
+            badgeImage.raycastTarget = false;
+            badge.anchorMin = badge.anchorMax = new Vector2(1f, 1f);
+            badge.sizeDelta = new Vector2(56f, 56f);
+            badge.anchoredPosition = new Vector2(-6f, -6f);
+            TextMeshProUGUI count = UiFactory.Label(badge, charges.ToString(), UiFactory.MinFontSize, UiFactory.Background, FontStyles.Bold);
+            UiFactory.Stretch(count.rectTransform);
+            count.alignment = TextAlignmentOptions.Center;
+
+            Button button = rect.gameObject.AddComponent<Button>();
+            button.targetGraphic = rim;
+            button.onClick.AddListener(() =>
+            {
+                Sounds.Play(Sound.PageTurn);
+                PickMoment(true);
+            });
+        }
+
+        /// <summary>"Seguir un mes": hasta el mes que viene, o antes si pasa algo importante.</summary>
+        private void AdvanceMonth() => Advance(false);
+
+        /// <summary>"Un año": un año entero, o menos si pasa algo importante.</summary>
+        private void AdvanceYear() => Advance(true);
+
+        /// <summary>Avanza un mes o, con <paramref name="year"/>, un año; los dos se detienen si pasa algo importante.</summary>
+        private void Advance(bool year)
         {
             Sounds.Play(Sound.WoodKnock);
             LifeSnapshot before = _presenter!.Snapshot();
             StudyMark studiesBefore = StudyMark.Of(_presenter);
-            int weeks = untilSomething ? _presenter.AdvanceUntilSomething() : _presenter.AdvanceWeek();
+            int weeks = year ? _presenter.AdvanceYear() : _presenter.AdvanceMonth();
             _chapter = _presenter.TakeClosedChapter() ?? _chapter;
             RememberStep(before, weeks);
             studiesBefore.PlayChange(StudyMark.Of(_presenter));

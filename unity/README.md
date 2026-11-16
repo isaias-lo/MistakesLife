@@ -10,7 +10,7 @@ Versión de Unity: **Unity 6 LTS** (6000.0.x).
 2. Descarga el repositorio a tu computador (con GitHub Desktop o `git clone`).
 3. En Unity Hub: **Add → Add project from disk** y elige esta carpeta `unity/`. Ábrelo con Unity 6.
 4. La primera vez tarda unos minutos: Unity crea `ProjectSettings/` y archivos `.meta`. Esos **sí** se suben al repositorio.
-5. Aprieta **Play** (▶). Aparece una pantalla de prueba con tu personaje, el botón "Seguir viviendo", los eventos con sus opciones y el diario.
+5. Aprieta **Play** (▶). Aparece la pantalla principal: tu personaje, la escena 3D, lo que pasa, tus barras, los botones "Seguir un mes" y "Un año" y la barra de grupos.
 
 Si algo sale en rojo en la ventana **Console**, copia el mensaje y compártelo en el hilo.
 
