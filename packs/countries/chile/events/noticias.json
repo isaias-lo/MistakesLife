@@ -35,7 +35,8 @@
     "probabilidad_anual": 1,
     "enfriamiento_semanas": 104,
     "variantes": [
-      "evento.terremoto.2"
+      "evento.terremoto.2",
+      "evento.terremoto.3"
     ],
     "opciones": [
       {
@@ -268,6 +269,9 @@
       "semilla('semilla.voluntarios_juntos').testigo.carino += 8",
       "jugador.felicidad += 3",
       "diario('diario.voluntarios_recuerdo')"
+    ],
+    "variantes": [
+      "evento.voluntarios_recuerdo.2"
     ]
   },
   {

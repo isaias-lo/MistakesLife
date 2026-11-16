@@ -100,5 +100,7 @@
   "evento.protestas.2": "Las marchas siguen. El metro cierra temprano, la micro da la vuelta larga y en la noche suenan las cacerolas en todo el barrio.",
   "evento.protestas.3": "En la mesa familiar no se habla de otra cosa que de las protestas. Cada uno tiene su opinión y nadie convence a nadie.",
   "evento.terremoto_danos.2": "Después del terremoto, una grieta atraviesa el muro del living y la puerta del baño ya no cierra.",
-  "accion.dinero.reparar_grietas": "Arreglar las grietas de la casa"
+  "accion.dinero.reparar_grietas": "Arreglar las grietas de la casa",
+  "evento.terremoto.3": "Te despierta un ruido que viene de la tierra. Todo se mueve tanto que no puedes ni pararte. Cuando por fin para, no hay luz ni señal.",
+  "evento.voluntarios_recuerdo.2": "{persona} te escribe en el aniversario del incendio: \"¿Te acuerdas de esa semana? Todavía me acuerdo de la familia de la casa azul\"."
 }

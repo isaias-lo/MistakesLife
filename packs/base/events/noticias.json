@@ -75,6 +75,9 @@
       "jugador.salud -= si(jugador.edad >= 70, 12, 6)",
       "jugador.felicidad -= 3",
       "diario('diario.influenza_fuerte')"
+    ],
+    "variantes": [
+      "evento.influenza_fuerte.2"
     ]
   },
   {

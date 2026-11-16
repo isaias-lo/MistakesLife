@@ -330,6 +330,10 @@
     "condiciones": "causa('causa.chile.alimentos_demandado').resultado == 'pension_fijada' && jugador.hijos_con_otro > 0 && jugador.meses_en_rojo >= 1 && !jugador.tiene('no_paga_pension') && !causa('causa.chile.cumplimiento_alimentos').abierta",
     "probabilidad_anual": 0.6,
     "enfriamiento_semanas": 26,
+    "variantes": [
+      "evento.chile.pension_cuesta.2",
+      "evento.chile.pension_cuesta.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.chile.pension_cuesta.pagar",

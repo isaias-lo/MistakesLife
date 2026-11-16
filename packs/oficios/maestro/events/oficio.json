@@ -35,7 +35,8 @@
     "variantes": [
       "evento.maestro.aviso.2",
       "evento.maestro.aviso.3",
-      "evento.maestro.aviso.4"
+      "evento.maestro.aviso.4",
+      "evento.maestro.aviso.5"
     ]
   },
   {
@@ -46,6 +47,10 @@
     "probabilidad_anual": 0.9,
     "veces_maximas": 3,
     "enfriamiento_semanas": 40,
+    "variantes": [
+      "evento.maestro.lluvia.2",
+      "evento.maestro.lluvia.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.maestro.lluvia.ordenar",
@@ -215,6 +220,10 @@
     "probabilidad_anual": 0.45,
     "veces_maximas": 6,
     "enfriamiento_semanas": 40,
+    "variantes": [
+      "evento.maestro.fin_de_obra.2",
+      "evento.maestro.fin_de_obra.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.maestro.fin_de_obra.seguir",

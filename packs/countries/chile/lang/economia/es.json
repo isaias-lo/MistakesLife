@@ -54,5 +54,8 @@
   "evento.compra_tarjeta.5": "Un amigo se compró un celular nuevo y te muestra la cámara. En la tienda, el mismo modelo sale en 24 cuotas.",
   "evento.oferta_tarjeta.2": "Vas al banco por otro trámite y la ejecutiva insiste: con tu sueldo calificas para una tarjeta de crédito, y te la mandan a la casa.",
   "evento.operacion_renta.2": "Sigue pendiente tu declaración de renta. El SII te recuerda que el plazo vence a fin de abril.",
-  "evento.operacion_renta.3": "Quedan pocos días para declarar la renta. La propuesta del SII sigue ahí, esperando que la revises."
+  "evento.operacion_renta.3": "Quedan pocos días para declarar la renta. La propuesta del SII sigue ahí, esperando que la revises.",
+  "evento.operacion_renta.4": "Otro abril, otra Operación Renta. Juntas las boletas de honorarios del año y entras al sitio del SII a ver la propuesta.",
+  "evento.operacion_renta.5": "Te llega el correo del SII: ya está disponible tu propuesta de declaración. Este año boleteaste más que el anterior.",
+  "evento.operacion_renta.6": "Es fin de abril y la declaración de renta sigue sin hacer. En las noticias recuerdan que el plazo vence en pocos días."
 }

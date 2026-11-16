@@ -35,7 +35,8 @@
     "variantes": [
       "evento.vendedor.aviso.2",
       "evento.vendedor.aviso.3",
-      "evento.vendedor.aviso.4"
+      "evento.vendedor.aviso.4",
+      "evento.vendedor.aviso.5"
     ]
   },
   {
@@ -87,6 +88,10 @@
     "probabilidad_anual": 0.9,
     "veces_maximas": 3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.vendedor.cierre_dia.2",
+      "evento.vendedor.cierre_dia.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.vendedor.cierre_dia.atacar",
@@ -158,6 +163,10 @@
     "probabilidad_anual": 0.7,
     "veces_maximas": 3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.vendedor.inventario.2",
+      "evento.vendedor.inventario.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.vendedor.inventario.quedarse",
@@ -190,6 +199,10 @@
     "probabilidad_anual": 0.4,
     "veces_maximas": 3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.vendedor.merma.2",
+      "evento.vendedor.merma.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.vendedor.merma.decir",

@@ -35,7 +35,8 @@
     "variantes": [
       "evento.garzon.aviso.2",
       "evento.garzon.aviso.3",
-      "evento.garzon.aviso.4"
+      "evento.garzon.aviso.4",
+      "evento.garzon.aviso.5"
     ]
   },
   {
@@ -200,6 +201,10 @@
     "probabilidad_anual": 0.8,
     "veces_maximas": 3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.garzon.cocina.2",
+      "evento.garzon.cocina.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.garzon.cocina.paciencia",
@@ -234,6 +239,10 @@
     "probabilidad_anual": 0.9,
     "veces_maximas": 3,
     "enfriamiento_semanas": 40,
+    "variantes": [
+      "evento.garzon.fin_de_ano.2",
+      "evento.garzon.fin_de_ano.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.garzon.fin_de_ano.todo",

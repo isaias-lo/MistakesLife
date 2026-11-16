@@ -69,5 +69,10 @@
   "diario.software.modelo_sesgado_sale_a_la_luz": "Salió en las noticias que mi modelo discriminaba.",
   "evento.software.caida_produccion.2": "Una actualización que subiste en la tarde dejó a miles de usuarios sin poder pagar en la app. Son las dos de la mañana y el teléfono no para.",
   "evento.software.caida_produccion.3": "La base de datos se llenó y el sistema dejó de responder justo en el día de más ventas del año.",
-  "evento.software.cambiar_area.2": "Tu jefatura te cuenta que en otra área necesitan a alguien como tú. El cambio es interesante, pero empiezas un cargo más abajo."
+  "evento.software.cambiar_area.2": "Tu jefatura te cuenta que en otra área necesitan a alguien como tú. El cambio es interesante, pero empiezas un cargo más abajo.",
+  "evento.software.caso_absurdo.2": "Un gerente pide \"que internet ande más rápido\" y te manda el ticket con prioridad urgente.",
+  "evento.software.caso_absurdo.3": "Una usuaria llama porque \"se borró todo\": tenía la pantalla minimizada.",
+  "evento.software.pruebas_eternas.2": "Sale una versión nueva el lunes y te pasan la lista de pruebas el viernes a las seis de la tarde.",
+  "evento.software.pruebas_eternas.3": "Encuentras un error grave el día del lanzamiento. Nadie quiere escuchar que hay que atrasarlo.",
+  "evento.software.cambiar_area.3": "En la empresa abren un puesto en otra área y tu nombre sale en la reunión. Sería empezar un cargo más abajo, aprendiendo de nuevo."
 }

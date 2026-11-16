@@ -125,5 +125,7 @@
   "correo.juzgado.registro_deudores.asunto": "Inscripción en el Registro Nacional de Deudores de Pensiones de Alimentos",
   "correo.juzgado.registro_deudores": "Por resolución del tribunal, quedaste inscrito en el Registro Nacional de Deudores de Pensiones de Alimentos. Mientras sigas en él, los bancos deben retener tus fondos para pagar la deuda, y no puedes sacar pasaporte ni renovar tu licencia de conducir.",
   "correo.juzgado.cuidado_personal.asunto": "Citación a mediación familiar",
-  "correo.juzgado.cuidado_personal": "Antes de ir a juicio por el cuidado personal o los alimentos de tus hijos, la ley pide una mediación. Es gratuita. Te llegará la citación con el día y la hora."
+  "correo.juzgado.cuidado_personal": "Antes de ir a juicio por el cuidado personal o los alimentos de tus hijos, la ley pide una mediación. Es gratuita. Te llegará la citación con el día y la hora.",
+  "evento.chile.pension_cuesta.2": "Te llega la notificación de la transferencia de la pensión de alimentos. Con eso, la cuenta queda en cero antes del día 10.",
+  "evento.chile.pension_cuesta.3": "Haces malabares para llegar a fin de mes, pero la pensión de los niños no se toca: sale igual, como dice la resolución del tribunal."
 }

@@ -40,7 +40,7 @@
     "condiciones": "jugador.prevision_privada && jugador.tipo_trabajo != 'dependiente'",
     "probabilidad_anual": 1,
     "enfriamiento_semanas": 52,
-    "variantes": ["evento.chile.isapre_sin_contrato.2"],
+    "variantes": ["evento.chile.isapre_sin_contrato.2", "evento.chile.isapre_sin_contrato.3", "evento.chile.isapre_sin_contrato.4"],
     "opciones": [
       {
         "texto": "opcion.isapre_sin_contrato.seguir",
@@ -91,6 +91,7 @@
   },
   {
     "id": "evento.chile.ofrecen_isapre",
+    "variantes": ["evento.chile.ofrecen_isapre.2", "evento.chile.ofrecen_isapre.3"],
     "condiciones": "jugador.tiene('eligio_prevision') && !jugador.prevision_privada && jugador.tipo_trabajo == 'dependiente' && jugador.tramo_salud == 'prevision.chile.fonasa.tramo_d' && !jugador.tiene('hipertension') && !jugador.tiene('diabetes') && !jugador.tiene('tuvo_cancer')",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 104,
@@ -113,10 +114,11 @@
   },
   {
     "id": "evento.chile.enfermarse",
+    "veces_maximas": 12,
     "condiciones": "jugador.edad >= 18",
     "probabilidad_anual": 0.6,
     "enfriamiento_semanas": 12,
-    "variantes": ["evento.chile.enfermarse.2", "evento.chile.enfermarse.3"],
+    "variantes": ["evento.chile.enfermarse.2", "evento.chile.enfermarse.3", "evento.chile.enfermarse.4", "evento.chile.enfermarse.5", "evento.chile.enfermarse.6", "evento.chile.enfermarse.7", "evento.chile.enfermarse.8", "evento.chile.enfermarse.9", "evento.chile.enfermarse.10", "evento.chile.enfermarse.11", "evento.chile.enfermarse.12"],
     "opciones": [
       {
         "texto": "opcion.enfermarse.consultorio",
@@ -158,10 +160,11 @@
   },
   {
     "id": "evento.chile.urgencia",
+    "veces_maximas": 8,
     "condiciones": "jugador.edad >= 18",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 26,
-    "variantes": ["evento.chile.urgencia.2", "evento.chile.urgencia.3"],
+    "variantes": ["evento.chile.urgencia.2", "evento.chile.urgencia.3", "evento.chile.urgencia.4", "evento.chile.urgencia.5", "evento.chile.urgencia.6", "evento.chile.urgencia.7", "evento.chile.urgencia.8"],
     "opciones": [
       {
         "texto": "opcion.urgencia.sapu",

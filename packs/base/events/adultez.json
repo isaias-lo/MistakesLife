@@ -70,6 +70,11 @@
     "probabilidad_anual": 1,
     "enfriamiento_semanas": 52,
     "dia_clave": true,
+    "variantes": [
+      "evento.jubilacion.2",
+      "evento.jubilacion.3",
+      "evento.jubilacion.4"
+    ],
     "opciones": [
       {
         "texto": "opcion.jubilacion.jubilarse",

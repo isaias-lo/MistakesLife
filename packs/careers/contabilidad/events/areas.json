@@ -4,6 +4,10 @@
     "condiciones": "jugador.area == 'carrera.contabilidad.area.general'",
     "probabilidad_anual": 0.25,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.contabilidad.boletas_en_bolsa.2",
+      "evento.contabilidad.boletas_en_bolsa.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.contabilidad.boletas_en_bolsa.ordenar",
@@ -239,9 +243,14 @@
   },
   {
     "id": "evento.contabilidad.especializarse",
+    "veces_maximas": 3,
     "condiciones": "jugador.area != nada && jugador.tiene('trabaja_contabilidad') && jugador.meses_en_cargo >= 12",
     "probabilidad_anual": 0.2,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.contabilidad.especializarse.2",
+      "evento.contabilidad.especializarse.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.contabilidad.especializarse.tributacion",
@@ -284,9 +293,13 @@
   },
   {
     "id": "evento.contabilidad.cambiar_area",
+    "veces_maximas": 3,
     "condiciones": "jugador.area != nada && jugador.tiene('trabaja_contabilidad') && jugador.meses_en_cargo >= 12",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.contabilidad.cambiar_area.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.contabilidad.cambiar_area.general",
