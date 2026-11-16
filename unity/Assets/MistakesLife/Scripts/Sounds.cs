@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MistakesLife.Unity
 {
-    /// <summary>Los sonidos de la interfaz (docs/diseno-app.md, versión 4: "cada cosa suena").</summary>
+    /// <summary>Los sonidos de la interfaz (docs/archivo/diseno-app.md, versión 4: "cada cosa suena").</summary>
     public enum Sound
     {
         /// <summary>Abrir la libreta o cambiar de hoja: una hoja que se da vuelta.</summary>

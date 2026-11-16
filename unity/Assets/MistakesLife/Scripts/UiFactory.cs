@@ -15,7 +15,7 @@ namespace MistakesLife.Unity
     /// </summary>
     public static class UiFactory
     {
-        // Colores acordados en docs/diseno-app.md (sección "Colores"). Para cambiar el
+        // Colores acordados en docs/archivo/diseno-app.md (sección "Colores"). Para cambiar el
         // estilo de toda la app, se cambian aquí.
 
         /// <summary>Noche: el fondo de toda la interfaz (#141B2D).</summary>

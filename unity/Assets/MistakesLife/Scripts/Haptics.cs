@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// La vibración que acompaña a cada sonido (docs/diseno-app.md, versión 4). En Android es un
+    /// La vibración que acompaña a cada sonido (docs/archivo/diseno-app.md, versión 4). En Android es un
     /// toque muy corto (15 milisegundos); en el editor y en otros equipos no hace nada.
     /// </summary>
     public static class Haptics

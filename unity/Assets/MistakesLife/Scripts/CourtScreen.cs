@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// La carpeta del juzgado (docs/diseno-app.md, "Juzgado"): una carpeta de cartulina que se abre
+    /// La carpeta del juzgado (docs/archivo/diseno-app.md, "Juzgado"): una carpeta de cartulina que se abre
     /// encima de la vida. Adentro, cada causa en su hoja: el RIT en letra de máquina, el tribunal,
     /// el nombre de la causa, cuándo ingresó, un timbre (EN TRÁMITE o TERMINADA) y la línea del
     /// proceso con cada etapa y su plazo: las que ya pasaron, la actual (con en qué semana va) y
@@ -18,7 +18,7 @@ namespace MistakesLife.Unity
     /// </summary>
     public sealed class CourtScreen
     {
-        /// <summary>El material del juzgado: cartulina (docs/diseno-app.md).</summary>
+        /// <summary>El material del juzgado: cartulina (docs/archivo/diseno-app.md).</summary>
         public static readonly Color Cardboard = UiFactory.Hex(0xD9B36E);
 
         private static readonly Color CardboardDark = UiFactory.Hex(0xB48D4C);

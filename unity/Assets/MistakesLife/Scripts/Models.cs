@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// Un modelo por id (docs/diseno-app.md, sección 7). Para cada objeto de la maqueta
+    /// Un modelo por id (docs/archivo/diseno-app.md, sección 7). Para cada objeto de la maqueta
     /// (un mueble como "mueble.mesa" o un objeto de escena como "escena.casa.diploma")
     /// se busca primero un modelo en Resources/Modelos/&lt;id&gt;.prefab. Si existe, se usa ese;
     /// si no, se dibuja la forma simple de reserva. Así se cambia cómo se ve un objeto

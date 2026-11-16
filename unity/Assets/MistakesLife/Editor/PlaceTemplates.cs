@@ -8,7 +8,7 @@ using UnityEngine;
 namespace MistakesLife.Unity.Editor
 {
     /// <summary>
-    /// Menú para empezar a editar un lugar en el editor de Unity (docs/diseno-app.md, sección 7).
+    /// Menú para empezar a editar un lugar en el editor de Unity (docs/archivo/diseno-app.md, sección 7).
     /// Crea Resources/Lugares/&lt;lugar&gt;.prefab (pieza, barrio y los trabajos) con las anclas de
     /// siempre ("ancla.mesa", "ancla.colegio"...),
     /// cada una con un cubito de guía para verla y moverla. Desde ese momento el juego usa

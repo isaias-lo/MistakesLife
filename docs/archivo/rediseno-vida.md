@@ -1,3 +1,5 @@
+> **Archivado el 16-11-2026.** Este documento fue reemplazado por [`docs/diseno-juego.md`](../diseno-juego.md), que manda sobre cómo se juega y cómo se ve. Se guarda solo como historia.
+
 # Rediseño: volver al realismo (acordado con Isaias el 2026-11-14)
 
 Este documento manda sobre cómo se **juega** MistakesLife. Nace del análisis profundo del 2026-11-14 (https://claude.ai/artifact/BVsdeKH4Qca6egnybXRR4j) y de los bocetos versión 3 que Isaias aprobó ("me encantó, sigamos"):

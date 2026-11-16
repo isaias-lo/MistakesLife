@@ -228,7 +228,7 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>
-        /// Una figura estilo juguete de madera (docs/diseno-app.md, sección 4): cuerpo de una
+        /// Una figura estilo juguete de madera (docs/archivo/diseno-app.md, sección 4): cuerpo de una
         /// pieza, cabeza redonda con la cara pintada (ojos de punto, mejillas y una boca que
         /// sonríe, queda seria o se pone triste según su felicidad), pelo como casco y, en la
         /// vejez, pelo gris, lentes y, desde los 80, bastón. El jugador va de amarillo y, si
