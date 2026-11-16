@@ -163,9 +163,57 @@ namespace MistakesLife.Core.Tests
                 AdvanceEconomy(world, content, GameDate.WeeksPerYear * years);
 
                 // Chile 2000-2024: cerca de 3,5 % al año en promedio (Banco Central, IPC del INE).
-                double average = Math.Pow(world.EconomyOf("pais.chile")!.PriceIndex, 1.0 / years) - 1;
+                double initial = content.GetCountry("pais.chile").Economy!.Inflation.InitialIndex;
+                double average = Math.Pow(world.EconomyOf("pais.chile")!.PriceIndex / initial, 1.0 / years) - 1;
                 Assert.InRange(average, 0.03, 0.055);
             }
+        }
+
+        [Fact]
+        public void IndiceInicial_AlNacer_LasCosasCuestanMenosQueLosPreciosDeHoy()
+        {
+            ContentDatabase content = Content(Economy.Replace(@"""regimen_inicial"": ""economia.inflacion.estable"",", @"""regimen_inicial"": ""economia.inflacion.estable"", ""indice_inicial"": 0.5,"));
+            World world = new LifeSession(content, 1).World;
+
+            Assert.Equal(0.5, world.EconomyOf("pais.prueba")!.PriceIndex, 6);
+            Assert.Equal(7500, Eval(world, content, "precio(15000)").AsNumber("prueba"));
+
+            AdvanceEconomy(world, content, GameDate.WeeksPerYear);
+            Assert.Equal(0.515, world.EconomyOf("pais.prueba")!.PriceIndex, 6);
+        }
+
+        [Fact]
+        public void Chile_ALos25Anios_LosPreciosSonCasiLosDeHoy()
+        {
+            // Los montos de los paquetes son los precios de hoy: al ser adulto, lo que
+            // paga el jugador debe parecerse a lo que cuesta hoy (y no el doble o el triple).
+            ContentDatabase content = RepoPacks.Content;
+            var at25 = new System.Collections.Generic.List<double>();
+            for (ulong seed = 1; seed <= 40; seed++)
+            {
+                World world = new LifeSession(content, seed).World;
+                Assert.True(world.EconomyOf("pais.chile")!.PriceIndex < 0.5, "Al nacer, las cosas cuestan menos que hoy.");
+                AdvanceEconomy(world, content, GameDate.WeeksPerYear * 25);
+                at25.Add(world.EconomyOf("pais.chile")!.PriceIndex);
+            }
+
+            at25.Sort();
+            Assert.InRange(at25[at25.Count / 2], 0.9, 1.1);
+            // Nueve de cada diez vidas, entre 0,75 y 1,5 (las otras pasaron por un episodio de inflación alta).
+            Assert.InRange(at25[at25.Count / 20], 0.75, 1.5);
+            Assert.InRange(at25[at25.Count * 19 / 20 - 1], 0.75, 1.5);
+        }
+
+        [Fact]
+        public void IndiceInicial_FueraDeRango_EsUnErrorDeContenido()
+        {
+            var content = new ContentDatabase();
+            content.AddCountryJson("pack.prueba", "country.json", CountryTests.CountryJson.TrimEnd().TrimEnd('}')
+                + Economy.Replace(@"""regimen_inicial"": ""economia.inflacion.estable"",", @"""regimen_inicial"": ""economia.inflacion.estable"", ""indice_inicial"": 2,"));
+
+            var ex = Assert.Throws<ContentLoadException>(() => content.Build());
+
+            Assert.Contains(ex.Errors, e => e.Message.Contains("indice_inicial"));
         }
 
         [Fact]

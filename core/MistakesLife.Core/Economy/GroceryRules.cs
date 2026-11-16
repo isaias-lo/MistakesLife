@@ -21,7 +21,7 @@ namespace MistakesLife.Core.Economy
             character.Residence == null ? null : content.GetCountry(character.Residence.CountryId).Economy?.Groceries;
 
         /// <summary>
-        /// Lo que le toca pagar al mes por esa compra, en dinero del inicio del mundo:
+        /// Lo que le toca pagar al mes por esa compra, en dinero de los paquetes:
         /// el costo por persona por los que comen en su casa (los hijos que viven con él, con el factor
         /// del país), dividido a medias si tiene pareja.
         /// </summary>

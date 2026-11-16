@@ -11,7 +11,7 @@ namespace MistakesLife.Core.Content
         [JsonProperty("id", Required = Required.Always)]
         public string Id { get; set; } = string.Empty;
 
-        /// <summary>Lo que cuesta al mes, en dinero del inicio del mundo.</summary>
+        /// <summary>Lo que cuesta al mes, en dinero de los paquetes.</summary>
         [JsonProperty("precio", Required = Required.Always)]
         public decimal Price { get; set; }
     }

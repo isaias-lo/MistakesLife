@@ -16,8 +16,8 @@ namespace MistakesLife.Core.Content
         public double Rate { get; set; }
 
         /// <summary>
-        /// Sueldo máximo sobre el que se calcula (el "tope imponible"), en dinero del
-        /// inicio del mundo. Si falta, no hay tope.
+        /// Sueldo máximo sobre el que se calcula (el "tope imponible"), en dinero de
+        /// los paquetes. Si falta, no hay tope.
         /// </summary>
         [JsonProperty("tope")]
         public decimal? Cap { get; set; }

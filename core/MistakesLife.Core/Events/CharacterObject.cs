@@ -482,7 +482,7 @@ namespace MistakesLife.Core.Events
             }
         }
 
-        /// <summary>Lleva un monto en dinero del inicio del mundo a precios de hoy del país donde vive.</summary>
+        /// <summary>Lleva un monto en dinero de los paquetes a precios de hoy del país donde vive.</summary>
         private decimal PayrollToday(decimal amount, IScriptScope scope)
         {
             string? country = _character.Residence?.CountryId;
@@ -1252,8 +1252,8 @@ namespace MistakesLife.Core.Events
         }
 
         /// <summary>
-        /// endeudarse('tipo', monto): pide prestado ese monto, escrito en dinero del
-        /// inicio del mundo, con un tipo de deuda de su país.
+        /// endeudarse('tipo', monto): pide prestado ese monto, escrito en dinero de
+        /// los paquetes, con un tipo de deuda de su país.
         /// </summary>
         private void Borrow(EventScope scope, Value[] args)
         {
@@ -1282,7 +1282,7 @@ namespace MistakesLife.Core.Events
 
         /// <summary>
         /// trabajar(sueldo) o trabajar(sueldo, 'honorarios' o 'informal'): empieza un trabajo con ese
-        /// sueldo bruto mensual, escrito en dinero del inicio del mundo (por ejemplo
+        /// sueldo bruto mensual, escrito en dinero de los paquetes (por ejemplo
         /// sueldo_titulo() o sueldo_minimo() * 1.2). Reemplaza el trabajo anterior.
         /// </summary>
         private void StartJob(EventScope scope, Value[] args)

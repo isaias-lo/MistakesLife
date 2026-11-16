@@ -20,7 +20,7 @@ namespace MistakesLife.Core.Economy
         public static HousingDefinition? RulesFor(ContentDatabase content, Character character) =>
             character.Residence == null ? null : content.GetCountry(character.Residence.CountryId).Economy?.Housing;
 
-        /// <summary>Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero del inicio del mundo.</summary>
+        /// <summary>Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero de los paquetes.</summary>
         public static decimal MarketRent(ContentDatabase content, Character character, string typeId)
         {
             if (character.Residence == null)

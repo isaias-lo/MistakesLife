@@ -29,11 +29,11 @@ namespace MistakesLife.Core.Content
         [JsonProperty("anos_promedio")]
         public int AverageYears { get; set; } = 10;
 
-        /// <summary>Parte fija que recibe todo jubilado con los años mínimos, en dinero del inicio del mundo.</summary>
+        /// <summary>Parte fija que recibe todo jubilado con los años mínimos, en dinero de los paquetes.</summary>
         [JsonProperty("base_universal")]
         public decimal UniversalBase { get; set; }
 
-        /// <summary>La pensión más baja que se paga a quien cumple los años mínimos, en dinero del inicio del mundo.</summary>
+        /// <summary>La pensión más baja que se paga a quien cumple los años mínimos, en dinero de los paquetes.</summary>
         [JsonProperty("minima")]
         public decimal Minimum { get; set; }
     }

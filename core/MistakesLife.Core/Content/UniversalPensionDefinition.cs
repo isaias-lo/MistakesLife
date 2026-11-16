@@ -5,7 +5,7 @@ namespace MistakesLife.Core.Content
     /// <summary>
     /// Pensión del Estado para personas mayores (en Chile, la PGU). Es completa si
     /// la pensión propia es baja y baja poco a poco hasta cero si es alta.
-    /// Montos mensuales en dinero del inicio del mundo.
+    /// Montos mensuales en dinero de los paquetes.
     /// </summary>
     public sealed class UniversalPensionDefinition
     {

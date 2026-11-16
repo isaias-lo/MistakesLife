@@ -4,7 +4,7 @@ namespace MistakesLife.Core.Content
 {
     /// <summary>
     /// Un tramo del impuesto a la renta: la parte del ingreso desde "desde" (y
-    /// hasta el tramo siguiente) paga "tasa". Montos en dinero del inicio del mundo.
+    /// hasta el tramo siguiente) paga "tasa". Montos en dinero de los paquetes.
     /// </summary>
     public sealed class TaxBracketDefinition
     {

@@ -124,7 +124,7 @@ namespace MistakesLife.Core.Economy
             character.PensionFund = 0;
         }
 
-        /// <summary>La pensión mensual que recibiría si se jubilara hoy, en dinero del inicio del mundo.</summary>
+        /// <summary>La pensión mensual que recibiría si se jubilara hoy, en dinero de los paquetes.</summary>
         public static decimal EstimatedPension(Character character, PensionsDefinition? rules)
         {
             PayAsYouGoPensionDefinition? payAsYouGo = rules?.PayAsYouGo;
@@ -140,7 +140,7 @@ namespace MistakesLife.Core.Economy
         /// <summary>
         /// La pensión de reparto: sin los años mínimos de aportes, 0; con ellos,
         /// la parte fija más un porcentaje del sueldo promedio por cada año, y al
-        /// menos la mínima. Todo en dinero del inicio del mundo.
+        /// menos la mínima. Todo en dinero de los paquetes.
         /// </summary>
         public static decimal PayAsYouGoPension(int contributedMonths, decimal salaryBase, PayAsYouGoPensionDefinition rules)
         {

@@ -81,7 +81,7 @@ namespace MistakesLife.Core.Economy
                 .ToList();
         }
 
-        /// <summary>Sueldo bruto (en dinero del inicio del mundo) de ese cargo en esa área, a partir del sueldo de su título.</summary>
+        /// <summary>Sueldo bruto (en dinero de los paquetes) de ese cargo en esa área, a partir del sueldo de su título.</summary>
         public static decimal Salary(double degreeSalary, CareerAreaDefinition area, CareerPositionDefinition position) =>
             Math.Round((decimal)(degreeSalary * area.SalaryRelative * position.SalaryRelative), MidpointRounding.AwayFromZero);
 

@@ -185,7 +185,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Chile_VidaLaboralCompletaConSueldoTipico_PensionCercanaALaMitadDelSueldo()
         {
-            // 40 años cotizando sobre el sueldo típico (dinero del inicio, sin inflación).
+            // 40 años cotizando sobre el sueldo típico (dinero de los paquetes, sin inflación).
             PensionsDefinition rules = RepoPacks.Content.GetCountry("pais.chile").Economy!.Pensions!;
             PensionAccountDefinition account = rules.IndividualAccount!;
             decimal salary = RepoPacks.Content.GetCountry("pais.chile").Economy!.Salaries!.Typical;

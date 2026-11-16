@@ -32,7 +32,7 @@ namespace MistakesLife.Core.Economy
             PlanOf(rules, character)?.Id ?? rules.PublicId;
 
         /// <summary>
-        /// Lo que gana al mes para la previsión, en dinero del inicio del mundo: el sueldo
+        /// Lo que gana al mes para la previsión, en dinero de los paquetes: el sueldo
         /// de un trabajo con cotizaciones (contrato u honorarios) o, si no, su pensión.
         /// Un trabajo informal no cotiza: cuenta como sin ingresos.
         /// </summary>
@@ -70,7 +70,7 @@ namespace MistakesLife.Core.Economy
             return rules.Tiers[rules.Tiers.Count - 1].Id;
         }
 
-        /// <summary>Lo que cuesta al mes ese plan a su edad (precio base por el factor), en dinero del inicio del mundo.</summary>
+        /// <summary>Lo que cuesta al mes ese plan a su edad (precio base por el factor), en dinero de los paquetes.</summary>
         public static decimal PlanPrice(HealthCareDefinition rules, HealthPlanDefinition plan, int age) =>
             Math.Round(plan.BasePrice * (decimal)rules.AgeFactor(age), MidpointRounding.AwayFromZero);
 
@@ -101,7 +101,7 @@ namespace MistakesLife.Core.Economy
             !service.PublicOnly || PlanOf(rules, character) == null;
 
         /// <summary>
-        /// Lo que paga por esa atención, en dinero del inicio del mundo: con un plan
+        /// Lo que paga por esa atención, en dinero de los paquetes: con un plan
         /// privado, el precio menos lo que cubre el plan; en la pública con ingresos, el
         /// bono (o el precio si no hay bono); sin ingresos no puede comprar bonos y paga
         /// el precio (salvo en la red pública, que es gratis).

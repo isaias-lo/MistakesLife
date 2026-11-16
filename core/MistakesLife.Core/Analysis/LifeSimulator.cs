@@ -135,7 +135,8 @@ namespace MistakesLife.Core.Analysis
                     double years = (double)player.AgeInWeeks(session.World.Date) / GameDate.WeeksPerYear;
                     if (years > 0)
                     {
-                        inflation += Math.Pow(economy.PriceIndex, 1 / years) - 1;
+                        double initialIndex = _content.GetCountry(economy.CountryId).Economy?.Inflation.InitialIndex ?? 1;
+                        inflation += Math.Pow(economy.PriceIndex / initialIndex, 1 / years) - 1;
                         inflationLives++;
                     }
 
