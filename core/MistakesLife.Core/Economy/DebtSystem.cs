@@ -20,8 +20,9 @@ namespace MistakesLife.Core.Economy
     /// Las que se pagan con el saldo (línea de crédito) se llevan todo el dinero
     /// que haya, hasta lo que se debe.
     /// Con varios meses seguidos sin pagar, la persona queda en el registro de
-    /// morosos; sale al ponerse al día. Si el país lo dice, tras muchos meses sin
-    /// pagar la deuda prescribe y se borra.
+    /// morosos; sale al ponerse al día. Si el tipo lo dice, tras unos meses sin pagar
+    /// el banco la castiga: deja de sumar intereses (en Chile, a los 6 meses). Si el
+    /// país lo dice, tras muchos meses sin pagar la deuda prescribe y se borra.
     /// </summary>
     public sealed class DebtSystem : IWeeklySystem
     {
@@ -31,6 +32,7 @@ namespace MistakesLife.Core.Economy
         public const string DelinquentJournal = "diario.deudas.moroso";
         public const string ClearedJournal = "diario.deudas.fuera_registro";
         public const string PrescribedJournal = "diario.deudas.prescrita";
+        public const string WrittenOffJournal = "diario.deudas.castigada";
 
         private readonly ContentDatabase _content;
 
@@ -65,6 +67,11 @@ namespace MistakesLife.Core.Economy
                 {
                     DebtTypeDefinition type = rules.Type(debt.TypeId) ?? throw new InvalidOperationException($"{character.Residence.CountryId} no tiene la deuda {debt.TypeId}.");
                     paid += Advance(debt, type, character, scope, economy.PriceIndex);
+                    if (debt.Balance > 0 && debt.MonthsLate == type.WriteOffMonths)
+                    {
+                        world.WriteJournal(character.Id, WrittenOffJournal);
+                    }
+
                     if (debt.Balance <= 0)
                     {
                         character.RemoveDebt(debt);
@@ -95,13 +102,17 @@ namespace MistakesLife.Core.Economy
         /// <summary>Un mes de una deuda. Devuelve lo que se pagó.</summary>
         private static decimal Advance(Debt debt, DebtTypeDefinition type, Character character, EventScope scope, double priceIndex)
         {
-            if (type.Indexed && debt.PriceIndex > 0)
+            if (!IsWrittenOff(debt, type))
             {
-                debt.Balance *= (decimal)(priceIndex / debt.PriceIndex);
+                if (type.Indexed && debt.PriceIndex > 0)
+                {
+                    debt.Balance *= (decimal)(priceIndex / debt.PriceIndex);
+                }
+
+                debt.Balance = Round(debt.Balance * (1 + (decimal)MonthlyRate(type.AnnualRate)));
             }
 
             debt.PriceIndex = priceIndex;
-            debt.Balance = Round(debt.Balance * (1 + (decimal)MonthlyRate(type.AnnualRate)));
             if (type.CompiledPaymentCondition != null && !type.CompiledPaymentCondition.IsTrue(scope))
             {
                 return 0;
@@ -132,6 +143,13 @@ namespace MistakesLife.Core.Economy
             debt.MonthsLate = 0;
             return installment;
         }
+
+        /// <summary>
+        /// Si el banco ya castigó la deuda (lleva "meses_para_castigo" meses seguidos
+        /// sin pagar): no suma intereses ni se le presta más.
+        /// </summary>
+        public static bool IsWrittenOff(Debt debt, DebtTypeDefinition type) =>
+            type.WriteOffMonths.HasValue && debt.MonthsLate >= type.WriteOffMonths.Value;
 
         /// <summary>La tasa de interés de un mes, a partir de la anual.</summary>
         public static double MonthlyRate(double annualRate) => Math.Pow(1 + annualRate, 1.0 / 12) - 1;
@@ -172,9 +190,15 @@ namespace MistakesLife.Core.Economy
         /// Repactar: las deudas atrasadas que se pueden repactar quedan al día, en
         /// nuevas cuotas (con su interés de siempre). Devuelve cuántas repactó.
         /// Al ponerse al día, sale del registro de morosos el mes siguiente.
+        /// Si el país pide trabajo para repactar ("repactar_con_trabajo") y no tiene, no repacta.
         /// </summary>
         public static int Reschedule(Character character, DebtsDefinition rules)
         {
+            if (rules.RescheduleNeedsJob && character.Job == null)
+            {
+                return 0;
+            }
+
             int count = 0;
             foreach (Debt debt in character.Debts.Where(d => d.MonthsLate > 0))
             {
@@ -192,9 +216,9 @@ namespace MistakesLife.Core.Economy
             return count;
         }
 
-        /// <summary>Si tiene alguna deuda atrasada que se pueda repactar.</summary>
+        /// <summary>Si tiene alguna deuda atrasada que se pueda repactar (y trabajo, si el país lo pide).</summary>
         public static bool CanReschedule(Character character, DebtsDefinition? rules) =>
-            rules != null && character.Debts.Any(d => d.MonthsLate > 0 && rules.Type(d.TypeId)?.RescheduleInstallments != null);
+            rules != null && (!rules.RescheduleNeedsJob || character.Job != null) && character.Debts.Any(d => d.MonthsLate > 0 && rules.Type(d.TypeId)?.RescheduleInstallments != null);
 
         /// <summary>
         /// Endeudarse: suma el monto (a precios de hoy) a la deuda de ese tipo, o

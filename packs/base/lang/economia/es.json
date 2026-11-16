@@ -14,6 +14,7 @@
   "diario.deudas.moroso": "Llevas meses sin pagar tus cuotas: quedaste en la lista de deudores.",
   "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de la lista de deudores.",
   "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de la lista de deudores, pero ningún banco lo olvida.",
+  "diario.deudas.castigada": "Llevas tanto tiempo sin pagar que el banco dio tu deuda por perdida. Ya no le suma intereses ni te presta más, pero la sigues debiendo y sigues en la lista de deudores.",
   "diario.herencia.recibida": "Recibiste tu parte de una herencia.",
   "diario.herencia.pendiente": "Te toca una parte de una herencia, pero para recibirla hay que hacer un trámite.",
   "diario.herencia.deudas": "Te tocó pagar tu parte de las deudas de una herencia.",

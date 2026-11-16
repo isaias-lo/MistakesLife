@@ -289,14 +289,15 @@
     "deudas": {
       "meses_para_moroso": 3,
       "meses_prescripcion": 60,
+      "repactar_con_trabajo": true,
       "tipos": [
         { "id": "deuda.chile.cae", "tasa_anual": 0.02, "cuotas": 180, "reajustable": true, "entrega_dinero": false, "se_extingue_al_morir": true,
           "condicion_pago": "jugador.estudia == nada" },
-        { "id": "deuda.chile.consumo", "tasa_anual": 0.3, "cuotas": 36, "cuotas_repactacion": 48 },
+        { "id": "deuda.chile.consumo", "tasa_anual": 0.3, "cuotas": 36, "cuotas_repactacion": 48, "meses_para_castigo": 6 },
         { "id": "deuda.chile.linea_credito", "tasa_anual": 0.34, "cuotas": 1, "pago_minimo": 0.05, "pago_minimo_monto": 20000, "cuotas_repactacion": 36,
-          "se_paga_con_el_saldo": true },
+          "se_paga_con_el_saldo": true, "meses_para_castigo": 6 },
         { "id": "deuda.chile.tarjeta", "tasa_anual": 0.4, "cuotas": 1, "pago_minimo": 0.05, "pago_minimo_monto": 20000,
-          "entrega_dinero": false, "cuotas_repactacion": 36 }
+          "entrega_dinero": false, "cuotas_repactacion": 36, "meses_para_castigo": 6 }
       ]
     },
     "herencia": { "beneficio_inventario": true, "porciones_pareja": 2, "posesion_efectiva": true },
