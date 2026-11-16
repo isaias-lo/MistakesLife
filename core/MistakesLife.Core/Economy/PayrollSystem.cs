@@ -51,7 +51,12 @@ namespace MistakesLife.Core.Economy
 
                 Job job = character.Job!;
                 job.AdvanceMonth(economy.PriceIndex, rules.Salaries?.AdjustmentMonths ?? 12);
-                Payslip payslip = PayrollCalculator.Compute(context.Date, job.Kind, job.Salary + job.VariablePay, rules.Payroll, economy.PriceIndex);
+                // Con un plan de salud privado, el empleador descuenta el plan completo.
+                HealthCareDefinition? health = rules.HealthCare;
+                HealthPlanDefinition? plan = health == null ? null : HealthCareRules.PlanOf(health, character);
+                decimal planPrice = plan == null ? 0 : PayrollCalculator.ToToday(HealthCareRules.PlanPrice(health!, plan, character.AgeInYears(context.Date)), economy.PriceIndex);
+                Payslip payslip = PayrollCalculator.Compute(context.Date, job.Kind, job.Salary + job.VariablePay, rules.Payroll, economy.PriceIndex,
+                    health?.DeductionId, health?.ExtraDeductionId, planPrice);
                 character.Money += payslip.Net;
                 character.LastPayslip = payslip;
                 character.AddIncome(context.Date.Year, payslip);

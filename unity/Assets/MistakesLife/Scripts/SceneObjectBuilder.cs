@@ -65,6 +65,8 @@ namespace MistakesLife.Unity
             "escena.casa.router" => "ancla.tele",
             "escena.casa.alcancia" => "ancla.mesa",
             "escena.casa.sobre_aporte" => "ancla.mesa",
+            "escena.casa.bono_y_receta" => "ancla.mesa",
+            "escena.casa.carpeta_isapre" => "ancla.mesa",
             "escena.casa.bolsas_tiendas" => "ancla.cama",
             "escena.casa.sello_embargo" => "ancla.tele",
             "escena.casa.carta_tribunal" => "ancla.puerta",
@@ -392,6 +394,20 @@ namespace MistakesLife.Unity
                     GameObject envelope = kit.Box("Sobre del aporte", new Vector3(0.62f, 0.448f, -0.38f), new Vector3(0.22f, 0.01f, 0.11f), new Color(0.92f, 0.86f, 0.70f));
                     envelope.transform.localRotation = Quaternion.Euler(0f, 6f, 0f);
                     kit.Box("Billetes del aporte", new Vector3(0.6f, 0.456f, -0.36f), new Vector3(0.15f, 0.006f, 0.06f), new Color(0.55f, 0.75f, 0.55f));
+                    break;
+                case "escena.casa.bono_y_receta":
+                    // Fuiste al médico hace poco: el bono (o la boleta) y la receta sobre la mesa, con la caja del remedio.
+                    GameObject voucher = kit.Box("Bono de atención", new Vector3(-0.12f, 0.466f, 0.2f), new Vector3(0.18f, 0.004f, 0.1f), new Color(0.80f, 0.90f, 0.95f));
+                    voucher.transform.localRotation = Quaternion.Euler(0f, -10f, 0f);
+                    GameObject prescription = kit.Box("Receta", new Vector3(-0.08f, 0.47f, 0.27f), new Vector3(0.12f, 0.004f, 0.16f), Palette.Paper);
+                    prescription.transform.localRotation = Quaternion.Euler(0f, 14f, 0f);
+                    kit.Box("Caja del remedio", new Vector3(0.04f, 0.49f, 0.22f), new Vector3(0.1f, 0.045f, 0.06f), Color.white);
+                    kit.Box("Franja de la caja", new Vector3(0.04f, 0.513f, 0.22f), new Vector3(0.1f, 0.002f, 0.02f), new Color(0.25f, 0.55f, 0.80f));
+                    break;
+                case "escena.casa.carpeta_isapre":
+                    // Firmaste con una isapre: la carpeta del contrato de salud, parada al fondo de la mesa.
+                    kit.Box("Carpeta de la isapre", new Vector3(0.62f, 0.6f, 0.3f), new Vector3(0.035f, 0.3f, 0.24f), new Color(0.20f, 0.58f, 0.55f));
+                    kit.Box("Etiqueta de la carpeta", new Vector3(0.6f, 0.66f, 0.3f), new Vector3(0.005f, 0.06f, 0.14f), Palette.Paper);
                     break;
                 case "escena.casa.grietas":
                     // No reparaste la casa después del terremoto: grietas en zigzag en el muro.

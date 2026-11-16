@@ -61,6 +61,10 @@ namespace MistakesLife.Core.Content
         [JsonProperty("empresas")]
         public CompaniesDefinition? Companies { get; set; }
 
+        /// <summary>El sistema de salud: previsión pública con tramos, planes privados y atenciones. Si falta, la salud no cuesta.</summary>
+        [JsonProperty("salud")]
+        public HealthCareDefinition? HealthCare { get; set; }
+
         /// <summary>Cómo se busca trabajo en el país (formas de buscar, entrevistas y ofertas), o null.</summary>
         [JsonProperty("busqueda_trabajo")]
         public JobSearchDefinition? JobSearch { get; set; }

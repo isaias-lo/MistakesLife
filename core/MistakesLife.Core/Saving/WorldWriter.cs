@@ -191,6 +191,8 @@ namespace MistakesLife.Core.Saving
                 },
                 GroceryBasketId = c.GroceryBasketId,
                 Services = new Dictionary<string, string>(c.Services),
+                HealthPlanId = c.HealthPlanId,
+                LastHealthCareWeek = c.LastHealthCareDate?.TotalWeeks,
                 PendingTaxReturn = c.PendingTaxReturn == null ? null : new TaxReturnData
                 {
                     Year = c.PendingTaxReturn.Year,

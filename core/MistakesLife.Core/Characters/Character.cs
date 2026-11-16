@@ -259,6 +259,16 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public SortedDictionary<string, string> Services { get; } = new SortedDictionary<string, string>(StringComparer.Ordinal);
 
+        /// <summary>
+        /// El plan de salud privado que contrató (una isapre en Chile, id de
+        /// "economia.salud.planes"), o null si está en la previsión pública (Fonasa),
+        /// que es la de todos mientras no contrate otra cosa.
+        /// </summary>
+        public string? HealthPlanId { get; set; }
+
+        /// <summary>La última vez que se atendió de su salud pagando (consulta, urgencia), o null.</summary>
+        public Time.GameDate? LastHealthCareDate { get; set; }
+
         /// <summary>Meses seguidos que terminó con el dinero en negativo (estrés financiero).</summary>
         public int MonthsInRed { get; set; }
 

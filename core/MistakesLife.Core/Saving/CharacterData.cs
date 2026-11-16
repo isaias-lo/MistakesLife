@@ -116,6 +116,12 @@ namespace MistakesLife.Core.Saving
         /// <summary>La compra de comida que eligió, o null si no ha elegido.</summary>
         public string? GroceryBasketId { get; set; }
 
+        /// <summary>Plan de salud privado, o null si está en la previsión pública.</summary>
+        public string? HealthPlanId { get; set; }
+
+        /// <summary>Semana (total) de su última atención de salud, o null.</summary>
+        public int? LastHealthCareWeek { get; set; }
+
         /// <summary>Servicios contratados: id del servicio → opción.</summary>
         public Dictionary<string, string> Services { get; set; } = new Dictionary<string, string>();
 

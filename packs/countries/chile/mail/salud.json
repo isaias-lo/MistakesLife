@@ -1,0 +1,13 @@
+[
+  { "id": "correo.chile.salud.contrato_isapre", "remitente": "remitente.isapre", "tema": "banco" },
+  { "id": "correo.chile.salud.carta_adecuacion", "remitente": "remitente.isapre", "tema": "banco" },
+  { "id": "correo.chile.salud.bono_comprado", "remitente": "remitente.fonasa", "tema": "estado" },
+  { "id": "correo.chile.salud.tramo_a", "remitente": "remitente.fonasa", "tema": "estado", "cada": "anio", "en_mes": 4,
+    "condiciones": "jugador.pais == 'pais.chile' && jugador.edad >= 18 && !jugador.prevision_privada && jugador.tramo_salud == 'prevision.chile.fonasa.tramo_a'" },
+  { "id": "correo.chile.salud.tramo_b", "remitente": "remitente.fonasa", "tema": "estado", "cada": "anio", "en_mes": 4,
+    "condiciones": "jugador.pais == 'pais.chile' && jugador.edad >= 18 && !jugador.prevision_privada && jugador.tramo_salud == 'prevision.chile.fonasa.tramo_b'" },
+  { "id": "correo.chile.salud.tramo_c", "remitente": "remitente.fonasa", "tema": "estado", "cada": "anio", "en_mes": 4,
+    "condiciones": "jugador.pais == 'pais.chile' && jugador.edad >= 18 && !jugador.prevision_privada && jugador.tramo_salud == 'prevision.chile.fonasa.tramo_c'" },
+  { "id": "correo.chile.salud.tramo_d", "remitente": "remitente.fonasa", "tema": "estado", "cada": "anio", "en_mes": 4,
+    "condiciones": "jugador.pais == 'pais.chile' && jugador.edad >= 18 && !jugador.prevision_privada && jugador.tramo_salud == 'prevision.chile.fonasa.tramo_d'" }
+]
