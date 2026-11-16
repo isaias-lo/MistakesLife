@@ -13,7 +13,7 @@ namespace MistakesLife.Core.Content
     public sealed class ActivityDefinition
     {
         /// <summary>Lo que puede mover una actividad.</summary>
-        public static readonly string[] Contributions = { "animo", "mente", "salud", "carino" };
+        public static readonly string[] Contributions = { "animo", "mente", "salud", "carino", "energia", "apariencia" };
 
         /// <summary>Los bloques del día que se pueden llenar.</summary>
         public static readonly string[] Blocks = { "tarde", "noche" };

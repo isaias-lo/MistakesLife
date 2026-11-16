@@ -103,8 +103,8 @@ namespace MistakesLife.Core.Tests
             var stats = presenter.Session.World.Player.Stats;
             var bars = presenter.LifeBars();
 
-            Assert.Equal(new[] { "felicidad", "salud", "inteligencia" }, bars.Select(b => b.Id).ToArray());
-            Assert.Equal(new[] { stats.Happiness, stats.Health, stats.Smarts }, bars.Select(b => b.Value).ToArray());
+            Assert.Equal(new[] { "felicidad", "salud", "inteligencia", "apariencia", "energia" }, bars.Select(b => b.Id).ToArray());
+            Assert.Equal(new[] { stats.Happiness, stats.Health, stats.Smarts, stats.Looks, stats.Energy }, bars.Select(b => b.Value).ToArray());
             Assert.All(bars, b => Assert.Equal(LifeBarView.LevelOf(b.Value), b.Level));
             Assert.All(bars, b => Assert.False(b.Label.StartsWith("ui.", System.StringComparison.Ordinal)));
         }

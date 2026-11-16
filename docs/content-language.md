@@ -940,7 +940,7 @@ Cada archivo es una lista:
 | `condiciones` | Condición extra en el lenguaje de condiciones (por ejemplo `jugador.tiene_celular`) |
 | `franjas` | `tarde`, `noche` o las dos (por defecto, las dos) |
 | `con` | Con quién se hace: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival`, `ex`, `companero` o `profe`. Solo se puede elegir si esa persona existe, y el cariño se mueve con ella |
-| `aporta` | Cuánto mueve por cada bloque en que está, de -3 a 3: `animo`, `mente`, `salud`, `carino` (este último necesita `con`) |
+| `aporta` | Cuánto mueve por cada bloque en que está, de -3 a 3: `animo`, `mente`, `salud`, `carino` (este último necesita `con`), `energia` (lo que cansa o descansa: dormir temprano descansa, el carrete cansa) y `apariencia` (hábitos que se notan: el deporte suma, el carrete resta) |
 | `tendencia` | Qué tan probable es que la elija alguien sin el jugador (simulador, horario sugerido); por defecto 50 |
 
 Cómo pesa (`RoutineSystem`):
@@ -1022,6 +1022,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 |---|---|
 | `jugador.edad`, `jugador.edad_semanas` | Edad en años o semanas |
 | `jugador.salud`, `jugador.felicidad`, `jugador.inteligencia` | 0 a 100, se pueden cambiar |
+| `jugador.energia`, `jugador.apariencia` | 0 a 100, se pueden cambiar. La energía se acerca cada semana a la que deja su vida (horario, pega, estudios, hijos chicos, salud) y la apariencia parte de lo heredado y se mueve un punto al mes con sus hábitos, su salud y su edad (`Life.EnergyRules`, `Life.LooksRules`). Unas vacaciones, por ejemplo, hacen `jugador.energia += 25` |
 | `jugador.vivo`, `jugador.sexo` | `true`/`false`; `'femenino'`/`'masculino'` |
 | `jugador.genero` | Género con que vive y figura en su registro: `'femenino'`, `'masculino'` o `'no_binario'`. Al nacer, el de su sexo |
 | `jugador.identidad` | Género que siente (oculto). Si es distinto de `jugador.genero`, puede vivir ese camino con los eventos |

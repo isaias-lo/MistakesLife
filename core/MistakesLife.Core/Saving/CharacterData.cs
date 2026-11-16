@@ -30,6 +30,14 @@ namespace MistakesLife.Core.Saving
 
         public int Smarts { get; set; }
 
+        /// <summary>Null en guardados de antes de la versión 36 (parte descansado).</summary>
+        public int? Energy { get; set; }
+
+        /// <summary>Null en guardados de antes de la versión 36 (se calcula al seguir jugando).</summary>
+        public int? Looks { get; set; }
+
+        public int? InheritedLooks { get; set; }
+
         public int? MotherId { get; set; }
 
         public int? FatherId { get; set; }

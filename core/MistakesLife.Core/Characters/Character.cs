@@ -94,6 +94,12 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public int? LivesWithId { get; set; }
 
+        /// <summary>
+        /// La apariencia que heredó al nacer, de su mamá y su papá (oculta). Sus hábitos, su
+        /// salud y su edad la mueven desde ahí. Null mientras no se ha calculado (ver <see cref="Life.LooksRules"/>).
+        /// </summary>
+        public int? InheritedLooks { get; set; }
+
         /// <summary>Si sus papás separados acordaron el cuidado compartido: vive con los dos.</summary>
         public bool SharedCustody { get; set; }
 

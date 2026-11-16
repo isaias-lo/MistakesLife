@@ -116,7 +116,8 @@ namespace MistakesLife.Core.Economy
             }
 
             job.MonthsInPosition++;
-            int target = BasePerformance + character.Personality.Conscientiousness / 2;
+            // Cansado se rinde menos en la pega (Life.EnergyRules).
+            int target = BasePerformance + character.Personality.Conscientiousness / 2 - Life.EnergyRules.TiredPenalty(character);
             job.Performance += Math.Sign(target - job.Performance);
         }
     }

@@ -61,8 +61,8 @@ Al entrar al colegio, la universidad o el trabajo, la escena muestra el lugar co
 | Felicidad | carita | |
 | Salud | corazón con pulso | |
 | Inteligencia | ampolleta | |
-| Apariencia | estrella | |
-| Energía | rayo | La batería del celular la refleja |
+| Apariencia | estrella | Se hereda de la mamá y el papá (más el azar de la partida). Cambia con deporte, sueño, carrete y salud; sube en la juventud y baja desde los 45. Pesa al buscar pega |
+| Energía | rayo | Baja con la pega, el estudio, un horario lleno, los hijos chicos y la enfermedad; sube con tardes libres, dormir temprano y vacaciones. Con los años cuesta más recuperarla. Bajo 30 rindes menos. La batería del celular la refleja |
 
 Colores verde, amarillo y rojo según el nivel. **Reputación** existe como barra aparte. **Fama** queda preparada pero apagada hasta que lleguen MiTubo y Mercado. Los **talentos heredables** quedan para más adelante.
 

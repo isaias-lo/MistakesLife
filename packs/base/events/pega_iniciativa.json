@@ -47,19 +47,19 @@
       {
         "texto": "opcion.pega.vacaciones.todas",
         "tendencia": "40 + (100 - jugador.responsabilidad) / 4",
-        "efectos": ["jugador.tomar_vacaciones(jugador.dias_vacaciones)", "jugador.felicidad += 6", "jugador.salud += 2", "diario('diario.pega.vacaciones')"]
+        "efectos": ["jugador.tomar_vacaciones(jugador.dias_vacaciones)", "jugador.energia += 25", "jugador.felicidad += 6", "jugador.salud += 2", "diario('diario.pega.vacaciones')"]
       },
       {
         "texto": "opcion.pega.vacaciones.diez",
         "condiciones": "jugador.pais == 'pais.chile' && jugador.dias_vacaciones >= 15",
         "tendencia": "jugador.responsabilidad / 2",
-        "efectos": ["jugador.tomar_vacaciones(10)", "jugador.felicidad += 4", "jugador.salud += 1", "diario('diario.pega.vacaciones')"]
+        "efectos": ["jugador.tomar_vacaciones(10)", "jugador.energia += 15", "jugador.felicidad += 4", "jugador.salud += 1", "diario('diario.pega.vacaciones')"]
       },
       {
         "texto": "opcion.pega.vacaciones.pareja",
         "condiciones": "jugador.pareja != nada",
         "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
-        "efectos": ["jugador.tomar_vacaciones(jugador.dias_vacaciones)", "jugador.felicidad += 6", "jugador.pareja.carino += 4", "diario('diario.pega.vacaciones_pareja')"]
+        "efectos": ["jugador.tomar_vacaciones(jugador.dias_vacaciones)", "jugador.energia += 25", "jugador.felicidad += 6", "jugador.pareja.carino += 4", "diario('diario.pega.vacaciones_pareja')"]
       },
       {
         "texto": "opcion.pega.vacaciones.guardar",

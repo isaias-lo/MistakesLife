@@ -302,6 +302,12 @@ namespace MistakesLife.Core.Saving
             // cualquiera que nunca firmó con una isapre, y nadie se ha atendido: los datos
             // que faltan ya se leen así.
             [34] = save => { },
+
+            // 35 → 36: aparecen la energía y la apariencia. En las partidas viejas todos parten
+            // descansados (la energía se ajusta sola en pocas semanas según su vida) y la
+            // apariencia heredada se calcula la próxima semana, de sus papás: los datos que
+            // faltan ya se leen así.
+            [35] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>
