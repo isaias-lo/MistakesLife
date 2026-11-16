@@ -11,7 +11,7 @@ using UnityEngine.UI;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// La pantalla de la vida (docs/diseno-app.md, "Pantalla de la vida"): la casa en 3D en toda
+    /// La pantalla de la vida (docs/archivo/diseno-app.md, "Pantalla de la vida"): la casa en 3D en toda
     /// la pantalla; arriba el retrato, el nombre, la edad y la fecha; a la derecha Casa, Barrio y
     /// Trabajo; abajo una hoja con la última línea del diario, el estado en palabras, tus cosas y
     /// "Vivir la semana". Cuando pasa algo, la hoja muestra el evento en papel. La familia, tu
@@ -381,7 +381,7 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>
-        /// Se tocó la maqueta: el objeto que está ahí abre su tema (docs/diseno-app.md, "La idea").
+        /// Se tocó la maqueta: el objeto que está ahí abre su tema (docs/archivo/diseno-app.md, "La idea").
         /// La mesa y lo que hay del mes (contrato, bolsas del súper, cuentas, la tarjeta) abren Tu
         /// dinero; el celular, el celular; las fotos y la postal, tu gente.
         /// </summary>
@@ -782,7 +782,7 @@ namespace MistakesLife.Unity
             State(states, presenter.Text("ui.animo"), presenter.StateWord("animo", life.Happiness));
             State(states, presenter.Text("ui.mente"), presenter.StateWord("mente", life.Smarts));
 
-            // Tus cosas, como objetos de la vida (docs/diseno-app.md): la billetera, el celular,
+            // Tus cosas, como objetos de la vida (docs/archivo/diseno-app.md): la billetera, el celular,
             // las fotos de tu gente y, si se puede, el reloj para volver al pasado.
             RectTransform things = Row(_sheetBody, "Tus cosas");
             MoneyView money = presenter.Money();
@@ -1032,7 +1032,7 @@ namespace MistakesLife.Unity
 
             _shownEvent = pending;
 
-            // El evento es una hoja de papel (docs/diseno-app.md, "Un momento").
+            // El evento es una hoja de papel (docs/archivo/diseno-app.md, "Un momento").
             RectTransform card = UiFactory.Column(_sheetBody, "Evento", 36, 18, UiFactory.Paper);
 
             // Arriba: la edad (y "MOMENTO CLAVE") a la izquierda y el sello "ESTO SE RECUERDA" a la derecha.

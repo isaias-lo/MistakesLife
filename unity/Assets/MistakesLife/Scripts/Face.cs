@@ -1,7 +1,7 @@
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// Qué letra usa un texto (docs/diseno-app.md, sección "Letras").
+    /// Qué letra usa un texto (docs/archivo/diseno-app.md, sección "Letras").
     /// </summary>
     public enum Face
     {

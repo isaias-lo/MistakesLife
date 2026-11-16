@@ -10,7 +10,7 @@ using UnityEngine.UI;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// El celular del personaje (docs/diseno-app.md, "Redes"). Se abre encima de la vida y se ve
+    /// El celular del personaje (docs/archivo/diseno-app.md, "Redes"). Se abre encima de la vida y se ve
     /// como un celular de verdad: marco oscuro con su cámara arriba, barra de estado con la fecha,
     /// la señal y la batería, el fondo de pantalla, las apps como íconos de color con su globo
     /// rojo de avisos, y abajo el dock y la rayita de inicio. El correo se ve como una app de
@@ -24,7 +24,7 @@ namespace MistakesLife.Unity
     /// </summary>
     public sealed class PhoneScreen
     {
-        /// <summary>El material del celular (docs/diseno-app.md, colores de cada tema): el marco.</summary>
+        /// <summary>El material del celular (docs/archivo/diseno-app.md, colores de cada tema): el marco.</summary>
         public static readonly Color PhoneBody = UiFactory.Hex(0x0B0F1A);
 
         /// <summary>El fondo de pantalla, un poco más claro que el marco.</summary>
@@ -115,7 +115,7 @@ namespace MistakesLife.Unity
             }
         }
 
-        /// <summary>El punto rojo de "algo nuevo" (docs/diseno-app.md, "tus cosas"), en la esquina de un botón.</summary>
+        /// <summary>El punto rojo de "algo nuevo" (docs/archivo/diseno-app.md, "tus cosas"), en la esquina de un botón.</summary>
         public static void RedDot(Transform button)
         {
             RectTransform dot = Corner(button, "Punto rojo", 28f, new Vector2(-10f, -10f));

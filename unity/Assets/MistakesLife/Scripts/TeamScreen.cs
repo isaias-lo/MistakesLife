@@ -18,7 +18,7 @@ namespace MistakesLife.Unity
     /// </summary>
     public sealed class TeamScreen
     {
-        /// <summary>El material del trabajo: corcho (docs/diseno-app.md), un poco más oscuro para leer la franja.</summary>
+        /// <summary>El material del trabajo: corcho (docs/archivo/diseno-app.md), un poco más oscuro para leer la franja.</summary>
         public static readonly Color Band = UiFactory.Hex(0x7E5A3A);
 
         private readonly Transform _parent;

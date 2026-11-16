@@ -6,7 +6,7 @@ using UnityEngine;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// Materiales compartidos de la maqueta 3D (docs/diseno-app.md, sección 7).
+    /// Materiales compartidos de la maqueta 3D (docs/archivo/diseno-app.md, sección 7).
     /// Cada uno es un archivo en Resources/Materiales/&lt;nombre&gt;.mat: si se cambia su color
     /// o su sombreado en el editor de Unity, cambia en todo el juego a la vez.
     /// Si falta un archivo, se usa el color de reserva que está aquí, así nada se rompe.

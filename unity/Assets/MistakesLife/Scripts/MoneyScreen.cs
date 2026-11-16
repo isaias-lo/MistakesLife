@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// Tu dinero (docs/diseno-app.md, "Tu dinero"): se abre encima de la vida como el papel que
+    /// Tu dinero (docs/archivo/diseno-app.md, "Tu dinero"): se abre encima de la vida como el papel que
     /// sale del cajero. Arriba, lo que tienes; después, cada movimiento del último mes con el
     /// nombre de lo que lo causó y cuántos días de sueldo es; al final, lo que debes.
     /// Regla de Isaias, nada se inventa: solo se dibuja lo que da LifePresenter.Money()

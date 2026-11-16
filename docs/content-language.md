@@ -728,7 +728,7 @@ Un evento sin opciones se resuelve solo. Si lo provocó una semilla, la semilla 
 
 ### Momentos (rediseño R2b)
 
-Regla del rediseño (`docs/rediseno-vida.md`): **un momento detiene el tiempo solo si tiene persona o lugar con nombre y algo en juego**. Por eso un evento con `actividad` o `fecha` debe tener `con` o `lugar` (la carga lo revisa). Ejemplo, en `packs/base/events/rutina.json`:
+Regla del rediseño (`docs/archivo/rediseno-vida.md`): **un momento detiene el tiempo solo si tiene persona o lugar con nombre y algo en juego**. Por eso un evento con `actividad` o `fecha` debe tener `con` o `lugar` (la carga lo revisa). Ejemplo, en `packs/base/events/rutina.json`:
 
 ```json
 {
@@ -921,7 +921,7 @@ No se puede escribir a quien espera que le contestes, ni dos veces sin respuesta
 
 ## Tu horario (actividades/)
 
-Lo que el jugador puede pegar en su horario (rediseño R2, `docs/rediseno-vida.md`). El horario tiene 14 bloques: la tarde y la noche de cada día, de lunes a domingo. La mañana no se llena: la ponen el colegio, los estudios o el trabajo. Desde los 6 años, cada vez que cambia de etapa (por ejemplo, al entrar a estudiar) y, en el colegio, cada año el día que empiezan las clases (`inicio_ano_escolar` del país), el juego le sugiere un horario y detiene el tiempo para que lo arme. El sugerido mantiene casi todo lo del horario anterior que todavía se puede hacer (70 %) y elige lo demás según su forma de ser. Después la vida sigue sola con él.
+Lo que el jugador puede pegar en su horario (rediseño R2, `docs/archivo/rediseno-vida.md`). El horario tiene 14 bloques: la tarde y la noche de cada día, de lunes a domingo. La mañana no se llena: la ponen el colegio, los estudios o el trabajo. Desde los 6 años, cada vez que cambia de etapa (por ejemplo, al entrar a estudiar) y, en el colegio, cada año el día que empiezan las clases (`inicio_ano_escolar` del país), el juego le sugiere un horario y detiene el tiempo para que lo arme. El sugerido mantiene casi todo lo del horario anterior que todavía se puede hacer (70 %) y elige lo demás según su forma de ser. Después la vida sigue sola con él.
 
 Cada archivo es una lista:
 

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// Tus estudios (docs/diseno-app.md, versión 4): la libreta de notas, tu curso (o tu sección en
+    /// Tus estudios (docs/archivo/diseno-app.md, versión 4): la libreta de notas, tu curso (o tu sección en
     /// la U) y, si estudias una carrera, tu malla. Arriba una franja de color con el título y las
     /// pestañas; abajo, en tarjetas de papel derechas, lo que da el núcleo, tal cual:
     /// <list type="bullet">

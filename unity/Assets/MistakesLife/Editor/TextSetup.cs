@@ -11,7 +11,7 @@ using UnityEngine;
 namespace MistakesLife.Unity.Editor
 {
     /// <summary>
-    /// Deja listo TextMeshPro, que usa toda la interfaz (docs/diseno-app.md, "Letras"):
+    /// Deja listo TextMeshPro, que usa toda la interfaz (docs/archivo/diseno-app.md, "Letras"):
     /// 1. Desempaca sus "recursos esenciales" (ajustes y sombreadores) si el proyecto no los tiene.
     ///    Es lo mismo que el menú Window > TextMeshPro > Import TMP Essential Resources.
     /// 2. Pide que sus sombreadores vayan siempre en el APK, porque las letras se crean
