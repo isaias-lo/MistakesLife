@@ -5,7 +5,8 @@
     "probabilidad_anual": 1,
     "variantes": [
       "evento.chile.finiquito.2",
-      "evento.chile.finiquito.3"
+      "evento.chile.finiquito.3",
+      "evento.chile.finiquito.4"
     ],
     "opciones": [
       {
@@ -176,6 +177,9 @@
       "jugador.dinero += causa('causa.chile.quiebra_empleador').monto * 0.6",
       "causa('causa.chile.quiebra_empleador').cerrar('pagada')",
       "diario('diario.chile.quiebra_reparto')"
+    ],
+    "variantes": [
+      "evento.chile.quiebra_reparto.2"
     ]
   },
   {
@@ -231,6 +235,10 @@
     "probabilidad_anual": 0.05,
     "enfriamiento_semanas": 104,
     "veces_maximas": 3,
+    "variantes": [
+      "evento.chile.fiesta_ruidos.2",
+      "evento.chile.fiesta_ruidos.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.chile.fiesta_ruidos.bajar",
@@ -254,10 +262,15 @@
   },
   {
     "id": "evento.chile.tomar_en_la_calle",
-    "condiciones": "jugador.edad >= 18 && jugador.edad < 35 && jugador.amigos > 0 && !causa('causa.chile.policia_local').abierta",
+    "con": "amigo",
+    "condiciones": "jugador.edad >= 18 && jugador.edad < 35 && !causa('causa.chile.policia_local').abierta",
     "probabilidad_anual": 0.04,
     "enfriamiento_semanas": 104,
     "veces_maximas": 3,
+    "variantes": [
+      "evento.chile.tomar_en_la_calle.2",
+      "evento.chile.tomar_en_la_calle.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.chile.tomar_en_la_calle.bar",
@@ -289,6 +302,9 @@
     "id": "evento.chile.policia_local_audiencia",
     "condiciones": "causa_en('causa.chile.policia_local', 'audiencia')",
     "probabilidad_anual": 1,
+    "variantes": [
+      "evento.chile.policia_local_audiencia.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.chile.policia_local.pagar",

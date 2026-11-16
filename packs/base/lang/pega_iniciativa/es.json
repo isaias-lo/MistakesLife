@@ -30,5 +30,7 @@
   "ui.pega.te_vas": "Renunciaste: te quedan {0} semanas en la pega",
   "ui.pega.vacaciones.habiles": "Vacaciones ganadas: {0} días hábiles",
   "ui.pega.vacaciones.corridos": "Vacaciones ganadas: {0} días corridos",
-  "ui.pega.decides_tu": "Lo que decides tú"
+  "ui.pega.decides_tu": "Lo que decides tú",
+  "evento.pega.ultimo_dia.2": "Último día. El equipo te despide con una torta y una tarjeta firmada por todos. Firmas el finiquito y te pagan las vacaciones pendientes.",
+  "evento.pega.ultimo_dia.3": "Último día en la pega. Devuelves la credencial, vacías el cajón y firmas el finiquito. Afuera, el aire se siente distinto."
 }

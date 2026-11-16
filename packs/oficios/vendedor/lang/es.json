@@ -72,5 +72,12 @@
   "evento.vendedor.domingos.3": "{persona} cambia la planilla a última hora y te deja el domingo que habías pedido libre para un cumpleaños.",
   "evento.vendedor.cliente.2": "Un cliente se prueba cinco chaquetas, te hace bajar tallas de la bodega y al final dice que lo va a pensar. {persona} te hace una seña desde la caja.",
   "evento.vendedor.cliente.3": "Una señora exige el precio de la oferta que terminó ayer y amenaza con dejar un reclamo. {persona} se acerca a ver qué pasa.",
-  "evento.vendedor.desafio.encargado.2": "{persona} vuelve a confiar en ti: \"Para el Black Friday te quiero otra vez a cargo de la sección. Si cierras arriba de la meta, el cargo de encargado es tuyo\"."
+  "evento.vendedor.desafio.encargado.2": "{persona} vuelve a confiar en ti: \"Para el Black Friday te quiero otra vez a cargo de la sección. Si cierras arriba de la meta, el cargo de encargado es tuyo\".",
+  "evento.vendedor.cierre_dia.2": "Quedan veinte minutos para cerrar y entra una familia entera a mirar. {persona} te hace una seña: \"Esos son tuyos\".",
+  "evento.vendedor.cierre_dia.3": "La meta del día está a una venta. {persona} propone ofrecer la tarjeta de la tienda a todo el que pase por caja.",
+  "evento.vendedor.inventario.2": "Inventario de fin de año: hay que contar cada prenda de la bodega. {persona} trae pizza para que nadie se vaya antes.",
+  "evento.vendedor.inventario.3": "El conteo no cuadra por doce unidades. {persona} pide que alguien se quede a recontar el pasillo completo.",
+  "evento.vendedor.merma.2": "Las cámaras muestran a alguien sacando un perfume del mostrador. {persona} dice que hay que estar más atentos y mira al equipo uno por uno.",
+  "evento.vendedor.merma.3": "Falta plata en la caja al cierre. {persona} quiere que los que hicieron caja hoy pongan la diferencia. Eso la ley no lo permite.",
+  "evento.vendedor.aviso.5": "En el supermercado del barrio hay un letrero junto a las cajas: buscan reponedores y vendedores para la sección electro."
 }

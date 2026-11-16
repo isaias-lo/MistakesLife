@@ -215,6 +215,9 @@
     "probabilidad_anual": 0.07,
     "enfriamiento_semanas": 156,
     "veces_maximas": 2,
+    "variantes": [
+      "evento.amigo_pide_consejo.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.amigo_pide_consejo.verdad",

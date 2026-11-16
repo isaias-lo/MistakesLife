@@ -237,9 +237,14 @@
   },
   {
     "id": "evento.psicologia.especializarse",
+    "veces_maximas": 3,
     "condiciones": "jugador.area != nada && jugador.tiene('trabaja_psicologia') && jugador.meses_en_cargo >= 12",
     "probabilidad_anual": 0.3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.psicologia.especializarse.2",
+      "evento.psicologia.especializarse.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.psicologia.especializarse.enfoque",

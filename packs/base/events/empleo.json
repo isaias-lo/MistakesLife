@@ -166,7 +166,8 @@
     "enfriamiento_semanas": 156,
     "dia_clave": true,
     "variantes": [
-      "evento.cuidar_hijos_en_casa.2"
+      "evento.cuidar_hijos_en_casa.2",
+      "evento.cuidar_hijos_en_casa.3"
     ],
     "opciones": [
       {
@@ -193,6 +194,10 @@
     "id": "evento.volver_a_trabajar_tras_cuidar",
     "condiciones": "jugador.tiene('cuida_hijos_en_casa')",
     "probabilidad_anual": 0.12,
+    "variantes": [
+      "evento.volver_a_trabajar_tras_cuidar.2",
+      "evento.volver_a_trabajar_tras_cuidar.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.volver_a_trabajar_tras_cuidar.buscar",
@@ -288,6 +293,10 @@
     "condiciones": "jugador.jubilado && !jugador.trabaja && !jugador.tiene('trabajando') && jugador.edad >= 61 && jugador.edad < 80 && jugador.salud >= 40",
     "probabilidad_anual": 0.06,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.pololito_vejez.2",
+      "evento.pololito_vejez.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.pololito_vejez.aceptar",

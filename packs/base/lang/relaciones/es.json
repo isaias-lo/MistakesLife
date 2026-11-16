@@ -47,7 +47,7 @@
   "opcion.detalle_pareja.sorprender": "Le preparas una sorpresa.",
   "opcion.detalle_pareja.olvidar": "Se te olvida por completo.",
   "evento.pareja_se_va": "Tu pareja te dice que ya no puede más y se va de la casa.",
-  "evento.ex_escribe": "Te llega un mensaje de tu ex: \"¿Cómo estás? Me acordé de ti\".",
+  "evento.ex_escribe": "Te llega un mensaje de {persona}: \"¿Cómo estás? Me acordé de ti\".",
   "opcion.ex_escribe.responder": "Le respondes y conversan un rato.",
   "opcion.ex_escribe.ignorar": "Lo dejas en visto.",
   "diario.amigo_se_alejo": "Perdí a un amigo. No hubo una pelea: simplemente dejamos de hablarnos.",
@@ -81,5 +81,6 @@
   "evento.rival_zancadilla.3": "{persona} se ríe de ti frente a otros, como quien no quiere la cosa. Todos se dan cuenta.",
   "evento.nuevo_amigo_colegio.4": "Te toca sentarte con alguien nuevo en la sala. A la semana ya se mandan papelitos en clases.",
   "evento.nuevo_amigo_colegio.5": "En la fila del kiosco, alguien de tu curso te convida de sus papas fritas y se ponen a conversar.",
-  "evento.rival_trabajo.3": "Te cambian de equipo y en el nuevo hay alguien que no te quiere ahí. Te deja fuera de los correos y se lleva el crédito de todo."
+  "evento.rival_trabajo.3": "Te cambian de equipo y en el nuevo hay alguien que no te quiere ahí. Te deja fuera de los correos y se lleva el crédito de todo.",
+  "evento.ex_escribe.2": "{persona} reacciona a una foto tuya después de años sin hablar, y al rato te escribe: \"Te ves bien. ¿Un café un día de estos?\"."
 }

@@ -28,5 +28,9 @@
   "evento.conocer_pareja.6": "Una aplicación de citas te muestra a alguien que vive a pocas cuadras. Conversan una semana entera antes de animarse a juntarse.",
   "evento.conocer_pareja.7": "En el matrimonio de un primo te sientan en la mesa de los solteros. Terminas bailando toda la noche con alguien de la otra familia.",
   "evento.conocer_pareja.8": "En una feria de libros usados alguien te recomienda el que tienes en la mano. Terminan tomando un café en el puesto de al lado.",
-  "evento.conocer_pareja.9": "En la sala de espera del dentista te pones a conversar con alguien sobre lo lento que va todo. Al salir, te pide tu número."
+  "evento.conocer_pareja.9": "En la sala de espera del dentista te pones a conversar con alguien sobre lo lento que va todo. Al salir, te pide tu número.",
+  "evento.nace_hijo.2": "Otra vez la maleta lista en la puerta, otra vez la carrera al hospital. Llega a la casa un nuevo bebé y la familia se agranda.",
+  "evento.nace_hijo.3": "Esta vez sabían mejor qué esperar, pero igual no durmieron la noche anterior. Llega a casa un nuevo bebé.",
+  "evento.conversar_adopcion.2": "Una pareja de amigos les cuenta cómo fue adoptar a su hija. De vuelta en la casa, ninguno de los dos puede dejar de pensar en eso.",
+  "evento.embarazo_no_planificado.2": "Hace semanas que algo no calza. El test de la farmacia lo confirma: hay un embarazo que nadie esperaba."
 }

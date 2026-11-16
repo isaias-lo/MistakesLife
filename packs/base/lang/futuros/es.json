@@ -42,5 +42,6 @@
   "opcion.futuro.dejar_de_vivir_juntos.calma": "Decirle con calma que es mejor vivir cada uno por su lado",
   "opcion.futuro.dejar_de_vivir_juntos.espacio": "Decirle que necesitas tu espacio, ya",
   "opcion.futuro.dejar_de_vivir_juntos.no": "Echarte para atrás",
-  "evento.futuro.recomendado_falla.2": "{persona} faltó dos lunes seguidos sin avisar. Tu jefe te llama aparte: \"La recomendación fue tuya. ¿Qué está pasando?\"."
+  "evento.futuro.recomendado_falla.2": "{persona} faltó dos lunes seguidos sin avisar. Tu jefe te llama aparte: \"La recomendación fue tuya. ¿Qué está pasando?\".",
+  "evento.futuro.recomendado_cumple.2": "En el almuerzo, {persona} te agradece de nuevo por haberle abierto la puerta. Tu jefe dice que ojalá recomiendes a más gente así."
 }

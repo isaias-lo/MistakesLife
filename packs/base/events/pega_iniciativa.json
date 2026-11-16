@@ -107,6 +107,7 @@
   },
   {
     "id": "evento.pega.ultimo_dia",
+    "variantes": ["evento.pega.ultimo_dia.2", "evento.pega.ultimo_dia.3"],
     "lugar": "lugar.trabajo",
     "condiciones": "jugador.trabaja && jugador.renuncio && jugador.semanas_para_irse <= 0",
     "probabilidad_anual": 1,

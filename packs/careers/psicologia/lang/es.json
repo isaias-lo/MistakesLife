@@ -44,5 +44,8 @@
   "evento.psicologia.primer_trabajo.2": "Otra vez buscando trabajo. ¿Dónde postulas ahora?",
   "opcion.psicologia.trabajo.cualquiera": "Lo que salga, aunque no sea de lo tuyo.",
   "evento.psicologia.agotamiento.4": "Una paciente cancela a última hora por tercera vez y te das cuenta de que sentiste alivio. Eso te preocupa más que la cancelación.",
-  "evento.psicologia.agotamiento.5": "Te tomas unos días libres, pero el celular no deja de sonar: pacientes que necesitan hora, informes pendientes, una supervisión que se movió."
+  "evento.psicologia.agotamiento.5": "Te tomas unos días libres, pero el celular no deja de sonar: pacientes que necesitan hora, informes pendientes, una supervisión que se movió.",
+  "evento.psicologia.primer_trabajo.3": "De nuevo buscando. Entre los avisos hay de todo: colegios, consultorios, recursos humanos, consulta particular. ¿Dónde postulas esta vez?",
+  "evento.psicologia.primer_trabajo.4": "Terminó tu último trabajo. Con los años que llevas atendiendo, ¿sigues en lo mismo o pruebas en otra área de la psicología?",
+  "evento.psicologia.primer_trabajo.5": "Vuelves a buscar trabajo. Una excompañera te cuenta que en su centro de salud mental necesitan gente, pero también hay avisos en empresas. ¿Por dónde vas?"
 }

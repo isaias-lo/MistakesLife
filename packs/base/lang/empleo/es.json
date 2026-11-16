@@ -52,5 +52,10 @@
   "evento.dejar_de_buscar.5": "Una entrevista más que termina en \"te llamamos\". Nadie llama.",
   "evento.contrato_tras_informal.2": "Al dueño le hicieron una fiscalización y ahora tiene que formalizar a todos: te ofrece contrato, con descuentos de jubilación y salud.",
   "evento.oferta_trabajo_informal.8": "En el almacén de la esquina buscan a alguien para reponer y atender en las tardes. \"Por ahora es sin contrato\", te dice el dueño.",
-  "evento.oferta_trabajo_informal.9": "Un conocido que hace mudanzas necesita ayuda los fines de semana. Paga por flete, en efectivo y sin papeles."
+  "evento.oferta_trabajo_informal.9": "Un conocido que hace mudanzas necesita ayuda los fines de semana. Paga por flete, en efectivo y sin papeles.",
+  "evento.cuidar_hijos_en_casa.3": "Sacan la cuenta en la mesa: entre la sala cuna, el transporte y los días que faltan por los niños, uno de los sueldos casi se va entero en eso.",
+  "evento.pololito_vejez.2": "Una vecina necesita a alguien que le cuide la casa y le riegue las plantas mientras viaja. Te ofrece pagarte por las semanas que esté afuera.",
+  "evento.pololito_vejez.3": "En la feria del barrio buscan a alguien que atienda un puesto los sábados en la mañana. Es poca plata, pero sería salir de la casa.",
+  "evento.volver_a_trabajar_tras_cuidar.2": "Los niños ya van solos al colegio y la casa se siente vacía en las mañanas. Te preguntas si es momento de volver a trabajar.",
+  "evento.volver_a_trabajar_tras_cuidar.3": "Una amiga te cuenta que en su trabajo buscan gente con jornada parcial. Te quedas pensando en volver."
 }

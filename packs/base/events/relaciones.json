@@ -487,15 +487,19 @@
   },
   {
     "id": "evento.ex_escribe",
-    "condiciones": "jugador.ex != nada && jugador.pareja == nada && jugador.ex.carino >= 50 && jugador.edad < 60",
+    "con": "ex",
+    "condiciones": "jugador.pareja == nada && persona.carino >= 50 && jugador.edad < 60",
     "probabilidad_anual": 0.1,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.ex_escribe.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.ex_escribe.responder",
         "tendencia": "20 + jugador.extraversion / 2",
         "efectos": [
-          "jugador.ex.carino += 5",
+          "persona.carino += 5",
           "jugador.felicidad += 2"
         ]
       },
@@ -503,7 +507,7 @@
         "texto": "opcion.ex_escribe.ignorar",
         "tendencia": "jugador.responsabilidad / 2",
         "efectos": [
-          "jugador.ex.rencor += 5"
+          "persona.rencor += 5"
         ]
       }
     ]

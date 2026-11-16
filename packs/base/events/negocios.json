@@ -79,6 +79,9 @@
     "probabilidad_anual": 0.4,
     "veces_maximas": 2,
     "enfriamiento_semanas": 26,
+    "variantes": [
+      "evento.negocio.socio_caja.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.negocio.socio_caja.conversar",
@@ -118,6 +121,10 @@
     "probabilidad_anual": 0.5,
     "veces_maximas": 3,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.negocio.buen_mes.2",
+      "evento.negocio.buen_mes.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.negocio.buen_mes.celebrar",

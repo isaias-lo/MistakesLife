@@ -79,6 +79,9 @@
     "probabilidad_anual": 0.5,
     "veces_maximas": 2,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.futuro.recomendado_cumple.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.futuro.recomendado_cumple.celebrar",

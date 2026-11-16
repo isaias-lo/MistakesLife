@@ -30,5 +30,7 @@
   "evento.plazo_imposible.2": "Viernes a las seis, {persona} aparece en tu puesto: \"Necesito esto para el lunes temprano\".",
   "evento.oferta_ascenso.2": "Te llaman a conversar con {persona}: quedó libre un cargo arriba tuyo y están pensando en ti.",
   "evento.curso_empresa.2": "Recursos humanos manda un correo: hay cupos para un diplomado pagado por la empresa, los sábados en la mañana durante cuatro meses.",
-  "evento.curso_empresa.3": "Te ofrecen una certificación en tu área, pagada por la empresa. Las clases son en línea, de noche, dos veces por semana."
+  "evento.curso_empresa.3": "Te ofrecen una certificación en tu área, pagada por la empresa. Las clases son en línea, de noche, dos veces por semana.",
+  "evento.reconocimiento_trabajo.2": "En la reunión de fin de año, la gerencia nombra a quienes destacaron. Dicen tu nombre y el equipo aplaude.",
+  "evento.reconocimiento_trabajo.3": "Te llega un correo de la gerencia: por tus resultados, te eligieron para representar al área en un proyecto importante."
 }
