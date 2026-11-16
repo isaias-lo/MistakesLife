@@ -42,7 +42,8 @@ namespace MistakesLife.Core.Tests
         {
             Gender felt = Gender.Female;
             string name = string.Empty;
-            LifeSession session = Play(p => { felt = Other(p.Gender); p.GenderIdentity = felt; name = p.FirstName; }, 40);
+            // Hasta los 50: contarlo (salir del clóset, 15 % al año) puede tardar muchos años.
+            LifeSession session = Play(p => { felt = Other(p.Gender); p.GenderIdentity = felt; name = p.FirstName; }, 50);
             Character player = session.World.Player;
 
             Assert.True(player.HasFlag("siente_identidad"));

@@ -31,7 +31,7 @@
   "opcion.contabilidad.especializarse.laboral": "Haces un curso de legislación laboral.",
   "opcion.contabilidad.especializarse.magister": "Haces un magíster en finanzas.",
   "opcion.contabilidad.especializarse.no": "Por ahora no.",
-  "evento.contabilidad.especializarse": "Podrías estudiar algo más para crecer en tu carrera.",
+  "evento.contabilidad.especializarse": "Una excompañera te cuenta que hizo un diplomado en tributación y le subieron el sueldo. Te quedas pensando si estudiar algo más.",
   "opcion.contabilidad.cambiar_area.general": "Te pasas a contabilidad general.",
   "opcion.contabilidad.cambiar_area.impuestos": "Te pasas a impuestos.",
   "opcion.contabilidad.cambiar_area.remuneraciones": "Te pasas a remuneraciones.",
@@ -55,5 +55,10 @@
   "diario.contabilidad.balance_maquillado_sale_a_la_luz": "Se descubrió el balance que maquillé.",
   "diario.contabilidad.ayudo_evasion_sale_a_la_luz": "Fiscalizaron a mi cliente y encontraron las facturas falsas.",
   "diario.contabilidad.cotizaciones_impagas_sale_a_la_luz": "Demandaron a la empresa por las cotizaciones impagas.",
-  "diario.contabilidad.oculto_fraude_sale_a_la_luz": "Estalló el fraude que no informé."
+  "diario.contabilidad.oculto_fraude_sale_a_la_luz": "Estalló el fraude que no informé.",
+  "evento.contabilidad.especializarse.2": "En tu trabajo cambian las normas contables y nadie del equipo las maneja bien. Hay un curso de especialización que empieza el próximo mes.",
+  "evento.contabilidad.especializarse.3": "Ves un aviso de un magíster en auditoría con clases los viernes y sábados. Te ayudaría a subir, pero son dos años de fines de semana.",
+  "evento.contabilidad.cambiar_area.2": "En tu trabajo necesitan a alguien en otra área y te proponen el cambio. Sería empezar un cargo más abajo, aprendiendo de nuevo.",
+  "evento.contabilidad.boletas_en_bolsa.2": "Un cliente te manda por WhatsApp cuarenta fotos borrosas de facturas, todas de un mismo día: \"Ahí está todo lo del año\".",
+  "evento.contabilidad.boletas_en_bolsa.3": "Faltan dos días para declarar y un cliente recién se acuerda de que tenía otra cuenta bancaria. Llega con las cartolas impresas."
 }

@@ -73,5 +73,10 @@
   "evento.garzon.mesa_dificil.3": "Una mesa de oficina se va sin pagar el último pedido: dos jarras y una tabla. {persona} te pregunta quién la atendió.",
   "evento.garzon.bandeja.2": "Chocas con alguien en la puerta de la cocina y se te va un plato de fondo al suelo. {persona} dice que lo vas a pagar tú. La ley no permite descontar eso del sueldo.",
   "evento.garzon.bandeja.3": "Se te resbala una botella de vino abierta sobre el mantel de una mesa. Los clientes se ríen, pero {persona} anota algo en su libreta.",
-  "evento.garzon.desafio.jefe_salon.2": "Viene el Día de la Madre y el salón está reservado completo. {persona} te pasa otra vez el plano: \"Probemos de nuevo. Si el mes cierra bien, quedas de jefe de salón\"."
+  "evento.garzon.desafio.jefe_salon.2": "Viene el Día de la Madre y el salón está reservado completo. {persona} te pasa otra vez el plano: \"Probemos de nuevo. Si el mes cierra bien, quedas de jefe de salón\".",
+  "evento.garzon.cocina.2": "Se cae el sistema de comandas en plena hora punta. {persona}, de la cocina, te pide los pedidos a gritos y tú los anotas en una servilleta.",
+  "evento.garzon.cocina.3": "{persona}, de la cocina, te devuelve un plato: \"Esto no es lo que pidió la mesa 4\". Lo anotaste mal tú.",
+  "evento.garzon.fin_de_ano.2": "Llega diciembre y con él las cenas de empresa. {persona} pega en la cocina la lista de reservas: no hay un día libre hasta Navidad.",
+  "evento.garzon.fin_de_ano.3": "Última semana del año. {persona} reparte los turnos de Año Nuevo y te toca la noche del 31.",
+  "evento.garzon.aviso.5": "Un restorán del centro pone en sus redes que busca garzones para la temporada de verano, con o sin experiencia."
 }

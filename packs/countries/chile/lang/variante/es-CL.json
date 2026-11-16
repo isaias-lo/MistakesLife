@@ -31,6 +31,7 @@
   "diario.deudas.moroso": "Llevas meses sin pagar tus cuotas: quedaste en DICOM.",
   "diario.deudas.fuera_registro": "Te pusiste al día con tus deudas y saliste de DICOM.",
   "diario.deudas.prescrita": "Pasaron cinco años sin pagar una deuda: prescribió y ya no te la pueden cobrar. Sales de DICOM, pero ningún banco lo olvida.",
+  "diario.deudas.castigada": "Seis meses sin pagar: el banco castigó tu deuda. Ya no le suma intereses ni te presta más, pero la sigues debiendo y sigues en DICOM.",
   "evento.busqueda.cambiar_forma.2": "La búsqueda se alarga. Alguien en la once te pregunta \"¿y la pega?\" y no sabes qué decir.",
   "evento.busqueda.devolver_favor": "{persona}, que te recomendó para tu trabajo, te escribe: su sobrino está buscando pega y te pregunta si podrías recomendarlo.",
   "opcion.busqueda.como_buscar.omil": "Vas a la OMIL de la municipalidad a inscribirte en la bolsa de empleo.",
@@ -47,5 +48,7 @@
   "evento.oferta_trabajo_informal.5": "Una vecina que vende almuerzos necesita a alguien que reparta a las oficinas del sector. Paga en efectivo al final del día, sin contrato ni imposiciones.",
   "evento.oferta_trabajo_informal.7": "El primo de un amigo arma eventos y le falta gente para montar escenarios los fines de semana. Paga en efectivo, sin contrato ni imposiciones.",
   "evento.contrato_tras_informal.2": "Al dueño lo fiscalizó la Inspección del Trabajo y ahora tiene que hacerle contrato a todos: te descontarán AFP y salud.",
-  "evento.empresa.quiebra.2": "Llegas a la pega y hay un aviso pegado en la puerta: la empresa entró en liquidación. Nadie sabe qué va a pasar con los finiquitos."
+  "evento.empresa.quiebra.2": "Llegas a la pega y hay un aviso pegado en la puerta: la empresa entró en liquidación. Nadie sabe qué va a pasar con los finiquitos.",
+  "evento.jubilacion.2": "Pasó otro año y sigues trabajando. En la AFP vuelven a sacar la cuenta: la pensión sube un poco por cada año que cotizas.",
+  "evento.nace_hijo.2": "Otra vez el bolso listo en la puerta, otra vez la carrera a la maternidad. Llega a la casa un nuevo bebé y la familia se agranda."
 }

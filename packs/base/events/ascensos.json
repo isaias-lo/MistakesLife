@@ -177,6 +177,7 @@
   },
   {
     "id": "evento.curso_empresa",
+    "veces_maximas": 3,
     "condiciones": "jugador.area != nada && jugador.meses_en_cargo >= 6",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 104,
@@ -212,6 +213,10 @@
       "jugador.felicidad += 5",
       "jugador.marcar('reconocido_en_el_trabajo')",
       "diario('diario.reconocimiento_trabajo')"
+    ],
+    "variantes": [
+      "evento.reconocimiento_trabajo.2",
+      "evento.reconocimiento_trabajo.3"
     ]
   },
   {

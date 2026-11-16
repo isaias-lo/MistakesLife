@@ -38,6 +38,23 @@ namespace MistakesLife.Core.Tests
             return content.Build();
         }
 
+        /// <summary>
+        /// País de prueba con un banco de verdad: un crédito de consumo al 12 % al año
+        /// que el banco castiga a los 3 meses sin pagar, y que solo se repacta con trabajo.
+        /// </summary>
+        private static ContentDatabase BankContent()
+        {
+            string economy = @", ""economia"": {
+              ""inflacion"": { ""regimen_inicial"": ""economia.inflacion.fija"",
+                ""regimenes"": [ { ""id"": ""economia.inflacion.fija"", ""anual_min"": 0, ""anual_max"": 0 } ] },
+              ""deudas"": { ""meses_para_moroso"": 2, ""meses_prescripcion"": 24, ""repactar_con_trabajo"": true, ""tipos"": [
+                { ""id"": ""deuda.prueba.consumo"", ""tasa_anual"": 0.12, ""cuotas"": 10, ""cuotas_repactacion"": 20, ""meses_para_castigo"": 3 }
+              ] } } }";
+            var content = new ContentDatabase();
+            content.AddCountryJson("pack.prueba", "country.json", CountryTests.CountryJson.TrimEnd().TrimEnd('}') + economy);
+            return content.Build();
+        }
+
         private static void Run(World world, ContentDatabase content, string effect) =>
             Effect.Parse(effect).Apply(new EventScope(world, content, world.Player, null, readOnly: false));
 
@@ -124,6 +141,63 @@ namespace MistakesLife.Core.Tests
             Assert.Empty(world.Player.Debts);
             Assert.False(Is(world, content, "jugador.moroso"));
             Assert.Contains(world.Journal, e => e.TextKey == DebtSystem.PrescribedJournal);
+        }
+
+        [Fact]
+        public void Castigo_TrasMesesSinPagar_LaDeudaDejaDeSumarIntereses()
+        {
+            ContentDatabase content = BankContent();
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.endeudarse('deuda.prueba.consumo', 1000000)");
+            world.Player.Money = 0;
+
+            Advance(world, content, 3 * 4 + 1);
+            decimal writtenOff = world.Player.Debts.Single().Balance;
+            Advance(world, content, 2 * 52);
+
+            // Tres meses de intereses (12 % al año) y después nada: ya no crece sin fin.
+            Assert.InRange(writtenOff, 1028000m, 1029000m);
+            Assert.Single(world.Journal, e => e.TextKey == DebtSystem.WrittenOffJournal);
+            Assert.True(world.Player.Debts.Count == 0 || world.Player.Debts.Single().Balance == writtenOff);
+        }
+
+        [Fact]
+        public void Castigada_SigueEnElRegistro_YPrescribeComoCualquierDeuda()
+        {
+            ContentDatabase content = BankContent();
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.endeudarse('deuda.prueba.consumo', 1000000)");
+            world.Player.Money = 0;
+
+            Advance(world, content, 52);
+            Assert.True(Is(world, content, "jugador.moroso"));
+
+            Advance(world, content, 52 + 8);
+            Assert.Empty(world.Player.Debts);
+            Assert.Contains(world.Journal, e => e.TextKey == DebtSystem.PrescribedJournal);
+        }
+
+        [Fact]
+        public void Repactar_ConTrabajoQueElBancoPide_SinTrabajoNoSePuede()
+        {
+            ContentDatabase content = BankContent();
+            World world = new LifeSession(content, 1).World;
+            Run(world, content, "jugador.endeudarse('deuda.prueba.consumo', 1000000)");
+            world.Player.Money = 0;
+            Advance(world, content, 6 * 4 + 1);
+
+            Assert.True(Is(world, content, "jugador.moroso"));
+            Assert.False(Is(world, content, "jugador.puede_repactar"));
+            Assert.Throws<ScriptException>(() => Run(world, content, "jugador.repactar()"));
+
+            world.Player.Job = new Job(JobKind.Employee, 500000m, 1);
+            Assert.True(Is(world, content, "jugador.puede_repactar"));
+            Run(world, content, "jugador.repactar()");
+            decimal rescheduled = world.Player.Debts.Single().Balance;
+            Advance(world, content, 4);
+
+            // Repactada vuelve a estar al día y a sumar intereses (aunque no alcance a pagar).
+            Assert.True(world.Player.Debts.Single().Balance > rescheduled);
         }
 
         [Fact]

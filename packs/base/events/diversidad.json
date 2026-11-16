@@ -148,7 +148,9 @@
     "enfriamiento_semanas": 52,
     "variantes": [
       "evento.salir_del_closet.2",
-      "evento.salir_del_closet.3"
+      "evento.salir_del_closet.3",
+      "evento.salir_del_closet.4",
+      "evento.salir_del_closet.5"
     ],
     "opciones": [
       {

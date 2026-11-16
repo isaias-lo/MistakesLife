@@ -1381,9 +1381,9 @@ namespace MistakesLife.Core.Content
                     }
 
                     if (type.AnnualRate < 0 || type.Installments < 1 || type.MinimumPaymentRate <= 0 || type.MinimumPaymentRate > 1
-                        || type.MinimumPaymentAmount < 0 || type.RescheduleInstallments < 1)
+                        || type.MinimumPaymentAmount < 0 || type.RescheduleInstallments < 1 || type.WriteOffMonths < 1)
                     {
-                        _errors.Add(new ContentError(debtWhere, "tasa_anual no negativa, cuotas y cuotas_repactacion desde 1, pago_minimo mayor que 0 y hasta 1, pago_minimo_monto no negativo."));
+                        _errors.Add(new ContentError(debtWhere, "tasa_anual no negativa, cuotas, cuotas_repactacion y meses_para_castigo desde 1, pago_minimo mayor que 0 y hasta 1, pago_minimo_monto no negativo."));
                     }
 
                     type.CompiledPaymentCondition = CompileCondition(debtWhere + " (condicion_pago)", type.PaymentCondition);
@@ -2022,7 +2022,7 @@ namespace MistakesLife.Core.Content
 
                 if (country.Economy?.Debts != null)
                 {
-                    foreach (string key in new[] { Economy.DebtSystem.PaidOffJournal, Economy.DebtSystem.DelinquentJournal, Economy.DebtSystem.ClearedJournal, Economy.DebtSystem.PrescribedJournal })
+                    foreach (string key in new[] { Economy.DebtSystem.PaidOffJournal, Economy.DebtSystem.DelinquentJournal, Economy.DebtSystem.ClearedJournal, Economy.DebtSystem.PrescribedJournal, Economy.DebtSystem.WrittenOffJournal })
                     {
                         yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
                     }

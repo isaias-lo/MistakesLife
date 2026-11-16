@@ -67,6 +67,10 @@
       "jugador.tener_hijo()",
       "jugador.desmarcar('buscando_hijo')",
       "jugador.felicidad += 15"
+    ],
+    "variantes": [
+      "evento.nace_hijo.2",
+      "evento.nace_hijo.3"
     ]
   },
   {
@@ -74,6 +78,9 @@
     "condiciones": "jugador.pareja != nada && jugador.sexo != jugador.pareja.sexo && !jugador.tiene('buscando_hijo') && ((jugador.sexo == 'femenino' && jugador.edad >= 18 && jugador.edad <= 44) || (jugador.sexo == 'masculino' && jugador.pareja.edad >= 18 && jugador.pareja.edad <= 44))",
     "probabilidad_anual": 0.03,
     "dia_clave": true,
+    "variantes": [
+      "evento.embarazo_no_planificado.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.embarazo_no_planificado.alegria",
@@ -136,6 +143,9 @@
     "condiciones": "jugador.pareja != nada && jugador.edad >= 25 && jugador.edad <= 50 && jugador.hijos < 3 && !jugador.tiene('buscando_adopcion') && !jugador.tiene('buscando_hijo') && !jugador.tiene('no_quiere_hijos') && ((jugador.sexo == jugador.pareja.sexo && ley('ley.adopcion_parejas_mismo_sexo')) || (jugador.sexo != jugador.pareja.sexo && jugador.hijos == 0 && si(jugador.sexo == 'femenino', jugador.edad, jugador.pareja.edad) > 42))",
     "probabilidad_anual": 0.3,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.conversar_adopcion.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.conversar_adopcion.postular",

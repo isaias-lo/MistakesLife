@@ -183,6 +183,21 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void LineaDeCredito_Castigada_ElBancoLaCierra_YLoDemasQuedaSinPagar()
+        {
+            string debts = Debts.Replace(@"""se_paga_con_el_saldo"": true }", @"""se_paga_con_el_saldo"": true, ""meses_para_castigo"": 2 }");
+            ContentDatabase content = Build(0, Rents, @", ""deuda_por_deficit"": ""deuda.prueba.linea"", ""cupo_deficit"": 10000000", debts);
+            World world = new LifeSession(content, 1).World;
+
+            AdvanceWithDebts(world, content, 26);
+
+            // Dos meses de comida en la línea; desde el castigo, el banco no presta más.
+            Assert.Equal(0m, world.Player.Money);
+            Assert.Equal(200000m, world.Player.Debts.Single().Balance);
+            Assert.Contains(world.Journal, e => e.TextKey == DebtSystem.WrittenOffJournal);
+        }
+
+        [Fact]
         public void LineaDeCredito_AlLlegarPlata_SePagaSolaConElSaldo()
         {
             ContentDatabase content = Build(0, Rents, CreditLine, Debts);

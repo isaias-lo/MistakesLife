@@ -23,5 +23,8 @@
   "opcion.negocio.mal_mes.cerrar": "Proponer cerrar antes de perder más",
   "evento.negocio.cerrar": "Le pides a {persona} que conversen del negocio. Llevas semanas pensando si vale la pena seguir.",
   "opcion.negocio.cerrar.acuerdo": "Proponer cerrarlo de común acuerdo",
-  "opcion.negocio.cerrar.no": "Darle otra oportunidad"
+  "opcion.negocio.cerrar.no": "Darle otra oportunidad",
+  "evento.negocio.buen_mes.2": "Este mes no paró de entrar gente. {persona} propone guardar una parte para cuando venga un mes flojo.",
+  "evento.negocio.buen_mes.3": "{persona} te llama tarde en la noche: cerraron el mes con la caja más llena que nunca.",
+  "evento.negocio.socio_caja.2": "Otra vez falta plata en la caja. {persona} dice que fue un error al dar el vuelto, pero la diferencia es demasiado grande."
 }

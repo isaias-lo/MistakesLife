@@ -67,6 +67,10 @@
     "condiciones": "jugador.area == 'carrera.software.area.soporte'",
     "probabilidad_anual": 0.25,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.software.caso_absurdo.2",
+      "evento.software.caso_absurdo.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.software.caso_absurdo.paciencia",
@@ -125,6 +129,10 @@
     "condiciones": "jugador.area == 'carrera.software.area.qa'",
     "probabilidad_anual": 0.25,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.software.pruebas_eternas.2",
+      "evento.software.pruebas_eternas.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.software.pruebas_eternas.critico",
@@ -366,11 +374,13 @@
   },
   {
     "id": "evento.software.cambiar_area",
+    "veces_maximas": 3,
     "condiciones": "jugador.area != nada && jugador.tiene('trabaja_software') && jugador.meses_en_cargo >= 12",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 104,
     "variantes": [
-      "evento.software.cambiar_area.2"
+      "evento.software.cambiar_area.2",
+      "evento.software.cambiar_area.3"
     ],
     "opciones": [
       {

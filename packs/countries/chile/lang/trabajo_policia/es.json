@@ -65,7 +65,7 @@
   "opcion.chile.fiesta_ruidos.bajar": "Bajar la música y despedir a todos",
   "opcion.chile.fiesta_ruidos.seguir": "Subirle: es sábado (llegan Carabineros con un parte por ruidos molestos)",
 
-  "evento.chile.tomar_en_la_calle": "Tus amigos proponen comprar unas cervezas y tomárselas en la plaza.",
+  "evento.chile.tomar_en_la_calle": "{persona} propone comprar unas cervezas y tomárselas en la plaza.",
   "opcion.chile.tomar_en_la_calle.bar": "Mejor a un bar",
   "opcion.chile.tomar_en_la_calle.plaza": "A la plaza nomás (pasa una patrulla: parte por beber en la vía pública)",
   "opcion.chile.tomar_en_la_calle.no": "Hoy no",
@@ -102,5 +102,12 @@
   "remitente.registro_civil": "Registro Civil e Identificación",
   "evento.chile.finiquito.2": "Te desvincularon y la empresa te cita a firmar el finiquito ante notario. Antes de firmar, revisas que estén los años de servicio y las vacaciones pendientes.",
   "evento.chile.finiquito.3": "En la notaría hay fila de gente con sobres iguales al tuyo: la empresa despidió a varios por \"necesidades de la empresa\". Te toca firmar el finiquito.",
-  "evento.chile.quiebra_finiquito.2": "Te llega la carta del liquidador: la empresa quebró y tus años de trabajo quedan como crédito laboral. Hay que verificarlo en el juicio de liquidación."
+  "evento.chile.quiebra_finiquito.2": "Te llega la carta del liquidador: la empresa quebró y tus años de trabajo quedan como crédito laboral. Hay que verificarlo en el juicio de liquidación.",
+  "evento.chile.tomar_en_la_calle.2": "Es viernes y {persona} aparece con una bolsa del almacén: \"Unas chelas en la plaza, ¿o no?\".",
+  "evento.chile.tomar_en_la_calle.3": "Después del partido, {persona} quiere seguir celebrando en la vereda con unas latas.",
+  "evento.chile.finiquito.4": "Te llega la carta de despido por \"necesidades de la empresa\" con copia a la Inspección del Trabajo. Tienes que ir a firmar el finiquito y revisar que esté todo.",
+  "evento.chile.policia_local_audiencia.2": "Llega el día de la audiencia en el Juzgado de Policía Local. Esperas tu turno en un pasillo lleno de gente con citaciones en la mano.",
+  "evento.chile.fiesta_ruidos.2": "Es tu cumpleaños y la casa está llena. Pasada la una de la mañana, alguien toca el timbre: es el vecino de abajo, con cara de pocos amigos.",
+  "evento.chile.fiesta_ruidos.3": "La música sigue fuerte a las tres de la mañana. Por la ventana ves que el vecino está hablando por teléfono y mirando hacia tu casa.",
+  "evento.chile.quiebra_reparto.2": "Te llega una transferencia del liquidador: es tu parte en el reparto de la quiebra. No es todo lo que te debían, pero algo es."
 }

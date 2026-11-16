@@ -222,12 +222,13 @@
     "deudas": {
       "meses_para_moroso": 3,
       "meses_prescripcion": 60,
+      "repactar_con_trabajo": true,
       "tipos": [
-        { "id": "deuda.argentina.prestamo", "tasa_anual": 0.6, "cuotas": 24, "cuotas_repactacion": 36 },
+        { "id": "deuda.argentina.prestamo", "tasa_anual": 0.6, "cuotas": 24, "cuotas_repactacion": 36, "meses_para_castigo": 12 },
         { "id": "deuda.argentina.descubierto", "tasa_anual": 0.9, "cuotas": 1, "pago_minimo": 0.05, "pago_minimo_monto": 15000, "cuotas_repactacion": 36,
-          "se_paga_con_el_saldo": true },
+          "se_paga_con_el_saldo": true, "meses_para_castigo": 12 },
         { "id": "deuda.argentina.tarjeta", "tasa_anual": 0.8, "cuotas": 1, "pago_minimo": 0.05, "pago_minimo_monto": 15000,
-          "entrega_dinero": false, "cuotas_repactacion": 24 }
+          "entrega_dinero": false, "cuotas_repactacion": 24, "meses_para_castigo": 12 }
       ]
     },
     "herencia": { "beneficio_inventario": true, "porciones_pareja": 1 },

@@ -93,5 +93,9 @@
   "evento.chile.demanda_cobro.2": "Llega una carta certificada de un estudio de abogados: el banco te demandó por la deuda y la causa ya está en un Juzgado Civil.",
   "evento.chile.demanda_cobro.3": "Revisas la Oficina Judicial Virtual y aparece una causa con tu RUT: el banco te demandó por la deuda en un Juzgado Civil.",
   "evento.chile.cobro_requerimiento.2": "Un receptor judicial vino dos veces a tu casa sin encontrarte. A la tercera deja la demanda en la puerta: ya cuenta como notificación y corren los plazos.",
-  "evento.chile.cobro_requerimiento.3": "Un receptor judicial te encuentra a la salida de tu casa, temprano en la mañana. Dice tu nombre y te entrega la demanda: el plazo para pagar o defenderte empieza hoy."
+  "evento.chile.cobro_requerimiento.3": "Un receptor judicial te encuentra a la salida de tu casa, temprano en la mañana. Dice tu nombre y te entrega la demanda: el plazo para pagar o defenderte empieza hoy.",
+  "evento.chile.cobro_embargo.2": "El receptor vuelve con un martillero a revisar lo que se embargó. Te recuerda que no puedes vender ni regalar nada de la lista.",
+  "evento.chile.demanda_cobro.4": "Otra deuda que llega a juicio: esta vez es la casa comercial la que te demanda en el Juzgado Civil.",
+  "evento.chile.terminar_auc.2": "Haciendo un trámite te das cuenta de que en los papeles sigues con Acuerdo de Unión Civil. Terminarlo se hace en el Registro Civil, sin juicio.",
+  "evento.chile.terminar_auc.3": "Ya pasó tiempo desde la separación y el AUC sigue vigente. Mientras siga, para la ley siguen unidos."
 }

@@ -67,10 +67,19 @@ namespace MistakesLife.Core.Tests
             var freelance = CareerAreaLives.FreelanceWorkerEvents(RepoPacks.Content, lives: 4);
             // Y vidas que viven con un amigo, para lo que pasa al compartir el arriendo.
             var roommates = CareerAreaLives.RoommateEvents(RepoPacks.Content, lives: 40);
+            // Y vidas donde la amistad se enfría, para que el amigo se aleje (en vidas al azar,
+            // muy pocas: dependía de la suerte).
+            var drift = CareerAreaLives.FriendDriftEvents(RepoPacks.Content, lives: 10);
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(freelance).Except(roommates).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(freelance).Except(roommates).Except(drift).ToArray();
 
             Assert.Empty(never);
+        }
+
+        [Fact]
+        public void AmistadQueSeEnfria_ElAmigoSeAleja()
+        {
+            Assert.Contains("evento.amigo_se_aleja", CareerAreaLives.FriendDriftEvents(RepoPacks.Content, lives: 10));
         }
 
         [Fact]

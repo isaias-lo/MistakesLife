@@ -260,7 +260,8 @@
     "condiciones": "semilla('semilla.te_recomendo').testigo != nada && jugador.trabaja",
     "peso": 20,
     "variantes": [
-      "evento.busqueda.devolver_favor.2"
+      "evento.busqueda.devolver_favor.2",
+      "evento.busqueda.devolver_favor.3"
     ],
     "opciones": [
       {
@@ -289,7 +290,8 @@
     "peso": 20,
     "dia_clave": true,
     "variantes": [
-      "evento.busqueda.cv_descubierto.2"
+      "evento.busqueda.cv_descubierto.2",
+      "evento.busqueda.cv_descubierto.3"
     ],
     "opciones": [
       {

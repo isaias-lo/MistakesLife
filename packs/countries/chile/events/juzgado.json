@@ -166,9 +166,14 @@
   },
   {
     "id": "evento.chile.terminar_auc",
+    "veces_maximas": 4,
     "condiciones": "jugador.separado && jugador.union == 'union.chile.auc'",
     "probabilidad_anual": 0.6,
     "enfriamiento_semanas": 26,
+    "variantes": [
+      "evento.chile.terminar_auc.2",
+      "evento.chile.terminar_auc.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.chile.terminar_auc.registro_civil",
@@ -196,7 +201,8 @@
     ],
     "variantes": [
       "evento.chile.demanda_cobro.2",
-      "evento.chile.demanda_cobro.3"
+      "evento.chile.demanda_cobro.3",
+      "evento.chile.demanda_cobro.4"
     ]
   },
   {
@@ -269,6 +275,9 @@
     "efectos": [
       "jugador.marcar('bienes_embargados')",
       "jugador.felicidad -= 5"
+    ],
+    "variantes": [
+      "evento.chile.cobro_embargo.2"
     ],
     "opciones": [
       {

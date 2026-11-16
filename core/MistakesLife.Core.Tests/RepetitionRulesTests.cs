@@ -79,6 +79,17 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void EnfermarseYLaUrgencia_TienenUnTextoDistintoParaCadaVez()
+        {
+            foreach (string id in new[] { "evento.chile.enfermarse", "evento.chile.urgencia" })
+            {
+                EventDefinition ev = RepoPacks.Content.GetEvent(id);
+                Assert.NotNull(ev.MaxTimes);
+                Assert.True(ev.AllTextKeys.Distinct().Count() >= ev.MaxTimes!.Value, id + " necesita un texto por cada vez que puede pasar");
+            }
+        }
+
+        [Fact]
         public void PorPersonaSinCon_EsUnErrorDelPaquete()
         {
             var content = new ContentDatabase();

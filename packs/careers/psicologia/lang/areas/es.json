@@ -30,7 +30,7 @@
   "opcion.psicologia.especializarse.enfoque": "Te formas en un enfoque clínico.",
   "opcion.psicologia.especializarse.forense": "Haces una especialidad en psicología forense.",
   "opcion.psicologia.especializarse.no": "Por ahora no.",
-  "evento.psicologia.especializarse": "Podrías seguir formándote para crecer en tu carrera.",
+  "evento.psicologia.especializarse": "En una supervisión te recomiendan formarte en una terapia específica para atender mejor a tus pacientes.",
   "opcion.psicologia.cambiar_area.clinica": "Te pasas a la clínica.",
   "opcion.psicologia.cambiar_area.educacional": "Te pasas a un colegio.",
   "opcion.psicologia.cambiar_area.organizacional": "Te pasas a una empresa, al área de personas.",
@@ -53,5 +53,7 @@
   "diario.psicologia.atendio_conocido_sale_a_la_luz": "Atender a alguien cercano terminó en un reclamo.",
   "diario.psicologia.callo_maltrato_sale_a_la_luz": "Se supo que no denuncié el maltrato de un niño.",
   "diario.psicologia.uso_fichas_sale_a_la_luz": "Me demandaron por usar fichas confidenciales en los despidos.",
-  "diario.psicologia.informe_comprado_sale_a_la_luz": "Anularon mi peritaje: se supo que estaba comprado."
+  "diario.psicologia.informe_comprado_sale_a_la_luz": "Anularon mi peritaje: se supo que estaba comprado.",
+  "evento.psicologia.especializarse.2": "Te llegan cada vez más pacientes con un mismo problema y sientes que te falta formación para acompañarlos. Hay un diplomado que parte en marzo.",
+  "evento.psicologia.especializarse.3": "Una colega te cuenta que se especializó en terapia infantil y ahora tiene lista de espera. Te quedas pensando en qué área te gustaría crecer."
 }

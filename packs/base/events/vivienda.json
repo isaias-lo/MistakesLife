@@ -48,7 +48,8 @@
     "probabilidad_anual": 0.3,
     "enfriamiento_semanas": 52,
     "variantes": [
-      "evento.dejar_la_pieza.2"
+      "evento.dejar_la_pieza.2",
+      "evento.dejar_la_pieza.3"
     ],
     "opciones": [
       {

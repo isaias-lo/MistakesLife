@@ -28,9 +28,9 @@
   "opcion.busqueda.oferta.agradecer": "Aceptas y llamas a quien te recomendó para darle las gracias.",
   "opcion.busqueda.oferta.negociar": "Pides un poco más de sueldo antes de firmar.",
   "opcion.busqueda.oferta.rechazar": "Lo rechazas. No es lo que buscas.",
-  "evento.busqueda.contraoferta_mejor": "Lo pensaron y aceptan: te suben el sueldo de la oferta.",
+  "evento.busqueda.contraoferta_mejor": "En {empresa} lo pensaron y aceptan: te suben el sueldo de la oferta.",
   "opcion.busqueda.contraoferta.aceptar": "Firmas contento.",
-  "evento.busqueda.contraoferta_igual": "Te dicen que el sueldo es el que es, pero la oferta sigue en pie.",
+  "evento.busqueda.contraoferta_igual": "En {empresa} te dicen que el sueldo es el que es, pero la oferta sigue en pie.",
   "opcion.busqueda.contraoferta.aceptar_igual": "Aceptas igual. Valía la pena preguntar.",
   "evento.busqueda.devolver_favor": "{persona}, que te recomendó para tu trabajo, te escribe: su sobrino está buscando trabajo y te pregunta si podrías recomendarlo.",
   "opcion.busqueda.devolver_favor.recomendar": "Lo recomiendas. Te ayudaron cuando lo necesitabas.",
@@ -55,5 +55,7 @@
   "evento.busqueda.cambiar_forma.5": "Otra semana sin llamadas. Abres el portal de empleos y te das cuenta de que estás postulando a los mismos avisos que hace un mes.",
   "evento.busqueda.cambiar_forma.6": "Te llama una entrevistadora de hace meses solo para decirte que el puesto ya se llenó. Cuelgas y te quedas mirando la pantalla.",
   "evento.busqueda.como_buscar.9": "Se terminó tu último trabajo. Esta vez te das una semana para ordenar tus papeles antes de salir a buscar.",
-  "evento.busqueda.como_buscar.10": "Otra vez en búsqueda. Le pides a alguien de confianza que lea tu currículum y te diga, con honestidad, qué le cambiaría."
+  "evento.busqueda.como_buscar.10": "Otra vez en búsqueda. Le pides a alguien de confianza que lea tu currículum y te diga, con honestidad, qué le cambiaría.",
+  "evento.busqueda.devolver_favor.3": "{persona} te pide un favor chico: que le pases su currículum a alguien de tu trabajo. \"Solo que lo lean, nada más\".",
+  "evento.busqueda.cv_descubierto.3": "En una reunión con un cliente te piden hablar de esa certificación que pusiste en el currículum. No tienes idea de qué decir."
 }

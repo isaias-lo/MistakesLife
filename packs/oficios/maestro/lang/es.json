@@ -60,5 +60,10 @@
   "opcion.maestro.desafio.capataz.no": "Decir que prefieres seguir con la herramienta en la mano",
   "evento.maestro.aviso.2": "En la bencinera, un capataz le comenta a otro que les faltan jornales en la obra de la esquina.",
   "evento.maestro.aviso.3": "Por el grupo de WhatsApp del barrio llega un mensaje: \"Constructora busca jornales y maestros, se paga quincena\".",
-  "evento.maestro.aviso.4": "Un vecino que hace remodelaciones te pregunta si sabes pintar: le salió un trabajo grande en una casa y le falta gente."
+  "evento.maestro.aviso.4": "Un vecino que hace remodelaciones te pregunta si sabes pintar: le salió un trabajo grande en una casa y le falta gente.",
+  "evento.maestro.lluvia.2": "Temporal toda la semana. La obra se llena de barro y {persona} manda a todos a la casa a mediodía: sin trabajo, no hay trato.",
+  "evento.maestro.lluvia.3": "Amanece lloviendo otra vez. {persona} dice que hoy se trabaja adentro, en terminaciones, y que el que no tiene nada que hacer se puede ir.",
+  "evento.maestro.fin_de_obra.2": "Se entrega la última casa del condominio. {persona} reúne a la cuadrilla: el contrato termina con la obra, pero hay otra empezando en la comuna de al lado.",
+  "evento.maestro.fin_de_obra.3": "Faltan dos semanas para el término de la obra. {persona} te pregunta si te quedas para la próxima o buscas por tu cuenta.",
+  "evento.maestro.aviso.5": "En la ferretería, el dueño te cuenta que un contratista anda buscando ayudantes para una obra que parte el lunes."
 }
