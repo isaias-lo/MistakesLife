@@ -34,5 +34,10 @@
   "opcion.pololito_vejez.rechazar": "No, gracias: ya trabajaste suficiente.",
   "evento.dejar_de_buscar_jubilado": "Ya cobras la pensión. Dejas de buscar trabajo.",
   "evento.volver_a_trabajar_tras_cuidar_familiar": "Ya no tienes que cuidar a tu familiar todos los días. Empiezas a buscar trabajo otra vez.",
-  "evento.volver_a_trabajar_tras_salud": "Te sientes mejor. Empiezas a buscar trabajo otra vez."
+  "evento.volver_a_trabajar_tras_salud": "Te sientes mejor. Empiezas a buscar trabajo otra vez.",
+  "evento.oferta_trabajo_informal.2": "El vecino que tiene un taller mecánico necesita a alguien para ayudar con los autos. Paga por día, en efectivo y sin contrato.",
+  "evento.oferta_trabajo_informal.3": "Una señora del barrio tiene un taller de costura en su casa y le faltan manos para un pedido grande. Paga en efectivo, sin contrato ni aportes.",
+  "evento.oferta_trabajo_informal.4": "En un taller de muebles de la avenida buscan a alguien para lijar y barnizar. \"Acá no hay contrato, pero se paga todos los viernes\".",
+  "evento.dejar_de_buscar.2": "Otro mes sin respuestas. Ya ni abres el correo con ganas.",
+  "evento.dejar_de_buscar.3": "Te llaman para una entrevista y al final el puesto era otra cosa: comisión pura y sin contrato. Vuelves a la casa sin ánimo."
 }

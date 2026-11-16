@@ -261,6 +261,7 @@
       "cierre_anual": 0.137
     },
     "busqueda_trabajo": {
+      "empresas": ["empresa.general.supermercados_pampa", "empresa.general.distribuidora_del_plata", "empresa.general.call_center_rioplatense", "empresa.general.depositos_del_sur", "empresa.general.farmacias_ombu", "empresa.general.logistica_litoral", "empresa.general.seguridad_baluarte", "empresa.general.limpieza_industrial_parana"],
       "formas": [
         { "id": "busqueda.forma.portales", "postulaciones_semana": 10, "entrevista_semanal": 0.08, "exito_extra": -0.08 },
         { "id": "busqueda.forma.a_mano", "postulaciones_semana": 2, "entrevista_semanal": 0.045, "exito_extra": 0.1 },

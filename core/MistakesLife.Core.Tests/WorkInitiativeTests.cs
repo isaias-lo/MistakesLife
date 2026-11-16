@@ -35,6 +35,27 @@ namespace MistakesLife.Core.Tests
             return session;
         }
 
+        /// <summary>
+        /// Una vida con pega que llega entera a esas semanas: en la vida real a veces te despiden
+        /// o se acaba el contrato (eventos al azar); esas vidas no sirven para probar lo de la pega,
+        /// así que se prueba con la primera semilla en que el trabajo sigue.
+        /// </summary>
+        private static LifeSession WorkedFor(string country, int weeks, string? prefer = null)
+        {
+            for (ulong seed = 5; seed < 60; seed++)
+            {
+                LifeSession session = WorkingIn(country, seed);
+                Job job = session.World.Player.Job!;
+                Weeks(session, weeks, prefer);
+                if (ReferenceEquals(session.World.Player.Job, job))
+                {
+                    return session;
+                }
+            }
+
+            throw new System.InvalidOperationException("Ninguna semilla llegó con la pega entera.");
+        }
+
         private static void Run(World world, string effect) =>
             Scripting.Effect.Parse(effect).Apply(Scope(world));
 
@@ -184,8 +205,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void PedirAumento_ConSeisMeses_PasaConElJefeYDejaUnaLineaEnElDiario()
         {
-            LifeSession session = WorkingIn("pais.chile");
-            Weeks(session, 27, "opcion.pega.vacaciones.guardar");
+            LifeSession session = WorkedFor("pais.chile", 27, "opcion.pega.vacaciones.guardar");
             Assert.Contains(session.Requestable(), e => e.Id == "evento.pega.pedir_aumento");
 
             decimal before = session.World.Player.Job!.BaseSalary;
@@ -206,8 +226,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Vacaciones_ConUnAnoTrabajado_SePidenYSeDescuentanLosDias()
         {
-            LifeSession session = WorkingIn("pais.chile");
-            Weeks(session, 53, "opcion.pega.vacaciones.guardar");
+            LifeSession session = WorkedFor("pais.chile", 53, "opcion.pega.vacaciones.guardar");
             double days = session.World.Player.Job!.VacationDays;
             Assert.True(days >= 10, $"tenía {days} días");
             Assert.Contains(session.Requestable(), e => e.Id == "evento.pega.vacaciones");
@@ -219,8 +238,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Renunciar_ConAvisoEnChile_SeVaEnCuatroSemanasYLePaganLasVacaciones()
         {
-            LifeSession session = WorkingIn("pais.chile");
-            Weeks(session, 40, "opcion.pega.vacaciones.guardar");
+            LifeSession session = WorkedFor("pais.chile", 40, "opcion.pega.vacaciones.guardar");
             ChooseRequested(session, "evento.pega.renunciar", "opcion.pega.renunciar.con_aviso");
 
             World world = session.World;
@@ -256,8 +274,7 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Guardado_VacacionesYRenunciaConAviso_SeMantienen()
         {
-            LifeSession session = WorkingIn("pais.chile");
-            Weeks(session, 20, "opcion.pega.vacaciones.guardar");
+            LifeSession session = WorkedFor("pais.chile", 20, "opcion.pega.vacaciones.guardar");
             ChooseRequested(session, "evento.pega.renunciar", "opcion.pega.renunciar.con_aviso");
 
             LifeSession loaded = LifeSession.Load(Content, session.SaveToText());

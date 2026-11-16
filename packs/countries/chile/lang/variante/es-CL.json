@@ -38,5 +38,7 @@
   "opcion.busqueda.oferta.aceptar": "Aceptas. El lunes firmas contrato y empiezas.",
   "remitente.impuestos": "Servicio de impuestos (SII)",
   "correo.estado.herencia.asunto": "Posesión efectiva",
-  "lugar.casino": "El casino"
+  "lugar.casino": "El casino",
+  "evento.oferta_trabajo_informal.2": "El vecino que tiene un taller mecánico necesita a alguien que le ayude con los autos. Paga por día, en efectivo y sin imposiciones.",
+  "evento.oferta_trabajo_informal.3": "Una señora del barrio tiene un taller de costura en su casa y le faltan manos para un pedido grande. Paga en efectivo, sin contrato ni imposiciones."
 }

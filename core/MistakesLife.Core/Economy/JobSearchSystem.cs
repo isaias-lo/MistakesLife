@@ -59,6 +59,7 @@ namespace MistakesLife.Core.Economy
                 {
                     search.Stage = JobSearchStage.Interview;
                     search.Interviews++;
+                    search.CompanyNameId = JobSearchRules.CallingCompany(world, _content, character, search);
                     world.WriteJournal(character.Id, JobSearchRules.InterviewJournal);
                 }
             }

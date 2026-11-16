@@ -185,5 +185,13 @@
   "servicio.arancel.brecha_cft": "Diferencia del arancel del CFT que no cubre el CAE",
   "servicio.arancel.mitad_cft": "Mitad del arancel del CFT (sin gratuidad)",
   "opcion.financiar.credito": "Pedir el Crédito con Aval del Estado: cubre el arancel de referencia y la diferencia la pagas tú cada mes",
-  "opcion.financiar.trabajar": "Trabajar los fines de semana y pagar el arancel tú"
+  "opcion.financiar.trabajar": "Trabajar los fines de semana y pagar el arancel tú",
+  "empresa.general.supermercados_andinos": "Supermercados Andinos",
+  "empresa.general.distribuidora_los_aromos": "Distribuidora Los Aromos",
+  "empresa.general.call_center_pacifico": "Contact Center Pacífico",
+  "empresa.general.bodegas_del_maipo": "Bodegas del Maipo",
+  "empresa.general.farmacias_cordillera": "Farmacias Cordillera",
+  "empresa.general.logistica_austral": "Logística Austral",
+  "empresa.general.seguridad_centinela": "Seguridad Centinela",
+  "empresa.general.aseo_industrial_valle": "Aseo Industrial del Valle"
 }

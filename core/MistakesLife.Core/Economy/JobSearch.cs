@@ -45,6 +45,16 @@ namespace MistakesLife.Core.Economy
         /// <summary>Entrevistas en que no quedó.</summary>
         public int Rejections { get; set; }
 
+        /// <summary>
+        /// La empresa que lo llamó a la entrevista de ahora (y que le hace la oferta): un id
+        /// "empresa." con su nombre en lang/, o null si no hay entrevista o el país no tiene nombres.
+        /// En los textos de la búsqueda, {empresa} dice su nombre.
+        /// </summary>
+        public string? CompanyNameId { get; set; }
+
+        /// <summary>La última empresa que lo llamó en esta búsqueda, para que la próxima sea otra.</summary>
+        public string? LastCompanyNameId { get; set; }
+
         /// <summary>Si ya pidió más sueldo por la oferta actual.</summary>
         public bool Negotiated { get; set; }
 

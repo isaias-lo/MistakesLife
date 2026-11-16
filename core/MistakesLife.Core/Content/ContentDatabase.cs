@@ -1469,6 +1469,11 @@ namespace MistakesLife.Core.Content
                 _errors.Add(new ContentError(where, "debe tener al menos una forma de buscar."));
             }
 
+            foreach (string company in search.Companies)
+            {
+                CheckId($"{where}, empresas", company, "empresa.");
+            }
+
             var seen = new HashSet<string>(StringComparer.Ordinal);
             foreach (JobSearchMethodDefinition method in search.Methods)
             {
@@ -1957,6 +1962,11 @@ namespace MistakesLife.Core.Content
                     foreach (JobSearchMethodDefinition method in country.Economy.JobSearch.Methods)
                     {
                         yield return new KeyValuePair<string, string>(method.Id, $"país {country.Id}");
+                    }
+
+                    foreach (string company in country.Economy.JobSearch.Companies)
+                    {
+                        yield return new KeyValuePair<string, string>(company, $"país {country.Id}");
                     }
 
                     foreach (string key in new[] { Economy.JobSearchRules.RejectionJournal, Economy.JobSearchRules.WithdrawnJournal, Economy.JobSearchRules.HiredJournal, Economy.JobSearchRules.InterviewJournal })

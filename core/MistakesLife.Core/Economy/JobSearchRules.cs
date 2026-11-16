@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
@@ -155,6 +156,7 @@ namespace MistakesLife.Core.Economy
             }
 
             search.Stage = JobSearchStage.Searching;
+            search.CompanyNameId = null;
             search.Rejections++;
             world.WriteJournal(character.Id, RejectionJournal);
             return false;
@@ -180,6 +182,7 @@ namespace MistakesLife.Core.Economy
             if (roll < rules.RaiseChance + rules.WithdrawChance)
             {
                 search.Stage = JobSearchStage.Searching;
+                search.CompanyNameId = null;
                 search.Negotiated = false;
                 world.WriteJournal(character.Id, WithdrawnJournal);
                 return false;
@@ -189,11 +192,43 @@ namespace MistakesLife.Core.Economy
             return true;
         }
 
+        /// <summary>
+        /// Qué empresa lo llama a entrevista: una de las de su carrera u oficio si busca en un
+        /// área (mejor una que todavía no exista en el mundo), o una de las del país si busca
+        /// cualquier trabajo. Nunca la misma de la entrevista anterior, si hay otra. Null si no hay nombres.
+        /// </summary>
+        public static string? CallingCompany(World world, ContentDatabase content, Character character, JobSearch search)
+        {
+            IReadOnlyList<string> names = Array.Empty<string>();
+            if (search.TargetsArea && content.TryGetCareerArea(search.Target, out CareerAreaDefinition? area))
+            {
+                names = content.GetCareer(area!.CareerId).CompanyNames;
+            }
+            else if (!search.TargetsArea)
+            {
+                names = Definition(content, character)?.Companies ?? (IReadOnlyList<string>)Array.Empty<string>();
+            }
+
+            if (names.Count == 0)
+            {
+                return null;
+            }
+
+            int? currentCompany = character.Job?.CompanyId;
+            string? workingAt = currentCompany.HasValue ? world.Companies.FirstOrDefault(c => c.Id == currentCompany.Value)?.NameId : null;
+            List<string> fresh = names.Where(n => n != search.LastCompanyNameId && n != workingAt).ToList();
+            GameRandom random = world.Random.Fork("busqueda.empresa." + character.Id + "." + world.Date.TotalWeeks);
+            string picked = random.Pick(fresh.Count > 0 ? fresh : names.ToList());
+            search.LastCompanyNameId = picked;
+            return picked;
+        }
+
         /// <summary>Rechaza la oferta y sigue buscando.</summary>
         public static void Reject(Character character)
         {
             JobSearch search = RequireOffer(character);
             search.Stage = JobSearchStage.Searching;
+            search.CompanyNameId = null;
             search.Negotiated = false;
             search.Raise = 0;
         }

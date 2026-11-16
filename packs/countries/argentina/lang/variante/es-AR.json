@@ -185,5 +185,14 @@
   "evento.negocio.buen_mes": "Fue el mejor mes desde que abrieron. {persona} te muestra los números con una sonrisa que no le entra en la cara.",
   "evento.negocio.mal_mes": "Otro mes malo en el negocio: lo que entró apenas alcanzó para los gastos. {persona} te pregunta qué hacen.",
   "opcion.negocio.mal_mes.aguantar": "Bancar: los negocios tardan en arrancar",
-  "evento.negocio.cerrar": "Le pedís a {persona} que charlen del negocio. Hace semanas que pensás si vale la pena seguir."
+  "evento.negocio.cerrar": "Le pedís a {persona} que charlen del negocio. Hace semanas que pensás si vale la pena seguir.",
+  "evento.oferta_trabajo_informal.2": "El vecino que tiene un taller mecánico necesita a alguien que le dé una mano con los autos. Paga por día, en negro.",
+  "evento.oferta_trabajo_informal.3": "Una señora del barrio tiene un taller de costura en su casa y le faltan manos para un pedido grande. Es en negro: efectivo, sin recibo ni aportes.",
+  "evento.oferta_trabajo_informal.4": "En un taller de muebles de la avenida buscan a alguien para lijar y barnizar. \"Acá es en negro, pero se paga todos los viernes\".",
+  "evento.vendedor.aviso.2": "En un portal de empleo aparece un aviso: el shopping de tu zona busca vendedores para varios locales. Hay entrevistas el sábado.",
+  "evento.vendedor.aviso.3": "Una conocida que trabaja en el shopping te cuenta que en su piso están tomando gente para la temporada.",
+  "evento.garzon.aviso.2": "Un amigo que es mozo te cuenta que en su restaurante buscan a alguien para el turno de la noche.",
+  "evento.garzon.aviso.3": "En el grupo de vecinos alguien comparte un aviso: \"Se necesita mozo/a para fines de semana. Buenas propinas\".",
+  "evento.maestro.aviso.2": "En la estación de servicio, un capataz que carga nafta le comenta a otro que les faltan ayudantes en la obra.",
+  "evento.maestro.aviso.3": "Por el grupo de WhatsApp del barrio llega un mensaje: \"Constructora busca ayudantes y oficiales, se paga quincena\"."
 }
