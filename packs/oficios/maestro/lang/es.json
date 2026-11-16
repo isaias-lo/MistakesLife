@@ -57,5 +57,7 @@
   "evento.maestro.desafio.capataz": "Se viene el hormigonado de la losa más grande de la obra. {persona} te deja a cargo de la cuadrilla: \"Si este mes sale todo en plazo, te quedas de capataz\".",
   "opcion.maestro.desafio.capataz.preparar": "Organizar la cuadrilla y revisar cada moldaje antes",
   "opcion.maestro.desafio.capataz.asi_no_mas": "Confiar en la cuadrilla, que sabe lo que hace",
-  "opcion.maestro.desafio.capataz.no": "Decir que prefieres seguir con la herramienta en la mano"
+  "opcion.maestro.desafio.capataz.no": "Decir que prefieres seguir con la herramienta en la mano",
+  "evento.maestro.aviso.2": "En la bencinera, un capataz le comenta a otro que les faltan jornales en la obra de la esquina.",
+  "evento.maestro.aviso.3": "Por el grupo de WhatsApp del barrio llega un mensaje: \"Constructora busca jornales y maestros, se paga quincena\"."
 }

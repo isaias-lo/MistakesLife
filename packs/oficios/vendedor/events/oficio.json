@@ -31,6 +31,10 @@
         "tendencia": "(100 - jugador.extraversion) / 2",
         "efectos": []
       }
+    ],
+    "variantes": [
+      "evento.vendedor.aviso.2",
+      "evento.vendedor.aviso.3"
     ]
   },
   {

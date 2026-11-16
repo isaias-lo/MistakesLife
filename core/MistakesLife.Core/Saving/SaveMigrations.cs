@@ -294,6 +294,8 @@ namespace MistakesLife.Core.Saving
             [31] = save => { },
             // 32 → 33: el negocio con un socio (nadie tiene uno todavía).
             [32] = save => { },
+            // 33 → 34: la empresa que te llamó a la entrevista (quien estaba esperando una sigue sin nombre: "una empresa").
+            [33] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

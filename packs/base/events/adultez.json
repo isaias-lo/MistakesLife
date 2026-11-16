@@ -117,9 +117,13 @@
   },
   {
     "id": "evento.dejar_de_trabajar_vejez",
+    "lugar": "lugar.trabajo",
+    "a_pedido": {
+      "texto": "accion.pega.jubilarse",
+      "por_ano": "0.3 + si(jugador.edad >= 65, (jugador.edad - 65) / 5, 0) + si(jugador.salud < 60, 0.5, 0)"
+    },
     "condiciones": "jugador.tiene('trabajando') && jugador.jubilado && jugador.trabaja && jugador.edad >= 61",
-    "probabilidad_anual": 1,
-    "enfriamiento_semanas": 52,
+    "enfriamiento_semanas": 26,
     "opciones": [
       {
         "texto": "opcion.dejar_de_trabajar_vejez.dejar",

@@ -64,5 +64,7 @@
   "evento.vendedor.desafio.jefe_tienda": "La gerencia zonal viene de visita y {persona} te lo dice claro: \"Si este mes la tienda queda entre las mejores de la zona, te proponen como jefe de tienda\".",
   "opcion.vendedor.desafio.jefe_tienda.preparar": "Preparar la tienda, al equipo y cada vitrina",
   "opcion.vendedor.desafio.jefe_tienda.asi_no_mas": "Que la vean como es todos los días",
-  "opcion.vendedor.desafio.jefe_tienda.no": "Decir que no estás buscando ese cargo"
+  "opcion.vendedor.desafio.jefe_tienda.no": "Decir que no estás buscando ese cargo",
+  "evento.vendedor.aviso.2": "En un portal de empleos aparece un aviso: el mall de tu comuna busca vendedores para varias tiendas. Hay entrevistas el sábado.",
+  "evento.vendedor.aviso.3": "Una conocida que trabaja en el mall te cuenta que en su piso están contratando gente para la temporada."
 }

@@ -50,7 +50,13 @@
           "jugador.felicidad -= 1"
         ]
       }
-    ]
+    ],
+    "variantes": [
+      "evento.oferta_trabajo_informal.2",
+      "evento.oferta_trabajo_informal.3",
+      "evento.oferta_trabajo_informal.4"
+    ],
+    "enfriamiento_semanas": 26
   },
   {
     "id": "evento.contrato_tras_informal",
@@ -114,6 +120,10 @@
           "jugador.felicidad -= 1"
         ]
       }
+    ],
+    "variantes": [
+      "evento.dejar_de_buscar.2",
+      "evento.dejar_de_buscar.3"
     ]
   },
   {

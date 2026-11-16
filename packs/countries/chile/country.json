@@ -302,6 +302,7 @@
       "cierre_anual": 0.137
     },
     "busqueda_trabajo": {
+      "empresas": ["empresa.general.supermercados_andinos", "empresa.general.distribuidora_los_aromos", "empresa.general.call_center_pacifico", "empresa.general.bodegas_del_maipo", "empresa.general.farmacias_cordillera", "empresa.general.logistica_austral", "empresa.general.seguridad_centinela", "empresa.general.aseo_industrial_valle"],
       "formas": [
         { "id": "busqueda.forma.portales", "postulaciones_semana": 10, "entrevista_semanal": 0.08, "exito_extra": -0.08 },
         { "id": "busqueda.forma.a_mano", "postulaciones_semana": 2, "entrevista_semanal": 0.045, "exito_extra": 0.1 },

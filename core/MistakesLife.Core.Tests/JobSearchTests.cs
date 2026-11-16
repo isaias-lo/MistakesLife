@@ -317,5 +317,53 @@ namespace MistakesLife.Core.Tests
             EventDefinition primer = RepoPacks.Content.GetEvent("evento.software.primer_trabajo");
             Assert.DoesNotContain(primer.Options.SelectMany(o => o.Effects), e => e.Contains("trabajar_en"));
         }
+        [Fact]
+        public void Entrevista_CualquierTrabajo_TeLlamaUnaEmpresaDelPaisConNombre_YCadaVezOtra()
+        {
+            LifeSession session = Searching(Portales);
+            JobSearchDefinition rules = JobSearchRules.Definition(session.Content, session.World.Player)!;
+
+            Assert.InRange(WeeksUntilInterview(session), 1, 500);
+            string first = session.World.Player.JobSearch!.CompanyNameId!;
+            Assert.Contains(first, rules.Companies);
+            Assert.NotEqual(first, session.Content.Text(first));
+
+            Run(session, "jugador.dar_entrevista(-1000)");
+            Assert.Null(session.World.Player.JobSearch!.CompanyNameId);
+            Assert.InRange(WeeksUntilInterview(session), 1, 500);
+
+            Assert.NotEqual(first, session.World.Player.JobSearch!.CompanyNameId);
+        }
+
+        [Fact]
+        public void AceptarOferta_EnSuArea_EntraALaEmpresaQueLoEntrevisto()
+        {
+            var session = new LifeSession(RepoPacks.Content, 5, "pais.chile");
+            session.TimeMachine.Enabled = false;
+            Run(session, $"estudiar('{Instituto}')");
+            Run(session, "jugador.titularse()");
+            Run(session, "jugador.marcar('buscando_trabajo')");
+            Run(session, $"jugador.postular_en('{Desarrollo}')");
+            Run(session, $"jugador.buscar_trabajo('{Portales}')");
+            Assert.InRange(WeeksUntilInterview(session), 1, 500);
+            string company = session.World.Player.JobSearch!.CompanyNameId!;
+            Assert.Contains(company, session.Content.GetCareer("carrera.software").CompanyNames);
+            GiveOffer(session);
+
+            Run(session, "jugador.aceptar_oferta()");
+
+            Character player = session.World.Player;
+            Assert.Equal(company, session.World.Companies.Single(c => c.Id == player.Job!.CompanyId).NameId);
+        }
+
+        [Fact]
+        public void TextosDeEntrevistaYOferta_NombranALaEmpresa()
+        {
+            foreach (string id in new[] { "evento.busqueda.entrevista", "evento.busqueda.oferta" })
+            {
+                EventDefinition ev = RepoPacks.Content.GetEvent(id);
+                Assert.All(ev.AllTextKeys, key => Assert.Contains(Presentation.LifePresenter.CompanyMark, RepoPacks.Content.Text(key)));
+            }
+        }
     }
 }

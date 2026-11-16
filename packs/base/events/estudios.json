@@ -93,6 +93,11 @@
         "texto": "opcion.estudios.volver.no",
         "tendencia": "3000 + (jugador.edad - 19) * 400"
       }
-    ]
+    ],
+    "variantes": [
+      "evento.estudios.volver_a_estudiar.2",
+      "evento.estudios.volver_a_estudiar.3"
+    ],
+    "veces_maximas": 3
   }
 ]

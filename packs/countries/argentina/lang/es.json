@@ -24,7 +24,6 @@
   "deuda.argentina.prestamo": "Préstamo personal",
   "deuda.argentina.tarjeta": "Tarjeta de crédito",
   "deuda.argentina.descubierto": "Descubierto en la cuenta",
-
   "ramo.argentina.practicas_lenguaje": "Prácticas del Lenguaje",
   "ramo.argentina.matematica": "Matemática",
   "ramo.argentina.ciencias_sociales": "Ciencias Sociales",
@@ -39,5 +38,13 @@
   "ramo.argentina.fisica": "Física",
   "ramo.argentina.quimica": "Química",
   "ramo.argentina.educacion_ciudadana": "Educación Ciudadana",
-  "ramo.argentina.artes": "Artes"
+  "ramo.argentina.artes": "Artes",
+  "empresa.general.supermercados_pampa": "Supermercados Pampa",
+  "empresa.general.distribuidora_del_plata": "Distribuidora del Plata",
+  "empresa.general.call_center_rioplatense": "Contact Center Rioplatense",
+  "empresa.general.depositos_del_sur": "Depósitos del Sur",
+  "empresa.general.farmacias_ombu": "Farmacias Ombú",
+  "empresa.general.logistica_litoral": "Logística Litoral",
+  "empresa.general.seguridad_baluarte": "Seguridad Baluarte",
+  "empresa.general.limpieza_industrial_parana": "Limpieza Industrial Paraná"
 }

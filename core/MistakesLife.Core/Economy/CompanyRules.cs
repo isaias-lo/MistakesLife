@@ -31,7 +31,7 @@ namespace MistakesLife.Core.Economy
         /// veces la misma donde ya trabaja otro personaje y si no una nueva. Null si su
         /// país no define empresas.
         /// </summary>
-        public static Company? Hire(World world, ContentDatabase content, Character character, CareerDefinition career, string? sizeId = null, int? excludeCompanyId = null)
+        public static Company? Hire(World world, ContentDatabase content, Character character, CareerDefinition career, string? sizeId = null, int? excludeCompanyId = null, string? nameId = null)
         {
             CompaniesDefinition? companies = Definition(content, character);
             if (companies == null || companies.Sizes.Count == 0)
@@ -43,6 +43,13 @@ namespace MistakesLife.Core.Economy
             GameRandom random = world.Random.Fork("empresa.contratar." + character.Id + "." + world.Date.TotalWeeks + "." + world.Companies.Count);
             CompanySizeDefinition size = (sizeId == null ? null : companies.Size(sizeId))
                 ?? companies.Sizes[random.PickWeightedIndex(companies.Sizes.Select(s => (int)System.Math.Round(s.Weight * 1000)).ToList())];
+
+            // La empresa que lo entrevistó: si ya existe en su país, entra a esa; si no, se crea con ese nombre.
+            if (nameId != null)
+            {
+                Company? named = world.Companies.FirstOrDefault(c => c.IsOpen && c.CountryId == countryId && c.CareerId == career.Id && c.NameId == nameId && c.Id != excludeCompanyId);
+                return named ?? world.CreateCompany(countryId, career.Id, size.Id, nameId);
+            }
 
             var withPeople = new HashSet<int>(world.Characters
                 .Where(c => c.IsAlive && c.Id != character.Id && c.Job?.CompanyId != null)

@@ -63,5 +63,7 @@
   "evento.garzon.desafio.administrador": "{persona} se va del local y propone que lo reemplaces. Los dueños quieren ver un mes con los números en la mano: ventas, mermas y turnos.",
   "opcion.garzon.desafio.administrador.preparar": "Aprender a leer los números y ajustar cada turno",
   "opcion.garzon.desafio.administrador.asi_no_mas": "Confiar en lo que sabes del salón",
-  "opcion.garzon.desafio.administrador.no": "Decir que no te interesa administrar"
+  "opcion.garzon.desafio.administrador.no": "Decir que no te interesa administrar",
+  "evento.garzon.aviso.2": "Un amigo que trabaja de garzón te cuenta que en su restorán buscan a alguien para el turno de la noche.",
+  "evento.garzon.aviso.3": "En el grupo de vecinos alguien comparte un aviso: \"Se necesita garzón o garzona para fines de semana. Buenas propinas\"."
 }

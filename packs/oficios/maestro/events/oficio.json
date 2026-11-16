@@ -31,6 +31,10 @@
         "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.neuroticismo / 4",
         "efectos": []
       }
+    ],
+    "variantes": [
+      "evento.maestro.aviso.2",
+      "evento.maestro.aviso.3"
     ]
   },
   {

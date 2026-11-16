@@ -31,6 +31,10 @@
         "tendencia": "(100 - jugador.extraversion) / 2",
         "efectos": []
       }
+    ],
+    "variantes": [
+      "evento.garzon.aviso.2",
+      "evento.garzon.aviso.3"
     ]
   },
   {

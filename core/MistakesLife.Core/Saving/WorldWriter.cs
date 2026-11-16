@@ -130,6 +130,8 @@ namespace MistakesLife.Core.Saving
                     Rejections = c.JobSearch.Rejections,
                     Negotiated = c.JobSearch.Negotiated,
                     Raise = c.JobSearch.Raise,
+                    CompanyNameId = c.JobSearch.CompanyNameId,
+                    LastCompanyNameId = c.JobSearch.LastCompanyNameId,
                 },
                 Phone = c.Phone == null ? null : new PhoneData
                 {
