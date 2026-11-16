@@ -127,6 +127,9 @@ namespace MistakesLife.Unity
         private TextMeshProUGUI _dayLabel = null!;
         private RectTransform _bars = null!;
         private RectTransform _groups = null!;
+
+        /// <summary>Alto de la barra de grupos: ícono, nombre y márgenes (unos 70 puntos en un celular de 390).</summary>
+        private const float GroupBarHeight = 194f;
         private RectTransform _more = null!;
         private RectTransform _moreBody = null!;
         private RectTransform _sheetBody = null!;
@@ -559,15 +562,23 @@ namespace MistakesLife.Unity
         /// </summary>
         private void BuildGroupBar(RectTransform page)
         {
-            _groups = UiFactory.Child(page, "Grupos");
-            Backdrop(_groups, Panel, 0f, Beyond);
-            RectTransform line = UiFactory.Child(_groups, "Linea");
+            RectTransform bar = UiFactory.Child(page, "Grupos");
+            LayoutElement barSize = bar.gameObject.AddComponent<LayoutElement>();
+            barSize.minHeight = barSize.preferredHeight = GroupBarHeight;
+            barSize.flexibleHeight = 0;
+            Backdrop(bar, Panel, 0f, Beyond);
+            RectTransform line = UiFactory.Child(bar, "Linea");
             line.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
             line.gameObject.AddComponent<Image>().color = PanelLine;
             line.anchorMin = new Vector2(0f, 1f);
             line.anchorMax = new Vector2(1f, 1f);
             line.offsetMin = new Vector2(-Beyond, -3f);
             line.offsetMax = new Vector2(Beyond, 0f);
+
+            // Los botones van en su propia fila, aparte del fondo y la línea: así, al volver a
+            // dibujarlos, no se borran el fondo ni la línea.
+            _groups = UiFactory.Child(bar, "Botones");
+            UiFactory.Stretch(_groups);
             HorizontalLayoutGroup row = _groups.gameObject.AddComponent<HorizontalLayoutGroup>();
             row.padding = new RectOffset(16, 16, 22, 22);
             row.childControlWidth = true;
@@ -739,7 +750,7 @@ namespace MistakesLife.Unity
 
             LifeSnapshot life = presenter.Snapshot();
             HeaderView header = presenter.Header();
-            _name.text = $"{life.PlayerName} · {life.AgeLabel}";
+            _name.text = $"{ShortName(life.PlayerName)} · {life.AgeLabel}";
             var details = new List<string>();
             if (header.Role.Length > 0)
             {
@@ -1043,6 +1054,10 @@ namespace MistakesLife.Unity
         private void Group(string icon, string label, bool enabled, bool dot, UnityEngine.Events.UnityAction open, Sound sound)
         {
             RectTransform item = UiFactory.Column(_groups, label, 0, 10);
+            // Los cinco del mismo ancho, repartidos en toda la barra.
+            LayoutElement width = item.gameObject.AddComponent<LayoutElement>();
+            width.minWidth = width.preferredWidth = 0;
+            width.flexibleWidth = 1;
             VerticalLayoutGroup layout = item.GetComponent<VerticalLayoutGroup>();
             layout.childAlignment = TextAnchor.MiddleCenter;
             layout.childControlWidth = false;
@@ -1134,6 +1149,16 @@ namespace MistakesLife.Unity
             });
             Icons.Place(row, icon, 72f, UiFactory.Ink);
             UiFactory.Label(row, label, 44, UiFactory.Ink, FontStyles.Bold).gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+        }
+
+        /// <summary>
+        /// El nombre y el primer apellido ("Vicente Flores Rivera" → "Vicente Flores"), como en el
+        /// boceto: así la edad cabe al lado aunque el mes sea largo.
+        /// </summary>
+        private static string ShortName(string fullName)
+        {
+            string[] parts = fullName.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length > 2 ? parts[0] + " " + parts[1] : fullName;
         }
 
         /// <summary>Las iniciales del nombre y el primer apellido ("Valentina Rojas Pérez" → "VR").</summary>
