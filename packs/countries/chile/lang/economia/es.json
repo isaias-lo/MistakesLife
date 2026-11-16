@@ -52,5 +52,7 @@
   "evento.fin_de_mes_en_rojo.6": "Haces la cuenta en un papel: lo que entra no alcanza para lo que sale, y ya no es un mes malo. Hace tiempo que es así.",
   "evento.compra_tarjeta.4": "Se acerca la Navidad y quieres regalarle algo bonito a tu gente. En la tienda te ofrecen pagarlo en seis cuotas.",
   "evento.compra_tarjeta.5": "Un amigo se compró un celular nuevo y te muestra la cámara. En la tienda, el mismo modelo sale en 24 cuotas.",
-  "evento.oferta_tarjeta.2": "Vas al banco por otro trámite y la ejecutiva insiste: con tu sueldo calificas para una tarjeta de crédito, y te la mandan a la casa."
+  "evento.oferta_tarjeta.2": "Vas al banco por otro trámite y la ejecutiva insiste: con tu sueldo calificas para una tarjeta de crédito, y te la mandan a la casa.",
+  "evento.operacion_renta.2": "Sigue pendiente tu declaración de renta. El SII te recuerda que el plazo vence a fin de abril.",
+  "evento.operacion_renta.3": "Quedan pocos días para declarar la renta. La propuesta del SII sigue ahí, esperando que la revises."
 }

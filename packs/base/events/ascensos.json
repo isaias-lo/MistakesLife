@@ -149,6 +149,9 @@
   },
   {
     "id": "evento.credito_robado",
+    "con": "equipo",
+    "por_persona": true,
+    "veces_maximas": 1,
     "condiciones": "jugador.area != nada && jugador.desempeno >= 55",
     "probabilidad_anual": 0.12,
     "enfriamiento_semanas": 104,
@@ -177,6 +180,10 @@
     "condiciones": "jugador.area != nada && jugador.meses_en_cargo >= 6",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.curso_empresa.2",
+      "evento.curso_empresa.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.curso_empresa.tomar",

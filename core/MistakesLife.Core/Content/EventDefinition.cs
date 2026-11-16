@@ -106,9 +106,14 @@ namespace MistakesLife.Core.Content
         /// de verdad, con nombre, y en el evento se le habla como "persona"
         /// (por ejemplo "persona.carino += 3"). Si no hay nadie así, el evento no pasa.
         /// En los textos, {persona} se cambia por su nombre. Opcional.
+        /// En un evento de semilla puede ser <see cref="WitnessRole"/>: pasa con quien vio
+        /// lo que hiciste (el testigo vivo más antiguo de la semilla).
         /// </summary>
         [JsonProperty("con")]
         public string? With { get; set; }
+
+        /// <summary>El "con" de los eventos de semilla que pasan con su testigo.</summary>
+        public const string WitnessRole = "testigo";
 
         /// <summary>Dónde pasa el momento: la clave de un lugar con nombre ("lugar.plaza"). Opcional.</summary>
         [JsonProperty("lugar")]

@@ -54,7 +54,12 @@
     "variantes": [
       "evento.oferta_trabajo_informal.2",
       "evento.oferta_trabajo_informal.3",
-      "evento.oferta_trabajo_informal.4"
+      "evento.oferta_trabajo_informal.4",
+      "evento.oferta_trabajo_informal.5",
+      "evento.oferta_trabajo_informal.6",
+      "evento.oferta_trabajo_informal.7",
+      "evento.oferta_trabajo_informal.8",
+      "evento.oferta_trabajo_informal.9"
     ],
     "enfriamiento_semanas": 26
   },
@@ -62,6 +67,9 @@
     "id": "evento.contrato_tras_informal",
     "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo == 'informal' && !jugador.jubilado",
     "probabilidad_anual": 0.08,
+    "variantes": [
+      "evento.contrato_tras_informal.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.contrato_tras_informal.firmar",
@@ -85,6 +93,10 @@
     "condiciones": "jugador.tiene('trabajando') && jugador.tipo_trabajo == 'informal' && !jugador.jubilado",
     "probabilidad_anual": 0.2,
     "enfriamiento_semanas": 26,
+    "variantes": [
+      "evento.fin_trabajo_informal.2",
+      "evento.fin_trabajo_informal.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.fin_trabajo_informal.buscar",
@@ -123,13 +135,19 @@
     ],
     "variantes": [
       "evento.dejar_de_buscar.2",
-      "evento.dejar_de_buscar.3"
+      "evento.dejar_de_buscar.3",
+      "evento.dejar_de_buscar.4",
+      "evento.dejar_de_buscar.5"
     ]
   },
   {
     "id": "evento.volver_a_buscar_trabajo",
     "condiciones": "jugador.tiene('sin_buscar_trabajo') && jugador.edad < 65",
     "probabilidad_anual": 0.25,
+    "variantes": [
+      "evento.volver_a_buscar_trabajo.2",
+      "evento.volver_a_buscar_trabajo.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.volver_a_buscar_trabajo.buscar",
@@ -147,6 +165,9 @@
     "probabilidad_anual": 0.2,
     "enfriamiento_semanas": 156,
     "dia_clave": true,
+    "variantes": [
+      "evento.cuidar_hijos_en_casa.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.cuidar_hijos_en_casa.quedarse",

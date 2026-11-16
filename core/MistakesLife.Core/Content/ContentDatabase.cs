@@ -2511,9 +2511,16 @@ namespace MistakesLife.Core.Content
         /// </summary>
         private void ValidateMoment(string where, EventDefinition ev)
         {
-            if (ev.With != null && Array.IndexOf(ChatDefinition.Senders, ev.With) < 0)
+            if (ev.With == EventDefinition.WitnessRole)
             {
-                _errors.Add(new ContentError(where, $"con '{ev.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+                if (ev.SeedType == null)
+                {
+                    _errors.Add(new ContentError(where, $"con '{EventDefinition.WitnessRole}' solo sirve en un evento de semilla."));
+                }
+            }
+            else if (ev.With != null && Array.IndexOf(ChatDefinition.Senders, ev.With) < 0)
+            {
+                _errors.Add(new ContentError(where, $"con '{ev.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)} o, en un evento de semilla, {EventDefinition.WitnessRole})."));
             }
 
             if (ev.Place != null && !ev.Place.StartsWith("lugar.", StringComparison.Ordinal))

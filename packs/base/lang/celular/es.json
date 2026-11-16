@@ -138,5 +138,9 @@
   "ui.hace.un_ano": "Hace un año",
   "ui.hace.anos": "Hace {0} años",
   "ui.correo.recibidos": "Recibidos",
-  "ui.correo.para_ti": "para ti"
+  "ui.correo.para_ti": "para ti",
+  "evento.celular.comprar.3": "Llevas días pidiendo el celular prestado para todo. En el banco no te dejan entrar a tu cuenta sin el código que llega al teléfono.",
+  "evento.celular.comprar.4": "Sin celular no te llega ningún mensaje. Pasas frente a una tienda y te quedas mirando los precios en la vitrina.",
+  "evento.correo.estafa.3": "Te llega un correo que parece del servicio de impuestos: tienes una devolución pendiente. Para recibirla hay que entrar a un enlace y poner los datos de tu tarjeta.",
+  "evento.celular.comprar.5": "Tu familia se queja porque no te pueden ubicar. Sin celular, hasta ponerse de acuerdo para una comida es un problema."
 }

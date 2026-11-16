@@ -99,5 +99,8 @@
   "correo.juzgado.sentencia_laboral": "Se dictó sentencia en tu causa del Juzgado de Letras del Trabajo. Puedes revisarla en la Oficina Judicial Virtual.",
   "correo.registro_civil.posesion_efectiva.asunto": "Posesión efectiva inscrita",
   "correo.registro_civil.posesion_efectiva": "Tu solicitud de posesión efectiva fue aprobada e inscrita en el Registro Nacional de Posesiones Efectivas.",
-  "remitente.registro_civil": "Registro Civil e Identificación"
+  "remitente.registro_civil": "Registro Civil e Identificación",
+  "evento.chile.finiquito.2": "Te desvincularon y la empresa te cita a firmar el finiquito ante notario. Antes de firmar, revisas que estén los años de servicio y las vacaciones pendientes.",
+  "evento.chile.finiquito.3": "En la notaría hay fila de gente con sobres iguales al tuyo: la empresa despidió a varios por \"necesidades de la empresa\". Te toca firmar el finiquito.",
+  "evento.chile.quiebra_finiquito.2": "Te llega la carta del liquidador: la empresa quebró y tus años de trabajo quedan como crédito laboral. Hay que verificarlo en el juicio de liquidación."
 }

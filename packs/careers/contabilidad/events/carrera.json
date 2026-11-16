@@ -137,7 +137,10 @@
     "condiciones": "jugador.titulado_en('carrera.contabilidad') && jugador.tiene('buscando_trabajo') && jugador.busca_en == nada",
     "peso": 100,
     "variantes": [
-      "evento.contabilidad.primer_trabajo.2"
+      "evento.contabilidad.primer_trabajo.2",
+      "evento.contabilidad.primer_trabajo.3",
+      "evento.contabilidad.primer_trabajo.4",
+      "evento.contabilidad.primer_trabajo.5"
     ],
     "opciones": [
       {
@@ -184,8 +187,8 @@
     "condiciones": "jugador.tiene('trabaja_contabilidad') && jugador.tiene('trabajando')",
     "peso": 8,
     "enfriamiento_semanas": 104,
-    "veces_maximas": 9,
-    "variantes": ["evento.contabilidad.cierre_anual.2", "evento.contabilidad.cierre_anual.3"],
+    "veces_maximas": 5,
+    "variantes": ["evento.contabilidad.cierre_anual.2", "evento.contabilidad.cierre_anual.3", "evento.contabilidad.cierre_anual.4", "evento.contabilidad.cierre_anual.5"],
     "opciones": [
       {
         "texto": "opcion.contabilidad.cierre.quedarse",

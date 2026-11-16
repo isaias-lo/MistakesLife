@@ -3,6 +3,10 @@
     "id": "evento.chile.finiquito",
     "condiciones": "jugador.tiene('despedido_necesidades')",
     "probabilidad_anual": 1,
+    "variantes": [
+      "evento.chile.finiquito.2",
+      "evento.chile.finiquito.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.chile.finiquito.firmar",
@@ -139,6 +143,9 @@
     "id": "evento.chile.quiebra_finiquito",
     "condiciones": "jugador.tiene('despedido_quiebra')",
     "probabilidad_anual": 1,
+    "variantes": [
+      "evento.chile.quiebra_finiquito.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.chile.quiebra_finiquito.verificar",

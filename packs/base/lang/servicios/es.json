@@ -68,7 +68,7 @@
   "opcion.elegir_jardin_hijos.en_casa": "Se queda en la casa: alguien de la familia lo cuida.",
   "opcion.elegir_jardin_hijos.publico": "Lo postulas a un jardín público: es gratis, pero hay que conseguir cupo.",
   "opcion.elegir_jardin_hijos.particular": "Lo matriculas en un jardín particular: se paga cada mes.",
-  "evento.revisar_jardin_hijos": "Llega fin de mes y conversan en la casa si el cuidado de los niños está funcionando.",
+  "evento.revisar_jardin_hijos": "Sacas la cuenta de lo que cuesta el cuidado de los niños y de cómo les ha ido. ¿Sigue funcionando así?",
   "opcion.revisar_jardin_hijos.seguir": "Todo sigue igual: está bien así.",
   "opcion.revisar_jardin_hijos.en_casa": "Lo sacan del jardín: lo cuidarán en la casa.",
   "opcion.revisar_jardin_hijos.publico": "Lo cambian a un jardín público, que es gratis.",
@@ -77,7 +77,7 @@
   "opcion.elegir_colegio_hijos.gratuito": "Un colegio gratuito del barrio.",
   "opcion.elegir_colegio_hijos.copago": "Un colegio con aporte del Estado que cobra una mensualidad baja.",
   "opcion.elegir_colegio_hijos.particular": "Un colegio particular pagado: la mensualidad es alta.",
-  "evento.revisar_colegio_hijos": "Llega la reunión de apoderados y, de vuelta en la casa, piensas si el colegio de tus hijos es el que quieres.",
+  "evento.revisar_colegio_hijos": "Sacas la cuenta de lo que pagas por el colegio de tus hijos y piensas en lo que te cuentan de las clases. ¿Es el colegio que quieres para ellos?",
   "opcion.revisar_colegio_hijos.seguir": "Siguen en el mismo colegio.",
   "opcion.revisar_colegio_hijos.gratuito": "Los cambias a un colegio gratuito.",
   "opcion.revisar_colegio_hijos.copago": "Los cambias a un colegio con mensualidad baja.",
@@ -88,5 +88,7 @@
   "accion.dinero.revisar_transporte": "Cambiar cómo te mueves",
   "accion.dinero.revisar_internet": "Revisar el internet de la casa",
   "accion.dinero.revisar_cuentas": "Revisar las cuentas de la casa",
-  "accion.dinero.revisar_aporte_a_la_casa": "Cambiar lo que aportas en la casa"
+  "accion.dinero.revisar_aporte_a_la_casa": "Cambiar lo que aportas en la casa",
+  "accion.dinero.revisar_colegio_hijos": "Revisar el colegio de tus hijos",
+  "accion.dinero.revisar_jardin_hijos": "Revisar quién cuida a los niños"
 }

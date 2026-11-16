@@ -1,9 +1,15 @@
 [
   {
     "id": "evento.estudios.semestre_pesado",
+    "veces_maximas": 4,
     "condiciones": "jugador.estudia != nada && jugador.semestres_aprobados >= 1",
     "probabilidad_anual": 0.6,
     "enfriamiento_semanas": 26,
+    "variantes": [
+      "evento.estudios.semestre_pesado.2",
+      "evento.estudios.semestre_pesado.3",
+      "evento.estudios.semestre_pesado.4"
+    ],
     "opciones": [
       {
         "texto": "opcion.estudios.semestre_pesado.aguantar",

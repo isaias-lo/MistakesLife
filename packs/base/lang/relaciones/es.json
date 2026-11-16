@@ -15,8 +15,8 @@
   "evento.amigo_pide_plata": "{persona} te pide plata prestada. Dice que está complicado y que te la devuelve a fin de mes.",
   "opcion.amigo_pide_plata.prestar": "Se la prestas. Para eso están los amigos.",
   "opcion.amigo_pide_plata.no_prestar": "Le dices que no puedes. Se queda callado.",
-  "evento.amigo_devuelve_plata": "Tu amigo te devuelve la plata que le prestaste, con un mensaje de agradecimiento.",
-  "evento.amigo_no_devuelve_plata": "Pasaron los meses y tu amigo nunca te devolvió la plata. Cuando lo ves, cambia de tema.",
+  "evento.amigo_devuelve_plata": "{persona} te devuelve la plata que le prestaste, con un mensaje: \"Gracias por la mano, de verdad\".",
+  "evento.amigo_no_devuelve_plata": "Pasaron los meses y {persona} nunca te devolvió la plata. Cuando se ven, cambia de tema.",
   "opcion.amigo_no_devuelve_plata.reclamar": "Se lo reclamas de frente.",
   "opcion.amigo_no_devuelve_plata.dejar_pasar": "Lo dejas pasar. La amistad vale más.",
   "opcion.amigo_no_devuelve_plata.cortar": "Decides no volver a hablarle.",
@@ -26,7 +26,7 @@
   "opcion.colega_amistad.distancia": "Prefieres separar el trabajo de tu vida personal.",
   "evento.dejar_de_ser_colegas": "Desde que no trabajan juntos, ya casi no ves a {persona}. Un día te das cuenta de que hace meses que no hablan.",
   "evento.rival_trabajo": "En el trabajo hay alguien que compite contigo por todo y no lo disimula.",
-  "evento.rival_zancadilla": "Tu rival se adjudicó frente al jefe un trabajo que hiciste tú.",
+  "evento.rival_zancadilla": "{persona} se adjudicó frente a todos algo que hiciste tú.",
   "opcion.rival_zancadilla.enfrentar": "Lo enfrentas delante de todos.",
   "opcion.rival_zancadilla.ignorar": "Te lo tragas y sigues trabajando.",
   "opcion.rival_zancadilla.acercarse": "Lo invitas a un café para conversar y bajar la tensión.",
@@ -74,5 +74,12 @@
   "evento.discusion_adolescente.3": "Llegas una hora después de lo acordado. {persona} te espera despierta en el living.",
   "evento.nuevo_amigo_colegio.2": "En el recreo, alguien de tu curso te pregunta si quieres jugar a las cartas con su grupo.",
   "evento.nuevo_amigo_colegio.3": "Llega alguien nuevo al curso y no conoce a nadie. En el recreo te pregunta si puede juntarse contigo.",
-  "evento.rival_trabajo.2": "Llega alguien nuevo a tu equipo con ganas de destacar a cualquier costo. En la primera reunión ya te contradice frente al jefe."
+  "evento.rival_trabajo.2": "Llega alguien nuevo a tu equipo con ganas de destacar a cualquier costo. En la primera reunión ya te contradice frente al jefe.",
+  "evento.amigo_devuelve_plata.2": "{persona} te transfiere lo que le prestaste esta vez, unos días antes de lo prometido.",
+  "evento.amigo_no_devuelve_plata.2": "Otra vez lo mismo: {persona} no te ha devuelto lo que le prestaste y ya ni lo menciona.",
+  "evento.rival_zancadilla.2": "Te enteras de que {persona} anda contando una versión de lo que pasó entre ustedes que no te deja nada bien.",
+  "evento.rival_zancadilla.3": "{persona} se ríe de ti frente a otros, como quien no quiere la cosa. Todos se dan cuenta.",
+  "evento.nuevo_amigo_colegio.4": "Te toca sentarte con alguien nuevo en la sala. A la semana ya se mandan papelitos en clases.",
+  "evento.nuevo_amigo_colegio.5": "En la fila del kiosco, alguien de tu curso te convida de sus papas fritas y se ponen a conversar.",
+  "evento.rival_trabajo.3": "Te cambian de equipo y en el nuevo hay alguien que no te quiere ahí. Te deja fuera de los correos y se lleva el crédito de todo."
 }

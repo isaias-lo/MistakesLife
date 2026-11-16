@@ -7,7 +7,12 @@
       "evento.busqueda.como_buscar.2",
       "evento.busqueda.como_buscar.3",
       "evento.busqueda.como_buscar.4",
-      "evento.busqueda.como_buscar.5"
+      "evento.busqueda.como_buscar.5",
+      "evento.busqueda.como_buscar.6",
+      "evento.busqueda.como_buscar.7",
+      "evento.busqueda.como_buscar.8",
+      "evento.busqueda.como_buscar.9",
+      "evento.busqueda.como_buscar.10"
     ],
     "opciones": [
       {
@@ -50,7 +55,9 @@
     "variantes": [
       "evento.busqueda.cambiar_forma.2",
       "evento.busqueda.cambiar_forma.3",
-      "evento.busqueda.cambiar_forma.4"
+      "evento.busqueda.cambiar_forma.4",
+      "evento.busqueda.cambiar_forma.5",
+      "evento.busqueda.cambiar_forma.6"
     ],
     "opciones": [
       {
@@ -248,9 +255,13 @@
   },
   {
     "id": "evento.busqueda.devolver_favor",
+    "con": "testigo",
     "semilla": "semilla.te_recomendo",
     "condiciones": "semilla('semilla.te_recomendo').testigo != nada && jugador.trabaja",
     "peso": 20,
+    "variantes": [
+      "evento.busqueda.devolver_favor.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.busqueda.devolver_favor.recomendar",
@@ -277,6 +288,9 @@
     "condiciones": "jugador.trabaja && jugador.tiene('trabajando')",
     "peso": 20,
     "dia_clave": true,
+    "variantes": [
+      "evento.busqueda.cv_descubierto.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.busqueda.cv_descubierto.confesar",

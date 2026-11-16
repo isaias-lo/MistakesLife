@@ -5,6 +5,10 @@
     "probabilidad_anual": 0.08,
     "enfriamiento_semanas": 104,
     "dia_clave": true,
+    "variantes": [
+      "evento.perder_trabajo.2",
+      "evento.perder_trabajo.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.perder_trabajo.buscar",
@@ -165,9 +169,14 @@
   },
   {
     "id": "evento.control_medico",
+    "veces_maximas": 3,
     "condiciones": "jugador.edad >= 40 && !jugador.tiene('controla_salud')",
     "probabilidad_anual": 0.3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.control_medico.2",
+      "evento.control_medico.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.control_medico.ir",
@@ -296,6 +305,10 @@
     "condiciones": "jugador.edad >= 70 && jugador.pareja == nada",
     "probabilidad_anual": 0.25,
     "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.soledad_vejez.2",
+      "evento.soledad_vejez.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.soledad_vejez.llamar_hijos",

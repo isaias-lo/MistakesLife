@@ -31,10 +31,13 @@
   },
   {
     "id": "evento.revisar_jardin_hijos",
+    "lugar": "lugar.dinero",
+    "a_pedido": {
+      "texto": "accion.dinero.revisar_jardin_hijos",
+      "por_ano": "0.3 + jugador.responsabilidad / 400"
+    },
     "condiciones": "jugador.hijos_en_casa_entre(0, 3) > 0 && jugador.servicio('servicio.jardin_hijos') != nada",
-    "probabilidad_anual": 0.3,
     "enfriamiento_semanas": 40,
-    "veces_maximas": 4,
     "opciones": [
       {
         "texto": "opcion.revisar_jardin_hijos.seguir",
@@ -99,10 +102,13 @@
   },
   {
     "id": "evento.revisar_colegio_hijos",
+    "lugar": "lugar.dinero",
+    "a_pedido": {
+      "texto": "accion.dinero.revisar_colegio_hijos",
+      "por_ano": "0.2 + jugador.responsabilidad / 400"
+    },
     "condiciones": "jugador.hijos_en_casa_entre(4, 17) > 0 && jugador.servicio('servicio.colegio_hijos') != nada",
-    "probabilidad_anual": 0.2,
     "enfriamiento_semanas": 52,
-    "veces_maximas": 5,
     "opciones": [
       {
         "texto": "opcion.revisar_colegio_hijos.seguir",

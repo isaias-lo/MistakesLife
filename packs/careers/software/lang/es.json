@@ -33,5 +33,9 @@
   "opcion.software.trabajo.ciberseguridad": "Postular a ciberseguridad.",
   "opcion.software.trabajo.datos": "Postular a equipos de datos.",
   "evento.software.primer_trabajo.2": "Otra vez a buscar trabajo. Con lo que ya sabes, ¿a qué área postulas ahora?",
-  "opcion.software.trabajo.cualquiera": "Lo que salga, aunque no sea de lo tuyo."
+  "opcion.software.trabajo.cualquiera": "Lo que salga, aunque no sea de lo tuyo.",
+  "evento.software.primer_trabajo.3": "Se acabó el proyecto y con él tu trabajo. Revisas tu portafolio y los avisos: ¿sigues en lo mismo o cambias de área?",
+  "evento.software.primer_trabajo.4": "De nuevo buscando. El mercado cambió desde la última vez: piden otras tecnologías y otros años de experiencia. ¿A qué área apuntas?",
+  "evento.software.primer_trabajo.5": "Vuelves a buscar con varios años de oficio. Te escriben reclutadores, pero ninguna oferta te convence del todo. ¿Qué área eliges ahora?",
+  "evento.software.primer_trabajo.6": "Te quedaste sin trabajo justo cuando el rubro contrata poco. Revisas qué áreas tienen más avisos antes de postular."
 }

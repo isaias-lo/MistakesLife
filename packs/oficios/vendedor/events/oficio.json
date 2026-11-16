@@ -34,7 +34,8 @@
     ],
     "variantes": [
       "evento.vendedor.aviso.2",
-      "evento.vendedor.aviso.3"
+      "evento.vendedor.aviso.3",
+      "evento.vendedor.aviso.4"
     ]
   },
   {
@@ -45,6 +46,10 @@
     "probabilidad_anual": 0.9,
     "veces_maximas": 3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.vendedor.domingos.2",
+      "evento.vendedor.domingos.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.vendedor.domingos.aceptar",
@@ -255,6 +260,10 @@
     "probabilidad_anual": 0.7,
     "veces_maximas": 3,
     "enfriamiento_semanas": 104,
+    "variantes": [
+      "evento.vendedor.cliente.2",
+      "evento.vendedor.cliente.3"
+    ],
     "opciones": [
       {
         "texto": "opcion.vendedor.cliente.calma",
@@ -290,6 +299,9 @@
     "probabilidad_anual": 0.9,
     "veces_maximas": 4,
     "enfriamiento_semanas": 30,
+    "variantes": [
+      "evento.vendedor.desafio.encargado.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.vendedor.desafio.encargado.preparar",

@@ -66,5 +66,8 @@
   "diario.software.entrego_clave_sale_a_la_luz": "Por entregar una clave, atacaron a la empresa.",
   "diario.software.oculto_bug_sale_a_la_luz": "Explotó el error que ayudé a ocultar.",
   "diario.software.pago_rescate_oculto_sale_a_la_luz": "Se supo que ayudé a esconder el pago de un rescate.",
-  "diario.software.modelo_sesgado_sale_a_la_luz": "Salió en las noticias que mi modelo discriminaba."
+  "diario.software.modelo_sesgado_sale_a_la_luz": "Salió en las noticias que mi modelo discriminaba.",
+  "evento.software.caida_produccion.2": "Una actualización que subiste en la tarde dejó a miles de usuarios sin poder pagar en la app. Son las dos de la mañana y el teléfono no para.",
+  "evento.software.caida_produccion.3": "La base de datos se llenó y el sistema dejó de responder justo en el día de más ventas del año.",
+  "evento.software.cambiar_area.2": "Tu jefatura te cuenta que en otra área necesitan a alguien como tú. El cambio es interesante, pero empiezas un cargo más abajo."
 }

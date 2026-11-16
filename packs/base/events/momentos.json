@@ -43,6 +43,7 @@
   },
   {
     "id": "evento.ahijado",
+    "con": "testigo",
     "semilla": "semilla.testigo_matrimonio",
     "condiciones": "semilla('semilla.testigo_matrimonio').testigo != nada",
     "opciones": [
@@ -67,7 +68,8 @@
   },
   {
     "id": "evento.amigo_se_va_del_pais",
-    "condiciones": "jugador.amigo != nada && jugador.edad >= 22 && jugador.edad < 55",
+    "con": "amigo",
+    "condiciones": "jugador.edad >= 22 && jugador.edad < 55",
     "probabilidad_anual": 0.04,
     "enfriamiento_semanas": 260,
     "veces_maximas": 2,
@@ -76,11 +78,11 @@
         "texto": "opcion.amigo_se_va.despedida",
         "tendencia": "jugador.amabilidad / 2 + 20",
         "efectos": [
-          "jugador.amigo.carino += 8",
+          "persona.carino += 8",
           "jugador.felicidad -= 2",
-          "plantar('semilla.amigo_lejos', jugador.amigo)",
+          "plantar('semilla.amigo_lejos', persona)",
           "jugador.marcar('postal_amigo_lejos')",
-          "jugador.amigo.alejarse()",
+          "persona.alejarse()",
           "diario('diario.amigo_se_va')"
         ]
       },
@@ -88,14 +90,15 @@
         "texto": "opcion.amigo_se_va.no_ir",
         "tendencia": "(100 - jugador.amabilidad) / 3",
         "efectos": [
-          "jugador.amigo.carino -= 6",
-          "jugador.amigo.alejarse()"
+          "persona.carino -= 6",
+          "persona.alejarse()"
         ]
       }
     ]
   },
   {
     "id": "evento.amigo_vuelve_de_visita",
+    "con": "testigo",
     "semilla": "semilla.amigo_lejos",
     "condiciones": "semilla('semilla.amigo_lejos').testigo != nada",
     "opciones": [
@@ -120,7 +123,8 @@
   },
   {
     "id": "evento.amigo_hospital",
-    "condiciones": "jugador.amigo != nada && jugador.edad >= 30",
+    "con": "amigo",
+    "condiciones": "jugador.edad >= 30",
     "probabilidad_anual": 0.04,
     "enfriamiento_semanas": 260,
     "veces_maximas": 2,
@@ -129,8 +133,8 @@
         "texto": "opcion.amigo_hospital.visitar",
         "tendencia": "jugador.amabilidad",
         "efectos": [
-          "jugador.amigo.carino += 12",
-          "jugador.amigo.confianza += 8",
+          "persona.carino += 12",
+          "persona.confianza += 8",
           "jugador.felicidad -= 1"
         ]
       },
@@ -138,15 +142,15 @@
         "texto": "opcion.amigo_hospital.mensaje",
         "tendencia": "40",
         "efectos": [
-          "jugador.amigo.carino += 2"
+          "persona.carino += 2"
         ]
       },
       {
         "texto": "opcion.amigo_hospital.nada",
         "tendencia": "(100 - jugador.amabilidad) / 4",
         "efectos": [
-          "jugador.amigo.carino -= 6",
-          "jugador.amigo.rencor += 4"
+          "persona.carino -= 6",
+          "persona.rencor += 4"
         ]
       }
     ]
@@ -257,6 +261,7 @@
   },
   {
     "id": "evento.negocio_con_amigo_resulta",
+    "con": "testigo",
     "semilla": "semilla.negocio_con_amigo",
     "condiciones": "semilla('semilla.negocio_con_amigo').testigo != nada && semilla('semilla.negocio_con_amigo').testigo.responsabilidad >= 55",
     "efectos": [
@@ -268,6 +273,7 @@
   },
   {
     "id": "evento.negocio_con_amigo_fracasa",
+    "con": "testigo",
     "semilla": "semilla.negocio_con_amigo",
     "condiciones": "semilla('semilla.negocio_con_amigo').testigo != nada && semilla('semilla.negocio_con_amigo').testigo.responsabilidad < 55",
     "opciones": [
@@ -299,7 +305,8 @@
     "enfriamiento_semanas": 156,
     "veces_maximas": 3,
     "variantes": [
-      "evento.viaje_con_pareja.2"
+      "evento.viaje_con_pareja.2",
+      "evento.viaje_con_pareja.3"
     ],
     "opciones": [
       {
@@ -337,6 +344,9 @@
     "probabilidad_anual": 0.06,
     "enfriamiento_semanas": 156,
     "veces_maximas": 2,
+    "variantes": [
+      "evento.pareja_y_suegra.2"
+    ],
     "opciones": [
       {
         "texto": "opcion.pareja_y_suegra.pareja",
@@ -368,7 +378,8 @@
   },
   {
     "id": "evento.celos_de_amigo",
-    "condiciones": "jugador.pareja != nada && jugador.amigo != nada",
+    "con": "amigo",
+    "condiciones": "jugador.pareja != nada",
     "probabilidad_anual": 0.04,
     "enfriamiento_semanas": 260,
     "veces_maximas": 2,
@@ -386,8 +397,8 @@
         "tendencia": "jugador.neuroticismo / 3",
         "efectos": [
           "jugador.pareja.carino += 4",
-          "jugador.amigo.carino -= 10",
-          "jugador.amigo.alejarse()"
+          "persona.carino -= 10",
+          "persona.alejarse()"
         ]
       },
       {
