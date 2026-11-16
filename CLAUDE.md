@@ -7,8 +7,8 @@ Fuentes de verdad (léelas antes de decisiones de diseño):
 - Técnico: https://claude.ai/artifact/Rv74yh2pBA6kTHmLLQ7nSL
 - Resumen local: `docs/architecture.md` y `docs/roadmap.md`
 - Formato de eventos, semillas y lenguaje de condiciones: `docs/content-language.md` (actualízalo si agregas datos al lenguaje)
-- **Rediseño en curso (manda sobre cómo se juega):** `docs/rediseno-vida.md`. Mientras no termine, no se agregan funciones nuevas.
-- Diseño visual de la app (pantallas, colores, letras, 3D modificable): `docs/diseno-app.md` (léelo antes de tocar `unity/`)
+- **Diseño del juego (manda sobre cómo se juega y cómo se ve):** `docs/diseno-juego.md`, los acuerdos del 16-11-2026. Léelo antes de cualquier decisión de diseño y antes de tocar `unity/`. Ningún módulo nuevo se programa sin bocetos aprobados por Isaias.
+- Documentos viejos de diseño (solo historia y referencia técnica de la escena 3D): `docs/archivo/`
 
 ## Mapa del repositorio
 

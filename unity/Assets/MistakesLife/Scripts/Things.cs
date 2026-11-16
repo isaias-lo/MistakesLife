@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace MistakesLife.Unity
 {
     /// <summary>
-    /// "Tus cosas" como objetos de la vida (docs/diseno-app.md, "La idea"): en vez de un botón
+    /// "Tus cosas" como objetos de la vida (docs/archivo/diseno-app.md, "La idea"): en vez de un botón
     /// con un nombre, cada tema se toca como lo que es. La billetera verde abre Tu dinero, el
     /// celular abre el celular (con su pantalla encendida y el punto rojo si hay algo nuevo), las
     /// fotos abren tu gente y el diario, y el reloj abre volver al pasado.

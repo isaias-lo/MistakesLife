@@ -10,7 +10,7 @@ namespace MistakesLife.Unity
     /// donde se ponen los muebles y los objetos. Cada lugar trae sus anclas de siempre en código;
     /// si existe Resources/Lugares/&lt;lugar&gt;.prefab, sus hijos llamados "ancla.*" mandan.
     /// Así, para cambiar dónde va algo se mueve el ancla en el editor de Unity, no un número
-    /// en el código (docs/diseno-app.md, sección 7). El menú "MistakesLife/Crear anclas de la
+    /// en el código (docs/archivo/diseno-app.md, sección 7). El menú "MistakesLife/Crear anclas de la
     /// pieza" crea ese archivo para empezar.
     /// </summary>
     public sealed class Anchors

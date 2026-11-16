@@ -1,3 +1,5 @@
+> **Archivado el 16-11-2026.** Este documento fue reemplazado por [`docs/diseno-juego.md`](../diseno-juego.md), que manda sobre cómo se juega y cómo se ve. Se guarda solo como historia.
+
 # Diseño de la app (acordado con Isaias el 2026-11-09)
 
 Este documento dice **cómo se ve y cómo se siente** MistakesLife en el celular. Lo acordamos en el hilo "Diseño app" mirando los bocetos de este lienzo:
