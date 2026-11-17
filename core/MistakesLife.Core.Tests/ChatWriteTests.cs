@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
@@ -41,7 +42,7 @@ namespace MistakesLife.Core.Tests
         private static Relationship Feelings(LifeSession session, Character who) => RelationshipRules.Edit(session.World, who, Player(session));
 
         [Fact]
-        public void EscribirleAUnAmigoQueTeQuiere_ContestaLaSemanaSiguiente_YSubeElCarino()
+        public void EscribirleAUnAmigoQueTeQuiere_ContestaAlTiro_YSubeElCarino()
         {
             LifeSession session = Session();
             Character friend = NewFriend(session);
@@ -51,18 +52,20 @@ namespace MistakesLife.Core.Tests
             Assert.Contains(life.Chat(friend.Id)!.Openers, o => o.Id == "escribir.amigo.juntarse");
 
             life.WriteChat(friend.Id, "escribir.amigo.juntarse");
+
+            // Con el tiempo parado el chat es en vivo: contesta en ese minuto.
             Presentation.ChatView chat = life.Chat(friend.Id)!;
-            Assert.True(chat.WaitingAnswer);
-            Assert.Empty(chat.Openers);
-            Assert.Equal(session.Text("escribir.amigo.juntarse"), chat.Messages.Last().Text);
-
-            ChatWeeks(session, 1);
-
-            chat = life.Chat(friend.Id)!;
             Assert.False(chat.WaitingAnswer);
             Assert.False(chat.Messages.Last().FromPlayer);
+            Assert.Equal(session.Text("escribir.amigo.juntarse"), chat.Messages[chat.Messages.Count - 2].Text);
             Assert.Equal(session.Text("escribir.amigo.juntarse.resp.dale"), chat.Messages.Last().Text);
             Assert.Equal(63, Feelings(session, friend).Affection);
+
+            // Una vez por semana: no se le puede escribir otra cosa hasta que pase el tiempo.
+            Assert.Empty(chat.Openers);
+            Assert.Throws<System.InvalidOperationException>(() => session.WriteChat(friend.Id, "escribir.amigo.juntarse"));
+            ChatWeeks(session, 1);
+            chat = life.Chat(friend.Id)!;
             Assert.DoesNotContain(chat.Openers, o => o.Id == "escribir.amigo.juntarse");
         }
 
@@ -75,7 +78,6 @@ namespace MistakesLife.Core.Tests
             var life = new Presentation.LifePresenter(session);
 
             life.WriteChat(friend.Id, "escribir.amigo.juntarse");
-            ChatWeeks(session, 1);
 
             Presentation.ChatView chat = life.Chat(friend.Id)!;
             Assert.True(chat.Messages.Last().FromPlayer);
@@ -94,7 +96,6 @@ namespace MistakesLife.Core.Tests
             Feelings(session, mother).Resentment = 30;
             Assert.Contains(life.Chat(mother.Id)!.Openers, o => o.Id == "escribir.madre.perdon");
             life.WriteChat(mother.Id, "escribir.madre.perdon");
-            ChatWeeks(session, 1);
 
             Assert.Equal(22, Feelings(session, mother).Resentment);
         }
@@ -114,17 +115,27 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void Guardar_ConservaLoQueEscribisteYEsperaRespuesta()
+        public void PartidaGuardadaAntesDelChatEnVivo_LoQueEscribisteSeContestaLaSemanaSiguiente()
         {
             LifeSession session = Session();
             Character friend = NewFriend(session);
-            session.WriteChat(friend.Id, "escribir.amigo.juntarse");
+            Feelings(session, friend).Affection = 60;
+            ChatWeeks(session, 1);
+            // Así quedaba una partida vieja: lo escrito, esperando que la otra persona conteste.
+            Chat chat = Player(session).Chats!.Open(friend.Id);
+            typeof(Chat).GetMethod("Add", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!
+                .Invoke(chat, new object[] { new ChatMessage(session.World.Date, "escribir.amigo.juntarse", fromPlayer: true) });
+            typeof(Chat).GetProperty(nameof(Chat.PlayerWrote))!.SetValue(chat, "escribir.amigo.juntarse");
+            typeof(Chat).GetProperty(nameof(Chat.PlayerWroteOn))!.SetValue(chat, session.World.Date);
 
             LifeSession loaded = LifeSession.Load(RepoPacks.Content, session.SaveToText());
-
             Chat after = loaded.World.Player.Chats!.With(friend.Id)!;
             Assert.Equal("escribir.amigo.juntarse", after.PlayerWrote);
             Assert.Equal(session.World.Date, after.PlayerWroteOn);
+
+            ChatWeeks(loaded, 1);
+            Assert.Null(after.PlayerWrote);
+            Assert.Equal("escribir.amigo.juntarse.resp.dale", after.Messages.Last().TextKey);
         }
 
         [Fact]

@@ -406,7 +406,7 @@ namespace MistakesLife.Core.Game
         public void ReadChat(int otherId)
         {
             ChatInbox chats = World.Player.Chats ?? throw new InvalidOperationException("El jugador no tiene Mensajito.");
-            chats.MarkRead(otherId);
+            chats.MarkRead(otherId, World.Date);
         }
 
         /// <summary>
@@ -428,7 +428,7 @@ namespace MistakesLife.Core.Game
 
         /// <summary>
         /// El jugador le escribe primero a esa persona por Mensajito (un id de packs/*/escribir/
-        /// que se le pueda escribir ahora). Contesta la semana siguiente, según lo que sienta.
+        /// que se le pueda escribir ahora). Contesta al tiro, según lo que sienta, o lo deja en visto.
         /// </summary>
         public void WriteChat(int otherId, string openerId)
         {
