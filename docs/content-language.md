@@ -893,13 +893,13 @@ Mensajito es la app de mensajes del celular. **Nadie inventado escribe**: cada m
 | `edad_minima`, `edad_maxima` | La edad de quien escribe (un hijo en el colegio, un hijo ya adulto). Nadie escribe antes de los 12 |
 | `condiciones` | Opcional. Condición sobre el jugador (`jugador.trabaja`, `jugador.edad < 18`) |
 | `respuestas` | Lo que el jugador puede contestar, cada una con su `id` (clave del texto) y cuánto cambia en quien escribió: `carino`, `confianza`, `respeto`, `rencor`. Sin respuestas, el mensaje no espera nada (una cadena reenviada) |
-| `si_no_respondes` | Lo que cambia si el jugador no contesta en 2 semanas (lo dejó en visto) |
+| `si_no_respondes` | Lo que cambia si el jugador abrió la conversación y no contesta en 2 semanas (lo dejó en visto). Si nunca la abrió, a las 6 semanas el mensaje deja de esperar respuesta sin cambiar nada: avanzar no castiga |
 
 Sin la app no llega nada, y lo que pasó antes de tenerla no llega después. Las conversaciones son una cuenta (como el correo): si pierde el celular, vuelven al tener la app otra vez. Unity las lee con `LifePresenter.Chats()` y `Chat(id)`, y contesta con `ReplyChat(id, respuesta)`.
 
 ### Escribir tú primero (escribir/)
 
-El jugador también puede escribirle primero a la gente de su vida ("Nuevo chat"). Lo que puede escribirle a cada uno va en `escribir/*.json` (una lista). **La otra persona contesta según lo que siente por él**: la semana siguiente le llega la primera respuesta cuyo cariño y rencor calcen con lo que esa persona siente; si ninguna calza, lo deja en visto.
+El jugador también puede escribirle primero a la gente de su vida ("Nuevo chat"). Lo que puede escribirle a cada uno va en `escribir/*.json` (una lista). **La otra persona contesta según lo que siente por él**, en vivo (con el tiempo parado): al tiro le llega la primera respuesta cuyo cariño y rencor calcen con lo que esa persona siente; si ninguna calza, lo deja en visto. A una misma persona se le escribe primero una vez por semana.
 
 ```json
 [
