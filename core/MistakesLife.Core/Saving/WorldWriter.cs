@@ -252,6 +252,12 @@ namespace MistakesLife.Core.Saving
                     Confirmed = c.Routine.Confirmed,
                     Slots = c.Routine.Slots.ToList(),
                 },
+                FreeTime = c.FreeTime == null ? null : new FreeTimeData
+                {
+                    MonthKey = c.FreeTime.MonthKey,
+                    Used = c.FreeTime.Used,
+                    Done = c.FreeTime.Done.ToList(),
+                },
                 OwnRules = c.OwnRules.Count == 0 ? null : c.OwnRules.Select(r => new OwnRuleData
                 {
                     Key = r.Key, Choice = r.Choice, TimesUsed = r.TimesUsed, LastUsedWeek = r.LastUsed?.TotalWeeks,

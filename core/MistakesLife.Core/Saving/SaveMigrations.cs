@@ -308,6 +308,10 @@ namespace MistakesLife.Core.Saving
             // apariencia heredada se calcula la próxima semana, de sus papás: los datos que
             // faltan ya se leen así.
             [35] = save => { },
+
+            // 36 → 37: aparecen las tardes libres usadas este mes en acciones con el tiempo
+            // parado. En las partidas viejas nadie ha usado ninguna: el dato que falta ya se lee así.
+            [36] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

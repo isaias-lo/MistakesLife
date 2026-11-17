@@ -50,6 +50,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("aporta")]
         public Dictionary<string, int> Contributes { get; set; } = new Dictionary<string, int>();
 
+        /// <summary>
+        /// Si es tiempo muerto (la tele, el celular): un bloque con esto cuenta como tarde libre
+        /// para hacer algo con el tiempo parado (<see cref="Life.FreeTimeRules"/>), igual que uno vacío.
+        /// </summary>
+        [JsonProperty("tiempo_libre")]
+        public bool IsFreeTime { get; set; }
+
         /// <summary>Qué tan probable es que alguien la elija sin el jugador (simulador, horario sugerido).</summary>
         [JsonProperty("tendencia")]
         public string? Tendency { get; set; }

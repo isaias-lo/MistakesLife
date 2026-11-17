@@ -101,6 +101,8 @@ Dos niveles:
 
 Con el tiempo parado, cada grupo ofrece acciones que **dan resultado al tiro** (la barra sube o baja en verde o rojo, con sonido) y **gastan tardes libres** del mes. Ejemplos: estudiar un ramo, hablarle a alguien, pedir un aumento, ir al médico, abrir una cuenta. Las acciones no son cuestionarios para avanzar: son decisiones con consecuencia.
 
+Isaias eligió (17-11-2026) **el contador del mes**: "Te quedan 5 tardes libres", y cada acción gasta una. El número sale del horario real: los bloques vacíos o con tiempo muerto (tele, celular). También eligió que las acciones vivan **dentro de cada grupo** (boceto D3Grupo), con una franja del contador en la pantalla principal (boceto D3Contador) y el resultado al tiro (boceto D3Resultado). Las primeras acciones son estudiar para la prueba, repasar, estudiar con un compañero, juntarte con un amigo, salir con tu pareja, pasar la tarde con tu hijo, hacer deporte y descansar. Pedir un aumento ya está en la pega. Ir al médico llega con Salud (D8), porque necesita la previsión y las listas de espera reales.
+
 ## Tu gente y la pareja
 
 ### Quién aparece

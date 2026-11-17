@@ -22,6 +22,7 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, ChapterTitleDefinition> _chapterTitles = new SortedDictionary<string, ChapterTitleDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, ActivityDefinition> _activities = new SortedDictionary<string, ActivityDefinition>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, ActionDefinition> _actions = new SortedDictionary<string, ActionDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, WishDefinition> _wishes = new SortedDictionary<string, WishDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, MailDefinition> _mails = new SortedDictionary<string, MailDefinition>(StringComparer.Ordinal);
@@ -77,6 +78,11 @@ namespace MistakesLife.Core.Content
         public IEnumerable<ActivityDefinition> Activities => _activities.Values;
 
         public ActivityDefinition? Activity(string id) => _activities.TryGetValue(id, out ActivityDefinition? activity) ? activity : null;
+
+        /// <summary>Lo que se puede hacer con el tiempo parado (acciones/), por id.</summary>
+        public IEnumerable<ActionDefinition> Actions => _actions.Values;
+
+        public ActionDefinition? Action(string id) => _actions.TryGetValue(id, out ActionDefinition? action) ? action : null;
 
         /// <summary>Lo que un personaje puede querer en una etapa (carpeta deseos/), ordenado por id.</summary>
         public IEnumerable<WishDefinition> Wishes => _wishes.Values;
@@ -355,6 +361,22 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega lo que se puede hacer con el tiempo parado, de un archivo JSON de acciones/ (una lista).</summary>
+        public void AddActionsJson(string packId, string sourceName, string json)
+        {
+            foreach (ActionDefinition definition in Deserialize<ActionDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (_actions.ContainsKey(definition.Id))
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de acción repetido."));
+                    continue;
+                }
+
+                _actions.Add(definition.Id, definition);
+            }
+        }
+
         /// <summary>Agrega los deseos de un archivo JSON de deseos/ (una lista).</summary>
         public void AddWishesJson(string packId, string sourceName, string json)
         {
@@ -602,6 +624,7 @@ namespace MistakesLife.Core.Content
             ValidateChats();
             ValidateChatOpeners();
             ValidateActivities();
+            ValidateActions();
             ValidateWishes();
 
             foreach (SceneObjectDefinition scene in _sceneObjects.Values)
@@ -1913,6 +1936,13 @@ namespace MistakesLife.Core.Content
                 yield return new KeyValuePair<string, string>(activity.Id, $"actividad {activity.Id}");
             }
 
+            foreach (ActionDefinition action in _actions.Values)
+            {
+                yield return new KeyValuePair<string, string>(action.Id, $"acción {action.Id}");
+                yield return new KeyValuePair<string, string>(action.WhyKey, $"acción {action.Id}");
+                yield return new KeyValuePair<string, string>(action.ResultKey, $"acción {action.Id}");
+            }
+
             foreach (WishDefinition wish in _wishes.Values)
             {
                 yield return new KeyValuePair<string, string>(wish.Id, $"deseo {wish.Id}");
@@ -2798,6 +2828,67 @@ namespace MistakesLife.Core.Content
                 if (activity.Contribution("carino") != 0 && activity.With == null)
                 {
                     _errors.Add(new ContentError(where, "aporta carino solo tiene sentido si dice con quién (con)."));
+                }
+            }
+        }
+
+        private void ValidateActions()
+        {
+            foreach (ActionDefinition action in _actions.Values)
+            {
+                string where = $"acción {action.Id}";
+                CheckId(where, action.Id, "accion.");
+                action.CompiledConditions = CompileCondition(where, action.Conditions);
+                if (Array.IndexOf(ActionDefinition.Groups, action.Group) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"grupo '{action.Group}' no existe (usa {string.Join(", ", ActionDefinition.Groups)})."));
+                }
+
+                if (action.MinAge > action.MaxAge)
+                {
+                    _errors.Add(new ContentError(where, "edad_minima no puede ser mayor que edad_maxima."));
+                }
+
+                if (action.With != null && Array.IndexOf(ChatDefinition.Senders, action.With) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"con '{action.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+                }
+
+                if (action.Afternoons < 1 || action.Afternoons > 3)
+                {
+                    _errors.Add(new ContentError(where, "tardes va de 1 a 3."));
+                }
+
+                if (action.PerMonth < 1)
+                {
+                    _errors.Add(new ContentError(where, "veces_al_mes tiene que ser 1 o más."));
+                }
+
+                if (action.Effects.Count == 0)
+                {
+                    _errors.Add(new ContentError(where, "una acción tiene que cambiar algo (cambia): si no, no da resultado al tiro."));
+                }
+
+                foreach (KeyValuePair<string, int> pair in action.Effects)
+                {
+                    if (Array.IndexOf(ActionDefinition.Changes, pair.Key) < 0)
+                    {
+                        _errors.Add(new ContentError(where, $"cambia '{pair.Key}' no existe (usa {string.Join(", ", ActionDefinition.Changes)})."));
+                    }
+                    else if (pair.Value == 0 || Math.Abs(pair.Value) > ActionDefinition.MaxChange)
+                    {
+                        _errors.Add(new ContentError(where, $"cambia {pair.Key}: va de -{ActionDefinition.MaxChange} a {ActionDefinition.MaxChange}, sin 0."));
+                    }
+                }
+
+                if (action.Change("carino") != 0 && action.With == null)
+                {
+                    _errors.Add(new ContentError(where, "cambia carino solo tiene sentido si dice con quién (con)."));
+                }
+
+                if (action.Change("preparar_prueba") != 0 && !action.Conditions.Contains("jugador.prueba_anunciada"))
+                {
+                    _errors.Add(new ContentError(where, "cambia preparar_prueba necesita la condición jugador.prueba_anunciada."));
                 }
             }
         }

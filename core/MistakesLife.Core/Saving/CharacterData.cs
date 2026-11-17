@@ -151,6 +151,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>El horario (desde la versión 19).</summary>
         public RoutineData? Routine { get; set; }
 
+        /// <summary>Las tardes libres usadas este mes (desde la versión 37); null si no ha usado ninguna.</summary>
+        public FreeTimeData? FreeTime { get; set; }
+
         /// <summary>Las reglas propias (desde la versión 21); null si no tiene, para que el guardado no crezca.</summary>
         public List<OwnRuleData>? OwnRules { get; set; }
 

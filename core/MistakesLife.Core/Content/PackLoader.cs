@@ -8,7 +8,7 @@ namespace MistakesLife.Core.Content
 {
     /// <summary>
     /// Carga paquetes desde carpetas (pruebas y herramientas) o desde un <see cref="PackBundle"/> (Unity).
-    /// Cada paquete tiene pack.json y, opcionalmente, country.json, career.json y las carpetas events/, news/, seeds/, chapters/, scene/, actividades/, deseos/, apps/, mail/, chats/, escribir/ y lang/
+    /// Cada paquete tiene pack.json y, opcionalmente, country.json, career.json y las carpetas events/, news/, seeds/, chapters/, scene/, actividades/, acciones/, deseos/, apps/, mail/, chats/, escribir/ y lang/
     /// con archivos .json que contienen una lista.
     /// Las dos formas pasan por el mismo camino, así una partida es igual en la consola y en el celular.
     /// </summary>
@@ -74,6 +74,11 @@ namespace MistakesLife.Core.Content
             foreach (string file in JsonFiles(bundle, prefix, "actividades"))
             {
                 content.AddActivitiesJson(packId, Source(packDirectory, file.Substring(prefix.Length)), bundle.Files[file]);
+            }
+
+            foreach (string file in JsonFiles(bundle, prefix, "acciones"))
+            {
+                content.AddActionsJson(packId, Source(packDirectory, file.Substring(prefix.Length)), bundle.Files[file]);
             }
 
             foreach (string file in JsonFiles(bundle, prefix, "deseos"))

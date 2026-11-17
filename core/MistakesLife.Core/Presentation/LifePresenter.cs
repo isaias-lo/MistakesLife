@@ -581,6 +581,87 @@ namespace MistakesLife.Core.Presentation
             return new HeaderView(month, day, RoleLabel(player), commune);
         }
 
+        /// <summary>
+        /// Las tardes libres del mes que le quedan para hacer cosas con el tiempo parado (D3),
+        /// o null si todavía no tiene horario (antes de los 6 años).
+        /// </summary>
+        public FreeTimeView? FreeTime()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            if (player.Routine == null || !player.IsAlive)
+            {
+                return null;
+            }
+
+            int total = Life.FreeTimeRules.Total(Session.Content, player);
+            int left = Life.FreeTimeRules.Left(world, Session.Content, player);
+            string month = T("ui.mes." + world.Date.Month);
+            string label = left == 1 ? Text("ui.tardes.una", month) : Text("ui.tardes.varias", left, month);
+            string note = total == 0 ? T("ui.tardes.sin_horario_libre")
+                : left == 0 ? T("ui.tardes.no_quedan")
+                : Text("ui.tardes.deja", total);
+            return new FreeTimeView(left, total, label, note);
+        }
+
+        /// <summary>
+        /// Lo que puede hacer ahora con el tiempo parado en un grupo (gente, estudios, trabajo,
+        /// salud, dinero; ver <see cref="Content.ActionDefinition.Groups"/>). Vacío si hay un evento
+        /// esperando: primero se decide el momento.
+        /// </summary>
+        public IReadOnlyList<DoableActionView> Actions(string group)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            if (Session.Pending != null)
+            {
+                return new List<DoableActionView>();
+            }
+
+            return Life.ActionRules.Available(world, Session.Content, player, group)
+                .Select(o => new DoableActionView(
+                    o.Definition.Id,
+                    o.Person?.Id,
+                    WithPerson(T(o.Definition.Id), o.Person),
+                    WithPerson(T(o.Definition.WhyKey), o.Person),
+                    o.Definition.Effects.Select(p => Change(p.Key, p.Value, o.Person)).ToList(),
+                    o.Definition.Afternoons == 1 ? T("ui.tardes.costo_una") : Text("ui.tardes.costo", o.Definition.Afternoons),
+                    Life.ActionRules.CanAfford(world, Session.Content, player, o.Definition)))
+                .ToList();
+        }
+
+        /// <summary>Hace la acción (con esa persona, si es con alguien) y cuenta lo que pasó, al tiro.</summary>
+        public ActionResultView DoAction(string actionId, int? personId)
+        {
+            World world = Session.World;
+            Content.ActionDefinition action = Session.Content.Action(actionId)
+                ?? throw new InvalidOperationException($"No existe la acción '{actionId}'.");
+            Character? person = personId.HasValue ? world.GetCharacter(personId.Value) : null;
+            IReadOnlyList<Life.ActionChange> changes = Session.DoAction(actionId, personId);
+            return new ActionResultView(
+                Text("ui.fecha.dia", world.Date.DayOfMonth, T("ui.mes." + world.Date.Month)),
+                WithPerson(T(action.Id), person),
+                WithPerson(T(action.ResultKey), person),
+                changes.Select(c => Change(c.Key, c.Delta, person)).ToList(),
+                FreeTime()!);
+        }
+
+        /// <summary>Cómo se lee un cambio de una acción: "Inteligencia +2", "Energía −3", "La Javiera te quiere más".</summary>
+        private ChangeView Change(string key, int delta, Character? person)
+        {
+            bool good = delta > 0;
+            switch (key)
+            {
+                case "carino":
+                    return new ChangeView(Text(good ? "ui.accion.carino_sube" : "ui.accion.carino_baja", person?.FirstName ?? string.Empty), good);
+                case "preparar_prueba":
+                    return new ChangeView(T("ui.accion.prueba_preparada"), good);
+                default:
+                    string amount = delta > 0 ? "+" + delta.ToString(CultureInfo.InvariantCulture) : "\u2212" + (-delta).ToString(CultureInfo.InvariantCulture);
+                    return new ChangeView(T("ui.barra." + key) + " " + amount, good);
+            }
+        }
+
         /// <summary>En qué estás: el curso del colegio, la carrera que estudias o tu pega; vacío si nada.</summary>
         private string RoleLabel(Character player)
         {

@@ -402,6 +402,21 @@ namespace MistakesLife.Core.Game
             mail.MarkRead(index);
         }
 
+        /// <summary>
+        /// El jugador hace algo con el tiempo parado (una acción de acciones/, con esa persona si la
+        /// acción es con alguien): gasta tardes libres del mes y cambia lo que dice, al tiro.
+        /// Devuelve lo que cambió de verdad.
+        /// </summary>
+        public IReadOnlyList<Life.ActionChange> DoAction(string actionId, int? personId)
+        {
+            if (Pending != null)
+            {
+                throw new InvalidOperationException("Hay un evento pendiente: primero se elige su opción.");
+            }
+
+            return Life.ActionRules.Do(World, Content, World.Player, actionId, personId);
+        }
+
         /// <summary>El jugador abre su conversación de Mensajito con esa persona: ve todos sus mensajes.</summary>
         public void ReadChat(int otherId)
         {
