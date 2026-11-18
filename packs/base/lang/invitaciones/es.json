@@ -1,0 +1,17 @@
+{
+  "evento.invitacion.colegio": "A la salida, {persona} te alcanza en la puerta: «El sábado es mi cumpleaños, ¿vienes a mi casa? Va a haber completos».",
+  "evento.invitacion.colegio.2": "{persona} te pregunta en el recreo si quieres ir a su casa después de clases a jugar y hacer la tarea juntos.",
+  "evento.invitacion.colegio.3": "{persona} te cuenta que el viernes van a la plaza con su hermano a andar en bicicleta, y te pregunta si te animas a ir.",
+  "opcion.invitacion.colegio.ir": "Decirle que sí y partir",
+  "opcion.invitacion.colegio.no": "Decirle que no puedes",
+  "evento.invitacion.universidad": "Viene la prueba más difícil del semestre. {persona} te escribe: «¿Estudiamos juntos mañana en la biblioteca? Yo llevo los resúmenes».",
+  "evento.invitacion.universidad.2": "Terminando la clase, {persona} te pregunta si te vas con su grupo a comer algo al casino y a repasar la materia.",
+  "evento.invitacion.universidad.3": "{persona} te invita al asado que arman con los de la sección el sábado en la casa de un compañero.",
+  "opcion.invitacion.universidad.ir": "Ir, y quedarte hasta el final",
+  "opcion.invitacion.universidad.no": "Darle las gracias y no ir",
+  "evento.invitacion.pega": "Cerca de la hora de salida, {persona} se acerca a tu puesto: «¿Vamos por un café cuando salgamos? Invito yo».",
+  "evento.invitacion.pega.2": "{persona} te pregunta si te sumas el viernes a las cervezas después de la pega con un par de colegas.",
+  "evento.invitacion.pega.3": "{persona} celebra su cumpleaños el sábado en su casa y te dice que le encantaría que fueras.",
+  "opcion.invitacion.pega.ir": "Ir, y conversar de algo más que de la pega",
+  "opcion.invitacion.pega.no": "Decirle que otro día, que hoy no puedes"
+}

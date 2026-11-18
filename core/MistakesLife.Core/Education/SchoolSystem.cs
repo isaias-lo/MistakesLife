@@ -75,7 +75,8 @@ namespace MistakesLife.Core.Education
                 }
             }
 
-            if (context.Date.IsFirstWeekOfMonth && SchoolRules.NewFriendships(world, player).Count > 0)
+            // Solo la amistad de la infancia llega sola; las demás, con una invitación (D4b).
+            if (context.Date.IsFirstWeekOfMonth && SchoolRules.ChildhoodFriendship(world, player) != null)
             {
                 world.WriteJournal(player.Id, "diario.curso.amistad");
             }

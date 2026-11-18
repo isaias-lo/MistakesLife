@@ -83,11 +83,8 @@ namespace MistakesLife.Core.Education
 
             if (context.Date.IsFirstWeekOfMonth)
             {
+                // Las amistades de la sección ya no nacen solas: quien te quiere te invita a algo (D4b).
                 UniversityRules.ShareMonth(world, player);
-                if (SchoolRules.NewFriendships(world, player).Count > 0)
-                {
-                    world.WriteJournal(player.Id, "diario.curso.amistad");
-                }
             }
         }
 
