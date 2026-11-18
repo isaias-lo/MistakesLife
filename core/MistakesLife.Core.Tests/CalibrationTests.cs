@@ -13,6 +13,7 @@ namespace MistakesLife.Core.Tests
     public class CalibrationTests
     {
         [Fact]
+        [Trait(TestKinds.Name, TestKinds.ManyLives)]
         public void Simulador_ALos25_UnaParteSigueEstudiandoYTrabajanMenosQueAntes()
         {
             // 400 vidas: con 200 el empleo a los 25 salta varios puntos según la suerte de las
@@ -28,6 +29,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        [Trait(TestKinds.Name, TestKinds.ManyLives)]
         public void Simulador_ALos25_AlgunosDejanLaCarreraYOtrosSeCambian()
         {
             SimulationReport report = new LifeSimulator(RepoPacks.Content).Run(lives: 200, finalAge: 25);
@@ -38,6 +40,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        [Trait(TestKinds.Name, TestKinds.ManyLives)]
         public void Simulador_ALos72_PocosSiguenTrabajandoYSeCuentaSoloALosVivos()
         {
             // 200 vidas: los mayores que trabajan informal son pocos (cerca del 3 % de los vivos)
@@ -58,6 +61,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        [Trait(TestKinds.Name, TestKinds.ManyLives)]
         public void Simulador_ALos45_NoTodosTrabajan()
         {
             // 300 vidas: con 120, un cambio de contenido que solo mueve el azar movía el

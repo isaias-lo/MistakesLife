@@ -52,6 +52,8 @@ Fuentes de verdad (léelas antes de decisiones de diseño):
 dotnet test MistakesLife.sln
 ```
 
+- Mientras trabajas, las rápidas bastan: `dotnet test MistakesLife.sln --filter "Tipo!=MuchasVidas"`. Las de muchas vidas (marcadas con `[Trait(TestKinds.Name, TestKinds.ManyLives)]`) juegan cientos de vidas para revisar el equilibrio; córrelas antes de dar el PR por listo (`--filter "Tipo=MuchasVidas"`). En GitHub van en su propia fila, "Pruebas de muchas vidas". Una prueba nueva que juegue cientos de vidas lleva esa marca.
+
 - Todo JSON en `packs/` debe ser válido (la integración continua lo revisa).
 - Para armar una partida usa siempre `LifeSession` (núcleo): registra los sistemas en el orden correcto. No armes el `WeekCycle` a mano en herramientas ni en Unity.
 - Después de cambiar `core/` o `packs/`, actualiza Unity: `dotnet run --project tools/MistakesLife.UnityExport` (copia el núcleo y el archivo de paquetes a `unity/`; la integración continua revisa que el archivo de paquetes esté al día).
