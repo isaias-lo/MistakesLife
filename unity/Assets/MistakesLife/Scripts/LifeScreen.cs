@@ -90,6 +90,8 @@ namespace MistakesLife.Unity
         private CourtScreen _court = null!;
         private StudiesScreen _studies = null!;
         private TeamScreen _team = null!;
+        private ActionsScreen _actions = null!;
+        private RectTransform _freeTime = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
         private float _sheetWidth;
@@ -231,6 +233,12 @@ namespace MistakesLife.Unity
         public void OpenTeamForCapture()
         {
             _team.Show(_presenter!);
+        }
+
+        /// <summary>Abre lo que puedes hacer en un grupo (gente, estudios, salud), para las capturas.</summary>
+        public void OpenActionsForCapture(string group)
+        {
+            OpenActions(_presenter!, group);
         }
 
         /// <summary>Abre Tu dinero encima de la vida, para las capturas.</summary>
@@ -386,6 +394,8 @@ namespace MistakesLife.Unity
             scroll.GetComponent<Image>().color = Color.clear;
             _sheetSize = scroll.GetComponent<LayoutElement>();
             _sheetSize.flexibleHeight = 0;
+            // Las tardes libres del mes (D3): cuántas quedan para hacer algo con el tiempo parado.
+            _freeTime = UiFactory.Column(sheet, "Tardes libres", 0, 0);
             _bars = UiFactory.Column(sheet, "Barras de la vida", 0, 18, Panel);
             _bars.GetComponent<VerticalLayoutGroup>().padding = new RectOffset(38, 38, 28, 28);
             _footer = UiFactory.Column(sheet, "Botones", 0, 12);
@@ -398,6 +408,7 @@ namespace MistakesLife.Unity
             _court = new CourtScreen(safe);
             _studies = new StudiesScreen(safe);
             _team = new TeamScreen(safe) { Changed = MailRead };
+            _actions = new ActionsScreen(safe) { Changed = ActionDone };
 
             // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
             // si se moviera antes, el orden la devolvería a su lugar y se vería dos veces.
@@ -787,6 +798,7 @@ namespace MistakesLife.Unity
             ShowCaption();
             DrawLastStep(presenter);
             DrawSheet(presenter, life);
+            DrawFreeTime(presenter, life);
             DrawBars(presenter, life);
             DrawActions(presenter, life);
             DrawGroups(presenter);
@@ -1035,19 +1047,93 @@ namespace MistakesLife.Unity
                 }
             }
 
-            Group(Icons.People, presenter.Text("ui.grupo.tu_gente"), living, false, () => ShowHistory(true), Sound.PhotoClick);
+            Group(Icons.People, presenter.Text("ui.grupo.tu_gente"), living, false, () => OpenGroup(presenter, "gente"), Sound.PhotoClick);
             if (studies || !team)
             {
-                Group(Icons.Studies, presenter.Text("ui.grupo.estudios"), living && studies, failing, () => _studies.Show(presenter), Sound.PageTurn);
+                Group(Icons.Studies, presenter.Text("ui.grupo.estudios"), living && studies, failing, () => OpenGroup(presenter, "estudios"), Sound.PageTurn);
             }
             else
             {
-                Group(Icons.Studies, presenter.Text("ui.grupo.trabajo"), living, false, () => _team.Show(presenter), Sound.PageTurn);
+                Group(Icons.Studies, presenter.Text("ui.grupo.trabajo"), living, false, () => OpenGroup(presenter, "trabajo"), Sound.PageTurn);
             }
 
             Group(Icons.Money, presenter.Text("ui.grupo.dinero"), living, money.Debts.Count > 0, () => _money.Show(presenter), Sound.Register);
             Group(Icons.Phone, presenter.Text("ui.grupo.celular"), living && hasPhone, phone.UnreadMail + phone.UnreadChats > 0, () => _phone.Show(presenter), Sound.PencilTap);
             Group(Icons.More, presenter.Text("ui.grupo.mas"), true, false, () => ShowMore(true), Sound.PageTurn);
+        }
+
+        /// <summary>
+        /// Al tocar un grupo: si hay algo que hacer en él con el tiempo parado, se abre primero
+        /// eso (D3, "dentro de cada grupo"), con un botón a su pantalla de siempre; si no, se abre
+        /// directo su pantalla (tu gente y diario, tu libreta, tu equipo).
+        /// </summary>
+        private void OpenGroup(LifePresenter presenter, string group)
+        {
+            if (presenter.FreeTime() != null && presenter.Actions(group).Count > 0)
+            {
+                OpenActions(presenter, group);
+                return;
+            }
+
+            GroupScreen(presenter, group)?.Invoke();
+        }
+
+        /// <summary>Abre lo que puedes hacer en un grupo, con el botón a su pantalla de siempre si tiene.</summary>
+        private void OpenActions(LifePresenter presenter, string group)
+        {
+            string title = group == "gente" ? "ui.grupo.tu_gente" : "ui.grupo." + group;
+            System.Action? screen = GroupScreen(presenter, group);
+            _actions.Show(presenter, group, title, screen, screen != null ? "ui.accion.ver." + group : null);
+        }
+
+        /// <summary>La pantalla de siempre de un grupo; null si no tiene (Salud, por ahora).</summary>
+        private System.Action? GroupScreen(LifePresenter presenter, string group)
+        {
+            switch (group)
+            {
+                case "gente":
+                    return () => ShowHistory(true);
+                case "estudios":
+                    return () => _studies.Show(presenter);
+                case "trabajo":
+                    return () => _team.Show(presenter);
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Se hizo algo con el tiempo parado: cambian las barras y las tardes libres, y lo que pasó
+        /// queda en el diario. El tiempo no avanzó, así que "Lo que pasa" sigue igual.
+        /// </summary>
+        private void ActionDone()
+        {
+            LifePresenter presenter = _presenter!;
+            LifeSnapshot life = presenter.Snapshot();
+            _home.SetMood(life.Happiness);
+            DrawFreeTime(presenter, life);
+            DrawBars(presenter, life);
+            MailRead();
+        }
+
+        /// <summary>
+        /// La franja de las tardes libres (boceto D3Contador), entre "Lo que pasa" y las barras:
+        /// "5 tardes libres en marzo" y que se gastan en lo que haces en cada grupo. Solo en un mes
+        /// normal y cuando ya tienes horario.
+        /// </summary>
+        private void DrawFreeTime(LifePresenter presenter, LifeSnapshot life)
+        {
+            UiFactory.Clear(_freeTime);
+            FreeTimeView? free = life.Phase == LifePhase.Living && !_pickingMoment && _chapter == null ? presenter.FreeTime() : null;
+            _freeTime.gameObject.SetActive(free != null);
+            if (free == null)
+            {
+                return;
+            }
+
+            string note = free.Left > 0 && free.Total > 0 ? presenter.Text("ui.tardes.donde") : free.Note;
+            RectTransform box = ActionsScreen.Counter(_freeTime, free, note, dots: false);
+            box.GetComponent<Image>().color = Panel;
         }
 
         /// <summary>Un botón de la barra de grupos: ícono de línea fina, nombre chico y, si hay algo, el punto rojo.</summary>
@@ -1110,6 +1196,11 @@ namespace MistakesLife.Unity
             {
                 // Si estudias y trabajas a la vez, Estudios va abajo y la pega aquí.
                 MoreRow(Icons.Studies, presenter.Text("ui.grupo.trabajo"), () => _team.Show(presenter));
+            }
+
+            if (living && presenter.Actions("salud").Count > 0)
+            {
+                MoreRow(Icons.Health, presenter.Text("ui.grupo.salud"), () => OpenActions(presenter, "salud"));
             }
 
             if (living && presenter.CourtCases().Count > 0)
