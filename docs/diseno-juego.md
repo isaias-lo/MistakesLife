@@ -110,6 +110,8 @@ Isaias eligió (17-11-2026) **el contador del mes**: "Te quedan 5 tardes libres"
 - **Cercanos arriba** y una sección **"Conocidos" cerrada** debajo.
 - **Cada persona tiene vida real:** oficio o profesión, cargo, empresa, lo que le pasa.
 - **La relación se ve con barra, cara y palabra.** Con un desconocido la barra está gris y casi vacía. Nada de números.
+- **Boceto elegido (18-11-2026): A.** Los cercanos van en tarjetas de papel con su vida en una línea, la barra y la palabra; la familia primero, después amistades, rivales y ex; quien murió al final, sin barra. "Conocidos · N" va plegado abajo. Al tocar a alguien se abre su ficha: su vida, lo que han vivido juntos y lo que pueden hacer.
+- **Las pegas de la gente son reales (regla de Isaias, 18-11-2026).** La gente solo trabaja en los trabajos que existen enteros en el juego (hoy software, contabilidad, psicología, vendedor, garzón y maestro); no hay listas de pegas con solo el nombre. Y solo la parte real según el INE tiene una de esas pegas; el resto muestra lo que es real (estudia, jubilado, busca pega). Cuando se agrega una carrera u oficio, aparece gente trabajando en ella.
 
 ### Cómo nacen las amistades
 

@@ -91,6 +91,7 @@ namespace MistakesLife.Unity
         private StudiesScreen _studies = null!;
         private TeamScreen _team = null!;
         private ActionsScreen _actions = null!;
+        private PeopleScreen _people = null!;
         private RectTransform _freeTime = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
@@ -239,6 +240,15 @@ namespace MistakesLife.Unity
         public void OpenActionsForCapture(string group)
         {
             OpenActions(_presenter!, group);
+        }
+
+        /// <summary>Abre Tu gente (la lista o la ficha de una persona), para las capturas.</summary>
+        public void OpenPeopleForCapture(bool card)
+        {
+            LifePresenter presenter = _presenter!;
+            PeopleView people = presenter.People();
+            int? id = card && people.Close.Count > 0 ? people.Close[0].Id : (int?)null;
+            _people.Show(presenter, id);
         }
 
         /// <summary>Abre Tu dinero encima de la vida, para las capturas.</summary>
@@ -409,6 +419,7 @@ namespace MistakesLife.Unity
             _studies = new StudiesScreen(safe);
             _team = new TeamScreen(safe) { Changed = MailRead };
             _actions = new ActionsScreen(safe) { Changed = ActionDone };
+            _people = new PeopleScreen(safe) { Changed = ActionDone };
 
             // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
             // si se moviera antes, el orden la devolvería a su lugar y se vería dos veces.
@@ -1092,7 +1103,7 @@ namespace MistakesLife.Unity
             switch (group)
             {
                 case "gente":
-                    return () => ShowHistory(true);
+                    return () => _people.Show(presenter);
                 case "estudios":
                     return () => _studies.Show(presenter);
                 case "trabajo":
@@ -1281,29 +1292,11 @@ namespace MistakesLife.Unity
         /// <summary>La familia, tu gente y el diario completo, en la hoja aparte.</summary>
         private void DrawHistory(LifePresenter presenter, LifeSnapshot life)
         {
-            _historyTitle.text = presenter.Text("ui.boton.tu_gente_diario");
+            _historyTitle.text = presenter.Text("ui.grupo.historia");
             _closeHistory.GetComponentInChildren<TextMeshProUGUI>().text = presenter.Text("ui.boton.cerrar");
             UiFactory.Clear(_historyBody);
             _historyBody.anchoredPosition = Vector2.zero;
             UiFactory.Label(_historyBody, $"{presenter.Text("ui.generacion", life.Generation)} · {presenter.Text("ui.partida", life.Seed)}", UiFactory.MinFontSize, UiFactory.MutedInk);
-
-            if (life.Family.Count > 0)
-            {
-                UiFactory.Label(_historyBody, presenter.Text("ui.familia"), 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
-                foreach (PersonView person in life.Family)
-                {
-                    DrawPerson(presenter, person);
-                }
-            }
-
-            if (life.People.Count > 0)
-            {
-                UiFactory.Label(_historyBody, presenter.Text("ui.gente"), 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
-                foreach (PersonView person in life.People)
-                {
-                    DrawPerson(presenter, person);
-                }
-            }
 
             // El diario por capítulos, del año de ahora hacia atrás.
             UiFactory.Label(_historyBody, presenter.Text("ui.diario"), 40, UiFactory.Ink, FontStyles.Normal, Face.Title);
@@ -1530,31 +1523,6 @@ namespace MistakesLife.Unity
             inner.childForceExpandHeight = false;
             UiFactory.Label(stamp, text, 28, UiFactory.Paper, FontStyles.Bold);
             stamp.localRotation = Quaternion.Euler(0f, 0f, 4f);
-        }
-
-        /// <summary>Una persona en una línea: relación, nombre, edad y, si está viva, cómo está la relación.</summary>
-        private void DrawPerson(LifePresenter presenter, PersonView person)
-        {
-            string age = person.IsAlive ? person.AgeInYears.ToString() : presenter.Text("ui.fallecido");
-            string feeling = person.Feeling.Length > 0 ? $", {person.Feeling}" : string.Empty;
-            UiFactory.Label(_historyBody, $"{person.Relation}: {person.Name} ({age}{feeling})", 34, UiFactory.Ink);
-
-            // Futuros juntos: lo que puedes pedir con esta persona (recomendarla, vivir juntos...).
-            // El botón solo pide el momento; se decide en la carta, como cualquier momento.
-            foreach (ActionView action in presenter.PersonActions(person.Id))
-            {
-                string eventId = action.EventId;
-                int personId = person.Id;
-                UiFactory.MakeButton(_historyBody, action.Label, UiFactory.Option, UiFactory.Ink, () =>
-                {
-                    Sounds.Play(Sound.PencilTap);
-                    if (presenter.Session.Request(eventId, personId))
-                    {
-                        ShowHistory(false);
-                        MailRead();
-                    }
-                }, 32, 96, 20);
-            }
         }
 
         /// <summary>Volver al pasado: las cargas que quedan y un botón por cada momento al que se puede volver.</summary>
