@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Decisions;
@@ -43,6 +44,12 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Marca que pone el contenido al llegar a la cima de una carrera.</summary>
         public string TopFlag { get; set; } = "llego_a_la_cima";
 
+        /// <summary>
+        /// Cuántas vidas se juegan a la vez (una por procesador, si no se dice). Con 1 se juegan
+        /// de a una; el informe sale igual con cualquier número.
+        /// </summary>
+        public int Parallelism { get; set; } = Environment.ProcessorCount;
+
         /// <summary>Edad hasta la que se mide la densidad de cotización (meses cotizados desde los 18).</summary>
         public const int ContributionDensityAge = 65;
 
@@ -76,46 +83,35 @@ namespace MistakesLife.Core.Analysis
             var stops = new double[SimulationReport.PaceStages.Length];
             var stageYears = new double[SimulationReport.PaceStages.Length];
 
+            // Las vidas se juegan de a varias a la vez (una por procesador): cada una tiene su
+            // propia semilla y no comparte nada que cambie, así que da lo mismo que de a una.
+            // Lo que se cuenta se suma después, en orden de semilla, para que el informe salga
+            // exactamente igual (las sumas con decimales dependen del orden).
+            int parallelism = Math.Max(1, Parallelism);
+            int batch = parallelism * 4;
+            var options = new ParallelOptions { MaxDegreeOfParallelism = parallelism };
+            var runs = new LifeRun[Math.Min(batch, lives)];
             for (int i = 0; i < lives; i++)
             {
-                ulong seed = firstSeed + (ulong)i;
-                var session = new LifeSession(_content, seed, countryId, SeedRules, EventRules);
-                session.TimeMachine.Enabled = false; // sin fotos del mundo, para ir rápido
-                var chooser = new GameRandom(seed).Fork("simulador.decisiones");
-                var decider = new AutoDecider(_content);
-                var texter = new GameRandom(seed).Fork("simulador.mensajito");
-                var initiative = new GameRandom(seed).Fork("simulador.iniciativa");
-                int target = finalAge * GameDate.WeeksPerYear;
-
-                while (session.World.Player.IsAlive && session.World.Player.AgeInWeeks(session.World.Date) < target)
+                int inBatch = i % batch;
+                if (inBatch == 0)
                 {
-                    PendingEvent? pending = session.Pending;
-                    if (pending != null)
-                    {
-                        stops[PaceStage(session.PlayerAgeInYears)]++;
-                        JobSearch? search = session.World.Player.JobSearch;
-                        int weeks = search?.Weeks ?? 0, interviews = search?.Interviews ?? 0;
-                        session.Choose(decider.Choose(session.World, pending, chooser));
-                        if (search != null && session.World.Player.JobSearch == null && session.World.Player.Job != null)
-                        {
-                            // Encontró trabajo buscándolo: cuánto demoró y a cuántas entrevistas fue.
-                            report.JobSearchHires++;
-                            searchWeeks += weeks;
-                            searchInterviews += interviews;
-                        }
-
-                        continue;
-                    }
-
-                    // Como quien juega mira el celular seguido: avanza de a un mes y contesta sus mensajes.
-                    AnswerChats(session, texter);
-                    if (TakeInitiative(session, initiative))
-                    {
-                        continue;
-                    }
-
-                    session.Advance(Math.Min(ChatCheckWeeks, target - session.World.Player.AgeInWeeks(session.World.Date)));
+                    int first = i;
+                    int count = Math.Min(batch, lives - i);
+                    Parallel.For(0, count, options, k => runs[k] = Live(firstSeed + (ulong)(first + k), finalAge, countryId));
                 }
+
+                LifeRun run = runs[inBatch];
+                runs[inBatch] = null!;
+                LifeSession session = run.Session;
+                for (int st = 0; st < stops.Length; st++)
+                {
+                    stops[st] += run.Stops[st];
+                }
+
+                report.JobSearchHires += run.JobSearchHires;
+                searchWeeks += run.SearchWeeks;
+                searchInterviews += run.SearchInterviews;
 
                 var player = session.World.Player;
                 double yearsLived = (double)player.AgeInWeeks(session.World.Date) / GameDate.WeeksPerYear;
@@ -365,6 +361,71 @@ namespace MistakesLife.Core.Analysis
             report.MedianRealMoney = realMoney.Count == 0 ? 0 : realMoney[realMoney.Count / 2];
             report.NeverSeenEvents.AddRange(_content.Events.Select(e => e.Id).Where(id => !report.LivesWithEvent.ContainsKey(id)));
             return report;
+        }
+
+        /// <summary>Lo que deja una vida jugada: la partida al final y lo que se contó mientras se jugaba.</summary>
+        private sealed class LifeRun
+        {
+            public LifeRun(LifeSession session)
+            {
+                Session = session;
+            }
+
+            public LifeSession Session { get; }
+
+            /// <summary>Cuántas veces se detuvo el tiempo en cada etapa (<see cref="SimulationReport.PaceStages"/>).</summary>
+            public double[] Stops { get; } = new double[SimulationReport.PaceStages.Length];
+
+            public int JobSearchHires { get; set; }
+
+            public long SearchWeeks { get; set; }
+
+            public long SearchInterviews { get; set; }
+        }
+
+        /// <summary>Juega una vida automática hasta <paramref name="finalAge"/> o hasta que muere.</summary>
+        private LifeRun Live(ulong seed, int finalAge, string? countryId)
+        {
+            var session = new LifeSession(_content, seed, countryId, SeedRules, EventRules);
+            session.TimeMachine.Enabled = false; // sin fotos del mundo, para ir rápido
+            var run = new LifeRun(session);
+            var chooser = new GameRandom(seed).Fork("simulador.decisiones");
+            var decider = new AutoDecider(_content);
+            var texter = new GameRandom(seed).Fork("simulador.mensajito");
+            var initiative = new GameRandom(seed).Fork("simulador.iniciativa");
+            int target = finalAge * GameDate.WeeksPerYear;
+
+            while (session.World.Player.IsAlive && session.World.Player.AgeInWeeks(session.World.Date) < target)
+            {
+                PendingEvent? pending = session.Pending;
+                if (pending != null)
+                {
+                    run.Stops[PaceStage(session.PlayerAgeInYears)]++;
+                    JobSearch? search = session.World.Player.JobSearch;
+                    int weeks = search?.Weeks ?? 0, interviews = search?.Interviews ?? 0;
+                    session.Choose(decider.Choose(session.World, pending, chooser));
+                    if (search != null && session.World.Player.JobSearch == null && session.World.Player.Job != null)
+                    {
+                        // Encontró trabajo buscándolo: cuánto demoró y a cuántas entrevistas fue.
+                        run.JobSearchHires++;
+                        run.SearchWeeks += weeks;
+                        run.SearchInterviews += interviews;
+                    }
+
+                    continue;
+                }
+
+                // Como quien juega mira el celular seguido: avanza de a un mes y contesta sus mensajes.
+                AnswerChats(session, texter);
+                if (TakeInitiative(session, initiative))
+                {
+                    continue;
+                }
+
+                session.Advance(Math.Min(ChatCheckWeeks, target - session.World.Player.AgeInWeeks(session.World.Date)));
+            }
+
+            return run;
         }
 
         /// <summary>Quien juega contesta la mayoría de sus mensajes de Mensajito (3 de cada 4), con cualquier respuesta; el resto los deja en visto.</summary>

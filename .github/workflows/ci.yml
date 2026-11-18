@@ -19,8 +19,9 @@ jobs:
       - name: Compilar
         run: dotnet build MistakesLife.sln --configuration Release
 
+      # Las de muchas vidas (las lentas) corren al mismo tiempo en su propia fila, más abajo.
       - name: Correr pruebas
-        run: dotnet test MistakesLife.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test MistakesLife.sln --configuration Release --no-build --verbosity normal --filter "Tipo!=MuchasVidas"
 
       - name: Revisar que Unity tenga los paquetes al día
         run: |
@@ -29,6 +30,24 @@ jobs:
             echo "::error file=unity/Assets/MistakesLife/Resources/packs.bundle.json::Los paquetes cambiaron: corre 'dotnet run --project tools/MistakesLife.UnityExport' y sube el resultado."
             exit 1
           fi
+
+  many-lives-tests:
+    name: Pruebas de muchas vidas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Compilar
+        run: dotnet build MistakesLife.sln --configuration Release
+
+      # Juegan cientos de vidas para revisar el equilibrio (que todos los eventos aparezcan,
+      # que los porcentajes se parezcan a los reales). Son las más lentas.
+      - name: Correr pruebas de muchas vidas
+        run: dotnet test MistakesLife.sln --configuration Release --no-build --verbosity normal --filter "Tipo=MuchasVidas"
 
   packs-json:
     name: Paquetes JSON válidos
