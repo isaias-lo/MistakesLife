@@ -75,12 +75,21 @@ namespace MistakesLife.Core.Devices
             }
         }
 
-        /// <summary>El jugador abre la conversación: ya vio todo.</summary>
-        public void MarkRead(int otherId)
+        /// <summary>
+        /// El jugador abre la conversación el <paramref name="date"/>: ya vio todo. Si había un
+        /// mensaje sin ver que espera respuesta, la espera cuenta desde hoy (avanzar no castiga:
+        /// solo se enoja quien sabe que lo viste).
+        /// </summary>
+        public void MarkRead(int otherId, GameDate date)
         {
             Chat? chat = With(otherId);
             if (chat != null)
             {
+                if (chat.Unread > 0 && chat.AwaitingReply != null)
+                {
+                    chat.AwaitingSince = date;
+                }
+
                 chat.Unread = 0;
             }
         }

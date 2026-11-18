@@ -90,6 +90,9 @@ namespace MistakesLife.Core.Saving
                 Health = c.Stats.Health,
                 Happiness = c.Stats.Happiness,
                 Smarts = c.Stats.Smarts,
+                Energy = c.Stats.Energy,
+                Looks = c.Stats.Looks,
+                InheritedLooks = c.InheritedLooks,
                 MotherId = c.MotherId,
                 FatherId = c.FatherId,
                 SecondParentId = c.SecondParentId,
@@ -248,6 +251,12 @@ namespace MistakesLife.Core.Saving
                     StageKey = c.Routine.StageKey,
                     Confirmed = c.Routine.Confirmed,
                     Slots = c.Routine.Slots.ToList(),
+                },
+                FreeTime = c.FreeTime == null ? null : new FreeTimeData
+                {
+                    MonthKey = c.FreeTime.MonthKey,
+                    Used = c.FreeTime.Used,
+                    Done = c.FreeTime.Done.ToList(),
                 },
                 OwnRules = c.OwnRules.Count == 0 ? null : c.OwnRules.Select(r => new OwnRuleData
                 {

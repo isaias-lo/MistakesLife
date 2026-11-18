@@ -181,6 +181,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        [Trait(TestKinds.Name, TestKinds.ManyLives)]
         public void EventosDeFamiliaDeChile_EnMuchasVidas_DanHijosYParejasRazonables()
         {
             int lives = 80, withChildren = 0, totalChildren = 0;

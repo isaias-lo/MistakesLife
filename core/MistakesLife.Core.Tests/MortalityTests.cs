@@ -157,6 +157,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        [Trait(TestKinds.Name, TestKinds.ManyLives)]
         public void MuchasVidas_ConLosPaquetesReales_LaEdadDeMuerteSePareceALaReal()
         {
             // 60 vidas completas: el promedio debe quedar cerca de los ~79 años de la tabla,

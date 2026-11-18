@@ -25,9 +25,11 @@ namespace MistakesLife.Core.Devices
     /// esperando que les contesten y no le mandaron lo mismo en el último medio año.</item>
     /// </list>
     /// Solo escribe quien siente lo que pide el mensaje (un amigo que ya no lo quiere no
-    /// lo saluda para su cumpleaños). Si el jugador vio el mensaje y no contesta en
-    /// <see cref="ReplyWeeks"/> semanas, lo dejó en visto y la otra persona lo siente
-    /// ("si_no_respondes"); si ni lo abrió, espera <see cref="UnseenWeeks"/> semanas.
+    /// lo saluda para su cumpleaños). Avanzar no castiga (docs/diseno-juego.md, "Mensajes con
+    /// el tiempo"): mientras el tiempo corre los mensajes quedan esperando con su fecha real, y
+    /// solo si el jugador abrió la conversación y no contesta en <see cref="ReplyWeeks"/>
+    /// semanas lo dejó en visto y la otra persona lo siente ("si_no_respondes"). Un mensaje
+    /// que ni abrió deja de esperar respuesta a las <see cref="UnseenWeeks"/> semanas, sin enojo.
     /// </summary>
     public sealed class ChatSystem : IWeeklySystem
     {
@@ -36,10 +38,10 @@ namespace MistakesLife.Core.Devices
         /// <summary>La app que hay que tener en el celular.</summary>
         public const string AppId = "app.mensajito";
 
-        /// <summary>Semanas que alguien espera una respuesta, si el jugador ya vio el mensaje, antes de sentirse dejado en visto.</summary>
+        /// <summary>Semanas que alguien espera una respuesta, desde que el jugador vio el mensaje, antes de sentirse dejado en visto.</summary>
         public const int ReplyWeeks = 2;
 
-        /// <summary>Semanas que espera si el jugador ni siquiera abrió la conversación: después, también se siente ignorado.</summary>
+        /// <summary>Semanas que un mensaje sin abrir sigue esperando respuesta: después ya no espera, pero nadie se enoja (no lo vio).</summary>
         public const int UnseenWeeks = 6;
 
         /// <summary>Edad desde la que una persona escribe por Mensajito (un hijo, un amigo del colegio).</summary>
@@ -268,7 +270,8 @@ namespace MistakesLife.Core.Devices
         {
             foreach (Chat chat in character.Chats!.Chats)
             {
-                int patience = chat.Unread > 0 ? UnseenWeeks : ReplyWeeks;
+                bool seen = chat.Unread == 0;
+                int patience = seen ? ReplyWeeks : UnseenWeeks;
                 if (chat.AwaitingReply == null || world.Date.WeeksSince(chat.AwaitingSince) < patience)
                 {
                     continue;
@@ -276,7 +279,7 @@ namespace MistakesLife.Core.Devices
 
                 ChatDefinition? definition = content.Chat(chat.AwaitingReply);
                 chat.AwaitingReply = null;
-                if (definition?.IfIgnored != null && world.TryGetCharacter(chat.OtherId, out Character? other) && other.IsAlive)
+                if (seen && definition?.IfIgnored != null && world.TryGetCharacter(chat.OtherId, out Character? other) && other.IsAlive)
                 {
                     Apply(world, other, character, definition.IfIgnored);
                 }
@@ -381,7 +384,7 @@ namespace MistakesLife.Core.Devices
             }
 
             Chat? chat = character.Chats?.With(other.Id);
-            if (chat?.AwaitingReply != null || chat?.PlayerWrote != null)
+            if (chat?.AwaitingReply != null || chat?.PlayerWrote != null || WroteThisWeek(world, content, chat))
             {
                 return Array.Empty<ChatOpenerDefinition>();
             }
@@ -410,7 +413,8 @@ namespace MistakesLife.Core.Devices
 
         /// <summary>
         /// El jugador le escribe primero a <paramref name="otherId"/> (uno de <see cref="OpenersFor"/>).
-        /// La otra persona contesta la semana siguiente, según lo que sienta entonces.
+        /// Con el tiempo parado el chat es en vivo: la otra persona contesta al tiro, según lo que
+        /// siente, o lo deja en visto. A una misma persona se le escribe primero una vez por semana.
         /// </summary>
         public static void Write(World world, ContentDatabase content, Character character, int otherId, string openerId)
         {
@@ -424,11 +428,14 @@ namespace MistakesLife.Core.Devices
             Chat chat = character.Chats.Open(otherId);
             chat.Add(new ChatMessage(world.Date, openerId, fromPlayer: true));
             chat.Unread = 0;
-            chat.PlayerWrote = openerId;
             chat.PlayerWroteOn = world.Date;
+            Answer(world, content, character, chat, openerId, unread: false);
         }
 
-        /// <summary>Las personas a las que el jugador les escribió primero contestan (o lo dejan en visto) en la siguiente semana que avanza.</summary>
+        /// <summary>
+        /// Lo que quedó escrito sin respuesta en una partida guardada antes de que el chat fuera en
+        /// vivo: la otra persona contesta (o lo deja en visto) en la siguiente semana que avanza.
+        /// </summary>
         private static void AnswerPlayer(World world, ContentDatabase content, Character character)
         {
             foreach (Chat chat in character.Chats!.Chats)
@@ -438,25 +445,43 @@ namespace MistakesLife.Core.Devices
                     continue;
                 }
 
-                ChatOpenerDefinition? opener = content.ChatOpener(chat.PlayerWrote);
+                string openerId = chat.PlayerWrote;
                 chat.PlayerWrote = null;
-                if (opener == null || !world.TryGetCharacter(chat.OtherId, out Character? other) || !other.IsAlive)
-                {
-                    continue;
-                }
-
-                ChatAnswerDefinition? answer = opener.Answers.FirstOrDefault(a => a.Fits(RelationshipRules.Feelings(world, other, character)));
-                if (answer == null)
-                {
-                    // Ninguna respuesta calza con lo que siente: lo deja en visto.
-                    continue;
-                }
-
-                chat.Add(new ChatMessage(world.Date, answer.Id, fromPlayer: false));
-                chat.Unread++;
-                Apply(world, other, character, answer);
+                Answer(world, content, character, chat, openerId, unread: true);
             }
         }
+
+        /// <summary>
+        /// La otra persona contesta lo que el jugador le escribió primero, según lo que siente por
+        /// él, o lo deja en visto si ninguna respuesta calza con eso.
+        /// </summary>
+        private static void Answer(World world, ContentDatabase content, Character character, Chat chat, string openerId, bool unread)
+        {
+            ChatOpenerDefinition? opener = content.ChatOpener(openerId);
+            if (opener == null || !world.TryGetCharacter(chat.OtherId, out Character? other) || !other.IsAlive)
+            {
+                return;
+            }
+
+            ChatAnswerDefinition? answer = opener.Answers.FirstOrDefault(a => a.Fits(RelationshipRules.Feelings(world, other, character)));
+            if (answer == null)
+            {
+                // Ninguna respuesta calza con lo que siente: lo deja en visto.
+                return;
+            }
+
+            chat.Add(new ChatMessage(world.Date, answer.Id, fromPlayer: false));
+            if (unread)
+            {
+                chat.Unread++;
+            }
+
+            Apply(world, other, character, answer);
+        }
+
+        /// <summary>Si el jugador ya le escribió primero esta semana (contestara o no).</summary>
+        private static bool WroteThisWeek(World world, ContentDatabase content, Chat? chat) =>
+            chat != null && chat.Messages.Any(m => m.FromPlayer && m.Date.TotalWeeks == world.Date.TotalWeeks && content.ChatOpener(m.TextKey) != null);
 
         private static bool SentRecently(World world, Chat? chat, string chatId) =>
             chat != null && chat.Messages.Any(m => !m.FromPlayer && m.TextKey == chatId && world.Date.WeeksSince(m.Date) < RepeatWeeks);

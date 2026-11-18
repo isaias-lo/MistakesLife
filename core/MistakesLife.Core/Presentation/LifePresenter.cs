@@ -553,6 +553,152 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Avanza una sola semana (o nada, si hay que decidir algo primero).</summary>
         public int AdvanceWeek() => Advance(1);
 
+        /// <summary>
+        /// "Seguir un mes": avanza hasta el comienzo del mes que viene, o antes si pasa algo
+        /// importante (un evento, la muerte). Devuelve las semanas que pasaron.
+        /// </summary>
+        public int AdvanceMonth() => Advance(Session.World.Date.WeeksToNextMonth);
+
+        /// <summary>
+        /// "Un año": avanza un año, o menos si pasa algo importante. Es lo mismo que
+        /// <see cref="AdvanceUntilSomething"/> (como mucho <see cref="MaxYearsPerStep"/> año).
+        /// </summary>
+        public int AdvanceYear() => AdvanceUntilSomething();
+
+        /// <summary>
+        /// Lo de arriba de la pantalla principal (docs/diseno-juego.md): el mes y el día, y en
+        /// qué estás (tu curso, tu carrera o tu pega) y en qué comuna vives.
+        /// </summary>
+        public HeaderView Header()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            GameDate date = world.Date;
+            string month = T("ui.mes." + date.Month);
+            month = month.Length > 0 ? char.ToUpperInvariant(month[0]) + month.Substring(1) : month;
+            string day = Text("ui.cabecera.dia", date.DayOfMonth);
+            string commune = player.Residence == null ? string.Empty : T(player.Residence.CommuneId);
+            return new HeaderView(month, day, RoleLabel(player), commune);
+        }
+
+        /// <summary>
+        /// Las tardes libres del mes que le quedan para hacer cosas con el tiempo parado (D3),
+        /// o null si todavía no tiene horario (antes de los 6 años).
+        /// </summary>
+        public FreeTimeView? FreeTime()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            if (player.Routine == null || !player.IsAlive)
+            {
+                return null;
+            }
+
+            int total = Life.FreeTimeRules.Total(Session.Content, player);
+            int left = Life.FreeTimeRules.Left(world, Session.Content, player);
+            string month = T("ui.mes." + world.Date.Month);
+            string label = left == 1 ? Text("ui.tardes.una", month) : Text("ui.tardes.varias", left, month);
+            string note = total == 0 ? T("ui.tardes.sin_horario_libre")
+                : left == 0 ? T("ui.tardes.no_quedan")
+                : Text("ui.tardes.deja", total);
+            return new FreeTimeView(left, total, label, note);
+        }
+
+        /// <summary>
+        /// Lo que puede hacer ahora con el tiempo parado en un grupo (gente, estudios, trabajo,
+        /// salud, dinero; ver <see cref="Content.ActionDefinition.Groups"/>). Vacío si hay un evento
+        /// esperando: primero se decide el momento.
+        /// </summary>
+        public IReadOnlyList<DoableActionView> Actions(string group)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            if (Session.Pending != null)
+            {
+                return new List<DoableActionView>();
+            }
+
+            return Life.ActionRules.Available(world, Session.Content, player, group)
+                .Select(o => new DoableActionView(
+                    o.Definition.Id,
+                    o.Person?.Id,
+                    WithPerson(T(o.Definition.Id), o.Person),
+                    WithPerson(T(o.Definition.WhyKey), o.Person),
+                    o.Definition.Effects.Select(p => Change(p.Key, p.Value, o.Person)).ToList(),
+                    o.Definition.Afternoons == 1 ? T("ui.tardes.costo_una") : Text("ui.tardes.costo", o.Definition.Afternoons),
+                    Life.ActionRules.CanAfford(world, Session.Content, player, o.Definition)))
+                .ToList();
+        }
+
+        /// <summary>Hace la acción (con esa persona, si es con alguien) y cuenta lo que pasó, al tiro.</summary>
+        public ActionResultView DoAction(string actionId, int? personId)
+        {
+            World world = Session.World;
+            Content.ActionDefinition action = Session.Content.Action(actionId)
+                ?? throw new InvalidOperationException($"No existe la acción '{actionId}'.");
+            Character? person = personId.HasValue ? world.GetCharacter(personId.Value) : null;
+            IReadOnlyList<Life.ActionChange> changes = Session.DoAction(actionId, personId);
+            return new ActionResultView(
+                Text("ui.fecha.dia", world.Date.DayOfMonth, T("ui.mes." + world.Date.Month)),
+                WithPerson(T(action.Id), person),
+                WithPerson(T(action.ResultKey), person),
+                changes.Select(c => Change(c.Key, c.Delta, person)).ToList(),
+                FreeTime()!);
+        }
+
+        /// <summary>Cómo se lee un cambio de una acción: "Inteligencia +2", "Energía −3", "La Javiera te quiere más".</summary>
+        private ChangeView Change(string key, int delta, Character? person)
+        {
+            bool good = delta > 0;
+            switch (key)
+            {
+                case "carino":
+                    return new ChangeView(Text(good ? "ui.accion.carino_sube" : "ui.accion.carino_baja", person?.FirstName ?? string.Empty), good);
+                case "preparar_prueba":
+                    return new ChangeView(T("ui.accion.prueba_preparada"), good);
+                default:
+                    string amount = delta > 0 ? "+" + delta.ToString(CultureInfo.InvariantCulture) : "\u2212" + (-delta).ToString(CultureInfo.InvariantCulture);
+                    return new ChangeView(T("ui.barra." + key) + " " + amount, good);
+            }
+        }
+
+        /// <summary>En qué estás: el curso del colegio, la carrera que estudias o tu pega; vacío si nada.</summary>
+        private string RoleLabel(Character player)
+        {
+            SchoolClassView? cls = SchoolClass();
+            if (cls != null)
+            {
+                return cls.Name;
+            }
+
+            if (player.Studies != null)
+            {
+                return T(player.Studies.CareerId);
+            }
+
+            WorkplaceView? work = Workplace(player);
+            return work?.Caption ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Las barras de la vida de la pantalla principal, en su orden, con su porcentaje y su
+        /// nivel (verde, amarillo o rojo): Felicidad, Salud, Inteligencia, Apariencia y Energía.
+        /// </summary>
+        public IReadOnlyList<LifeBarView> LifeBars()
+        {
+            Stats stats = Session.World.Player.Stats;
+            return new List<LifeBarView>
+            {
+                Bar("felicidad", stats.Happiness),
+                Bar("salud", stats.Health),
+                Bar("inteligencia", stats.Smarts),
+                Bar("apariencia", stats.Looks),
+                Bar("energia", stats.Energy),
+            };
+        }
+
+        private LifeBarView Bar(string id, int value) => new LifeBarView(id, Text("ui.barra." + id), value, LifeBarView.LevelOf(value));
+
         /// <summary>Responde el evento pendiente con la opción en esa posición de <see cref="EventView.Options"/>.</summary>
         public void Choose(int optionPosition)
         {
@@ -1306,7 +1452,10 @@ namespace MistakesLife.Core.Presentation
 
         private string T(string key) => Session.Text(key, Language);
 
-        private JournalLine Line(JournalEntry entry) => new JournalLine(AgeLabel(Session.World.Player, entry.Date), T(entry.TextKey));
+        private JournalLine Line(JournalEntry entry) => new JournalLine(
+            AgeLabel(Session.World.Player, entry.Date),
+            T(entry.TextKey),
+            string.Format(CultureInfo.InvariantCulture, T("ui.fecha.dia"), entry.Date.DayOfMonth, T("ui.mes." + entry.Date.Month)));
 
         private EventView EventOf(PendingEvent pending)
         {
@@ -1590,6 +1739,246 @@ namespace MistakesLife.Core.Presentation
             string amount = Math.Round(money, 0, MidpointRounding.AwayFromZero).ToString("N0", format);
             return string.Format(CultureInfo.InvariantCulture, T("ui.dinero"), amount);
         }
+
+        /// <summary>Cuántas cosas vividas juntos muestra la ficha de una persona.</summary>
+        public const int MaxLived = 5;
+
+        /// <summary>
+        /// Tu gente (D4a): los cercanos (familia, pareja, amistades, rivales, ex) y los conocidos
+        /// (tu curso, tus colegas, tu jefatura, tu profe y la gente que conociste en algún momento).
+        /// </summary>
+        public PeopleView People()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            var close = new List<(PersonRowView Row, bool Alive, bool Family, int Closeness)>();
+            bool family = true;
+            var seen = new HashSet<int> { player.Id };
+
+            void AddClose(Character? person, string relation)
+            {
+                if (person == null || !seen.Add(person.Id))
+                {
+                    return;
+                }
+
+                PersonRowView row = Row(person, relation);
+                close.Add((row, person.IsAlive, family, row.Closeness));
+            }
+
+            Character? mother = Find(player.MotherId);
+            Character? father = Find(player.FatherId);
+            AddClose(mother, T("ui.relacion.madre"));
+            AddClose(father, T("ui.relacion.padre"));
+            AddClose(Find(player.SecondParentId), T(Find(player.SecondParentId)?.Gender == Gender.Female ? "ui.relacion.madre" : "ui.relacion.padre"));
+            AddClose(Find(player.PartnerId), T("ui.relacion.pareja"));
+            foreach (Character child in world.ChildrenOf(player.Id))
+            {
+                AddClose(child, ChildRelation(child));
+            }
+
+            foreach (Character sibling in Siblings(player))
+            {
+                AddClose(sibling, T(sibling.Gender == Gender.Female ? "ui.relacion.hermana" : "ui.relacion.hermano"));
+            }
+
+            foreach (Character? parent in new[] { mother, father })
+            {
+                foreach (int? id in new[] { parent?.MotherId, parent?.FatherId })
+                {
+                    Character? grandparent = Find(id);
+                    if (grandparent != null)
+                    {
+                        AddClose(grandparent, T(grandparent.Gender == Gender.Female ? "ui.relacion.abuela" : "ui.relacion.abuelo"));
+                    }
+                }
+            }
+
+            family = false;
+            foreach (RelationshipBond bond in new[] { RelationshipBond.Friend, RelationshipBond.Rival, RelationshipBond.Ex })
+            {
+                foreach (Character other in RelationshipRules.WithBond(world, player, bond))
+                {
+                    AddClose(other, T("ui.relacion." + RelationshipRules.BondKey(bond)));
+                }
+            }
+
+            // Los conocidos: todos los demás con quienes tiene relación, vivos.
+            var acquaintances = new List<PersonRowView>();
+            foreach (Relationship relationship in player.Relationships)
+            {
+                Character? other = Find(relationship.OtherId);
+                if (other == null || !other.IsAlive || !seen.Add(other.Id))
+                {
+                    continue;
+                }
+
+                acquaintances.Add(Row(other, AcquaintanceRelation(other)));
+            }
+
+            // OrderBy es estable: con la misma fuerza queda el orden en que se agregaron.
+            // Primero la familia viva (en su orden: papás, pareja, hijos, hermanos, abuelos), después
+            // el resto por lo unidos que son y al final quienes murieron.
+            var closeRows = close.OrderByDescending(c => c.Alive).ThenByDescending(c => c.Family).ThenByDescending(c => c.Family ? 0 : c.Closeness).Select(c => c.Row).ToList();
+            var acquaintanceRows = acquaintances.OrderByDescending(a => a.Closeness).ToList();
+            return new PeopleView(closeRows, acquaintanceRows, Text("ui.gente.conocidos", acquaintanceRows.Count), AcquaintancesNote(player));
+        }
+
+        /// <summary>La ficha de una persona (D4a); null si no existe.</summary>
+        public PersonCardView? PersonCard(int personId)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            Character? person = Find(personId);
+            if (person == null || person.Id == player.Id)
+            {
+                return null;
+            }
+
+            PeopleView people = People();
+            PersonRowView row = people.Close.Concat(people.Acquaintances).FirstOrDefault(r => r.Id == personId)
+                ?? Row(person, AcquaintanceRelation(person));
+            GameDate at = person.DeathDate ?? world.Date;
+            var parts = new List<string> { row.Relation, Text("ui.gente.anos", person.AgeInYears(at)) };
+            if (person.IsAlive && person.Residence != null)
+            {
+                parts.Add(T(person.Residence.CommuneId));
+            }
+
+            var lived = world.EventHistory
+                .Where(r => r.CharacterId == player.Id && r.PersonId == personId && r.ChosenOption.HasValue)
+                .Reverse()
+                .Select(r => (Record: r, Text: Memory(r, person)))
+                .Where(x => x.Text != null)
+                .Take(MaxLived)
+                .Select(x => new LivedView(Text("ui.gente.a_los", player.AgeInYears(x.Record.Date)), x.Text!))
+                .ToList();
+            IReadOnlyList<DoableActionView> actions = !person.IsAlive ? new List<DoableActionView>()
+                : Content.ActionDefinition.Groups.SelectMany(g => Actions(g)).Where(a => a.PersonId == personId).ToList();
+            IReadOnlyList<ActionView> requests = person.IsAlive ? PersonActions(personId) : new List<ActionView>();
+            return new PersonCardView(row, string.Join(" · ", parts), row.Life, lived, actions, requests);
+        }
+
+        /// <summary>Una línea de la lista de Tu gente.</summary>
+        private PersonRowView Row(Character person, string relation)
+        {
+            World world = Session.World;
+            GameDate at = person.DeathDate ?? world.Date;
+            string name = person.FirstName + " " + person.LastName.Split(' ')[0];
+            string initials = person.FirstName.Substring(0, 1) + (person.LastName.Length > 0 ? person.LastName.Substring(0, 1) : string.Empty);
+            if (!person.IsAlive)
+            {
+                return new PersonRowView(person.Id, name, initials, person.AgeInYears(at), false, relation,
+                    Text("ui.gente.vida.fallecio", person.AgeInYears(at)), 0, string.Empty, LifeBarLevel.Low);
+            }
+
+            Relationship toward = RelationshipRules.Feelings(world, person, world.Player);
+            bool resentful = toward.Resentment >= VisibleResentment;
+            LifeBarLevel level = resentful ? LifeBarLevel.Low
+                : toward.Affection >= 60 ? LifeBarLevel.Good
+                : toward.Affection >= 40 ? LifeBarLevel.Middle
+                : LifeBarLevel.Low;
+            return new PersonRowView(person.Id, name, initials, person.AgeInYears(at), true, relation, LifeLine(person), toward.Affection, T(FeelingKey(toward)), level);
+        }
+
+        /// <summary>
+        /// La vida de una persona en una línea, solo con lo que el juego sabe de verdad: si va a tu
+        /// curso, si trabaja contigo (o te dirige), si es tu profe o qué estudia. Vacío si nada.
+        /// </summary>
+        private string LifeLine(Character person)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            SchoolClassView? cls = player.SchoolClass == null ? null : SchoolClass();
+            if (cls != null && Education.SchoolRules.Classmates(world, player).Any(c => c.Id == person.Id))
+            {
+                return Text("ui.gente.vida.curso", cls.Name);
+            }
+
+            if (cls != null && Education.SchoolRules.Teacher(world, player)?.Id == person.Id)
+            {
+                return Text("ui.gente.vida.profe", cls.Name);
+            }
+
+            if (Work.WorkRules.InTeam(player))
+            {
+                Company? company = world.CompanyById(player.Job?.CompanyId);
+                string? companyName = company?.NameId == null ? null : T(company.NameId);
+                bool boss = Work.WorkRules.Boss(world, player)?.Id == person.Id;
+                if (boss || Work.WorkRules.Colleagues(world, player).Any(c => c.Id == person.Id))
+                {
+                    string key = boss ? "ui.gente.vida.jefatura" : "ui.gente.vida.colega";
+                    return companyName == null ? T(key + "_sin_empresa") : Text(key, companyName);
+                }
+            }
+
+            if (person.Studies != null)
+            {
+                return Text("ui.gente.vida.estudia", T(person.Studies.CareerId));
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>Qué es tuyo un conocido: compañera de curso, colega, tu jefatura, tu profe o, si no, "Conocido".</summary>
+        private string AcquaintanceRelation(Character person)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            string g = person.Gender == Gender.Female ? ".f" : ".m";
+            if (player.SchoolClass != null && Education.SchoolRules.Classmates(world, player).Any(c => c.Id == person.Id))
+            {
+                return T("ui.relacion.companero" + g);
+            }
+
+            if (player.SchoolClass != null && Education.SchoolRules.Teacher(world, player)?.Id == person.Id)
+            {
+                return T("ui.relacion.profe" + g);
+            }
+
+            if (Work.WorkRules.InTeam(player) && Work.WorkRules.Boss(world, player)?.Id == person.Id)
+            {
+                return T("ui.relacion.jefatura" + g);
+            }
+
+            Relationship mine = RelationshipRules.Feelings(world, player, person);
+            if (mine.Bond == RelationshipBond.Colleague)
+            {
+                bool current = Work.WorkRules.InTeam(player) && Work.WorkRules.Colleagues(world, player).Any(c => c.Id == person.Id);
+                return current ? T("ui.relacion.colega") : T("ui.relacion.ex_colega" + g);
+            }
+
+            return T("ui.relacion.conocido" + g);
+        }
+
+        /// <summary>De dónde son tus conocidos, en palabras: "tu curso, tu profe y tus colegas".</summary>
+        private string AcquaintancesNote(Character player)
+        {
+            var parts = new List<string>();
+            if (player.SchoolClass != null)
+            {
+                parts.Add(T(Education.UniversityRules.InSection(player) ? "ui.gente.de.seccion" : "ui.gente.de.curso"));
+            }
+
+            if (Work.WorkRules.InTeam(player))
+            {
+                parts.Add(T("ui.gente.de.pega"));
+            }
+
+            parts.Add(T("ui.gente.de.momentos"));
+            return parts.Count == 1 ? parts[0] : string.Join(", ", parts.Take(parts.Count - 1)) + T("ui.lista.y") + parts[parts.Count - 1];
+        }
+
+        /// <summary>Los hermanos y hermanas: hijos de la misma mamá o del mismo papá.</summary>
+        private IEnumerable<Character> Siblings(Character player)
+        {
+            World world = Session.World;
+            var parents = new[] { player.MotherId, player.FatherId }.Where(id => id.HasValue).Select(id => id!.Value);
+            return parents.SelectMany(id => world.ChildrenOf(id)).Where(c => c.Id != player.Id).GroupBy(c => c.Id).Select(g => g.First()).OrderBy(c => c.BirthDate.TotalWeeks);
+        }
+
+        private Character? Find(int? id) =>
+            id.HasValue && Session.World.TryGetCharacter(id.Value, out Character? found) ? found : null;
 
         private IReadOnlyList<PersonView> Family(Character player)
         {

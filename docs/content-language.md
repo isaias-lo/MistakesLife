@@ -895,13 +895,13 @@ Mensajito es la app de mensajes del celular. **Nadie inventado escribe**: cada m
 | `edad_minima`, `edad_maxima` | La edad de quien escribe (un hijo en el colegio, un hijo ya adulto). Nadie escribe antes de los 12 |
 | `condiciones` | Opcional. Condición sobre el jugador (`jugador.trabaja`, `jugador.edad < 18`) |
 | `respuestas` | Lo que el jugador puede contestar, cada una con su `id` (clave del texto) y cuánto cambia en quien escribió: `carino`, `confianza`, `respeto`, `rencor`. Sin respuestas, el mensaje no espera nada (una cadena reenviada) |
-| `si_no_respondes` | Lo que cambia si el jugador no contesta en 2 semanas (lo dejó en visto) |
+| `si_no_respondes` | Lo que cambia si el jugador abrió la conversación y no contesta en 2 semanas (lo dejó en visto). Si nunca la abrió, a las 6 semanas el mensaje deja de esperar respuesta sin cambiar nada: avanzar no castiga |
 
 Sin la app no llega nada, y lo que pasó antes de tenerla no llega después. Las conversaciones son una cuenta (como el correo): si pierde el celular, vuelven al tener la app otra vez. Unity las lee con `LifePresenter.Chats()` y `Chat(id)`, y contesta con `ReplyChat(id, respuesta)`.
 
 ### Escribir tú primero (escribir/)
 
-El jugador también puede escribirle primero a la gente de su vida ("Nuevo chat"). Lo que puede escribirle a cada uno va en `escribir/*.json` (una lista). **La otra persona contesta según lo que siente por él**: la semana siguiente le llega la primera respuesta cuyo cariño y rencor calcen con lo que esa persona siente; si ninguna calza, lo deja en visto.
+El jugador también puede escribirle primero a la gente de su vida ("Nuevo chat"). Lo que puede escribirle a cada uno va en `escribir/*.json` (una lista). **La otra persona contesta según lo que siente por él**, en vivo (con el tiempo parado): al tiro le llega la primera respuesta cuyo cariño y rencor calcen con lo que esa persona siente; si ninguna calza, lo deja en visto. A una misma persona se le escribe primero una vez por semana.
 
 ```json
 [
@@ -942,7 +942,8 @@ Cada archivo es una lista:
 | `condiciones` | Condición extra en el lenguaje de condiciones (por ejemplo `jugador.tiene_celular`) |
 | `franjas` | `tarde`, `noche` o las dos (por defecto, las dos) |
 | `con` | Con quién se hace: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival`, `ex`, `companero` o `profe`. Solo se puede elegir si esa persona existe, y el cariño se mueve con ella |
-| `aporta` | Cuánto mueve por cada bloque en que está, de -3 a 3: `animo`, `mente`, `salud`, `carino` (este último necesita `con`) |
+| `aporta` | Cuánto mueve por cada bloque en que está, de -3 a 3: `animo`, `mente`, `salud`, `carino` (este último necesita `con`), `energia` (lo que cansa o descansa: dormir temprano descansa, el carrete cansa) y `apariencia` (hábitos que se notan: el deporte suma, el carrete resta) |
+| `tiempo_libre` | `true` si es tiempo muerto (la tele, el celular): ese bloque cuenta como tarde libre para hacer algo con el tiempo parado, igual que uno vacío (ver "Hacer algo con el tiempo parado") |
 | `tendencia` | Qué tan probable es que la elija alguien sin el jugador (simulador, horario sugerido); por defecto 50 |
 
 Cómo pesa (`RoutineSystem`):
@@ -952,6 +953,32 @@ Cómo pesa (`RoutineSystem`):
 - **Salud:** cada mes sube o baja un punto si la suma de salud es 4 o más (o -4 o menos). El envejecimiento hace el resto.
 - **Cariño:** cada mes, con cada persona de `con`, sube lo que diga `carino` en los dos sentidos (lo que tú sientes y lo que siente esa persona).
 - Si una actividad deja de tener sentido (ya no hay amigos, pasó la edad), queda en el horario pero no cuenta hasta que la cambies.
+
+## Hacer algo con el tiempo parado (acciones/)
+
+Lo que el jugador hace con el tiempo parado, desde cada grupo de la pantalla principal (D3 en `docs/roadmap.md`): estudiar para la prueba, juntarse con un amigo, hacer deporte, descansar. **Da resultado al tiro** (las barras cambian en verde o rojo) y **gasta tardes libres del mes**.
+
+Las tardes libres salen del horario real (`FreeTimeRules`): cada bloque de la semana vacío o con una actividad `tiempo_libre` (la tele, el celular) es una tarde libre que se puede usar este mes, hasta 10. Si la semana está llena de deporte, amigos o hijos, quedan menos. Al empezar otro mes vuelven todas.
+
+Cada archivo es una lista:
+
+```json
+{ "id": "accion.juntarse_amigo", "grupo": "gente", "con": "amigo", "edad_minima": 8,
+  "cambia": { "felicidad": 3, "carino": 3, "energia": -1 } }
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | `accion.<nombre>`; es también la clave de su nombre en `lang/` ("Juntarte con {persona}"). `id.por_que` es la línea que explica por qué tiene sentido ahora y `id.resultado` lo que pasó; las tres pueden usar `{persona}` |
+| `grupo` | Dónde aparece: `gente`, `estudios`, `trabajo`, `salud` o `dinero` |
+| `edad_minima`, `edad_maxima` | Edades en que tiene sentido |
+| `condiciones` | Condición extra (por ejemplo `jugador.prueba_anunciada`) |
+| `con` | Con quién se hace (los mismos lugares que en `actividades/`): aparece una vez por cada persona que ocupa ese lugar |
+| `tardes` | Cuántas tardes libres gasta, de 1 a 3 (por defecto 1) |
+| `veces_al_mes` | Cuántas veces se puede hacer al mes, con cada persona si lleva `con` (por defecto 1) |
+| `cambia` | Lo que cambia al hacerla, de -8 a 8: `felicidad`, `salud`, `inteligencia`, `apariencia`, `energia`, `carino` (lo que se sienten los dos con la persona; necesita `con`) y `preparar_prueba` (un nivel más de preparación para la prueba anunciada; necesita la condición `jugador.prueba_anunciada`). Es también lo que el jugador ve antes de elegirla |
+
+Con un momento esperando, primero se decide el momento: mientras tanto no se puede hacer nada.
 
 ## Lo que quiero (deseos/)
 
@@ -1024,6 +1051,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 |---|---|
 | `jugador.edad`, `jugador.edad_semanas` | Edad en años o semanas |
 | `jugador.salud`, `jugador.felicidad`, `jugador.inteligencia` | 0 a 100, se pueden cambiar |
+| `jugador.energia`, `jugador.apariencia` | 0 a 100, se pueden cambiar. La energía se acerca cada semana a la que deja su vida (horario, pega, estudios, hijos chicos, salud) y la apariencia parte de lo heredado y se mueve un punto al mes con sus hábitos, su salud y su edad (`Life.EnergyRules`, `Life.LooksRules`). Unas vacaciones, por ejemplo, hacen `jugador.energia += 25` |
 | `jugador.vivo`, `jugador.sexo` | `true`/`false`; `'femenino'`/`'masculino'` |
 | `jugador.genero` | Género con que vive y figura en su registro: `'femenino'`, `'masculino'` o `'no_binario'`. Al nacer, el de su sexo |
 | `jugador.identidad` | Género que siente (oculto). Si es distinto de `jugador.genero`, puede vivir ese camino con los eventos |

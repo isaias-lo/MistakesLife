@@ -115,7 +115,7 @@ namespace MistakesLife.Core.Saving
                 Parse<Sex>(d.Sex),
                 Date(d.BirthWeek),
                 new Personality(p[0], p[1], p[2], p[3], p[4]),
-                new Stats(d.Health, d.Happiness, d.Smarts))
+                new Stats(d.Health, d.Happiness, d.Smarts, d.Energy ?? Stats.StartingEnergy, d.Looks ?? Stats.UnknownLooks))
             {
                 Gender = Parse<Gender>(d.Gender),
                 GenderIdentity = Parse<Gender>(d.GenderIdentity),
@@ -128,6 +128,7 @@ namespace MistakesLife.Core.Saving
                 SpouseId = d.SpouseId,
                 UnionTypeId = d.UnionTypeId,
                 LivesWithId = d.LivesWithId,
+                InheritedLooks = d.InheritedLooks,
                 SharedCustody = d.SharedCustody,
                 HouseholdLevel = d.HouseholdLevel,
                 Money = d.Money,
@@ -328,6 +329,13 @@ namespace MistakesLife.Core.Saving
                 }
 
                 character.Routine = routine;
+            }
+
+            if (d.FreeTime != null)
+            {
+                var freeTime = new Life.FreeTime(d.FreeTime.MonthKey) { Used = d.FreeTime.Used };
+                freeTime.Done.AddRange(d.FreeTime.Done);
+                character.FreeTime = freeTime;
             }
 
             foreach (OwnRuleData r in d.OwnRules ?? new List<OwnRuleData>())

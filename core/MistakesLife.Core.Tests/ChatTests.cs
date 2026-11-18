@@ -139,7 +139,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void SinAbrirElChat_EsperaMas_PeroTambienSeSienteIgnorada()
+        public void SinAbrirElChat_DejaDeEsperar_SinEnojarse_PorqueAvanzarNoCastiga()
         {
             LifeSession session = Session();
             Character mother = Mother(session);
@@ -154,7 +154,25 @@ namespace MistakesLife.Core.Tests
 
             ChatWeeks(session, ChatSystem.UnseenWeeks);
             Assert.NotEqual("chat.madre.cumpleanos", chat.AwaitingReply);
-            Assert.True(Feelings(session, mother).Affection < before);
+            Assert.True(Feelings(session, mother).Affection >= before, $"el cariño pasó de {before} a {Feelings(session, mother).Affection}.");
+        }
+
+        [Fact]
+        public void AbrirElChatTarde_LaEsperaCuentaDesdeQueLoViste()
+        {
+            LifeSession session = Session();
+            Character mother = Mother(session);
+            ChatWeeks(session, 1);
+            session.World.WriteJournal(Player(session).Id, "diario.cumpleanos");
+            ChatWeeks(session, 1);
+            Chat chat = Player(session).Chats!.With(mother.Id)!;
+
+            // Avanzó un mes sin mirar el celular: el mensaje sigue esperando.
+            ChatWeeks(session, ChatSystem.UnseenWeeks - 1);
+            session.ReadChat(mother.Id);
+            Assert.Equal(session.World.Date, chat.AwaitingSince);
+            ChatWeeks(session, ChatSystem.ReplyWeeks - 1);
+            Assert.Equal("chat.madre.cumpleanos", chat.AwaitingReply);
         }
 
         [Fact]

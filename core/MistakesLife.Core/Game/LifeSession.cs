@@ -86,6 +86,8 @@ namespace MistakesLife.Core.Game
                 .Register(new JobSearchSystem(content))
                 .Register(new Work.WorkSystem(content))
                 .Register(new AgingSystem())
+                .Register(new EnergySystem(content))
+                .Register(new LooksSystem(content))
                 .Register(new MortalitySystem(content))
                 .Register(new RelativesFamilySystem(content))
                 .Register(new RelationshipSystem())
@@ -400,11 +402,26 @@ namespace MistakesLife.Core.Game
             mail.MarkRead(index);
         }
 
+        /// <summary>
+        /// El jugador hace algo con el tiempo parado (una acción de acciones/, con esa persona si la
+        /// acción es con alguien): gasta tardes libres del mes y cambia lo que dice, al tiro.
+        /// Devuelve lo que cambió de verdad.
+        /// </summary>
+        public IReadOnlyList<Life.ActionChange> DoAction(string actionId, int? personId)
+        {
+            if (Pending != null)
+            {
+                throw new InvalidOperationException("Hay un evento pendiente: primero se elige su opción.");
+            }
+
+            return Life.ActionRules.Do(World, Content, World.Player, actionId, personId);
+        }
+
         /// <summary>El jugador abre su conversación de Mensajito con esa persona: ve todos sus mensajes.</summary>
         public void ReadChat(int otherId)
         {
             ChatInbox chats = World.Player.Chats ?? throw new InvalidOperationException("El jugador no tiene Mensajito.");
-            chats.MarkRead(otherId);
+            chats.MarkRead(otherId, World.Date);
         }
 
         /// <summary>
@@ -426,7 +443,7 @@ namespace MistakesLife.Core.Game
 
         /// <summary>
         /// El jugador le escribe primero a esa persona por Mensajito (un id de packs/*/escribir/
-        /// que se le pueda escribir ahora). Contesta la semana siguiente, según lo que sienta.
+        /// que se le pueda escribir ahora). Contesta al tiro, según lo que sienta, o lo deja en visto.
         /// </summary>
         public void WriteChat(int otherId, string openerId)
         {

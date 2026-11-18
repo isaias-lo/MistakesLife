@@ -13,7 +13,7 @@ namespace MistakesLife.Core.Content
     public sealed class ActivityDefinition
     {
         /// <summary>Lo que puede mover una actividad.</summary>
-        public static readonly string[] Contributions = { "animo", "mente", "salud", "carino" };
+        public static readonly string[] Contributions = { "animo", "mente", "salud", "carino", "energia", "apariencia" };
 
         /// <summary>Los bloques del día que se pueden llenar.</summary>
         public static readonly string[] Blocks = { "tarde", "noche" };
@@ -49,6 +49,13 @@ namespace MistakesLife.Core.Content
         /// <summary>Cuánto mueve cada cosa por bloque a la semana (animo, mente, salud, carino), de -3 a 3.</summary>
         [JsonProperty("aporta")]
         public Dictionary<string, int> Contributes { get; set; } = new Dictionary<string, int>();
+
+        /// <summary>
+        /// Si es tiempo muerto (la tele, el celular): un bloque con esto cuenta como tarde libre
+        /// para hacer algo con el tiempo parado (<see cref="Life.FreeTimeRules"/>), igual que uno vacío.
+        /// </summary>
+        [JsonProperty("tiempo_libre")]
+        public bool IsFreeTime { get; set; }
 
         /// <summary>Qué tan probable es que alguien la elija sin el jugador (simulador, horario sugerido).</summary>
         [JsonProperty("tendencia")]

@@ -30,6 +30,14 @@ namespace MistakesLife.Core.Saving
 
         public int Smarts { get; set; }
 
+        /// <summary>Null en guardados de antes de la versión 36 (parte descansado).</summary>
+        public int? Energy { get; set; }
+
+        /// <summary>Null en guardados de antes de la versión 36 (se calcula al seguir jugando).</summary>
+        public int? Looks { get; set; }
+
+        public int? InheritedLooks { get; set; }
+
         public int? MotherId { get; set; }
 
         public int? FatherId { get; set; }
@@ -142,6 +150,9 @@ namespace MistakesLife.Core.Saving
 
         /// <summary>El horario (desde la versión 19).</summary>
         public RoutineData? Routine { get; set; }
+
+        /// <summary>Las tardes libres usadas este mes (desde la versión 37); null si no ha usado ninguna.</summary>
+        public FreeTimeData? FreeTime { get; set; }
 
         /// <summary>Las reglas propias (desde la versión 21); null si no tiene, para que el guardado no crezca.</summary>
         public List<OwnRuleData>? OwnRules { get; set; }

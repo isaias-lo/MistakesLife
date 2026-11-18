@@ -64,6 +64,24 @@ namespace MistakesLife.Core.Time
         /// <summary>Si esta es la primera semana de su mes (ahí se pagan sueldos y cuentas, y suben los precios).</summary>
         public bool IsFirstWeekOfMonth => WeekIndexInYear == 0 || Month != MonthOfDay(DayOfYear - 7);
 
+        /// <summary>
+        /// Semanas que faltan para la primera semana del mes que viene (de 1 a 5): lo que
+        /// avanza "Seguir un mes" si no pasa nada antes.
+        /// </summary>
+        public int WeeksToNextMonth
+        {
+            get
+            {
+                int weeks = 1;
+                while (!AddWeeks(weeks).IsFirstWeekOfMonth)
+                {
+                    weeks++;
+                }
+
+                return weeks;
+            }
+        }
+
         private int WeekIndexInYear => TotalWeeks % WeeksPerYear;
 
         /// <summary>

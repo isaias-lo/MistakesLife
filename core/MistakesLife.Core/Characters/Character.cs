@@ -94,6 +94,12 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public int? LivesWithId { get; set; }
 
+        /// <summary>
+        /// La apariencia que heredó al nacer, de su mamá y su papá (oculta). Sus hábitos, su
+        /// salud y su edad la mueven desde ahí. Null mientras no se ha calculado (ver <see cref="Life.LooksRules"/>).
+        /// </summary>
+        public int? InheritedLooks { get; set; }
+
         /// <summary>Si sus papás separados acordaron el cuidado compartido: vive con los dos.</summary>
         public bool SharedCustody { get; set; }
 
@@ -349,6 +355,9 @@ namespace MistakesLife.Core.Characters
 
         /// <summary>El horario del jugador (qué hace cada tarde y noche); null antes de los 6 años o para quien no es jugador.</summary>
         public Life.Routine? Routine { get; set; }
+
+        /// <summary>Las tardes libres que el jugador usó este mes en acciones con el tiempo parado (null si no ha usado ninguna).</summary>
+        public Life.FreeTime? FreeTime { get; set; }
 
         /// <summary>Las reglas propias del jugador ("si hay prueba, estudio"): lo ya decidido no se vuelve a preguntar.</summary>
         public System.Collections.Generic.List<Life.OwnRule> OwnRules { get; } = new System.Collections.Generic.List<Life.OwnRule>();

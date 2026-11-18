@@ -38,7 +38,7 @@ El núcleo sigue avanzando de a una semana por dentro; "Un mes" y "Un año" son 
 
 ### Volver al pasado
 
-Es un **botón circular chico** al lado de los botones de avanzar, y **solo aparece si el jugador lo compró**. También sigue apareciendo frente al error que vuelve, como ya existe. Antes de programarlo, Isaias quiere ver bocetos de los dos botones (Seguir grande más círculo chico, o dos círculos).
+Es un **botón circular chico** al lado de los botones de avanzar, y **solo aparece si el jugador lo compró**. También sigue apareciendo frente al error que vuelve, como ya existe. Isaias vio 8 formas de ordenar los tres botones y eligió la 1: el círculo chico de Volver al pasado, "Seguir un mes" ancho y "Un año" al lado (boceto M1Ancho, y S1Filas con las barras). Mientras no exista la tienda, el círculo aparece si quedan cargas y un momento al que volver.
 
 ## Pantalla principal, barras, íconos y letras
 
@@ -61,8 +61,8 @@ Al entrar al colegio, la universidad o el trabajo, la escena muestra el lugar co
 | Felicidad | carita | |
 | Salud | corazón con pulso | |
 | Inteligencia | ampolleta | |
-| Apariencia | estrella | |
-| Energía | rayo | La batería del celular la refleja |
+| Apariencia | estrella | Se hereda de la mamá y el papá (más el azar de la partida). Cambia con deporte, sueño, carrete y salud; sube en la juventud y baja desde los 45. Pesa al buscar pega |
+| Energía | rayo | Baja con la pega, el estudio, un horario lleno, los hijos chicos y la enfermedad; sube con tardes libres, dormir temprano y vacaciones. Con los años cuesta más recuperarla. Bajo 30 rindes menos. La batería del celular la refleja |
 
 Colores verde, amarillo y rojo según el nivel. **Reputación** existe como barra aparte. **Fama** queda preparada pero apagada hasta que lleguen MiTubo y Mercado. Los **talentos heredables** quedan para más adelante.
 
@@ -101,6 +101,8 @@ Dos niveles:
 
 Con el tiempo parado, cada grupo ofrece acciones que **dan resultado al tiro** (la barra sube o baja en verde o rojo, con sonido) y **gastan tardes libres** del mes. Ejemplos: estudiar un ramo, hablarle a alguien, pedir un aumento, ir al médico, abrir una cuenta. Las acciones no son cuestionarios para avanzar: son decisiones con consecuencia.
 
+Isaias eligió (17-11-2026) **el contador del mes**: "Te quedan 5 tardes libres", y cada acción gasta una. El número sale del horario real: los bloques vacíos o con tiempo muerto (tele, celular). También eligió que las acciones vivan **dentro de cada grupo** (boceto D3Grupo), con una franja del contador en la pantalla principal (boceto D3Contador) y el resultado al tiro (boceto D3Resultado). Las primeras acciones son estudiar para la prueba, repasar, estudiar con un compañero, juntarte con un amigo, salir con tu pareja, pasar la tarde con tu hijo, hacer deporte y descansar. Pedir un aumento ya está en la pega. Ir al médico llega con Salud (D8), porque necesita la previsión y las listas de espera reales.
+
 ## Tu gente y la pareja
 
 ### Quién aparece
@@ -108,6 +110,8 @@ Con el tiempo parado, cada grupo ofrece acciones que **dan resultado al tiro** (
 - **Cercanos arriba** y una sección **"Conocidos" cerrada** debajo.
 - **Cada persona tiene vida real:** oficio o profesión, cargo, empresa, lo que le pasa.
 - **La relación se ve con barra, cara y palabra.** Con un desconocido la barra está gris y casi vacía. Nada de números.
+- **Boceto elegido (18-11-2026): A.** Los cercanos van en tarjetas de papel con su vida en una línea, la barra y la palabra; la familia primero, después amistades, rivales y ex; quien murió al final, sin barra. "Conocidos · N" va plegado abajo. Al tocar a alguien se abre su ficha: su vida, lo que han vivido juntos y lo que pueden hacer.
+- **Las pegas de la gente son reales (regla de Isaias, 18-11-2026).** La gente solo trabaja en los trabajos que existen enteros en el juego (hoy software, contabilidad, psicología, vendedor, garzón y maestro); no hay listas de pegas con solo el nombre. Y solo la parte real según el INE tiene una de esas pegas; el resto muestra lo que es real (estudia, jubilado, busca pega). Cuando se agrega una carrera u oficio, aparece gente trabajando en ella.
 
 ### Cómo nacen las amistades
 
@@ -287,5 +291,5 @@ Todo lo que este documento no cambia sigue igual: el ritmo "rutina + momentos" (
 
 ### Próximos pasos
 
-1. **Bocetos antes de programar** cada módulo, con opciones para que Isaias elija: primero los dos botones de avanzar con Volver al pasado, luego la ficha de persona, Estudios y Dinero.
+1. **Bocetos antes de programar** cada módulo, con opciones para que Isaias elija: los botones de avanzar ya están elegidos; siguen la ficha de persona, Estudios y Dinero.
 2. Recién con bocetos aprobados se programa, un módulo por PR (ver la serie D en `docs/roadmap.md`).
