@@ -941,6 +941,7 @@ Cada archivo es una lista:
 | `franjas` | `tarde`, `noche` o las dos (por defecto, las dos) |
 | `con` | Con quién se hace: `madre`, `padre`, `pareja`, `hijo`, `amigo`, `colega`, `rival`, `ex`, `companero` o `profe`. Solo se puede elegir si esa persona existe, y el cariño se mueve con ella |
 | `aporta` | Cuánto mueve por cada bloque en que está, de -3 a 3: `animo`, `mente`, `salud`, `carino` (este último necesita `con`), `energia` (lo que cansa o descansa: dormir temprano descansa, el carrete cansa) y `apariencia` (hábitos que se notan: el deporte suma, el carrete resta) |
+| `tiempo_libre` | `true` si es tiempo muerto (la tele, el celular): ese bloque cuenta como tarde libre para hacer algo con el tiempo parado, igual que uno vacío (ver "Hacer algo con el tiempo parado") |
 | `tendencia` | Qué tan probable es que la elija alguien sin el jugador (simulador, horario sugerido); por defecto 50 |
 
 Cómo pesa (`RoutineSystem`):
@@ -950,6 +951,32 @@ Cómo pesa (`RoutineSystem`):
 - **Salud:** cada mes sube o baja un punto si la suma de salud es 4 o más (o -4 o menos). El envejecimiento hace el resto.
 - **Cariño:** cada mes, con cada persona de `con`, sube lo que diga `carino` en los dos sentidos (lo que tú sientes y lo que siente esa persona).
 - Si una actividad deja de tener sentido (ya no hay amigos, pasó la edad), queda en el horario pero no cuenta hasta que la cambies.
+
+## Hacer algo con el tiempo parado (acciones/)
+
+Lo que el jugador hace con el tiempo parado, desde cada grupo de la pantalla principal (D3 en `docs/roadmap.md`): estudiar para la prueba, juntarse con un amigo, hacer deporte, descansar. **Da resultado al tiro** (las barras cambian en verde o rojo) y **gasta tardes libres del mes**.
+
+Las tardes libres salen del horario real (`FreeTimeRules`): cada bloque de la semana vacío o con una actividad `tiempo_libre` (la tele, el celular) es una tarde libre que se puede usar este mes, hasta 10. Si la semana está llena de deporte, amigos o hijos, quedan menos. Al empezar otro mes vuelven todas.
+
+Cada archivo es una lista:
+
+```json
+{ "id": "accion.juntarse_amigo", "grupo": "gente", "con": "amigo", "edad_minima": 8,
+  "cambia": { "felicidad": 3, "carino": 3, "energia": -1 } }
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | `accion.<nombre>`; es también la clave de su nombre en `lang/` ("Juntarte con {persona}"). `id.por_que` es la línea que explica por qué tiene sentido ahora y `id.resultado` lo que pasó; las tres pueden usar `{persona}` |
+| `grupo` | Dónde aparece: `gente`, `estudios`, `trabajo`, `salud` o `dinero` |
+| `edad_minima`, `edad_maxima` | Edades en que tiene sentido |
+| `condiciones` | Condición extra (por ejemplo `jugador.prueba_anunciada`) |
+| `con` | Con quién se hace (los mismos lugares que en `actividades/`): aparece una vez por cada persona que ocupa ese lugar |
+| `tardes` | Cuántas tardes libres gasta, de 1 a 3 (por defecto 1) |
+| `veces_al_mes` | Cuántas veces se puede hacer al mes, con cada persona si lleva `con` (por defecto 1) |
+| `cambia` | Lo que cambia al hacerla, de -8 a 8: `felicidad`, `salud`, `inteligencia`, `apariencia`, `energia`, `carino` (lo que se sienten los dos con la persona; necesita `con`) y `preparar_prueba` (un nivel más de preparación para la prueba anunciada; necesita la condición `jugador.prueba_anunciada`). Es también lo que el jugador ve antes de elegirla |
+
+Con un momento esperando, primero se decide el momento: mientras tanto no se puede hacer nada.
 
 ## Lo que quiero (deseos/)
 

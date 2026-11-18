@@ -331,6 +331,13 @@ namespace MistakesLife.Core.Saving
                 character.Routine = routine;
             }
 
+            if (d.FreeTime != null)
+            {
+                var freeTime = new Life.FreeTime(d.FreeTime.MonthKey) { Used = d.FreeTime.Used };
+                freeTime.Done.AddRange(d.FreeTime.Done);
+                character.FreeTime = freeTime;
+            }
+
             foreach (OwnRuleData r in d.OwnRules ?? new List<OwnRuleData>())
             {
                 character.OwnRules.Add(new Life.OwnRule(r.Key, r.Choice)
