@@ -226,7 +226,7 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>Lo que cambia, en fichas: verdes lo bueno, rojas lo que cuesta. Si no caben en una fila, bajan a otra.</summary>
-        private static void Chips(RectTransform parent, IReadOnlyList<ChangeView> changes)
+        public static void Chips(RectTransform parent, IReadOnlyList<ChangeView> changes)
         {
             if (changes.Count == 0)
             {
