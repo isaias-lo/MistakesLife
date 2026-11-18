@@ -34,5 +34,11 @@
   "ui.relacion.ex_colega.f": "Fue tu colega",
   "ui.relacion.ex_colega.m": "Fue tu colega",
   "ui.relacion.conocido.f": "Conocida",
-  "ui.relacion.conocido.m": "Conocido"
+  "ui.relacion.conocido.m": "Conocido",
+  "ui.gente.vida.pega": "{0} en {1}",
+  "ui.gente.vida.trabaja": "Trabaja",
+  "ui.gente.vida.busca_pega": "Busca pega",
+  "ui.gente.vida.estudia_algo": "Estudia",
+  "ui.gente.vida.jubilado.f": "Jubilada",
+  "ui.gente.vida.jubilado.m": "Jubilado"
 }

@@ -148,6 +148,9 @@ namespace MistakesLife.Core.Saving
 
         public StudiesData? Studies { get; set; }
 
+        /// <summary>En qué anda alguien que nadie juega (Characters.WorkStatus), o null si no se ha mirado.</summary>
+        public string? WorkStatus { get; set; }
+
         /// <summary>El horario (desde la versión 19).</summary>
         public RoutineData? Routine { get; set; }
 
