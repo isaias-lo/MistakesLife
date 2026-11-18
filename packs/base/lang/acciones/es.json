@@ -32,5 +32,14 @@
   "ui.tardes.costo": "{0} tardes",
   "ui.accion.carino_sube": "{0} te quiere más",
   "ui.accion.carino_baja": "{0} te quiere menos",
-  "ui.accion.prueba_preparada": "Prueba mejor preparada"
+  "ui.accion.prueba_preparada": "Prueba mejor preparada",
+  "ui.tardes.donde": "las gastas en lo que haces en cada grupo",
+  "ui.accion.titulo": "Qué puedes hacer esta tarde",
+  "ui.accion.vacio": "Por ahora no hay nada que hacer aquí.",
+  "ui.accion.cuando": "{0} · tarde",
+  "ui.accion.ver.gente": "Ver tu gente y diario",
+  "ui.accion.ver.estudios": "Ver tu libreta y tu curso",
+  "ui.accion.ver.trabajo": "Ver tu equipo",
+  "ui.boton.listo": "Listo",
+  "ui.grupo.salud": "Salud"
 }

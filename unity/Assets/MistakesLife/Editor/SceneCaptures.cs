@@ -326,6 +326,9 @@ namespace MistakesLife.Unity.Editor
             // Tu equipo del trabajo: la jefatura y los colegas con nombre.
             count += Team(content, folder);
 
+            // Lo que puedes hacer con el tiempo parado: Estudios a los 14, con las tardes libres del mes.
+            count += Actions(content, folder);
+
             // Hasta que aparezca un evento, para que se vea la tarjeta de papel.
             for (int week = 0; week < 5 * 52 && life.Phase == LifePhase.Living; week++)
             {
@@ -424,6 +427,41 @@ namespace MistakesLife.Unity.Editor
             return 0;
         }
 
+        /// <summary>Lo que puedes hacer en Estudios a los 14 (D3): el contador del mes y la lista con lo que da cada cosa.</summary>
+        private static int Actions(ContentDatabase content, string folder)
+        {
+            var life = new LifePresenter(new LifeSession(content, 1, "pais.chile"));
+            if (!LiveUntil(life, content, null, 14))
+            {
+                return 0;
+            }
+
+            // Hasta un mes tranquilo con algo que hacer (con un momento encima, primero se decide).
+            for (int week = 0; week < 52; week++)
+            {
+                if (life.Phase == LifePhase.Choosing)
+                {
+                    life.Choose(Pick(life, content, null));
+                }
+                else if (life.Phase == LifePhase.Living && life.Actions("estudios").Count == 0)
+                {
+                    life.Session.Advance(1);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (life.Phase != LifePhase.Living || life.Actions("estudios").Count == 0)
+            {
+                Debug.LogWarning("Capturas: a los 14 no hubo nada que hacer en Estudios; no sale pantalla-acciones.png.");
+                return 0;
+            }
+
+            return CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-acciones.png"), actions: "estudios");
+        }
+
         /// <summary>
         /// La carpeta del juzgado: una vida en Chile hasta los 30 a la que le abren un juicio por
         /// deudas, y unas semanas después, para que se vea la línea del proceso avanzando.
@@ -457,7 +495,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -487,6 +525,11 @@ namespace MistakesLife.Unity.Editor
                 if (team)
                 {
                     screen.OpenTeamForCapture();
+                }
+
+                if (actions != null)
+                {
+                    screen.OpenActionsForCapture(actions);
                 }
 
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));
