@@ -2653,9 +2653,16 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, "si_no_respondes solo sirve si hay respuestas."));
                 }
 
+                chat.CompiledPersonConditions = CompileCondition(where + " (condiciones_persona)", chat.PersonConditions);
+                if (chat.MaxPerPerson.HasValue && chat.MaxPerPerson < 1)
+                {
+                    _errors.Add(new ContentError(where, "veces_por_persona tiene que ser 1 o más."));
+                }
+
                 foreach (ChatReplyDefinition reply in chat.Replies)
                 {
                     CheckId(where, reply.Id, "chat.");
+                    CompileEffects(where + $" (respuesta {reply.Id})", reply.Scripts, reply.CompiledScripts);
                 }
 
                 if (chat.Replies.Select(r => r.Id).Distinct().Count() != chat.Replies.Count)

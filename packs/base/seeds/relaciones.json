@@ -14,5 +14,13 @@
     "vence_anios": 3,
     "dormir_min_semanas": 8,
     "condiciones": "semilla('semilla.te_prestaron_plata').testigo != nada"
+  },
+  {
+    "id": "semilla.fuiste_aval",
+    "tipo": "ambigua",
+    "fuerza": 90,
+    "vence_anios": 2,
+    "dormir_min_semanas": 26,
+    "condiciones": "semilla('semilla.fuiste_aval').testigo != nada"
   }
 ]

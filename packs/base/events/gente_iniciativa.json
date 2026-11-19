@@ -1,0 +1,74 @@
+[
+  {
+    "id": "evento.gente.pide_aval",
+    "con": "amigo",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.edad >= 22 && jugador.trabaja && persona.edad >= 21 && persona.en_que_anda == 'trabaja' && persona.carino >= 55 && !semilla('semilla.fuiste_aval').activa",
+    "probabilidad_anual": 0.02,
+    "por_persona": true,
+    "veces_maximas": 1,
+    "opciones": [
+      {
+        "texto": "opcion.gente.pide_aval.firmar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino += 8",
+          "persona.confianza += 6",
+          "plantar('semilla.fuiste_aval', persona)",
+          "diario('diario.gente.fuiste_aval')"
+        ]
+      },
+      {
+        "texto": "opcion.gente.pide_aval.no",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 6",
+          "persona.rencor += 3"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.gente.pide_aval.2"
+    ],
+    "enfriamiento_semanas": 260
+  },
+  {
+    "id": "evento.gente.aval_cumple",
+    "con": "testigo",
+    "semilla": "semilla.fuiste_aval",
+    "condiciones": "semilla('semilla.fuiste_aval').testigo != nada && semilla('semilla.fuiste_aval').testigo.responsabilidad >= 40",
+    "efectos": [
+      "semilla('semilla.fuiste_aval').testigo.carino += 3",
+      "jugador.felicidad += 1"
+    ]
+  },
+  {
+    "id": "evento.gente.aval_cobra",
+    "con": "testigo",
+    "semilla": "semilla.fuiste_aval",
+    "condiciones": "semilla('semilla.fuiste_aval').testigo != nada && semilla('semilla.fuiste_aval').testigo.responsabilidad < 40",
+    "opciones": [
+      {
+        "texto": "opcion.gente.aval_cobra.pagar_y_reclamar",
+        "tendencia": "100 - jugador.amabilidad",
+        "efectos": [
+          "jugador.dinero -= precio(500000)",
+          "semilla('semilla.fuiste_aval').testigo.rencor += 10",
+          "semilla('semilla.fuiste_aval').testigo.confianza -= 20",
+          "jugador.felicidad -= 4",
+          "diario('diario.gente.pagaste_como_aval')"
+        ]
+      },
+      {
+        "texto": "opcion.gente.aval_cobra.pagar_y_callar",
+        "tendencia": "jugador.amabilidad",
+        "efectos": [
+          "jugador.dinero -= precio(500000)",
+          "semilla('semilla.fuiste_aval').testigo.confianza -= 10",
+          "jugador.felicidad -= 5",
+          "diario('diario.gente.pagaste_como_aval')"
+        ]
+      }
+    ]
+  }
+]

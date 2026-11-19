@@ -88,7 +88,14 @@ namespace MistakesLife.Core.Tests
                     continue;
                 }
 
-                Assert.True(Saw(session, "evento.descubrir_atraccion"));
+                // Descubrirlo es del azar de cada vida (35 % al año de los 12 a los 25): en unas
+                // 60 vidas medidas pasó en todas, pero no es seguro. Sin descubrirlo no sale del clóset.
+                if (!Saw(session, "evento.descubrir_atraccion"))
+                {
+                    Assert.False(player.HasFlag("fuera_del_closet"));
+                    continue;
+                }
+
                 if (player.HasFlag("fuera_del_closet"))
                 {
                     out_++;

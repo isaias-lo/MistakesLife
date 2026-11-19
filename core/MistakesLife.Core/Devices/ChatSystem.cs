@@ -110,6 +110,11 @@ namespace MistakesLife.Core.Devices
             if (world.TryGetCharacter(otherId, out Character? other) && other.IsAlive)
             {
                 Apply(world, other, character, reply);
+                var scope = new EventScope(world, content, character, null, readOnly: false, other);
+                foreach (Scripting.Effect effect in reply.CompiledScripts)
+                {
+                    effect.Apply(scope);
+                }
             }
         }
 
@@ -252,6 +257,9 @@ namespace MistakesLife.Core.Devices
             }
 
             return PeopleAs(world, character, definition.From)
+                .Where(p => definition.CompiledPersonConditions == null
+                    || definition.CompiledPersonConditions.Evaluate(new EventScope(world, content, character, null, readOnly: true, p)).AsBool(definition.Id))
+                .Where(p => !definition.MaxPerPerson.HasValue || TimesSent(character.Chats?.With(p.Id), definition.Id) < definition.MaxPerPerson.Value)
                 .Select(p => (Person: p, Feelings: RelationshipRules.Feelings(world, p, character)))
                 .Where(x => x.Person.AgeInYears(world.Date) >= definition.MinAge && x.Person.AgeInYears(world.Date) <= definition.MaxAge)
                 .Where(x => x.Feelings.Affection >= definition.MinAffection && x.Feelings.Affection <= definition.MaxAffection
@@ -262,8 +270,14 @@ namespace MistakesLife.Core.Devices
                 .ToList();
         }
 
-        private static void Send(Time.GameDate date, Character character, Character writer, ChatDefinition definition) =>
+        private static void Send(Time.GameDate date, Character character, Character writer, ChatDefinition definition)
+        {
             character.Chats!.Receive(writer.Id, date, definition.Id, expectsReply: definition.Replies.Count > 0);
+            if (definition.MaxPerPerson.HasValue)
+            {
+                character.Chats.With(writer.Id)!.CountLimited(definition.Id);
+            }
+        }
 
         /// <summary>Los mensajes que nadie contestó a tiempo: la otra persona se siente dejada en visto.</summary>
         private static void ExpireUnanswered(World world, ContentDatabase content, Character character)
@@ -482,6 +496,9 @@ namespace MistakesLife.Core.Devices
         /// <summary>Si el jugador ya le escribió primero esta semana (contestara o no).</summary>
         private static bool WroteThisWeek(World world, ContentDatabase content, Chat? chat) =>
             chat != null && chat.Messages.Any(m => m.FromPlayer && m.Date.TotalWeeks == world.Date.TotalWeeks && content.ChatOpener(m.TextKey) != null);
+
+        private static int TimesSent(Chat? chat, string chatId) =>
+            chat != null && chat.LimitedSent.TryGetValue(chatId, out int sent) ? sent : 0;
 
         private static bool SentRecently(World world, Chat? chat, string chatId) =>
             chat != null && chat.Messages.Any(m => !m.FromPlayer && m.TextKey == chatId && world.Date.WeeksSince(m.Date) < RepeatWeeks);

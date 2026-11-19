@@ -34,7 +34,8 @@ namespace MistakesLife.Core.Events
     /// comparte_arriendo (si alguien se vino a vivir con él y paga su parte),
     /// prevision, prevision_privada, tramo_salud, precio_plan_salud, semanas_desde_atencion,
     /// en_que_anda (de la gente que nadie juega: 'trabaja', 'busca_pega', 'estudia', 'jubilado',
-    /// 'nada', o nada si el juego todavía no la mira o es el jugador; ver PeopleWorkSystem).
+    /// 'nada', o nada si el juego todavía no la mira o es el jugador; ver PeopleWorkSystem),
+    /// cumple_esta_semana (si esta semana es su cumpleaños).
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada), en_tu_equipo (si
@@ -275,6 +276,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(_character.Job != null);
                 case "en_que_anda":
                     return TextOrNull(WorkStatusKey(_character.WorkStatus));
+                case "cumple_esta_semana":
+                    return Value.FromBool(_character.AgeInWeeks(((EventScope)scope).World.Date) % Time.GameDate.WeeksPerYear == 0);
                 case "meses_en_trabajo":
                     return Value.FromNumber(_character.Job?.MonthsInJob ?? 0);
                 case "ultimo_sueldo":
