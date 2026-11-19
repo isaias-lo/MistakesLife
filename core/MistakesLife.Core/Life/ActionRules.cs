@@ -52,9 +52,10 @@ namespace MistakesLife.Core.Life
                     continue;
                 }
 
-                foreach (Character person in ChatSystem.PeopleAs(world, character, action.With, 0).OrderBy(p => p.Id))
+                foreach (Character person in People(world, character, action.With).OrderBy(p => p.Id))
                 {
-                    if (TimesThisMonth(month, DoneKey(action, person)) < action.PerMonth)
+                    if (TimesThisMonth(month, DoneKey(action, person)) < action.PerMonth
+                        && (action.CompiledPersonConditions == null || action.CompiledPersonConditions.Evaluate(PersonScope(world, content, character, person, readOnly: true)).AsBool(action.Id)))
                     {
                         options.Add(new ActionOption(action, person));
                     }
@@ -69,11 +70,13 @@ namespace MistakesLife.Core.Life
             FreeTimeRules.Left(world, content, character) >= action.Afternoons;
 
         /// <summary>
-        /// La hace: gasta sus tardes y aplica lo que cambia. Devuelve lo que cambió de verdad (una
-        /// barra llena no sube más), en el orden de "cambia".
+        /// La hace: gasta sus tardes y, si la persona dice que sí (o la acción no lo pregunta),
+        /// aplica lo que cambia y lo demás que pasa ("efectos"); si dice que no, solo lo de
+        /// "si_no_acepta". Devuelve si dijo que sí y lo que cambió de verdad (una barra llena no
+        /// sube más), en el orden de "cambia".
         /// </summary>
         /// <exception cref="InvalidOperationException">Si ahora no la puede hacer (no está disponible o no le alcanzan las tardes).</exception>
-        public static IReadOnlyList<ActionChange> Do(World world, ContentDatabase content, Character character, string actionId, int? personId)
+        public static ActionOutcome Do(World world, ContentDatabase content, Character character, string actionId, int? personId)
         {
             ActionOption option = Available(world, content, character, null)
                 .FirstOrDefault(o => o.Definition.Id == actionId && o.Person?.Id == personId)
@@ -84,9 +87,11 @@ namespace MistakesLife.Core.Life
                 throw new InvalidOperationException($"No quedan tardes libres este mes para '{actionId}'.");
             }
 
+            bool accepted = option.Person == null || action.CompiledAccepts == null
+                || action.CompiledAccepts.Evaluate(PersonScope(world, content, character, option.Person, readOnly: true)).AsBool(action.Id);
             FreeTimeRules.Spend(world, character, action.Afternoons, DoneKey(action, option.Person));
             var changes = new List<ActionChange>();
-            foreach (KeyValuePair<string, int> pair in action.Effects)
+            foreach (KeyValuePair<string, int> pair in accepted ? action.Effects : action.IfDeclined)
             {
                 int delta = Apply(world, character, option.Person, pair.Key, pair.Value);
                 if (delta != 0)
@@ -95,8 +100,105 @@ namespace MistakesLife.Core.Life
                 }
             }
 
-            return changes;
+            if (accepted && action.CompiledScripts.Count > 0)
+            {
+                var scope = PersonScope(world, content, character, option.Person, readOnly: false);
+                foreach (Scripting.Effect effect in action.CompiledScripts)
+                {
+                    effect.Apply(scope);
+                }
+            }
+
+            return new ActionOutcome(accepted, changes);
         }
+
+        /// <summary>
+        /// Con quiénes se puede hacer una acción que dice "con": quienes ocupan ese lugar en su
+        /// vida (como en Mensajito), sus conocidos o cualquiera con quien tenga relación
+        /// (ver <see cref="ActionDefinition.ExtraRoles"/>).
+        /// </summary>
+        public static IReadOnlyList<Character> People(World world, Character character, string role)
+        {
+            if (role != ActionDefinition.Acquaintance && role != ActionDefinition.Anyone)
+            {
+                return ChatSystem.PeopleAs(world, character, role, 0);
+            }
+
+            var people = new List<Character>();
+            foreach (Relationship relationship in character.Relationships)
+            {
+                if (world.TryGetCharacter(relationship.OtherId, out Character? other) && other.IsAlive && other.Id != character.Id
+                    && (role == ActionDefinition.Anyone || IsAcquaintance(world, character, other, relationship)))
+                {
+                    people.Add(other);
+                }
+            }
+
+            if (role == ActionDefinition.Anyone)
+            {
+                // Y la familia y la pareja, aunque todavía no tengan nada guardado entre ellos.
+                var family = new List<Character>();
+                foreach (string kin in new[] { "madre", "padre", "pareja", "hijo" })
+                {
+                    family.AddRange(ChatSystem.PeopleAs(world, character, kin, 0));
+                }
+
+                family.AddRange(world.Characters.Where(c => c.IsAlive && c.Id != character.Id && RelationshipRules.IsFamily(world, character, c)));
+                foreach (Character parent in ChatSystem.PeopleAs(world, character, "madre", 0).Concat(ChatSystem.PeopleAs(world, character, "padre", 0)))
+                {
+                    foreach (int? id in new[] { parent.MotherId, parent.FatherId, parent.SecondParentId })
+                    {
+                        if (id.HasValue && world.TryGetCharacter(id.Value, out Character? grandparent) && grandparent.IsAlive)
+                        {
+                            family.Add(grandparent);
+                        }
+                    }
+                }
+
+                people.AddRange(family.Where(f => people.All(p => p.Id != f.Id)).GroupBy(f => f.Id).Select(g => g.First()));
+            }
+
+            return people;
+        }
+
+        /// <summary>
+        /// Si es un conocido: alguien con quien tiene relación sin ser su familia (papás, hijos,
+        /// hermanos, abuelos, nietos), su pareja, su amistad, su rival ni su ex. Un colega sí es conocido.
+        /// </summary>
+        public static bool IsAcquaintance(World world, Character character, Character other, Relationship relationship)
+        {
+            if (relationship.Bond != RelationshipBond.None && relationship.Bond != RelationshipBond.Colleague)
+            {
+                return false;
+            }
+
+            if (character.PartnerId == other.Id || RelationshipRules.IsFamily(world, character, other))
+            {
+                return false;
+            }
+
+            foreach (int? parentId in new[] { character.MotherId, character.FatherId, character.SecondParentId })
+            {
+                if (parentId.HasValue && world.TryGetCharacter(parentId.Value, out Character? parent) && parent.IsChildOf(other.Id))
+                {
+                    return false;
+                }
+            }
+
+            // Ni sus nietos.
+            foreach (int? parentId in new[] { other.MotherId, other.FatherId, other.SecondParentId })
+            {
+                if (parentId.HasValue && world.TryGetCharacter(parentId.Value, out Character? parent) && parent.IsChildOf(character.Id))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static EventScope PersonScope(World world, ContentDatabase content, Character character, Character? person, bool readOnly) =>
+            new EventScope(world, content, character, null, readOnly, person);
 
         private static int Apply(World world, Character character, Character? person, string key, int amount)
         {

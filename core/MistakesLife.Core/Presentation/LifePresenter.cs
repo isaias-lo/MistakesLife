@@ -609,7 +609,13 @@ namespace MistakesLife.Core.Presentation
         /// salud, dinero; ver <see cref="Content.ActionDefinition.Groups"/>). Vacío si hay un evento
         /// esperando: primero se decide el momento.
         /// </summary>
-        public IReadOnlyList<DoableActionView> Actions(string group)
+        public IReadOnlyList<DoableActionView> Actions(string group) => Actions(group, cardOnly: false);
+
+        /// <summary>
+        /// Lo que puede hacer ahora en ese grupo: con <paramref name="cardOnly"/>, también lo que va
+        /// solo en la ficha de cada persona (conversar, invitar).
+        /// </summary>
+        private IReadOnlyList<DoableActionView> Actions(string group, bool cardOnly)
         {
             World world = Session.World;
             Character player = world.Player;
@@ -619,6 +625,7 @@ namespace MistakesLife.Core.Presentation
             }
 
             return Life.ActionRules.Available(world, Session.Content, player, group)
+                .Where(o => cardOnly || !o.Definition.CardOnly)
                 .Select(o => new DoableActionView(
                     o.Definition.Id,
                     o.Person?.Id,
@@ -637,12 +644,12 @@ namespace MistakesLife.Core.Presentation
             Content.ActionDefinition action = Session.Content.Action(actionId)
                 ?? throw new InvalidOperationException($"No existe la acción '{actionId}'.");
             Character? person = personId.HasValue ? world.GetCharacter(personId.Value) : null;
-            IReadOnlyList<Life.ActionChange> changes = Session.DoAction(actionId, personId);
+            Life.ActionOutcome outcome = Session.DoAction(actionId, personId);
             return new ActionResultView(
                 Text("ui.fecha.dia", world.Date.DayOfMonth, T("ui.mes." + world.Date.Month)),
                 WithPerson(T(action.Id), person),
-                WithPerson(T(action.ResultKey), person),
-                changes.Select(c => Change(c.Key, c.Delta, person)).ToList(),
+                WithPerson(T(outcome.Accepted ? action.ResultKey : action.DeclinedKey), person),
+                outcome.Changes.Select(c => Change(c.Key, c.Delta, person)).ToList(),
                 FreeTime()!);
         }
 
@@ -1854,7 +1861,7 @@ namespace MistakesLife.Core.Presentation
                 .Select(x => new LivedView(Text("ui.gente.a_los", player.AgeInYears(x.Record.Date)), x.Text!))
                 .ToList();
             IReadOnlyList<DoableActionView> actions = !person.IsAlive ? new List<DoableActionView>()
-                : Content.ActionDefinition.Groups.SelectMany(g => Actions(g)).Where(a => a.PersonId == personId).ToList();
+                : Content.ActionDefinition.Groups.SelectMany(g => Actions(g, cardOnly: true)).Where(a => a.PersonId == personId).ToList();
             IReadOnlyList<ActionView> requests = person.IsAlive ? PersonActions(personId) : new List<ActionView>();
             return new PersonCardView(row, string.Join(" · ", parts), row.Life, lived, actions, requests);
         }

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "chat.amigo.cumple_invita",
+    "de": "amigo",
+    "probabilidad": 0.6,
+    "carino_minimo": 60,
+    "rencor_maximo": 30,
+    "veces_por_persona": 2,
+    "condiciones": "jugador.edad >= 12",
+    "condiciones_persona": "persona.cumple_esta_semana",
+    "respuestas": [
+      {
+        "id": "chat.amigo.cumple_invita.resp.voy",
+        "carino": 5,
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "id": "chat.amigo.cumple_invita.resp.no_alcanzo",
+        "carino": -3
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -4
+    }
+  },
+  {
+    "id": "chat.amigo.mudanza",
+    "de": "amigo",
+    "probabilidad": 0.01,
+    "carino_minimo": 50,
+    "edad_minima": 20,
+    "veces_por_persona": 1,
+    "condiciones": "jugador.edad >= 16",
+    "respuestas": [
+      {
+        "id": "chat.amigo.mudanza.resp.cuenta_conmigo",
+        "carino": 6,
+        "confianza": 3,
+        "efectos": [
+          "jugador.energia -= 3"
+        ]
+      },
+      {
+        "id": "chat.amigo.mudanza.resp.no_puedo",
+        "carino": -3
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3
+    }
+  },
+  {
+    "id": "chat.amigo.busca_pega",
+    "de": "amigo",
+    "probabilidad": 0.04,
+    "carino_minimo": 45,
+    "veces_por_persona": 1,
+    "condiciones": "jugador.trabaja",
+    "condiciones_persona": "persona.en_que_anda == 'busca_pega'",
+    "respuestas": [
+      {
+        "id": "chat.amigo.busca_pega.resp.te_aviso",
+        "carino": 3,
+        "confianza": 2
+      },
+      {
+        "id": "chat.amigo.busca_pega.resp.dificil",
+        "carino": -1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -2
+    }
+  },
+  {
+    "id": "chat.amigo.vacante",
+    "de": "amigo",
+    "probabilidad": 0.05,
+    "carino_minimo": 50,
+    "veces_por_persona": 2,
+    "condiciones": "!jugador.trabaja && jugador.edad >= 18 && jugador.busqueda != 'busqueda.forma.contactos'",
+    "condiciones_persona": "persona.trabaja",
+    "respuestas": [
+      {
+        "id": "chat.amigo.vacante.resp.pasame_el_dato",
+        "carino": 2,
+        "efectos": [
+          "jugador.buscar_trabajo('busqueda.forma.contactos', persona)"
+        ]
+      },
+      {
+        "id": "chat.amigo.vacante.resp.no_es_lo_mio"
+      }
+    ]
+  },
+  {
+    "id": "chat.madre.jubilada_visita",
+    "de": "madre",
+    "probabilidad": 0.02,
+    "carino_minimo": 50,
+    "veces_por_persona": 1,
+    "condiciones": "jugador.edad >= 20 && jugador.tiene('vive_independiente')",
+    "condiciones_persona": "persona.en_que_anda == 'jubilado'",
+    "respuestas": [
+      {
+        "id": "chat.madre.jubilada_visita.resp.ven",
+        "carino": 5,
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "id": "chat.madre.jubilada_visita.resp.no_es_momento",
+        "carino": -3
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3
+    }
+  },
+  {
+    "id": "chat.padre.jubilado_visita",
+    "de": "padre",
+    "probabilidad": 0.02,
+    "carino_minimo": 50,
+    "veces_por_persona": 1,
+    "condiciones": "jugador.edad >= 20 && jugador.tiene('vive_independiente')",
+    "condiciones_persona": "persona.en_que_anda == 'jubilado'",
+    "respuestas": [
+      {
+        "id": "chat.padre.jubilado_visita.resp.ven",
+        "carino": 5,
+        "efectos": [
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "id": "chat.padre.jubilado_visita.resp.no_es_momento",
+        "carino": -3
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3
+    }
+  },
+  {
+    "id": "chat.madre.sin_pega",
+    "de": "madre",
+    "probabilidad": 0.04,
+    "carino_minimo": 40,
+    "veces_por_persona": 1,
+    "condiciones": "jugador.edad >= 16",
+    "condiciones_persona": "persona.en_que_anda == 'busca_pega'",
+    "respuestas": [
+      {
+        "id": "chat.madre.sin_pega.resp.animo",
+        "carino": 4
+      },
+      {
+        "id": "chat.madre.sin_pega.resp.ya_saldra",
+        "carino": 1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3
+    }
+  },
+  {
+    "id": "chat.padre.sin_pega",
+    "de": "padre",
+    "probabilidad": 0.04,
+    "carino_minimo": 40,
+    "veces_por_persona": 1,
+    "condiciones": "jugador.edad >= 16",
+    "condiciones_persona": "persona.en_que_anda == 'busca_pega'",
+    "respuestas": [
+      {
+        "id": "chat.padre.sin_pega.resp.animo",
+        "carino": 4
+      },
+      {
+        "id": "chat.padre.sin_pega.resp.ya_saldra",
+        "carino": 1
+      }
+    ],
+    "si_no_respondes": {
+      "carino": -3
+    }
+  }
+]

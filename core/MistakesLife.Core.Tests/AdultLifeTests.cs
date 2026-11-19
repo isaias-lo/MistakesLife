@@ -54,8 +54,9 @@ namespace MistakesLife.Core.Tests
                 int before = session.World.EventHistory.Count;
                 PlayUntil(session, legalAge + 1);
 
-                // Si quebró su empresa o perdió el trabajo justo antes, ya no trabaja y no se jubila: se prueba otra vida.
-                if (!session.World.Player.IsAlive || session.World.EventHistory.Skip(before).Any(e => e.EventId == "evento.empresa.quiebra" || e.EventId == "evento.perder_trabajo"))
+                // Si quebró su empresa o perdió el trabajo justo antes (también en una crisis), ya no
+                // trabaja y no se jubila: se prueba otra vida.
+                if (!session.World.Player.IsAlive || session.World.EventHistory.Skip(before).Any(e => e.EventId == "evento.empresa.quiebra" || e.EventId == "evento.perder_trabajo" || e.EventId == "evento.despido_crisis"))
                 {
                     continue;
                 }

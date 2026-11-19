@@ -65,7 +65,7 @@ namespace MistakesLife.Core.Tests
             var simulator = new LifeSimulator(RepoPacks.Content);
             SimulationReport young = null!, old = null!;
             HashSet<string> careers = null!, sick = null!, struggling = null!, careerSeeds = null!, separated = null!,
-                inheritance = null!, top = null!, freelance = null!, roommates = null!, drift = null!, partner = null!;
+                inheritance = null!, top = null!, freelance = null!, roommates = null!, drift = null!, partner = null!, borrowed = null!;
             Parallel.Invoke(
                 () => young = simulator.Run(lives: 1000, finalAge: 25),
                 // 300 hasta los 85: algunos eventos de adultos le pasan a cerca del 1 % de las vidas
@@ -95,11 +95,20 @@ namespace MistakesLife.Core.Tests
                 () => drift = CareerAreaLives.FriendDriftEvents(RepoPacks.Content, lives: 10),
                 // Y vidas donde la pareja acumula rencor, para que se vaya (en vidas al azar, menos
                 // del 1 %: también dependía de la suerte).
-                () => partner = CareerAreaLives.PartnerLeavesEvents(RepoPacks.Content, lives: 10));
+                () => partner = CareerAreaLives.PartnerLeavesEvents(RepoPacks.Content, lives: 10),
+                // Y vidas que le piden plata prestada a la mamá (una acción, que el simulador no
+                // hace), para lo que pasa cuando hay que devolverla.
+                () => borrowed = CareerAreaLives.BorrowedMoneyEvents(RepoPacks.Content, lives: 10));
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(freelance).Except(roommates).Except(drift).Except(partner).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(freelance).Except(roommates).Except(drift).Except(partner).Except(borrowed).ToArray();
 
             Assert.Empty(never);
+        }
+
+        [Fact]
+        public void PlataPrestada_LlegaElMomentoDeDevolverla()
+        {
+            Assert.Contains("evento.devolver_plata", CareerAreaLives.BorrowedMoneyEvents(RepoPacks.Content, lives: 10));
         }
 
         [Fact]

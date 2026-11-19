@@ -1,0 +1,107 @@
+[
+  {
+    "id": "accion.conversar",
+    "grupo": "gente",
+    "con": "conocido",
+    "solo_en_ficha": true,
+    "edad_minima": 6,
+    "cambia": {
+      "carino": 2
+    }
+  },
+  {
+    "id": "accion.invitar",
+    "grupo": "gente",
+    "con": "conocido",
+    "solo_en_ficha": true,
+    "edad_minima": 12,
+    "acepta": "persona.carino >= 50",
+    "cambia": {
+      "felicidad": 3,
+      "carino": 4,
+      "energia": -1
+    },
+    "si_no_acepta": {
+      "felicidad": -1
+    },
+    "efectos": [
+      "persona.vincular('amistad')",
+      "jugador.dinero -= si(jugador.edad >= 18, precio(6000), 0)"
+    ]
+  },
+  {
+    "id": "accion.pedir_plata",
+    "grupo": "gente",
+    "con": "cualquiera",
+    "solo_en_ficha": true,
+    "edad_minima": 18,
+    "condiciones": "!semilla('semilla.te_prestaron_plata').activa",
+    "condiciones_persona": "persona.edad >= 25 && (persona.en_que_anda == 'trabaja' || persona.en_que_anda == 'jubilado')",
+    "acepta": "persona.carino >= 50 && persona.confianza >= 45",
+    "cambia": {
+      "felicidad": 1
+    },
+    "si_no_acepta": {
+      "felicidad": -2
+    },
+    "efectos": [
+      "jugador.dinero += precio(100000)",
+      "plantar('semilla.te_prestaron_plata', persona)"
+    ]
+  },
+  {
+    "id": "accion.pedir_recomendacion",
+    "grupo": "gente",
+    "con": "cualquiera",
+    "solo_en_ficha": true,
+    "edad_minima": 18,
+    "condiciones": "!jugador.trabaja && jugador.busqueda != 'busqueda.forma.contactos'",
+    "condiciones_persona": "persona.trabaja",
+    "acepta": "persona.carino >= 50 && persona.confianza >= 40",
+    "cambia": {
+      "felicidad": 1
+    },
+    "si_no_acepta": {
+      "felicidad": -1
+    },
+    "efectos": [
+      "jugador.buscar_trabajo('busqueda.forma.contactos', persona)"
+    ]
+  },
+  {
+    "id": "accion.paces_rival",
+    "grupo": "gente",
+    "con": "rival",
+    "edad_minima": 8,
+    "acepta": "persona.rencor < 60",
+    "cambia": {
+      "felicidad": 2,
+      "carino": 3
+    },
+    "si_no_acepta": {
+      "felicidad": -1
+    },
+    "efectos": [
+      "persona.rencor -= 20",
+      "persona.alejarse()"
+    ]
+  },
+  {
+    "id": "accion.paces_ex",
+    "grupo": "gente",
+    "con": "ex",
+    "edad_minima": 14,
+    "acepta": "persona.rencor < 60",
+    "cambia": {
+      "felicidad": 2,
+      "carino": 2
+    },
+    "si_no_acepta": {
+      "felicidad": -1
+    },
+    "efectos": [
+      "persona.rencor -= 25"
+    ],
+    "condiciones_persona": "persona.rencor >= 20"
+  }
+]

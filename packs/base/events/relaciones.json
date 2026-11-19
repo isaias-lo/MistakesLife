@@ -1,55 +1,5 @@
 [
   {
-    "id": "evento.nuevo_amigo_colegio",
-    "condiciones": "jugador.edad >= 6 && jugador.edad < 18 && jugador.amigos < 3",
-    "probabilidad_anual": 0.45,
-    "enfriamiento_semanas": 26,
-    "opciones": [
-      {
-        "texto": "opcion.nuevo_amigo_colegio.acercarse",
-        "tendencia": "30 + jugador.extraversion / 2",
-        "efectos": [
-          "jugador.conocer('amistad')",
-          "jugador.felicidad += 3"
-        ]
-      },
-      {
-        "texto": "opcion.nuevo_amigo_colegio.quedarse",
-        "tendencia": "(100 - jugador.extraversion) / 2",
-        "efectos": [
-          "jugador.felicidad -= 1"
-        ]
-      }
-    ],
-    "variantes": [
-      "evento.nuevo_amigo_colegio.2",
-      "evento.nuevo_amigo_colegio.3",
-      "evento.nuevo_amigo_colegio.4",
-      "evento.nuevo_amigo_colegio.5"
-    ]
-  },
-  {
-    "id": "evento.nuevo_amigo_adulto",
-    "condiciones": "jugador.edad >= 18 && jugador.edad < 75 && jugador.amigos < 4 && (jugador.tiene('trabajando') || jugador.estudia != nada || jugador.tiene('club_adulto_mayor'))",
-    "probabilidad_anual": 0.15,
-    "enfriamiento_semanas": 52,
-    "opciones": [
-      {
-        "texto": "opcion.nuevo_amigo_adulto.acercarse",
-        "tendencia": "20 + jugador.extraversion / 2",
-        "efectos": [
-          "jugador.conocer('amistad')",
-          "jugador.felicidad += 3"
-        ]
-      },
-      {
-        "texto": "opcion.nuevo_amigo_adulto.quedarse",
-        "tendencia": "(100 - jugador.extraversion) / 2",
-        "efectos": []
-      }
-    ]
-  },
-  {
     "id": "evento.juntarse_con_amigos",
     "con": "amigo",
     "condiciones": "jugador.edad >= 12",
@@ -209,6 +159,48 @@
     ]
   },
   {
+    "id": "evento.devolver_plata",
+    "con": "testigo",
+    "semilla": "semilla.te_prestaron_plata",
+    "condiciones": "semilla('semilla.te_prestaron_plata').testigo != nada",
+    "variantes": [
+      "evento.devolver_plata.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.devolver_plata.devolver",
+        "condiciones": "jugador.dinero >= precio(100000)",
+        "tendencia": "jugador.responsabilidad",
+        "efectos": [
+          "jugador.dinero -= precio(100000)",
+          "semilla('semilla.te_prestaron_plata').testigo.confianza += 8",
+          "semilla('semilla.te_prestaron_plata').testigo.carino += 3"
+        ]
+      },
+      {
+        "texto": "opcion.devolver_plata.no_alcanza",
+        "condiciones": "jugador.dinero < precio(100000)",
+        "tendencia": "50",
+        "efectos": [
+          "semilla('semilla.te_prestaron_plata').testigo.confianza -= 10",
+          "semilla('semilla.te_prestaron_plata').testigo.rencor += 5",
+          "jugador.felicidad -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.devolver_plata.no_devolver",
+        "condiciones": "jugador.dinero >= precio(100000)",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "semilla('semilla.te_prestaron_plata').testigo.confianza -= 25",
+          "semilla('semilla.te_prestaron_plata').testigo.rencor += 20",
+          "semilla('semilla.te_prestaron_plata').testigo.carino -= 10",
+          "jugador.felicidad -= 2"
+        ]
+      }
+    ]
+  },
+  {
     "id": "evento.colega_nuevo",
     "condiciones": "jugador.tiene('trabajando') && !jugador.en_la_pega && jugador.edad < 70",
     "probabilidad_anual": 0.6,
@@ -216,28 +208,6 @@
     "enfriamiento_semanas": 104,
     "efectos": [
       "jugador.conocer('colega')"
-    ]
-  },
-  {
-    "id": "evento.colega_amistad",
-    "condiciones": "jugador.colega != nada && jugador.colega.carino >= 30 && jugador.amigos < 4",
-    "probabilidad_anual": 0.15,
-    "enfriamiento_semanas": 52,
-    "opciones": [
-      {
-        "texto": "opcion.colega_amistad.salir",
-        "tendencia": "jugador.extraversion",
-        "efectos": [
-          "jugador.colega.carino += 10",
-          "jugador.colega.vincular('amistad')",
-          "jugador.felicidad += 2"
-        ]
-      },
-      {
-        "texto": "opcion.colega_amistad.distancia",
-        "tendencia": "(100 - jugador.extraversion) / 2",
-        "efectos": []
-      }
     ]
   },
   {

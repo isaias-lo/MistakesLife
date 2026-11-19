@@ -894,7 +894,9 @@ Mensajito es la app de mensajes del celular. **Nadie inventado escribe**: cada m
 | `rencor_minimo`, `rencor_maximo` | Igual con el rencor (el rival que manda una indirecta; el ex dolido no saluda) |
 | `edad_minima`, `edad_maxima` | La edad de quien escribe (un hijo en el colegio, un hijo ya adulto). Nadie escribe antes de los 12 |
 | `condiciones` | Opcional. Condición sobre el jugador (`jugador.trabaja`, `jugador.edad < 18`) |
-| `respuestas` | Lo que el jugador puede contestar, cada una con su `id` (clave del texto) y cuánto cambia en quien escribió: `carino`, `confianza`, `respeto`, `rencor`. Sin respuestas, el mensaje no espera nada (una cadena reenviada) |
+| `condiciones_persona` | Opcional. Condición sobre quien escribe, con `persona`, por la vida real que tiene (D4c): `persona.en_que_anda == 'jubilado'` (tu mamá jubilada quiere conocer tu casa), `persona.en_que_anda == 'busca_pega'`, `persona.trabaja` (tu amiga con una pega del juego te avisa de una vacante), `persona.cumple_esta_semana` (te invita a su cumpleaños en su fecha real) |
+| `veces_por_persona` | Opcional. Cuántas veces, como mucho, le manda esto una misma persona en toda la vida: una invitación a su cumpleaños no llega todos los años. Se cuenta aparte de los mensajes, que se borran al pasar de 15 |
+| `respuestas` | Lo que el jugador puede contestar, cada una con su `id` (clave del texto) y cuánto cambia en quien escribió: `carino`, `confianza`, `respeto`, `rencor`. Con `efectos` (lenguaje de los eventos, con `persona` = quien escribió) pasa algo más al contestar así: `jugador.felicidad += 2` al ir al cumpleaños, `jugador.buscar_trabajo('busqueda.forma.contactos', persona)` al pedirle el dato de la vacante. Sin respuestas, el mensaje no espera nada (una cadena reenviada) |
 | `si_no_respondes` | Lo que cambia si el jugador abrió la conversación y no contesta en 2 semanas (lo dejó en visto). Si nunca la abrió, a las 6 semanas el mensaje deja de esperar respuesta sin cambiar nada: avanzar no castiga |
 
 Sin la app no llega nada, y lo que pasó antes de tenerla no llega después. Las conversaciones son una cuenta (como el correo): si pierde el celular, vuelven al tener la app otra vez. Unity las lee con `LifePresenter.Chats()` y `Chat(id)`, y contesta con `ReplyChat(id, respuesta)`.
@@ -973,12 +975,19 @@ Cada archivo es una lista:
 | `grupo` | Dónde aparece: `gente`, `estudios`, `trabajo`, `salud` o `dinero` |
 | `edad_minima`, `edad_maxima` | Edades en que tiene sentido |
 | `condiciones` | Condición extra (por ejemplo `jugador.prueba_anunciada`) |
-| `con` | Con quién se hace (los mismos lugares que en `actividades/`): aparece una vez por cada persona que ocupa ese lugar |
+| `con` | Con quién se hace (los mismos lugares que en `actividades/`): aparece una vez por cada persona que ocupa ese lugar. Además, `conocido` (alguien con quien tiene relación sin ser familia, pareja, amistad, rival ni ex: tu curso, tu pega, gente que conociste) y `cualquiera` (cualquier persona viva de su vida, también la familia); esas dos van siempre con `"solo_en_ficha": true` |
+| `solo_en_ficha` | Si va solo en la ficha de cada persona (Tu gente) y no en la lista del grupo: con todos tus conocidos, la lista sería eterna |
+| `condiciones_persona` | Condición sobre la persona, con `persona`: que trabaje en una pega del juego (`persona.trabaja`), que tenga de dónde prestarte (`persona.en_que_anda == 'jubilado'`) |
+| `acepta` | Si la persona dice que sí, con `persona` (`persona.carino >= 50`). Si dice que no, la tarde se gasta igual, cambia lo de `si_no_acepta`, no pasa lo de `efectos` y se cuenta con `id.resultado.no` |
+| `si_no_acepta` | Lo que cambia si dice que no (como `cambia`, sin `preparar_prueba`) |
+| `efectos` | Lo demás que pasa si se hace y la persona dice que sí, en el lenguaje de los eventos: `persona.vincular('amistad')`, `plantar('semilla.te_prestaron_plata', persona)`, `jugador.dinero -= precio(6000)`. No se muestra antes: lo cuenta el resultado |
 | `tardes` | Cuántas tardes libres gasta, de 1 a 3 (por defecto 1) |
 | `veces_al_mes` | Cuántas veces se puede hacer al mes, con cada persona si lleva `con` (por defecto 1) |
 | `cambia` | Lo que cambia al hacerla, de -8 a 8: `felicidad`, `salud`, `inteligencia`, `apariencia`, `energia`, `carino` (lo que se sienten los dos con la persona; necesita `con`) y `preparar_prueba` (un nivel más de preparación para la prueba anunciada; necesita la condición `jugador.prueba_anunciada`). Es también lo que el jugador ve antes de elegirla |
 
 Con un momento esperando, primero se decide el momento: mientras tanto no se puede hacer nada.
+
+Las acciones con cada persona (D4c, en `packs/base/acciones/gente.json`): conversar con un conocido (el cariño sube de a poco), invitarlo a salir (si te quiere 50 o más dice que sí y nace la amistad: así nace una amistad por tu iniciativa, además de las invitaciones de D4b), pedirle plata prestada a quien trabaja o está jubilado (queda la semilla de devolverla: `evento.devolver_plata`), pedirle a quien trabaja en una pega del juego que te recomiende (tu búsqueda pasa a ser por contacto, con esa persona) y hacer las paces con un rival (deja de serlo si el rencor no es muy grande) o con un ex.
 
 ## Lo que quiero (deseos/)
 
@@ -1228,6 +1237,9 @@ Cada persona siente algo por cada otra: **cariño, confianza, respeto y rencor**
 | `jugador.amigo.alejarse()` | Deja de ser amigo (o colega, rival); lo que siente se mantiene (solo efectos) |
 | `persona.quiere_amistad` | Hay química para una amistad con el jugador (ella lo quiere 60 o más y él también, o vivieron 2 momentos juntos) y todavía no hay lazo (o solo el de colegas). Con eso llegan las invitaciones (D4b) |
 | `jugador.amigo.vinculo` | `'amistad'`, `'colega'`, `'rival'`, `'ex'` o `nada` |
+| `persona.en_que_anda` | En qué anda alguien que nadie juega (D4a2): `'trabaja'`, `'busca_pega'`, `'estudia'`, `'jubilado'`, `'nada'`, o `nada` si el juego todavía no la mira (o es el jugador). `persona.trabaja` dice si tiene una de las pegas que existen enteras en el juego |
+| `persona.cumple_esta_semana` | Si esta semana es su cumpleaños |
+| `jugador.buscar_trabajo('busqueda.forma.contactos', persona)` | Busca trabajo con la recomendación de esa persona (sin la persona, la recomienda el conocido que más lo quiere) (solo efectos) |
 
 Al empezar, sin que haya pasado nada: madres o padres e hijos sienten cariño 75, confianza 65, respeto 55; hermanos 60, 55, 45; la pareja 75, 60, 55; cualquier otra persona 30, 30, 30; nadie siente rencor. Un amigo nuevo empieza con cariño 55, un colega con respeto 50 y un rival con rencor 45. Al terminar una pareja (no al morir), quedan como ex con lo que sentían.
 

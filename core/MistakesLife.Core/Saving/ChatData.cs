@@ -19,5 +19,8 @@ namespace MistakesLife.Core.Saving
         public int PlayerWroteWeek { get; set; }
 
         public List<ChatMessageData> Messages { get; set; } = new List<ChatMessageData>();
+
+        /// <summary>Cuántas veces llegó cada mensaje con tope por persona, o null si ninguno (desde la versión 39).</summary>
+        public Dictionary<string, int>? LimitedSent { get; set; }
     }
 }

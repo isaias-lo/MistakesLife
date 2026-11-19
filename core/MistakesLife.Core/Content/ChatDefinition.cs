@@ -75,8 +75,25 @@ namespace MistakesLife.Core.Content
         [JsonProperty("si_no_respondes")]
         public ChatFeelingsDefinition? IfIgnored { get; set; }
 
+        /// <summary>
+        /// Condición sobre quien escribe (con <c>persona</c>), por la vida real que tiene: por
+        /// ejemplo <c>persona.en_que_anda == 'jubilado'</c> o <c>persona.cumple_esta_semana</c>. Vacía: cualquiera.
+        /// </summary>
+        [JsonProperty("condiciones_persona")]
+        public string PersonConditions { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Cuántas veces, como mucho, le manda esto una misma persona (entre los mensajes que
+        /// guarda su conversación): una invitación a su cumpleaños no llega todos los años. Null: sin tope.
+        /// </summary>
+        [JsonProperty("veces_por_persona")]
+        public int? MaxPerPerson { get; set; }
+
         [JsonIgnore]
         public Expression? CompiledConditions { get; set; }
+
+        [JsonIgnore]
+        public Expression? CompiledPersonConditions { get; set; }
 
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;

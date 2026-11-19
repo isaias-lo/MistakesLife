@@ -45,6 +45,21 @@ namespace MistakesLife.Core.Devices
         /// <summary>Cuándo lo escribió (si <see cref="PlayerWrote"/> no es null): la otra persona contesta la semana siguiente.</summary>
         public GameDate PlayerWroteOn { get; internal set; }
 
+        /// <summary>
+        /// Cuántas veces le ha mandado la otra persona cada mensaje con tope ("veces_por_persona"):
+        /// se cuenta aparte porque la conversación borra sus mensajes más antiguos.
+        /// </summary>
+        public IReadOnlyDictionary<string, int> LimitedSent => _limitedSent;
+
+        private readonly Dictionary<string, int> _limitedSent = new Dictionary<string, int>();
+
+        /// <summary>Anota que la otra persona mandó una vez más ese mensaje con tope.</summary>
+        internal void CountLimited(string chatId, int times = 1)
+        {
+            _limitedSent.TryGetValue(chatId, out int sent);
+            _limitedSent[chatId] = sent + times;
+        }
+
         /// <summary>La fecha del último mensaje (para ordenar la lista de chats).</summary>
         public GameDate LastDate => _messages.Count == 0 ? default : _messages[_messages.Count - 1].Date;
 

@@ -190,7 +190,9 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void Amonestacion_MedioAnoCumpliendoLaMeta_QuedaAtras()
         {
-            LifeSession session = WorkingIn(Vestuario);
+            // Una vida donde el contrato no se termina en estos meses (con la 5, a los 22 le
+            // llega el fin del contrato de su primera pega y la prueba ya no tendría trabajo).
+            LifeSession session = WorkingIn(Vestuario, seed: 6);
             Run(session.World, "jugador.amonestaciones = 1");
             for (int month = 0; month < OccupationRules.MonthsToClearWarning + 1; month++)
             {
