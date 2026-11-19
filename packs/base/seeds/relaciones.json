@@ -6,5 +6,13 @@
     "vence_anios": 3,
     "dormir_min_semanas": 8,
     "condiciones": "semilla('semilla.presto_plata_amigo').testigo != nada"
+  },
+  {
+    "id": "semilla.te_prestaron_plata",
+    "tipo": "ambigua",
+    "fuerza": 90,
+    "vence_anios": 3,
+    "dormir_min_semanas": 8,
+    "condiciones": "semilla('semilla.te_prestaron_plata').testigo != nada"
   }
 ]

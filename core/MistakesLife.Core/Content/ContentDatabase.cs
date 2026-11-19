@@ -1987,6 +1987,10 @@ namespace MistakesLife.Core.Content
                 yield return new KeyValuePair<string, string>(action.Id, $"acción {action.Id}");
                 yield return new KeyValuePair<string, string>(action.WhyKey, $"acción {action.Id}");
                 yield return new KeyValuePair<string, string>(action.ResultKey, $"acción {action.Id}");
+                if (!string.IsNullOrWhiteSpace(action.Accepts))
+                {
+                    yield return new KeyValuePair<string, string>(action.DeclinedKey, $"acción {action.Id}");
+                }
             }
 
             foreach (WishDefinition wish in _wishes.Values)
@@ -2895,9 +2899,44 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, "edad_minima no puede ser mayor que edad_maxima."));
                 }
 
-                if (action.With != null && Array.IndexOf(ChatDefinition.Senders, action.With) < 0)
+                if (action.With != null && Array.IndexOf(ChatDefinition.Senders, action.With) < 0 && Array.IndexOf(ActionDefinition.ExtraRoles, action.With) < 0)
                 {
-                    _errors.Add(new ContentError(where, $"con '{action.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders)})."));
+                    _errors.Add(new ContentError(where, $"con '{action.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders.Concat(ActionDefinition.ExtraRoles))})."));
+                }
+
+                if (action.With != null && Array.IndexOf(ActionDefinition.ExtraRoles, action.With) >= 0 && !action.CardOnly)
+                {
+                    _errors.Add(new ContentError(where, $"con '{action.With}' va solo en la ficha de cada persona: pon \"solo_en_ficha\": true."));
+                }
+
+                action.CompiledPersonConditions = CompileCondition(where + " (condiciones_persona)", action.PersonConditions);
+                action.CompiledAccepts = CompileCondition(where + " (acepta)", action.Accepts);
+                CompileEffects(where, action.Scripts, action.CompiledScripts);
+                if (action.With == null && (!string.IsNullOrWhiteSpace(action.PersonConditions) || !string.IsNullOrWhiteSpace(action.Accepts)))
+                {
+                    _errors.Add(new ContentError(where, "condiciones_persona y acepta hablan de la persona: necesitan con quién (con)."));
+                }
+
+                if (action.With == null && action.CompiledScripts.Any(e => e.Names().Contains(EventScope.PersonRoot)))
+                {
+                    _errors.Add(new ContentError(where, "un efecto usa persona: la acción necesita con quién (con)."));
+                }
+
+                if (action.IfDeclined.Count > 0 && string.IsNullOrWhiteSpace(action.Accepts))
+                {
+                    _errors.Add(new ContentError(where, "si_no_acepta necesita acepta (cuándo dice que sí)."));
+                }
+
+                foreach (KeyValuePair<string, int> pair in action.IfDeclined)
+                {
+                    if (Array.IndexOf(ActionDefinition.Changes, pair.Key) < 0 || pair.Key == "preparar_prueba")
+                    {
+                        _errors.Add(new ContentError(where, $"si_no_acepta '{pair.Key}' no existe (usa {string.Join(", ", ActionDefinition.Changes.Where(c => c != "preparar_prueba"))})."));
+                    }
+                    else if (pair.Value == 0 || Math.Abs(pair.Value) > ActionDefinition.MaxChange)
+                    {
+                        _errors.Add(new ContentError(where, $"si_no_acepta {pair.Key}: va de -{ActionDefinition.MaxChange} a {ActionDefinition.MaxChange}, sin 0."));
+                    }
                 }
 
                 if (action.Afternoons < 1 || action.Afternoons > 3)

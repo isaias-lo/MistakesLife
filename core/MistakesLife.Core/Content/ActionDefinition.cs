@@ -22,6 +22,19 @@ namespace MistakesLife.Core.Content
         /// </summary>
         public static readonly string[] Changes = { "felicidad", "salud", "inteligencia", "apariencia", "energia", "carino", "preparar_prueba" };
 
+        /// <summary>
+        /// Con quién más se puede hacer una acción, además de quienes escriben por Mensajito
+        /// (<see cref="ChatDefinition.Senders"/>): <c>conocido</c> es alguien con quien tiene
+        /// relación sin ser familia, pareja, amistad, rival ni ex (tu curso, tu pega, gente que
+        /// conociste); <c>cualquiera</c> es cualquier persona viva con quien tiene relación.
+        /// Las acciones con ellos van solo en la ficha de cada persona.
+        /// </summary>
+        public static readonly string[] ExtraRoles = { Acquaintance, Anyone };
+
+        public const string Acquaintance = "conocido";
+
+        public const string Anyone = "cualquiera";
+
         /// <summary>Lo máximo que una acción mueve una barra o el cariño, para arriba o para abajo.</summary>
         public const int MaxChange = 8;
 
@@ -62,8 +75,48 @@ namespace MistakesLife.Core.Content
         [JsonProperty("cambia")]
         public Dictionary<string, int> Effects { get; set; } = new Dictionary<string, int>();
 
+        /// <summary>
+        /// Si va solo en la ficha de cada persona y no en la lista del grupo (conversar o invitar
+        /// a alguien: con todos tus conocidos la lista sería eterna).
+        /// </summary>
+        [JsonProperty("solo_en_ficha")]
+        public bool CardOnly { get; set; }
+
+        /// <summary>Condición sobre la persona (con <c>persona</c>): por ejemplo, que trabaje en una pega del juego.</summary>
+        [JsonProperty("condiciones_persona")]
+        public string PersonConditions { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Si la persona dice que sí (con <c>persona</c>), por ejemplo <c>persona.carino &gt;= 50</c>.
+        /// Si dice que no, la tarde se gasta igual, cambia lo de <see cref="IfDeclined"/>, no
+        /// pasa lo de <see cref="Scripts"/> y se cuenta con <c>id.resultado.no</c>. Vacío: siempre dice que sí.
+        /// </summary>
+        [JsonProperty("acepta")]
+        public string Accepts { get; set; } = string.Empty;
+
+        /// <summary>Lo que cambia si la persona dice que no (ver <see cref="Accepts"/>).</summary>
+        [JsonProperty("si_no_acepta")]
+        public Dictionary<string, int> IfDeclined { get; set; } = new Dictionary<string, int>();
+
+        /// <summary>
+        /// Lo demás que pasa si se hace (y la persona dice que sí), en el lenguaje de los eventos:
+        /// nace una amistad (<c>persona.vincular('amistad')</c>), te prestan plata y queda la
+        /// semilla de devolverla, el café cuesta. No se muestra antes: lo cuenta el resultado.
+        /// </summary>
+        [JsonProperty("efectos")]
+        public List<string> Scripts { get; set; } = new List<string>();
+
         [JsonIgnore]
         public Expression? CompiledConditions { get; set; }
+
+        [JsonIgnore]
+        public Expression? CompiledPersonConditions { get; set; }
+
+        [JsonIgnore]
+        public Expression? CompiledAccepts { get; set; }
+
+        [JsonIgnore]
+        public List<Effect> CompiledScripts { get; } = new List<Effect>();
 
         [JsonIgnore]
         public string PackId { get; set; } = string.Empty;
@@ -75,6 +128,10 @@ namespace MistakesLife.Core.Content
         /// <summary>La clave de lo que pasó al hacerla.</summary>
         [JsonIgnore]
         public string ResultKey => Id + ".resultado";
+
+        /// <summary>La clave de lo que pasó si la persona dijo que no (ver <see cref="Accepts"/>).</summary>
+        [JsonIgnore]
+        public string DeclinedKey => Id + ".resultado.no";
 
         /// <summary>Lo que cambia en <paramref name="key"/> (0 si no lo dice).</summary>
         public int Change(string key) => Effects.TryGetValue(key, out int value) ? value : 0;
