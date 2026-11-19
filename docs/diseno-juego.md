@@ -119,7 +119,7 @@ Isaias eligió (17-11-2026) **el contador del mes**: "Te quedan 5 tardes libres"
 - Las demás nacen de decisiones del jugador en momentos (por ejemplo, aceptar estudiar con Tomás) o de buscarlas.
 - El juego empuja mostrando **gente interesante o influyente** donde de verdad estaría según tu horario: en tu trabajo, tu empresa, tu club.
 - **Lo que una persona te puede aportar** se descubre después de la primera conversación.
-- Esto cambia lo hecho en R3a, R5c y R6a, donde hoy las amistades se forman solas.
+- **Cómo se hizo (D4b, aprobado por Isaias el 18-11-2026):** cuando con alguien del curso, la sección o la pega se tienen cariño de ida y vuelta, esa persona te invita a algo real (un cumpleaños, estudiar juntos, un café después de la pega). Si aceptas nace la amistad; si no, queda como conocido. Ya no se forman solas como en R3a, R5c y R6a.
 
 ### Acciones
 

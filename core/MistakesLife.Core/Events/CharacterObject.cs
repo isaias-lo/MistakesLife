@@ -37,7 +37,8 @@ namespace MistakesLife.Core.Events
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada), en_tu_equipo (si
     /// trabaja en el equipo de ese alguien), recomendado (si entró a ese equipo recomendado por él)
-    /// vive_contigo (si comparte el arriendo de ese alguien) y es_tu_socio (si es su socio en un negocio).
+    /// vive_contigo (si comparte el arriendo de ese alguien), es_tu_socio (si es su socio en un negocio)
+    /// y quiere_amistad (si hay química para una amistad con ese alguien: ver SchoolRules.ReadyForFriendship).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
@@ -361,6 +362,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(Feeling(RelationshipRules.Feelings(((EventScope)scope).World, _character, Viewer(member)), member));
                 case "en_tu_equipo":
                     return Value.FromBool(Work.WorkRules.Colleagues(((EventScope)scope).World, Viewer(member)).Any(c => c.Id == _character.Id));
+                case "quiere_amistad":
+                    return Value.FromBool(Education.SchoolRules.ReadyForFriendship(((EventScope)scope).World, Viewer(member), _character));
                 case "recomendado":
                     return Value.FromBool(Work.WorkRules.InTeam(Viewer(member)) && Viewer(member).Team!.RecommendedIds.Contains(_character.Id));
                 case "vive_contigo":

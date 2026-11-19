@@ -197,30 +197,49 @@ namespace MistakesLife.Core.Education
             return journal;
         }
 
+        /// <summary>Marca de quien ya tiene su amistad de la infancia (la única que llega sola).</summary>
+        public const string ChildhoodFriendFlag = "amistad_infancia";
+
+        /// <summary>Hasta qué edad llega sola la amistad de la infancia.</summary>
+        public const int ChildhoodFriendMaxAge = 11;
+
         /// <summary>
-        /// Los compañeros que se tienen cariño de verdad y todavía no son amigos, pasan a serlo.
-        /// El compañero te quiere (sobre <see cref="FriendshipAffection"/>) y tú también: o tu
-        /// cariño ya llega a eso, o han vivido juntos al menos <see cref="FriendshipMoments"/>
-        /// momentos (los momentos mueven lo que siente la otra persona; lo tuyo es haber estado ahí).
-        /// Devuelve a los amigos nuevos.
+        /// ¿Hay química de verdad para una amistad? Esa persona te quiere (sobre
+        /// <see cref="FriendshipAffection"/>) y tú también: o tu cariño ya llega a eso, o han vivido
+        /// juntos al menos <see cref="FriendshipMoments"/> momentos (los momentos mueven lo que siente
+        /// la otra persona; lo tuyo es haber estado ahí). Y todavía no hay lazo entre los dos (o
+        /// solo el de colegas). Con eso la persona te invita a algo (D4b): si aceptas, nace la amistad.
         /// </summary>
-        public static IReadOnlyList<Character> NewFriendships(World world, Character player)
+        public static bool ReadyForFriendship(World world, Character player, Character person, IReadOnlyDictionary<int, int>? shared = null)
         {
-            var friends = new List<Character>();
-            IReadOnlyDictionary<int, int> shared = SharedMoments(world, player);
-            foreach (Character mate in Classmates(world, player))
+            shared ??= SharedMoments(world, player);
+            Relationship mine = RelationshipRules.Feelings(world, player, person);
+            Relationship theirs = RelationshipRules.Feelings(world, person, player);
+            bool yours = mine.Affection >= FriendshipAffection || (shared.TryGetValue(person.Id, out int moments) && moments >= FriendshipMoments);
+            return (mine.Bond == RelationshipBond.None || mine.Bond == RelationshipBond.Colleague) && yours && theirs.Affection >= FriendshipAffection;
+        }
+
+        /// <summary>
+        /// La amistad de la infancia, la única que llega sola (docs/diseno-juego.md): hasta los
+        /// <see cref="ChildhoodFriendMaxAge"/> años, con quien del curso primero haya química. Las
+        /// demás nacen de una invitación que el jugador acepta. Devuelve al amigo, o null.
+        /// </summary>
+        public static Character? ChildhoodFriendship(World world, Character player)
+        {
+            if (player.HasFlag(ChildhoodFriendFlag) || player.AgeInYears(world.Date) > ChildhoodFriendMaxAge)
             {
-                Relationship mine = RelationshipRules.Feelings(world, player, mate);
-                Relationship theirs = RelationshipRules.Feelings(world, mate, player);
-                bool yours = mine.Affection >= FriendshipAffection || (shared.TryGetValue(mate.Id, out int moments) && moments >= FriendshipMoments);
-                if (mine.Bond == RelationshipBond.None && yours && theirs.Affection >= FriendshipAffection)
-                {
-                    RelationshipRules.SetBond(world, player, mate, RelationshipBond.Friend);
-                    friends.Add(mate);
-                }
+                return null;
             }
 
-            return friends;
+            IReadOnlyDictionary<int, int> shared = SharedMoments(world, player);
+            Character? friend = Classmates(world, player).FirstOrDefault(mate => ReadyForFriendship(world, player, mate, shared));
+            if (friend != null)
+            {
+                RelationshipRules.SetBond(world, player, friend, RelationshipBond.Friend);
+                player.SetFlag(ChildhoodFriendFlag);
+            }
+
+            return friend;
         }
 
         /// <summary>Cuántos momentos vivió el jugador con cada persona (por id), contando solo los que eligió algo.</summary>
