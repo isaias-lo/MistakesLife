@@ -312,6 +312,11 @@ namespace MistakesLife.Core.Saving
             // 36 → 37: aparecen las tardes libres usadas este mes en acciones con el tiempo
             // parado. En las partidas viejas nadie ha usado ninguna: el dato que falta ya se lee así.
             [36] = save => { },
+
+            // 37 → 38: aparece en qué anda la gente que nadie juega (trabaja, busca
+            // pega, estudia, jubilada) y la pega real de algunos. En las partidas viejas nadie se
+            // ha mirado todavía: el dato que falta se lee como "sin mirar" y se mira la próxima semana.
+            [37] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

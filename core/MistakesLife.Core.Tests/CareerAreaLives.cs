@@ -482,6 +482,35 @@ namespace MistakesLife.Core.Tests
             return seen;
         }
 
+        /// <summary>
+        /// Vidas donde la pareja acumula rencor (y le queda poco cariño), para que se vaya: en
+        /// una vida al azar le pasa a menos del 1 %, y en las pruebas dependía de la suerte.
+        /// Devuelve los eventos que pasaron después.
+        /// </summary>
+        public static HashSet<string> PartnerLeavesEvents(ContentDatabase content, int lives, int startAge = 35, int finalAge = 38)
+        {
+            var seen = new HashSet<string>();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 1400 + (ulong)i);
+                Play(session, startAge);
+                World world = session.World;
+                var scope = new EventScope(world, content, world.Player, null, readOnly: false);
+                if (!world.Player.IsAlive || !Expression.Parse("jugador.pareja != nada").IsTrue(scope))
+                {
+                    continue;
+                }
+
+                Effect.Parse("jugador.pareja.rencor += 60").Apply(scope);
+                Effect.Parse("jugador.pareja.carino -= 60").Apply(scope);
+                int before = world.EventHistory.Count;
+                Play(session, finalAge);
+                seen.UnionWith(world.EventHistory.Skip(before).Select(r => r.EventId));
+            }
+
+            return seen;
+        }
+
         private static void Play(LifeSession session, int age)
         {
             var decider = new AutoDecider(session.Content);

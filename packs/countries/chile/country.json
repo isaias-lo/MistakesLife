@@ -351,6 +351,28 @@
     }
   },
   "familia_no_jugada": { "pareja_anual": 0.15, "hijo_anual": 0.07, "separacion_anual": 0.03, "adopcion_anual": 0.03, "edad_pareja_min": 18, "edad_fertil_max": 44, "max_hijos": 3 },
+  "trabajo_de_la_gente": {
+    "edad_min": 15,
+    "edades": [
+      { "desde": 15, "hasta": 19, "ocupados": 0.088, "desocupacion": 0.390 },
+      { "desde": 20, "hasta": 24, "ocupados": 0.417, "desocupacion": 0.215 },
+      { "desde": 25, "hasta": 34, "ocupados": 0.750, "desocupacion": 0.088 },
+      { "desde": 35, "hasta": 44, "ocupados": 0.791, "desocupacion": 0.066 },
+      { "desde": 45, "hasta": 54, "ocupados": 0.744, "desocupacion": 0.064 },
+      { "desde": 55, "hasta": 64, "ocupados": 0.613, "desocupacion": 0.062 },
+      { "desde": 65, "hasta": 120, "ocupados": 0.194, "desocupacion": 0.046 }
+    ],
+    "estudia_superior": { "desde": 18, "hasta": 24, "parte": 0.411 },
+    "mujeres_ocupadas": 0.420,
+    "pegas": [
+      { "carrera": "oficio.maestro", "parte": 0.0512 },
+      { "carrera": "oficio.vendedor", "parte": 0.0404 },
+      { "carrera": "carrera.contabilidad", "parte": 0.0122 },
+      { "carrera": "oficio.garzon", "parte": 0.0070 },
+      { "carrera": "carrera.software", "parte": 0.0064 },
+      { "carrera": "carrera.psicologia", "parte": 0.0050 }
+    ]
+  },
   "diversidad": {
     "orientaciones": { "heterosexual": 910, "homosexual": 30, "bisexual": 50, "asexual": 10 },
     "identidades": { "cis": 970, "trans": 10, "no_binario": 20 }

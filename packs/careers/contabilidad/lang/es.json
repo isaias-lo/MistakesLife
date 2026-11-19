@@ -46,5 +46,7 @@
   "evento.contabilidad.primer_trabajo.4": "Terminó tu último trabajo. Entre los avisos hay de todo: auditoría, tributaria, remuneraciones. ¿Dónde postulas?",
   "evento.contabilidad.cierre_anual.4": "Cierre de año y el sistema contable se cae justo el 30 de diciembre. Pasas la noche cuadrando planillas a mano.",
   "evento.contabilidad.cierre_anual.5": "Último cierre del año con la auditoría externa encima. Cada cuenta que no cuadra hay que explicarla por escrito.",
-  "evento.contabilidad.primer_trabajo.5": "Buscas trabajo otra vez. Una excompañera te dice que en su estudio contable necesitan gente, pero también hay avisos en empresas grandes. ¿Por dónde vas?"
+  "evento.contabilidad.primer_trabajo.5": "Buscas trabajo otra vez. Una excompañera te dice que en su estudio contable necesitan gente, pero también hay avisos en empresas grandes. ¿Por dónde vas?",
+  "carrera.contabilidad.persona.f": "Contadora",
+  "carrera.contabilidad.persona.m": "Contador"
 }

@@ -90,6 +90,7 @@ namespace MistakesLife.Core.Game
                 .Register(new LooksSystem(content))
                 .Register(new MortalitySystem(content))
                 .Register(new RelativesFamilySystem(content))
+                .Register(new PeopleWorkSystem(content))
                 .Register(new RelationshipSystem())
                 .Register(new SeedSystem(seedRules))
                 .Register(Events)

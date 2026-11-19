@@ -231,6 +231,7 @@ namespace MistakesLife.Core.Saving
                 }).ToList(),
                 EducationStageId = c.EducationStageId,
                 Flags = c.Flags.ToList(),
+                WorkStatus = c.WorkStatus?.ToString(),
                 Studies = c.Studies == null ? null : new StudiesData
                 {
                     CareerId = c.Studies.CareerId,

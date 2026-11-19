@@ -1917,7 +1917,37 @@ namespace MistakesLife.Core.Presentation
                 return Text("ui.gente.vida.estudia", T(person.Studies.CareerId));
             }
 
-            return string.Empty;
+            return WorkLine(person);
+        }
+
+        /// <summary>
+        /// En qué anda alguien que nadie juega (ver Life.PeopleWorkSystem): su pega del juego y
+        /// dónde ("Contadora en Estudio Rivas"), o solo "Trabaja", "Busca pega", "Estudia" o
+        /// "Jubilada". Vacío si no anda en nada de eso o el juego todavía no lo ha mirado.
+        /// </summary>
+        private string WorkLine(Character person)
+        {
+            string g = person.Gender == Gender.Female ? ".f" : ".m";
+            switch (person.WorkStatus)
+            {
+                case WorkStatus.Working:
+                    if (person.Job?.Position == null || !Session.Content.TryGetCareerArea(person.Job.Position.AreaId, out CareerAreaDefinition? area))
+                    {
+                        return T("ui.gente.vida.trabaja");
+                    }
+
+                    string job = T(area!.CareerId + ".persona" + g);
+                    Company? company = Session.World.CompanyById(person.Job.CompanyId);
+                    return company?.NameId == null ? job : Text("ui.gente.vida.pega", job, T(company.NameId));
+                case WorkStatus.Unemployed:
+                    return T("ui.gente.vida.busca_pega");
+                case WorkStatus.Studying:
+                    return T("ui.gente.vida.estudia_algo");
+                case WorkStatus.Retired:
+                    return T("ui.gente.vida.jubilado" + g);
+                default:
+                    return string.Empty;
+            }
         }
 
         /// <summary>Qué es tuyo un conocido: compañera de curso, colega, tu jefatura, tu profe o, si no, "Conocido".</summary>

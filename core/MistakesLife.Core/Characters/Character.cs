@@ -344,6 +344,13 @@ namespace MistakesLife.Core.Characters
         /// <summary>La carrera que estudia ahora, o null si no estudia.</summary>
         public CareerStudies? Studies { get; set; }
 
+        /// <summary>
+        /// En qué anda, si nadie lo juega: trabaja, busca pega, estudia o está jubilado (ver
+        /// <see cref="Life.PeopleWorkSystem"/>). Null si todavía no se ha mirado (o si es el
+        /// jugador, cuya vida la deciden sus decisiones).
+        /// </summary>
+        public WorkStatus? WorkStatus { get; set; }
+
         /// <summary>Su curso del colegio (compañeros con nombre y profe jefe), mientras va al colegio.</summary>
         public Education.SchoolClass? SchoolClass { get; set; }
 
@@ -384,6 +391,12 @@ namespace MistakesLife.Core.Characters
 
         /// <summary>Repone un título al cargar una partida.</summary>
         internal void RestoreDegree(string levelId) => _degrees.Add(levelId);
+
+        /// <summary>
+        /// Le da un título que obtuvo antes de que el juego lo conociera (alguien que nadie
+        /// juega y que trabaja en una carrera que pide título).
+        /// </summary>
+        internal void AddDegree(string levelId) => _degrees.Add(levelId);
 
         public bool IsAlive { get; private set; } = true;
 

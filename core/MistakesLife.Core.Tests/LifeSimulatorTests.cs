@@ -65,7 +65,7 @@ namespace MistakesLife.Core.Tests
             var simulator = new LifeSimulator(RepoPacks.Content);
             SimulationReport young = null!, old = null!;
             HashSet<string> careers = null!, sick = null!, struggling = null!, careerSeeds = null!, separated = null!,
-                inheritance = null!, top = null!, freelance = null!, roommates = null!, drift = null!;
+                inheritance = null!, top = null!, freelance = null!, roommates = null!, drift = null!, partner = null!;
             Parallel.Invoke(
                 () => young = simulator.Run(lives: 1000, finalAge: 25),
                 // 300 hasta los 85: algunos eventos de adultos le pasan a cerca del 1 % de las vidas
@@ -92,11 +92,20 @@ namespace MistakesLife.Core.Tests
                 () => roommates = CareerAreaLives.RoommateEvents(RepoPacks.Content, lives: 40),
                 // Y vidas donde la amistad se enfría, para que el amigo se aleje (en vidas al azar,
                 // muy pocas: dependía de la suerte).
-                () => drift = CareerAreaLives.FriendDriftEvents(RepoPacks.Content, lives: 10));
+                () => drift = CareerAreaLives.FriendDriftEvents(RepoPacks.Content, lives: 10),
+                // Y vidas donde la pareja acumula rencor, para que se vaya (en vidas al azar, menos
+                // del 1 %: también dependía de la suerte).
+                () => partner = CareerAreaLives.PartnerLeavesEvents(RepoPacks.Content, lives: 10));
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(freelance).Except(roommates).Except(drift).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(freelance).Except(roommates).Except(drift).Except(partner).ToArray();
 
             Assert.Empty(never);
+        }
+
+        [Fact]
+        public void ParejaConMuchoRencor_SeVa()
+        {
+            Assert.Contains("evento.pareja_se_va", CareerAreaLives.PartnerLeavesEvents(RepoPacks.Content, lives: 10));
         }
 
         [Fact]
