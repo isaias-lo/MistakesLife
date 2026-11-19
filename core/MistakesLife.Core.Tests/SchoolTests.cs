@@ -129,17 +129,20 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void Companeros_QueSeQuierenDeVerdad_SeVuelvenAmigos()
+        public void Companeros_QueSeQuierenDeVerdad_NoSeVuelvenAmigosSolos_PeroHayQuimica()
         {
             World world = LiveUntil(9, 20);
-            Character mate = SchoolRules.Classmates(world, world.Player)[0];
+            Character mate = SchoolRules.Classmates(world, world.Player)
+                .First(m => RelationshipRules.Feelings(world, world.Player, m).Bond == RelationshipBond.None);
             RelationshipRules.Edit(world, world.Player, mate).Affection = 70;
             RelationshipRules.Edit(world, mate, world.Player).Affection = 65;
 
-            var friends = SchoolRules.NewFriendships(world, world.Player);
+            // D4b: después de la amistad de la infancia, ninguna amistad nace sola.
+            world.Player.SetFlag(SchoolRules.ChildhoodFriendFlag);
+            Assert.Null(SchoolRules.ChildhoodFriendship(world, world.Player));
 
-            Assert.Contains(mate, friends);
-            Assert.Equal(RelationshipBond.Friend, RelationshipRules.Feelings(world, world.Player, mate).Bond);
+            Assert.True(SchoolRules.ReadyForFriendship(world, world.Player, mate));
+            Assert.NotEqual(RelationshipBond.Friend, RelationshipRules.Feelings(world, world.Player, mate).Bond);
         }
 
         [Fact]

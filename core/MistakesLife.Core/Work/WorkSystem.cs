@@ -72,11 +72,8 @@ namespace MistakesLife.Core.Work
                 }
             }
 
+            // Las amistades de la pega ya no nacen solas: quien te quiere te invita a algo (D4b).
             WorkRules.ShareMonth(world, player);
-            if (WorkRules.NewFriendships(world, player).Count > 0)
-            {
-                world.WriteJournal(player.Id, "diario.pega.amistad");
-            }
         }
     }
 }

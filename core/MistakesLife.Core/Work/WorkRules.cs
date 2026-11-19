@@ -156,29 +156,6 @@ namespace MistakesLife.Core.Work
             }
         }
 
-        /// <summary>
-        /// Los colegas que se quieren de verdad se vuelven amigos (como en el colegio: el otro te
-        /// quiere y tú también, o han vivido juntos al menos <see cref="SchoolRules.FriendshipMoments"/> momentos).
-        /// </summary>
-        public static IReadOnlyList<Character> NewFriendships(World world, Character player)
-        {
-            var friends = new List<Character>();
-            IReadOnlyDictionary<int, int> shared = SchoolRules.SharedMoments(world, player);
-            foreach (Character mate in Colleagues(world, player))
-            {
-                Relationship mine = RelationshipRules.Feelings(world, player, mate);
-                Relationship theirs = RelationshipRules.Feelings(world, mate, player);
-                bool yours = mine.Affection >= SchoolRules.FriendshipAffection || (shared.TryGetValue(mate.Id, out int moments) && moments >= SchoolRules.FriendshipMoments);
-                if (mine.Bond == RelationshipBond.Colleague && yours && theirs.Affection >= SchoolRules.FriendshipAffection)
-                {
-                    RelationshipRules.SetBond(world, player, mate, RelationshipBond.Friend);
-                    friends.Add(mate);
-                }
-            }
-
-            return friends;
-        }
-
         private static Character NewPerson(World world, ContentDatabase content, Character player, WorkTeam team, GameRandom random, bool boss)
         {
             CountryDefinition country = content.GetCountry(player.Residence!.CountryId);

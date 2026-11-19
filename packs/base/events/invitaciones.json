@@ -1,0 +1,101 @@
+[
+  {
+    "id": "evento.invitacion.colegio",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 8 && jugador.edad < 19 && persona.quiere_amistad",
+    "probabilidad_anual": 0.9,
+    "enfriamiento_semanas": 6,
+    "por_persona": true,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.invitacion.colegio.2",
+      "evento.invitacion.colegio.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.invitacion.colegio.ir",
+        "tendencia": "40 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.vincular('amistad')",
+          "persona.carino += 5",
+          "jugador.felicidad += 3",
+          "diario('diario.curso.amistad')"
+        ]
+      },
+      {
+        "texto": "opcion.invitacion.colegio.no",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.carino -= 6"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.invitacion.universidad",
+    "con": "companero",
+    "lugar": "lugar.biblioteca",
+    "condiciones": "jugador.en_la_u && persona.quiere_amistad",
+    "probabilidad_anual": 0.9,
+    "enfriamiento_semanas": 6,
+    "por_persona": true,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.invitacion.universidad.2",
+      "evento.invitacion.universidad.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.invitacion.universidad.ir",
+        "tendencia": "40 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.vincular('amistad')",
+          "persona.carino += 5",
+          "jugador.felicidad += 3",
+          "diario('diario.curso.amistad')"
+        ]
+      },
+      {
+        "texto": "opcion.invitacion.universidad.no",
+        "tendencia": "(100 - jugador.extraversion) / 3",
+        "efectos": [
+          "persona.carino -= 6"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.invitacion.pega",
+    "con": "equipo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.en_la_pega && persona.quiere_amistad",
+    "probabilidad_anual": 0.9,
+    "enfriamiento_semanas": 6,
+    "por_persona": true,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.invitacion.pega.2",
+      "evento.invitacion.pega.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.invitacion.pega.ir",
+        "tendencia": "35 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.vincular('amistad')",
+          "persona.carino += 5",
+          "jugador.felicidad += 3",
+          "diario('diario.pega.amistad')"
+        ]
+      },
+      {
+        "texto": "opcion.invitacion.pega.no",
+        "tendencia": "(100 - jugador.extraversion) / 3 + jugador.responsabilidad / 6",
+        "efectos": [
+          "persona.carino -= 5"
+        ]
+      }
+    ]
+  }
+]
