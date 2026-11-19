@@ -32,7 +32,10 @@ namespace MistakesLife.Core.Events
     /// ganado_negocio (todo lo que ha recibido) de su negocio con un socio,
     /// tiene_equipo (si trabaja con su equipo armado: jefe y colegas),
     /// comparte_arriendo (si alguien se vino a vivir con él y paga su parte),
-    /// prevision, prevision_privada, tramo_salud, precio_plan_salud, semanas_desde_atencion.
+    /// prevision, prevision_privada, tramo_salud, precio_plan_salud, semanas_desde_atencion,
+    /// en_que_anda (de la gente que nadie juega: 'trabaja', 'busca_pega', 'estudia', 'jubilado',
+    /// 'nada', o nada si el juego todavía no la mira o es el jugador; ver PeopleWorkSystem),
+    /// cumple_esta_semana (si esta semana es su cumpleaños).
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada), en_tu_equipo (si
@@ -271,6 +274,10 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber((double)_character.Money);
                 case "trabaja":
                     return Value.FromBool(_character.Job != null);
+                case "en_que_anda":
+                    return TextOrNull(WorkStatusKey(_character.WorkStatus));
+                case "cumple_esta_semana":
+                    return Value.FromBool(_character.AgeInWeeks(((EventScope)scope).World.Date) % Time.GameDate.WeeksPerYear == 0);
                 case "meses_en_trabajo":
                     return Value.FromNumber(_character.Job?.MonthsInJob ?? 0);
                 case "ultimo_sueldo":
@@ -615,6 +622,25 @@ namespace MistakesLife.Core.Events
         {
             return _viewer ?? throw new ScriptException(
                 $"{member} solo se usa en otra persona a la que se llega desde alguien (es sobre lo que siente por él), por ejemplo jugador.madre.{member} o jugador.amigo.{member}.");
+        }
+
+        private static string? WorkStatusKey(WorkStatus? status)
+        {
+            switch (status)
+            {
+                case WorkStatus.Working:
+                    return "trabaja";
+                case WorkStatus.Unemployed:
+                    return "busca_pega";
+                case WorkStatus.Studying:
+                    return "estudia";
+                case WorkStatus.Retired:
+                    return "jubilado";
+                case WorkStatus.Inactive:
+                    return "nada";
+                default:
+                    return null;
+            }
         }
 
         private static int Feeling(Relationship feelings, string member)
@@ -1017,7 +1043,16 @@ namespace MistakesLife.Core.Events
                     return Value.Null;
                 case SearchJobMethod:
                     ((EventScope)scope).RequireWritable("jugador." + method);
-                    SearchJob((EventScope)scope, EventScope.SingleText("jugador." + method, args));
+                    if (args.Length == 2)
+                    {
+                        // buscar_trabajo('forma', persona): esa persona es quien lo recomienda.
+                        Character who = (args[1].Kind == ValueKind.Null ? null : (args[1].AsObject("jugador." + method) as CharacterObject)?.Character)
+                            ?? throw new ScriptException($"jugador.{method}('forma', persona): quien recomienda debe ser una persona.");
+                        SearchJob((EventScope)scope, EventScope.SingleText("jugador." + method, new[] { args[0] }), who);
+                        return Value.Null;
+                    }
+
+                    SearchJob((EventScope)scope, EventScope.SingleText("jugador." + method, args), null);
                     return Value.Null;
                 case CanSearchWithMethod:
                     return Value.FromBool(CanSearchWith((EventScope)scope, EventScope.SingleText("jugador." + method, args)));
@@ -1355,16 +1390,22 @@ namespace MistakesLife.Core.Events
         /// <summary>
         /// buscar_trabajo('forma'): empieza a buscar de esa forma (si no dijo qué busca,
         /// busca cualquier trabajo). Con una forma que necesita contacto, ese conocido
-        /// queda como quien lo recomienda (jugador.contacto).
+        /// queda como quien lo recomienda (jugador.contacto): el que más lo quiere, o el que
+        /// se le pidió con buscar_trabajo('forma', persona).
         /// </summary>
-        private void SearchJob(EventScope scope, string methodId)
+        private void SearchJob(EventScope scope, string methodId, Character? recommender)
         {
             Content.JobSearchMethodDefinition method = Economy.JobSearchRules.Definition(scope.Content, _character)?.Method(methodId)
                 ?? throw new ScriptException($"jugador.buscar_trabajo('{methodId}'): esa forma de buscar no existe en el país donde vive (revisa jugador.puede_buscar_con('{methodId}')).");
+            if (recommender != null && !method.NeedsContact)
+            {
+                throw new ScriptException($"jugador.buscar_trabajo('{methodId}', persona): esa forma de buscar no es con un conocido que recomiende.");
+            }
+
             int? contactId = null;
             if (method.NeedsContact)
             {
-                Character contact = Contact(scope)
+                Character contact = recommender ?? Contact(scope)
                     ?? throw new ScriptException($"jugador.buscar_trabajo('{methodId}'): no tiene un conocido que lo recomiende (revisa jugador.puede_buscar_con('{methodId}')).");
                 contactId = contact.Id;
             }

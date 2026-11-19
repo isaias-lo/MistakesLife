@@ -511,6 +511,52 @@ namespace MistakesLife.Core.Tests
             return seen;
         }
 
+        /// <summary>
+        /// Vidas que le piden plata prestada a la mamá (una acción de Tu gente, que el simulador
+        /// no hace), para que despierte la semilla de devolverla. Devuelve los eventos que pasaron después.
+        /// </summary>
+        public static HashSet<string> BorrowedMoneyEvents(ContentDatabase content, int lives, int startAge = 30, int finalAge = 34)
+        {
+            var seen = new HashSet<string>();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 1500 + (ulong)i);
+                Play(session, startAge);
+                World world = session.World;
+                Character player = world.Player;
+                if (!player.IsAlive || !player.MotherId.HasValue || !world.TryGetCharacter(player.MotherId.Value, out Character? mother) || !mother.IsAlive)
+                {
+                    continue;
+                }
+
+                mother.WorkStatus = WorkStatus.Retired;
+                Relationship theirs = RelationshipRules.Edit(world, mother, player);
+                theirs.Affection = 80;
+                theirs.Trust = 70;
+                // Una tarde libre para pedirla.
+                player.Routine?.Set(6, RoutineBlock.Afternoon, null);
+                player.FreeTime = null;
+                if (!ActionRules.Available(world, content, player, "gente").Any(o => o.Definition.Id == "accion.pedir_plata" && o.Person?.Id == mother.Id)
+                    || !ActionRules.CanAfford(world, content, player, content.Action("accion.pedir_plata")!))
+                {
+                    continue;
+                }
+
+                // La mitad gasta la plata altiro, para no tener cómo devolverla.
+                ActionRules.Do(world, content, player, "accion.pedir_plata", mother.Id);
+                if (i % 2 == 1)
+                {
+                    player.Money = 0;
+                }
+
+                int before = world.EventHistory.Count;
+                Play(session, finalAge);
+                seen.UnionWith(world.EventHistory.Skip(before).Select(r => r.EventId));
+            }
+
+            return seen;
+        }
+
         private static void Play(LifeSession session, int age)
         {
             var decider = new AutoDecider(session.Content);

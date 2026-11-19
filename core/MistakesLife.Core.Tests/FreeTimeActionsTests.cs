@@ -69,7 +69,7 @@ namespace MistakesLife.Core.Tests
         public void Descansar_GastaUnaTarde_YLaEnergiaSubeAlTiro()
         {
             LifeSession session = Life(20, free: 3);
-            var changes = session.DoAction("accion.descansar", null);
+            var changes = session.DoAction("accion.descansar", null).Changes;
 
             Assert.Equal(56, Player(session).Stats.Energy);
             Assert.Equal("energia", Assert.Single(changes).Key);

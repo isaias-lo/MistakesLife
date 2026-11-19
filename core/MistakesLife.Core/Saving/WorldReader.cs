@@ -232,6 +232,11 @@ namespace MistakesLife.Core.Saving
                         chat.Add(new Devices.ChatMessage(Date(message.Week), message.TextKey, message.FromPlayer));
                     }
 
+                    foreach (KeyValuePair<string, int> sent in chatData.LimitedSent ?? new Dictionary<string, int>())
+                    {
+                        chat.CountLimited(sent.Key, sent.Value);
+                    }
+
                     inbox.Add(chat);
                 }
 

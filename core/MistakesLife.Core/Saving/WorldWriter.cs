@@ -159,6 +159,7 @@ namespace MistakesLife.Core.Saving
                         PlayerWrote = chat.PlayerWrote,
                         PlayerWroteWeek = chat.PlayerWroteOn.TotalWeeks,
                         Messages = chat.Messages.Select(m => new ChatMessageData { Week = m.Date.TotalWeeks, TextKey = m.TextKey, FromPlayer = m.FromPlayer }).ToList(),
+                        LimitedSent = chat.LimitedSent.Count == 0 ? null : chat.LimitedSent.OrderBy(p => p.Key, System.StringComparer.Ordinal).ToDictionary(p => p.Key, p => p.Value),
                     }).ToList(),
                 },
                 LastAreaId = c.LastPosition?.AreaId,

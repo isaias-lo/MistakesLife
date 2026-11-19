@@ -129,6 +129,8 @@ Hay acciones base (hablar, invitar a salir, pedir ayuda) y otras que **nacen de 
 
 Las personas también escriben, invitan o piden cosas por su cuenta, **sin repetirse**. Los cercanos se simulan mes a mes y los conocidos una vez al año.
 
+**Cómo se hizo (D4c, Isaias eligió "la mezcla" el 19-11-2026):** lo chico llega por Mensajito y lo contestas cuando quieras; sale de la vida real de quien escribe (tu mamá jubilada quiere conocer tu casa, tu papá se quedó sin pega, tu amiga te avisa de una vacante en su empresa y si le dices que sí te recomienda, te invitan a un cumpleaños la semana del cumpleaños) y cada mensaje tiene su tope por persona. Lo grande para el tiempo como momento: que un amigo te pida ser aval de su arriendo (si no paga, te toca a ti). En la ficha de cada persona se puede conversar, invitar a salir, pedir plata prestada, pedir que te recomiende en su pega y hacer las paces; la persona puede decir que no.
+
 ### Pareja
 
 - **La iniciativa es del jugador**, con empujón del juego (app de citas, Instante, gente que conoces).

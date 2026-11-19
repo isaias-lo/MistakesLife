@@ -408,7 +408,7 @@ namespace MistakesLife.Core.Game
         /// acción es con alguien): gasta tardes libres del mes y cambia lo que dice, al tiro.
         /// Devuelve lo que cambió de verdad.
         /// </summary>
-        public IReadOnlyList<Life.ActionChange> DoAction(string actionId, int? personId)
+        public Life.ActionOutcome DoAction(string actionId, int? personId)
         {
             if (Pending != null)
             {
