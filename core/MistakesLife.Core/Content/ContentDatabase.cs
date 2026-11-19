@@ -1096,6 +1096,52 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError($"{where}, familia_no_jugada", "las probabilidades van de 0 a 1, edad_pareja_min desde 12, edad_fertil_max mayor que edad_pareja_min y max_hijos no negativo."));
                 }
             }
+
+            if (country.PeopleWork != null)
+            {
+                ValidatePeopleWork($"{where}, trabajo_de_la_gente", country.PeopleWork);
+            }
+        }
+
+        /// <summary>
+        /// "trabajo_de_la_gente": tramos de edad sin huecos raros, tasas de 0 a 1 y pegas que
+        /// existen enteras en el juego (una carrera u oficio cargado), sin sumar más que todos.
+        /// </summary>
+        private void ValidatePeopleWork(string where, PeopleWorkDefinition work)
+        {
+            bool Rate(double r) => r >= 0 && r <= 1;
+            if (work.Ages.Count == 0 || work.Ages.Any(a => a.From > a.To || a.From < work.MinAge || !Rate(a.Employed) || !Rate(a.Unemployment) || a.Unemployment >= 1 || a.Employed + a.Unemployed > 1))
+            {
+                _errors.Add(new ContentError(where + ".edades", "cada tramo necesita desde <= hasta (desde edad_min), ocupados y desocupacion entre 0 y 1, y ocupados más desocupados no pueden pasar de todos."));
+            }
+
+            if (work.HigherEducation != null && (work.HigherEducation.From > work.HigherEducation.To || !Rate(work.HigherEducation.Share)))
+            {
+                _errors.Add(new ContentError(where + ".estudia_superior", "desde <= hasta y parte entre 0 y 1."));
+            }
+
+            if (!Rate(work.WomenShare) || work.WomenShare == 0 || work.WomenShare == 1)
+            {
+                _errors.Add(new ContentError(where + ".mujeres_ocupadas", "va entre 0 y 1 (sin ser 0 ni 1)."));
+            }
+
+            foreach (PeopleJobDefinition job in work.Jobs)
+            {
+                if (!_careers.TryGetValue(job.CareerId, out CareerDefinition? career) || career.Areas.Count == 0)
+                {
+                    _errors.Add(new ContentError(where + ".pegas", $"la pega '{job.CareerId}' no es una carrera u oficio con áreas del juego: la gente solo trabaja en pegas que existen enteras."));
+                }
+
+                if (!Rate(job.Share) || (job.Women.HasValue && !Rate(job.Women.Value)))
+                {
+                    _errors.Add(new ContentError(where + ".pegas", $"'{job.CareerId}': parte y mujeres van de 0 a 1."));
+                }
+            }
+
+            if (work.Jobs.Sum(j => j.Share) > 1)
+            {
+                _errors.Add(new ContentError(where + ".pegas", "las partes de las pegas suman más que todos los ocupados."));
+            }
         }
 
         private void ValidateHealthCare(string where, EconomyDefinition economy)

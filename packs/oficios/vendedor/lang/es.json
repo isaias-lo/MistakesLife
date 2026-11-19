@@ -79,5 +79,7 @@
   "evento.vendedor.inventario.3": "El conteo no cuadra por doce unidades. {persona} pide que alguien se quede a recontar el pasillo completo.",
   "evento.vendedor.merma.2": "Las cámaras muestran a alguien sacando un perfume del mostrador. {persona} dice que hay que estar más atentos y mira al equipo uno por uno.",
   "evento.vendedor.merma.3": "Falta plata en la caja al cierre. {persona} quiere que los que hicieron caja hoy pongan la diferencia. Eso la ley no lo permite.",
-  "evento.vendedor.aviso.5": "En el supermercado del barrio hay un letrero junto a las cajas: buscan reponedores y vendedores para la sección electro."
+  "evento.vendedor.aviso.5": "En el supermercado del barrio hay un letrero junto a las cajas: buscan reponedores y vendedores para la sección electro.",
+  "oficio.vendedor.persona.f": "Vendedora",
+  "oficio.vendedor.persona.m": "Vendedor"
 }

@@ -78,5 +78,7 @@
   "evento.garzon.cocina.3": "{persona}, de la cocina, te devuelve un plato: \"Esto no es lo que pidió la mesa 4\". Lo anotaste mal tú.",
   "evento.garzon.fin_de_ano.2": "Llega diciembre y con él las cenas de empresa. {persona} pega en la cocina la lista de reservas: no hay un día libre hasta Navidad.",
   "evento.garzon.fin_de_ano.3": "Última semana del año. {persona} reparte los turnos de Año Nuevo y te toca la noche del 31.",
-  "evento.garzon.aviso.5": "Un restorán del centro pone en sus redes que busca garzones para la temporada de verano, con o sin experiencia."
+  "evento.garzon.aviso.5": "Un restorán del centro pone en sus redes que busca garzones para la temporada de verano, con o sin experiencia.",
+  "oficio.garzon.persona.f": "Garzona",
+  "oficio.garzon.persona.m": "Garzón"
 }

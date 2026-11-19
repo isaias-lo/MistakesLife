@@ -104,6 +104,14 @@ namespace MistakesLife.Core.Content
         public FamilyRatesDefinition? NonPlayedFamily { get; set; }
 
         /// <summary>
+        /// En qué anda la gente que nadie juega: si trabaja (y en qué pega del juego), busca
+        /// pega, estudia o está jubilada (ver <see cref="PeopleWorkDefinition"/>). Si falta, el
+        /// juego no les pone nada.
+        /// </summary>
+        [JsonProperty("trabajo_de_la_gente")]
+        public PeopleWorkDefinition? PeopleWork { get; set; }
+
+        /// <summary>
         /// Las leyes del país: id de ley ("ley.matrimonio_igualitario") → valor (sí/no,
         /// un número como una edad, o un texto como una modalidad). Los eventos las leen
         /// con ley('id'), así un mismo evento sirve para todos los países.

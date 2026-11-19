@@ -355,8 +355,10 @@ namespace MistakesLife.Core.Tests
             // de la pega (R6a: jefe y 5 colegas por trabajo, que van cambiando con los años y quedan como
             // personas que conociste) la lleva a unos 141 KB. Con los oficios (R6b) esta vida busca medio
             // año con título, trabaja de vendedor y después de maestro: cada trabajo trae su equipo y llega
-            // a unos 158 KB. El tope deja margen para el contenido nuevo sin dejar que se dispare.
-            Assert.True(bytes < 175_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
+            // a unos 158 KB. En qué anda la gente que nadie juega (D4a2: trabaja, busca pega, estudia o
+            // está jubilada, y la pega del juego de algunos con su empresa) la lleva a unos 188 KB. El
+            // tope deja margen para el contenido nuevo sin dejar que se dispare.
+            Assert.True(bytes < 200_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }
 
         [Fact]

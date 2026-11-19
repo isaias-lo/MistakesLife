@@ -47,5 +47,7 @@
   "evento.psicologia.agotamiento.5": "Te tomas unos días libres, pero el celular no deja de sonar: pacientes que necesitan hora, informes pendientes, una supervisión que se movió.",
   "evento.psicologia.primer_trabajo.3": "De nuevo buscando. Entre los avisos hay de todo: colegios, consultorios, recursos humanos, consulta particular. ¿Dónde postulas esta vez?",
   "evento.psicologia.primer_trabajo.4": "Terminó tu último trabajo. Con los años que llevas atendiendo, ¿sigues en lo mismo o pruebas en otra área de la psicología?",
-  "evento.psicologia.primer_trabajo.5": "Vuelves a buscar trabajo. Una excompañera te cuenta que en su centro de salud mental necesitan gente, pero también hay avisos en empresas. ¿Por dónde vas?"
+  "evento.psicologia.primer_trabajo.5": "Vuelves a buscar trabajo. Una excompañera te cuenta que en su centro de salud mental necesitan gente, pero también hay avisos en empresas. ¿Por dónde vas?",
+  "carrera.psicologia.persona.f": "Psicóloga",
+  "carrera.psicologia.persona.m": "Psicólogo"
 }

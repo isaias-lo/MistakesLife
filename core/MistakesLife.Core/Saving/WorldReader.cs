@@ -295,6 +295,7 @@ namespace MistakesLife.Core.Saving
                 character.SetFlag(flag);
             }
 
+            character.WorkStatus = d.WorkStatus == null ? (WorkStatus?)null : Parse<WorkStatus>(d.WorkStatus);
             if (d.Studies != null)
             {
                 StudiesData s = d.Studies;
