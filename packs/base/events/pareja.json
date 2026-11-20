@@ -1,0 +1,328 @@
+[
+  {
+    "id": "evento.pareja.conocer.carrete",
+    "actividad": "actividad.carrete",
+    "con": "alguien_nuevo",
+    "lugar": "lugar.carrete",
+    "condiciones": "jugador.edad >= 16 && jugador.pareja == nada && !(jugador.en_viudez && jugador.semanas_viudez < 26)",
+    "probabilidad_anual": 0.35,
+    "enfriamiento_semanas": 26,
+    "variantes": [
+      "evento.pareja.conocer.carrete.2",
+      "evento.pareja.conocer.carrete.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.pareja.conocer.conversar",
+        "tendencia": "20 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.carino += 25",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.conocer.seguir",
+        "tendencia": "(100 - jugador.extraversion) / 3"
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja.conocer.deporte",
+    "actividad": "actividad.deporte",
+    "con": "alguien_nuevo",
+    "lugar": "lugar.cancha",
+    "condiciones": "jugador.edad >= 16 && jugador.pareja == nada && !(jugador.en_viudez && jugador.semanas_viudez < 26)",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.pareja.conocer.deporte.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.pareja.conocer.conversar",
+        "tendencia": "20 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.carino += 25",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.conocer.seguir",
+        "tendencia": "(100 - jugador.extraversion) / 3"
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja.conocer.amigos",
+    "actividad": "actividad.juntarse_amigos",
+    "con": "alguien_nuevo",
+    "lugar": "lugar.casa_amigo",
+    "condiciones": "jugador.edad >= 18 && jugador.pareja == nada && jugador.amigos >= 1 && !(jugador.en_viudez && jugador.semanas_viudez < 26)",
+    "probabilidad_anual": 0.2,
+    "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.pareja.conocer.amigos.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.pareja.conocer.conversar",
+        "tendencia": "25 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.carino += 25",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.conocer.seguir",
+        "tendencia": "(100 - jugador.extraversion) / 3"
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja.conocer.pega",
+    "con": "alguien_nuevo",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.trabaja && jugador.edad >= 18 && jugador.pareja == nada && !(jugador.en_viudez && jugador.semanas_viudez < 26)",
+    "probabilidad_anual": 0.2,
+    "enfriamiento_semanas": 52,
+    "variantes": [
+      "evento.pareja.conocer.pega.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.pareja.conocer.conversar",
+        "tendencia": "20 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.carino += 25",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.conocer.seguir",
+        "tendencia": "(100 - jugador.extraversion) / 3"
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja.conocer.estudios",
+    "con": "alguien_nuevo",
+    "lugar": "lugar.campus",
+    "condiciones": "jugador.estudia != nada && jugador.edad >= 18 && jugador.pareja == nada",
+    "probabilidad_anual": 0.25,
+    "enfriamiento_semanas": 52,
+    "opciones": [
+      {
+        "texto": "opcion.pareja.conocer.conversar",
+        "tendencia": "20 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.carino += 25",
+          "jugador.felicidad += 2"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.conocer.seguir",
+        "tendencia": "(100 - jugador.extraversion) / 3"
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja.te_invita",
+    "con": "cualquiera",
+    "condiciones": "jugador.edad >= 14 && jugador.pareja == nada && persona.pueden_salir && persona.carino >= 55 && !(jugador.en_viudez && jugador.semanas_viudez < 26)",
+    "probabilidad_anual": 0.9,
+    "enfriamiento_semanas": 8,
+    "veces_maximas": 2,
+    "por_persona": true,
+    "variantes": [
+      "evento.pareja.te_invita.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.pareja.te_invita.si",
+        "tendencia": "40 + jugador.extraversion / 3",
+        "efectos": [
+          "jugador.salir_con()",
+          "persona.carino += 8",
+          "jugador.felicidad += 4"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.te_invita.no",
+        "tendencia": "15 + (100 - jugador.extraversion) / 4",
+        "efectos": [
+          "persona.carino -= 4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja.te_pide_pololeo",
+    "con": "pareja",
+    "condiciones": "jugador.etapa_pareja == 'saliendo' && jugador.semanas_en_etapa >= 6 && persona.carino >= 55",
+    "probabilidad_anual": 0.99,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.pareja.te_pide_pololeo.si",
+        "tendencia": "55 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.pololear()",
+          "persona.carino += 5",
+          "jugador.felicidad += 6",
+          "diario('diario.pareja.pololeo')"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.te_pide_pololeo.todavia",
+        "tendencia": "20",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.te_pide_pololeo.terminar",
+        "tendencia": "8",
+        "efectos": [
+          "persona.rencor += 8",
+          "jugador.terminar_pareja()"
+        ]
+      }
+    ],
+    "veces_maximas": 2,
+    "por_persona": true,
+    "variantes": [
+      "evento.pareja.te_pide_pololeo.2"
+    ]
+  },
+  {
+    "id": "evento.pareja.no_resulto",
+    "con": "pareja",
+    "condiciones": "jugador.etapa_pareja == 'saliendo' && jugador.semanas_en_etapa >= 8 && (persona.carino < 45 || jugador.semanas_en_etapa >= 30)",
+    "probabilidad_anual": 0.8,
+    "efectos": [
+      "jugador.terminar_pareja()",
+      "jugador.felicidad -= 3",
+      "diario('diario.pareja.no_resulto')"
+    ],
+    "por_persona": true,
+    "variantes": [
+      "evento.pareja.no_resulto.2"
+    ]
+  },
+  {
+    "id": "evento.pareja.propone_vivir_juntos",
+    "con": "pareja",
+    "condiciones": "jugador.etapa_pareja == 'pololeo' && jugador.semanas_en_etapa >= 39 && jugador.edad >= 20 && persona.edad >= 20 && jugador.vivienda != nada && persona.carino >= 65",
+    "probabilidad_anual": 0.5,
+    "enfriamiento_semanas": 26,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.pareja.propone_vivir_juntos.si",
+        "tendencia": "60",
+        "efectos": [
+          "jugador.convivir()",
+          "jugador.felicidad += 6",
+          "diario('diario.pareja.vivir_juntos')"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.propone_vivir_juntos.no",
+        "tendencia": "25 + jugador.neuroticismo / 5",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      }
+    ],
+    "veces_maximas": 3,
+    "por_persona": true,
+    "variantes": [
+      "evento.pareja.propone_vivir_juntos.2",
+      "evento.pareja.propone_vivir_juntos.3"
+    ]
+  },
+  {
+    "id": "evento.pareja.arrendar_juntos",
+    "con": "pareja",
+    "condiciones": "jugador.etapa_pareja == 'pololeo' && jugador.semanas_en_etapa >= 39 && jugador.edad >= 20 && persona.edad >= 20 && jugador.vivienda == nada && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.departamento')) / 2 && persona.carino >= 65",
+    "probabilidad_anual": 0.9,
+    "enfriamiento_semanas": 26,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.pareja.arrendar_juntos.si",
+        "tendencia": "55",
+        "efectos": [
+          "jugador.arrendar('vivienda.departamento')",
+          "jugador.convivir()",
+          "jugador.felicidad += 6",
+          "diario('diario.pareja.vivir_juntos')"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.arrendar_juntos.no",
+        "tendencia": "30 + jugador.neuroticismo / 5",
+        "efectos": [
+          "persona.carino -= 3"
+        ]
+      }
+    ],
+    "veces_maximas": 3,
+    "por_persona": true,
+    "variantes": [
+      "evento.pareja.arrendar_juntos.2",
+      "evento.pareja.arrendar_juntos.3"
+    ]
+  },
+  {
+    "id": "evento.viudez.duelo",
+    "condiciones": "jugador.en_viudez && jugador.semanas_viudez >= 2 && jugador.semanas_viudez < 12",
+    "probabilidad_anual": 0.99,
+    "enfriamiento_semanas": 260,
+    "variantes": [
+      "evento.viudez.duelo.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.viudez.duelo.familia",
+        "tendencia": "30 + jugador.extraversion / 2",
+        "efectos": [
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.viudez.duelo.encerrarte",
+        "tendencia": "20 + jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.felicidad -= 3",
+          "jugador.energia -= 5"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.viudez.primer_ano",
+    "condiciones": "jugador.en_viudez && jugador.semanas_viudez >= 52 && jugador.semanas_viudez < 55",
+    "probabilidad_anual": 0.99,
+    "enfriamiento_semanas": 260,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.viudez.primer_ano.cementerio",
+        "tendencia": "50",
+        "efectos": [
+          "jugador.felicidad += 2",
+          "diario('diario.viudez.primer_ano')"
+        ]
+      },
+      {
+        "texto": "opcion.viudez.primer_ano.fotos",
+        "tendencia": "40",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "diario('diario.viudez.primer_ano')"
+        ]
+      }
+    ]
+  }
+]

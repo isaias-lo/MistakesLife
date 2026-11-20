@@ -303,7 +303,7 @@
   },
   {
     "id": "evento.viaje_con_pareja",
-    "condiciones": "jugador.pareja != nada && jugador.dinero >= precio(400000)",
+    "condiciones": "jugador.pareja != nada && jugador.etapa_pareja != 'saliendo' && jugador.dinero >= precio(400000)",
     "probabilidad_anual": 0.08,
     "enfriamiento_semanas": 156,
     "veces_maximas": 3,
@@ -343,7 +343,7 @@
   },
   {
     "id": "evento.pareja_y_suegra",
-    "condiciones": "jugador.pareja != nada && jugador.madre != nada && jugador.madre.vivo",
+    "condiciones": "jugador.pareja != nada && jugador.etapa_pareja != 'saliendo' && jugador.madre != nada && jugador.madre.vivo",
     "probabilidad_anual": 0.06,
     "enfriamiento_semanas": 156,
     "veces_maximas": 2,
@@ -417,7 +417,7 @@
   },
   {
     "id": "evento.pareja_confiesa_deuda",
-    "condiciones": "jugador.pareja != nada && jugador.edad >= 25",
+    "condiciones": "jugador.vive_con_pareja && jugador.edad >= 25",
     "probabilidad_anual": 0.03,
     "enfriamiento_semanas": 260,
     "veces_maximas": 1,

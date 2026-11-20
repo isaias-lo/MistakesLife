@@ -140,6 +140,8 @@ Las personas también escriben, invitan o piden cosas por su cuenta, **sin repet
 - Lo sexual es solo para adultos, por las reglas de Google Play.
 - Se toman muchas mecánicas de BitLife como referencia, sin copiar su aspecto.
 
+**Cómo se hizo (D4d1, aprobado por Isaias el 19-11-2026, con "conocidos y gente de tu horario"):** la pareja siempre es alguien real de tu vida. Sale de tus conocidos (tu curso, tu pega, tus amistades) o de gente nueva con nombre que conoces en los lugares reales de tu horario (un carrete, la cancha, la casa de tus amigos, la pega, el campus), que queda como conocido. Desde su ficha la invitas a una cita y la relación avanza por etapas: saliendo, pololeo, vivir juntos, matrimonio o acuerdo de unión civil (con las leyes del país), terminar (si están casados, sigue el juzgado) y la viudez que pidió Isaias (el duelo, el primer año, y en Tu gente sigue como "Fue tu pareja"). La ficha dice la etapa ("Pololeando desde hace 2 años", "Casados"). La otra persona también toma la iniciativa: te invita a salir, te pide pololeo, te propone vivir juntos; y si a esa persona no le gustas, te dice que no. Los hijos, las cuentas de la casa y la herencia de la pareja piden vivir juntos. Se sacó el evento que inventaba una pareja de la nada y la marca de "pololeando" sin persona.
+
 ## Estudios, trabajo y minijuegos
 
 ### Los lugares

@@ -194,7 +194,7 @@ namespace MistakesLife.Core.Events
 
         private bool CanRequestWith(World world, EventDefinition ev, Character player, Character person) =>
             CanRepeat(world, ev, player)
-            && ChatSystem.PeopleAs(world, player, ev.With!, minAge: 0).Any(p => p.Id == person.Id)
+            && PeopleFor(world, player, ev.With!).Any(p => p.Id == person.Id)
             && Passes(ev, new EventScope(world, Content, player, null, readOnly: true, person));
 
         private bool CanRequest(World world, EventDefinition ev, Character player)
@@ -205,7 +205,7 @@ namespace MistakesLife.Core.Events
             }
 
             return CanRepeat(world, ev, player)
-                && ChatSystem.PeopleAs(world, player, ev.With, minAge: 0)
+                && PeopleFor(world, player, ev.With)
                     .Any(p => Passes(ev, new EventScope(world, Content, player, null, readOnly: true, p)));
         }
 
@@ -301,7 +301,19 @@ namespace MistakesLife.Core.Events
                 return false;
             }
 
-            List<Character> people = ChatSystem.PeopleAs(world, player, ev.With, minAge: 0)
+            if (ev.With == EventDefinition.NewPersonRole)
+            {
+                // Conoces a alguien nuevo: primero se revisa si puede pasar y después nace la persona.
+                if (!Passes(ev, new EventScope(world, Content, player, null, readOnly: true)))
+                {
+                    return false;
+                }
+
+                Occur(world, context, ev, player, null, FamilyFactory.CreateStranger(world, Content, player));
+                return true;
+            }
+
+            List<Character> people = PeopleFor(world, player, ev.With)
                 .Where(p => !ev.OnBirthday || world.Date.SameWeekOfYear(p.BirthDate))
                 .Where(p => !(ev.PerPerson && ev.MaxTimes.HasValue && world.TimesHappened(ev.Id, player.Id, p.Id) >= ev.MaxTimes.Value))
                 .ToList();
@@ -461,6 +473,23 @@ namespace MistakesLife.Core.Events
             {
                 world.Seeds.Resolve(seed, world.Date);
             }
+        }
+
+        /// <summary>
+        /// Quiénes calzan con el "con" de un momento: como en Mensajito, o los conocidos y cualquiera
+        /// con quien tenga relación (como en las acciones, ver Life.ActionRules.People).
+        /// Alguien nuevo todavía no existe: nadie.
+        /// </summary>
+        private static IReadOnlyList<Character> PeopleFor(World world, Character player, string role)
+        {
+            if (role == EventDefinition.NewPersonRole)
+            {
+                return Array.Empty<Character>();
+            }
+
+            return Array.IndexOf(ActionDefinition.ExtraRoles, role) >= 0
+                ? ActionRules.People(world, player, role)
+                : ChatSystem.PeopleAs(world, player, role, minAge: 0);
         }
 
         private static bool CanHappen(World world, EventDefinition definition, Character player, EventScope scope) =>

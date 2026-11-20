@@ -358,8 +358,10 @@ namespace MistakesLife.Core.Tests
             // a unos 158 KB. En qué anda la gente que nadie juega (D4a2: trabaja, busca pega, estudia o
             // está jubilada, y la pega del juego de algunos con su empresa) la lleva a unos 188 KB. Con
             // las invitaciones de D4b la vida cambia (otras amistades, otros momentos) y llega a unos
-            // 212 KB. El tope deja margen para el contenido nuevo sin dejar que se dispare.
-            Assert.True(bytes < 230_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
+            // 212 KB. La pareja por etapas (D4d1) suma la gente con nombre que conoces en el carrete, la
+            // cancha o la pega (quedan como conocidos) y las etapas de cada pareja: unos 234 KB. El tope
+            // deja margen para el contenido nuevo sin dejar que se dispare.
+            Assert.True(bytes < 250_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }
 
         [Fact]

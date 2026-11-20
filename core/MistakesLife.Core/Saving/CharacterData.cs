@@ -151,6 +151,15 @@ namespace MistakesLife.Core.Saving
         /// <summary>En qué anda alguien que nadie juega (Characters.WorkStatus), o null si no se ha mirado.</summary>
         public string? WorkStatus { get; set; }
 
+        /// <summary>La etapa con su pareja (Characters.CoupleStage), o null: sin pareja o viven juntos (desde la versión 40).</summary>
+        public string? CoupleStage { get; set; }
+
+        /// <summary>Desde qué semana va en esa etapa, o null (desde la versión 40).</summary>
+        public int? CoupleSinceWeek { get; set; }
+
+        /// <summary>La pareja que se le murió siendo su pareja, o null (desde la versión 40).</summary>
+        public int? LatePartnerId { get; set; }
+
         /// <summary>El horario (desde la versión 19).</summary>
         public RoutineData? Routine { get; set; }
 
