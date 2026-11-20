@@ -473,5 +473,20 @@
     "diario": "diario.viaje_con_pareja",
     "titulo": "capitulo.viaje_con_pareja",
     "peso": 5
+  },
+  {
+    "diario": "diario.pareja.pololeo",
+    "titulo": "capitulo.pareja.pololeo",
+    "peso": 6
+  },
+  {
+    "diario": "diario.pareja.vivir_juntos",
+    "titulo": "capitulo.pareja.vivir_juntos",
+    "peso": 8
+  },
+  {
+    "diario": "diario.viudez.primer_ano",
+    "titulo": "capitulo.viudez.primer_ano",
+    "peso": 7
   }
 ]

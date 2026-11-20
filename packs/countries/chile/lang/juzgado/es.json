@@ -1,6 +1,8 @@
 {
   "union.chile.matrimonio": "Matrimonio",
   "union.chile.auc": "Acuerdo de Unión Civil",
+  "union.chile.matrimonio.estado": "Casados",
+  "union.chile.auc.estado": "Con Acuerdo de Unión Civil",
 
   "tribunal.chile.civil": "Juzgado Civil",
   "tribunal.chile.familia": "Juzgado de Familia",

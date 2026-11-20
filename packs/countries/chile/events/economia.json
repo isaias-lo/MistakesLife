@@ -41,14 +41,14 @@
     "lugar": "lugar.dinero",
     "a_pedido": {
       "texto": "accion.dinero.irse_de_la_casa",
-      "por_ano": "0.15 + jugador.extraversion / 400 + si(jugador.pareja != nada, 0.15, 0)"
+      "por_ano": "0.15 + jugador.extraversion / 400 + si(jugador.etapa_pareja == 'pololeo' || jugador.vive_con_pareja, 0.15, 0)"
     },
-    "condiciones": "jugador.edad >= 20 && !jugador.tiene('vive_independiente') && (jugador.trabaja || jugador.pareja != nada)",
+    "condiciones": "jugador.edad >= 20 && !jugador.tiene('vive_independiente') && (jugador.trabaja || jugador.etapa_pareja == 'pololeo' || jugador.vive_con_pareja)",
     "enfriamiento_semanas": 52,
     "opciones": [
       {
         "texto": "opcion.irse.arrendar",
-        "condiciones": "(jugador.pareja == nada) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.departamento'))",
+        "condiciones": "(!jugador.vive_con_pareja) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.departamento'))",
         "tendencia": "si(jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5, 60, 5) + jugador.extraversion / 5",
         "efectos": [
           "jugador.arrendar('vivienda.departamento')",
@@ -58,7 +58,7 @@
       },
       {
         "texto": "opcion.irse.pieza",
-        "condiciones": "(jugador.pareja == nada) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.pieza'))",
+        "condiciones": "(!jugador.vive_con_pareja) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.pieza'))",
         "tendencia": "si(jugador.sueldo_liquido > precio(arriendo('vivienda.pieza')) * 2, 40, 8) + jugador.extraversion / 6",
         "efectos": [
           "jugador.arrendar('vivienda.pieza')",
@@ -68,10 +68,11 @@
       },
       {
         "texto": "opcion.irse.con_pareja",
-        "condiciones": "(jugador.pareja != nada) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.departamento'))",
+        "condiciones": "(jugador.etapa_pareja == 'pololeo' || jugador.vive_con_pareja) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.departamento'))",
         "tendencia": "70",
         "efectos": [
           "jugador.arrendar('vivienda.departamento')",
+          "jugador.convivir()",
           "jugador.felicidad += 6",
           "diario('diario.irse_de_la_casa')"
         ]

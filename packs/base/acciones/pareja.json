@@ -1,0 +1,83 @@
+[
+  {
+    "id": "accion.pareja.invitar_cita",
+    "grupo": "gente",
+    "con": "cualquiera",
+    "solo_en_ficha": true,
+    "edad_minima": 14,
+    "condiciones": "jugador.pareja == nada && !(jugador.en_viudez && jugador.semanas_viudez < 26)",
+    "condiciones_persona": "persona.te_puede_gustar && persona.carino >= 35",
+    "acepta": "persona.pueden_salir && persona.carino >= 50",
+    "cambia": {
+      "felicidad": 4,
+      "carino": 5,
+      "energia": -1
+    },
+    "si_no_acepta": {
+      "felicidad": -3
+    },
+    "efectos": [
+      "jugador.salir_con()",
+      "jugador.dinero -= si(jugador.edad >= 18, precio(12000), 0)"
+    ]
+  },
+  {
+    "id": "accion.pareja.pedir_pololeo",
+    "grupo": "gente",
+    "con": "pareja",
+    "solo_en_ficha": true,
+    "edad_minima": 14,
+    "condiciones": "jugador.etapa_pareja == 'saliendo' && jugador.semanas_en_etapa >= 4",
+    "acepta": "persona.carino >= 60",
+    "cambia": {
+      "felicidad": 6,
+      "carino": 5
+    },
+    "si_no_acepta": {
+      "felicidad": -3,
+      "carino": -3
+    },
+    "efectos": [
+      "jugador.pololear()"
+    ]
+  },
+  {
+    "id": "accion.pareja.vivir_juntos",
+    "grupo": "gente",
+    "con": "pareja",
+    "solo_en_ficha": true,
+    "edad_minima": 18,
+    "condiciones": "jugador.etapa_pareja == 'pololeo' && jugador.semanas_en_etapa >= 26 && jugador.vivienda != nada",
+    "condiciones_persona": "persona.edad >= 18",
+    "acepta": "persona.carino >= 65 && persona.confianza >= 50",
+    "cambia": {
+      "felicidad": 6,
+      "carino": 4
+    },
+    "si_no_acepta": {
+      "felicidad": -2
+    },
+    "efectos": [
+      "jugador.convivir()",
+      "diario('diario.pareja.vivir_juntos')"
+    ]
+  },
+  {
+    "id": "accion.pareja.terminar",
+    "grupo": "gente",
+    "con": "pareja",
+    "solo_en_ficha": true,
+    "edad_minima": 14,
+    "condiciones": "jugador.union == nada",
+    "cambia": {
+      "felicidad": -6
+    },
+    "efectos": [
+      "persona.rencor += 10",
+      "jugador.terminar_pareja()",
+      "jugador.desmarcar('buscando_hijo')",
+      "jugador.desmarcar('buscando_adopcion')",
+      "diario('diario.pareja.terminaste')"
+    ]
+  }
+]

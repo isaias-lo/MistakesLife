@@ -57,7 +57,8 @@ namespace MistakesLife.Core.Economy
 
             var lines = new List<PayslipLine>();
             var scope = new EventScope(world, _content, player, null, readOnly: true);
-            bool hasPartner = player.PartnerId.HasValue && world.TryGetCharacter(player.PartnerId.Value, out Character? partner) && partner.IsAlive;
+            // Solo si viven juntos: con quien solo pololea, cada uno paga lo suyo.
+            bool hasPartner = Life.CoupleRules.LivesWithPartner(world, player);
             HousingDefinition? housing = HousingRules.RulesFor(_content, player);
             if (player.Lease != null && housing != null)
             {

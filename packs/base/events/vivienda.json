@@ -85,7 +85,7 @@
       },
       {
         "texto": "opcion.fin_contrato.pieza",
-        "condiciones": "jugador.vivienda != 'vivienda.pieza' && jugador.pareja == nada",
+        "condiciones": "jugador.vivienda != 'vivienda.pieza' && !jugador.vive_con_pareja",
         "tendencia": "si(jugador.meses_en_rojo > 0, 50, 5)",
         "efectos": [
           "jugador.arrendar('vivienda.pieza')",
@@ -103,7 +103,7 @@
       },
       {
         "texto": "opcion.fin_contrato.casa",
-        "condiciones": "(jugador.vivienda != 'vivienda.casa' && (jugador.pareja != nada || jugador.hijos_menores > 0)) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.casa'))",
+        "condiciones": "(jugador.vivienda != 'vivienda.casa' && (jugador.vive_con_pareja || jugador.hijos_menores > 0)) && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.casa'))",
         "tendencia": "si(jugador.sueldo_liquido > precio(arriendo('vivienda.casa')) * 2.5 && jugador.meses_en_rojo == 0, 40 + jugador.hijos_menores * 10, 3)",
         "efectos": [
           "jugador.arrendar('vivienda.casa')",

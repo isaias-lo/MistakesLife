@@ -59,8 +59,8 @@
     "id": "deseo.alguien_me_guste",
     "edad_minima": 14,
     "edad_maxima": 17,
-    "condiciones": "jugador.pareja == nada && !jugador.tiene('pololeando')",
-    "cumplido": "jugador.pareja != nada || jugador.tiene('pololeando')",
+    "condiciones": "jugador.pareja == nada",
+    "cumplido": "jugador.pareja != nada",
     "peso": 15
   },
   {

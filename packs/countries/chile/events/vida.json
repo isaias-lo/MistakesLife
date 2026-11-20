@@ -333,36 +333,6 @@
     ]
   },
   {
-    "id": "evento.pololeo",
-    "condiciones": "jugador.edad >= 14 && jugador.edad < 19 && !jugador.tiene('pololeando')",
-    "peso": 8,
-    "unico": true,
-    "opciones": [
-      {
-        "texto": "opcion.pololeo.si",
-        "tendencia": "30 + jugador.extraversion / 2",
-        "efectos": [
-          "jugador.marcar('pololeando')",
-          "jugador.felicidad += 5"
-        ]
-      },
-      {
-        "texto": "opcion.pololeo.no",
-        "tendencia": "(100 - jugador.extraversion) / 2"
-      }
-    ]
-  },
-  {
-    "id": "evento.termino_pololeo",
-    "condiciones": "jugador.tiene('pololeando')",
-    "peso": 4,
-    "efectos": [
-      "jugador.desmarcar('pololeando')",
-      "jugador.felicidad -= 6",
-      "diario('diario.termino_pololeo')"
-    ]
-  },
-  {
     "id": "evento.prueba_paes",
     "condiciones": "jugador.edad == 17 && jugador.etapa == 'etapa.chile.media'",
     "peso": 100,

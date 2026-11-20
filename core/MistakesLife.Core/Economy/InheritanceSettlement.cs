@@ -90,7 +90,8 @@ namespace MistakesLife.Core.Economy
                 heirs.Add(new KeyValuePair<Character, double>(child, 1));
             }
 
-            if (deceased.PartnerId.HasValue && world.TryGetCharacter(deceased.PartnerId.Value, out Character? partner) && partner.IsAlive)
+            // Hereda la pareja con quien vivía (no alguien con quien solo salía o pololeaba).
+            if (Life.CoupleRules.LivesWithPartner(world, deceased) && world.TryGetCharacter(deceased.PartnerId!.Value, out Character? partner))
             {
                 heirs.Add(new KeyValuePair<Character, double>(partner, heirs.Count == 0 ? 1 : rules.PartnerShares));
             }

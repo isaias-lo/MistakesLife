@@ -102,7 +102,7 @@ namespace MistakesLife.Core.Content
 
         /// <summary>
         /// Con quién pasa el momento: un lugar en la vida del jugador (madre, padre,
-        /// pareja, hijo, amigo, colega, rival, ex). Al ocurrir se elige a una persona
+        /// pareja, hijo, amigo, colega, rival, ex, conocido, cualquiera...). Al ocurrir se elige a una persona
         /// de verdad, con nombre, y en el evento se le habla como "persona"
         /// (por ejemplo "persona.carino += 3"). Si no hay nadie así, el evento no pasa.
         /// En los textos, {persona} se cambia por su nombre. Opcional.
@@ -114,6 +114,13 @@ namespace MistakesLife.Core.Content
 
         /// <summary>El "con" de los eventos de semilla que pasan con su testigo.</summary>
         public const string WitnessRole = "testigo";
+
+        /// <summary>
+        /// El "con" de los momentos en que conoces a alguien nuevo (D4d1): al pasar, el juego crea
+        /// a una persona con nombre que te podría gustar (ver Life.FamilyFactory.CreateStranger) y
+        /// queda como conocido. Sus condiciones no pueden usar "persona": se revisan antes de que exista.
+        /// </summary>
+        public const string NewPersonRole = "alguien_nuevo";
 
         /// <summary>Dónde pasa el momento: la clave de un lugar con nombre ("lugar.plaza"). Opcional.</summary>
         [JsonProperty("lugar")]
