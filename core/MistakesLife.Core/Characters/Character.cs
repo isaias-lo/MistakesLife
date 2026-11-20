@@ -78,6 +78,22 @@ namespace MistakesLife.Core.Characters
         public int? PartnerId { get; set; }
 
         /// <summary>
+        /// En qué etapa va con su pareja (ver <see cref="Characters.CoupleStage"/>), igual en los
+        /// dos. Null con pareja: viven juntos (así quedan las parejas de antes de D4d1 y las de la
+        /// gente que nadie juega). Ver <see cref="Life.CoupleRules"/>.
+        /// </summary>
+        public CoupleStage? CoupleStage { get; set; }
+
+        /// <summary>Desde cuándo va en esa etapa con su pareja, o null si no se sabe (parejas de antes de D4d1).</summary>
+        public GameDate? CoupleSince { get; set; }
+
+        /// <summary>
+        /// La pareja que se le murió siendo su pareja (la última), o null: su viudez. Queda aunque
+        /// después tenga otra pareja, para recordarla en su gente.
+        /// </summary>
+        public int? LatePartnerId { get; set; }
+
+        /// <summary>
         /// Con quién está unido ante la ley (casado o con unión civil), o null. Sigue
         /// aunque se separen de hecho: la unión solo se termina con lo que diga la ley
         /// (un divorcio, un aviso de término). Ver <see cref="UnionTypeId"/>.

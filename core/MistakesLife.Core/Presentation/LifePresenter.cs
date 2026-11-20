@@ -1779,6 +1779,12 @@ namespace MistakesLife.Core.Presentation
             AddClose(father, T("ui.relacion.padre"));
             AddClose(Find(player.SecondParentId), T(Find(player.SecondParentId)?.Gender == Gender.Female ? "ui.relacion.madre" : "ui.relacion.padre"));
             AddClose(Find(player.PartnerId), T("ui.relacion.pareja"));
+            if (player.LatePartnerId.HasValue && Find(player.LatePartnerId) is Character late && !late.IsAlive)
+            {
+                // La viudez: quien fue su pareja sigue en su gente, al final con quienes murieron.
+                AddClose(late, T("ui.relacion.pareja_fallecida"));
+            }
+
             foreach (Character child in world.ChildrenOf(player.Id))
             {
                 AddClose(child, ChildRelation(child));
@@ -1847,6 +1853,10 @@ namespace MistakesLife.Core.Presentation
                 ?? Row(person, AcquaintanceRelation(person));
             GameDate at = person.DeathDate ?? world.Date;
             var parts = new List<string> { row.Relation, Text("ui.gente.anos", person.AgeInYears(at)) };
+            if (person.IsAlive && player.PartnerId == person.Id)
+            {
+                parts.Insert(1, CoupleLine(player));
+            }
             if (person.IsAlive && person.Residence != null)
             {
                 parts.Add(T(person.Residence.CommuneId));
@@ -1864,6 +1874,27 @@ namespace MistakesLife.Core.Presentation
                 : Content.ActionDefinition.Groups.SelectMany(g => Actions(g, cardOnly: true)).Where(a => a.PersonId == personId).ToList();
             IReadOnlyList<ActionView> requests = person.IsAlive ? PersonActions(personId) : new List<ActionView>();
             return new PersonCardView(row, string.Join(" · ", parts), row.Life, lived, actions, requests);
+        }
+
+        /// <summary>
+        /// En qué van con su pareja (D4d1): "Saliendo desde hace 3 semanas", "Pololeando desde hace
+        /// 2 años", "Viven juntos desde hace un año" o, unidos ante la ley, "Casados".
+        /// </summary>
+        private string CoupleLine(Character player)
+        {
+            if (player.UnionTypeId != null && player.SpouseId == player.PartnerId)
+            {
+                return T(player.UnionTypeId + ".estado");
+            }
+
+            string? key = Events.CharacterObject.CoupleStageKey(Life.CoupleRules.Stage(player));
+            if (!player.CoupleSince.HasValue)
+            {
+                return T("ui.pareja." + key + ".sin_fecha");
+            }
+
+            string when = WhenLabel(Life.CoupleRules.WeeksInStage(Session.World, player));
+            return Text("ui.pareja." + key, char.ToLowerInvariant(when[0]) + when.Substring(1));
         }
 
         /// <summary>Una línea de la lista de Tu gente.</summary>

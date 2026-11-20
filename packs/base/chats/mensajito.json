@@ -573,7 +573,8 @@
     "id": "chat.amigo.termino",
     "de": "amigo",
     "al_anotar": [
-      "diario.termino_pololeo",
+      "diario.pareja.terminaste",
+      "diario.pareja.no_resulto",
       "diario.pareja_se_fue"
     ],
     "carino_minimo": 50,
@@ -596,7 +597,8 @@
     "id": "chat.madre.termino",
     "de": "madre",
     "al_anotar": [
-      "diario.termino_pololeo",
+      "diario.pareja.terminaste",
+      "diario.pareja.no_resulto",
       "diario.pareja_se_fue"
     ],
     "carino_minimo": 40,

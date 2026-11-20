@@ -29,7 +29,8 @@ namespace MistakesLife.Core.Economy
         {
             GroceryBasketDefinition basket = Basket(content, character, basketId, "compra");
             GroceriesDefinition rules = RulesFor(content, character)!;
-            bool hasPartner = character.PartnerId.HasValue && world.TryGetCharacter(character.PartnerId.Value, out Character? partner) && partner.IsAlive;
+            // Solo si viven juntos: con quien solo pololea, cada uno come en su casa.
+            bool hasPartner = Life.CoupleRules.LivesWithPartner(world, character);
             int children = Life.CustodyRules.ChildrenAtHome(world, character);
             decimal eaters = 1 + (hasPartner ? 1 : 0) + (children * rules.ChildFactor);
             decimal total = basket.PerPerson * eaters;

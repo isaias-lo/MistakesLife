@@ -301,6 +301,9 @@ namespace MistakesLife.Core.Saving
             }
 
             character.WorkStatus = d.WorkStatus == null ? (WorkStatus?)null : Parse<WorkStatus>(d.WorkStatus);
+            character.CoupleStage = d.CoupleStage == null ? (CoupleStage?)null : Parse<CoupleStage>(d.CoupleStage);
+            character.CoupleSince = d.CoupleSinceWeek.HasValue ? Date(d.CoupleSinceWeek.Value) : (GameDate?)null;
+            character.LatePartnerId = d.LatePartnerId;
             if (d.Studies != null)
             {
                 StudiesData s = d.Studies;

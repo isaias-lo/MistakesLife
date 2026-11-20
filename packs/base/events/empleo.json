@@ -161,7 +161,7 @@
   },
   {
     "id": "evento.cuidar_hijos_en_casa",
-    "condiciones": "jugador.tiene('trabajando') && jugador.hijos_menores > 0 && jugador.pareja != nada && jugador.edad < 55",
+    "condiciones": "jugador.tiene('trabajando') && jugador.hijos_menores > 0 && jugador.vive_con_pareja && jugador.edad < 55",
     "probabilidad_anual": 0.2,
     "enfriamiento_semanas": 156,
     "dia_clave": true,

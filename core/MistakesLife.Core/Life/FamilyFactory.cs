@@ -82,6 +82,8 @@ namespace MistakesLife.Core.Life
                 RelationshipRules.Edit(world, partner, person);
                 partner.PartnerId = null;
                 person.PartnerId = null;
+                CoupleRules.Clear(person);
+                CoupleRules.Clear(partner);
                 RelationshipRules.SetBond(world, person, partner, RelationshipBond.Ex);
                 return;
             }
@@ -89,9 +91,20 @@ namespace MistakesLife.Core.Life
             if (world.TryGetCharacter(person.PartnerId.Value, out Character? other) && other.PartnerId == person.Id)
             {
                 other.PartnerId = null;
+                CoupleRules.Clear(other);
+                // Si terminó porque uno murió, el otro enviudó (aunque no estuvieran casados).
+                if (!person.IsAlive)
+                {
+                    other.LatePartnerId = person.Id;
+                }
+                else if (!other.IsAlive)
+                {
+                    person.LatePartnerId = other.Id;
+                }
             }
 
             person.PartnerId = null;
+            CoupleRules.Clear(person);
         }
 
         /// <summary>Diferencia máxima de edad (en años) con alguien que se conoce en el colegio.</summary>
@@ -145,6 +158,42 @@ namespace MistakesLife.Core.Life
             world.AddCharacter(other);
 
             RelationshipRules.SetBond(world, person, other, bond);
+            return other;
+        }
+
+        /// <summary>Diferencia máxima de edad (en años) con alguien nuevo que se conoce de adulto en un lugar de su horario.</summary>
+        public const int MaxStrangerAgeGap = 6;
+
+        /// <summary>
+        /// Alguien nuevo que <paramref name="person"/> conoce en un lugar real de su horario (un
+        /// carrete, el gimnasio, la pega) y que le podría gustar (D4d1): de un género que calza con su
+        /// orientación, de edad parecida (menor de edad con menor de edad) y sin pareja. Queda como
+        /// conocido (sin lazo), con lo que sienten dos desconocidos; de ahí avanza el jugador.
+        /// </summary>
+        public static Character CreateStranger(World world, ContentDatabase content, Character person)
+        {
+            Check(world, content, person);
+            CountryDefinition country = content.GetCountry(person.Residence!.CountryId);
+            GameRandom random = RandomFor(world, person, "alguien_nuevo");
+            Gender gender = Diversity.PartnerGender(person, random);
+            Sex sex = gender == Gender.Female ? Sex.Female
+                : gender == Gender.Male ? Sex.Male
+                : WorldFactory.RandomSex(random.Fork("alguien_nuevo.sexo"));
+            int personAge = person.AgeInYears(world.Date);
+            int age = personAge < 18
+                ? Math.Max(CoupleRules.MinAge, Math.Min(17, personAge + random.NextInt(-1, 2)))
+                : Math.Max(18, personAge + random.NextInt(-MaxStrangerAgeGap, MaxStrangerAgeGap + 1));
+            string firstName = random.Pick(sex == Sex.Female ? country.Names.Female : country.Names.Male);
+            string lastName = WorldFactory.Surnames(country, random.Pick(country.Names.Surnames), random.Pick(country.Names.Surnames));
+            Character other = WorldFactory.NewPerson(world, random, firstName, lastName, sex, WorldFactory.BirthDateForAge(world.Date, age, random));
+            other.Residence = person.Residence;
+            other.HouseholdLevel = Math.Max(0, Math.Min(100, person.HouseholdLevel + random.NextInt(-15, 16)));
+            other.Gender = gender;
+            other.GenderIdentity = gender;
+            Diversity.AssignToPartner(other, person, country, random);
+            world.AddCharacter(other);
+
+            RelationshipRules.SetBond(world, person, other, RelationshipBond.None);
             return other;
         }
 

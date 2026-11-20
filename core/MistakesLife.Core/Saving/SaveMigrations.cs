@@ -322,6 +322,11 @@ namespace MistakesLife.Core.Saving
             // (una invitación a un cumpleaños no llega todos los años). En las partidas viejas
             // todavía no llegó ninguno: el dato que falta se lee vacío.
             [38] = save => { },
+
+            // 39 → 40: la pareja tiene etapa (saliendo, pololeo, viven juntos) y se recuerda a la
+            // pareja que murió (la viudez). En las partidas viejas las parejas ya vivían juntas: el
+            // dato que falta se lee como "viven juntos", y nadie quedó registrado como viudo.
+            [39] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

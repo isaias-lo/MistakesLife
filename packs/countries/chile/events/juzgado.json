@@ -3,7 +3,7 @@
     "id": "evento.chile.casarse",
     "con": "pareja",
     "por_persona": true,
-    "condiciones": "jugador.pareja != nada && jugador.union == nada && jugador.edad >= 20 && jugador.pareja.edad >= 18 && jugador.pareja.carino >= 60",
+    "condiciones": "jugador.pareja != nada && (jugador.vive_con_pareja || (jugador.etapa_pareja == 'pololeo' && jugador.semanas_en_etapa >= 52)) && jugador.union == nada && jugador.edad >= 20 && jugador.pareja.edad >= 18 && jugador.pareja.carino >= 60",
     "probabilidad_anual": 0.15,
     "enfriamiento_semanas": 104,
     "veces_maximas": 2,

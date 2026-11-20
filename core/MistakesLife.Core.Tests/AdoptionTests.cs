@@ -108,7 +108,7 @@ namespace MistakesLife.Core.Tests
             for (ulong seed = 1; seed <= 10; seed++)
             {
                 var session = new LifeSession(RepoPacks.Content, seed);
-                // Cis y gay o lesbiana: la pareja es de su mismo sexo y no pueden tener hijos biológicos.
+                // Cis y gay o lesbiana: su pareja es de su mismo género.
                 session.World.Player.Orientation = Orientation.Homosexual;
                 session.World.Player.GenderIdentity = session.World.Player.Gender;
                 int target = 50 * GameDate.WeeksPerYear;
@@ -124,7 +124,11 @@ namespace MistakesLife.Core.Tests
                 }
 
                 families += session.World.ChildrenOf(session.World.PlayerId).Any(c => c.Adopted) ? 1 : 0;
-                Assert.DoesNotContain(session.World.ChildrenOf(session.World.PlayerId), c => !c.Adopted);
+                // Con su pareja del mismo sexo no tiene hijos biológicos. Desde D4d1 la pareja es gente
+                // real: si es un hombre trans (asignado mujer al nacer), un embarazo sí es posible.
+                Assert.All(session.World.ChildrenOf(session.World.PlayerId).Where(c => !c.Adopted), c =>
+                    Assert.True(c.MotherId.HasValue && c.FatherId.HasValue
+                        && session.World.GetCharacter(c.MotherId.Value).Sex != session.World.GetCharacter(c.FatherId.Value).Sex));
             }
 
             Assert.True(families >= 5, $"Solo {families} de 10 adoptaron.");

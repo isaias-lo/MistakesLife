@@ -35,16 +35,20 @@ namespace MistakesLife.Core.Events
     /// prevision, prevision_privada, tramo_salud, precio_plan_salud, semanas_desde_atencion,
     /// en_que_anda (de la gente que nadie juega: 'trabaja', 'busca_pega', 'estudia', 'jubilado',
     /// 'nada', o nada si el juego todavía no la mira o es el jugador; ver PeopleWorkSystem),
-    /// cumple_esta_semana (si esta semana es su cumpleaños).
+    /// cumple_esta_semana (si esta semana es su cumpleaños),
+    /// etapa_pareja ('saliendo', 'pololeo', 'convive' o nada), semanas_en_etapa, vive_con_pareja,
+    /// en_viudez y semanas_viudez (D4d1, ver Life.CoupleRules).
     /// En otra persona a la que se llegó desde alguien (jugador.madre, jugador.amigo):
     /// carino, confianza, respeto, rencor (lo que siente por ese alguien, 0 a 100, se
     /// pueden cambiar) y vinculo ('amistad', 'colega', 'rival', 'ex' o nada), en_tu_equipo (si
     /// trabaja en el equipo de ese alguien), recomendado (si entró a ese equipo recomendado por él)
     /// vive_contigo (si comparte el arriendo de ese alguien), es_tu_socio (si es su socio en un negocio)
-    /// y quiere_amistad (si hay química para una amistad con ese alguien: ver SchoolRules.ReadyForFriendship).
+    /// quiere_amistad (si hay química para una amistad con ese alguien: ver SchoolRules.ReadyForFriendship),
+    /// te_puede_gustar (si ese alguien podría invitarla a salir) y pueden_salir (si además le gusta).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
-    /// formar_pareja() o formar_pareja('género'), terminar_pareja(), tener_hijo(),
+    /// formar_pareja() o formar_pareja('género') (solo pruebas: crea una pareja de la nada),
+    /// salir_con() (con la persona del evento), pololear(), convivir(), terminar_pareja(), tener_hijo(),
     /// cambiar_genero('género'), cambiar_nombre(), adoptar(),
     /// trabajar(sueldo) o trabajar(sueldo, 'honorarios'), dejar_trabajo(), declarar(),
     /// arrendar('vivienda.pieza'), renovar_arriendo(), dejar_arriendo(),
@@ -266,6 +270,20 @@ namespace MistakesLife.Core.Events
                 case "separado":
                     // Unido ante la ley con alguien que ya no es su pareja (separado de hecho).
                     return Value.FromBool(LivingSpouse(scope) != null && _character.PartnerId != _character.SpouseId);
+                case "etapa_pareja":
+                    return TextOrNull(CoupleStageKey(CoupleRules.Stage(_character)));
+                case "semanas_en_etapa":
+                    return Value.FromNumber(CoupleRules.WeeksInStage(((EventScope)scope).World, _character));
+                case "vive_con_pareja":
+                    return Value.FromBool(CoupleRules.LivesWithPartner(((EventScope)scope).World, _character));
+                case "en_viudez":
+                    return Value.FromBool(CoupleRules.WeeksWidowed(((EventScope)scope).World, _character).HasValue);
+                case "semanas_viudez":
+                    return Value.FromNumber(CoupleRules.WeeksWidowed(((EventScope)scope).World, _character) ?? 0);
+                case "te_puede_gustar":
+                    return Value.FromBool(CoupleRules.CouldAsk(((EventScope)scope).World, Viewer(member), _character));
+                case "pueden_salir":
+                    return Value.FromBool(CoupleRules.CanDate(((EventScope)scope).World, Viewer(member), _character));
                 case "viudo":
                     return Value.FromBool(_character.SpouseId.HasValue && ((EventScope)scope).World.TryGetCharacter(_character.SpouseId.Value, out Character? late) && !late.IsAlive);
                 case "adoptado":
@@ -567,6 +585,12 @@ namespace MistakesLife.Core.Events
             _character.UnionTypeId = unionId;
             partner.SpouseId = _character.Id;
             partner.UnionTypeId = unionId;
+
+            // Al casarse (o unirse) se van a vivir juntos, si todavía no.
+            if (CoupleRules.Stage(_character) != CoupleStage.LivingTogether)
+            {
+                CoupleRules.SetStage(scope.World, _character, CoupleStage.LivingTogether);
+            }
         }
 
         /// <summary>jugador.terminar_union(): termina la unión ante la ley (la sentencia de divorcio, el aviso de término), para los dos.</summary>
@@ -622,6 +646,22 @@ namespace MistakesLife.Core.Events
         {
             return _viewer ?? throw new ScriptException(
                 $"{member} solo se usa en otra persona a la que se llega desde alguien (es sobre lo que siente por él), por ejemplo jugador.madre.{member} o jugador.amigo.{member}.");
+        }
+
+        /// <summary>Clave de la etapa con su pareja (jugador.etapa_pareja).</summary>
+        public static string? CoupleStageKey(CoupleStage? stage)
+        {
+            switch (stage)
+            {
+                case CoupleStage.Dating:
+                    return "saliendo";
+                case CoupleStage.Steady:
+                    return "pololeo";
+                case CoupleStage.LivingTogether:
+                    return "convive";
+                default:
+                    return null;
+            }
         }
 
         private static string? WorkStatusKey(WorkStatus? status)
@@ -828,6 +868,44 @@ namespace MistakesLife.Core.Events
 
                     FamilyFactory.CreatePartner(((EventScope)scope).World, ((EventScope)scope).Content, _character, gender);
                     return Value.Null;
+                case "salir_con":
+                    {
+                        NoArguments(method, args);
+                        EventScope events = (EventScope)scope;
+                        events.RequireWritable("jugador.salir_con");
+                        if (events.Person == null)
+                        {
+                            throw new ScriptException("jugador.salir_con() necesita un evento o una acción con persona (con); revisa persona.pueden_salir.");
+                        }
+
+                        // Si mientras tanto alguno empezó con otra persona, ya no pasa nada.
+                        if (CoupleRules.CanDate(events.World, _character, events.Person))
+                        {
+                            CoupleRules.StartDating(events.World, _character, events.Person);
+                        }
+
+                        return Value.Null;
+                    }
+                case "pololear":
+                case "convivir":
+                    {
+                        NoArguments(method, args);
+                        EventScope events = (EventScope)scope;
+                        events.RequireWritable("jugador." + method);
+                        CoupleStage? stage = CoupleRules.Stage(_character);
+                        if (stage == null)
+                        {
+                            throw new ScriptException($"jugador.{method}(): no tiene pareja (revisa jugador.pareja != nada).");
+                        }
+
+                        CoupleStage next = method == "pololear" ? CoupleStage.Steady : CoupleStage.LivingTogether;
+                        if (stage.Value < next)
+                        {
+                            CoupleRules.SetStage(events.World, _character, next);
+                        }
+
+                        return Value.Null;
+                    }
                 case "terminar_pareja":
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.terminar_pareja");

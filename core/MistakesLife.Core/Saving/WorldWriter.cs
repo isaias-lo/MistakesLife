@@ -233,6 +233,9 @@ namespace MistakesLife.Core.Saving
                 EducationStageId = c.EducationStageId,
                 Flags = c.Flags.ToList(),
                 WorkStatus = c.WorkStatus?.ToString(),
+                CoupleStage = c.CoupleStage?.ToString(),
+                CoupleSinceWeek = c.CoupleSince?.TotalWeeks,
+                LatePartnerId = c.LatePartnerId,
                 Studies = c.Studies == null ? null : new StudiesData
                 {
                     CareerId = c.Studies.CareerId,

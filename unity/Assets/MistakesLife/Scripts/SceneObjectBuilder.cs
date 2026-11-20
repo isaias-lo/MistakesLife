@@ -89,6 +89,8 @@ namespace MistakesLife.Unity
             "escena.casa.foto_ahijado" => "ancla.muro_lateral",
             "escena.casa.postal_amigo_lejos" => "ancla.muro_lateral",
             "escena.casa.foto_viaje_pareja" => "ancla.cuadro_derecha",
+            "escena.casa.foto_pareja_luto" => "ancla.cuadro_derecha",
+            "escena.casa.dos_tazas" => "ancla.mesa",
             "escena.casa.mecedora" => "ancla.mecedora",
             "escena.casa.camiseta_seleccion" => "ancla.muro_lateral",
             "escena.casa.tarjeta_refri" => "ancla.muro_lateral",
@@ -536,6 +538,17 @@ namespace MistakesLife.Unity
                     postcard.transform.localRotation = Quaternion.Euler(-6f, 0f, 0f);
                     kit.Box("Paisaje de la postal", new Vector3(0.036f, 1.22f, 0.45f), new Vector3(0.005f, 0.05f, 0.18f), new Color(0.90f, 0.80f, 0.50f));
                     kit.Ball("Chinche", new Vector3(0.045f, 1.3f, 0.45f), 0.025f, Palette.Alarm);
+                    break;
+                case "escena.casa.foto_pareja_luto":
+                    // La viudez: la foto de tu pareja sigue en su lugar, ahora con una cinta negra.
+                    Picture(kit, "Foto de tu pareja", Vector3.zero, new Vector2(0.5f, 0.4f), new Color(0.80f, 0.74f, 0.72f));
+                    GameObject mourning = kit.Box("Cinta negra", new Vector3(0.2f, 0.17f, -0.03f), new Vector3(0.22f, 0.05f, 0.02f), Color.black);
+                    mourning.transform.localRotation = Quaternion.Euler(0f, 0f, -45f);
+                    break;
+                case "escena.casa.dos_tazas":
+                    // Viven juntos: dos tazas en la mesa, una de cada uno.
+                    kit.Shape(PrimitiveType.Cylinder, "Tu taza", new Vector3(0.32f, 0.51f, -0.18f), new Vector3(0.07f, 0.045f, 0.07f), new Color(0.85f, 0.30f, 0.25f));
+                    kit.Shape(PrimitiveType.Cylinder, "La taza de tu pareja", new Vector3(0.42f, 0.51f, -0.12f), new Vector3(0.07f, 0.045f, 0.07f), new Color(0.25f, 0.45f, 0.75f));
                     break;
                 case "escena.casa.foto_viaje_pareja":
                     // El viaje con tu pareja: una foto de playa (cielo, mar y arena) al lado de la foto de la pareja.
