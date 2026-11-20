@@ -154,7 +154,7 @@
       "texto": "accion.persona.vivir_juntos",
       "por_ano": "0.06 + jugador.extraversion / 1000"
     },
-    "condiciones": "jugador.vivienda != nada && jugador.vivienda != 'vivienda.pieza' && !jugador.comparte_arriendo && jugador.pareja == nada && persona.edad >= 18",
+    "condiciones": "jugador.vivienda != nada && jugador.vivienda != 'vivienda.pieza' && !jugador.comparte_arriendo && !jugador.vive_con_pareja && persona.edad >= 18",
     "enfriamiento_semanas": 26,
     "opciones": [
       {

@@ -17,6 +17,7 @@
   "opcion.conversar_adopcion.no_queremos": "Lo conversan y están de acuerdo: no quieren hijos.",
   "evento.llega_adopcion": "Suena el teléfono. Es del programa de adopción: hay un niño o una niña que podría ser parte de su familia. Una semana después llega a casa.",
   "evento.conversar_hijos.2": "Un sobrino de {persona} pasa el día con ustedes. En la noche vuelve la pregunta: ¿y nosotros, cuándo?",
+  "evento.conversar_hijos.3": "En el cumpleaños de una amiga, {persona} se queda mirando a una guagua. Esa noche te pregunta si ya es el momento.",
   "evento.crisis_pareja.2": "Con {persona} ya casi no se hablan: cada uno en su celular, cada uno en su lado de la cama. Una noche te pregunta si todavía te importa.",
   "evento.nace_hijo.2": "Otra vez la maleta lista en la puerta, otra vez la carrera al hospital. Llega a la casa un nuevo bebé y la familia se agranda.",
   "evento.nace_hijo.3": "Esta vez sabían mejor qué esperar, pero igual no durmieron la noche anterior. Llega a casa un nuevo bebé.",

@@ -129,7 +129,7 @@
     "id": "evento.pareja.te_invita",
     "con": "cualquiera",
     "condiciones": "jugador.edad >= 14 && jugador.pareja == nada && persona.pueden_salir && persona.carino >= 55 && !(jugador.en_viudez && jugador.semanas_viudez < 26)",
-    "probabilidad_anual": 0.6,
+    "probabilidad_anual": 0.9,
     "enfriamiento_semanas": 8,
     "veces_maximas": 2,
     "por_persona": true,
@@ -142,7 +142,7 @@
         "tendencia": "40 + jugador.extraversion / 3",
         "efectos": [
           "jugador.salir_con()",
-          "persona.carino += 5",
+          "persona.carino += 8",
           "jugador.felicidad += 4"
         ]
       },
@@ -158,7 +158,7 @@
   {
     "id": "evento.pareja.te_pide_pololeo",
     "con": "pareja",
-    "condiciones": "jugador.etapa_pareja == 'saliendo' && jugador.semanas_en_etapa >= 6 && persona.carino >= 60",
+    "condiciones": "jugador.etapa_pareja == 'saliendo' && jugador.semanas_en_etapa >= 6 && persona.carino >= 55",
     "probabilidad_anual": 0.99,
     "dia_clave": true,
     "opciones": [
@@ -176,7 +176,7 @@
         "texto": "opcion.pareja.te_pide_pololeo.todavia",
         "tendencia": "20",
         "efectos": [
-          "persona.carino -= 5"
+          "persona.carino -= 3"
         ]
       },
       {
@@ -197,7 +197,7 @@
   {
     "id": "evento.pareja.no_resulto",
     "con": "pareja",
-    "condiciones": "jugador.etapa_pareja == 'saliendo' && jugador.semanas_en_etapa >= 8 && (persona.carino < 60 || jugador.semanas_en_etapa >= 26)",
+    "condiciones": "jugador.etapa_pareja == 'saliendo' && jugador.semanas_en_etapa >= 8 && (persona.carino < 45 || jugador.semanas_en_etapa >= 30)",
     "probabilidad_anual": 0.8,
     "efectos": [
       "jugador.terminar_pareja()",
@@ -212,7 +212,7 @@
   {
     "id": "evento.pareja.propone_vivir_juntos",
     "con": "pareja",
-    "condiciones": "jugador.etapa_pareja == 'pololeo' && jugador.semanas_en_etapa >= 52 && jugador.edad >= 20 && persona.edad >= 20 && jugador.vivienda != nada && persona.carino >= 65",
+    "condiciones": "jugador.etapa_pareja == 'pololeo' && jugador.semanas_en_etapa >= 39 && jugador.edad >= 20 && persona.edad >= 20 && jugador.vivienda != nada && persona.carino >= 65",
     "probabilidad_anual": 0.5,
     "enfriamiento_semanas": 26,
     "dia_clave": true,
@@ -234,17 +234,18 @@
         ]
       }
     ],
-    "veces_maximas": 2,
+    "veces_maximas": 3,
     "por_persona": true,
     "variantes": [
-      "evento.pareja.propone_vivir_juntos.2"
+      "evento.pareja.propone_vivir_juntos.2",
+      "evento.pareja.propone_vivir_juntos.3"
     ]
   },
   {
     "id": "evento.pareja.arrendar_juntos",
     "con": "pareja",
-    "condiciones": "jugador.etapa_pareja == 'pololeo' && jugador.semanas_en_etapa >= 78 && jugador.edad >= 21 && persona.edad >= 21 && jugador.vivienda == nada && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.departamento')) && persona.carino >= 65",
-    "probabilidad_anual": 0.5,
+    "condiciones": "jugador.etapa_pareja == 'pololeo' && jugador.semanas_en_etapa >= 39 && jugador.edad >= 20 && persona.edad >= 20 && jugador.vivienda == nada && !jugador.moroso && jugador.dinero >= precio(arriendo('vivienda.departamento')) / 2 && persona.carino >= 65",
+    "probabilidad_anual": 0.9,
     "enfriamiento_semanas": 26,
     "dia_clave": true,
     "opciones": [
@@ -266,10 +267,11 @@
         ]
       }
     ],
-    "veces_maximas": 2,
+    "veces_maximas": 3,
     "por_persona": true,
     "variantes": [
-      "evento.pareja.arrendar_juntos.2"
+      "evento.pareja.arrendar_juntos.2",
+      "evento.pareja.arrendar_juntos.3"
     ]
   },
   {

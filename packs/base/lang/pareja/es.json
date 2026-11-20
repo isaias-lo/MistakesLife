@@ -67,5 +67,7 @@
   "evento.pareja.te_pide_pololeo.2": "{persona} vuelve a preguntártelo, ahora sin nervios: «¿Y? ¿Pololeamos o no?».",
   "evento.pareja.propone_vivir_juntos.2": "{persona} vuelve a sacar el tema: ya tiene medio clóset en tu casa. «¿Me vengo de una vez?».",
   "evento.pareja.arrendar_juntos.2": "{persona} encontró otro departamento, más barato que el anterior: «Este sí nos alcanza. ¿Nos vamos juntos?».",
-  "evento.pareja.no_resulto.2": "Otra vez con {persona} las cosas se fueron enfriando. Esta vez ninguno de los dos intentó arreglarlo."
+  "evento.pareja.no_resulto.2": "Otra vez con {persona} las cosas se fueron enfriando. Esta vez ninguno de los dos intentó arreglarlo.",
+  "evento.pareja.propone_vivir_juntos.3": "Otra vez {persona} se queda a dormir toda la semana. «Ya pago la mitad del supermercado. ¿Y si lo hacemos oficial y me vengo?».",
+  "evento.pareja.arrendar_juntos.3": "{persona} hizo las cuentas en una planilla: el arriendo, las cuentas y la comida, divididos entre los dos. «Ahora sí. ¿Nos vamos?»."
 }

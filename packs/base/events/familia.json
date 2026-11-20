@@ -2,7 +2,7 @@
   {
     "id": "evento.conversar_hijos",
     "con": "pareja",
-    "condiciones": "jugador.vive_con_pareja && jugador.sexo != persona.sexo && jugador.edad >= 22 && jugador.hijos < 3 && !jugador.tiene('buscando_hijo') && !jugador.tiene('no_quiere_hijos') && ((jugador.sexo == 'femenino' && jugador.edad <= 42) || (jugador.sexo == 'masculino' && persona.edad <= 42))",
+    "condiciones": "(jugador.vive_con_pareja || (jugador.etapa_pareja == 'pololeo' && jugador.semanas_en_etapa >= 104)) && jugador.sexo != persona.sexo && jugador.edad >= 22 && jugador.hijos < 3 && !jugador.tiene('buscando_hijo') && !jugador.tiene('no_quiere_hijos') && ((jugador.sexo == 'femenino' && jugador.edad <= 42) || (jugador.sexo == 'masculino' && persona.edad <= 42))",
     "probabilidad_anual": 0.4,
     "enfriamiento_semanas": 52,
     "opciones": [
@@ -24,14 +24,15 @@
       }
     ],
     "por_persona": true,
-    "veces_maximas": 2,
+    "veces_maximas": 3,
     "variantes": [
-      "evento.conversar_hijos.2"
+      "evento.conversar_hijos.2",
+      "evento.conversar_hijos.3"
     ]
   },
   {
     "id": "evento.nace_hijo",
-    "condiciones": "jugador.vive_con_pareja && jugador.tiene('buscando_hijo') && jugador.pareja != nada && jugador.sexo != jugador.pareja.sexo && ((jugador.sexo == 'femenino' && jugador.edad <= 44) || (jugador.sexo == 'masculino' && jugador.pareja.edad <= 44))",
+    "condiciones": "(jugador.vive_con_pareja || jugador.etapa_pareja == 'pololeo') && jugador.tiene('buscando_hijo') && jugador.pareja != nada && jugador.sexo != jugador.pareja.sexo && ((jugador.sexo == 'femenino' && jugador.edad <= 44) || (jugador.sexo == 'masculino' && jugador.pareja.edad <= 44))",
     "probabilidad_anual": 0.6,
     "dia_clave": true,
     "efectos": [
@@ -46,7 +47,7 @@
   },
   {
     "id": "evento.embarazo_no_planificado",
-    "condiciones": "jugador.vive_con_pareja && jugador.pareja != nada && jugador.sexo != jugador.pareja.sexo && !jugador.tiene('buscando_hijo') && ((jugador.sexo == 'femenino' && jugador.edad >= 18 && jugador.edad <= 44) || (jugador.sexo == 'masculino' && jugador.pareja.edad >= 18 && jugador.pareja.edad <= 44))",
+    "condiciones": "(jugador.vive_con_pareja || jugador.etapa_pareja == 'pololeo') && jugador.pareja != nada && jugador.sexo != jugador.pareja.sexo && !jugador.tiene('buscando_hijo') && ((jugador.sexo == 'femenino' && jugador.edad >= 18 && jugador.edad <= 44) || (jugador.sexo == 'masculino' && jugador.pareja.edad >= 18 && jugador.pareja.edad <= 44))",
     "probabilidad_anual": 0.03,
     "dia_clave": true,
     "variantes": [
