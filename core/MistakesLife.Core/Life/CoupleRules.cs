@@ -60,22 +60,31 @@ namespace MistakesLife.Core.Life
         /// otro menor de edad parecida (hasta <see cref="MaxMinorAgeGap"/> años de diferencia). Si a
         /// la otra persona le gusta, no se sabe hasta preguntar (ver <see cref="CanDate"/>).
         /// </summary>
-        public static bool CouldAsk(World world, Character person, Character other)
+        public static bool CouldAsk(World world, Character person, Character other) =>
+            !person.PartnerId.HasValue && !other.PartnerId.HasValue && AgesFit(world, person, other)
+            && !IsRelative(world, person, other) && AttractedTo(person, other);
+
+        /// <summary>
+        /// Si hay química entre dos adultos aunque alguno tenga pareja (D4d2: la tentación, los celos
+        /// con razón): los dos vivos, mayores de edad, no son familia ni pareja entre ellos, y se
+        /// pueden gustar los dos.
+        /// </summary>
+        public static bool Chemistry(World world, Character person, Character other) =>
+            person.PartnerId != other.Id && person.AgeInYears(world.Date) >= 18 && other.AgeInYears(world.Date) >= 18
+            && AgesFit(world, person, other) && !IsRelative(world, person, other)
+            && AttractedTo(person, other) && AttractedTo(other, person);
+
+        private static bool AgesFit(World world, Character person, Character other)
         {
-            if (person.Id == other.Id || !person.IsAlive || !other.IsAlive || person.PartnerId.HasValue || other.PartnerId.HasValue)
+            if (person.Id == other.Id || !person.IsAlive || !other.IsAlive)
             {
                 return false;
             }
 
             int age = person.AgeInYears(world.Date);
             int otherAge = other.AgeInYears(world.Date);
-            if (age < MinAge || otherAge < MinAge || (age < 18) != (otherAge < 18)
-                || (age < 18 && Math.Abs(age - otherAge) > MaxMinorAgeGap))
-            {
-                return false;
-            }
-
-            return !IsRelative(world, person, other) && AttractedTo(person, other);
+            return age >= MinAge && otherAge >= MinAge && (age < 18) == (otherAge < 18)
+                && !(age < 18 && Math.Abs(age - otherAge) > MaxMinorAgeGap);
         }
 
         /// <summary>Si pueden empezar a salir: <see cref="CouldAsk"/> y además se pueden gustar los dos.</summary>

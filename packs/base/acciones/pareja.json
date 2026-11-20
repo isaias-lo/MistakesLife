@@ -63,6 +63,43 @@
     ]
   },
   {
+    "id": "accion.pareja.escapada",
+    "grupo": "gente",
+    "con": "pareja",
+    "solo_en_ficha": true,
+    "edad_minima": 18,
+    "tardes": 2,
+    "condiciones": "jugador.etapa_pareja != 'saliendo' && jugador.dinero >= precio(80000)",
+    "cambia": {
+      "felicidad": 4,
+      "carino": 5,
+      "energia": 5
+    },
+    "efectos": [
+      "jugador.dinero -= precio(80000)",
+      "diario('diario.pareja.escapada')"
+    ]
+  },
+  {
+    "id": "accion.pareja.viaje",
+    "grupo": "gente",
+    "con": "pareja",
+    "solo_en_ficha": true,
+    "edad_minima": 18,
+    "tardes": 3,
+    "condiciones": "jugador.etapa_pareja != 'saliendo' && jugador.dinero >= precio(450000)",
+    "cambia": {
+      "felicidad": 7,
+      "carino": 8,
+      "energia": 8
+    },
+    "efectos": [
+      "jugador.dinero -= precio(450000)",
+      "jugador.marcar('foto_viaje_pareja')",
+      "diario('diario.viaje_con_pareja')"
+    ]
+  },
+  {
     "id": "accion.pareja.terminar",
     "grupo": "gente",
     "con": "pareja",

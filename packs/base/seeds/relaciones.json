@@ -22,5 +22,13 @@
     "vence_anios": 2,
     "dormir_min_semanas": 26,
     "condiciones": "semilla('semilla.fuiste_aval').testigo != nada"
+  },
+  {
+    "id": "semilla.infidelidad",
+    "tipo": "negativa",
+    "fuerza": 50,
+    "vence_anios": 8,
+    "dormir_min_semanas": 8,
+    "condiciones": "jugador.pareja != nada && semilla('semilla.infidelidad').testigo != nada"
   }
 ]

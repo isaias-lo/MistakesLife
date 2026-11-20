@@ -122,6 +122,15 @@ namespace MistakesLife.Core.Content
         /// </summary>
         public const string NewPersonRole = "alguien_nuevo";
 
+        /// <summary>
+        /// Como <see cref="NewPersonRole"/>, pero la persona nueva es alguien de la vida de tu pareja
+        /// que le podría gustar a ella (D4d2: con quien te engaña). Necesita pareja viva.
+        /// </summary>
+        public const string NewPersonOfPartnerRole = "alguien_nuevo_de_tu_pareja";
+
+        /// <summary>Si el "con" crea a una persona nueva al pasar.</summary>
+        public static bool IsNewPersonRole(string? role) => role == NewPersonRole || role == NewPersonOfPartnerRole;
+
         /// <summary>Dónde pasa el momento: la clave de un lugar con nombre ("lugar.plaza"). Opcional.</summary>
         [JsonProperty("lugar")]
         public string? Place { get; set; }

@@ -382,10 +382,11 @@
   {
     "id": "evento.celos_de_amigo",
     "con": "amigo",
-    "condiciones": "jugador.pareja != nada",
+    "condiciones": "jugador.pareja != nada && persona.hay_quimica",
     "probabilidad_anual": 0.04,
     "enfriamiento_semanas": 260,
-    "veces_maximas": 2,
+    "veces_maximas": 1,
+    "por_persona": true,
     "opciones": [
       {
         "texto": "opcion.celos.explicar",
