@@ -488,5 +488,20 @@
     "diario": "diario.viudez.primer_ano",
     "titulo": "capitulo.viudez.primer_ano",
     "peso": 7
+  },
+  {
+    "diario": "diario.pareja.infiel",
+    "titulo": "capitulo.pareja.infiel",
+    "peso": 6
+  },
+  {
+    "diario": "diario.pareja.te_pillaron",
+    "titulo": "capitulo.pareja.te_pillaron",
+    "peso": 8
+  },
+  {
+    "diario": "diario.pareja.te_engano",
+    "titulo": "capitulo.pareja.te_engano",
+    "peso": 8
   }
 ]

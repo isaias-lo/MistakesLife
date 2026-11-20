@@ -2714,16 +2714,16 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, $"con '{EventDefinition.WitnessRole}' solo sirve en un evento de semilla."));
                 }
             }
-            else if (ev.With == EventDefinition.NewPersonRole)
+            else if (EventDefinition.IsNewPersonRole(ev.With))
             {
                 if (ev.OnRequest != null || ev.SeedType != null || ev.OnBirthday)
                 {
-                    _errors.Add(new ContentError(where, $"con '{EventDefinition.NewPersonRole}' es alguien que conoces ahí mismo: no sirve a_pedido, en un evento de semilla ni en un cumpleaños."));
+                    _errors.Add(new ContentError(where, $"con '{ev.With}' es alguien que conoces ahí mismo: no sirve a_pedido, en un evento de semilla ni en un cumpleaños."));
                 }
 
                 if (ev.Conditions != null && System.Text.RegularExpressions.Regex.IsMatch(ev.Conditions, @"\bpersona\b"))
                 {
-                    _errors.Add(new ContentError(where, $"con '{EventDefinition.NewPersonRole}' las condiciones no pueden usar persona: se revisan antes de conocerla."));
+                    _errors.Add(new ContentError(where, $"con '{ev.With}' las condiciones no pueden usar persona: se revisan antes de conocerla."));
                 }
             }
             else if (ev.With != null && Array.IndexOf(ChatDefinition.Senders, ev.With) < 0 && Array.IndexOf(ActionDefinition.ExtraRoles, ev.With) < 0)

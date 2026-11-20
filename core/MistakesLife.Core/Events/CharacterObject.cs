@@ -44,7 +44,8 @@ namespace MistakesLife.Core.Events
     /// trabaja en el equipo de ese alguien), recomendado (si entró a ese equipo recomendado por él)
     /// vive_contigo (si comparte el arriendo de ese alguien), es_tu_socio (si es su socio en un negocio)
     /// quiere_amistad (si hay química para una amistad con ese alguien: ver SchoolRules.ReadyForFriendship),
-    /// te_puede_gustar (si ese alguien podría invitarla a salir) y pueden_salir (si además le gusta).
+    /// te_puede_gustar (si ese alguien podría invitarla a salir), pueden_salir (si además le gusta) y
+    /// hay_quimica (adultos que se pueden gustar, aunque alguno tenga pareja).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género') (solo pruebas: crea una pareja de la nada),
@@ -282,6 +283,8 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(CoupleRules.WeeksWidowed(((EventScope)scope).World, _character) ?? 0);
                 case "te_puede_gustar":
                     return Value.FromBool(CoupleRules.CouldAsk(((EventScope)scope).World, Viewer(member), _character));
+                case "hay_quimica":
+                    return Value.FromBool(CoupleRules.Chemistry(((EventScope)scope).World, Viewer(member), _character));
                 case "pueden_salir":
                     return Value.FromBool(CoupleRules.CanDate(((EventScope)scope).World, Viewer(member), _character));
                 case "viudo":

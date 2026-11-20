@@ -301,15 +301,24 @@ namespace MistakesLife.Core.Events
                 return false;
             }
 
-            if (ev.With == EventDefinition.NewPersonRole)
+            if (EventDefinition.IsNewPersonRole(ev.With))
             {
                 // Conoces a alguien nuevo: primero se revisa si puede pasar y después nace la persona.
-                if (!Passes(ev, new EventScope(world, Content, player, null, readOnly: true)))
+                Character? partner = player.PartnerId.HasValue && world.TryGetCharacter(player.PartnerId.Value, out Character? found) && found.IsAlive ? found : null;
+                bool ofPartner = ev.With == EventDefinition.NewPersonOfPartnerRole;
+                if ((ofPartner && (partner == null || partner.Residence == null)) || !Passes(ev, new EventScope(world, Content, player, null, readOnly: true)))
                 {
                     return false;
                 }
 
-                Occur(world, context, ev, player, null, FamilyFactory.CreateStranger(world, Content, player));
+                Character stranger = FamilyFactory.CreateStranger(world, Content, ofPartner ? partner! : player);
+                if (ofPartner)
+                {
+                    // Tú también sabes quién es: queda en tu gente.
+                    RelationshipRules.SetBond(world, player, stranger, RelationshipBond.None);
+                }
+
+                Occur(world, context, ev, player, null, stranger);
                 return true;
             }
 
@@ -482,7 +491,7 @@ namespace MistakesLife.Core.Events
         /// </summary>
         private static IReadOnlyList<Character> PeopleFor(World world, Character player, string role)
         {
-            if (role == EventDefinition.NewPersonRole)
+            if (EventDefinition.IsNewPersonRole(role))
             {
                 return Array.Empty<Character>();
             }

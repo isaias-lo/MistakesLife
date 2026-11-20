@@ -1,0 +1,133 @@
+[
+  {
+    "id": "evento.pareja.tentacion",
+    "con": "cualquiera",
+    "condiciones": "jugador.edad >= 18 && jugador.pareja != nada && jugador.etapa_pareja != 'saliendo' && persona.hay_quimica && persona.carino >= 55 && !semilla('semilla.infidelidad').activa",
+    "probabilidad_anual": 0.03,
+    "enfriamiento_semanas": 104,
+    "veces_maximas": 1,
+    "por_persona": true,
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.pareja.tentacion.ceder",
+        "tendencia": "(100 - jugador.responsabilidad) / 6 + jugador.apertura / 12",
+        "efectos": [
+          "plantar('semilla.infidelidad', persona)",
+          "persona.carino += 8",
+          "jugador.felicidad += 2",
+          "diario('diario.pareja.infiel')"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.tentacion.cortar",
+        "tendencia": "45 + jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.carino -= 3",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja.infidelidad_se_sabe",
+    "con": "testigo",
+    "semilla": "semilla.infidelidad",
+    "condiciones": "jugador.pareja != nada && semilla('semilla.infidelidad').testigo != nada",
+    "dia_clave": true,
+    "opciones": [
+      {
+        "texto": "opcion.pareja.infidelidad_se_sabe.verdad",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.pareja.rencor += 25",
+          "jugador.pareja.confianza -= 25",
+          "jugador.felicidad -= 6",
+          "diario('diario.pareja.te_pillaron')"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.infidelidad_se_sabe.negar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.pareja.rencor += 15",
+          "jugador.pareja.confianza -= 35",
+          "persona.rencor += 15",
+          "jugador.felicidad -= 4",
+          "diario('diario.pareja.te_pillaron')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja.te_engana",
+    "con": "alguien_nuevo_de_tu_pareja",
+    "condiciones": "jugador.edad >= 18 && jugador.pareja != nada && jugador.etapa_pareja != 'saliendo' && jugador.pareja.edad >= 18 && (jugador.pareja.rencor >= 20 || jugador.pareja.carino < 55 || jugador.pareja.responsabilidad < 30)",
+    "probabilidad_anual": 0.05,
+    "enfriamiento_semanas": 104,
+    "dia_clave": true,
+    "variantes": [
+      "evento.pareja.te_engana.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.pareja.te_engana.perdonar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.vincular('rival')",
+          "jugador.pareja.carino += 10",
+          "jugador.pareja.rencor -= 10",
+          "jugador.felicidad -= 8",
+          "diario('diario.pareja.te_engano')"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.te_engana.terminar",
+        "tendencia": "20 + jugador.neuroticismo / 2",
+        "efectos": [
+          "persona.vincular('rival')",
+          "jugador.terminar_pareja()",
+          "jugador.desmarcar('buscando_hijo')",
+          "jugador.desmarcar('buscando_adopcion')",
+          "jugador.felicidad -= 12",
+          "diario('diario.pareja.te_engano')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.pareja.celos_ex",
+    "con": "ex",
+    "condiciones": "jugador.edad >= 16 && jugador.pareja != nada && jugador.etapa_pareja != 'saliendo' && persona.carino >= 50",
+    "probabilidad_anual": 0.15,
+    "enfriamiento_semanas": 52,
+    "veces_maximas": 1,
+    "por_persona": true,
+    "opciones": [
+      {
+        "texto": "opcion.pareja.celos_ex.mostrar",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.pareja.confianza += 3"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.celos_ex.seguir",
+        "tendencia": "jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino += 5",
+          "jugador.pareja.rencor += 8",
+          "jugador.pareja.confianza -= 5"
+        ]
+      },
+      {
+        "texto": "opcion.pareja.celos_ex.cortar",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.carino -= 5",
+          "jugador.pareja.carino += 3"
+        ]
+      }
+    ]
+  }
+]
