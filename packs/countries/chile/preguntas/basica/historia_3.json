@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.basica",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 3º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.3.planeta",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.3.planeta.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.planeta.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.planeta.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.planeta.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.planeta.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.planeta.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.planeta.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.planeta.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.planeta.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.planeta.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.3.zonas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.3.zonas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.zonas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.zonas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.zonas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.zonas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.zonas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.zonas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.zonas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.zonas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.zonas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.3.grecia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.3.grecia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.grecia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.grecia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.grecia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.grecia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.grecia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.grecia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.grecia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.grecia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.grecia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.3.roma",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.3.roma.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.roma.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.roma.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.roma.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.roma.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.roma.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.roma.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.3.roma.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.3.roma.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.3.roma.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

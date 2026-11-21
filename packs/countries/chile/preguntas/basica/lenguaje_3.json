@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.lenguaje",
+  "etapa": "etapa.chile.basica",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Lenguaje y Comunicación 3º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.lenguaje.3.leyendas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.leyendas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.3.comprender",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.comprender.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.3.gramatica",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.gramatica.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.3.textos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.3.textos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

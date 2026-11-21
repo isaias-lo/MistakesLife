@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.basica",
+  "curso": 5,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 5º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.5.zonas_naturales",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.zonas_naturales.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.5.descubrimiento",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.descubrimiento.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.5.conquista_chile",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.conquista_chile.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.5.colonia_derechos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.5.colonia_derechos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

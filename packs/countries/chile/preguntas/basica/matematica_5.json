@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.basica",
+  "curso": 5,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Matemática 5º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.5.grandes",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.5.grandes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.grandes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.grandes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.grandes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.grandes.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.grandes.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.grandes.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.grandes.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.grandes.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.grandes.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.5.multiplicar_dividir",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.multiplicar_dividir.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.5.fracciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.fracciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.5.geometria_datos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.5.geometria_datos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

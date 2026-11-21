@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ciencias_naturales",
+  "etapa": "etapa.chile.basica",
+  "curso": 7,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Ciencias Naturales 7º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ciencias_naturales.7.microorganismos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.microorganismos.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.7.mezclas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.mezclas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.7.gases",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.gases.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.7.fuerzas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.7.fuerzas.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

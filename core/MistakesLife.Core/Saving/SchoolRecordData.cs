@@ -22,5 +22,20 @@ namespace MistakesLife.Core.Saving
         public double? TestMark { get; set; }
 
         public int TestReturnedWeek { get; set; }
+
+        // Desde la versión 42 (D5a): la recuperativa y el dominio de cada ramo.
+        public bool TestMakeup { get; set; }
+
+        public Dictionary<string, int>? Mastery { get; set; }
+
+        public Dictionary<string, int>? LastMastery { get; set; }
+
+        public int MasteryYear { get; set; }
+
+        public Dictionary<string, int>? LastStudiedWeek { get; set; }
+
+        public List<string>? SeenQuestions { get; set; }
+
+        public int StudySessions { get; set; }
     }
 }

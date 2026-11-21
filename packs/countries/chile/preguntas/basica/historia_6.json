@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.basica",
+  "curso": 6,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 6º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.6.independencia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.6.independencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.independencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.independencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.independencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.independencia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.independencia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.independencia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.independencia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.independencia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.independencia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.6.siglo_xix",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xix.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.6.siglo_xx",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.siglo_xx.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.6.regiones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.6.regiones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.regiones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.regiones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.regiones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.regiones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.regiones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.regiones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.6.regiones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.6.regiones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.6.regiones.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

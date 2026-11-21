@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.basica",
+  "curso": 8,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Matemática 8º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.8.potencias",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.8.potencias.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.potencias.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.potencias.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.potencias.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.potencias.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.potencias.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.potencias.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.potencias.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.potencias.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.potencias.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.8.funciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.8.funciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.funciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.funciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.funciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.funciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.funciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.funciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.funciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.funciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.funciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.8.pitagoras",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.pitagoras.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.8.datos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.8.datos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.datos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.datos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.datos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.datos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.datos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.datos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.datos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.datos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.8.datos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

@@ -954,6 +954,33 @@ Cómo pesa (`RoutineSystem`):
 - **Cariño:** cada mes, con cada persona de `con`, sube lo que diga `carino` en los dos sentidos (lo que tú sientes y lo que siente esa persona).
 - Si una actividad deja de tener sentido (ya no hay amigos, pasó la edad), queda en el horario pero no cuenta hasta que la cambies.
 
+## Preguntas para estudiar (preguntas/)
+
+Estudiar de verdad (D5a en `docs/roadmap.md`): con el tiempo parado, en Estudios se elige un ramo y una tarde de estudio es un texto breve y 3 preguntas de alternativas del programa real del país. Cada archivo es **un ramo de un curso** (no una lista), en el paquete del país (`packs/countries/chile/preguntas/basica/matematica_5.json`):
+
+```json
+{ "ramo": "ramo.chile.matematica", "etapa": "etapa.chile.basica", "curso": 5,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Matemática 5º básico (Mineduc)",
+  "unidades": [
+    { "id": "tema.chile.matematica.5.fracciones",
+      "preguntas": [ { "id": "pregunta.chile.matematica.5.fracciones.1", "correcta": "b" } ] } ] }
+```
+
+| Campo | Qué es |
+|---|---|
+| `ramo`, `etapa`, `curso` | El ramo (de la etapa), la etapa y el curso. El ramo debe ser de ese curso y tener pruebas escritas |
+| `fuente` | De dónde salen las preguntas (el programa oficial). Obligatoria: nada inventado |
+| `unidades` | Los temas del año, en el orden del programa. Cada unidad tiene id `tema.*` y al menos 3 preguntas. Se estudia la unidad que va según las semanas de clases que llevan |
+| `preguntas` | Id `pregunta.*`, `correcta` (la letra `a`, `b`, `c` o `d`) y `alternativas` (3 o 4; por defecto 3) |
+
+Los textos van en `lang/` del país: `tema.x` es el título de la unidad, `tema.x.texto` el texto breve que se lee antes de responder, `pregunta.x` la pregunta, `pregunta.x.a`... las alternativas y `pregunta.x.por_que` lo que se muestra al fallar (la profe o la compañera lo explican). Las alternativas se muestran en otro orden cada vez.
+
+El dominio de cada ramo (`StudyRules`) va de 0 a 100, por ramo y por año. Al empezar el año parte de cómo rindes en clases (inteligencia, responsabilidad y tu rutina) y de lo que llevabas en ese ramo el año anterior; si va bajo lo que rindes en clases, cada semana de clases se acerca un poco a eso; sube con cada acierto (3 puntos bajo 50, 2 hasta 80, 1 desde ahí; 1 más si te lo explica la profe); no baja al fallar, y si pasan más de 3 semanas sin estudiarlo se olvida de a poco (1 punto cada 2 semanas, nunca bajo lo que rindes en clases). La nota de la prueba de un ramo con dominio sale del dominio más la inteligencia y la energía. Si faltas el día de la prueba (más probable con mala salud) hay recuperativa la semana siguiente.
+
+Se puede estudiar sola, con una compañera del curso que te quiere (responde las mismas preguntas; acierta según su propia inteligencia y se suben el cariño los dos; una vez al mes cada una) o con el profe jefe (una vez al mes). Cada tarde gasta energía; si la mayoría de las respuestas fueron correctas, sube 1 la inteligencia; y si el ramo tiene la prueba anunciada, cuenta como preparación.
+
+Hoy están Lenguaje y Comunicación (Lengua y Literatura en 7º y 8º), Matemática, Historia y Ciencias Naturales de 1º a 8º básico de Chile, 40 preguntas por ramo y curso. Los ramos sin preguntas (Inglés, Tecnología, media y la universidad) siguen con "Repasar" y "Estudiar para la prueba".
+
 ## Hacer algo con el tiempo parado (acciones/)
 
 Lo que el jugador hace con el tiempo parado, desde cada grupo de la pantalla principal (D3 en `docs/roadmap.md`): estudiar para la prueba, juntarse con un amigo, hacer deporte, descansar. **Da resultado al tiro** (las barras cambian en verde o rojo) y **gasta tardes libres del mes**.
@@ -1253,6 +1280,10 @@ Cada persona siente algo por cada otra: **cariño, confianza, respeto y rencor**
 | `persona.manda_en_tu_area` | Si trabaja en tu misma empresa y en tu misma área con un cargo más alto que el tuyo (D4b2): quien te puede recomendar para un ascenso |
 | `persona.sabe_de_lo_tuyo` | Si trabaja en una pega del juego de la misma carrera u oficio en que trabajas o que estudias (D4b2): quien te puede dar un consejo que sirve |
 | `jugador.gente_interesante_conocida` | Cuántas personas interesantes de su horario ya conoce (conversaron al menos una vez; D4b2) |
+| `jugador.ramos_con_preguntas` | Cuántos ramos de su curso tienen preguntas reales en `preguntas/` (D5a). Con 1 o más se estudia con preguntas y no con "Repasar" |
+| `jugador.prueba_con_preguntas` | Si la prueba anunciada es de un ramo con preguntas: entonces se prepara estudiando ese ramo y no con "Estudiar para la prueba" |
+| `jugador.recuperativa` | Si la prueba que viene es una recuperativa (faltó el día de la prueba) |
+| `jugador.tardes_de_estudio` | Cuántas tardes estudió con preguntas este año escolar |
 | `persona.hay_quimica` | Si hay química entre el jugador y esa persona aunque alguno tenga pareja (D4d2): los dos adultos, no son familia ni pareja entre ellos y se pueden gustar los dos. La usan la tentación y los celos con razón |
 | `persona.pueden_salir` | `persona.te_puede_gustar` y además a ella le puede gustar el jugador. Lo usan `acepta` y los momentos en que te invitan |
 | `jugador.salir_con()` | Empiezan a salir con la persona del evento o la acción (revisa antes `persona.pueden_salir`; si eran ex, dejan de serlo) (solo efectos) |

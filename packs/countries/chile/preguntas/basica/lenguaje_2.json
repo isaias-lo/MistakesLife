@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.lenguaje",
+  "etapa": "etapa.chile.basica",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Lenguaje y Comunicación 2º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.lenguaje.2.fabulas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.fabulas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.2.palabras",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.palabras.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.2.ortografia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.ortografia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.2.textos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.2.textos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.basica",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Matemática 3º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.3.tablas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.3.tablas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.tablas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.tablas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.tablas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.tablas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.tablas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.tablas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.tablas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.tablas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.tablas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.3.dividir",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.3.dividir.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.dividir.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.dividir.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.dividir.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.dividir.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.dividir.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.dividir.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.dividir.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.dividir.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.dividir.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.3.fracciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.fracciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.3.medidas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.3.medidas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.medidas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.medidas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.medidas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.medidas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.medidas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.medidas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.medidas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.medidas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.3.medidas.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

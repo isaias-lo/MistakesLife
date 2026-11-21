@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ciencias_naturales",
+  "etapa": "etapa.chile.basica",
+  "curso": 6,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Ciencias Naturales 6º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ciencias_naturales.6.pubertad",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.pubertad.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.6.energia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.energia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.6.calor",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.calor.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.6.suelo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.6.suelo.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

@@ -653,6 +653,240 @@ namespace MistakesLife.Core.Presentation
                 FreeTime()!);
         }
 
+        /// <summary>
+        /// Tus ramos con preguntas en tu curso (D5a, boceto D5aRamosA), en el orden de la libreta:
+        /// lo que se pasa ahora, cuánto lo dominas, tu promedio y la prueba que viene. Vacío si
+        /// tu curso no tiene ramos con preguntas (ahí se estudia como antes, en Qué puedes hacer).
+        /// </summary>
+        public IReadOnlyList<StudySubjectView> StudySubjects()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            var views = new List<StudySubjectView>();
+            if (player.Residence == null)
+            {
+                return views;
+            }
+
+            CountryDefinition country = Session.Content.GetCountry(player.Residence.CountryId);
+            GradeScaleDefinition? scale = country.GradeScale;
+            Education.SchoolRecord? record = player.SchoolRecord;
+            foreach (QuestionSetDefinition set in Education.StudyRules.Sets(world, Session.Content, player))
+            {
+                int mastery = Education.StudyRules.Mastery(player, set.SubjectId)
+                    ?? Education.StudyRules.Start(null, Education.StudyRules.ClassLevel(world, Session.Content, player));
+                string? average = null;
+                if (scale != null && record != null && record.Marks.TryGetValue(set.SubjectId, out List<double>? marks) && marks.Count > 0)
+                {
+                    average = Text("ui.estudio.promedio", MarkText(Education.GradeRules.Round(marks.Average(), scale)));
+                }
+
+                bool test = record != null && record.TestPending && record.TestSubjectId == set.SubjectId;
+                string? upcoming = test ? Text(record!.TestMakeup ? "ui.estudio.recuperativa_el" : "ui.estudio.prueba_el", TestDay(country, record)) : null;
+                views.Add(new StudySubjectView(
+                    set.SubjectId,
+                    T(set.SubjectId),
+                    Text("ui.estudio.ahora", T(Education.StudyRules.CurrentUnit(country, world.Date, set).Id)),
+                    mastery,
+                    Text("ui.estudio.dominio", mastery, T("ui.estudio.palabra." + MasteryWord(mastery))),
+                    LifeBarView.LevelOf(mastery),
+                    average,
+                    upcoming,
+                    test && record!.TestMakeup,
+                    Session.Pending == null && Education.StudyRules.CanStudy(world, Session.Content, player, set.SubjectId)));
+            }
+
+            return views;
+        }
+
+        /// <summary>Antes de estudiar un ramo: el texto breve de la unidad que va y con quién puedes estudiar (boceto D5aTexto).</summary>
+        public StudyIntroView StudyIntro(string subjectId)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            QuestionSetDefinition set = Education.StudyRules.Set(world, Session.Content, player, subjectId)
+                ?? throw new InvalidOperationException($"'{subjectId}' no se estudia con preguntas en tu curso.");
+            CountryDefinition country = Session.Content.GetCountry(player.Residence!.CountryId);
+            QuestionUnitDefinition unit = Education.StudyRules.CurrentUnit(country, world.Date, set);
+            int mastery = Education.StudyRules.Mastery(player, subjectId)
+                ?? Education.StudyRules.Start(null, Education.StudyRules.ClassLevel(world, Session.Content, player));
+            bool female = player.Gender == Gender.Female;
+            var partners = new List<StudyPartnerView>
+            {
+                new StudyPartnerView(null, false, T(female ? "ui.estudio.sola" : "ui.estudio.solo"), T("ui.estudio.solo_tu"), Initials(player)),
+            };
+            foreach (Character mate in Education.StudyRules.Companions(world, player))
+            {
+                RelationshipBond bond = RelationshipRules.Feelings(world, player, mate).Bond;
+                string role = T(mate.Gender == Gender.Female ? "ui.estudio.companera" : "ui.estudio.companero");
+                string caption = RelationshipRules.BondKey(bond) is string bondKey ? role + " · " + T("ui.relacion." + bondKey).ToLowerInvariant() : role;
+                partners.Add(new StudyPartnerView(mate.Id, false, mate.FirstName, caption, Initials(mate)));
+            }
+
+            if (Education.StudyRules.Teacher(world, player) is Character teacher)
+            {
+                partners.Add(new StudyPartnerView(null, true, Capitalized(TeacherName(teacher)), T("ui.estudio.profe_explica"), Initials(teacher)));
+            }
+
+            string level = Text("curso." + set.StageId, set.Level, string.Empty).Trim();
+            return new StudyIntroView(
+                subjectId,
+                T(subjectId),
+                level + " · " + T(unit.Id),
+                T(unit.ReadingKey),
+                mastery,
+                LifeBarView.LevelOf(mastery),
+                partners,
+                Text("ui.estudio.nota_preguntas", Education.StudyRules.QuestionsPerSession, level, T("ui.estudio.fuente." + country.Id)));
+        }
+
+        /// <summary>
+        /// Empieza la tarde de estudio (gasta una tarde libre) y muestra la primera pregunta. Con
+        /// <paramref name="personId"/> estudia con alguien de su curso; con <paramref name="teacher"/>, con su profe jefe.
+        /// </summary>
+        public StudyQuestionView StartStudy(string subjectId, int? personId, bool teacher)
+        {
+            Session.StartStudy(subjectId, personId, teacher);
+            return StudyQuestion()!;
+        }
+
+        /// <summary>La pregunta que toca en la tarde de estudio que va; null si ya respondió todas o no está estudiando.</summary>
+        public StudyQuestionView? StudyQuestion()
+        {
+            Education.StudySession? study = Session.Study;
+            Education.StudyQuestion? question = study?.Current;
+            if (study == null || question == null || study.Finished)
+            {
+                return null;
+            }
+
+            int number = study.Answers.Count + 1;
+            int mastery = Education.StudyRules.Mastery(Session.World.Player, study.SubjectId) ?? 0;
+            return new StudyQuestionView(
+                number,
+                study.Questions.Count,
+                Text("ui.estudio.pregunta_de", number, study.Questions.Count) + " · " + StudyCompany(study),
+                T(question.Definition.Id),
+                question.Order.Select(i => T(question.Definition.OptionKey(i))).ToList(),
+                mastery,
+                LifeBarView.LevelOf(mastery));
+        }
+
+        /// <summary>Responde la pregunta que va con la alternativa de esa posición y cuenta si acertó y por qué.</summary>
+        public StudyAnswerView AnswerStudy(int position)
+        {
+            Education.StudySession study = Session.Study ?? throw new InvalidOperationException("No está estudiando.");
+            Education.StudyQuestion question = study.Current ?? throw new InvalidOperationException("Ya respondió todas las preguntas de la tarde.");
+            Education.StudyAnswer answer = Session.AnswerStudy(position);
+            World world = Session.World;
+            string why = T(question.Definition.WhyKey);
+            if (!answer.Correct && study.WithTeacher && Education.SchoolRules.Teacher(world, world.Player) is Character teacher)
+            {
+                why = Text("ui.estudio.profe_te_explica", Capitalized(TeacherName(teacher))) + " " + why;
+            }
+
+            string? partnerLine = null;
+            if (study.CompanionId.HasValue && world.TryGetCharacter(study.CompanionId.Value, out Character? mate) && answer.CompanionCorrect.HasValue)
+            {
+                string key = answer.CompanionCorrect.Value
+                    ? (answer.Correct ? "ui.estudio.companero.los_dos" : "ui.estudio.companero.te_explica")
+                    : (answer.Correct ? "ui.estudio.companero.le_explicas" : "ui.estudio.companero.ninguno");
+                partnerLine = Text(key, mate.FirstName);
+            }
+
+            int mastery = Education.StudyRules.Mastery(world.Player, study.SubjectId) ?? 0;
+            return new StudyAnswerView(
+                answer.Correct,
+                answer.Chosen,
+                answer.CorrectPosition,
+                T(answer.Correct ? "ui.estudio.bien" : "ui.estudio.casi"),
+                why,
+                partnerLine,
+                mastery,
+                LifeBarView.LevelOf(mastery),
+                answer.MasteryGain,
+                study.Current != null);
+        }
+
+        /// <summary>Termina la tarde de estudio: cuánto subió el ramo, cómo te podría ir en la prueba y lo demás que cambió (boceto D5aFin).</summary>
+        public StudyResultView FinishStudy()
+        {
+            Education.StudySession study = Session.Study ?? throw new InvalidOperationException("No está estudiando.");
+            Education.StudyOutcome outcome = Session.FinishStudy();
+            World world = Session.World;
+            Character player = world.Player;
+            CountryDefinition country = Session.Content.GetCountry(player.Residence!.CountryId);
+            Character? mate = study.CompanionId.HasValue && world.TryGetCharacter(study.CompanionId.Value, out Character? m) ? m : null;
+            string topic = T(study.Unit.Id);
+            string title = mate != null ? Text("ui.estudio.titulo_con", topic, mate.FirstName)
+                : study.WithTeacher && Education.SchoolRules.Teacher(world, player) is Character teacher ? Text("ui.estudio.titulo_con", topic, TeacherName(teacher))
+                : Text("ui.estudio.titulo", topic);
+            string masteryText = outcome.MasteryAfter > outcome.MasteryBefore
+                ? Text("ui.estudio.subio", outcome.MasteryBefore, outcome.MasteryAfter)
+                : Text("ui.estudio.igual", outcome.MasteryAfter);
+            Education.SchoolRecord record = player.SchoolRecord!;
+            string? testTitle = null;
+            string? testText = null;
+            if (record.TestPending && record.TestSubjectId == study.SubjectId && country.GradeScale != null)
+            {
+                testTitle = Text(record.TestMakeup ? "ui.estudio.recuperativa_del" : "ui.estudio.prueba_del", TestDay(country, record));
+                double expected = Education.GradeRules.Expected(world, Session.Content, player, country.GradeScale, study.SubjectId, record.TestPreparation);
+                testText = Text(player.Stats.Energy < Education.GradeRules.TiredEnergy ? "ui.estudio.te_iria_cansado" : "ui.estudio.te_iria", MarkText(expected));
+            }
+
+            return new StudyResultView(
+                title,
+                Text("ui.estudio.correctas", outcome.Correct, outcome.Total),
+                outcome.MasteryBefore,
+                outcome.MasteryAfter,
+                LifeBarView.LevelOf(outcome.MasteryAfter),
+                masteryText,
+                testTitle,
+                testText,
+                outcome.Changes.Select(c => Change(c.Key, c.Delta, mate)).ToList(),
+                Text("ui.estudio.nota_rinde", player.FirstName),
+                FreeTime()!);
+        }
+
+        /// <summary>"estudias sola", "con Javiera Soto", "con la profe Carolina".</summary>
+        private string StudyCompany(Education.StudySession study)
+        {
+            World world = Session.World;
+            if (study.CompanionId.HasValue && world.TryGetCharacter(study.CompanionId.Value, out Character? mate))
+            {
+                return Text("ui.estudio.con", mate.FirstName + " " + mate.LastName.Split(' ')[0]);
+            }
+
+            if (study.WithTeacher && Education.SchoolRules.Teacher(world, world.Player) is Character teacher)
+            {
+                return Text("ui.estudio.con", TeacherName(teacher));
+            }
+
+            return T(world.Player.Gender == Gender.Female ? "ui.estudio.estudias_sola" : "ui.estudio.estudias_solo");
+        }
+
+        /// <summary>"jueves 14": el día de la prueba anunciada (cada ramo tiene su día de la semana).</summary>
+        private string TestDay(CountryDefinition country, Education.SchoolRecord record)
+        {
+            int weekday = Math.Abs(country.EducationStages.SelectMany(st => st.Subjects).Select(sub => sub.Id).Distinct().ToList().IndexOf(record.TestSubjectId!)) % 5;
+            int dayOfYear = new GameDate(record.TestWeek).DayOfYear + weekday;
+            return T("ui.horario.dia." + weekday) + " " + GameDate.DayOfMonthOf(dayOfYear).ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>"la profe Carolina" o "el profe Juan".</summary>
+        private string TeacherName(Character teacher) =>
+            Text(teacher.Gender == Gender.Female ? "ui.momento.profe.f" : "ui.momento.profe.m", teacher.FirstName);
+
+        private static string Capitalized(string text) => text.Length == 0 ? text : char.ToUpperInvariant(text[0]) + text.Substring(1);
+
+        private static string Initials(Character person) =>
+            (person.FirstName.Length > 0 ? person.FirstName.Substring(0, 1) : string.Empty)
+            + (person.LastName.Length > 0 ? person.LastName.Substring(0, 1) : string.Empty);
+
+        /// <summary>La palabra del dominio: te cuesta, a medias, vas bien, lo dominas.</summary>
+        private static string MasteryWord(int mastery) =>
+            mastery >= 75 ? "dominas" : mastery >= 60 ? "bien" : mastery >= 40 ? "medias" : "cuesta";
+
         /// <summary>Cómo se lee un cambio de una acción: "Inteligencia +2", "Energía −3", "La Javiera te quiere más".</summary>
         private ChangeView Change(string key, int delta, Character? person)
         {

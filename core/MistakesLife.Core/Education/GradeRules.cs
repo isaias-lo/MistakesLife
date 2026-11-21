@@ -58,12 +58,58 @@ namespace MistakesLife.Core.Education
         public static IReadOnlyList<SubjectDefinition> Subjects(EducationStageDefinition stage, int level) =>
             stage.Subjects.Where(s => s.InLevel(level)).ToList();
 
+        /// <summary>Base de la nota de un ramo con dominio (D5a): la de quien no domina nada, con 0 en todo.</summary>
+        public const double MasteryBase = 2.6;
+
+        /// <summary>Lo que suma el dominio del ramo (0 a 100), como máximo.</summary>
+        public const double MasteryWeight = 3.6;
+
+        /// <summary>Lo que suma la inteligencia en un ramo con dominio, como máximo (el dominio ya la incluye en parte).</summary>
+        public const double MasterySmartsWeight = 0.8;
+
+        /// <summary>Lo que suma la constancia en un ramo con dominio, como máximo.</summary>
+        public const double MasteryConscientiousnessWeight = 0.3;
+
+        /// <summary>Bajo esta energía llega cansado a la prueba y rinde menos.</summary>
+        public const int TiredEnergy = 30;
+
+        /// <summary>Lo que resta, como máximo, llegar sin energía.</summary>
+        public const double TiredPenalty = 0.6;
+
         /// <summary>
-        /// Una nota en la escala del país. Depende de la inteligencia, la constancia, cuánto
-        /// estudio deja su horario, cuánto preparó esta prueba, el ánimo y algo de suerte.
+        /// Una nota en la escala del país. En un ramo que se estudia con preguntas (D5a) depende
+        /// de cuánto lo domina, su inteligencia, su constancia, cuánto preparó esta prueba, su
+        /// energía, su ánimo y algo de suerte: el jugador estudia, el personaje rinde. En los demás
+        /// ramos depende de la inteligencia, la constancia y el estudio que deja su horario.
         /// </summary>
-        public static double Mark(World world, ContentDatabase content, Character character, GradeScaleDefinition scale, int preparation, GameRandom random)
+        public static double Mark(World world, ContentDatabase content, Character character, GradeScaleDefinition scale, string subjectId, int preparation, GameRandom random)
         {
+            double luck = random.NextDouble() + random.NextDouble() + random.NextDouble() - 1.5;
+            return Round(Scaled(OnSeven(world, content, character, subjectId, preparation) + luck, scale), scale);
+        }
+
+        /// <summary>
+        /// La nota que se espera hoy en ese ramo, sin suerte (para decirle "te podría ir cerca de
+        /// un 5,1"), en la escala del país.
+        /// </summary>
+        public static double Expected(World world, ContentDatabase content, Character character, GradeScaleDefinition scale, string subjectId, int preparation) =>
+            Round(Scaled(OnSeven(world, content, character, subjectId, preparation), scale), scale);
+
+        private static double OnSeven(World world, ContentDatabase content, Character character, string subjectId, int preparation)
+        {
+            double prepared = PreparationWeight * Math.Max(0, Math.Min(MaxPreparation, preparation));
+            double sad = character.Stats.Happiness < SadHappiness ? SadPenalty : 0;
+            int? mastery = StudyRules.Mastery(character, subjectId);
+            if (mastery.HasValue)
+            {
+                double tired = character.Stats.Energy < TiredEnergy ? TiredPenalty * (TiredEnergy - character.Stats.Energy) / TiredEnergy : 0;
+                return MasteryBase
+                    + (MasteryWeight * mastery.Value / 100.0)
+                    + (MasterySmartsWeight * character.Stats.Smarts / 100.0)
+                    + (MasteryConscientiousnessWeight * character.Personality.Conscientiousness / 100.0)
+                    + prepared - sad - tired;
+            }
+
             double study = 0;
             if (character.Routine != null)
             {
@@ -71,17 +117,25 @@ namespace MistakesLife.Core.Education
                 study = Math.Max(-0.5, Math.Min(1.0, mind / (double)FullStudy));
             }
 
-            double luck = random.NextDouble() + random.NextDouble() + random.NextDouble() - 1.5;
-            double mark = BaseMark
+            return BaseMark
                 + (SmartsWeight * character.Stats.Smarts / 100.0)
                 + (ConscientiousnessWeight * character.Personality.Conscientiousness / 100.0)
                 + (StudyWeight * study)
-                + (PreparationWeight * Math.Max(0, Math.Min(MaxPreparation, preparation)))
-                - (character.Stats.Happiness < SadHappiness ? SadPenalty : 0)
-                + luck;
-            mark = Math.Max(1.0, Math.Min(7.0, mark));
-            return Round(scale.Min + ((mark - 1.0) / 6.0 * (scale.Max - scale.Min)), scale);
+                + prepared - sad;
         }
+
+        private static double Scaled(double onSeven, GradeScaleDefinition scale)
+        {
+            double mark = Math.Max(1.0, Math.Min(7.0, onSeven));
+            return scale.Min + ((mark - 1.0) / 6.0 * (scale.Max - scale.Min));
+        }
+
+        /// <summary>
+        /// La probabilidad de faltar el día de la prueba por estar enfermo: más con la salud baja
+        /// (con salud 80, 3 de cada 100 pruebas). Quien falta la rinde como recuperativa.
+        /// </summary>
+        public static double AbsentChance(Character character) =>
+            Math.Max(0.01, (100 - character.Stats.Health) / 100.0 * 0.15);
 
         /// <summary>Redondea como en el país (en Chile, a un decimal: 4,45 es 4,5).</summary>
         public static double Round(double value, GradeScaleDefinition scale) =>

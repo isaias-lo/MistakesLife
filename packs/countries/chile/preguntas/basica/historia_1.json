@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.basica",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 1º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.1.familia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.1.familia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.familia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.familia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.familia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.familia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.familia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.familia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.familia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.familia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.familia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.1.tiempo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.1.tiempo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.tiempo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.tiempo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.tiempo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.tiempo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.tiempo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.tiempo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.tiempo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.tiempo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.tiempo.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.1.chile",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.1.chile.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.chile.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.chile.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.chile.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.chile.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.chile.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.chile.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.chile.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.chile.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.chile.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.1.comunidad",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.1.comunidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.comunidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.comunidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.comunidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.comunidad.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.comunidad.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.comunidad.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.1.comunidad.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.1.comunidad.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.1.comunidad.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}
