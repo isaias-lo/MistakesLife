@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.ciencias_ciudadania",
+  "etapa": "etapa.chile.media",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Ciencias para la Ciudadanía 3º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ciencias_ciudadania.m3.salud",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.salud.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.salud.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.salud.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.salud.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.salud.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_ciudadania.m3.riesgos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.riesgos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.riesgos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.riesgos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.riesgos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.riesgos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_ciudadania.m3.ambiente",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.ambiente.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.ambiente.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.ambiente.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.ambiente.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.ambiente.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_ciudadania.m3.tecnologia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.tecnologia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.tecnologia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.tecnologia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.tecnologia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m3.tecnologia.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

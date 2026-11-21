@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.basica",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Tecnología 2º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.2.necesidades",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.2.necesidades.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.necesidades.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.necesidades.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.necesidades.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.necesidades.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.2.herramientas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.2.herramientas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.herramientas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.herramientas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.herramientas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.herramientas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.2.reciclar",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.2.reciclar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.reciclar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.reciclar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.reciclar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.reciclar.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.2.tic",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.2.tic.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.tic.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.tic.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.tic.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.2.tic.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

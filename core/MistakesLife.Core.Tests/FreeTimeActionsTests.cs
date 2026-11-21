@@ -124,7 +124,7 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
-        public void EstudiarParaLaPrueba_SoloConPruebaAnunciada_YLaDejaMasPreparada()
+        public void EstudiarParaLaPrueba_EnElColegioYaNoSale_PorqueTodosLosRamosTienenPreguntas()
         {
             var session = new LifeSession(Content, 3, "pais.chile");
             session.TimeMachine.Enabled = false;
@@ -148,12 +148,11 @@ namespace MistakesLife.Core.Tests
                 session.Choose(decider.Choose(session.World, session.Pending, random));
             }
 
+            // Desde D5a2 todos los ramos con prueba escrita del colegio tienen preguntas: la prueba
+            // se prepara estudiando el ramo (ver StudyTests.EstudiarElRamoDeLaPrueba_LaDejaMasPreparada).
             Player(session).Routine = new Routine("libre");
-            int before = Player(session).SchoolRecord!.TestPreparation;
             var life = new LifePresenter(session);
-            Assert.Contains(life.Actions("estudios"), a => a.Id == "accion.estudiar_prueba");
-            life.DoAction("accion.estudiar_prueba", null);
-            Assert.Equal(System.Math.Min(Education.GradeRules.MaxPreparation, before + 1), Player(session).SchoolRecord!.TestPreparation);
+            Assert.DoesNotContain(life.Actions("estudios"), a => a.Id == "accion.estudiar_prueba");
 
             Assert.DoesNotContain(new LifePresenter(Life(20, free: 3)).Actions("estudios"), a => a.Id == "accion.estudiar_prueba");
         }

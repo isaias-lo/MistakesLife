@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ingles",
+  "etapa": "etapa.chile.media",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Inglés 1º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ingles.m1.relationships",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.relationships.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m1.health",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m1.health.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.health.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.health.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.health.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.health.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.health.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.health.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.health.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.health.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.health.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m1.past_continuous",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.past_continuous.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m1.work",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m1.work.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.work.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.work.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.work.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.work.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.work.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.work.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.work.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.work.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m1.work.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

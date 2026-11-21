@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ingles",
+  "etapa": "etapa.chile.media",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Inglés 2º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ingles.m2.passive",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m2.passive.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.passive.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.passive.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.passive.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.passive.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.passive.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.passive.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.passive.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.passive.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.passive.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m2.conditionals",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.conditionals.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m2.reported",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m2.reported.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.reported.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.reported.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.reported.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.reported.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.reported.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.reported.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.reported.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.reported.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.reported.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m2.culture",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m2.culture.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.culture.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.culture.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.culture.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.culture.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.culture.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.culture.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.culture.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.culture.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m2.culture.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

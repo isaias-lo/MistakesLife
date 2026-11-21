@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.media",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 1º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.m1.liberalismo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.liberalismo.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.m1.industrial",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.m1.industrial.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.industrial.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.industrial.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.industrial.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.industrial.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.industrial.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.industrial.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.industrial.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.industrial.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.industrial.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.m1.territorio",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.m1.territorio.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.territorio.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.territorio.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.territorio.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.territorio.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.territorio.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.territorio.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.territorio.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.territorio.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.territorio.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.m1.cuestion_social",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m1.cuestion_social.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.educacion_ciudadana",
+  "etapa": "etapa.chile.media",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Educación Ciudadana 3º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.educacion_ciudadana.m3.democracia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.democracia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.democracia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.democracia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.democracia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.democracia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.educacion_ciudadana.m3.estado",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.estado.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.estado.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.estado.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.estado.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.estado.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.educacion_ciudadana.m3.derechos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.derechos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.derechos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.derechos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.derechos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.derechos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.educacion_ciudadana.m3.participacion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.participacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.participacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.participacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.participacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m3.participacion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

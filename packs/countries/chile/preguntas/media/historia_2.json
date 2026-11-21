@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.media",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 2º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.m2.guerras",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.m2.guerras.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerras.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerras.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerras.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerras.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerras.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerras.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerras.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerras.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerras.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.m2.guerra_fria",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.guerra_fria.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.m2.chile_xx",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.chile_xx.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.m2.dictadura",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.m2.dictadura.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

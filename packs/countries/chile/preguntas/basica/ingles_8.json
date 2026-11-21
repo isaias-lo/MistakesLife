@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ingles",
+  "etapa": "etapa.chile.basica",
+  "curso": 8,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Inglés 8º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ingles.8.experiences",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.8.experiences.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.experiences.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.experiences.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.experiences.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.experiences.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.experiences.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.experiences.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.experiences.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.experiences.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.experiences.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.8.technology",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.8.technology.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.technology.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.technology.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.technology.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.technology.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.technology.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.technology.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.technology.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.technology.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.technology.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.8.comparisons",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.comparisons.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.8.jobs",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.8.jobs.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.jobs.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.jobs.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.jobs.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.jobs.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.jobs.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.jobs.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.jobs.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.jobs.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.8.jobs.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

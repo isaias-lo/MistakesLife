@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.educacion_ciudadana",
+  "etapa": "etapa.chile.media",
+  "curso": 4,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Educación Ciudadana 4º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.educacion_ciudadana.m4.economia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.economia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.economia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.economia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.economia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.economia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.educacion_ciudadana.m4.trabajo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.trabajo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.trabajo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.trabajo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.trabajo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.trabajo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.educacion_ciudadana.m4.consumidor",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.consumidor.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.consumidor.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.consumidor.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.consumidor.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.consumidor.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.educacion_ciudadana.m4.diversidad",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.diversidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.diversidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.diversidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.diversidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.educacion_ciudadana.m4.diversidad.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.media",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Matemática 2º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.m2.raices",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m2.raices.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.raices.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.raices.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.raices.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.raices.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.raices.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.raices.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.raices.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.raices.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.raices.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m2.cuadratica",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.cuadratica.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m2.trigonometria",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.trigonometria.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m2.combinatoria",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m2.combinatoria.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}
