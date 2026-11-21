@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.economia",
+  "etapa": "carrera.software",
+  "curso": 8,
+  "fuente": "Programa de Economía para Ingenieros de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.economia.8.micro",
+      "preguntas": [
+        {
+          "id": "pregunta.software.economia.8.micro.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.economia.8.micro.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.economia.8.micro.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.economia.8.micro.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.economia.8.micro.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.economia.8.macro",
+      "preguntas": [
+        {
+          "id": "pregunta.software.economia.8.macro.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.economia.8.macro.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.economia.8.macro.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.economia.8.macro.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.economia.8.macro.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.economia.8.finanzas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.economia.8.finanzas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.economia.8.finanzas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.economia.8.finanzas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.economia.8.finanzas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.economia.8.finanzas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.economia.8.emprendimiento",
+      "preguntas": [
+        {
+          "id": "pregunta.software.economia.8.emprendimiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.economia.8.emprendimiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.economia.8.emprendimiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.economia.8.emprendimiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.economia.8.emprendimiento.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

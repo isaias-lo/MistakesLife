@@ -285,6 +285,7 @@
     },
     {
       "id": "ramo.software.taller_desarrollo",
+      "prueba_escrita": false,
       "desde": 9,
       "hasta": 10,
       "instituciones": [
@@ -293,6 +294,7 @@
     },
     {
       "id": "ramo.software.electivo",
+      "prueba_escrita": false,
       "desde": 9,
       "hasta": 10,
       "instituciones": [

@@ -2976,6 +2976,10 @@ namespace MistakesLife.Core.Content
                     {
                         _errors.Add(new ContentError(where, $"el ramo '{set.SubjectId}' no se tiene en el semestre {set.Level} de {set.StageId}."));
                     }
+                    else if (!course.WrittenTests)
+                    {
+                        _errors.Add(new ContentError(where, "ese ramo no tiene pruebas escritas: no se estudia con preguntas."));
+                    }
                 }
                 else
                 {

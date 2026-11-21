@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.fisica",
+  "etapa": "carrera.software",
+  "curso": 3,
+  "fuente": "Programa de Física II (Electricidad y Magnetismo) de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.fisica.3.carga",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.3.carga.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.3.carga.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.3.carga.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.3.carga.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.3.carga.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fisica.3.circuitos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.3.circuitos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.3.circuitos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.3.circuitos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.3.circuitos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.3.circuitos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fisica.3.magnetismo",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.3.magnetismo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.3.magnetismo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.3.magnetismo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.3.magnetismo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.3.magnetismo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fisica.3.alterna",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.3.alterna.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.3.alterna.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.3.alterna.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.3.alterna.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.3.alterna.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

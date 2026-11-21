@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.etica_profesional",
+  "etapa": "carrera.software",
+  "curso": 5,
+  "fuente": "Programa de Ética Profesional de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.etica_profesional.5.principios",
+      "preguntas": [
+        {
+          "id": "pregunta.software.etica_profesional.5.principios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.principios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.principios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.principios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.principios.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.etica_profesional.5.datos_personales",
+      "preguntas": [
+        {
+          "id": "pregunta.software.etica_profesional.5.datos_personales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.datos_personales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.datos_personales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.datos_personales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.datos_personales.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.etica_profesional.5.propiedad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.etica_profesional.5.propiedad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.propiedad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.propiedad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.propiedad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.propiedad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.etica_profesional.5.trabajo",
+      "preguntas": [
+        {
+          "id": "pregunta.software.etica_profesional.5.trabajo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.trabajo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.trabajo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.trabajo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.etica_profesional.5.trabajo.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

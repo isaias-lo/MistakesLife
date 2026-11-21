@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.inteligencia_negocios",
+  "etapa": "carrera.software",
+  "curso": 7,
+  "fuente": "Programa de Inteligencia de Negocios de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.inteligencia_negocios.7.bi",
+      "preguntas": [
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.bi.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.bi.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.bi.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.bi.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.bi.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.inteligencia_negocios.7.etl",
+      "preguntas": [
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.etl.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.etl.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.etl.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.etl.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.etl.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.inteligencia_negocios.7.visualizacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.visualizacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.visualizacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.visualizacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.visualizacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.visualizacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.inteligencia_negocios.7.analitica",
+      "preguntas": [
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.analitica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.analitica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.analitica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.analitica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_negocios.7.analitica.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

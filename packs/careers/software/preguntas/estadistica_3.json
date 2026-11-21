@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.estadistica",
+  "etapa": "carrera.software",
+  "curso": 3,
+  "fuente": "Programa de Estadística para Informática de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.estadistica.3.descriptiva",
+      "preguntas": [
+        {
+          "id": "pregunta.software.estadistica.3.descriptiva.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.descriptiva.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.descriptiva.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.descriptiva.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.descriptiva.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.estadistica.3.probabilidad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.estadistica.3.probabilidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.probabilidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.probabilidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.probabilidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.probabilidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.estadistica.3.distribuciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.estadistica.3.distribuciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.distribuciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.distribuciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.distribuciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.distribuciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.estadistica.3.inferencia",
+      "preguntas": [
+        {
+          "id": "pregunta.software.estadistica.3.inferencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.inferencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.inferencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.inferencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estadistica.3.inferencia.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.modelamiento_datos",
+  "etapa": "carrera.software",
+  "curso": 3,
+  "fuente": "Programa de Modelamiento de Bases de Datos II (SQL) de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.modelamiento_datos.3.select",
+      "preguntas": [
+        {
+          "id": "pregunta.software.modelamiento_datos.3.select.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.select.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.select.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.select.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.select.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.modelamiento_datos.3.join",
+      "preguntas": [
+        {
+          "id": "pregunta.software.modelamiento_datos.3.join.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.join.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.join.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.join.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.join.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.modelamiento_datos.3.agregacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.modelamiento_datos.3.agregacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.agregacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.agregacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.agregacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.agregacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.modelamiento_datos.3.dml",
+      "preguntas": [
+        {
+          "id": "pregunta.software.modelamiento_datos.3.dml.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.dml.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.dml.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.dml.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.3.dml.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

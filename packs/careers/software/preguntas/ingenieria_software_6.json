@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.ingenieria_software",
+  "etapa": "carrera.software",
+  "curso": 6,
+  "fuente": "Programa de Ingeniería de Software I de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.ingenieria_software.6.requisitos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingenieria_software.6.requisitos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.requisitos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.requisitos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.requisitos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.requisitos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingenieria_software.6.procesos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingenieria_software.6.procesos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.procesos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.procesos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.procesos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.procesos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingenieria_software.6.modelado",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingenieria_software.6.modelado.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.modelado.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.modelado.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.modelado.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.modelado.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingenieria_software.6.versionamiento",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingenieria_software.6.versionamiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.versionamiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.versionamiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.versionamiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.6.versionamiento.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

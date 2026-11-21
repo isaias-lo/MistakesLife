@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.lenguajes_programacion",
+  "etapa": "carrera.software",
+  "curso": 6,
+  "fuente": "Programa de Lenguajes de Programación de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.lenguajes_programacion.6.paradigmas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.paradigmas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.paradigmas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.paradigmas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.paradigmas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.paradigmas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.lenguajes_programacion.6.tipos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.tipos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.tipos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.tipos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.tipos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.tipos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.lenguajes_programacion.6.compiladores",
+      "preguntas": [
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.compiladores.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.compiladores.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.compiladores.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.compiladores.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.compiladores.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.lenguajes_programacion.6.memoria",
+      "preguntas": [
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.memoria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.memoria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.memoria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.memoria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.lenguajes_programacion.6.memoria.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

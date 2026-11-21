@@ -57,6 +57,46 @@ namespace MistakesLife.Core.Tests
             Assert.True(sets > 0);
         }
 
+        [Theory]
+        [InlineData("carrera.software")]
+        public void Preguntas_DeUnaCarreraCompleta_CubrenTodosLosSemestres_MenosTalleresYElectivos(string careerId)
+        {
+            CareerDefinition career = Content.Careers.Single(c => c.Id == careerId);
+            int sets = 0;
+            foreach (CareerLevelDefinition level in career.Levels.Where(l => l.Semesters > 0))
+            {
+                for (int semester = 1; semester <= level.Semesters; semester++)
+                {
+                    foreach (CourseDefinition course in career.Courses.Where(c => c.In(level.Institution, semester, level.Semesters)))
+                    {
+                        QuestionSetDefinition? set = Content.QuestionSet(career.Id, semester, course.Id);
+                        if (course.Last || !course.WrittenTests)
+                        {
+                            Assert.True(set == null, $"{course.Id} se evalúa con proyectos, no con preguntas.");
+                            continue;
+                        }
+
+                        Assert.True(set != null, $"Faltan las preguntas de {course.Id} en el semestre {semester} ({level.Id}).");
+                        Assert.True(set!.Units.Sum(u => u.Questions.Count) >= 20, $"{course.Id} semestre {semester}: menos de 20 preguntas.");
+                        sets++;
+                    }
+                }
+            }
+
+            Assert.True(sets > 0);
+        }
+
+        [Fact]
+        public void PreguntasDeUnRamoSinPruebaEscrita_NoCargan()
+        {
+            PackBundle real = PackBundle.FromDirectory(RepoPacks.Directory);
+            var files = real.Files.ToDictionary(f => f.Key, f => f.Value);
+            string key = files.Keys.Single(k => k.EndsWith("careers/software/career.json", System.StringComparison.Ordinal));
+            files[key] = files[key].Replace("\"id\": \"ramo.software.calculo\",", "\"id\": \"ramo.software.calculo\", \"prueba_escrita\": false,");
+            var error = Assert.Throws<ContentLoadException>(() => PackLoader.LoadBundle(new PackBundle(files)));
+            Assert.Contains(error.Errors, e => e.Message.Contains("pruebas escritas"));
+        }
+
         [Fact]
         public void EnLaSeccion_LosRamosDelSemestreTienenDominio_YSeEstudianConPreguntas()
         {
@@ -126,9 +166,11 @@ namespace MistakesLife.Core.Tests
             Character player = world.Player;
             player.Stats.Smarts = 100;
             Run(world, "jugador.estudiar_semestre(3)");
-            University().AdvanceWeeks(world, 2 * CareerStudies.WeeksPerSemester, out _);
+            Run(world, "jugador.semestres_aprobados = 9");
+            University().AdvanceWeeks(world, CareerStudies.WeeksPerSemester, out _);
 
-            Assert.Equal(3, player.SchoolClass!.Level);
+            // El 11º semestre de Ingeniería Civil solo tiene la memoria, que se evalúa con un proyecto.
+            Assert.Equal(11, player.SchoolClass!.Level);
             Assert.Empty(StudyRules.Sets(world, Content, player));
             Assert.Empty(player.SchoolRecord!.Mastery);
             Assert.Contains("ramo.software.calculo", player.SchoolRecord.LastMastery.Keys);

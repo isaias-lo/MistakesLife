@@ -229,6 +229,7 @@
     },
     {
       "id": "ramo.psicologia.taller_integracion",
+      "prueba_escrita": false,
       "desde": 8,
       "hasta": 9,
       "instituciones": [
@@ -237,6 +238,7 @@
     },
     {
       "id": "ramo.psicologia.electivo",
+      "prueba_escrita": false,
       "desde": 9,
       "instituciones": [
         "universidad"
@@ -244,6 +246,7 @@
     },
     {
       "id": "ramo.psicologia.seminario_tesis",
+      "prueba_escrita": false,
       "desde": 9,
       "hasta": 10,
       "instituciones": [

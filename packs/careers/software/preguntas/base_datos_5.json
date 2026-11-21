@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.base_datos",
+  "etapa": "carrera.software",
+  "curso": 5,
+  "fuente": "Programa de Bases de Datos II de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.base_datos.5.nosql",
+      "preguntas": [
+        {
+          "id": "pregunta.software.base_datos.5.nosql.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.nosql.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.nosql.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.nosql.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.nosql.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.base_datos.5.rendimiento",
+      "preguntas": [
+        {
+          "id": "pregunta.software.base_datos.5.rendimiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.rendimiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.rendimiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.rendimiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.rendimiento.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.base_datos.5.replicacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.base_datos.5.replicacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.replicacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.replicacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.replicacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.replicacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.base_datos.5.seguridad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.base_datos.5.seguridad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.seguridad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.seguridad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.seguridad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.5.seguridad.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

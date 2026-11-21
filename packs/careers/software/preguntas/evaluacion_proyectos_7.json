@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.evaluacion_proyectos",
+  "etapa": "carrera.software",
+  "curso": 7,
+  "fuente": "Programa de Evaluación de Proyectos I de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.evaluacion_proyectos.7.flujo",
+      "preguntas": [
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.flujo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.flujo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.flujo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.flujo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.flujo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.evaluacion_proyectos.7.van",
+      "preguntas": [
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.van.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.van.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.van.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.van.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.van.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.evaluacion_proyectos.7.tir",
+      "preguntas": [
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.tir.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.tir.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.tir.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.tir.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.tir.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.evaluacion_proyectos.7.ti",
+      "preguntas": [
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.ti.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.ti.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.ti.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.ti.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.7.ti.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

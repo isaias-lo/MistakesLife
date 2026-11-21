@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.ingles",
+  "etapa": "carrera.software",
+  "curso": 3,
+  "fuente": "Programa de Inglés III (inglés técnico) de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.ingles.3.present_perfect",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.3.present_perfect.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.3.present_perfect.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.3.present_perfect.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.3.present_perfect.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.3.present_perfect.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.3.documentation",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.3.documentation.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.3.documentation.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.3.documentation.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.3.documentation.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.3.documentation.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.3.meetings",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.3.meetings.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.3.meetings.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.3.meetings.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.3.meetings.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.3.meetings.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.3.passive",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.3.passive.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.3.passive.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.3.passive.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.3.passive.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.3.passive.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

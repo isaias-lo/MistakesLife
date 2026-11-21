@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.gestion_proyectos",
+  "etapa": "carrera.software",
+  "curso": 9,
+  "fuente": "Programa de Gestión de Proyectos de Software de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.gestion_proyectos.9.planificar",
+      "preguntas": [
+        {
+          "id": "pregunta.software.gestion_proyectos.9.planificar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.planificar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.planificar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.planificar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.planificar.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.gestion_proyectos.9.equipo",
+      "preguntas": [
+        {
+          "id": "pregunta.software.gestion_proyectos.9.equipo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.equipo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.equipo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.equipo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.equipo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.gestion_proyectos.9.control",
+      "preguntas": [
+        {
+          "id": "pregunta.software.gestion_proyectos.9.control.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.control.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.control.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.control.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.control.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.gestion_proyectos.9.cierre",
+      "preguntas": [
+        {
+          "id": "pregunta.software.gestion_proyectos.9.cierre.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.cierre.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.cierre.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.cierre.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos.9.cierre.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

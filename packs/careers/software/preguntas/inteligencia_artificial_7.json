@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.inteligencia_artificial",
+  "etapa": "carrera.software",
+  "curso": 7,
+  "fuente": "Programa de Inteligencia Artificial de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.inteligencia_artificial.7.busqueda",
+      "preguntas": [
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.busqueda.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.busqueda.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.busqueda.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.busqueda.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.busqueda.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.inteligencia_artificial.7.aprendizaje",
+      "preguntas": [
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.aprendizaje.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.aprendizaje.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.aprendizaje.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.aprendizaje.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.aprendizaje.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.inteligencia_artificial.7.redes",
+      "preguntas": [
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.redes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.redes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.redes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.redes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.redes.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.inteligencia_artificial.7.etica",
+      "preguntas": [
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.etica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.etica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.etica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.etica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.inteligencia_artificial.7.etica.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

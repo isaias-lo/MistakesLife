@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.algoritmos",
+  "etapa": "carrera.software",
+  "curso": 5,
+  "fuente": "Programa de Diseño y Análisis de Algoritmos de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.algoritmos.5.ordenamiento",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algoritmos.5.ordenamiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.ordenamiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.ordenamiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.ordenamiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.ordenamiento.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.algoritmos.5.dividir",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algoritmos.5.dividir.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.dividir.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.dividir.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.dividir.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.dividir.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.algoritmos.5.dinamica",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algoritmos.5.dinamica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.dinamica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.dinamica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.dinamica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.dinamica.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.algoritmos.5.greedy",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algoritmos.5.greedy.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.greedy.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.greedy.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.greedy.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algoritmos.5.greedy.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
