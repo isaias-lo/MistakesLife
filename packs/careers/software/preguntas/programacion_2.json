@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.programacion",
+  "etapa": "carrera.software",
+  "curso": 2,
+  "fuente": "Programa de Programación II del primer año de Ingeniería en Computación y de Analista Programador (universidades e institutos chilenos, en Python)",
+  "unidades": [
+    {
+      "id": "tema.software.programacion.2.listas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion.2.listas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.2.listas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion.2.listas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion.2.listas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.2.listas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.programacion.2.diccionarios",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion.2.diccionarios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.2.diccionarios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion.2.diccionarios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion.2.diccionarios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.2.diccionarios.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.programacion.2.archivos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion.2.archivos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.2.archivos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion.2.archivos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion.2.archivos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.2.archivos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.programacion.2.recursion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion.2.recursion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.2.recursion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion.2.recursion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion.2.recursion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.2.recursion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

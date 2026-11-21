@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.matematica",
+  "etapa": "carrera.software",
+  "curso": 1,
+  "fuente": "Programa de Matemática I del primer año de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.matematica.1.algebra",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematica.1.algebra.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.1.algebra.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematica.1.algebra.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematica.1.algebra.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.1.algebra.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.matematica.1.porcentajes",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematica.1.porcentajes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.1.porcentajes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematica.1.porcentajes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematica.1.porcentajes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.1.porcentajes.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.matematica.1.funciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematica.1.funciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.1.funciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematica.1.funciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematica.1.funciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.1.funciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.matematica.1.logica_prog",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematica.1.logica_prog.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.1.logica_prog.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematica.1.logica_prog.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematica.1.logica_prog.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.1.logica_prog.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.contabilidad",
+  "etapa": "carrera.contabilidad",
+  "curso": 1,
+  "fuente": "Programa de Contabilidad I del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.contabilidad.1.ecuacion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.ecuacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.ecuacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.ecuacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.ecuacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.ecuacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.1.partida_doble",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.partida_doble.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.partida_doble.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.partida_doble.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.partida_doble.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.partida_doble.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.1.libros",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.libros.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.libros.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.libros.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.libros.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.libros.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.1.iva",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.iva.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.iva.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.iva.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.iva.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.1.iva.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

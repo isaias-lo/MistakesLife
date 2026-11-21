@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.economia",
+  "etapa": "carrera.contabilidad",
+  "curso": 1,
+  "fuente": "Programa de Economía I (Microeconomía) del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.economia.1.escasez",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.economia.1.escasez.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.escasez.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.escasez.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.escasez.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.escasez.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.economia.1.mercado",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.economia.1.mercado.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.mercado.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.mercado.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.mercado.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.mercado.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.economia.1.elasticidad",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.economia.1.elasticidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.elasticidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.elasticidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.elasticidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.elasticidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.economia.1.competencia",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.economia.1.competencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.competencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.competencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.competencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.1.competencia.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

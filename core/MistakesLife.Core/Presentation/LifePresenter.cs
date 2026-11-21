@@ -327,6 +327,12 @@ namespace MistakesLife.Core.Presentation
             return new ReportCardView(courses, null, false, 0, semester: true);
         }
 
+        /// <summary>El nombre del ramo que se estudia: "Matemática" en el colegio, "Cálculo II" en la carrera.</summary>
+        private string StudySubjectName(QuestionSetDefinition set) =>
+            Session.World.Player.Studies is CareerStudies studies && studies.CareerId == set.StageId
+                ? CourseName(studies, set.SubjectId, set.Level)
+                : T(set.SubjectId);
+
         /// <summary>El nombre de un ramo con su número, como en la malla: "Cálculo II".</summary>
         private string CourseName(CareerStudies studies, string courseId, int semester)
         {
@@ -685,8 +691,8 @@ namespace MistakesLife.Core.Presentation
                 string? upcoming = test ? Text(record!.TestMakeup ? "ui.estudio.recuperativa_el" : "ui.estudio.prueba_el", TestDay(country, record)) : null;
                 views.Add(new StudySubjectView(
                     set.SubjectId,
-                    T(set.SubjectId),
-                    Text("ui.estudio.ahora", T(Education.StudyRules.CurrentUnit(country, world.Date, set).Id)),
+                    StudySubjectName(set),
+                    Text("ui.estudio.ahora", T(Education.StudyRules.CurrentUnit(world, Session.Content, player, set).Id)),
                     mastery,
                     Text("ui.estudio.dominio", mastery, T("ui.estudio.palabra." + MasteryWord(mastery))),
                     LifeBarView.LevelOf(mastery),
@@ -707,7 +713,7 @@ namespace MistakesLife.Core.Presentation
             QuestionSetDefinition set = Education.StudyRules.Set(world, Session.Content, player, subjectId)
                 ?? throw new InvalidOperationException($"'{subjectId}' no se estudia con preguntas en tu curso.");
             CountryDefinition country = Session.Content.GetCountry(player.Residence!.CountryId);
-            QuestionUnitDefinition unit = Education.StudyRules.CurrentUnit(country, world.Date, set);
+            QuestionUnitDefinition unit = Education.StudyRules.CurrentUnit(world, Session.Content, player, set);
             int mastery = Education.StudyRules.Mastery(player, subjectId)
                 ?? Education.StudyRules.Start(null, Education.StudyRules.ClassLevel(world, Session.Content, player));
             bool female = player.Gender == Gender.Female;
@@ -728,16 +734,18 @@ namespace MistakesLife.Core.Presentation
                 partners.Add(new StudyPartnerView(null, true, Capitalized(TeacherName(teacher)), T("ui.estudio.profe_explica"), Initials(teacher)));
             }
 
-            string level = Text("curso." + set.StageId, set.Level, string.Empty).Trim();
+            bool career = Session.Content.HasCareer(set.StageId);
+            string level = career ? Text("ui.estudio.semestre", set.Level) : Text("curso." + set.StageId, set.Level, string.Empty).Trim();
+            string source = career ? T("ui.estudio.fuente.carrera") : T("ui.estudio.fuente." + country.Id);
             return new StudyIntroView(
                 subjectId,
-                T(subjectId),
+                StudySubjectName(set),
                 level + " · " + T(unit.Id),
                 T(unit.ReadingKey),
                 mastery,
                 LifeBarView.LevelOf(mastery),
                 partners,
-                Text("ui.estudio.nota_preguntas", Education.StudyRules.QuestionsPerSession, level, T("ui.estudio.fuente." + country.Id)));
+                Text("ui.estudio.nota_preguntas", Education.StudyRules.QuestionsPerSession, level, source));
         }
 
         /// <summary>

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.ingles",
+  "etapa": "carrera.software",
+  "curso": 1,
+  "fuente": "Programa de Inglés I (inglés técnico) del primer año de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.ingles.1.it_words",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.1.it_words.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.1.it_words.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.1.it_words.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.1.it_words.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.1.it_words.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.1.present",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.1.present.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.1.present.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.1.present.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.1.present.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.1.present.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.1.instructions",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.1.instructions.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.1.instructions.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.1.instructions.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.1.instructions.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.1.instructions.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.1.emails",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.1.emails.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.1.emails.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.1.emails.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.1.emails.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.1.emails.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

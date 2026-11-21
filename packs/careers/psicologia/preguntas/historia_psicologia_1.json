@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.historia_psicologia",
+  "etapa": "carrera.psicologia",
+  "curso": 1,
+  "fuente": "Programa de Historia de la Psicología del primer año de Psicología (universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.historia_psicologia.1.filosofia",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.filosofia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.filosofia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.filosofia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.filosofia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.filosofia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.historia_psicologia.1.nacimiento",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.nacimiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.nacimiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.nacimiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.nacimiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.nacimiento.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.historia_psicologia.1.conductismo",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.conductismo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.conductismo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.conductismo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.conductismo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.conductismo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.historia_psicologia.1.chile",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.chile.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.chile.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.chile.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.chile.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.historia_psicologia.1.chile.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.matematica",
+  "etapa": "carrera.contabilidad",
+  "curso": 1,
+  "fuente": "Programa de Matemática I (Matemática para la gestión) del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.matematica.1.algebra",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.matematica.1.algebra.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.algebra.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.algebra.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.algebra.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.algebra.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.matematica.1.porcentajes",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.matematica.1.porcentajes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.porcentajes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.porcentajes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.porcentajes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.porcentajes.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.matematica.1.funciones",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.matematica.1.funciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.funciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.funciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.funciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.funciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.matematica.1.sistemas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.matematica.1.sistemas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.sistemas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.sistemas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.sistemas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica.1.sistemas.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

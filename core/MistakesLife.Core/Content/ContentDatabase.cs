@@ -147,6 +147,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Si existe ese nivel de carrera.</summary>
         public bool HasCareerLevel(string id) => _careerLevels.ContainsKey(id);
 
+        /// <summary>Si existe esa carrera.</summary>
+        public bool HasCareer(string id) => _careers.ContainsKey(id);
+
         public CareerAreaDefinition GetCareerArea(string id) =>
             _careerAreas.TryGetValue(id, out CareerAreaDefinition? area) ? area : throw new KeyNotFoundException($"No existe el área de carrera '{id}'.");
 
@@ -2965,20 +2968,32 @@ namespace MistakesLife.Core.Content
             foreach (QuestionSetDefinition set in _questionSets)
             {
                 string where = $"preguntas de {set.SubjectId}, curso {set.Level}";
-                CountryDefinition? country = _countries.Values.FirstOrDefault(c => c.EducationStages.Any(e => e.Id == set.StageId));
-                EducationStageDefinition? stage = country?.EducationStages.Find(e => e.Id == set.StageId);
-                SubjectDefinition? subject = stage?.Subjects.Find(r => r.Id == set.SubjectId);
-                if (stage == null)
+                if (_careers.TryGetValue(set.StageId, out CareerDefinition? career))
                 {
-                    _errors.Add(new ContentError(where, $"la etapa '{set.StageId}' no existe en ningún país."));
+                    // Un ramo de una carrera (D5a2b): "etapa" es la carrera y "curso" el semestre del plan.
+                    CourseDefinition? course = career.Courses.Find(c => c.Id == set.SubjectId);
+                    if (course == null || course.Last || set.Level < course.FromSemester || set.Level > course.LastSemester)
+                    {
+                        _errors.Add(new ContentError(where, $"el ramo '{set.SubjectId}' no se tiene en el semestre {set.Level} de {set.StageId}."));
+                    }
                 }
-                else if (subject == null || !subject.InLevel(set.Level))
+                else
                 {
-                    _errors.Add(new ContentError(where, $"el ramo '{set.SubjectId}' no se tiene en ese curso de {set.StageId}."));
-                }
-                else if (!subject.WrittenTests)
-                {
-                    _errors.Add(new ContentError(where, "ese ramo no tiene pruebas escritas: no se estudia con preguntas."));
+                    CountryDefinition? country = _countries.Values.FirstOrDefault(c => c.EducationStages.Any(e => e.Id == set.StageId));
+                    EducationStageDefinition? stage = country?.EducationStages.Find(e => e.Id == set.StageId);
+                    SubjectDefinition? subject = stage?.Subjects.Find(r => r.Id == set.SubjectId);
+                    if (stage == null)
+                    {
+                        _errors.Add(new ContentError(where, $"la etapa '{set.StageId}' no existe en ningún país."));
+                    }
+                    else if (subject == null || !subject.InLevel(set.Level))
+                    {
+                        _errors.Add(new ContentError(where, $"el ramo '{set.SubjectId}' no se tiene en ese curso de {set.StageId}."));
+                    }
+                    else if (!subject.WrittenTests)
+                    {
+                        _errors.Add(new ContentError(where, "ese ramo no tiene pruebas escritas: no se estudia con preguntas."));
+                    }
                 }
 
                 if (string.IsNullOrWhiteSpace(set.Source))

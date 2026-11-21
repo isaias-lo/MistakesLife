@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.computacion",
+  "etapa": "carrera.contabilidad",
+  "curso": 1,
+  "fuente": "Programa de Computación Aplicada (planilla de cálculo) del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.computacion.1.planilla",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.computacion.1.planilla.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.planilla.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.planilla.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.planilla.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.planilla.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.computacion.1.referencias",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.computacion.1.referencias.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.referencias.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.referencias.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.referencias.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.referencias.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.computacion.1.funciones_logicas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.computacion.1.funciones_logicas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.funciones_logicas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.funciones_logicas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.funciones_logicas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.funciones_logicas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.computacion.1.tablas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.computacion.1.tablas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.tablas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.tablas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.tablas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.computacion.1.tablas.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

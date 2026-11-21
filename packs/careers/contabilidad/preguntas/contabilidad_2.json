@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.contabilidad",
+  "etapa": "carrera.contabilidad",
+  "curso": 2,
+  "fuente": "Programa de Contabilidad II del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.contabilidad.2.ajustes",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.ajustes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.ajustes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.ajustes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.ajustes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.ajustes.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.2.existencias",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.existencias.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.existencias.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.existencias.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.existencias.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.existencias.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.2.estados",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.estados.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.estados.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.estados.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.estados.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.estados.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.2.documentos",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.documentos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.documentos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.documentos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.documentos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.2.documentos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

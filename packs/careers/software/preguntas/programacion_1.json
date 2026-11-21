@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.programacion",
+  "etapa": "carrera.software",
+  "curso": 1,
+  "fuente": "Programa de Introducción a la Programación del primer año de Ingeniería en Computación y de Analista Programador (universidades e institutos chilenos, en Python)",
+  "unidades": [
+    {
+      "id": "tema.software.programacion.1.variables",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion.1.variables.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.1.variables.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion.1.variables.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion.1.variables.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.1.variables.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.programacion.1.condiciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion.1.condiciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.1.condiciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion.1.condiciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion.1.condiciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.1.condiciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.programacion.1.ciclos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion.1.ciclos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.1.ciclos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion.1.ciclos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion.1.ciclos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.1.ciclos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.programacion.1.funciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion.1.funciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.1.funciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion.1.funciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion.1.funciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion.1.funciones.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

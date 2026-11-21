@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.fisica",
+  "etapa": "carrera.software",
+  "curso": 2,
+  "fuente": "Programa de Física I (Mecánica) del primer año de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.fisica.2.cinematica",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.2.cinematica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.2.cinematica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.2.cinematica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.2.cinematica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.2.cinematica.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fisica.2.newton",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.2.newton.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.2.newton.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.2.newton.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.2.newton.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.2.newton.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fisica.2.energia",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.2.energia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.2.energia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.2.energia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.2.energia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.2.energia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fisica.2.momentum",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.2.momentum.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.2.momentum.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.2.momentum.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.2.momentum.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.2.momentum.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

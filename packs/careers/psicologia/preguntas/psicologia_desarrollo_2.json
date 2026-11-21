@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicologia_desarrollo",
+  "etapa": "carrera.psicologia",
+  "curso": 2,
+  "fuente": "Programa de Psicología del Desarrollo I del primer año de Psicología (universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicologia_desarrollo.2.piaget",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.piaget.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.piaget.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.piaget.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.piaget.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.piaget.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_desarrollo.2.vygotsky",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.vygotsky.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.vygotsky.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.vygotsky.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.vygotsky.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.vygotsky.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_desarrollo.2.apego",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.apego.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.apego.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.apego.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.apego.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.apego.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_desarrollo.2.erikson",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.erikson.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.erikson.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.erikson.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.erikson.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.2.erikson.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

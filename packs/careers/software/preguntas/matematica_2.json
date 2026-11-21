@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.matematica",
+  "etapa": "carrera.software",
+  "curso": 2,
+  "fuente": "Programa de Matemática II del primer año de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.matematica.2.exponencial",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematica.2.exponencial.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.2.exponencial.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematica.2.exponencial.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematica.2.exponencial.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.2.exponencial.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.matematica.2.estadistica",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematica.2.estadistica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.2.estadistica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematica.2.estadistica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematica.2.estadistica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.2.estadistica.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.matematica.2.matrices",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematica.2.matrices.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.2.matrices.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematica.2.matrices.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematica.2.matrices.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.2.matrices.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.matematica.2.probabilidad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematica.2.probabilidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.2.probabilidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematica.2.probabilidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematica.2.probabilidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematica.2.probabilidad.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

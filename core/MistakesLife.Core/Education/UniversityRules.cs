@@ -136,7 +136,8 @@ namespace MistakesLife.Core.Education
             foreach (CourseDefinition course in Courses(content, player.Studies, semester))
             {
                 // Mark solo sabe de preparación positiva; un semestre de carrete (negativa) baja la nota igual.
-                double mark = GradeRules.Mark(world, content, player, scale, string.Empty, Math.Max(0, preparation), random);
+                // Con preguntas en ese ramo (D5a2b), la nota sale de cuánto lo domina; si no, como antes.
+                double mark = GradeRules.Mark(world, content, player, scale, course.Id, Math.Max(0, preparation), random);
                 double harder = (HarderThanSchool - (GradeRules.PreparationWeight * Math.Min(0, preparation))) / 6.0 * (scale.Max - scale.Min);
                 marks[course.Id] = GradeRules.Round(Math.Max(scale.Min, mark - harder), scale);
             }
