@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.calculo",
+  "etapa": "carrera.contabilidad",
+  "curso": 2,
+  "fuente": "Programa de Cálculo II (para Contador Auditor) del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.calculo.2.integrales",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.calculo.2.integrales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.integrales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.integrales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.integrales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.integrales.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.calculo.2.areas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.calculo.2.areas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.areas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.areas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.areas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.areas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.calculo.2.exponenciales",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.calculo.2.exponenciales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.exponenciales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.exponenciales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.exponenciales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.exponenciales.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.calculo.2.varias",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.calculo.2.varias.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.varias.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.varias.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.varias.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.calculo.2.varias.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

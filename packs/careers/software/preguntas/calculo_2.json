@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.calculo",
+  "etapa": "carrera.software",
+  "curso": 2,
+  "fuente": "Programa de Cálculo II (Cálculo Integral) del primer año de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.calculo.2.primitivas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.2.primitivas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.2.primitivas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.2.primitivas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.2.primitivas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.2.primitivas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.2.tecnicas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.2.tecnicas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.2.tecnicas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.2.tecnicas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.2.tecnicas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.2.tecnicas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.2.definida",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.2.definida.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.2.definida.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.2.definida.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.2.definida.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.2.definida.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.2.series",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.2.series.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.2.series.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.2.series.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.2.series.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.2.series.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -89,6 +89,24 @@ namespace MistakesLife.Core.Education
         public static IReadOnlyList<QuestionSetDefinition> Sets(World world, ContentDatabase content, Character character)
         {
             var sets = new List<QuestionSetDefinition>();
+            if (UniversityRules.InSection(character))
+            {
+                // En la universidad, el CFT o el instituto (D5a2b): los ramos del semestre que cursa,
+                // con las preguntas de su carrera para ese semestre del plan.
+                CareerStudies studies = character.Studies!;
+                int semester = character.SchoolClass!.Level;
+                foreach (CourseDefinition course in UniversityRules.Courses(content, studies, semester))
+                {
+                    QuestionSetDefinition? careerSet = content.QuestionSet(studies.CareerId, semester, course.Id);
+                    if (careerSet != null)
+                    {
+                        sets.Add(careerSet);
+                    }
+                }
+
+                return sets;
+            }
+
             EducationStageDefinition? stage = SchoolRules.ClassStage(world, content, character);
             SchoolClass? cls = character.SchoolClass;
             if (stage == null || cls == null || cls.StageId != stage.Id)
@@ -144,15 +162,34 @@ namespace MistakesLife.Core.Education
         public static void Week(World world, ContentDatabase content, Character character)
         {
             IReadOnlyList<QuestionSetDefinition> sets = Sets(world, content, character);
-            if (sets.Count == 0 || character.Residence == null)
+            if (character.Residence == null)
             {
+                return;
+            }
+
+            if (sets.Count == 0)
+            {
+                // Sin ramos con preguntas (terminó el colegio, o va en un semestre sin preguntas): lo
+                // que dominaba queda como "el año anterior", para que no cuente en notas de otros ramos.
+                if (character.SchoolRecord is SchoolRecord done && done.Mastery.Count > 0)
+                {
+                    done.LastMastery.Clear();
+                    foreach (KeyValuePair<string, int> pair in done.Mastery)
+                    {
+                        done.LastMastery[pair.Key] = pair.Value;
+                    }
+
+                    done.Mastery.Clear();
+                    done.LastStudiedWeek.Clear();
+                }
+
                 return;
             }
 
             SchoolRecord record = character.SchoolRecord ??= new SchoolRecord();
             int classLevel = ClassLevel(world, content, character);
             StartYear(character, record, sets, classLevel);
-            if (!content.GetCountry(character.Residence.CountryId).IsSchoolTime(world.Date))
+            if (!InClassWeeks(world, content, character))
             {
                 return;
             }
@@ -228,6 +265,20 @@ namespace MistakesLife.Core.Education
         /// La unidad del programa que va hoy: el año escolar se reparte parejo entre las unidades,
         /// en orden (en vacaciones de invierno sigue la que iba; en verano, la última).
         /// </summary>
+        public static QuestionUnitDefinition CurrentUnit(World world, ContentDatabase content, Character character, QuestionSetDefinition set)
+        {
+            if (content.HasCareer(set.StageId))
+            {
+                // Un ramo de carrera: el semestre se reparte parejo entre sus unidades.
+                int weeks = character.Studies?.WeeksIntoSemester ?? 0;
+                int unit = Math.Min(set.Units.Count - 1, weeks * set.Units.Count / CareerStudies.WeeksPerSemester);
+                return set.Units[Math.Max(0, unit)];
+            }
+
+            return CurrentUnit(content.GetCountry(character.Residence!.CountryId), world.Date, set);
+        }
+
+        /// <summary>La unidad del programa del colegio que va hoy (ver la otra sobrecarga).</summary>
         public static QuestionUnitDefinition CurrentUnit(CountryDefinition country, GameDate date, QuestionSetDefinition set)
         {
             int total = Math.Max(1, country.SchoolWeeksPerYear());
@@ -285,7 +336,7 @@ namespace MistakesLife.Core.Education
 
         /// <summary>Si puede estudiar ese ramo ahora: tiene preguntas en su curso, hay clases y le queda una tarde libre.</summary>
         public static bool CanStudy(World world, ContentDatabase content, Character character, string subjectId) =>
-            character.IsAlive && character.Routine != null && SchoolRules.InClasses(world, content, character)
+            character.IsAlive && character.Routine != null && InClassWeeks(world, content, character)
             && Set(world, content, character, subjectId) != null
             && FreeTimeRules.Left(world, content, character) >= Afternoons;
 
@@ -316,14 +367,13 @@ namespace MistakesLife.Core.Education
 
             if (withTeacher && Teacher(world, character) == null)
             {
-                throw new InvalidOperationException("Tu profe jefe no puede ayudarte este mes.");
+                throw new InvalidOperationException("Tu profe no puede ayudarte este mes.");
             }
 
             QuestionSetDefinition set = Set(world, content, character, subjectId)!;
             SchoolRecord record = character.SchoolRecord ??= new SchoolRecord();
             Week0(world, content, character, record);
-            CountryDefinition country = content.GetCountry(character.Residence!.CountryId);
-            QuestionUnitDefinition unit = CurrentUnit(country, world.Date, set);
+            QuestionUnitDefinition unit = CurrentUnit(world, content, character, set);
             GameRandom random = new GameRandom(world.Seed).Fork(string.Format(CultureInfo.InvariantCulture, "estudio.{0}.{1}.{2}", world.Date.TotalWeeks, record.StudySessions, subjectId));
 
             var picked = Pick(set, unit, record, random);
@@ -413,6 +463,13 @@ namespace MistakesLife.Core.Education
 
             return new StudyOutcome(correct, session.Questions.Count, session.MasteryBefore, record.Mastery[session.SubjectId], changes);
         }
+
+        /// <summary>
+        /// Si hoy tiene clases: en el colegio, en semanas de clases de su curso; en la universidad, el
+        /// CFT o el instituto, mientras cursa en su sección (los semestres no tienen vacaciones).
+        /// </summary>
+        public static bool InClassWeeks(World world, ContentDatabase content, Character character) =>
+            UniversityRules.InSection(character) ? character.Residence != null : SchoolRules.InClasses(world, content, character);
 
         /// <summary>Lo que sube un acierto con ese dominio.</summary>
         public static int Gain(int mastery) => mastery < 50 ? GainLow : mastery < HighMastery ? GainMid : GainHigh;

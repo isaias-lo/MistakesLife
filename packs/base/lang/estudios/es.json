@@ -72,5 +72,7 @@
   "ui.estudio.otra_tarde": "Estudiar otra tarde",
   "ui.estudio.listo": "Listo",
   "ui.estudio.sin_tardes": "No te quedan tardes libres este mes.",
+  "ui.estudio.semestre": "{0}º semestre",
+  "ui.estudio.fuente.carrera": "del programa real de la carrera",
   "ui.estudio.vacaciones": "Estás de vacaciones: se estudia cuando vuelvan las clases."
 }

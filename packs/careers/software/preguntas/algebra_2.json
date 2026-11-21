@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.algebra",
+  "etapa": "carrera.software",
+  "curso": 2,
+  "fuente": "Programa de Álgebra II (Álgebra Lineal) del primer año de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.algebra.2.matrices",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algebra.2.matrices.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.2.matrices.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algebra.2.matrices.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algebra.2.matrices.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.2.matrices.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.algebra.2.sistemas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algebra.2.sistemas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.2.sistemas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algebra.2.sistemas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algebra.2.sistemas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.2.sistemas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.algebra.2.determinantes",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algebra.2.determinantes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.2.determinantes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algebra.2.determinantes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algebra.2.determinantes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.2.determinantes.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.algebra.2.espacios",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algebra.2.espacios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.2.espacios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algebra.2.espacios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algebra.2.espacios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.2.espacios.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

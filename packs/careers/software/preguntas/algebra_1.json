@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.algebra",
+  "etapa": "carrera.software",
+  "curso": 1,
+  "fuente": "Programa de Álgebra I del primer año de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.algebra.1.logica",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algebra.1.logica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.1.logica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algebra.1.logica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algebra.1.logica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.1.logica.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.algebra.1.conjuntos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algebra.1.conjuntos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.1.conjuntos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algebra.1.conjuntos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algebra.1.conjuntos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.1.conjuntos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.algebra.1.induccion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algebra.1.induccion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.1.induccion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algebra.1.induccion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algebra.1.induccion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.1.induccion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.algebra.1.complejos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.algebra.1.complejos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.1.complejos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.algebra.1.complejos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.algebra.1.complejos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.algebra.1.complejos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

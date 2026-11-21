@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.calculo",
+  "etapa": "carrera.software",
+  "curso": 1,
+  "fuente": "Programa de Cálculo I (Cálculo Diferencial) del primer año de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.calculo.1.funciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.1.funciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.1.funciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.1.funciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.1.funciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.1.funciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.1.limites",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.1.limites.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.1.limites.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.1.limites.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.1.limites.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.1.limites.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.1.continuidad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.1.continuidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.1.continuidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.1.continuidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.1.continuidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.1.continuidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.1.derivadas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.1.derivadas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.1.derivadas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.1.derivadas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.1.derivadas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.1.derivadas.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

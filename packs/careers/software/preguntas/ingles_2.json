@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.ingles",
+  "etapa": "carrera.software",
+  "curso": 2,
+  "fuente": "Programa de Inglés II (inglés técnico) del primer año de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.ingles.2.past",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.2.past.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.2.past.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.2.past.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.2.past.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.2.past.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.2.comparatives",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.2.comparatives.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.2.comparatives.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.2.comparatives.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.2.comparatives.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.2.comparatives.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.2.requirements",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.2.requirements.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.2.requirements.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.2.requirements.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.2.requirements.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.2.requirements.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.2.interview",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.2.interview.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.2.interview.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.2.interview.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.2.interview.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.2.interview.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

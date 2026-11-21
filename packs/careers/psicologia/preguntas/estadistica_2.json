@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.estadistica",
+  "etapa": "carrera.psicologia",
+  "curso": 2,
+  "fuente": "Programa de Estadística I (para Psicología) del primer año de Psicología (universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.estadistica.2.variables",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.estadistica.2.variables.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.variables.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.variables.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.variables.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.variables.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.estadistica.2.tendencia",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.estadistica.2.tendencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.tendencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.tendencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.tendencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.tendencia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.estadistica.2.dispersion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.estadistica.2.dispersion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.dispersion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.dispersion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.dispersion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.dispersion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.estadistica.2.normal",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.estadistica.2.normal.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.normal.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.normal.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.normal.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.2.normal.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

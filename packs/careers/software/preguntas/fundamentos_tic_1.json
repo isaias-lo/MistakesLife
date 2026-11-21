@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.fundamentos_tic",
+  "etapa": "carrera.software",
+  "curso": 1,
+  "fuente": "Programa de Fundamentos de Tecnologías de Información del primer año de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.fundamentos_tic.1.hardware",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fundamentos_tic.1.hardware.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.hardware.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.hardware.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.hardware.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.hardware.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fundamentos_tic.1.software",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fundamentos_tic.1.software.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.software.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.software.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.software.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.software.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fundamentos_tic.1.redes",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fundamentos_tic.1.redes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.redes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.redes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.redes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.redes.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fundamentos_tic.1.seguridad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fundamentos_tic.1.seguridad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.seguridad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.seguridad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.seguridad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fundamentos_tic.1.seguridad.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

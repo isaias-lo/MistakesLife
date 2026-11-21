@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.administracion",
+  "etapa": "carrera.contabilidad",
+  "curso": 1,
+  "fuente": "Programa de Fundamentos de Administración del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.administracion.1.proceso",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.administracion.1.proceso.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.proceso.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.proceso.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.proceso.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.proceso.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.administracion.1.estrategia",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.administracion.1.estrategia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.estrategia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.estrategia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.estrategia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.estrategia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.administracion.1.organizacion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.administracion.1.organizacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.organizacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.organizacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.organizacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.organizacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.administracion.1.empresas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.administracion.1.empresas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.empresas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.empresas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.empresas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.administracion.1.empresas.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
