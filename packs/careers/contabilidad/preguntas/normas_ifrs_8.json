@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.normas_ifrs",
+  "etapa": "carrera.contabilidad",
+  "curso": 8,
+  "fuente": "Programa de Normas Internacionales de Información Financiera (IFRS) de Contador Auditor (contenidos comunes de universidades e institutos profesionales de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.normas_ifrs.8.marco",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.marco.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.marco.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.marco.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.marco.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.marco.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.normas_ifrs.8.activos",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.activos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.activos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.activos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.activos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.activos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.normas_ifrs.8.ingresos",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.ingresos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.ingresos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.ingresos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.ingresos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.ingresos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.normas_ifrs.8.arriendos",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.arriendos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.arriendos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.arriendos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.arriendos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.normas_ifrs.8.arriendos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

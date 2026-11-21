@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.sistemas_informacion",
+  "etapa": "carrera.contabilidad",
+  "curso": 5,
+  "fuente": "Programa de Sistemas de Información Contable de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.sistemas_informacion.5.erp",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.erp.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.erp.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.erp.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.erp.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.erp.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.sistemas_informacion.5.planillas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.planillas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.planillas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.planillas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.planillas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.planillas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.sistemas_informacion.5.control",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.control.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.control.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.control.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.control.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.control.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.sistemas_informacion.5.electronica",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.electronica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.electronica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.electronica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.electronica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.sistemas_informacion.5.electronica.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

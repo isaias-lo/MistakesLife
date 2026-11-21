@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.etica",
+  "etapa": "carrera.contabilidad",
+  "curso": 9,
+  "fuente": "Programa de Ética Profesional de Contador Auditor (contenidos comunes de universidades e institutos profesionales de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.etica.9.principios",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.etica.9.principios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.principios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.principios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.principios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.principios.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.etica.9.amenazas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.etica.9.amenazas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.amenazas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.amenazas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.amenazas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.amenazas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.etica.9.lavado",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.etica.9.lavado.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.lavado.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.lavado.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.lavado.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.lavado.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.etica.9.dilemas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.etica.9.dilemas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.dilemas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.dilemas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.dilemas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.etica.9.dilemas.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

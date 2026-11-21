@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.planificacion_tributaria",
+  "etapa": "carrera.contabilidad",
+  "curso": 8,
+  "fuente": "Programa de Planificación Tributaria de Contador Auditor (contenidos comunes de universidades e institutos profesionales de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.planificacion_tributaria.8.elusion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.elusion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.elusion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.elusion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.elusion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.elusion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.planificacion_tributaria.8.herramientas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.herramientas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.herramientas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.herramientas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.herramientas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.herramientas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.planificacion_tributaria.8.retiros",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.retiros.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.retiros.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.retiros.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.retiros.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.retiros.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.planificacion_tributaria.8.fiscalizacion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.fiscalizacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.fiscalizacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.fiscalizacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.fiscalizacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.planificacion_tributaria.8.fiscalizacion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

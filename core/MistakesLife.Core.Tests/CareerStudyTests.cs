@@ -59,6 +59,7 @@ namespace MistakesLife.Core.Tests
 
         [Theory]
         [InlineData("carrera.software")]
+        [InlineData("carrera.contabilidad")]
         public void Preguntas_DeUnaCarreraCompleta_CubrenTodosLosSemestres_MenosTalleresYElectivos(string careerId)
         {
             CareerDefinition career = Content.Careers.Single(c => c.Id == careerId);

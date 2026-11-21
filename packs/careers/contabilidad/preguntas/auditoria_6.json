@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.auditoria",
+  "etapa": "carrera.contabilidad",
+  "curso": 6,
+  "fuente": "Programa de Auditoría I de Contador Auditor (contenidos comunes de universidades e institutos profesionales de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.auditoria.6.que_es",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria.6.que_es.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.que_es.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.que_es.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.que_es.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.que_es.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.auditoria.6.control_interno",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria.6.control_interno.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.control_interno.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.control_interno.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.control_interno.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.control_interno.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.auditoria.6.riesgo",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria.6.riesgo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.riesgo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.riesgo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.riesgo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.riesgo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.auditoria.6.evidencia",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria.6.evidencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.evidencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.evidencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.evidencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.6.evidencia.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
