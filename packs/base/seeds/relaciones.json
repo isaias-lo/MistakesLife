@@ -30,5 +30,13 @@
     "vence_anios": 8,
     "dormir_min_semanas": 8,
     "condiciones": "jugador.pareja != nada && semilla('semilla.infidelidad').testigo != nada"
+  },
+  {
+    "id": "semilla.recomendacion_ascenso",
+    "tipo": "positiva",
+    "fuerza": 80,
+    "vence_anios": 1,
+    "dormir_min_semanas": 6,
+    "condiciones": "semilla('semilla.recomendacion_ascenso').testigo != nada"
   }
 ]

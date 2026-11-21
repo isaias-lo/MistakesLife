@@ -52,7 +52,7 @@ namespace MistakesLife.Core.Life
                     continue;
                 }
 
-                foreach (Character person in People(world, character, action.With).OrderBy(p => p.Id))
+                foreach (Character person in People(world, content, character, action.With).OrderBy(p => p.Id))
                 {
                     if (TimesThisMonth(month, DoneKey(action, person)) < action.PerMonth
                         && (action.CompiledPersonConditions == null || action.CompiledPersonConditions.Evaluate(PersonScope(world, content, character, person, readOnly: true)).AsBool(action.Id)))
@@ -100,6 +100,19 @@ namespace MistakesLife.Core.Life
                 }
             }
 
+            if (action.With == ActionDefinition.Interesting)
+            {
+                // La gente interesante (D4b2): si te pescó, ya se conocen; si no, la puerta se va cerrando.
+                if (accepted)
+                {
+                    InterestingPeopleRules.Meet(world, character, option.Person!);
+                }
+                else
+                {
+                    InterestingPeopleRules.Decline(world, character, option.Person!);
+                }
+            }
+
             if (accepted && action.CompiledScripts.Count > 0)
             {
                 var scope = PersonScope(world, content, character, option.Person, readOnly: false);
@@ -117,8 +130,13 @@ namespace MistakesLife.Core.Life
         /// vida (como en Mensajito), sus conocidos o cualquiera con quien tenga relación
         /// (ver <see cref="ActionDefinition.ExtraRoles"/>).
         /// </summary>
-        public static IReadOnlyList<Character> People(World world, Character character, string role)
+        public static IReadOnlyList<Character> People(World world, ContentDatabase content, Character character, string role)
         {
+            if (role == ActionDefinition.Interesting)
+            {
+                return InterestingPeopleRules.Shown(world, content, character);
+            }
+
             if (role != ActionDefinition.Acquaintance && role != ActionDefinition.Anyone)
             {
                 return ChatSystem.PeopleAs(world, character, role, 0);

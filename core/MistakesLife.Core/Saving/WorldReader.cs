@@ -304,6 +304,11 @@ namespace MistakesLife.Core.Saving
             character.CoupleStage = d.CoupleStage == null ? (CoupleStage?)null : Parse<CoupleStage>(d.CoupleStage);
             character.CoupleSince = d.CoupleSinceWeek.HasValue ? Date(d.CoupleSinceWeek.Value) : (GameDate?)null;
             character.LatePartnerId = d.LatePartnerId;
+            foreach (InterestingPersonData seen in d.InterestingPeople ?? new System.Collections.Generic.List<InterestingPersonData>())
+            {
+                character.InterestingPeople.Add(new InterestingPerson(seen.PersonId, seen.Source, Date(seen.SinceWeek)) { Declines = seen.Declines });
+            }
+
             if (d.Studies != null)
             {
                 StudiesData s = d.Studies;

@@ -37,6 +37,7 @@
     "edad_minima": 18,
     "condiciones": "!semilla('semilla.te_prestaron_plata').activa",
     "condiciones_persona": "persona.edad >= 25 && (persona.en_que_anda == 'trabaja' || persona.en_que_anda == 'jubilado')",
+    "aporta": "aporta.prestar_plata",
     "acepta": "persona.carino >= 50 && persona.confianza >= 45",
     "cambia": {
       "felicidad": 1
@@ -57,6 +58,7 @@
     "edad_minima": 18,
     "condiciones": "!jugador.trabaja && jugador.busqueda != 'busqueda.forma.contactos'",
     "condiciones_persona": "persona.trabaja",
+    "aporta": "aporta.recomendar_pega",
     "acepta": "persona.carino >= 50 && persona.confianza >= 40",
     "cambia": {
       "felicidad": 1
