@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.ciberseguridad",
+  "etapa": "carrera.software",
+  "curso": 7,
+  "fuente": "Programa de Ciberseguridad de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.ciberseguridad.7.cia",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ciberseguridad.7.cia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.cia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.cia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.cia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.cia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ciberseguridad.7.ataques",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ciberseguridad.7.ataques.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.ataques.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.ataques.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.ataques.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.ataques.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ciberseguridad.7.defensa",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ciberseguridad.7.defensa.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.defensa.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.defensa.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.defensa.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.defensa.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ciberseguridad.7.incidentes",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ciberseguridad.7.incidentes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.incidentes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.incidentes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.incidentes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ciberseguridad.7.incidentes.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

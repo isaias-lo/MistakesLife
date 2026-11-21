@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.desarrollo_web",
+  "etapa": "carrera.software",
+  "curso": 4,
+  "fuente": "Programa de Desarrollo Web de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.desarrollo_web.4.html_css",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_web.4.html_css.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.html_css.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.html_css.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.html_css.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.html_css.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.desarrollo_web.4.javascript",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_web.4.javascript.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.javascript.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.javascript.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.javascript.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.javascript.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.desarrollo_web.4.http",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_web.4.http.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.http.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.http.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.http.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.http.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.desarrollo_web.4.backend",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_web.4.backend.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.backend.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.backend.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.backend.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_web.4.backend.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

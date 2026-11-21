@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.gestion_proyectos_ti",
+  "etapa": "carrera.software",
+  "curso": 6,
+  "fuente": "Programa de Gestión de Proyectos TI de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.gestion_proyectos_ti.6.agil",
+      "preguntas": [
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.agil.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.agil.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.agil.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.agil.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.agil.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.gestion_proyectos_ti.6.tradicional",
+      "preguntas": [
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.tradicional.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.tradicional.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.tradicional.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.tradicional.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.tradicional.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.gestion_proyectos_ti.6.estimacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.estimacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.estimacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.estimacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.estimacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.estimacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.gestion_proyectos_ti.6.riesgos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.riesgos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.riesgos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.riesgos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.riesgos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.gestion_proyectos_ti.6.riesgos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

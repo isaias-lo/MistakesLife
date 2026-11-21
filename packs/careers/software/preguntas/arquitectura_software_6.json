@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.arquitectura_software",
+  "etapa": "carrera.software",
+  "curso": 6,
+  "fuente": "Programa de Arquitectura de Software de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.arquitectura_software.6.capas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.arquitectura_software.6.capas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.capas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.capas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.capas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.capas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.arquitectura_software.6.microservicios",
+      "preguntas": [
+        {
+          "id": "pregunta.software.arquitectura_software.6.microservicios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.microservicios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.microservicios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.microservicios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.microservicios.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.arquitectura_software.6.patrones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.arquitectura_software.6.patrones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.patrones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.patrones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.patrones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.patrones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.arquitectura_software.6.calidad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.arquitectura_software.6.calidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.calidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.calidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.calidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_software.6.calidad.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

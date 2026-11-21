@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.probabilidades",
+  "etapa": "carrera.software",
+  "curso": 4,
+  "fuente": "Programa de Probabilidades y Estadística de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.probabilidades.4.axiomas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.probabilidades.4.axiomas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.axiomas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.axiomas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.axiomas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.axiomas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.probabilidades.4.variables",
+      "preguntas": [
+        {
+          "id": "pregunta.software.probabilidades.4.variables.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.variables.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.variables.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.variables.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.variables.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.probabilidades.4.distribuciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.probabilidades.4.distribuciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.distribuciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.distribuciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.distribuciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.distribuciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.probabilidades.4.inferencia",
+      "preguntas": [
+        {
+          "id": "pregunta.software.probabilidades.4.inferencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.inferencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.inferencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.inferencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.probabilidades.4.inferencia.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

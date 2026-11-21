@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.matematicas_discretas",
+  "etapa": "carrera.software",
+  "curso": 3,
+  "fuente": "Programa de Matemáticas Discretas de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.matematicas_discretas.3.combinatoria",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematicas_discretas.3.combinatoria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.combinatoria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.combinatoria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.combinatoria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.combinatoria.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.matematicas_discretas.3.grafos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematicas_discretas.3.grafos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.grafos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.grafos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.grafos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.grafos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.matematicas_discretas.3.relaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematicas_discretas.3.relaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.relaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.relaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.relaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.relaciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.matematicas_discretas.3.numeros",
+      "preguntas": [
+        {
+          "id": "pregunta.software.matematicas_discretas.3.numeros.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.numeros.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.numeros.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.numeros.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.matematicas_discretas.3.numeros.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.calculo",
+  "etapa": "carrera.software",
+  "curso": 3,
+  "fuente": "Programa de Cálculo III (Cálculo en Varias Variables) de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.calculo.3.vectores",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.3.vectores.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.3.vectores.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.3.vectores.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.3.vectores.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.3.vectores.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.3.parciales",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.3.parciales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.3.parciales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.3.parciales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.3.parciales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.3.parciales.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.3.optimizacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.3.optimizacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.3.optimizacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.3.optimizacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.3.optimizacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.3.optimizacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.3.integrales_dobles",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.3.integrales_dobles.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.3.integrales_dobles.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.3.integrales_dobles.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.3.integrales_dobles.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.3.integrales_dobles.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.desarrollo_movil",
+  "etapa": "carrera.software",
+  "curso": 5,
+  "fuente": "Programa de Desarrollo de Aplicaciones Móviles II de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.desarrollo_movil.5.arquitectura",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_movil.5.arquitectura.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.arquitectura.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.arquitectura.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.arquitectura.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.arquitectura.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.desarrollo_movil.5.apis",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_movil.5.apis.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.apis.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.apis.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.apis.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.apis.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.desarrollo_movil.5.notificaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_movil.5.notificaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.notificaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.notificaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.notificaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.notificaciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.desarrollo_movil.5.publicar",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_movil.5.publicar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.publicar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.publicar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.publicar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.5.publicar.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

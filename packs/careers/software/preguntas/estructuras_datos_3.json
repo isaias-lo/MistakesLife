@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.estructuras_datos",
+  "etapa": "carrera.software",
+  "curso": 3,
+  "fuente": "Programa de Estructuras de Datos de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.estructuras_datos.3.complejidad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.estructuras_datos.3.complejidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.complejidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.complejidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.complejidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.complejidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.estructuras_datos.3.listas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.estructuras_datos.3.listas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.listas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.listas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.listas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.listas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.estructuras_datos.3.arboles",
+      "preguntas": [
+        {
+          "id": "pregunta.software.estructuras_datos.3.arboles.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.arboles.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.arboles.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.arboles.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.arboles.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.estructuras_datos.3.hash",
+      "preguntas": [
+        {
+          "id": "pregunta.software.estructuras_datos.3.hash.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.hash.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.hash.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.hash.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.estructuras_datos.3.hash.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

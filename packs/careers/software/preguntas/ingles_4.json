@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.ingles",
+  "etapa": "carrera.software",
+  "curso": 4,
+  "fuente": "Programa de Inglés IV (inglés técnico) de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.ingles.4.conditionals",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.4.conditionals.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.4.conditionals.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.4.conditionals.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.4.conditionals.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.4.conditionals.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.4.presenting",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.4.presenting.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.4.presenting.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.4.presenting.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.4.presenting.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.4.presenting.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.4.negotiation",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.4.negotiation.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.4.negotiation.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.4.negotiation.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.4.negotiation.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.4.negotiation.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingles.4.reviews",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingles.4.reviews.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.4.reviews.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingles.4.reviews.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingles.4.reviews.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingles.4.reviews.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

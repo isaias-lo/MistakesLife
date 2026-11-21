@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.base_datos",
+  "etapa": "carrera.software",
+  "curso": 4,
+  "fuente": "Programa de Bases de Datos I de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.base_datos.4.relacional",
+      "preguntas": [
+        {
+          "id": "pregunta.software.base_datos.4.relacional.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.relacional.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.relacional.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.relacional.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.relacional.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.base_datos.4.sql",
+      "preguntas": [
+        {
+          "id": "pregunta.software.base_datos.4.sql.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.sql.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.sql.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.sql.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.sql.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.base_datos.4.normalizacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.base_datos.4.normalizacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.normalizacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.normalizacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.normalizacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.normalizacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.base_datos.4.transacciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.base_datos.4.transacciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.transacciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.transacciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.transacciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.base_datos.4.transacciones.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.calculo",
+  "etapa": "carrera.software",
+  "curso": 4,
+  "fuente": "Programa de Cálculo IV (Cálculo Vectorial) de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.calculo.4.curvas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.4.curvas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.4.curvas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.4.curvas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.4.curvas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.4.curvas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.4.campos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.4.campos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.4.campos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.4.campos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.4.campos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.4.campos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.4.linea",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.4.linea.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.4.linea.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.4.linea.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.4.linea.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.4.linea.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.calculo.4.aplicaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.software.calculo.4.aplicaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.4.aplicaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.calculo.4.aplicaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.calculo.4.aplicaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.calculo.4.aplicaciones.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

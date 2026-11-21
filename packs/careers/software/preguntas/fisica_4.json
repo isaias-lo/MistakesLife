@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.fisica",
+  "etapa": "carrera.software",
+  "curso": 4,
+  "fuente": "Programa de Física III (Ondas, Óptica y Física Moderna) de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.fisica.4.ondas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.4.ondas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.4.ondas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.4.ondas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.4.ondas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.4.ondas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fisica.4.luz",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.4.luz.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.4.luz.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.4.luz.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.4.luz.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.4.luz.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fisica.4.cuantica",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.4.cuantica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.4.cuantica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.4.cuantica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.4.cuantica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.4.cuantica.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.fisica.4.relatividad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.fisica.4.relatividad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.4.relatividad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.fisica.4.relatividad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.fisica.4.relatividad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.fisica.4.relatividad.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

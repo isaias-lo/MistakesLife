@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.seguridad_informatica",
+  "etapa": "carrera.software",
+  "curso": 8,
+  "fuente": "Programa de Seguridad Informática de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.seguridad_informatica.8.criptografia",
+      "preguntas": [
+        {
+          "id": "pregunta.software.seguridad_informatica.8.criptografia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.criptografia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.criptografia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.criptografia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.criptografia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.seguridad_informatica.8.web",
+      "preguntas": [
+        {
+          "id": "pregunta.software.seguridad_informatica.8.web.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.web.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.web.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.web.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.web.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.seguridad_informatica.8.ofensiva",
+      "preguntas": [
+        {
+          "id": "pregunta.software.seguridad_informatica.8.ofensiva.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.ofensiva.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.ofensiva.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.ofensiva.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.ofensiva.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.seguridad_informatica.8.gestion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.seguridad_informatica.8.gestion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.gestion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.gestion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.gestion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.seguridad_informatica.8.gestion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
