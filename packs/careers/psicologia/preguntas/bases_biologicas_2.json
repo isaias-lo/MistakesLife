@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.bases_biologicas",
+  "etapa": "carrera.psicologia",
+  "curso": 2,
+  "fuente": "Programa de Bases Biológicas de la Conducta II del primer año de Psicología (universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.bases_biologicas.2.hormonas",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.hormonas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.hormonas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.hormonas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.hormonas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.hormonas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.bases_biologicas.2.sueno",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.sueno.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.sueno.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.sueno.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.sueno.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.sueno.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.bases_biologicas.2.drogas",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.drogas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.drogas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.drogas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.drogas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.drogas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.bases_biologicas.2.emocion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.emocion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.emocion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.emocion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.emocion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.2.emocion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

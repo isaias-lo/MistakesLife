@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.introduccion_psicologia",
+  "etapa": "carrera.psicologia",
+  "curso": 1,
+  "fuente": "Programa de Introducción a la Psicología del primer año de Psicología (universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.introduccion_psicologia.1.que_es",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.que_es.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.que_es.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.que_es.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.que_es.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.que_es.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.introduccion_psicologia.1.enfoques",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.enfoques.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.enfoques.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.enfoques.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.enfoques.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.enfoques.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.introduccion_psicologia.1.metodos",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.metodos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.metodos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.metodos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.metodos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.metodos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.introduccion_psicologia.1.areas",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.areas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.areas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.areas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.areas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.introduccion_psicologia.1.areas.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

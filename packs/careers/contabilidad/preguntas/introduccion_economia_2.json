@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.introduccion_economia",
+  "etapa": "carrera.contabilidad",
+  "curso": 2,
+  "fuente": "Programa de Introducción a la Economía del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.introduccion_economia.2.basicos",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.basicos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.basicos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.basicos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.basicos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.basicos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.introduccion_economia.2.mercado",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.mercado.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.mercado.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.mercado.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.mercado.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.mercado.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.introduccion_economia.2.indicadores",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.indicadores.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.indicadores.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.indicadores.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.indicadores.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.indicadores.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.introduccion_economia.2.estado",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.estado.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.estado.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.estado.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.estado.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.introduccion_economia.2.estado.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

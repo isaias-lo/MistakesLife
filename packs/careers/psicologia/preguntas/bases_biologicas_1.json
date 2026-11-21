@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.bases_biologicas",
+  "etapa": "carrera.psicologia",
+  "curso": 1,
+  "fuente": "Programa de Bases Biológicas de la Conducta I del primer año de Psicología (universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.bases_biologicas.1.neurona",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.neurona.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.neurona.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.neurona.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.neurona.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.neurona.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.bases_biologicas.1.sistema",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.sistema.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.sistema.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.sistema.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.sistema.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.sistema.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.bases_biologicas.1.cerebro",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.cerebro.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.cerebro.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.cerebro.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.cerebro.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.cerebro.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.bases_biologicas.1.genetica",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.genetica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.genetica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.genetica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.genetica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.bases_biologicas.1.genetica.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

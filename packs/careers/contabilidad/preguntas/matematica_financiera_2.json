@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.matematica_financiera",
+  "etapa": "carrera.contabilidad",
+  "curso": 2,
+  "fuente": "Programa de Matemática Financiera del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.matematica_financiera.2.interes_simple",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_simple.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_simple.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_simple.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_simple.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_simple.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.matematica_financiera.2.interes_compuesto",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_compuesto.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_compuesto.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_compuesto.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_compuesto.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.interes_compuesto.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.matematica_financiera.2.tasas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.tasas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.tasas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.tasas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.tasas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.tasas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.matematica_financiera.2.anualidades",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.anualidades.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.anualidades.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.anualidades.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.anualidades.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.matematica_financiera.2.anualidades.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

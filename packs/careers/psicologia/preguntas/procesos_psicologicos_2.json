@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.procesos_psicologicos",
+  "etapa": "carrera.psicologia",
+  "curso": 2,
+  "fuente": "Programa de Procesos Psicológicos II del primer año de Psicología (universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.procesos_psicologicos.2.pensamiento",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.pensamiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.pensamiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.pensamiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.pensamiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.pensamiento.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.procesos_psicologicos.2.lenguaje",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.lenguaje.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.lenguaje.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.lenguaje.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.lenguaje.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.lenguaje.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.procesos_psicologicos.2.motivacion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.motivacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.motivacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.motivacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.motivacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.motivacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.procesos_psicologicos.2.emocion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.emocion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.emocion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.emocion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.emocion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.2.emocion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

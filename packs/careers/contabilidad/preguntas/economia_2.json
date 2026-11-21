@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.economia",
+  "etapa": "carrera.contabilidad",
+  "curso": 2,
+  "fuente": "Programa de Economía II (Macroeconomía) del primer año de Contador Auditor y Contador General (universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.economia.2.pib",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.economia.2.pib.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.pib.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.pib.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.pib.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.pib.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.economia.2.inflacion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.economia.2.inflacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.inflacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.inflacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.inflacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.inflacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.economia.2.politicas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.economia.2.politicas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.politicas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.politicas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.politicas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.politicas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.economia.2.empleo",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.economia.2.empleo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.empleo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.empleo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.empleo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.economia.2.empleo.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

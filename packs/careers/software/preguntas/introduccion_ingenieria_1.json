@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.introduccion_ingenieria",
+  "etapa": "carrera.software",
+  "curso": 1,
+  "fuente": "Programa de Introducción a la Ingeniería del primer año de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.introduccion_ingenieria.1.que_es",
+      "preguntas": [
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.que_es.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.que_es.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.que_es.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.que_es.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.que_es.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.introduccion_ingenieria.1.diseno",
+      "preguntas": [
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.diseno.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.diseno.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.diseno.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.diseno.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.diseno.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.introduccion_ingenieria.1.equipo",
+      "preguntas": [
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.equipo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.equipo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.equipo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.equipo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.equipo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.introduccion_ingenieria.1.etica",
+      "preguntas": [
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.etica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.etica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.etica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.etica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.introduccion_ingenieria.1.etica.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

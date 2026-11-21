@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.procesos_psicologicos",
+  "etapa": "carrera.psicologia",
+  "curso": 1,
+  "fuente": "Programa de Procesos Psicológicos I del primer año de Psicología (universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.procesos_psicologicos.1.sensacion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.sensacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.sensacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.sensacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.sensacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.sensacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.procesos_psicologicos.1.atencion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.atencion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.atencion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.atencion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.atencion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.atencion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.procesos_psicologicos.1.memoria",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.memoria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.memoria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.memoria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.memoria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.memoria.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.procesos_psicologicos.1.aprendizaje",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.aprendizaje.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.aprendizaje.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.aprendizaje.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.aprendizaje.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.procesos_psicologicos.1.aprendizaje.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

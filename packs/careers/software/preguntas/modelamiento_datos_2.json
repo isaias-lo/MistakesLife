@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.modelamiento_datos",
+  "etapa": "carrera.software",
+  "curso": 2,
+  "fuente": "Programa de Modelamiento de Bases de Datos del primer año de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.modelamiento_datos.2.conceptos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.modelamiento_datos.2.conceptos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.conceptos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.conceptos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.conceptos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.conceptos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.modelamiento_datos.2.entidad_relacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.modelamiento_datos.2.entidad_relacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.entidad_relacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.entidad_relacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.entidad_relacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.entidad_relacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.modelamiento_datos.2.claves",
+      "preguntas": [
+        {
+          "id": "pregunta.software.modelamiento_datos.2.claves.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.claves.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.claves.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.claves.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.claves.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.modelamiento_datos.2.normalizacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.modelamiento_datos.2.normalizacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.normalizacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.normalizacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.normalizacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.modelamiento_datos.2.normalizacion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
