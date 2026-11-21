@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicologia_desarrollo",
+  "etapa": "carrera.psicologia",
+  "curso": 4,
+  "fuente": "Programa de Psicología del Desarrollo III (Adolescencia y Adultez) de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicologia_desarrollo.4.adolescencia",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adolescencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adolescencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adolescencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adolescencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adolescencia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_desarrollo.4.adultez",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adultez.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adultez.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adultez.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adultez.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.adultez.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_desarrollo.4.vejez",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.vejez.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.vejez.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.vejez.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.vejez.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.vejez.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_desarrollo.4.ciclo_vital",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.ciclo_vital.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.ciclo_vital.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.ciclo_vital.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.ciclo_vital.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_desarrollo.4.ciclo_vital.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

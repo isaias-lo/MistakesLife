@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.estadistica",
+  "etapa": "carrera.psicologia",
+  "curso": 3,
+  "fuente": "Programa de Estadística II (Inferencial) de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.estadistica.3.hipotesis",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.estadistica.3.hipotesis.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.hipotesis.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.hipotesis.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.hipotesis.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.hipotesis.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.estadistica.3.t_student",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.estadistica.3.t_student.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.t_student.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.t_student.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.t_student.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.t_student.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.estadistica.3.correlacion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.estadistica.3.correlacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.correlacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.correlacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.correlacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.correlacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.estadistica.3.tamano",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.estadistica.3.tamano.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.tamano.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.tamano.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.tamano.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.estadistica.3.tamano.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

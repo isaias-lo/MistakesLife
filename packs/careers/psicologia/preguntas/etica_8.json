@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.etica",
+  "etapa": "carrera.psicologia",
+  "curso": 8,
+  "fuente": "Programa de Ética Profesional en Psicología de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.etica.8.codigo",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.etica.8.codigo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.codigo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.codigo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.codigo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.codigo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.etica.8.confidencialidad",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.etica.8.confidencialidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.confidencialidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.confidencialidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.confidencialidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.confidencialidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.etica.8.relaciones_duales",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.etica.8.relaciones_duales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.relaciones_duales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.relaciones_duales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.relaciones_duales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.relaciones_duales.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.etica.8.dilemas",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.etica.8.dilemas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.dilemas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.dilemas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.dilemas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.etica.8.dilemas.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

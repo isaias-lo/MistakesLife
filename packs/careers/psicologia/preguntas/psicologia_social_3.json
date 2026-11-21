@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicologia_social",
+  "etapa": "carrera.psicologia",
+  "curso": 3,
+  "fuente": "Programa de Psicología Social I de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicologia_social.3.conformidad",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.conformidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.conformidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.conformidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.conformidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.conformidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_social.3.obediencia",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.obediencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.obediencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.obediencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.obediencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.obediencia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_social.3.actitudes",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.actitudes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.actitudes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.actitudes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.actitudes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.actitudes.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_social.3.atribucion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.atribucion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.atribucion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.atribucion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.atribucion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.3.atribucion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

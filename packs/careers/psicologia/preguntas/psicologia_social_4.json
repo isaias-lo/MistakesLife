@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicologia_social",
+  "etapa": "carrera.psicologia",
+  "curso": 4,
+  "fuente": "Programa de Psicología Social II de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicologia_social.4.prejuicio",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prejuicio.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prejuicio.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prejuicio.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prejuicio.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prejuicio.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_social.4.prosocial",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prosocial.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prosocial.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prosocial.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prosocial.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.prosocial.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_social.4.grupos",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.grupos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.grupos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.grupos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.grupos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.grupos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_social.4.relaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.relaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.relaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.relaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.relaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_social.4.relaciones.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

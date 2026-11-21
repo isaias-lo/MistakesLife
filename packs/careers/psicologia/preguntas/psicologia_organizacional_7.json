@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicologia_organizacional",
+  "etapa": "carrera.psicologia",
+  "curso": 7,
+  "fuente": "Programa de Psicología Organizacional de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicologia_organizacional.7.seleccion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.seleccion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.seleccion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.seleccion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.seleccion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.seleccion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_organizacional.7.motivacion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.motivacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.motivacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.motivacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.motivacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.motivacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_organizacional.7.clima",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.clima.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.clima.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.clima.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.clima.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.clima.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_organizacional.7.liderazgo",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.liderazgo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.liderazgo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.liderazgo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.liderazgo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_organizacional.7.liderazgo.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
