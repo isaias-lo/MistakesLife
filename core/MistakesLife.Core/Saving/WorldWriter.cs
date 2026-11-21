@@ -236,6 +236,9 @@ namespace MistakesLife.Core.Saving
                 CoupleStage = c.CoupleStage?.ToString(),
                 CoupleSinceWeek = c.CoupleSince?.TotalWeeks,
                 LatePartnerId = c.LatePartnerId,
+                InterestingPeople = c.InterestingPeople.Count == 0 ? null : c.InterestingPeople
+                    .Select(p => new InterestingPersonData { PersonId = p.PersonId, Source = p.Source, SinceWeek = p.Since.TotalWeeks, Declines = p.Declines })
+                    .ToList(),
                 Studies = c.Studies == null ? null : new StudiesData
                 {
                     CareerId = c.Studies.CareerId,

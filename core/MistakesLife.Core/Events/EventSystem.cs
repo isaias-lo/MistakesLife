@@ -489,7 +489,7 @@ namespace MistakesLife.Core.Events
         /// con quien tenga relación (como en las acciones, ver Life.ActionRules.People).
         /// Alguien nuevo todavía no existe: nadie.
         /// </summary>
-        private static IReadOnlyList<Character> PeopleFor(World world, Character player, string role)
+        private IReadOnlyList<Character> PeopleFor(World world, Character player, string role)
         {
             if (EventDefinition.IsNewPersonRole(role))
             {
@@ -497,7 +497,7 @@ namespace MistakesLife.Core.Events
             }
 
             return Array.IndexOf(ActionDefinition.ExtraRoles, role) >= 0
-                ? ActionRules.People(world, player, role)
+                ? ActionRules.People(world, Content, player, role)
                 : ChatSystem.PeopleAs(world, player, role, minAge: 0);
         }
 

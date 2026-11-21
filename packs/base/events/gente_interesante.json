@@ -1,0 +1,28 @@
+[
+  {
+    "id": "evento.ascenso_recomendado",
+    "con": "testigo",
+    "semilla": "semilla.recomendacion_ascenso",
+    "condiciones": "jugador.area != nada && jugador.puede_ascender && jugador.caminos_ascenso == 1 && persona.manda_en_tu_area",
+    "opciones": [
+      {
+        "texto": "opcion.ascenso_recomendado.aceptar",
+        "tendencia": "60 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.ascender()",
+          "jugador.felicidad += 6",
+          "persona.confianza += 5",
+          "diario('diario.ascenso_recomendado')"
+        ]
+      },
+      {
+        "texto": "opcion.ascenso_recomendado.rechazar",
+        "tendencia": "5 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "persona.respeto -= 5"
+        ]
+      }
+    ]
+  }
+]

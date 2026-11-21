@@ -25,6 +25,7 @@
   { "id": "escena.casa.foto_pareja", "lugar": "casa", "condiciones": "jugador.pareja != nada && jugador.etapa_pareja != 'saliendo'" },
   { "id": "escena.casa.foto_pareja_luto", "lugar": "casa", "condiciones": "jugador.en_viudez" },
   { "id": "escena.casa.dos_tazas", "lugar": "casa", "condiciones": "jugador.vive_con_pareja" },
+  { "id": "escena.casa.tarjetas_presentacion", "lugar": "casa", "condiciones": "jugador.gente_interesante_conocida >= 1" },
   { "id": "escena.casa.foto_recuerdo", "lugar": "casa", "condiciones": "(jugador.madre != nada && !jugador.madre.vivo) || (jugador.padre != nada && !jugador.padre.vivo)" },
   { "id": "escena.casa.mecedora", "lugar": "casa", "condiciones": "jugador.jubilado" },
   { "id": "escena.casa.contrato_arriendo", "lugar": "casa", "condiciones": "jugador.vivienda != nada" },

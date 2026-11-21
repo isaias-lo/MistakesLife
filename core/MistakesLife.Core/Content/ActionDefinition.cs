@@ -26,14 +26,19 @@ namespace MistakesLife.Core.Content
         /// Con quién más se puede hacer una acción, además de quienes escriben por Mensajito
         /// (<see cref="ChatDefinition.Senders"/>): <c>conocido</c> es alguien con quien tiene
         /// relación sin ser familia, pareja, amistad, rival ni ex (tu curso, tu pega, gente que
-        /// conociste); <c>cualquiera</c> es cualquier persona viva con quien tiene relación.
+        /// conociste); <c>cualquiera</c> es cualquier persona viva con quien tiene relación;
+        /// <c>interesante</c> es la gente interesante de tu horario que todavía no conoces
+        /// (D4b2, ver <see cref="Life.InterestingPeopleRules"/>): si dice que sí, se conocen; si
+        /// dice que no, cuenta para que se cierre la puerta.
         /// Las acciones con ellos van solo en la ficha de cada persona.
         /// </summary>
-        public static readonly string[] ExtraRoles = { Acquaintance, Anyone };
+        public static readonly string[] ExtraRoles = { Acquaintance, Anyone, Interesting };
 
         public const string Acquaintance = "conocido";
 
         public const string Anyone = "cualquiera";
+
+        public const string Interesting = "interesante";
 
         /// <summary>Lo máximo que una acción mueve una barra o el cariño, para arriba o para abajo.</summary>
         public const int MaxChange = 8;
@@ -105,6 +110,14 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("efectos")]
         public List<string> Scripts { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Lo que la persona te puede aportar con esta acción, en una frase (una clave de idioma,
+        /// "aporta.consejo"): la ficha de la persona lo junta en "Lo que te puede aportar" (D4b2).
+        /// Vacío si la acción no aporta nada en especial (conversar, invitar).
+        /// </summary>
+        [JsonProperty("aporta")]
+        public string? Offers { get; set; }
 
         [JsonIgnore]
         public Expression? CompiledConditions { get; set; }

@@ -91,6 +91,7 @@ namespace MistakesLife.Unity
             "escena.casa.foto_viaje_pareja" => "ancla.cuadro_derecha",
             "escena.casa.foto_pareja_luto" => "ancla.cuadro_derecha",
             "escena.casa.dos_tazas" => "ancla.mesa",
+            "escena.casa.tarjetas_presentacion" => "ancla.mesa",
             "escena.casa.mecedora" => "ancla.mecedora",
             "escena.casa.camiseta_seleccion" => "ancla.muro_lateral",
             "escena.casa.tarjeta_refri" => "ancla.muro_lateral",
@@ -549,6 +550,13 @@ namespace MistakesLife.Unity
                     // Viven juntos: dos tazas en la mesa, una de cada uno.
                     kit.Shape(PrimitiveType.Cylinder, "Tu taza", new Vector3(0.32f, 0.51f, -0.18f), new Vector3(0.07f, 0.045f, 0.07f), new Color(0.85f, 0.30f, 0.25f));
                     kit.Shape(PrimitiveType.Cylinder, "La taza de tu pareja", new Vector3(0.42f, 0.51f, -0.12f), new Vector3(0.07f, 0.045f, 0.07f), new Color(0.25f, 0.45f, 0.75f));
+                    break;
+                case "escena.casa.tarjetas_presentacion":
+                    // Gente interesante que conociste (D4b2): un par de tarjetas de presentación en la mesa.
+                    GameObject businessCard = kit.Box("Tarjeta de presentación", new Vector3(-0.30f, 0.447f, 0.10f), new Vector3(0.09f, 0.004f, 0.055f), new Color(0.96f, 0.94f, 0.88f));
+                    businessCard.transform.localRotation = Quaternion.Euler(0f, 18f, 0f);
+                    GameObject otherCard = kit.Box("Otra tarjeta", new Vector3(-0.26f, 0.451f, 0.14f), new Vector3(0.09f, 0.004f, 0.055f), new Color(0.82f, 0.86f, 0.92f));
+                    otherCard.transform.localRotation = Quaternion.Euler(0f, -10f, 0f);
                     break;
                 case "escena.casa.foto_viaje_pareja":
                     // El viaje con tu pareja: una foto de playa (cielo, mar y arena) al lado de la foto de la pareja.

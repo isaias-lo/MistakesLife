@@ -327,6 +327,10 @@ namespace MistakesLife.Core.Saving
             // pareja que murió (la viudez). En las partidas viejas las parejas ya vivían juntas: el
             // dato que falta se lee como "viven juntos", y nadie quedó registrado como viudo.
             [39] = save => { },
+
+            // 40 → 41: aparece la gente interesante de tu horario (D4b2). En las partidas viejas
+            // todavía no apareció nadie: el dato que falta se lee vacío y aparecen de a poco.
+            [40] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>
