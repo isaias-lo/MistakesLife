@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.fisica",
+  "etapa": "etapa.chile.media",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Ciencias Naturales (eje Física) 1º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.fisica.m1.ondas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.ondas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.fisica.m1.sonido",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sonido.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.fisica.m1.luz",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.fisica.m1.luz.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.luz.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.luz.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.luz.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.luz.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.luz.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.luz.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.luz.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.luz.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.luz.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.fisica.m1.sismos_universo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m1.sismos_universo.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

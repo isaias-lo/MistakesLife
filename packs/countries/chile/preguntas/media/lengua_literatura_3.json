@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.lengua_literatura",
+  "etapa": "etapa.chile.media",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Lengua y Literatura 3º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.lengua_literatura.m3.interpretar",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.interpretar.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.m3.investigar",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.investigar.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.m3.dialogo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.dialogo.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.m3.discursos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m3.discursos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

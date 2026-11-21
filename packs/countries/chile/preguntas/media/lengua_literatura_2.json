@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.lengua_literatura",
+  "etapa": "etapa.chile.media",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Lengua y Literatura 2º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.lengua_literatura.m2.ausencia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.ausencia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.m2.poesia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.poesia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.m2.medios",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.medios.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.m2.tragedia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m2.tragedia.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.media",
+  "curso": 4,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Matemática 4º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.m4.normal",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m4.normal.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.normal.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.normal.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.normal.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.normal.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.normal.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.normal.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.normal.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.normal.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.normal.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m4.geometria",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.geometria.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m4.trigonometria",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.trigonometria.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m4.decisiones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m4.decisiones.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

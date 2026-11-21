@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.fisica",
+  "etapa": "etapa.chile.media",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Ciencias Naturales (eje Física) 2º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.fisica.m2.movimiento",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.movimiento.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.fisica.m2.newton",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.fisica.m2.newton.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.newton.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.newton.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.newton.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.newton.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.newton.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.newton.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.newton.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.newton.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.newton.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.fisica.m2.energia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.fisica.m2.energia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.energia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.energia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.energia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.energia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.energia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.energia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.energia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.energia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.energia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.fisica.m2.gravitacion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.fisica.m2.gravitacion.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

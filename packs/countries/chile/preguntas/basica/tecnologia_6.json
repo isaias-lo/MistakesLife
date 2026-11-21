@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.basica",
+  "curso": 6,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Tecnología 6º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.6.mecanismos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.6.mecanismos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.mecanismos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.mecanismos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.mecanismos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.mecanismos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.6.estructuras",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.6.estructuras.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.estructuras.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.estructuras.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.estructuras.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.estructuras.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.6.costos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.6.costos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.costos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.costos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.costos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.costos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.6.planillas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.6.planillas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.planillas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.planillas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.planillas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.6.planillas.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

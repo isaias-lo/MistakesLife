@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.basica",
+  "curso": 8,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Tecnología 8º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.8.innovacion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.8.innovacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.innovacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.innovacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.innovacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.innovacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.8.emprender",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.8.emprender.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.emprender.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.emprender.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.emprender.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.emprender.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.8.automatizacion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.8.automatizacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.automatizacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.automatizacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.automatizacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.automatizacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.8.datos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.8.datos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.datos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.datos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.datos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.8.datos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.basica",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Tecnología 1º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.1.objetos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.1.objetos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.objetos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.objetos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.objetos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.objetos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.1.materiales",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.1.materiales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.materiales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.materiales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.materiales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.materiales.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.1.construir",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.1.construir.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.construir.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.construir.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.construir.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.construir.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.1.computador",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.1.computador.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.computador.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.computador.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.computador.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.1.computador.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

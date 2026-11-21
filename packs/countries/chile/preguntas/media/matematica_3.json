@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.media",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Matemática 3º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.m3.dispersion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.dispersion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m3.finanzas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.finanzas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m3.exponencial",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.exponencial.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m3.complejos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m3.complejos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

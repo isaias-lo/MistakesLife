@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.basica",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Tecnología 3º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.3.diseno",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.3.diseno.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.diseno.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.diseno.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.diseno.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.diseno.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.3.propiedades",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.3.propiedades.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.propiedades.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.propiedades.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.propiedades.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.propiedades.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.3.pasos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.3.pasos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.pasos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.pasos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.pasos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.pasos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.3.internet",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.3.internet.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.internet.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.internet.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.internet.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.3.internet.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

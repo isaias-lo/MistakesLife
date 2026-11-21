@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.lengua_literatura",
+  "etapa": "etapa.chile.media",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Lengua y Literatura 1º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.lengua_literatura.m1.libertad",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.libertad.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.m1.argumentacion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.argumentacion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.m1.poesia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.poesia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.m1.comedia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.m1.comedia.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

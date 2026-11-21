@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.basica",
+  "curso": 4,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Tecnología 4º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.4.problemas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.4.problemas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.problemas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.problemas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.problemas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.problemas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.4.uniones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.4.uniones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.uniones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.uniones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.uniones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.uniones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.4.energia_objetos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.4.energia_objetos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.energia_objetos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.energia_objetos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.energia_objetos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.energia_objetos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.4.documentos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.4.documentos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.documentos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.documentos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.documentos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.4.documentos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.media",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Tecnología 1º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.m1.servicio",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.m1.servicio.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.servicio.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.servicio.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.servicio.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.servicio.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.m1.evaluar",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.m1.evaluar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.evaluar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.evaluar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.evaluar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.evaluar.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.m1.impacto",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.m1.impacto.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.impacto.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.impacto.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.impacto.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.impacto.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.m1.proyecto",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.m1.proyecto.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.proyecto.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.proyecto.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.proyecto.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m1.proyecto.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

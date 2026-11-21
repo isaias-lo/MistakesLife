@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.biologia",
+  "etapa": "etapa.chile.media",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Ciencias Naturales (eje Biología) 1º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.biologia.m1.evolucion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.evolucion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.biologia.m1.clasificacion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.clasificacion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.biologia.m1.interacciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.interacciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.biologia.m1.ciclos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m1.ciclos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}
