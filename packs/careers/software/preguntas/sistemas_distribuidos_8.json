@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.sistemas_distribuidos",
+  "etapa": "carrera.software",
+  "curso": 8,
+  "fuente": "Programa de Sistemas Distribuidos de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.sistemas_distribuidos.8.conceptos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.conceptos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.conceptos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.conceptos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.conceptos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.conceptos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.sistemas_distribuidos.8.consenso",
+      "preguntas": [
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.consenso.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.consenso.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.consenso.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.consenso.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.consenso.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.sistemas_distribuidos.8.mensajeria",
+      "preguntas": [
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.mensajeria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.mensajeria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.mensajeria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.mensajeria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.mensajeria.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.sistemas_distribuidos.8.nube",
+      "preguntas": [
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.nube.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.nube.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.nube.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.nube.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_distribuidos.8.nube.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.programacion_objetos",
+  "etapa": "carrera.software",
+  "curso": 3,
+  "fuente": "Programa de Programación Orientada a Objetos de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.programacion_objetos.3.clases",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion_objetos.3.clases.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.clases.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.clases.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.clases.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.clases.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.programacion_objetos.3.encapsulamiento",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion_objetos.3.encapsulamiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.encapsulamiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.encapsulamiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.encapsulamiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.encapsulamiento.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.programacion_objetos.3.herencia",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion_objetos.3.herencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.herencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.herencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.herencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.herencia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.programacion_objetos.3.polimorfismo",
+      "preguntas": [
+        {
+          "id": "pregunta.software.programacion_objetos.3.polimorfismo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.polimorfismo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.polimorfismo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.polimorfismo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.programacion_objetos.3.polimorfismo.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

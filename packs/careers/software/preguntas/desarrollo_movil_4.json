@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.desarrollo_movil",
+  "etapa": "carrera.software",
+  "curso": 4,
+  "fuente": "Programa de Desarrollo de Aplicaciones Móviles I de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.desarrollo_movil.4.plataformas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_movil.4.plataformas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.plataformas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.plataformas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.plataformas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.plataformas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.desarrollo_movil.4.interfaz",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_movil.4.interfaz.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.interfaz.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.interfaz.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.interfaz.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.interfaz.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.desarrollo_movil.4.ciclo_vida",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_movil.4.ciclo_vida.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.ciclo_vida.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.ciclo_vida.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.ciclo_vida.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.ciclo_vida.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.desarrollo_movil.4.datos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.desarrollo_movil.4.datos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.datos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.datos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.datos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.desarrollo_movil.4.datos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

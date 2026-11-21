@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.arquitectura_computadores",
+  "etapa": "carrera.software",
+  "curso": 5,
+  "fuente": "Programa de Arquitectura de Computadores de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.arquitectura_computadores.5.binario",
+      "preguntas": [
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.binario.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.binario.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.binario.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.binario.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.binario.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.arquitectura_computadores.5.cpu",
+      "preguntas": [
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.cpu.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.cpu.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.cpu.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.cpu.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.cpu.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.arquitectura_computadores.5.memoria",
+      "preguntas": [
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.memoria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.memoria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.memoria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.memoria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.memoria.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.arquitectura_computadores.5.paralelismo",
+      "preguntas": [
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.paralelismo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.paralelismo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.paralelismo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.paralelismo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.arquitectura_computadores.5.paralelismo.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

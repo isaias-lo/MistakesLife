@@ -35,6 +35,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("ultimo")]
         public bool Last { get; set; }
 
+        /// <summary>
+        /// Si tiene pruebas escritas que se estudian con preguntas ("prueba_escrita", true si falta).
+        /// Los talleres, los electivos y los seminarios se evalúan con proyectos: no llevan preguntas.
+        /// </summary>
+        [JsonProperty("prueba_escrita")]
+        public bool WrittenTests { get; set; } = true;
+
         /// <summary>Último semestre en que se tiene.</summary>
         public int LastSemester => ToSemester ?? FromSemester;
 

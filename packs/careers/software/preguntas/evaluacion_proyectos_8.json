@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.evaluacion_proyectos",
+  "etapa": "carrera.software",
+  "curso": 8,
+  "fuente": "Programa de Evaluación de Proyectos II de Analista Programador e Ingeniería en Informática de institutos profesionales chilenos",
+  "unidades": [
+    {
+      "id": "tema.software.evaluacion_proyectos.8.sensibilidad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.sensibilidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.sensibilidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.sensibilidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.sensibilidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.sensibilidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.evaluacion_proyectos.8.financiamiento",
+      "preguntas": [
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.financiamiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.financiamiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.financiamiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.financiamiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.financiamiento.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.evaluacion_proyectos.8.social",
+      "preguntas": [
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.social.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.social.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.social.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.social.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.social.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.evaluacion_proyectos.8.decidir",
+      "preguntas": [
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.decidir.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.decidir.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.decidir.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.decidir.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.evaluacion_proyectos.8.decidir.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

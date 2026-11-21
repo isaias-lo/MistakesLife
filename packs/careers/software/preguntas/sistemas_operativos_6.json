@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.sistemas_operativos",
+  "etapa": "carrera.software",
+  "curso": 6,
+  "fuente": "Programa de Sistemas Operativos de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.sistemas_operativos.6.procesos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.sistemas_operativos.6.procesos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.procesos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.procesos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.procesos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.procesos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.sistemas_operativos.6.sincronizacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.sistemas_operativos.6.sincronizacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.sincronizacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.sincronizacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.sincronizacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.sincronizacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.sistemas_operativos.6.memoria",
+      "preguntas": [
+        {
+          "id": "pregunta.software.sistemas_operativos.6.memoria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.memoria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.memoria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.memoria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.memoria.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.sistemas_operativos.6.archivos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.sistemas_operativos.6.archivos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.archivos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.archivos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.archivos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.sistemas_operativos.6.archivos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

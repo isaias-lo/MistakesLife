@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.redes",
+  "etapa": "carrera.software",
+  "curso": 7,
+  "fuente": "Programa de Redes de Computadores de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.redes.7.modelos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.redes.7.modelos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.redes.7.modelos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.redes.7.modelos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.redes.7.modelos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.redes.7.modelos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.redes.7.transporte",
+      "preguntas": [
+        {
+          "id": "pregunta.software.redes.7.transporte.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.redes.7.transporte.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.redes.7.transporte.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.redes.7.transporte.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.redes.7.transporte.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.redes.7.ip",
+      "preguntas": [
+        {
+          "id": "pregunta.software.redes.7.ip.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.redes.7.ip.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.redes.7.ip.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.redes.7.ip.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.redes.7.ip.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.redes.7.aplicacion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.redes.7.aplicacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.redes.7.aplicacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.redes.7.aplicacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.redes.7.aplicacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.redes.7.aplicacion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

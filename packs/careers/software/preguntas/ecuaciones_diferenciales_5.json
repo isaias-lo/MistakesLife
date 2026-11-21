@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.ecuaciones_diferenciales",
+  "etapa": "carrera.software",
+  "curso": 5,
+  "fuente": "Programa de Ecuaciones Diferenciales de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.ecuaciones_diferenciales.5.primer_orden",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.primer_orden.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.primer_orden.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.primer_orden.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.primer_orden.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.primer_orden.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ecuaciones_diferenciales.5.segundo_orden",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.segundo_orden.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.segundo_orden.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.segundo_orden.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.segundo_orden.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.segundo_orden.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ecuaciones_diferenciales.5.laplace",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.laplace.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.laplace.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.laplace.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.laplace.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.laplace.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ecuaciones_diferenciales.5.numericos",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.numericos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.numericos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.numericos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.numericos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ecuaciones_diferenciales.5.numericos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

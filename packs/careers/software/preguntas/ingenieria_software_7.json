@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.software.ingenieria_software",
+  "etapa": "carrera.software",
+  "curso": 7,
+  "fuente": "Programa de Ingeniería de Software II de Ingeniería Civil en Computación e Informática (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.software.ingenieria_software.7.pruebas",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingenieria_software.7.pruebas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.pruebas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.pruebas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.pruebas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.pruebas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingenieria_software.7.calidad",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingenieria_software.7.calidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.calidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.calidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.calidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.calidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingenieria_software.7.devops",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingenieria_software.7.devops.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.devops.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.devops.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.devops.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.devops.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.software.ingenieria_software.7.mantencion",
+      "preguntas": [
+        {
+          "id": "pregunta.software.ingenieria_software.7.mantencion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.mantencion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.mantencion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.mantencion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.software.ingenieria_software.7.mantencion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
