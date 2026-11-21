@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.basica",
+  "curso": 7,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Tecnología 7º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.7.necesidad",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.7.necesidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.necesidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.necesidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.necesidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.necesidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.7.prototipo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.7.prototipo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.prototipo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.prototipo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.prototipo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.prototipo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.7.ciclo_vida",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.7.ciclo_vida.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.ciclo_vida.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.ciclo_vida.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.ciclo_vida.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.ciclo_vida.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.7.digital",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.7.digital.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.digital.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.digital.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.digital.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.7.digital.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

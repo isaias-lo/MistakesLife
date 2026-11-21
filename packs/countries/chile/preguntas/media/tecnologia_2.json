@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.media",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Tecnología 2º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.m2.problema",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.m2.problema.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.problema.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.problema.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.problema.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.problema.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.m2.solucion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.m2.solucion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.solucion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.solucion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.solucion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.solucion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.m2.emprender",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.m2.emprender.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.emprender.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.emprender.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.emprender.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.emprender.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.m2.tic",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.m2.tic.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.tic.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.tic.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.tic.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.m2.tic.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

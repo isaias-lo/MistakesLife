@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.tecnologia",
+  "etapa": "etapa.chile.basica",
+  "curso": 5,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Tecnología 5º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.tecnologia.5.servicios",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.5.servicios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.servicios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.servicios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.servicios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.servicios.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.5.planificar",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.5.planificar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.planificar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.planificar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.planificar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.planificar.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.5.impacto",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.5.impacto.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.impacto.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.impacto.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.impacto.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.impacto.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.tecnologia.5.presentaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.tecnologia.5.presentaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.presentaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.presentaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.presentaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.tecnologia.5.presentaciones.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

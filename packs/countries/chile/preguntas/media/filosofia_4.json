@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.filosofia",
+  "etapa": "etapa.chile.media",
+  "curso": 4,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Filosofía 4º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.filosofia.m4.conocimiento",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.filosofia.m4.conocimiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.conocimiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.conocimiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.conocimiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.conocimiento.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.filosofia.m4.politica",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.filosofia.m4.politica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.politica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.politica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.politica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.politica.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.filosofia.m4.existencia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.filosofia.m4.existencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.existencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.existencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.existencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.existencia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.filosofia.m4.tecnologia_etica",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.filosofia.m4.tecnologia_etica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.tecnologia_etica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.tecnologia_etica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.tecnologia_etica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m4.tecnologia_etica.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

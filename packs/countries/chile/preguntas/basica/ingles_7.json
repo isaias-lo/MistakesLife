@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ingles",
+  "etapa": "etapa.chile.basica",
+  "curso": 7,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Inglés 7º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ingles.7.past",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.7.past.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.past.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.past.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.past.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.past.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.past.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.past.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.past.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.past.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.past.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.7.feelings",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.7.feelings.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.feelings.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.feelings.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.feelings.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.feelings.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.feelings.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.feelings.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.feelings.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.feelings.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.feelings.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.7.future",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.7.future.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.future.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.future.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.future.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.future.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.future.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.future.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.future.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.future.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.future.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.7.environment",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.7.environment.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.environment.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.environment.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.environment.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.environment.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.environment.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.environment.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.environment.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.environment.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.7.environment.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

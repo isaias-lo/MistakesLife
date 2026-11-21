@@ -979,7 +979,7 @@ El dominio de cada ramo (`StudyRules`) va de 0 a 100, por ramo y por año. Al em
 
 Se puede estudiar sola, con una compañera del curso que te quiere (responde las mismas preguntas; acierta según su propia inteligencia y se suben el cariño los dos; una vez al mes cada una) o con el profe jefe (una vez al mes). Cada tarde gasta energía; si la mayoría de las respuestas fueron correctas, sube 1 la inteligencia; y si el ramo tiene la prueba anunciada, cuenta como preparación.
 
-Hoy están Lenguaje y Comunicación (Lengua y Literatura en 7º y 8º), Matemática, Historia y Ciencias Naturales de 1º a 8º básico de Chile, 40 preguntas por ramo y curso. Los ramos sin preguntas (Inglés, Tecnología, media y la universidad) siguen con "Repasar" y "Estudiar para la prueba".
+Hoy están todos los ramos con prueba escrita del colegio en Chile: en básica, Lenguaje y Comunicación (Lengua y Literatura en 7º y 8º), Matemática, Historia y Ciencias Naturales de 1º a 8º (40 por ramo y curso), Inglés de 5º a 8º (40) y Tecnología de 1º a 8º (20); en media, todos los ramos de formación general de 1º a 4º (40 en los principales; 20 en Tecnología, Filosofía, Educación Ciudadana y Ciencias para la Ciudadanía). Los archivos de media van en `preguntas/media/` y sus ids llevan `m` antes del curso (`tema.chile.matematica.m3.finanzas`, `pregunta.chile.matematica.m3.finanzas.1`) para no chocar con los de básica. Artes, Música y Educación Física no tienen prueba escrita, así que no llevan preguntas. La universidad, el CFT y el instituto siguen con "Repasar" y "Estudiar para la prueba" hasta su PR (D5a2b).
 
 ## Hacer algo con el tiempo parado (acciones/)
 

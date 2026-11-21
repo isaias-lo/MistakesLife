@@ -78,6 +78,30 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void Preguntas_DeChile_CubrenTodosLosRamosConPruebaEscrita_DeBasicaYMedia()
+        {
+            CountryDefinition chile = Content.GetCountry("pais.chile");
+            int sets = 0;
+            foreach (string stageId in new[] { "etapa.chile.basica", "etapa.chile.media" })
+            {
+                EducationStageDefinition stage = chile.EducationStages.Single(e => e.Id == stageId);
+                int levels = stageId == "etapa.chile.basica" ? 8 : 4;
+                for (int level = 1; level <= levels; level++)
+                {
+                    foreach (SubjectDefinition subject in stage.Subjects.Where(s => s.WrittenTests && s.InLevel(level)))
+                    {
+                        QuestionSetDefinition? set = Content.QuestionSet(stageId, level, subject.Id);
+                        Assert.True(set != null, $"Faltan las preguntas de {subject.Id} en {stageId} {level}º.");
+                        Assert.True(set!.Units.Sum(u => u.Questions.Count) >= 20, $"{subject.Id} {level}º: menos de 20 preguntas.");
+                        sets++;
+                    }
+                }
+            }
+            // 8 años de básica (5 o 6 ramos) y 4 de media (6 a 8 ramos).
+            Assert.Equal(72, sets);
+        }
+
+        [Fact]
         public void Preguntas_LaCorrectaNoEstaSiempreEnLaMismaLetra()
         {
             var letters = Content.QuestionSets.SelectMany(s => s.Units).SelectMany(u => u.Questions).GroupBy(q => q.Correct).ToDictionary(g => g.Key, g => g.Count());
@@ -302,7 +326,7 @@ namespace MistakesLife.Core.Tests
             LifeSession session = InClass(10);
             var presenter = new LifePresenter(session);
             IReadOnlyList<StudySubjectView> subjects = presenter.StudySubjects();
-            Assert.Equal(4, subjects.Count);
+            Assert.Equal(5, subjects.Count); // Lenguaje, Matemática, Historia, Ciencias y Tecnología (4º básico)
             Assert.All(subjects, s => Assert.StartsWith("Ahora: ", s.Topic));
             Assert.All(subjects, s => Assert.True(s.CanStudy));
 

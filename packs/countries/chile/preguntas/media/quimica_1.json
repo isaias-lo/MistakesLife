@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.quimica",
+  "etapa": "etapa.chile.media",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Ciencias Naturales (eje Química) 1º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.quimica.m1.reacciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.reacciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.quimica.m1.conservacion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.conservacion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.quimica.m1.mol",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.quimica.m1.mol.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.mol.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.mol.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.mol.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.mol.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.mol.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.mol.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.mol.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.mol.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.mol.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.quimica.m1.compuestos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m1.compuestos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

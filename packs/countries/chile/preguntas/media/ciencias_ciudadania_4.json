@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.ciencias_ciudadania",
+  "etapa": "etapa.chile.media",
+  "curso": 4,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Ciencias para la Ciudadanía 4º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ciencias_ciudadania.m4.energia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.energia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.energia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.energia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.energia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.energia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_ciudadania.m4.alimentacion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.alimentacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.alimentacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.alimentacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.alimentacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.alimentacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_ciudadania.m4.agua",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.agua.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.agua.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.agua.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.agua.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.agua.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_ciudadania.m4.ciencia_decision",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.ciencia_decision.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.ciencia_decision.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.ciencia_decision.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.ciencia_decision.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_ciudadania.m4.ciencia_decision.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

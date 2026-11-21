@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.media",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Matemática 1º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.m1.racionales",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.racionales.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m1.algebra",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.algebra.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m1.sistemas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.sistemas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.m1.semejanza",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.m1.semejanza.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

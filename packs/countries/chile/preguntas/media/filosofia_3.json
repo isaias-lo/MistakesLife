@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.chile.filosofia",
+  "etapa": "etapa.chile.media",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Filosofía 3º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.filosofia.m3.que_es",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.filosofia.m3.que_es.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.que_es.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.que_es.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.que_es.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.que_es.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.filosofia.m3.socrates",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.filosofia.m3.socrates.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.socrates.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.socrates.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.socrates.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.socrates.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.filosofia.m3.etica",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.filosofia.m3.etica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.etica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.etica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.etica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.etica.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.filosofia.m3.libertad",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.filosofia.m3.libertad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.libertad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.libertad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.libertad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.filosofia.m3.libertad.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

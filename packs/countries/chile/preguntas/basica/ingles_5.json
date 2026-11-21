@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ingles",
+  "etapa": "etapa.chile.basica",
+  "curso": 5,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Inglés 5º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ingles.5.school",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.5.school.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.school.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.school.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.school.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.school.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.school.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.school.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.school.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.school.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.school.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.5.family",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.5.family.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.family.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.family.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.family.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.family.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.family.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.family.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.family.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.family.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.family.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.5.food",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.5.food.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.food.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.food.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.food.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.food.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.food.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.food.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.food.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.food.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.food.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.5.routine",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.5.routine.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.routine.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.routine.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.routine.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.routine.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.routine.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.routine.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.routine.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.routine.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.5.routine.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

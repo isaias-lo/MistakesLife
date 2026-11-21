@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.biologia",
+  "etapa": "etapa.chile.media",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Ciencias Naturales (eje Biología) 2º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.biologia.m2.nervioso",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.nervioso.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.biologia.m2.hormonas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.hormonas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.biologia.m2.reproduccion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.reproduccion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.biologia.m2.genetica",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.biologia.m2.genetica.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

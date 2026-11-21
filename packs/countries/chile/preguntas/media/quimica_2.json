@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.quimica",
+  "etapa": "etapa.chile.media",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Ciencias Naturales (eje Química) 2º medio (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.quimica.m2.disoluciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.disoluciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.quimica.m2.concentracion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.concentracion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.quimica.m2.carbono",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.carbono.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.quimica.m2.funcionales",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.quimica.m2.funcionales.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}
