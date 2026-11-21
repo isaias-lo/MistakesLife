@@ -36,6 +36,34 @@ namespace MistakesLife.Core.Education
         /// <summary>La semana en que se devolvió la prueba anunciada con su nota.</summary>
         public int TestReturnedWeek { get; internal set; }
 
+        /// <summary>
+        /// Si la prueba anunciada pasó a recuperativa: faltó ese día (enfermo) y la rinde la
+        /// semana siguiente, como dice el reglamento de evaluación del colegio.
+        /// </summary>
+        public bool TestMakeup { get; internal set; }
+
+        /// <summary>
+        /// Cuánto domina cada ramo este año, de 0 a 100 (D5a): sube con las clases hasta lo que
+        /// le da su base, sube más con cada acierto al estudiar y baja de a poco si deja de
+        /// estudiar. Solo en los ramos con preguntas en su curso. Lo lleva <see cref="StudyRules"/>.
+        /// </summary>
+        public SortedDictionary<string, int> Mastery { get; } = new SortedDictionary<string, int>(System.StringComparer.Ordinal);
+
+        /// <summary>Cuánto dominaba cada ramo al terminar el año anterior (la base del año que va).</summary>
+        public SortedDictionary<string, int> LastMastery { get; } = new SortedDictionary<string, int>(System.StringComparer.Ordinal);
+
+        /// <summary>El año escolar del dominio de este año (el de su curso); 0 si todavía no hay.</summary>
+        public int MasteryYear { get; internal set; }
+
+        /// <summary>La última semana en que estudió cada ramo este año (para el olvido).</summary>
+        public SortedDictionary<string, int> LastStudiedWeek { get; } = new SortedDictionary<string, int>(System.StringComparer.Ordinal);
+
+        /// <summary>Las preguntas que ya vio este año (no se repiten mientras queden otras).</summary>
+        public SortedSet<string> SeenQuestions { get; } = new SortedSet<string>(System.StringComparer.Ordinal);
+
+        /// <summary>Cuántas tardes estudió con preguntas este año.</summary>
+        public int StudySessions { get; internal set; }
+
         /// <summary>Si la prueba anunciada todavía no se rinde.</summary>
         public bool TestPending => TestSubjectId != null && !TestMark.HasValue;
     }

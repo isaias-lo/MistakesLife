@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ciencias_naturales",
+  "etapa": "etapa.chile.basica",
+  "curso": 5,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Ciencias Naturales 5º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ciencias_naturales.5.agua",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.agua.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.5.cuerpo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.cuerpo.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.5.salud",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.salud.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.5.electricidad",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.5.electricidad.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

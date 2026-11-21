@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ciencias_naturales",
+  "etapa": "etapa.chile.basica",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Ciencias Naturales 2º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ciencias_naturales.2.animales",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.animales.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.2.cuerpo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.cuerpo.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.2.agua",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.agua.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.2.tiempo_atmosferico",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.2.tiempo_atmosferico.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.lenguaje",
+  "etapa": "etapa.chile.basica",
+  "curso": 6,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Lenguaje y Comunicación 6º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.lenguaje.6.narrativa",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.narrativa.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.6.figuras",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.figuras.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.6.conectores",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.conectores.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.6.medios",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.6.medios.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

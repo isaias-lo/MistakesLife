@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.basica",
+  "curso": 1,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Matemática 1º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.1.contar",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.1.contar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.contar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.contar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.contar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.contar.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.contar.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.contar.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.contar.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.contar.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.contar.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.1.sumar_restar",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.sumar_restar.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.1.figuras",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.1.figuras.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.figuras.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.figuras.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.figuras.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.figuras.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.figuras.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.figuras.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.figuras.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.figuras.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.figuras.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.1.medir_tiempo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.1.medir_tiempo.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

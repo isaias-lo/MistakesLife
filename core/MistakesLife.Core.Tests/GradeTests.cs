@@ -51,7 +51,7 @@ namespace MistakesLife.Core.Tests
             var random = new GameRandom(5);
             for (int i = 0; i < 500; i++)
             {
-                double mark = GradeRules.Mark(world, Content, world.Player, Scale, i % 4, random);
+                double mark = GradeRules.Mark(world, Content, world.Player, Scale, string.Empty, i % 4, random);
                 Assert.InRange(mark, 1.0, 7.0);
                 Assert.Equal(mark, System.Math.Round(mark, 1));
             }
@@ -64,7 +64,7 @@ namespace MistakesLife.Core.Tests
             double Mean(int preparation)
             {
                 var random = new GameRandom(9);
-                return Enumerable.Range(0, 400).Average(_ => GradeRules.Mark(world, Content, world.Player, Scale, preparation, random));
+                return Enumerable.Range(0, 400).Average(_ => GradeRules.Mark(world, Content, world.Player, Scale, string.Empty, preparation, random));
             }
 
             Assert.True(Mean(3) - Mean(0) > 0.6, "Prepararse harto sube la nota casi un punto.");

@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.basica",
+  "curso": 7,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Matemática 7º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.7.enteros",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.7.enteros.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.enteros.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.enteros.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.enteros.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.enteros.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.enteros.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.enteros.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.enteros.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.enteros.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.enteros.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.7.porcentajes_ecuaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.porcentajes_ecuaciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.7.circulo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.7.circulo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.circulo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.circulo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.circulo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.circulo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.circulo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.circulo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.circulo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.circulo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.circulo.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.7.estadistica",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.7.estadistica.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

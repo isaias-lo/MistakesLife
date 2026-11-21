@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.basica",
+  "curso": 4,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 4º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.4.mayas_aztecas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.mayas_aztecas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.4.incas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.4.incas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.incas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.incas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.incas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.incas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.incas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.incas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.incas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.incas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.incas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.4.america",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.4.america.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.america.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.america.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.america.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.america.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.america.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.america.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.america.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.america.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.america.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.4.derechos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.4.derechos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.derechos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.derechos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.derechos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.derechos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.derechos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.derechos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.4.derechos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.4.derechos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.4.derechos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

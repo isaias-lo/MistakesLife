@@ -4,7 +4,7 @@
     "grupo": "estudios",
     "edad_minima": 6,
     "edad_maxima": 19,
-    "condiciones": "jugador.prueba_anunciada",
+    "condiciones": "jugador.prueba_anunciada && !jugador.prueba_con_preguntas",
     "veces_al_mes": 3,
     "cambia": { "preparar_prueba": 1, "inteligencia": 1, "energia": -3 }
   },
@@ -12,7 +12,7 @@
     "id": "accion.repasar",
     "grupo": "estudios",
     "edad_minima": 6,
-    "condiciones": "jugador.en_clases || jugador.en_la_u",
+    "condiciones": "(jugador.en_clases || jugador.en_la_u) && jugador.ramos_con_preguntas == 0",
     "veces_al_mes": 2,
     "cambia": { "inteligencia": 1, "energia": -2 }
   },
@@ -22,7 +22,7 @@
     "con": "companero",
     "edad_minima": 8,
     "edad_maxima": 18,
-    "condiciones": "jugador.en_clases",
+    "condiciones": "jugador.en_clases && jugador.ramos_con_preguntas == 0",
     "cambia": { "inteligencia": 1, "carino": 2, "energia": -2 }
   },
   {
