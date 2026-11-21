@@ -144,6 +144,7 @@ namespace MistakesLife.Core.Tests
             ContentDatabase content = RepoPacks.Content;
             ExpensesDefinition rules = content.GetCountry("pais.chile").Economy!.Expenses!;
             World world = new LifeSession(content, 1).World;
+            TestPrices.SetToday(world);
             Run(world, content, "jugador.arrendar('vivienda.departamento')");
             Run(world, content, "jugador.trabajar(sueldo_tipico())");
             // El pasaje, el internet y las cuentas ya no son gastos fijos: se suma lo que elige quien

@@ -24,7 +24,7 @@ namespace MistakesLife.Core.Content
 
         /// <summary>
         /// Arriendo mensual típico de cada tipo de vivienda en la comuna (por id de
-        /// "economia.vivienda.tipos"), en dinero del inicio del mundo. Es el precio de
+        /// "economia.vivienda.tipos"), en dinero de los paquetes. Es el precio de
         /// un contrato nuevo; lo lee la función arriendo('vivienda.pieza').
         /// </summary>
         [JsonProperty("arriendos")]

@@ -5,7 +5,7 @@ namespace MistakesLife.Core.Economy
 {
     /// <summary>
     /// Las cuentas de las pensiones. El fondo y las pensiones se guardan en dinero
-    /// del inicio del mundo (sin inflación, como la UF en Chile), así la inflación
+    /// de los paquetes (sin inflación, como la UF en Chile), así la inflación
     /// no se come la pensión; al pagarla se lleva a precios de hoy.
     /// </summary>
     public static class PensionCalculator

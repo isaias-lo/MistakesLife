@@ -6,7 +6,7 @@ namespace MistakesLife.Core.Content
     /// <summary>
     /// Campo "economia.declaracion_anual" de country.json: la declaración anual
     /// de impuestos (en Chile, la Operación Renta de abril). Todos los montos en
-    /// dinero del inicio del mundo.
+    /// dinero de los paquetes.
     /// </summary>
     public sealed class AnnualTaxDefinition
     {

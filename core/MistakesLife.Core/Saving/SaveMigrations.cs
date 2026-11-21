@@ -174,7 +174,7 @@ namespace MistakesLife.Core.Saving
 
             // 14 → 15: aparece con quién viven los hijos de papás separados (el cuidado
             // personal): las partidas viejas no lo habían decidido. Y el monto de las
-            // causas pasa a guardarse en dinero del inicio del mundo (para que una
+            // causas pasa a guardarse en dinero de los paquetes (para que una
             // pensión se reajuste con los precios): se divide por el índice de precios
             // del país donde vive el dueño de la causa.
             [14] = save =>

@@ -7,7 +7,7 @@ namespace MistakesLife.Core.Economy
 {
     /// <summary>
     /// Calcula la liquidación de un mes con las reglas del país. Los topes y los
-    /// tramos del paquete están en dinero del inicio del mundo y se llevan a
+    /// tramos del paquete están en dinero de los paquetes y se llevan a
     /// precios de hoy con el índice de precios (como la UF y la UTM en Chile).
     /// </summary>
     public static class PayrollCalculator
@@ -90,7 +90,7 @@ namespace MistakesLife.Core.Economy
             return Round(tax);
         }
 
-        /// <summary>Lleva un monto en dinero del inicio del mundo a precios de hoy.</summary>
+        /// <summary>Lleva un monto en dinero de los paquetes a precios de hoy.</summary>
         public static decimal ToToday(decimal amount, double priceIndex) => Round(amount * (decimal)priceIndex);
 
         private static decimal Round(decimal amount) => Math.Round(amount, MidpointRounding.AwayFromZero);

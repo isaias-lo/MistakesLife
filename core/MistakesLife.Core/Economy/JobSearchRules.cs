@@ -236,7 +236,7 @@ namespace MistakesLife.Core.Economy
         }
 
         /// <summary>
-        /// Sueldo de una oferta fuera de su carrera, en dinero del inicio del mundo: quien no
+        /// Sueldo de una oferta fuera de su carrera, en dinero de los paquetes: quien no
         /// tiene título ni experiencia (pocos meses cotizados) parte con el mínimo; el resto,
         /// con lo que paga el mercado por su título (o lo típico sin título).
         /// </summary>

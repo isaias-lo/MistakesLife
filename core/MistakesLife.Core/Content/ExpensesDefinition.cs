@@ -26,7 +26,7 @@ namespace MistakesLife.Core.Content
         public string? DeficitDebt { get; set; }
 
         /// <summary>
-        /// Hasta cuánto llega esa deuda (el cupo de la línea, en dinero del inicio
+        /// Hasta cuánto llega esa deuda (el cupo de la línea, en dinero de los paquetes
         /// del mundo). Lo que falta por sobre el cupo no se paga: son cuentas que
         /// quedan atrasadas y meses en rojo. Sin cupo, la deuda cubre todo.
         /// </summary>

@@ -36,7 +36,7 @@ namespace MistakesLife.Core.Economy
         public string CommuneId { get; }
 
         /// <summary>
-        /// Arriendo mensual acordado, en dinero del inicio del mundo. 0 en un contrato
+        /// Arriendo mensual acordado, en dinero de los paquetes. 0 en un contrato
         /// que vino de un guardado viejo: toma el precio de la comuna el primer mes.
         /// </summary>
         public decimal BaseRent { get; set; }

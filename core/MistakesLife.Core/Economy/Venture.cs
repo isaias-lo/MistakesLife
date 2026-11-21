@@ -25,7 +25,7 @@ namespace MistakesLife.Core.Economy
         /// <summary>Si es una empresa constituida (en Chile, una SpA de Empresa en un Día) o un trato de palabra.</summary>
         public bool Formal { get; }
 
-        /// <summary>Lo que puso el jugador al empezar, en dinero del inicio del mundo.</summary>
+        /// <summary>Lo que puso el jugador al empezar, en dinero de los paquetes.</summary>
         public decimal Contribution { get; }
 
         /// <summary>

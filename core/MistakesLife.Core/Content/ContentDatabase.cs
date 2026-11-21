@@ -1576,6 +1576,11 @@ namespace MistakesLife.Core.Content
                 _errors.Add(new ContentError(where, "debe tener al menos un régimen."));
             }
 
+            if (inflation.InitialIndex <= 0 || inflation.InitialIndex > 1)
+            {
+                _errors.Add(new ContentError(where, "indice_inicial debe ser mayor que 0 y hasta 1 (los montos de los paquetes son los precios de hoy)."));
+            }
+
             var seen = new HashSet<string>(StringComparer.Ordinal);
             foreach (InflationRegimeDefinition regime in inflation.Regimes)
             {
