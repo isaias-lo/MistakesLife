@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.legislacion_tributaria",
+  "etapa": "carrera.contabilidad",
+  "curso": 4,
+  "fuente": "Programa de Legislación Tributaria I de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.legislacion_tributaria.4.sistema",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.sistema.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.sistema.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.sistema.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.sistema.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.sistema.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.legislacion_tributaria.4.iva",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.iva.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.iva.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.iva.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.iva.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.iva.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.legislacion_tributaria.4.f29",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.f29.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.f29.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.f29.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.f29.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.f29.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.legislacion_tributaria.4.documentos",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.documentos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.documentos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.documentos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.documentos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.4.documentos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

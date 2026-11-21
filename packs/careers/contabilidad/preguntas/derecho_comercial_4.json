@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.derecho_comercial",
+  "etapa": "carrera.contabilidad",
+  "curso": 4,
+  "fuente": "Programa de Derecho Comercial de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.derecho_comercial.4.sociedades",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.sociedades.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.sociedades.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.sociedades.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.sociedades.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.sociedades.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.derecho_comercial.4.comercio",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.comercio.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.comercio.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.comercio.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.comercio.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.comercio.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.derecho_comercial.4.titulos",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.titulos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.titulos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.titulos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.titulos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.titulos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.derecho_comercial.4.insolvencia",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.insolvencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.insolvencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.insolvencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.insolvencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.derecho_comercial.4.insolvencia.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.legislacion_laboral",
+  "etapa": "carrera.contabilidad",
+  "curso": 3,
+  "fuente": "Programa de Legislación Laboral de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.legislacion_laboral.3.contrato",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.contrato.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.contrato.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.contrato.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.contrato.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.contrato.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.legislacion_laboral.3.jornada",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.jornada.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.jornada.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.jornada.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.jornada.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.jornada.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.legislacion_laboral.3.termino",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.termino.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.termino.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.termino.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.termino.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.termino.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.legislacion_laboral.3.proteccion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.proteccion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.proteccion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.proteccion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.proteccion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_laboral.3.proteccion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

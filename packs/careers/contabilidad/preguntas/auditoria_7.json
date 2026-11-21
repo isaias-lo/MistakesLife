@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.auditoria",
+  "etapa": "carrera.contabilidad",
+  "curso": 7,
+  "fuente": "Programa de Auditoría II de Contador Auditor (contenidos comunes de universidades e institutos profesionales de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.auditoria.7.opinion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria.7.opinion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.opinion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.opinion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.opinion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.opinion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.auditoria.7.cuentas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria.7.cuentas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.cuentas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.cuentas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.cuentas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.cuentas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.auditoria.7.fraude",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria.7.fraude.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.fraude.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.fraude.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.fraude.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.fraude.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.auditoria.7.informe",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria.7.informe.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.informe.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.informe.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.informe.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria.7.informe.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

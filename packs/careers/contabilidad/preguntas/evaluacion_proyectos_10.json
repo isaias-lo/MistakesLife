@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.evaluacion_proyectos",
+  "etapa": "carrera.contabilidad",
+  "curso": 10,
+  "fuente": "Programa de Evaluación de Proyectos de Contador Auditor (contenidos comunes de universidades e institutos profesionales de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.evaluacion_proyectos.10.flujo",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.flujo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.flujo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.flujo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.flujo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.flujo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.evaluacion_proyectos.10.van",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.van.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.van.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.van.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.van.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.van.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.evaluacion_proyectos.10.tir",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.tir.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.tir.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.tir.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.tir.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.tir.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.evaluacion_proyectos.10.sensibilidad",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.sensibilidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.sensibilidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.sensibilidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.sensibilidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.evaluacion_proyectos.10.sensibilidad.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.contabilidad",
+  "etapa": "carrera.contabilidad",
+  "curso": 3,
+  "fuente": "Programa de Contabilidad III (Estados Financieros) de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.contabilidad.3.estados",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.estados.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.estados.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.estados.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.estados.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.estados.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.3.inventarios",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.inventarios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.inventarios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.inventarios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.inventarios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.inventarios.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.3.activo_fijo",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.activo_fijo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.activo_fijo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.activo_fijo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.activo_fijo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.activo_fijo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.3.provisiones",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.provisiones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.provisiones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.provisiones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.provisiones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.3.provisiones.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

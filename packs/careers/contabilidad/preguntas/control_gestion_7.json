@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.control_gestion",
+  "etapa": "carrera.contabilidad",
+  "curso": 7,
+  "fuente": "Programa de Control de Gestión de Contador Auditor (contenidos comunes de universidades e institutos profesionales de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.control_gestion.7.presupuesto",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.presupuesto.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.presupuesto.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.presupuesto.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.presupuesto.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.presupuesto.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.control_gestion.7.variaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.variaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.variaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.variaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.variaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.variaciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.control_gestion.7.cuadro_mando",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.cuadro_mando.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.cuadro_mando.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.cuadro_mando.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.cuadro_mando.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.cuadro_mando.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.control_gestion.7.responsabilidad",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.responsabilidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.responsabilidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.responsabilidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.responsabilidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.control_gestion.7.responsabilidad.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
