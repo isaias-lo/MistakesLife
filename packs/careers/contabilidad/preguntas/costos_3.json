@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.costos",
+  "etapa": "carrera.contabilidad",
+  "curso": 3,
+  "fuente": "Programa de Contabilidad de Costos de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.costos.3.clasificacion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.costos.3.clasificacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.clasificacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.clasificacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.clasificacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.clasificacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.costos.3.equilibrio",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.costos.3.equilibrio.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.equilibrio.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.equilibrio.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.equilibrio.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.equilibrio.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.costos.3.sistemas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.costos.3.sistemas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.sistemas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.sistemas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.sistemas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.sistemas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.costos.3.asignacion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.costos.3.asignacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.asignacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.asignacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.asignacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.costos.3.asignacion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

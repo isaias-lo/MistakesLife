@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.finanzas",
+  "etapa": "carrera.contabilidad",
+  "curso": 6,
+  "fuente": "Programa de Finanzas de Contador Auditor (contenidos comunes de universidades e institutos profesionales de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.finanzas.6.valor_dinero",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.finanzas.6.valor_dinero.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.valor_dinero.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.valor_dinero.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.valor_dinero.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.valor_dinero.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.finanzas.6.riesgo",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.finanzas.6.riesgo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.riesgo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.riesgo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.riesgo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.riesgo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.finanzas.6.financiamiento",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.finanzas.6.financiamiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.financiamiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.financiamiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.financiamiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.financiamiento.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.finanzas.6.capital_trabajo",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.finanzas.6.capital_trabajo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.capital_trabajo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.capital_trabajo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.capital_trabajo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.finanzas.6.capital_trabajo.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

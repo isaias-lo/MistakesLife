@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.auditoria_tributaria",
+  "etapa": "carrera.contabilidad",
+  "curso": 9,
+  "fuente": "Programa de Auditoría Tributaria de Contador Auditor (contenidos comunes de universidades e institutos profesionales de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.auditoria_tributaria.9.revision",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.revision.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.revision.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.revision.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.revision.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.revision.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.auditoria_tributaria.9.procedimientos",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.procedimientos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.procedimientos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.procedimientos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.procedimientos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.procedimientos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.auditoria_tributaria.9.prescripcion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.prescripcion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.prescripcion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.prescripcion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.prescripcion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.prescripcion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.auditoria_tributaria.9.contingencias",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.contingencias.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.contingencias.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.contingencias.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.contingencias.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.auditoria_tributaria.9.contingencias.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

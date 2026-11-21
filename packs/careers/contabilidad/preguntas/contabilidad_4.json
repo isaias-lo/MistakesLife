@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.contabilidad",
+  "etapa": "carrera.contabilidad",
+  "curso": 4,
+  "fuente": "Programa de Contabilidad IV (Análisis e Información Financiera) de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.contabilidad.4.liquidez",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.liquidez.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.liquidez.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.liquidez.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.liquidez.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.liquidez.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.4.rentabilidad",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.rentabilidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.rentabilidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.rentabilidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.rentabilidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.rentabilidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.4.endeudamiento",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.endeudamiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.endeudamiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.endeudamiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.endeudamiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.endeudamiento.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.contabilidad.4.consolidacion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.consolidacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.consolidacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.consolidacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.consolidacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.contabilidad.4.consolidacion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

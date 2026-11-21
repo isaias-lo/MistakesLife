@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.legislacion_tributaria",
+  "etapa": "carrera.contabilidad",
+  "curso": 5,
+  "fuente": "Programa de Legislación Tributaria II (Impuesto a la Renta) de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.legislacion_tributaria.5.primera",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.primera.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.primera.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.primera.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.primera.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.primera.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.legislacion_tributaria.5.personas",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.personas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.personas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.personas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.personas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.personas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.legislacion_tributaria.5.honorarios",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.honorarios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.honorarios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.honorarios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.honorarios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.honorarios.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.legislacion_tributaria.5.regimenes",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.regimenes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.regimenes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.regimenes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.regimenes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.legislacion_tributaria.5.regimenes.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

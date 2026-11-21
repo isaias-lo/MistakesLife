@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.estadistica",
+  "etapa": "carrera.contabilidad",
+  "curso": 3,
+  "fuente": "Programa de Estadística de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.estadistica.3.descriptiva",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.estadistica.3.descriptiva.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.descriptiva.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.descriptiva.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.descriptiva.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.descriptiva.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.estadistica.3.probabilidad",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.estadistica.3.probabilidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.probabilidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.probabilidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.probabilidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.probabilidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.estadistica.3.normal",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.estadistica.3.normal.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.normal.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.normal.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.normal.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.normal.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.estadistica.3.muestreo",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.estadistica.3.muestreo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.muestreo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.muestreo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.muestreo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.estadistica.3.muestreo.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

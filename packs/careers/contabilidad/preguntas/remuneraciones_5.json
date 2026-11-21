@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.contabilidad.remuneraciones",
+  "etapa": "carrera.contabilidad",
+  "curso": 5,
+  "fuente": "Programa de Remuneraciones de Contador Auditor y Contador General (contenidos comunes de universidades, institutos profesionales y CFT de Chile)",
+  "unidades": [
+    {
+      "id": "tema.contabilidad.remuneraciones.5.liquidacion",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.liquidacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.liquidacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.liquidacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.liquidacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.liquidacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.remuneraciones.5.cotizaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.cotizaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.cotizaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.cotizaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.cotizaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.cotizaciones.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.remuneraciones.5.impuesto",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.impuesto.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.impuesto.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.impuesto.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.impuesto.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.impuesto.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.contabilidad.remuneraciones.5.beneficios",
+      "preguntas": [
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.beneficios.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.beneficios.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.beneficios.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.beneficios.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.contabilidad.remuneraciones.5.beneficios.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
