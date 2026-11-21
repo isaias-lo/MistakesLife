@@ -331,6 +331,11 @@ namespace MistakesLife.Core.Saving
             // 40 → 41: aparece la gente interesante de tu horario (D4b2). En las partidas viejas
             // todavía no apareció nadie: el dato que falta se lee vacío y aparecen de a poco.
             [40] = save => { },
+
+            // 41 → 42: aparece el dominio de cada ramo con preguntas (D5a) y la recuperativa. En
+            // las partidas viejas nadie ha estudiado con preguntas: el dominio que falta parte la
+            // próxima semana desde la base de las clases, y ninguna prueba es recuperativa.
+            [41] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

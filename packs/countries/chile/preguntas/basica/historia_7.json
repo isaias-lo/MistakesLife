@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.basica",
+  "curso": 7,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 7º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.7.prehistoria",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.prehistoria.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.7.civilizaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.civilizaciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.7.clasica",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.7.clasica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.clasica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.clasica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.clasica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.clasica.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.clasica.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.clasica.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.clasica.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.clasica.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.clasica.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.7.edad_media",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.7.edad_media.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.edad_media.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.edad_media.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.edad_media.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.edad_media.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.edad_media.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.edad_media.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.7.edad_media.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.7.edad_media.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.7.edad_media.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

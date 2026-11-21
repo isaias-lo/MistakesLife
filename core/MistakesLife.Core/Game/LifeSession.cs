@@ -79,6 +79,7 @@ namespace MistakesLife.Core.Game
                 .Register(new ExpenseSystem(content))
                 .Register(new DebtSystem(content))
                 .Register(new EducationSystem(content))
+                .Register(new Education.StudySystem(content))
                 .Register(new Education.GradeSystem(content))
                 .Register(new CareerSystem())
                 .Register(new Education.UniversitySystem(content))
@@ -166,6 +167,14 @@ namespace MistakesLife.Core.Game
             {
                 throw new InvalidOperationException("Primero hay que responder el evento pendiente.");
             }
+
+            // Una tarde de estudio a medias termina con lo que alcanzó a responder.
+            if (Study != null && !Study.Finished)
+            {
+                FinishStudy();
+            }
+
+            Study = null;
 
             // Con la máquina del tiempo encendida, el tiempo se para un momento
             // al empezar cada etapa de la vida, para sacar su foto, y sigue.
@@ -417,6 +426,45 @@ namespace MistakesLife.Core.Game
             }
 
             return Life.ActionRules.Do(World, Content, World.Player, actionId, personId);
+        }
+
+        /// <summary>La tarde de estudio que va (D5a); null si no está estudiando.</summary>
+        public Education.StudySession? Study { get; private set; }
+
+        /// <summary>
+        /// El jugador se pone a estudiar un ramo con el tiempo parado (D5a): solo, con alguien de
+        /// su curso o con su profe jefe. Gasta una tarde libre y le toca leer el texto breve y
+        /// responder tres preguntas (<see cref="AnswerStudy"/>), hasta <see cref="FinishStudy"/>.
+        /// </summary>
+        public Education.StudySession StartStudy(string subjectId, int? companionId, bool withTeacher)
+        {
+            if (Pending != null)
+            {
+                throw new InvalidOperationException("Hay un evento pendiente: primero se elige su opción.");
+            }
+
+            if (Study != null && !Study.Finished)
+            {
+                FinishStudy();
+            }
+
+            Study = Education.StudyRules.Start(World, Content, World.Player, subjectId, companionId, withTeacher);
+            return Study;
+        }
+
+        /// <summary>Responde la pregunta que va de la tarde de estudio (la posición entre las alternativas que ve).</summary>
+        public Education.StudyAnswer AnswerStudy(int position)
+        {
+            Education.StudySession study = Study ?? throw new InvalidOperationException("No está estudiando.");
+            return Education.StudyRules.Answer(World.Player, study, position);
+        }
+
+        /// <summary>Termina la tarde de estudio y cuenta cómo le fue y lo demás que cambió.</summary>
+        public Education.StudyOutcome FinishStudy()
+        {
+            Education.StudySession study = Study ?? throw new InvalidOperationException("No está estudiando.");
+            Education.StudyOutcome outcome = Education.StudyRules.Finish(World, World.Player, study);
+            return outcome;
         }
 
         /// <summary>El jugador abre su conversación de Mensajito con esa persona: ve todos sus mensajes.</summary>

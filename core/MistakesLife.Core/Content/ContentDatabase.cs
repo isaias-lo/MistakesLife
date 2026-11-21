@@ -23,6 +23,7 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, ActivityDefinition> _activities = new SortedDictionary<string, ActivityDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, ActionDefinition> _actions = new SortedDictionary<string, ActionDefinition>(StringComparer.Ordinal);
+        private readonly List<QuestionSetDefinition> _questionSets = new List<QuestionSetDefinition>();
         private readonly SortedDictionary<string, WishDefinition> _wishes = new SortedDictionary<string, WishDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, MailDefinition> _mails = new SortedDictionary<string, MailDefinition>(StringComparer.Ordinal);
@@ -81,6 +82,13 @@ namespace MistakesLife.Core.Content
 
         /// <summary>Lo que se puede hacer con el tiempo parado (acciones/), por id.</summary>
         public IEnumerable<ActionDefinition> Actions => _actions.Values;
+
+        /// <summary>Las preguntas de estudio de todos los ramos y cursos (preguntas/, D5a).</summary>
+        public IEnumerable<QuestionSetDefinition> QuestionSets => _questionSets;
+
+        /// <summary>Las preguntas de ese ramo en ese curso de la etapa; null si no hay.</summary>
+        public QuestionSetDefinition? QuestionSet(string stageId, int level, string subjectId) =>
+            _questionSets.Find(q => q.StageId == stageId && q.Level == level && q.SubjectId == subjectId);
 
         public ActionDefinition? Action(string id) => _actions.TryGetValue(id, out ActionDefinition? action) ? action : null;
 
@@ -377,6 +385,36 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega las preguntas de un ramo en un curso, de un archivo JSON de preguntas/ (un objeto).</summary>
+        public void AddQuestionsJson(string packId, string sourceName, string json)
+        {
+            QuestionSetDefinition? set;
+            try
+            {
+                set = JsonConvert.DeserializeObject<QuestionSetDefinition>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
+            }
+            catch (JsonException ex)
+            {
+                _errors.Add(new ContentError(sourceName, "JSON no válido: " + ex.Message));
+                return;
+            }
+
+            if (set == null)
+            {
+                _errors.Add(new ContentError(sourceName, "el archivo de preguntas está vacío."));
+                return;
+            }
+
+            set.PackId = packId;
+            if (QuestionSet(set.StageId, set.Level, set.SubjectId) != null)
+            {
+                _errors.Add(new ContentError(sourceName, $"ya hay preguntas de {set.SubjectId} en el curso {set.Level} de {set.StageId}."));
+                return;
+            }
+
+            _questionSets.Add(set);
+        }
+
         /// <summary>Agrega los deseos de un archivo JSON de deseos/ (una lista).</summary>
         public void AddWishesJson(string packId, string sourceName, string json)
         {
@@ -625,6 +663,7 @@ namespace MistakesLife.Core.Content
             ValidateChatOpeners();
             ValidateActivities();
             ValidateActions();
+            ValidateQuestions();
             ValidateWishes();
 
             foreach (SceneObjectDefinition scene in _sceneObjects.Values)
@@ -1950,6 +1989,25 @@ namespace MistakesLife.Core.Content
                 yield return new KeyValuePair<string, string>(app.Id, $"app {app.Id}");
             }
 
+            foreach (QuestionSetDefinition set in _questionSets)
+            {
+                foreach (QuestionUnitDefinition unit in set.Units)
+                {
+                    yield return new KeyValuePair<string, string>(unit.Id, $"unidad {unit.Id}");
+                    yield return new KeyValuePair<string, string>(unit.ReadingKey, $"unidad {unit.Id}");
+                    foreach (QuestionDefinition question in unit.Questions)
+                    {
+                        string where = $"pregunta {question.Id}";
+                        yield return new KeyValuePair<string, string>(question.Id, where);
+                        yield return new KeyValuePair<string, string>(question.WhyKey, where);
+                        for (int i = 0; i < Math.Min(question.Options, QuestionDefinition.Letters.Length); i++)
+                        {
+                            yield return new KeyValuePair<string, string>(question.OptionKey(i), where);
+                        }
+                    }
+                }
+            }
+
             foreach (ChapterTitleDefinition chapter in _chapterTitles.Values)
             {
                 // La línea del diario también tiene que existir: si no, el título nunca saldría.
@@ -2902,6 +2960,73 @@ namespace MistakesLife.Core.Content
                 if (activity.Contribution("carino") != 0 && activity.With == null)
                 {
                     _errors.Add(new ContentError(where, "aporta carino solo tiene sentido si dice con quién (con)."));
+                }
+            }
+        }
+
+        private void ValidateQuestions()
+        {
+            var ids = new HashSet<string>(StringComparer.Ordinal);
+            foreach (QuestionSetDefinition set in _questionSets)
+            {
+                string where = $"preguntas de {set.SubjectId}, curso {set.Level}";
+                CountryDefinition? country = _countries.Values.FirstOrDefault(c => c.EducationStages.Any(e => e.Id == set.StageId));
+                EducationStageDefinition? stage = country?.EducationStages.Find(e => e.Id == set.StageId);
+                SubjectDefinition? subject = stage?.Subjects.Find(r => r.Id == set.SubjectId);
+                if (stage == null)
+                {
+                    _errors.Add(new ContentError(where, $"la etapa '{set.StageId}' no existe en ningún país."));
+                }
+                else if (subject == null || !subject.InLevel(set.Level))
+                {
+                    _errors.Add(new ContentError(where, $"el ramo '{set.SubjectId}' no se tiene en ese curso de {set.StageId}."));
+                }
+                else if (!subject.WrittenTests)
+                {
+                    _errors.Add(new ContentError(where, "ese ramo no tiene pruebas escritas: no se estudia con preguntas."));
+                }
+
+                if (string.IsNullOrWhiteSpace(set.Source))
+                {
+                    _errors.Add(new ContentError(where, "falta la fuente (el programa oficial de donde salen las preguntas)."));
+                }
+
+                if (set.Units.Count == 0)
+                {
+                    _errors.Add(new ContentError(where, "no tiene unidades."));
+                }
+
+                foreach (QuestionUnitDefinition unit in set.Units)
+                {
+                    CheckId($"{where}, unidad {unit.Id}", unit.Id, "tema.");
+                    if (!ids.Add(unit.Id))
+                    {
+                        _errors.Add(new ContentError(where, $"id de unidad repetido: {unit.Id}."));
+                    }
+
+                    if (unit.Questions.Count < Education.StudyRules.QuestionsPerSession)
+                    {
+                        _errors.Add(new ContentError($"{where}, unidad {unit.Id}", $"necesita al menos {Education.StudyRules.QuestionsPerSession} preguntas (una tarde)."));
+                    }
+
+                    foreach (QuestionDefinition question in unit.Questions)
+                    {
+                        string qWhere = $"pregunta {question.Id}";
+                        CheckId(qWhere, question.Id, "pregunta.");
+                        if (!ids.Add(question.Id))
+                        {
+                            _errors.Add(new ContentError(qWhere, "id de pregunta repetido."));
+                        }
+
+                        if (question.Options < 3 || question.Options > QuestionDefinition.Letters.Length)
+                        {
+                            _errors.Add(new ContentError(qWhere, "alternativas va de 3 a 4."));
+                        }
+                        else if (question.CorrectIndex < 0 || question.CorrectIndex >= question.Options)
+                        {
+                            _errors.Add(new ContentError(qWhere, $"correcta tiene que ser una de sus alternativas ({string.Join(", ", QuestionDefinition.Letters.Take(question.Options))})."));
+                        }
+                    }
                 }
             }
         }

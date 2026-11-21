@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ciencias_naturales",
+  "etapa": "etapa.chile.basica",
+  "curso": 8,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Ciencias Naturales 8º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ciencias_naturales.8.celula",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.celula.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.8.nutricion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.nutricion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.8.electricidad",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.electricidad.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ciencias_naturales.8.atomo",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ciencias_naturales.8.atomo.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

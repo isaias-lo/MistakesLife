@@ -113,6 +113,20 @@ namespace MistakesLife.Core.Time
             return total;
         }
 
+        /// <summary>El día del mes (de 1 a 31) del día del año <paramref name="dayOfYear"/> (desde 0; pasado el 31 de diciembre sigue en enero).</summary>
+        public static int DayOfMonthOf(int dayOfYear)
+        {
+            int day = ((dayOfYear % 365) + 365) % 365;
+            int month = 0;
+            while (day >= DaysInMonth[month])
+            {
+                day -= DaysInMonth[month];
+                month++;
+            }
+
+            return day + 1;
+        }
+
         private static int MonthOfDay(int dayOfYear)
         {
             int month = 0;

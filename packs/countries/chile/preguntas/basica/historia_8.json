@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.basica",
+  "curso": 8,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 8º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.8.renacimiento",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.renacimiento.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.8.conquista",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.8.conquista.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.conquista.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.conquista.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.conquista.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.conquista.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.conquista.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.conquista.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.conquista.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.conquista.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.conquista.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.8.colonia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.8.colonia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.colonia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.colonia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.colonia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.colonia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.colonia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.colonia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.colonia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.colonia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.colonia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.8.ilustracion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.8.ilustracion.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

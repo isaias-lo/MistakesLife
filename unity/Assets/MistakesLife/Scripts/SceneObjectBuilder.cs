@@ -36,6 +36,7 @@ namespace MistakesLife.Unity
         private static string? AnchorOf(string id) => id switch
         {
             "escena.casa.libros" => "ancla.mesa",
+            "escena.casa.cuaderno_apuntes" => "ancla.mesa",
             "escena.casa.credencial_u" => "ancla.mesa",
             "escena.casa.credencial_pega" => "ancla.puerta",
             "escena.casa.polera_tienda" => "ancla.puerta",
@@ -108,6 +109,15 @@ namespace MistakesLife.Unity
             {
                 case "escena.casa.libros":
                     Books(kit, new Vector3(-0.45f, 0.44f, -0.15f));
+                    break;
+                case "escena.casa.cuaderno_apuntes":
+                    // Estudiaste de verdad este año (D5a): un cuaderno abierto con sus apuntes y un lápiz encima.
+                    GameObject notebook = kit.Box("Cuaderno de apuntes", new Vector3(-0.05f, 0.446f, 0.05f), new Vector3(0.24f, 0.008f, 0.17f), Palette.Paper);
+                    notebook.transform.localRotation = Quaternion.Euler(0f, -12f, 0f);
+                    kit.Box("Lomo del cuaderno", new Vector3(-0.05f, 0.451f, 0.05f), new Vector3(0.008f, 0.004f, 0.17f), new Color(0.30f, 0.42f, 0.62f));
+                    kit.Box("Apuntes", new Vector3(-0.11f, 0.451f, 0.05f), new Vector3(0.08f, 0.002f, 0.1f), new Color(0.55f, 0.60f, 0.72f));
+                    GameObject pencil = kit.Box("Lápiz", new Vector3(0.04f, 0.455f, 0.08f), new Vector3(0.16f, 0.012f, 0.012f), new Color(0.93f, 0.76f, 0.25f));
+                    pencil.transform.localRotation = Quaternion.Euler(0f, 30f, 0f);
                     break;
                 case "escena.casa.credencial_u":
                     // La credencial de la U (o del CFT o instituto) con su cordón, sobre la mesa.

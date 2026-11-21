@@ -76,7 +76,16 @@ namespace MistakesLife.Core.Education
             int week = context.Date.TotalWeeks;
             if (record.TestPending && week >= record.TestWeek)
             {
-                double mark = GradeRules.Mark(world, _content, player, scale, record.TestPreparation, random);
+                if (!record.TestMakeup && random.Chance(GradeRules.AbsentChance(player)))
+                {
+                    // Faltó ese día (enfermo): la rinde la semana siguiente, como recuperativa.
+                    record.TestMakeup = true;
+                    record.TestWeek = week + 1;
+                    world.WriteJournal(player.Id, "diario.notas.recuperativa");
+                    return;
+                }
+
+                double mark = GradeRules.Mark(world, _content, player, scale, record.TestSubjectId!, record.TestPreparation, random);
                 Add(record, record.TestSubjectId!, mark);
                 record.TestMark = mark;
                 record.TestReturnedWeek = week;
@@ -88,7 +97,7 @@ namespace MistakesLife.Core.Education
             {
                 if (random.Chance(scale.MarksPerYear / weeks))
                 {
-                    Add(record, subject.Id, GradeRules.Mark(world, _content, player, scale, 0, random));
+                    Add(record, subject.Id, GradeRules.Mark(world, _content, player, scale, subject.Id, 0, random));
                 }
             }
 
@@ -100,6 +109,7 @@ namespace MistakesLife.Core.Education
                 record.TestWeek = week + 1;
                 record.TestPreparation = 0;
                 record.TestMark = null;
+                record.TestMakeup = false;
             }
         }
 
@@ -135,6 +145,7 @@ namespace MistakesLife.Core.Education
             record.TestSubjectId = null;
             record.TestMark = null;
             record.TestPreparation = 0;
+            record.TestMakeup = false;
             if (!general.HasValue)
             {
                 return;

@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.lengua_literatura",
+  "etapa": "etapa.chile.basica",
+  "curso": 8,
+  "fuente": "Bases Curriculares 2015 y Programa de Estudio de Lengua y Literatura 8º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.lengua_literatura.8.narrativa",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.narrativa.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.8.teatro",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.teatro.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.8.argumentar",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.argumentar.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lengua_literatura.8.gramatica",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lengua_literatura.8.gramatica.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

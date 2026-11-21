@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.lenguaje",
+  "etapa": "etapa.chile.basica",
+  "curso": 4,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Lenguaje y Comunicación 4º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.lenguaje.4.poesia",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.poesia.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.4.narracion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.narracion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.4.oracion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.oracion.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.4.noticia_opinion",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.4.noticia_opinion.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.historia",
+  "etapa": "etapa.chile.basica",
+  "curso": 2,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Historia, Geografía y Ciencias Sociales 2º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.historia.2.pueblos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.2.pueblos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.pueblos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.pueblos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.pueblos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.pueblos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.pueblos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.pueblos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.pueblos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.pueblos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.pueblos.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.2.mestizaje",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mestizaje.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.2.mapas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.2.mapas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mapas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mapas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mapas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mapas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mapas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mapas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mapas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mapas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.mapas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.historia.2.convivir",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.historia.2.convivir.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.convivir.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.convivir.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.convivir.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.convivir.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.convivir.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.convivir.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.historia.2.convivir.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.historia.2.convivir.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.historia.2.convivir.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

@@ -401,7 +401,29 @@ namespace MistakesLife.Core.Saving
                     TestPreparation = d.SchoolRecord.TestPreparation,
                     TestMark = d.SchoolRecord.TestMark,
                     TestReturnedWeek = d.SchoolRecord.TestReturnedWeek,
+                    TestMakeup = d.SchoolRecord.TestMakeup,
+                    MasteryYear = d.SchoolRecord.MasteryYear,
+                    StudySessions = d.SchoolRecord.StudySessions,
                 };
+                foreach (var pair in d.SchoolRecord.Mastery ?? new Dictionary<string, int>())
+                {
+                    record.Mastery[pair.Key] = pair.Value;
+                }
+
+                foreach (var pair in d.SchoolRecord.LastMastery ?? new Dictionary<string, int>())
+                {
+                    record.LastMastery[pair.Key] = pair.Value;
+                }
+
+                foreach (var pair in d.SchoolRecord.LastStudiedWeek ?? new Dictionary<string, int>())
+                {
+                    record.LastStudiedWeek[pair.Key] = pair.Value;
+                }
+
+                foreach (string id in d.SchoolRecord.SeenQuestions ?? new List<string>())
+                {
+                    record.SeenQuestions.Add(id);
+                }
                 foreach (var marks in d.SchoolRecord.Marks ?? new Dictionary<string, List<double>>())
                 {
                     record.Marks[marks.Key] = marks.Value.ToList();

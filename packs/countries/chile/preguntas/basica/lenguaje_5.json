@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.lenguaje",
+  "etapa": "etapa.chile.basica",
+  "curso": 5,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Lenguaje y Comunicación 5º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.lenguaje.5.narraciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.narraciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.5.informativos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.informativos.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.5.poemas",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.poemas.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.lenguaje.5.escribir",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.lenguaje.5.escribir.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

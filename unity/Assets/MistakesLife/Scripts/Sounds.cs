@@ -34,6 +34,12 @@ namespace MistakesLife.Unity
 
         /// <summary>El botón amarillo: golpe de madera firme.</summary>
         WoodKnock,
+
+        /// <summary>Una respuesta correcta al estudiar: lápiz claro y la barra que sube con dos notas cortas.</summary>
+        Correct,
+
+        /// <summary>Una prueba anunciada en tus ramos: una campanita de colegio, una sola vez.</summary>
+        SchoolBell,
     }
 
     /// <summary>
@@ -103,6 +109,10 @@ namespace MistakesLife.Unity
                 Sound.Register => Mix(Noise(0.08f, 0.35f, t => Decay(t, 40f), 3), Then(Silence(0.05f), Tone(0.3f, 1320f, 0.18f, t => Decay(t, 12f)))),
                 // Madera firme: tono medio que se apaga rápido.
                 Sound.WoodKnock => Mix(Tone(0.12f, 220f, 0.7f, t => Decay(t, 35f)), Tone(0.08f, 660f, 0.25f, t => Decay(t, 50f))),
+                // Lápiz claro y dos notas cortas que suben (mi y la): acertaste.
+                Sound.Correct => Mix(Noise(0.03f, 0.45f, t => Decay(t, 90f), 2), Then(Tone(0.08f, 659f, 0.35f, t => Decay(t, 22f)), Tone(0.16f, 880f, 0.35f, t => Decay(t, 14f)))),
+                // Campanita de colegio: una nota alta con su armónico que se apaga lento.
+                Sound.SchoolBell => Mix(Tone(0.45f, 1568f, 0.22f, t => Decay(t, 7f)), Tone(0.45f, 3136f, 0.08f, t => Decay(t, 10f))),
                 _ => Silence(0.01f),
             };
 

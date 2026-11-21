@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.basica",
+  "curso": 6,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Matemática 6º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.6.razones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.6.razones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.razones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.razones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.razones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.razones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.razones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.razones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.razones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.razones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.razones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.6.operaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.operaciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.6.ecuaciones",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.ecuaciones.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.6.geometria_datos",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.6.geometria_datos.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

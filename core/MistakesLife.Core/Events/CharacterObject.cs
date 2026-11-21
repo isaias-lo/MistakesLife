@@ -49,6 +49,7 @@ namespace MistakesLife.Core.Events
     /// manda_en_tu_area (trabaja en la empresa y el área de ese alguien con un cargo más alto) y
     /// sabe_de_lo_tuyo (trabaja en la carrera u oficio en que ese alguien trabaja o estudia; D4b2).
     /// Del jugador: gente_interesante_conocida (cuántas personas interesantes de su horario ya conoce).
+    /// Del jugador: ramos_con_preguntas, prueba_con_preguntas, recuperativa y tardes_de_estudio (D5a, ver Education.StudyRules).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género') (solo pruebas: crea una pareja de la nada),
@@ -233,6 +234,15 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(Education.SchoolRules.Classmates(((EventScope)scope).World, _character).Count);
                 case "prueba_anunciada":
                     return Value.FromBool(_character.SchoolRecord?.TestPending ?? false);
+                case "ramos_con_preguntas":
+                    return Value.FromNumber(Education.StudyRules.Sets(((EventScope)scope).World, ((EventScope)scope).Content, _character).Count);
+                case "prueba_con_preguntas":
+                    return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord withTest && withTest.TestPending
+                        && Education.StudyRules.Set(((EventScope)scope).World, ((EventScope)scope).Content, _character, withTest.TestSubjectId!) != null);
+                case "tardes_de_estudio":
+                    return Value.FromNumber(_character.SchoolRecord?.StudySessions ?? 0);
+                case "recuperativa":
+                    return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord makeup && makeup.TestPending && makeup.TestMakeup);
                 case "prueba_devuelta":
                     return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord returned && returned.TestMark.HasValue && returned.TestReturnedWeek == date.TotalWeeks);
                 case "nota_prueba":

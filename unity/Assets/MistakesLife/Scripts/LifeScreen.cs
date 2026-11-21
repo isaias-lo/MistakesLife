@@ -89,6 +89,7 @@ namespace MistakesLife.Unity
         private MoneyScreen _money = null!;
         private CourtScreen _court = null!;
         private StudiesScreen _studies = null!;
+        private StudyScreen _study = null!;
         private TeamScreen _team = null!;
         private ActionsScreen _actions = null!;
         private PeopleScreen _people = null!;
@@ -417,6 +418,7 @@ namespace MistakesLife.Unity
             _money = new MoneyScreen(safe) { Changed = MailRead };
             _court = new CourtScreen(safe);
             _studies = new StudiesScreen(safe);
+            _study = new StudyScreen(safe) { Changed = ActionDone };
             _team = new TeamScreen(safe) { Changed = MailRead };
             _actions = new ActionsScreen(safe) { Changed = ActionDone };
             _people = new PeopleScreen(safe) { Changed = ActionDone };
@@ -1080,6 +1082,16 @@ namespace MistakesLife.Unity
         /// </summary>
         private void OpenGroup(LifePresenter presenter, string group)
         {
+            // Estudios con preguntas reales (D5a): primero tus ramos con su barra de dominio.
+            if (group == "estudios" && presenter.StudySubjects().Count > 0)
+            {
+                System.Action? others = presenter.FreeTime() != null && presenter.Actions(group).Count > 0
+                    ? () => OpenActions(presenter, group)
+                    : (System.Action?)null;
+                _study.Show(presenter, () => _studies.Show(presenter), others);
+                return;
+            }
+
             if (presenter.FreeTime() != null && presenter.Actions(group).Count > 0)
             {
                 OpenActions(presenter, group);

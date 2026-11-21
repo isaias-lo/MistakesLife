@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.matematica",
+  "etapa": "etapa.chile.basica",
+  "curso": 4,
+  "fuente": "Bases Curriculares 2012 y Programa de Estudio de Matemática 4º básico (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.matematica.4.hasta_10000",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.hasta_10000.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.4.division",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.4.division.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.division.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.division.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.division.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.division.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.division.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.division.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.division.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.division.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.division.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.4.fracciones_decimales",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.fracciones_decimales.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.matematica.4.geometria",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.matematica.4.geometria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.geometria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.geometria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.geometria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.geometria.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.geometria.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.geometria.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.geometria.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.geometria.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.matematica.4.geometria.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

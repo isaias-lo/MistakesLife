@@ -159,6 +159,8 @@ Colegio, universidad y trabajo se ven **en 3D con su gente**. Al tocar a alguien
 - El contenido parte por Lenguaje, Matemática, Historia y Ciencias (programas del Mineduc), más los primeros ramos de las tres carreras.
 - **También se puede:** pedir ayudantías, hablar con profesores o el director, copiar, sobornar (con consecuencias), hacer la cimarra, entrar al centro de alumnos (con certificado) y tomar talleres (actuación, música, fútbol) que abren carreras futuras.
 
+**Cómo se hizo (D5a, Isaias eligió el 21-11-2026 "mezcla", "texto breve y 3 preguntas", "por año, con olvido real", "básica primero", "con gente" y la lista A, filas con barra):** en Estudios están tus ramos, cada uno con su barra de dominio, su palabra (te cuesta, vas a medias, vas bien, lo dominas), el promedio y la prueba que viene. Una tarde de estudio es un texto breve del tema que va y 3 preguntas reales del programa del Mineduc: al acertar suena y sube la barra; al fallar se ve por qué y la barra no baja. Se puede estudiar sola, con una compañera real del curso que te quiere (responde lo mismo y se suben el cariño) o con el profe jefe, que te explica lo que fallas. Tú estudias y el personaje rinde: la nota sale del dominio, la inteligencia y la energía. El dominio es por año, parte de lo que llevabas el año anterior y se olvida de a poco si no estudias. La recuperativa es la real: si faltas el día de la prueba, la das la semana siguiente. Si estudias seguido, en la mesa de la casa 3D aparece tu cuaderno de apuntes. Primero de 1º a 8º básico (1.280 preguntas); media, carreras, copiar, cimarra, centro de alumnos y talleres vienen en sus propios PR.
+
 ### La pega
 
 - **Misiones mes a mes** para llegar a 100 y ascender.
