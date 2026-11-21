@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ingles",
+  "etapa": "etapa.chile.media",
+  "curso": 4,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Inglés 4º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ingles.m4.work",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m4.work.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.work.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.work.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.work.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.work.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.work.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.work.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.work.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.work.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.work.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m4.reported",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m4.reported.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.reported.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.reported.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.reported.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.reported.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.reported.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.reported.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.reported.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.reported.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.reported.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m4.future",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m4.future.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.future.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.future.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.future.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.future.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.future.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.future.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.future.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.future.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.future.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m4.society",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m4.society.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.society.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.society.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.society.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.society.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.society.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.society.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.society.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.society.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m4.society.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}

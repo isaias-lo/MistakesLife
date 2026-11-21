@@ -1,0 +1,188 @@
+{
+  "ramo": "ramo.chile.ingles",
+  "etapa": "etapa.chile.media",
+  "curso": 3,
+  "fuente": "Bases Curriculares 2019 y Programa de Estudio de Inglés 3º medio, formación general (Mineduc)",
+  "unidades": [
+    {
+      "id": "tema.chile.ingles.m3.global",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m3.global.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.global.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.global.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.global.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.global.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.global.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.global.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.global.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.global.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.global.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m3.deduction",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.deduction.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m3.phrasal",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.phrasal.10",
+          "correcta": "a"
+        }
+      ]
+    },
+    {
+      "id": "tema.chile.ingles.m3.arts",
+      "preguntas": [
+        {
+          "id": "pregunta.chile.ingles.m3.arts.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.arts.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.arts.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.arts.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.arts.5",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.arts.6",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.arts.7",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.arts.8",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.arts.9",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.chile.ingles.m3.arts.10",
+          "correcta": "a"
+        }
+      ]
+    }
+  ]
+}
