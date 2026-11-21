@@ -160,6 +160,9 @@ namespace MistakesLife.Core.Saving
         /// <summary>La pareja que se le murió siendo su pareja, o null (desde la versión 40).</summary>
         public int? LatePartnerId { get; set; }
 
+        /// <summary>La gente interesante de su horario (desde la versión 41); null si nunca apareció nadie, para que el guardado no crezca.</summary>
+        public List<InterestingPersonData>? InterestingPeople { get; set; }
+
         /// <summary>El horario (desde la versión 19).</summary>
         public RoutineData? Routine { get; set; }
 

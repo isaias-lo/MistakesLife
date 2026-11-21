@@ -45,7 +45,10 @@ namespace MistakesLife.Core.Events
     /// vive_contigo (si comparte el arriendo de ese alguien), es_tu_socio (si es su socio en un negocio)
     /// quiere_amistad (si hay química para una amistad con ese alguien: ver SchoolRules.ReadyForFriendship),
     /// te_puede_gustar (si ese alguien podría invitarla a salir), pueden_salir (si además le gusta) y
-    /// hay_quimica (adultos que se pueden gustar, aunque alguno tenga pareja).
+    /// hay_quimica (adultos que se pueden gustar, aunque alguno tenga pareja),
+    /// manda_en_tu_area (trabaja en la empresa y el área de ese alguien con un cargo más alto) y
+    /// sabe_de_lo_tuyo (trabaja en la carrera u oficio en que ese alguien trabaja o estudia; D4b2).
+    /// Del jugador: gente_interesante_conocida (cuántas personas interesantes de su horario ya conoce).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género') (solo pruebas: crea una pareja de la nada),
@@ -287,6 +290,12 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(CoupleRules.Chemistry(((EventScope)scope).World, Viewer(member), _character));
                 case "pueden_salir":
                     return Value.FromBool(CoupleRules.CanDate(((EventScope)scope).World, Viewer(member), _character));
+                case "manda_en_tu_area":
+                    return Value.FromBool(InterestingPeopleRules.ManagesYourArea(((EventScope)scope).Content, Viewer(member), _character));
+                case "sabe_de_lo_tuyo":
+                    return Value.FromBool(InterestingPeopleRules.KnowsYourTrade(((EventScope)scope).Content, Viewer(member), _character));
+                case "gente_interesante_conocida":
+                    return Value.FromNumber(InterestingPeopleRules.MetCount(_character));
                 case "viudo":
                     return Value.FromBool(_character.SpouseId.HasValue && ((EventScope)scope).World.TryGetCharacter(_character.SpouseId.Value, out Character? late) && !late.IsAlive);
                 case "adoptado":

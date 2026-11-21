@@ -1834,7 +1834,8 @@ namespace MistakesLife.Core.Presentation
             // el resto por lo unidos que son y al final quienes murieron.
             var closeRows = close.OrderByDescending(c => c.Alive).ThenByDescending(c => c.Family).ThenByDescending(c => c.Family ? 0 : c.Closeness).Select(c => c.Row).ToList();
             var acquaintanceRows = acquaintances.OrderByDescending(a => a.Closeness).ToList();
-            return new PeopleView(closeRows, acquaintanceRows, Text("ui.gente.conocidos", acquaintanceRows.Count), AcquaintancesNote(player));
+            List<PersonRowView> interesting = InterestingPeopleRules.Shown(world, Session.Content, player).Select(InterestingRow).ToList();
+            return new PeopleView(interesting, T("ui.gente.interesantes.nota"), closeRows, acquaintanceRows, Text("ui.gente.conocidos", acquaintanceRows.Count), AcquaintancesNote(player));
         }
 
         /// <summary>La ficha de una persona (D4a); null si no existe.</summary>
@@ -1849,8 +1850,10 @@ namespace MistakesLife.Core.Presentation
             }
 
             PeopleView people = People();
-            PersonRowView row = people.Close.Concat(people.Acquaintances).FirstOrDefault(r => r.Id == personId)
+            PersonRowView row = people.Interesting.Concat(people.Close).Concat(people.Acquaintances).FirstOrDefault(r => r.Id == personId)
                 ?? Row(person, AcquaintanceRelation(person));
+            InterestingPerson? interesting = InterestingPeopleRules.Entry(player, personId);
+            bool offersHidden = interesting != null && !InterestingPeopleRules.Met(player, personId);
             GameDate at = person.DeathDate ?? world.Date;
             var parts = new List<string> { row.Relation, Text("ui.gente.anos", person.AgeInYears(at)) };
             if (person.IsAlive && player.PartnerId == person.Id)
@@ -1873,7 +1876,73 @@ namespace MistakesLife.Core.Presentation
             IReadOnlyList<DoableActionView> actions = !person.IsAlive ? new List<DoableActionView>()
                 : Content.ActionDefinition.Groups.SelectMany(g => Actions(g, cardOnly: true)).Where(a => a.PersonId == personId).ToList();
             IReadOnlyList<ActionView> requests = person.IsAlive ? PersonActions(personId) : new List<ActionView>();
-            return new PersonCardView(row, string.Join(" · ", parts), row.Life, lived, actions, requests);
+            IReadOnlyList<string> offers = offersHidden || !person.IsAlive ? new List<string>() : Offers(person);
+            string life = interesting != null && person.IsAlive ? InterestingLife(person, interesting) ?? row.Life : row.Life;
+            return new PersonCardView(row, string.Join(" · ", parts), life, lived, actions, requests, offers, offersHidden);
+        }
+
+        /// <summary>
+        /// Lo que te puede aportar (D4b2): la frase ("aporta") de cada acción que de verdad podrías
+        /// hacer con esa persona ahora (tu edad, tus condiciones, las suyas), sin mirar si ya la
+        /// hiciste este mes ni si te va a decir que sí.
+        /// </summary>
+        private IReadOnlyList<string> Offers(Character person)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            int age = player.AgeInYears(world.Date);
+            var playerScope = new EventScope(world, Session.Content, player, null, readOnly: true);
+            var personScope = new EventScope(world, Session.Content, player, null, readOnly: true, person);
+            var offers = new List<string>();
+            foreach (ActionDefinition action in Session.Content.Actions)
+            {
+                if (action.Offers == null || action.With == null || age < action.MinAge || age > action.MaxAge
+                    || (action.CompiledConditions != null && !action.CompiledConditions.Evaluate(playerScope).AsBool(action.Id))
+                    || (action.CompiledPersonConditions != null && !action.CompiledPersonConditions.Evaluate(personScope).AsBool(action.Id))
+                    || !ActionRules.People(world, Session.Content, player, action.With).Any(p => p.Id == person.Id))
+                {
+                    continue;
+                }
+
+                string offer = T(action.Offers);
+                if (!offers.Contains(offer))
+                {
+                    offers.Add(offer);
+                }
+            }
+
+            return offers;
+        }
+
+        /// <summary>Una tarjeta de "Gente que podrías conocer": su cargo, dónde la ves y la barra vacía.</summary>
+        private PersonRowView InterestingRow(Character person)
+        {
+            PersonRowView row = Row(person, person.Job?.Position == null ? string.Empty : T(person.Job.Position.PositionId));
+            return new PersonRowView(row.Id, row.Name, row.Initials, row.AgeInYears, true, row.Relation, row.Life, 0, T("ui.gente.no_se_conocen"), LifeBarLevel.Low);
+        }
+
+        /// <summary>
+        /// Dónde ves a alguien interesante de tu horario, en una línea ("En Andes Software, tu
+        /// pega"), o null si ya no está en tu horario.
+        /// </summary>
+        private string? InterestingLine(Character person, InterestingPerson entry) =>
+            InterestingText(person, entry, "ui.gente.interesante.donde.");
+
+        /// <summary>Su vida en la ficha: su cargo, su empresa y por qué la ves; null si ya no está en tu horario.</summary>
+        private string? InterestingLife(Character person, InterestingPerson entry) =>
+            InterestingText(person, entry, "ui.gente.interesante.vida.");
+
+        private string? InterestingText(Character person, InterestingPerson entry, string prefix)
+        {
+            World world = Session.World;
+            if (person.Job?.Position == null || !InterestingPeopleRules.StillThere(world, Session.Content, world.Player, entry, person))
+            {
+                return null;
+            }
+
+            Company? company = world.CompanyById(person.Job.CompanyId);
+            string key = prefix + entry.Source + (company?.NameId == null ? "_sin_empresa" : string.Empty);
+            return Text(key, T(person.Job.Position.PositionId), company?.NameId == null ? string.Empty : T(company.NameId));
         }
 
         /// <summary>
@@ -1927,6 +1996,13 @@ namespace MistakesLife.Core.Presentation
         {
             World world = Session.World;
             Character player = world.Player;
+            InterestingPerson? interesting = InterestingPeopleRules.Entry(player, person.Id);
+            string? where = interesting == null ? null : InterestingLine(person, interesting);
+            if (where != null)
+            {
+                return where;
+            }
+
             SchoolClassView? cls = player.SchoolClass == null ? null : SchoolClass();
             if (cls != null && Education.SchoolRules.Classmates(world, player).Any(c => c.Id == person.Id))
             {
@@ -2007,6 +2083,12 @@ namespace MistakesLife.Core.Presentation
             if (Work.WorkRules.InTeam(player) && Work.WorkRules.Boss(world, player)?.Id == person.Id)
             {
                 return T("ui.relacion.jefatura" + g);
+            }
+
+            InterestingPerson? interesting = InterestingPeopleRules.Entry(player, person.Id);
+            if (interesting != null && InterestingPeopleRules.StillThere(world, Session.Content, player, interesting, person))
+            {
+                return T("ui.relacion.interesante." + interesting.Source + g);
             }
 
             Relationship mine = RelationshipRules.Feelings(world, player, person);

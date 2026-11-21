@@ -557,6 +557,60 @@ namespace MistakesLife.Core.Tests
             return seen;
         }
 
+        /// <summary>
+        /// Lo que pasa en vidas que conocen a alguien interesante que manda en su área (D4b2) y le
+        /// piden que las recomiende para un ascenso: dos acciones que el simulador no hace.
+        /// </summary>
+        public static HashSet<string> RecommendedPromotionEvents(ContentDatabase content, int lives, int startAge = 30, int finalAge = 32)
+        {
+            var seen = new HashSet<string>();
+            for (int i = 0; i < lives; i++)
+            {
+                var session = new LifeSession(content, 1700 + (ulong)i);
+                Play(session, startAge);
+                World world = session.World;
+                Character player = world.Player;
+                Character? manager = InterestingPeopleRules.Shown(world, content, player)
+                    .FirstOrDefault(p => InterestingPeopleRules.ManagesYourArea(content, player, p));
+                if (!player.IsAlive || manager == null)
+                {
+                    continue;
+                }
+
+                Relationship theirs = RelationshipRules.Edit(world, manager, player);
+                theirs.Affection = 80;
+                theirs.Trust = 70;
+                // Tardes libres para acercarse y pedirlo.
+                player.Routine?.Set(5, RoutineBlock.Afternoon, null);
+                player.Routine?.Set(6, RoutineBlock.Afternoon, null);
+                player.FreeTime = null;
+                if (!ActionRules.Available(world, content, player, "gente").Any(o => o.Definition.Id == "accion.acercarte" && o.Person?.Id == manager.Id))
+                {
+                    continue;
+                }
+
+                ActionRules.Do(world, content, player, "accion.acercarte", manager.Id);
+                // Con años en el cargo y rindiendo bien, para que pueda ascender.
+                for (int month = 0; month < 36; month++)
+                {
+                    Economy.CareerLadder.AdvanceMonth(player);
+                }
+
+                Effect.Parse("jugador.desempeno = 90").Apply(new EventScope(world, content, player, null, readOnly: false));
+                if (!ActionRules.Available(world, content, player, "gente").Any(o => o.Definition.Id == "accion.recomendacion_ascenso" && o.Person?.Id == manager.Id))
+                {
+                    continue;
+                }
+
+                ActionRules.Do(world, content, player, "accion.recomendacion_ascenso", manager.Id);
+                int before = world.EventHistory.Count;
+                Play(session, finalAge);
+                seen.UnionWith(world.EventHistory.Skip(before).Select(r => r.EventId));
+            }
+
+            return seen;
+        }
+
         private static void Play(LifeSession session, int age)
         {
             var decider = new AutoDecider(session.Content);

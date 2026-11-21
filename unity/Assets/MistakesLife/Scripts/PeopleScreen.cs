@@ -31,6 +31,11 @@ namespace MistakesLife.Unity
         private static readonly Color BarLow = UiFactory.Hex(0xD9534F);
         private static readonly Color Gone = UiFactory.Hex(0x9AA4BD);
 
+        /// <summary>Las tarjetas de "Gente que podrías conocer" (D4b2): papel más claro con borde dorado.</summary>
+        private static readonly Color InterestingPaper = UiFactory.Hex(0xFBF6EA);
+        private static readonly Color InterestingBorder = UiFactory.Hex(0xC9A24A);
+        private static readonly Color InterestingInk = UiFactory.Hex(0x5A4A1E);
+
         /// <summary>Los colores de las caras: cálidos y apagados, uno por persona según su id.</summary>
         private static readonly Color[] Faces =
         {
@@ -134,6 +139,14 @@ namespace MistakesLife.Unity
 
             UiFactory.Clear(_body);
             _body.anchoredPosition = Vector2.zero;
+            if (people.Interesting.Count > 0)
+            {
+                // D4b2 (boceto D4b2ListaA): la gente interesante de tu horario, arriba, en tarjetas que se deslizan.
+                SectionLabel(_body, presenter.Text("ui.gente.interesantes"));
+                UiFactory.Label(_body, people.InterestingNote, UiFactory.MinFontSize, UiFactory.MutedInk);
+                InterestingStrip(people.Interesting);
+            }
+
             SectionLabel(_body, presenter.Text("ui.gente.cercanos"));
             foreach (PersonRowView person in people.Close)
             {
@@ -173,6 +186,70 @@ namespace MistakesLife.Unity
                 {
                     PersonCard(person);
                 }
+            }
+        }
+
+        /// <summary>
+        /// La franja de "Gente que podrías conocer": tarjetas que se deslizan de lado (se ven dos
+        /// y media, para que se note que hay más), con su cara, nombre y edad, su cargo, dónde la
+        /// ves y "No se conocen". Se toca para abrir su ficha.
+        /// </summary>
+        private void InterestingStrip(IReadOnlyList<PersonRowView> people)
+        {
+            RectTransform strip = UiFactory.Child(_body, "Gente que podrias conocer");
+            LayoutElement stripSize = strip.gameObject.AddComponent<LayoutElement>();
+            stripSize.minHeight = stripSize.preferredHeight = 500;
+            ScrollRect scroll = strip.gameObject.AddComponent<ScrollRect>();
+            scroll.vertical = false;
+            scroll.horizontal = true;
+            scroll.movementType = ScrollRect.MovementType.Clamped;
+
+            RectTransform viewport = UiFactory.Child(strip, "Vista");
+            UiFactory.Stretch(viewport);
+            viewport.gameObject.AddComponent<RectMask2D>();
+            RectTransform content = UiFactory.Child(viewport, "Tarjetas");
+            content.anchorMin = new Vector2(0f, 0f);
+            content.anchorMax = new Vector2(0f, 1f);
+            content.pivot = new Vector2(0f, 0.5f);
+            content.offsetMin = Vector2.zero;
+            content.offsetMax = Vector2.zero;
+            HorizontalLayoutGroup row = content.gameObject.AddComponent<HorizontalLayoutGroup>();
+            row.spacing = 28;
+            row.childControlWidth = true;
+            row.childControlHeight = true;
+            row.childForceExpandWidth = false;
+            row.childForceExpandHeight = true;
+            content.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            scroll.viewport = viewport;
+            scroll.content = content;
+
+            foreach (PersonRowView person in people)
+            {
+                RectTransform card = UiFactory.Column(content, person.Name, 0, 10, InterestingPaper);
+                card.GetComponent<VerticalLayoutGroup>().padding = new RectOffset(30, 30, 28, 28);
+                Outline border = card.gameObject.AddComponent<Outline>();
+                border.effectColor = InterestingBorder;
+                border.effectDistance = new Vector2(3f, -3f);
+                LayoutElement cardSize = card.gameObject.AddComponent<LayoutElement>();
+                cardSize.minWidth = cardSize.preferredWidth = 440;
+
+                FaceDisc(card, person, 110f);
+                UiFactory.Label(card, person.Name + ", " + person.AgeInYears, 40, UiFactory.PaperInk, FontStyles.Bold);
+                UiFactory.Label(card, person.Relation, 36, InterestingInk, FontStyles.Bold);
+                UiFactory.Label(card, person.Life, UiFactory.MinFontSize, UiFactory.PaperMutedInk);
+                UiFactory.Label(card, person.Feeling, UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold);
+
+                Button button = card.gameObject.AddComponent<Button>();
+                button.targetGraphic = card.GetComponent<Image>();
+                int id = person.Id;
+                button.onClick.AddListener(() =>
+                {
+                    Sounds.Play(Sound.PhotoClick);
+                    if (_presenter!.PersonCard(id) is PersonCardView personCard)
+                    {
+                        DrawCard(personCard, null);
+                    }
+                });
             }
         }
 
@@ -287,7 +364,7 @@ namespace MistakesLife.Unity
             RectTransform lived = Section(presenter.Text("ui.gente.vivido.titulo"));
             if (card.Lived.Count == 0)
             {
-                UiFactory.Label(lived, presenter.Text("ui.gente.vivido.vacio"), 38, UiFactory.PaperMutedInk);
+                UiFactory.Label(lived, presenter.Text(card.OffersHidden ? "ui.gente.vivido.nada_interesante" : "ui.gente.vivido.vacio"), 38, UiFactory.PaperMutedInk);
             }
 
             foreach (LivedView line in card.Lived)
@@ -305,11 +382,39 @@ namespace MistakesLife.Unity
                 UiFactory.Label(row, line.Text, 38, UiFactory.PaperInk).gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
             }
 
-            if (card.Actions.Count == 0 && card.Requests.Count == 0)
+            if (card.Offers.Count > 0)
             {
-                return;
+                // D4b2: lo que te puede aportar, ya descubierto (después de conversar).
+                RectTransform offers = Section(presenter.Text("ui.gente.aporta.titulo"));
+                foreach (string offer in card.Offers)
+                {
+                    UiFactory.Label(offers, offer, 38, UiFactory.PaperInk);
+                }
             }
 
+            if (card.Actions.Count > 0 || card.Requests.Count > 0)
+            {
+                Things(card);
+            }
+
+            if (card.OffersHidden)
+            {
+                // Antes de conversar: el recuadro oscuro, con lo que aporta todavía oculto.
+                RectTransform hidden = UiFactory.Column(_body, "Aporta oculto", 0, 12, UiFactory.Card);
+                hidden.GetComponent<VerticalLayoutGroup>().padding = new RectOffset(36, 36, 30, 34);
+                Outline dashed = hidden.gameObject.AddComponent<Outline>();
+                dashed.effectColor = Gone;
+                dashed.effectDistance = new Vector2(2f, -2f);
+                UiFactory.Label(hidden, presenter.Text("ui.gente.aporta.titulo").ToUpperInvariant(), UiFactory.MinFontSize, Gone, FontStyles.Bold).characterSpacing = 2f;
+                UiFactory.Label(hidden, presenter.Text("ui.gente.aporta.oculto"), 38, UiFactory.MutedInk);
+            }
+        }
+
+        /// <summary>Qué pueden hacer: lo que gasta tardes libres y lo que se le puede proponer.</summary>
+        private void Things(PersonCardView card)
+        {
+            LifePresenter presenter = _presenter!;
+            PersonRowView person = card.Person;
             RectTransform things = Section(presenter.Text("ui.gente.hacer.titulo"));
             foreach (DoableActionView action in card.Actions)
             {

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "accion.acercarte",
+    "grupo": "gente",
+    "con": "interesante",
+    "solo_en_ficha": true,
+    "edad_minima": 15,
+    "acepta": "persona.carino + si(jugador.trabaja, (jugador.desempeno - 50) / 2, 0) >= 40",
+    "cambia": {
+      "carino": 4
+    },
+    "si_no_acepta": {
+      "felicidad": -1
+    }
+  },
+  {
+    "id": "accion.consejo_pega",
+    "grupo": "gente",
+    "con": "cualquiera",
+    "solo_en_ficha": true,
+    "edad_minima": 18,
+    "condiciones": "jugador.area != nada",
+    "condiciones_persona": "persona.sabe_de_lo_tuyo",
+    "acepta": "persona.carino >= 40",
+    "aporta": "aporta.consejo_pega",
+    "cambia": {
+      "carino": 1
+    },
+    "si_no_acepta": {
+      "felicidad": -1
+    },
+    "efectos": [
+      "jugador.desempeno += 5"
+    ]
+  },
+  {
+    "id": "accion.consejo_estudios",
+    "grupo": "gente",
+    "con": "cualquiera",
+    "solo_en_ficha": true,
+    "edad_minima": 17,
+    "condiciones": "jugador.estudia != nada && jugador.area == nada",
+    "condiciones_persona": "persona.sabe_de_lo_tuyo",
+    "acepta": "persona.carino >= 40",
+    "aporta": "aporta.consejo_estudios",
+    "cambia": {
+      "inteligencia": 2,
+      "carino": 1
+    },
+    "si_no_acepta": {
+      "felicidad": -1
+    }
+  },
+  {
+    "id": "accion.recomendacion_ascenso",
+    "grupo": "gente",
+    "con": "cualquiera",
+    "solo_en_ficha": true,
+    "edad_minima": 18,
+    "condiciones": "jugador.area != nada && jugador.puede_ascender && jugador.caminos_ascenso == 1 && !semilla('semilla.recomendacion_ascenso').activa",
+    "condiciones_persona": "persona.manda_en_tu_area",
+    "acepta": "persona.carino >= 55 && persona.confianza >= 45",
+    "aporta": "aporta.recomendacion_ascenso",
+    "cambia": {
+      "felicidad": 2
+    },
+    "si_no_acepta": {
+      "felicidad": -2
+    },
+    "efectos": [
+      "plantar('semilla.recomendacion_ascenso', persona)"
+    ]
+  }
+]

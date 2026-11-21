@@ -65,7 +65,7 @@ namespace MistakesLife.Core.Tests
             var simulator = new LifeSimulator(RepoPacks.Content);
             SimulationReport young = null!, old = null!;
             HashSet<string> careers = null!, sick = null!, struggling = null!, careerSeeds = null!, separated = null!,
-                inheritance = null!, top = null!, freelance = null!, roommates = null!, drift = null!, partner = null!, borrowed = null!;
+                inheritance = null!, top = null!, freelance = null!, roommates = null!, drift = null!, partner = null!, borrowed = null!, promoted = null!;
             Parallel.Invoke(
                 () => young = simulator.Run(lives: 1000, finalAge: 25),
                 // 300 hasta los 85: algunos eventos de adultos le pasan a cerca del 1 % de las vidas
@@ -98,9 +98,12 @@ namespace MistakesLife.Core.Tests
                 () => partner = CareerAreaLives.PartnerLeavesEvents(RepoPacks.Content, lives: 10),
                 // Y vidas que le piden plata prestada a la mamá (una acción, que el simulador no
                 // hace), para lo que pasa cuando hay que devolverla.
-                () => borrowed = CareerAreaLives.BorrowedMoneyEvents(RepoPacks.Content, lives: 10));
+                () => borrowed = CareerAreaLives.BorrowedMoneyEvents(RepoPacks.Content, lives: 10),
+                // Y vidas que conocen a quien manda en su área y le piden que las recomiende (dos
+                // acciones de la gente interesante, D4b2), para el ascenso que llega por esa recomendación.
+                () => promoted = CareerAreaLives.RecommendedPromotionEvents(RepoPacks.Content, lives: 40));
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(freelance).Except(roommates).Except(drift).Except(partner).Except(borrowed).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(freelance).Except(roommates).Except(drift).Except(partner).Except(borrowed).Except(promoted).ToArray();
 
             Assert.Empty(never);
         }
