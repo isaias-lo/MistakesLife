@@ -452,7 +452,8 @@ namespace MistakesLife.Unity
                 case "estudios":
                 case "trabajo":
                     string group = place.Opens;
-                    AddButton(presenter.Text("ui.barrio.abrir_" + group), () =>
+                    string label = group == "estudios" ? presenter.Text("ui.barrio.abrir_estudios") : presenter.Text("ui.barrio.abrir_trabajo");
+                    AddButton(label, () =>
                     {
                         Close();
                         OpenSection?.Invoke(group);
