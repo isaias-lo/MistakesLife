@@ -35,7 +35,6 @@ def imagen(nombre, pixeles):
     alto, ancho, _ = pixeles.shape
     img = bpy.data.images.new(nombre, width=ancho, height=alto, alpha=True)
     img.pixels.foreach_set(pixeles.astype(np.float32).ravel())
-    img.pack()
     return img
 
 
@@ -192,10 +191,25 @@ def uv_plano_arriba(obj):
 # ---------------------------------------------------------------- exportar
 
 def exportar_fbx(ruta):
-    """Aplica modificadores y exporta en metros, con los ejes y la textura que Unity espera."""
+    """Aplica modificadores y exporta en metros, con los ejes y las texturas que Unity espera.
+
+    Las texturas van como .png aparte, en Modelos/Texturas/<id>.<nombre>.png: Unity no leía
+    las texturas metidas dentro del .fbx y la mesa salía blanca en las capturas.
+    """
     for obj in bpy.context.scene.objects:
         obj.select_set(obj.type == "MESH")
-    os.makedirs(os.path.dirname(ruta), exist_ok=True)
+    carpeta = os.path.dirname(ruta)
+    id_modelo = os.path.splitext(os.path.basename(ruta))[0]
+    texturas = os.path.join(carpeta, "Texturas")
+    os.makedirs(texturas, exist_ok=True)
+    for img in bpy.data.images:
+        if img.source != "GENERATED" and not img.name.startswith(id_modelo):
+            continue
+        archivo = os.path.join(texturas, f"{id_modelo}.{img.name}.png")
+        img.filepath_raw = archivo
+        img.file_format = "PNG"
+        img.save()
+        img.source = "FILE"
     bpy.ops.export_scene.fbx(
         filepath=ruta,
         use_selection=True,
@@ -207,6 +221,6 @@ def exportar_fbx(ruta):
         use_mesh_modifiers=True,
         mesh_smooth_type="FACE",
         add_leaf_bones=False,
-        path_mode="COPY",
-        embed_textures=True,
+        path_mode="RELATIVE",
+        embed_textures=False,
     )
