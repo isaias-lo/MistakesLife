@@ -164,6 +164,19 @@ Las personas también escriben, invitan o piden cosas por su cuenta, **sin repet
 
 Colegio, universidad y trabajo se ven **en 3D con su gente**. Al tocar a alguien se abre su ficha. El diario de decisiones queda escondido, porque el estilo diario de BitLife no le gusta a Isaias.
 
+### Cada sección es un lugar que se toca (aprobado por Isaias, 22-11-2026)
+
+Isaias aprobó la opción B de D5c (bocetos en https://claude.ai/artifact/6m1J7WBdkLmvhwX4wdkUFZ): **cada sección es interactiva, con su lugar, sus opciones y su mundo propio**. Una lista de nombres sola pierde la conexión con el 3D. Así:
+
+1. **Estudios** abre tu sala o tu aula, más grande. Tocas a un compañero y abajo salen sus opciones (conversar, estudiar juntos, invitarlo). Tocas tu libreta y ves tus notas; tocas la pizarra y ves lo que viene.
+2. **Trabajo** abre la oficina. Tocas a tu jefa y puedes pedirle un aumento o tus vacaciones; tu agenda muestra las tareas del mes; la cocina y los avisos también se tocan.
+3. **Tu gente** abre un mapa chico de tu barrio con lugares reales: tu casa, la plaza, el parque, el mall con cine, el gimnasio, un café, la casa de tus amigos y tu colegio (un bar cuando eres adulto). Tocas un lugar, eliges **qué hacer** y **con quién**, y la salida se ve en la escena con esa persona (por ejemplo, el cine con tu amigo, o una cita).
+4. **Cada opción dice lo que cuesta y lo que trae:** tardes libres, energía y plata (con los precios reales del país), y lo bueno que puede traer (más relación, felicidad, apariencia).
+5. **"Con quién" no es una lista larga:** salen 3 sugeridos grandes, cada uno con un motivo real ("le encanta el cine", "hace meses no salen"), y un botón para elegir a otra persona con buscador, pestañas por grupo (amigos, familia, pareja, curso, conocidos) y filas grandes, primero los más cercanos.
+6. **La lista con nombres sigue** como respaldo, debajo, para quien la prefiera.
+
+Isaias pidió cuidar estos detalles visuales en todo el juego: nada de listas largas con letra chica; que se note un juego bien pensado.
+
 ### Estudiar
 
 - Con el tiempo parado, estudiar es **un texto breve más preguntas reales del ramo**. Se vuelve al plan inicial de preguntas por carrera.
@@ -309,6 +322,13 @@ Un **módulo grande con mundo propio**: reglas, gente y mecánicas propias. Mien
 5. Países nuevos y casas 3D llegan **como descargas**, que también pueden ser expansiones pagadas.
 
 **Nombres propios de cada país (regla de Isaias, 22-11-2026):** lo que en Chile tiene un nombre conocido (Seguro de Cesantía, AFC, Fonasa, isapre, SII, DICOM) se llama así solo en el paquete de Chile. El núcleo usa un nombre general (por ejemplo, "seguro de desempleo") y cada país pone su nombre, su institución y sus reglas en su paquete y en sus textos, para que cambiarlos sea fácil al agregar un país.
+
+**Se compra el país, y cada país trae algo que no existe en otro (regla de Isaias, 22-11-2026).** Si todos los países fueran iguales, nadie querría comprar uno nuevo. Por eso hay dos capas:
+
+1. **La base, igual en todos lados:** los tipos de lugar (cine, mall, gimnasio, plaza, parque, café, bar) con sus acciones, y las piezas 3D armables. Se hace una vez y sirve para todos.
+2. **El país, lo que lo hace distinto:** su cara (nombres, letreros, precios, cómo se ven las calles) y además lugares, acciones, eventos, momentos históricos, modalidades y al menos un minijuego que solo existen ahí, junto con sus leyes. Por ejemplo, Chile trae la feria libre, la fonda del 18 (que aparece en el mapa en septiembre) y el cerro San Cristóbal; Argentina, el asado en la quinta, la cancha del barrio y la milonga.
+
+Las ciudades van dentro del país.
 
 Cada país trae la misma forma con datos propios: 4 lugares (2 de clase baja, 1 media, 1 alta) y 9 viviendas en 3D; escala de notas, sistema de salud, puntaje bancario, 3 bancos y leyes; precios, salarios y datos reales con su fuente.
 
