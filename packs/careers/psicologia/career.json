@@ -19,7 +19,8 @@
       "institucion": "universidad",
       "semestres": 10,
       "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",
-      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')"
+      "condiciones": "jugador.pais == 'pais.chile' && (jugador.alcanza('carrera.psicologia.nivel.psicologo') || (jugador.tiene('puede_universidad') && jugador.veces_paes == 0))",
+      "admision": { "corte": 640, "ponderacion": { "nem": 0.2, "ranking": 0.25, "lectora": 0.35, "matematica": 0.2 } }
     },
     {
       "id": "carrera.psicologia.nivel.psicologo_privada",
@@ -27,7 +28,7 @@
       "institucion": "universidad",
       "semestres": 10,
       "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",
-      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('rindio_paes') && !jugador.tiene('puede_universidad')"
+      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('rindio_paes') && !jugador.alcanza('carrera.psicologia.nivel.psicologo') && !(jugador.tiene('puede_universidad') && jugador.veces_paes == 0)"
     }
   ],
   "areas": [

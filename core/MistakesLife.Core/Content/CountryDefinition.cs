@@ -79,6 +79,10 @@ namespace MistakesLife.Core.Content
         [JsonProperty("escala_notas")]
         public GradeScaleDefinition? GradeScale { get; set; }
 
+        /// <summary>Cómo se entra a la universidad (la PAES en Chile, D5a5). Opcional: sin ella nadie da prueba.</summary>
+        [JsonProperty("admision")]
+        public AdmissionDefinition? Admission { get; set; }
+
         [JsonProperty("etapas_educacion")]
         public List<EducationStageDefinition> EducationStages { get; set; } = new List<EducationStageDefinition>();
 

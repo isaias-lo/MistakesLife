@@ -35,7 +35,8 @@
       "institucion": "universidad",
       "semestres": 10,
       "tendencia": "jugador.responsabilidad / 2 + si(jugador.tiene('liceo_tp'), 15, 5)",
-      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')"
+      "condiciones": "jugador.pais == 'pais.chile' && (jugador.alcanza('carrera.contabilidad.nivel.contador_auditor') || (jugador.tiene('puede_universidad') && jugador.veces_paes == 0))",
+      "admision": { "corte": 600, "ponderacion": { "nem": 0.2, "ranking": 0.25, "lectora": 0.15, "matematica": 0.4 } }
     }
   ],
   "areas": [

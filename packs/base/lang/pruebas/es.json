@@ -39,6 +39,8 @@
   "diario.notas.repitio": "Terminó el año y no me alcanzaron las notas: repito de curso. El próximo año voy con los más chicos.",
   "ui.notas.titulo": "Tu libreta",
   "ui.notas.promedio": "Promedio general: {0}",
+  "ui.paes.puntajes": "NEM {0} · Ranking {1}",
+  "ui.paes.prueba": "{0} {1}",
   "ui.notas.sin_notas": "Todavía no tienes notas este año.",
   "ui.notas.fin_ano": "Notas finales del año pasado",
   "diario.notas.recuperativa": "Me enfermé justo el día de la prueba. La doy la semana que viene, en la recuperativa."

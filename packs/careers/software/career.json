@@ -35,7 +35,8 @@
       "institucion": "universidad",
       "semestres": 11,
       "tendencia": "si(jugador.tiene('le_gusta_programar'), 60, 15) + jugador.apertura / 4 + jugador.inteligencia / 5",
-      "condiciones": "jugador.pais == 'pais.chile' && jugador.tiene('puede_universidad')"
+      "condiciones": "jugador.pais == 'pais.chile' && (jugador.alcanza('carrera.software.nivel.ingenieria_civil_computacion') || (jugador.tiene('puede_universidad') && jugador.veces_paes == 0))",
+      "admision": { "corte": 700, "ponderacion": { "nem": 0.1, "ranking": 0.25, "lectora": 0.1, "matematica": 0.55 } }
     }
   ],
   "areas": [

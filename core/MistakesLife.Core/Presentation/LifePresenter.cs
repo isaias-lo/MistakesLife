@@ -38,6 +38,7 @@ namespace MistakesLife.Core.Presentation
             "ui.horario.dia.0", "ui.horario.dia.1", "ui.horario.dia.2", "ui.horario.dia.3", "ui.horario.dia.4", "ui.horario.dia.5", "ui.horario.dia.6",
             "ui.momento.con", "ui.momento.madre", "ui.momento.padre", "ui.regla.siempre",
             "ui.momento.profe.f", "ui.momento.profe.m", "ui.momento.jefe.f", "ui.momento.jefe.m", "ui.curso.titulo", "ui.curso.profe_jefe",
+            "ui.paes.puntajes", "ui.paes.prueba",
             "ui.notas.titulo", "ui.notas.promedio", "ui.notas.sin_notas", "ui.notas.fin_ano",
             "ui.deseo.titulo", "ui.deseo.cumplido", "ui.deseo.perdido", "ui.deseo.paso",
             "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
@@ -1865,9 +1866,41 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Marca de los textos que se cambia por la nota de esa prueba ("5,8").</summary>
         public const string MarkMark = "{nota}";
 
+        /// <summary>Marca de los textos que se cambia por los puntajes de la última PAES ("NEM 612 · Ranking 680 · ...").</summary>
+        public const string AdmissionMark = "{puntajes}";
+
+        /// <summary>
+        /// Los puntajes de la última vez que dio la PAES (D5a5): NEM, ranking y cada prueba, como en
+        /// la hoja de resultados del DEMRE. Vacío si nunca la dio.
+        /// </summary>
+        public string AdmissionScores()
+        {
+            Education.SchoolRecord? record = Session.World.Player.SchoolRecord;
+            Content.AdmissionDefinition? admission = Session.World.Player.Residence == null ? null
+                : Session.Content.GetCountry(Session.World.Player.Residence.CountryId).Admission;
+            if (record == null || record.AdmissionAttempts == 0 || admission == null)
+            {
+                return string.Empty;
+            }
+
+            var parts = new List<string> { Text("ui.paes.puntajes", record.AdmissionNem, record.AdmissionRanking) };
+            foreach (Content.AdmissionTestDefinition test in admission.Tests)
+            {
+                int score = record.LastAdmissionTests.TryGetValue(test.Id, out int last) ? last : 0;
+                parts.Add(Text("ui.paes.prueba", T(test.TextKey), score));
+            }
+
+            return string.Join(" · ", parts);
+        }
+
         /// <summary>Cambia {ramo} y {nota} por los de la prueba del jugador (la anunciada o la que se devolvió).</summary>
         private string WithTest(string text)
         {
+            if (text.Contains(AdmissionMark))
+            {
+                text = text.Replace(AdmissionMark, AdmissionScores());
+            }
+
             if (text.Contains(CompanyMark))
             {
                 string? company = Session.World.Player.JobSearch?.CompanyNameId;

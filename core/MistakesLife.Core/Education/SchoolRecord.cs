@@ -99,6 +99,27 @@ namespace MistakesLife.Core.Education
         /// <summary>Cómo le fue en la votación del centro de alumnos este año: "gano", "perdio" o null si todavía no votan.</summary>
         public string? CouncilResult { get; internal set; }
 
+        /// <summary>
+        /// Su puntaje NEM para postular (D5a5), de 100 a 1.000: sale del promedio de 1º a 4º medio
+        /// la primera vez que da la PAES y no cambia después. 0 si nunca la dio.
+        /// </summary>
+        public int AdmissionNem { get; internal set; }
+
+        /// <summary>Su puntaje ranking (D5a5), de 100 a 1.000; 0 si nunca dio la PAES.</summary>
+        public int AdmissionRanking { get; internal set; }
+
+        /// <summary>
+        /// El mejor puntaje que ha sacado en cada prueba de la admisión (D5a5), por id de prueba
+        /// ("lectora", "matematica"): para postular vale el mejor de las veces que la dio.
+        /// </summary>
+        public SortedDictionary<string, int> AdmissionTests { get; } = new SortedDictionary<string, int>(System.StringComparer.Ordinal);
+
+        /// <summary>Los puntajes de la última vez que dio la PAES, por prueba (lo que muestran los resultados).</summary>
+        public SortedDictionary<string, int> LastAdmissionTests { get; } = new SortedDictionary<string, int>(System.StringComparer.Ordinal);
+
+        /// <summary>Cuántas veces dio la PAES.</summary>
+        public int AdmissionAttempts { get; internal set; }
+
         /// <summary>Si la prueba anunciada todavía no se rinde.</summary>
         public bool TestPending => TestSubjectId != null && !TestMark.HasValue;
     }

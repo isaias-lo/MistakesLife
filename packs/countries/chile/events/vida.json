@@ -334,8 +334,9 @@
   },
   {
     "id": "evento.prueba_paes",
-    "condiciones": "jugador.edad == 17 && jugador.etapa == 'etapa.chile.media'",
-    "peso": 100,
+    "fecha": "30-11",
+    "lugar": "lugar.local_paes",
+    "condiciones": "jugador.curso == 4 && jugador.etapa == 'etapa.chile.media' && !jugador.tiene('rindio_paes') && !jugador.tiene('no_rindio_paes')",
     "dia_clave": true,
     "unico": true,
     "opciones": [
@@ -343,6 +344,7 @@
         "texto": "opcion.paes.rendir",
         "tendencia": "50 + jugador.responsabilidad / 2",
         "efectos": [
+          "jugador.rendir_paes(0)",
           "jugador.marcar('rindio_paes')"
         ]
       },
@@ -350,8 +352,8 @@
         "texto": "opcion.paes.copiar",
         "tendencia": "(100 - jugador.responsabilidad) / 6",
         "efectos": [
+          "jugador.rendir_paes(1)",
           "jugador.marcar('rindio_paes')",
-          "jugador.inteligencia += 3",
           "plantar('semilla.copio_paes')"
         ]
       },
@@ -366,24 +368,94 @@
   },
   {
     "id": "evento.resultados_paes_altos",
-    "condiciones": "jugador.tiene('rindio_paes') && !jugador.tiene('resultados_paes') && jugador.inteligencia >= 55",
-    "peso": 100,
+    "fecha": "05-01",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.tiene('rindio_paes') && !jugador.tiene('resultados_paes') && !jugador.tiene('termino_preu') && jugador.puntaje_paes >= 458",
+    "dia_clave": true,
     "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.paes.resultados.postular",
+        "tendencia": "71 + si(jugador.tiene('liceo_ch'), 25, 0) + (jugador.nivel_hogar - 40) / 2 + (jugador.responsabilidad - 50) / 3",
+        "efectos": [
+          "jugador.marcar('quiere_estudiar')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.trabajar",
+        "tendencia": "50 + si(jugador.tiene('liceo_tp'), 10, 0) + (50 - jugador.nivel_hogar) / 3",
+        "efectos": [
+          "jugador.marcar('buscando_trabajo')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.preu",
+        "tendencia": "si(jugador.puntaje_paes >= 458, 4, 14) + (jugador.responsabilidad - 50) / 4 + (jugador.nivel_hogar - 50) / 4",
+        "efectos": [
+          "jugador.marcar('preparando_paes')",
+          "jugador.contratar('servicio.preu.pagado')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.preu_popular",
+        "tendencia": "si(jugador.puntaje_paes >= 458, 3, 10) + (jugador.responsabilidad - 50) / 4 + (50 - jugador.nivel_hogar) / 5",
+        "efectos": [
+          "jugador.marcar('preparando_paes')",
+          "jugador.contratar('servicio.preu.popular')"
+        ]
+      }
+    ],
     "efectos": [
       "jugador.marcar('resultados_paes')",
       "jugador.marcar('paes_alta')",
       "jugador.marcar('puede_universidad')",
+      "jugador.marcar('decidio_futuro')",
       "jugador.felicidad += 6",
       "diario('diario.paes_alta')"
     ]
   },
   {
     "id": "evento.resultados_paes_medios",
-    "condiciones": "jugador.tiene('rindio_paes') && !jugador.tiene('resultados_paes') && jugador.inteligencia < 55",
-    "peso": 100,
+    "fecha": "05-01",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.tiene('rindio_paes') && !jugador.tiene('resultados_paes') && !jugador.tiene('termino_preu') && jugador.puntaje_paes < 458",
+    "dia_clave": true,
     "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.paes.resultados.tecnica",
+        "tendencia": "46 + si(jugador.tiene('liceo_ch'), 25, 0) + (jugador.nivel_hogar - 40) / 2 + (jugador.responsabilidad - 50) / 3",
+        "efectos": [
+          "jugador.marcar('quiere_estudiar')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.trabajar",
+        "tendencia": "50 + si(jugador.tiene('liceo_tp'), 10, 0) + (50 - jugador.nivel_hogar) / 3",
+        "efectos": [
+          "jugador.marcar('buscando_trabajo')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.preu",
+        "tendencia": "si(jugador.puntaje_paes >= 458, 4, 14) + (jugador.responsabilidad - 50) / 4 + (jugador.nivel_hogar - 50) / 4",
+        "efectos": [
+          "jugador.marcar('preparando_paes')",
+          "jugador.contratar('servicio.preu.pagado')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.preu_popular",
+        "tendencia": "si(jugador.puntaje_paes >= 458, 3, 10) + (jugador.responsabilidad - 50) / 4 + (50 - jugador.nivel_hogar) / 5",
+        "efectos": [
+          "jugador.marcar('preparando_paes')",
+          "jugador.contratar('servicio.preu.popular')"
+        ]
+      }
+    ],
     "efectos": [
       "jugador.marcar('resultados_paes')",
+      "jugador.marcar('decidio_futuro')",
       "jugador.felicidad -= 2",
       "diario('diario.paes_media')"
     ]
@@ -418,6 +490,22 @@
         "efectos": [
           "jugador.marcar('buscando_trabajo')"
         ]
+      },
+      {
+        "texto": "opcion.futuro.preu",
+        "tendencia": "si(jugador.tiene('puede_universidad'), 4, 14) + (jugador.responsabilidad - 50) / 4 + (jugador.nivel_hogar - 50) / 4",
+        "efectos": [
+          "jugador.marcar('preparando_paes')",
+          "jugador.contratar('servicio.preu.pagado')"
+        ]
+      },
+      {
+        "texto": "opcion.futuro.preu_popular",
+        "tendencia": "si(jugador.tiene('puede_universidad'), 3, 10) + (jugador.responsabilidad - 50) / 4 + (50 - jugador.nivel_hogar) / 5",
+        "efectos": [
+          "jugador.marcar('preparando_paes')",
+          "jugador.contratar('servicio.preu.popular')"
+        ]
       }
     ],
     "efectos": [
@@ -426,7 +514,7 @@
   },
   {
     "id": "evento.elegir_carrera",
-    "condiciones": "jugador.tiene('quiere_estudiar') && jugador.estudia == nada && !jugador.titulado",
+    "condiciones": "jugador.tiene('quiere_estudiar') && jugador.estudia == nada && !jugador.titulado && jugador.etapa != 'etapa.chile.media'",
     "peso": 100,
     "dia_clave": true,
     "unico": true,
