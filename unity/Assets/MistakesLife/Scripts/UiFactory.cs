@@ -312,7 +312,15 @@ namespace MistakesLife.Unity
                 // mientras tanto, el orden de la pantalla ya no lo cuenta.
                 GameObject child = parent.GetChild(i).gameObject;
                 child.SetActive(false);
-                Object.Destroy(child);
+                if (Application.isPlaying)
+                {
+                    Object.Destroy(child);
+                }
+                else
+                {
+                    // En el editor (capturas automáticas) Unity exige DestroyImmediate.
+                    Object.DestroyImmediate(child);
+                }
             }
         }
     }
