@@ -1,10 +1,12 @@
-# Publicación: lo que necesita el juego para salir en Google Play (borrador para conversar)
+# Publicación: lo que necesita el juego para salir en Google Play
 
 Este documento junta **la otra parte del juego**: lo que no es la vida simulada pero hace falta para que Google Play acepte MistakesLife, para que se pueda jugar en varios idiomas, para cobrar sin romper la ley del proyecto y para que las partidas y las compras estén seguras.
 
-**Estado: borrador para conversar.** Nada de esto está decidido. Donde hay que elegir, hay opciones con una recomendación, y la última palabra es de Isaias. No trae código: cuando una parte quede acordada, se programa en su propio PR (serie P del roadmap). `docs/diseno-juego.md` sigue mandando sobre cómo se juega y cómo se ve; las pantallas nuevas (menú inicial, Configuración, tienda) necesitan bocetos aprobados antes de programarse.
+**Estado: las 12 decisiones están tomadas** (Isaias, 21-11-2026, en el hilo "Preparar el juego para Google Play"). La sección 1 dice qué se eligió y el resto del documento ya está escrito con esas elecciones. No trae código: cuando una parte quede acordada, se programa en su propio PR (serie P del roadmap). `docs/diseno-juego.md` sigue mandando sobre cómo se juega y cómo se ve; las pantallas nuevas (menú inicial, Configuración, tienda) necesitan bocetos aprobados antes de programarse.
 
-**La ley del proyecto también manda aquí:** el jugador siempre debe sentir que todo es real. Por eso la monetización tiene una regla propia: **nunca se vende algo que la vida no podría dar** (plata, notas, salud, sueldo, suerte). Se vende comodidad (sin anuncios), una mecánica declarada (Volver al pasado) y mundos nuevos (países, ciudades, carreras), nunca resultados.
+**La ley del proyecto también manda aquí:** el jugador siempre debe sentir que todo es real. Por eso la monetización tiene una regla propia: **nunca se vende algo que la vida no podría dar** (plata, notas, salud, sueldo, suerte). Se vende comodidad (sin anuncios), mecánicas declaradas (Volver al pasado, Segundo aliento) y mundos nuevos (países, ciudades, carreras), nunca resultados.
+
+**Regla de ley de los nombres:** todo nombre de compra o mecánica suena realista a su situación ("Segundo aliento" para sobrevivir a una muerte, no "Revivir").
 
 Los datos de Google Play se revisaron el 22-11-2026. Google cambia sus reglas cada año: antes de cada paso hay que volver a mirar la página oficial que se cita.
 
@@ -12,37 +14,36 @@ Los datos de Google Play se revisaron el 22-11-2026. Google cambia sus reglas ca
 
 ## Índice
 
-1. [Las decisiones que Isaias tiene que tomar](#1-las-decisiones-que-isaias-tiene-que-tomar)
+1. [Las decisiones tomadas](#1-las-decisiones-tomadas)
 2. [Lo que Google Play exige](#2-lo-que-google-play-exige)
 3. [Idiomas](#3-idiomas)
 4. [Privacidad y condiciones de uso](#4-privacidad-y-condiciones-de-uso)
 5. [Configuración](#5-configuración)
 6. [Menú inicial](#6-menú-inicial)
 7. [Monetización: anuncios y compras](#7-monetización-anuncios-y-compras)
-8. [Cuenta, guardado en la nube y backend](#8-cuenta-guardado-en-la-nube-y-backend)
+8. [Cuenta, respaldo y backend](#8-cuenta-respaldo-y-backend)
 9. [Seguridad: trampas, compras y datos](#9-seguridad-trampas-compras-y-datos)
-10. [Orden propuesto (serie P)](#10-orden-propuesto-serie-p)
+10. [Orden de trabajo (serie P)](#10-orden-de-trabajo-serie-p)
 
 ---
 
-## 1. Las decisiones que Isaias tiene que tomar
+## 1. Las decisiones tomadas
 
-Lista corta para conversar de a una. Cada una está explicada en su sección.
-
-| # | Pregunta | Opciones | Recomendación |
-|---|---|---|---|
-| 1 | ¿Cuenta de desarrollador personal o de empresa? | A personal (US$25, exige la prueba de 12 probadores por 14 días) · B organización (necesita empresa y número D-U-N-S, no exige esa prueba) | **A personal**, salvo que ya tengas empresa: es lo más rápido para empezar |
-| 2 | ¿Nombre del paquete (id de la app)? | `com.mistakeslife.game` (el de hoy) · otro con tu dominio | Decidirlo **antes** de subir la primera versión: no se puede cambiar nunca |
-| 3 | ¿Para qué edad es el juego? | A solo adultos (18+) · B 16+ · C todas las edades | **A 18+**: hay pareja, infidelidad, delitos, alcohol y cárcel; evita las reglas de juegos para niños |
-| 4 | ¿Tercer idioma? | portugués de Brasil · francés · otro | **Portugués de Brasil** (ya está en CLAUDE.md; Brasil es un mercado enorme de juegos móviles) |
-| 5 | ¿Cómo se manejan los textos en Unity? | A seguir con las tablas del núcleo (`lang/`) · B paquete Localization de Unity | **A**: ya funciona y todo el juego lo usa |
-| 6 | ¿Herramienta de anuncios? | A AdMob · B Unity LevelPlay (Unity Ads) · C las dos con mediación | **A AdMob** al inicio; mediación después si hay volumen |
-| 7 | ¿Qué anuncios? | intersticial (pantalla completa) · con premio (el jugador elige verlo) · banner | **Solo intersticial al cerrar el año y con premio opcional**, sin banner |
-| 8 | ¿Cómo se vende Volver al pasado? | A desbloqueo único · B paquetes de cargas · C suscripción | **A + B**: se desbloquea una vez y se recargan cargas |
-| 9 | ¿Argentina gratis o de pago? | gratis al lanzar · expansión pagada | **Gratis al lanzar**: el juego nace con dos países; los siguientes son expansiones |
-| 10 | ¿Backend para cuenta y nube? | A Supabase · B Firebase · C Unity Gaming Services · D Play Games (solo guardado) | **A Supabase**: sirve también para la base de datos de la arquitectura C |
-| 11 | ¿Cuenta obligatoria? | A nunca (juego sin cuenta, nube opcional) · B obligatoria | **A**: la regla 9 dice "primero local"; la cuenta solo para la nube |
-| 12 | ¿Dónde vive la política de privacidad? | GitHub Pages del repo · página propia | **GitHub Pages**: gratis y versionada junto al código |
+| # | Pregunta | Elegido |
+|---|---|---|
+| 1 | ¿Cuenta de desarrollador personal o de empresa? | **Personal ahora.** La SpA se crea cuando el juego gane unos $1 millón al mes por 3 meses seguidos, o antes de empezar a gastar en serio, y la app se **transfiere** a la cuenta de la empresa (Google Play mantiene jugadores, descargas y reseñas). Antes de la primera venta: inicio de actividades en el SII como persona natural, y consultar a un contador |
+| 2 | ¿Nombre del paquete (id de la app)? | **`com.<estudio>.<juego>`.** Isaias quiere un estudio de juegos y "MistakesLife" no es el nombre final: **los dos nombres quedan pendientes** y deben estar elegidos (y su marca revisada) antes de la primera subida a Play. El APK de prueba sigue con `com.mistakeslife.game` |
+| 3 | ¿Para qué edad es el juego? | **Solo adultos (18+).** Lo sexual sigue siendo solo entre personajes adultos |
+| 4 | ¿Idiomas? | **Español, inglés y portugués de Brasil desde el lanzamiento**, que sale con Chile y Argentina. Después vienen Brasil y quizá Estados Unidos como países. Los nombres propios y culturales no se traducen (Puente Alto, Fonasa, PAES) |
+| 4b | ¿Quién traduce? | **Claude, por capas** (pantallas, vida, preguntas), con probadores nativos de cada idioma que revisan. Desde P5, **todo contenido nuevo llega en los tres idiomas en el mismo PR**. Nada de traducir en vivo con una API (rompe el juego sin internet) ni idiomas como descarga aparte (pesan menos de 1 MB) |
+| 5 | ¿Cómo se manejan los textos en Unity? | **Las tablas del núcleo (`lang/`)**, como hoy. Cuando haya muchos idiomas, cargar solo el elegido |
+| 6 | ¿Herramienta de anuncios? | **Google AdMob** al lanzar; mediación cuando haya unos 10.000 jugadores al día |
+| 7 | ¿Qué anuncios y dónde? | **Con premio, opcionales, dentro de los momentos**, que compran información o una segunda oportunidad y nunca un resultado. Más **uno de pantalla completa cada 20 minutos de juego**, solo en una pausa natural y nunca en la primera media hora. Sin banner (sección 7.3) |
+| 8 | ¿Cómo se vende Volver al pasado? | **Es una compra.** Prueba gratis **una sola vez en todo el juego**, en la primera muerte: un anuncio para **Segundo aliento** (sobrevivir) y otro para Volver al pasado. Después, los dos solo se compran. Volver al pasado es un **ícono de reloj de arena** (sección 7.5) |
+| 9 | ¿Argentina gratis o de pago? | **Chile y Argentina gratis.** Las expansiones pagadas empiezan desde el tercer país. "Nueva vida" tiene dos caminos: **Al azar** y **Crear tu vida** (sección 6.2) |
+| 10 | ¿Backend? | **Supabase** para el contenido (arquitectura C) y para revisar que las compras sean reales, con el plan gratis mientras alcance |
+| 11 | ¿Cuenta obligatoria? ¿Dónde se guardan las vidas? | **Inicio de sesión automático con Google Play Games**, sin pantalla ni contraseña y sin bloquear a quien no lo tenga. El **respaldo de la vida va en "Partidas guardadas" de Google Play Games**, en la cuenta del propio jugador: no cuesta nada aunque haya 100.000 jugadores (sección 8) |
+| 12 | ¿Dónde viven la política de privacidad y las condiciones? | **GitHub Pages** del repositorio; se pasa al dominio del estudio cuando exista |
 
 ---
 
@@ -72,7 +73,7 @@ Lista corta para conversar de a una. Cada una está explicada en su sección.
 ### 2.3 Lo que se llena en Play Console
 
 1. **Clasificación de contenido (IARC):** un cuestionario sobre violencia, sexo, drogas, alcohol, apuestas, lenguaje, compras y si los jugadores se comunican entre sí. MistakesLife tiene: pareja e infidelidad insinuada (solo adultos), delitos y cárcel, alcohol y cigarro como decisiones, compras dentro de la app y anuncios. Lo esperable es una clasificación de **mayores de 16 o 18** según el país. Hay que contestar con la verdad: mentir es causa de baja. Si algún día se agrega casino o apuestas simuladas, cambia la clasificación.
-2. **Público objetivo:** recomiendo declarar **18 años o más**. Si el público incluye menores de 13, aplica la política de Familias (anuncios certificados para niños, sin identificador de publicidad, más revisión). No calza con los temas del juego.
+2. **Público objetivo:** **18 años o más** (decisión 3). Si el público incluye menores de 13, aplica la política de Familias (anuncios certificados para niños, sin identificador de publicidad, más revisión). No calza con los temas del juego.
 3. **Seguridad de los datos (Data safety):** qué datos se juntan, para qué y con quién se comparten. Ver la tabla de la sección 4.3. Tiene que coincidir con la política de privacidad y con lo que hacen las herramientas (AdMob, por ejemplo, junta el identificador de publicidad).
 4. **Anuncios:** declarar que la app tiene anuncios.
 5. **Acceso a la app:** si algo necesita cuenta, explicar a Google cómo entrar. Con la recomendación 11 (sin cuenta obligatoria) no hace falta.
@@ -116,15 +117,20 @@ Por eso la **recomendación 5 es seguir con las tablas del núcleo** y no usar e
 
 ### 3.3 Cuánto trabajo es traducir
 
-El juego tiene muchísimo texto (eventos, correos, chats, más de 4.000 preguntas de estudio). Traducir todo de una es caro. Propuesta por capas:
+Medido el 22-11-2026: unas **44.000 palabras** de texto de la vida (4.313 claves: pantallas, eventos, correos, chats) y unas **130.000 palabras** de preguntas de estudio. Son unas 175.000 palabras por idioma, y crecen con cada PR.
 
-1. **Capa 1:** pantallas, menú, Configuración, tienda, ficha de la tienda.
+**Elegido (decisión 4b):** traduce Claude, en los mismos PR, porque entiende el contexto: sabe que `{0}` es un nombre que no se toca, que "pega" es trabajo y que "Puente Alto" no se traduce. Las API comunes de traducción suelen romper esas cosas. Va por capas:
+
+1. **Capa 1:** pantallas, menú, Configuración, tienda.
 2. **Capa 2:** eventos, correos y chats de la vida.
 3. **Capa 3:** preguntas de estudio (las más largas).
 
-El contenido de un país no se traduce al idioma de otro país solo porque sí: si el inglés llega con un país de habla inglesa, ese país trae su contenido escrito en inglés desde el inicio. Pregunta para conversar: ¿el inglés llega primero para jugar Chile en inglés, o junto con un país de habla inglesa?
+Probadores nativos de inglés y de portugués leen y avisan lo que suena raro. La ficha de la tienda la traduce gratis Play Console, y se revisa a mano. Desde P5, todo contenido nuevo llega en los tres idiomas en el mismo PR, para que no se acumulen miles de textos justo antes de lanzar.
 
-Traducción automática más revisión humana es lo más barato; la REGLA DE LEY pide que suene natural en cada idioma, así que al menos la capa 1 y 2 deberían revisarla nativos.
+**Se descartó:**
+- Traducir en vivo con una API (Google, DeepL): necesita internet, el costo crece con cada jugador y el texto saldría distinto cada vez.
+- Idiomas como descarga aparte: todos los textos en español pesan menos de 1 MB comprimidos dentro de un juego de 50 a 100 MB. Cuando exista la arquitectura C, los idiomas igual pueden llegar junto con los paquetes.
+- Traductores profesionales: unos US$15.000 a 20.000 por idioma; no hay presupuesto.
 
 ---
 
@@ -145,7 +151,7 @@ Traducción automática más revisión humana es lo más barato; la REGLA DE LEY
 1. Quién es el responsable (nombre o empresa y correo de contacto).
 2. Qué datos se juntan, para qué y por cuánto tiempo (tabla 4.3).
 3. Con quién se comparten: Google (compras, Play Games), la red de anuncios, el backend, la herramienta de errores.
-4. Que el juego funciona sin cuenta y sin internet; la nube es opcional.
+4. Que el juego funciona sin internet; la sesión de Google Play Games entra sola, pero quien no la tenga juega igual.
 5. Cómo pedir ver, corregir o borrar los datos, y el botón para hacerlo dentro del juego.
 6. Que el juego no es para menores de 18.
 7. Que la partida (la vida simulada) es ficticia: no se juntan datos reales de salud, dinero ni personas del jugador, aunque el juego hable de esos temas.
@@ -155,8 +161,8 @@ Traducción automática más revisión humana es lo más barato; la REGLA DE LEY
 
 | Dato | ¿Cuándo? | Para qué | ¿Se comparte? |
 |---|---|---|---|
-| Partida guardada | Solo si activas la nube | Guardado en la nube | No (solo el backend) |
-| Id de cuenta (Google Play Games o correo) | Solo si activas la nube | Iniciar sesión | No |
+| Partida guardada | Solo si activas el respaldo | Respaldo de la vida | Queda en "Partidas guardadas" de Google Play Games, en la cuenta del propio jugador |
+| Id de jugador de Google Play Games | Al abrir el juego, si tiene Play Games | Recordar lo comprado y la prueba gratis | Con Google y el backend (Supabase) |
 | Compras (recibo de Google) | Al comprar | Entregar y proteger lo comprado | Con Google |
 | Identificador de publicidad | Si hay anuncios y no compraste "Sin anuncios" | Mostrar anuncios | Con la red de anuncios |
 | Informes de errores y uso anónimo | Siempre, salvo que se apague | Arreglar errores y equilibrar | Con la herramienta de errores |
@@ -173,7 +179,7 @@ Traducción automática más revisión humana es lo más barato; la REGLA DE LEY
 
 ### 4.5 Dónde se publican
 
-**Recomendación 12:** GitHub Pages del mismo repositorio (`docs/legal/` o una rama aparte), con una página por idioma: `privacidad`, `condiciones` y `borrar-cuenta`. Es gratis, tiene historia de cambios y el enlace no cambia. Se enlazan desde Play Console, desde el menú inicial y desde Configuración.
+**Elegido (decisión 12):** GitHub Pages del mismo repositorio (`docs/legal/` o una rama aparte), con una página por idioma: `privacidad`, `condiciones` y `borrar-cuenta`. Es gratis, tiene historia de cambios y el enlace no cambia. Se enlazan desde Play Console, desde el menú inicial y desde Configuración.
 
 ---
 
@@ -187,7 +193,7 @@ Una sola pantalla, limpia, con secciones. Lo que propongo que tenga (los bocetos
 | **Lectura** | Tamaño de letra (normal, grande, muy grande) · Contraste alto. Responde al pedido de que todo se lea fácil |
 | **Sonido** | Efectos · Música (si llega) · Vibración (ya existe `Haptics`) |
 | **Avisos** | Notificaciones del celular (por ejemplo, "te escribió tu mamá" cuando el juego está cerrado). Apagadas por defecto y pedidas solo cuando tengan sentido; Android 13+ exige pedir permiso |
-| **Cuenta y nube** | Iniciar sesión · Respaldar ahora · Última copia en la nube (fecha) · Recuperar de la nube · Cerrar sesión · Borrar mi cuenta |
+| **Cuenta y respaldo** | Tu cuenta de Google Play Games (entra sola) · Respaldar mi vida (sí/no) · Respaldar ahora · Última copia (fecha) · Recuperar una copia · Borrar mis datos |
 | **Compras** | Lo que tienes · Restaurar compras (obligatorio en la práctica) |
 | **Privacidad** | Preferencias de anuncios (el formulario de consentimiento) · Enviar informes de errores sí/no · Política de privacidad · Condiciones |
 | **Ayuda** | Contacto (correo de soporte) · Ayuda real si lo necesitas (líneas de ayuda del país) |
@@ -195,7 +201,7 @@ Una sola pantalla, limpia, con secciones. Lo que propongo que tenga (los bocetos
 
 Lo que **no** va en Configuración: nada que cambie las reglas de la vida (dificultad, plata inicial, "modo fácil"), porque rompería la ley del proyecto. Si algún día hay modos, se elige al crear la vida y se declara.
 
-Dónde se guarda: en el celular (`PlayerPrefs` o un archivo propio), aparte de la partida. Si hay nube, también se respalda.
+Dónde se guarda: en el celular (`PlayerPrefs` o un archivo propio), aparte de la partida. Si el respaldo está activo, viaja junto con la partida.
 
 ---
 
@@ -208,7 +214,9 @@ Dónde se guarda: en el celular (`PlayerPrefs` o un archivo propio), aparte de l
 ### 6.2 Qué debería tener
 
 1. **Continuar** (la vida en curso, con nombre, edad, ciudad y la fecha del juego).
-2. **Nueva vida:** al azar (como hoy) o eligiendo país y ciudad entre los que tienes.
+2. **Nueva vida**, con dos caminos (decisión 9):
+   - **Al azar:** un toque y estás naciendo, sin preguntas, como en BitLife.
+   - **Crear tu vida:** nombre, género, país, ciudad, comuna (que es la clase social: Puente Alto, La Pintana, Maipú, Las Condes) y la cara y el cuerpo del personaje que se ven en 3D. Para que siga siendo real, **la familia se arma acorde**: la mamá y el papá se parecen a lo que elegiste, porque la apariencia se hereda. El cuerpo es el punto de partida: después cambia con los hábitos, el deporte y la edad.
 3. **Tu historia familiar:** las vidas pasadas y el legado (quién vino antes, qué dejó). Es lo que hace que el juego se sienta como una familia real y no partidas sueltas.
 4. **Tienda** (sin anuncios, Volver al pasado, expansiones).
 5. **Configuración.**
@@ -219,7 +227,7 @@ Dónde se guarda: en el celular (`PlayerPrefs` o un archivo propio), aparte de l
 1. Idioma (si el del celular no existe).
 2. **Confirmar la edad** ("Este juego es para mayores de 18") y aceptar condiciones con enlaces.
 3. Formulario de consentimiento de anuncios, solo donde la ley lo pide (Europa, Reino Unido, algunos estados de EE.UU.). AdMob lo trae listo (UMP).
-4. Directo a "Nueva vida". La nube se ofrece después, no al inicio.
+4. Directo a "Nueva vida". El respaldo se ofrece después, no al inicio.
 
 ### 6.4 Opciones de estilo para bocetear (a elegir)
 
@@ -236,7 +244,7 @@ Dónde se guarda: en el celular (`PlayerPrefs` o un archivo propio), aparte de l
 1. **Nunca vender resultados de la vida:** ni plata, ni notas, ni salud, ni suerte, ni "pasar de curso". Todo eso tiene que venir de decisiones del jugador (REGLA DE LEY).
 2. **Nunca un anuncio en medio de un momento.** El tiempo detenido, una decisión o un mensaje en vivo son sagrados.
 3. **Todo se puede jugar gratis:** la vida completa de Chile y Argentina sin pagar.
-4. **Lo que se compra se ve:** el círculo de Volver al pasado, el país nuevo en el mapa.
+4. **Lo que se compra se ve:** el reloj de arena de Volver al pasado, el país nuevo en el mapa.
 
 ### 7.2 Anuncios: con qué
 
@@ -246,14 +254,24 @@ Dónde se guarda: en el celular (`PlayerPrefs` o un archivo propio), aparte de l
 | **B. Unity LevelPlay (Unity Ads)** | Hecha por Unity; mediación incluida; buena en juegos | Unity ha cambiado su producto de anuncios varias veces; más piezas que configurar |
 | **C. Mediación (AdMob o LevelPlay con varias redes)** | Más ingresos con mucho volumen | Más complejo; no vale la pena con pocos jugadores |
 
-**Recomendación: A AdMob** al lanzar. Con más de unos 10.000 jugadores al día, probar mediación.
+**Elegido (decisión 6): AdMob** al lanzar. Con más de unos 10.000 jugadores al día, probar mediación.
 
-### 7.3 Anuncios: dónde
+### 7.3 Anuncios: dónde (decisión 7)
 
-- **Intersticial (pantalla completa) solo al cerrar el año**, justo después del capítulo del año, como pasar la página de un libro. Como máximo uno cada X minutos de juego (por ejemplo 4) y nunca en los primeros 15 minutos del jugador nuevo.
-- **Con premio, siempre opcional:** el jugador decide verlo. Ideas que no rompen la ley: una carga de Volver al pasado gratis una vez por semana real; ver los capítulos de años pasados en el álbum. **Nunca** "ver un anuncio para recibir plata o sanarte".
-- **Sin banner:** ensucia la pantalla aprobada y paga poco.
-- "Sin anuncios" quita los intersticiales; los con premio siguen disponibles porque son elección del jugador.
+**Con premio, opcionales, dentro de los momentos.** Como en BitLife, en una decisión o un momento importante aparece una opción que se consigue viendo un anuncio. Para que no rompa la ley, el anuncio **compra información o una segunda oportunidad, nunca un resultado**:
+
+- **Pedir consejo:** alguien real de tu vida que sabe del tema (tu mamá, tu amiga contadora, tu profe) te dice qué haría y por qué. El resultado no cambia, solo sabes más.
+- **Leer la letra chica:** antes de firmar un crédito, un contrato o un arriendo, ves lo que dice el papel de verdad (la tasa, la multa, lo que pasa si no pagas).
+- **Recordar:** en una prueba o una entrevista, repasar lo que estudiaste. Solo ayuda si de verdad estudiaste.
+- **La prueba gratis de Segundo aliento y Volver al pasado**, una sola vez en todo el juego (sección 7.5).
+
+**Nunca:** "mira un anuncio y recibe plata, sánate o pasa de curso".
+
+**De pantalla completa, por tiempo y no por año:** como máximo **uno cada 20 minutos de juego**, y solo en una pausa natural (después de un resultado o al cerrar el año), nunca en medio de un momento. Nada de estos anuncios en la primera media hora de un jugador nuevo. Con jugadores reales, AdMob deja medir si la gente se va por los anuncios, y se ajusta a 25 o 30 minutos.
+
+**Sin banner:** ensucia la pantalla principal aprobada y paga poco.
+
+**"Sin anuncios"** quita los de pantalla completa. Los con premio siguen, porque son elección del jugador.
 
 ### 7.4 Compras: con qué
 
@@ -264,21 +282,31 @@ Dónde se guarda: en el celular (`PlayerPrefs` o un archivo propio), aparte de l
 | Producto | Tipo | Idea de precio | Nota |
 |---|---|---|---|
 | **Sin anuncios** | Único (para siempre) | US$2,99 a 3,99 | Se restaura en otro celular |
-| **Volver al pasado** | Único: desbloquea el círculo y da cargas por generación | US$2,99 a 4,99 | El núcleo ya tiene cargas (`TimeMachine.Charges`, `AddCharges`) y las reglas que limitan (una vez por etapa por generación) |
+| **Volver al pasado** | Único: aparece el reloj de arena y da cargas por generación | US$2,99 a 4,99 | El núcleo ya tiene cargas (`TimeMachine.Charges`, `AddCharges`) y las reglas que limitan (una vez por etapa por generación) |
+| **Segundo aliento** | Consumible: sobrevivir a una muerte | US$0,99 a 1,99 | Ver abajo |
 | **Cargas extra** | Consumible (paquetes de 3, 10) | US$0,99 a 2,99 | Lo que se compra se gasta |
 | **Expansión de país** (México, España…) | Único, se descarga | US$1,99 a 3,99 | Llega como paquete descargable (arquitectura C) |
 | **Expansión de ciudad** | Único | US$0,99 a 1,99 | Otra ciudad del mismo país |
 | **Paquete de carreras** (salud: medicina, enfermería, kinesiología…) | Único | US$1,99 | |
 | **Estilos de íconos extra** | Único, cosmético | US$0,99 | Idea abierta de `diseno-juego.md` |
-| **Pack de inicio** (sin anuncios + Volver al pasado) | Único, con descuento | US$4,99 a 6,99 | Opcional |
+| **Pack de inicio** (sin anuncios + Volver al pasado + un Segundo aliento) | Único, con descuento | US$4,99 a 6,99 | Opcional |
 
 Google pone precios locales por país (pesos chilenos, argentinos). Los precios son ideas para conversar, no estudio de mercado.
 
-**Opciones para Volver al pasado (decisión 8):**
-- **A. Desbloqueo único** con N cargas por generación.
-- **B. Solo paquetes de cargas.**
-- **C. Suscripción mensual** ("MistakesLife+": sin anuncios y cargas cada mes).
-- *Recomendación: A + B.* La suscripción en un juego de una persona agrega soporte y reclamos; se puede pensar más adelante.
+**Volver al pasado y Segundo aliento (decisión 8):**
+
+- **Las dos son compras.** Quien compra Volver al pasado tiene el reloj de arena siempre a mano y lo usa en cualquier momento, gastando cargas.
+- **Prueba gratis, una sola vez en todo el juego, en la primera muerte del jugador:** ve un anuncio y usa Segundo aliento, o ve otro y usa Volver al pasado. Después de esa prueba, las dos solo se compran. La prueba se anota en la cuenta de Google Play Games para que no se repita al reinstalar (quien no tenga cuenta puede repetirla reinstalando; es un riesgo chico y aceptado).
+- **No hay cargas por anuncio** fuera de esa prueba.
+- La regla que ya existe se mantiene para todos: cada etapa de la vida se vuelve a vivir una sola vez por generación.
+
+**Volver al pasado en pantalla:** un **ícono de reloj de arena**, sin texto en el botón (reemplaza al "círculo" de `docs/diseno-juego.md`). Al tocarlo se abre un cuadro titulado "Volver al pasado" con los momentos a los que se puede volver ("Al empezar la juventud, 18 años", "Antes de firmar el crédito") y las cargas que quedan.
+
+**Segundo aliento, real y no mágico:** revivir de la nada sería inventado, pero en la vida real hay gente que muere y la reaniman. Por eso **te salvan en el último segundo según cómo moriste**: en un infarto, la reanimación en la ambulancia; en un accidente, la cirugía de urgencia; en una sobredosis, el lavado en la urgencia. Despiertas con **secuelas reales**: días en la UCI, licencia médica, salud baja, la cuenta del hospital según tu previsión, y tu gente que se asustó. Se ve en **3D**: la ambulancia o la camilla, el desfibrilador, la pantalla del pulso que vuelve y el despertar en la UCI. Si mueres de viejo (a los 95, por ejemplo) no hay reanimación posible: ahí solo sirve Volver al pasado. Qué muertes admiten Segundo aliento y con qué secuelas se decide con datos médicos reales al programarlo.
+
+Los dos necesitan bocetos aprobados antes de programarse.
+
+La suscripción mensual se descartó por ahora: en un juego hecho por una persona agrega soporte y reclamos.
 
 ### 7.6 Cómo llegan las expansiones
 
@@ -289,37 +317,52 @@ Con la arquitectura C, un país nuevo es un paquete (JSON + casas 3D). Opciones 
 
 ### 7.7 Tienda dentro del juego
 
-Una pantalla de la tienda desde el menú inicial y desde Configuración, con lo que tienes marcado. Ningún aviso de "¡compra ya!" en medio de la vida. La única invitación dentro de la vida: frente al "error que vuelve", si no tienes Volver al pasado, el círculo aparece apagado con "Disponible en la tienda" (una vez, sin insistir).
+Una pantalla de la tienda desde el menú inicial y desde Configuración, con lo que tienes marcado. Ningún aviso de "¡compra ya!" en medio de la vida. La única invitación dentro de la vida: frente al "error que vuelve", si no tienes Volver al pasado, el reloj de arena aparece apagado con "Disponible en la tienda" (una vez, sin insistir).
 
 ---
 
-## 8. Cuenta, guardado en la nube y backend
+## 8. Cuenta, respaldo y backend
 
 ### 8.1 Lo que pide el proyecto
 
-- 10.000 a más de 30.000 jugadores con guardado en la nube.
-- El juego completo sin internet (regla 9): la nube es un respaldo, no un requisito.
+- 10.000 a más de 30.000 jugadores, y el legado de varias generaciones protegido aunque se pierda el celular.
+- El juego completo sin internet (regla 9): el respaldo es una ayuda, no un requisito.
+- Gastar lo menos posible: el juego todavía no gana plata.
 - La arquitectura C necesita una base de datos con página web de formularios que genera paquetes.
 
-### 8.2 Opciones de backend (decisión 10)
+### 8.2 Lo elegido (decisiones 10 y 11)
 
-| Opción | Qué es | Lo bueno | Lo malo |
-|---|---|---|---|
-| **A. Supabase** | Base de datos Postgres con cuentas, archivos y funciones | **El mismo servicio sirve para la arquitectura C** (contenido + página de formularios) y para cuentas, partidas y compras; base de datos estándar (se puede mudar); hay conector en este proyecto | No tiene SDK oficial de Unity (se usa su API web, que es simple) |
-| **B. Firebase (Google)** | Cuentas, Firestore, Storage, Functions, Crashlytics | Muy probado en móviles; SDK de Unity; Crashlytics para errores | La base de datos no es tabla (peor para la arquitectura C); costos por lectura difíciles de prever |
-| **C. Unity Gaming Services** | Cloud Save, Authentication, Economy, Remote Config | Todo dentro de Unity; sencillo para guardar | No sirve para la arquitectura C; atado a Unity |
-| **D. Google Play Games, Partidas guardadas** | Guardado gratis en la cuenta de Google | Cero servidor y gratis | Solo Android; no protege compras; no sirve para la arquitectura C |
+Se miró cómo lo hace BitLife: las vidas quedan solo en el celular, y las compras y los logros van con la cuenta de la tienda. En MistakesLife perder el celular dolería más, porque el legado y la historia familiar son el corazón del juego. Por eso:
 
-**Recomendación: A Supabase** para todo (contenido, cuentas, partidas, compras), con el inicio de sesión de **Google Play Games** como forma de entrar, para que el jugador no tenga que escribir correo ni contraseña.
+| Qué | Dónde | Costo |
+|---|---|---|
+| **La vida (respaldo)** | **"Partidas guardadas" de Google Play Games**, en la cuenta de Google del propio jugador | $0, aunque haya 100.000 jugadores |
+| **La sesión** | **Inicio automático de Google Play Games**: al abrir el juego entra solo, sin pantalla ni contraseña. Quien no tenga Play Games juega igual, sin respaldo | $0 |
+| **Lo comprado** | Google Play ("Restaurar compras") y el registro en Supabase, ligado al id de Play Games | $0 en el plan gratis |
+| **Revisar que una compra sea real** | Una función de Supabase que le pregunta a Google | $0 en el plan gratis |
+| **Logros** | Google Play Games | $0 |
+| **Contenido (arquitectura C)** | Base de datos de Supabase | $0 en el plan gratis, unos US$25 al mes si crece mucho |
 
-**Cuánto podría costar (a confirmar en su página):** Supabase gratis aguanta las pruebas. Para 30.000 jugadores, el plan Pro (unos US$25 al mes) incluye 100.000 usuarios al mes y 100 GB de archivos. Una partida comprimida pesa del orden de cientos de KB (se mide antes de decidir); 30.000 partidas de 500 KB son unos 15 GB.
+**Se descartó guardar las vidas en un servidor propio:** costaría unos US$25 al mes con miles de jugadores, y Google Play Games lo hace gratis. Firebase y Unity Gaming Services se descartaron porque no sirven para la arquitectura C.
 
-### 8.3 Cómo funciona la nube
+**¿Cabe el legado en Google Play Games?** Cada partida guardada tiene un límite de unos 3 MB. Medido el 22-11-2026 con el núcleo actual, jugando familias completas en automático, la partida comprimida (con sus fotos de Volver al pasado) pesa:
+
+| Momento | Peso |
+|---|---|
+| Primera vida, al morir a los 75-80 años | unos 230 KB |
+| Segunda generación | 250 a 350 KB |
+| Tercera generación | 370 a 440 KB |
+
+Cada generación suma unos 100 KB: el límite llegaría cerca de la **generación 25 o 30**. Para familias tan largas, las vidas muy antiguas se guardan **resumidas** (quién fue, qué dejó, su capítulo, sus semillas que siguen vivas), como un árbol genealógico. Hay que volver a medir cada vez que el guardado crezca (una prueba puede avisar si una vida de tres generaciones pasa de 1 MB).
+
+**Sobre la edad:** ninguna app puede garantizar que el jugador sea adulto. Se usa la clasificación 18+ de la tienda, la pregunta de edad al abrir por primera vez y los controles de Google para que los papás bloqueen compras. Para comprar, el celular ya necesita una cuenta de Google con Play Store: eso lo maneja Google.
+
+### 8.3 Cómo funciona el respaldo
 
 1. La partida se guarda en el celular, siempre (como hoy, `SaveStore`).
-2. Si la nube está activa, se sube **comprimida** (`LifeSession.SaveToBytes()`) al cerrar el año, al salir del juego y con "Respaldar ahora". No cada semana: así el costo es bajo.
-3. Cada subida guarda: versión del guardado (`SaveFormatVersion`), fecha real, fecha del juego, nombre y edad del personaje. Se guardan las **3 últimas copias** por si una sale mala.
-4. **Conflicto** (jugaste en dos celulares): se muestran las dos ("Ana, 34 años, este celular" y "Ana, 36 años, en la nube") y el jugador elige. Nunca se mezclan.
+2. Si el respaldo está activo, se sube **comprimida** (`LifeSession.SaveToBytes()`) a Partidas guardadas de Google Play Games al cerrar el año, al salir del juego y con "Respaldar ahora".
+3. Cada copia lleva la versión del guardado (`SaveFormatVersion`), la fecha real, la fecha del juego y el nombre y la edad del personaje, para mostrarla antes de recuperarla.
+4. **Conflicto** (jugaste en dos celulares): se muestran las dos ("Ana, 34 años, este celular" y "Ana, 36 años, en tu cuenta") y el jugador elige. Nunca se mezclan.
 5. Una partida de una versión nueva del juego en un celular con versión vieja da el error claro que ya existe ("actualiza el juego").
 
 ---
@@ -331,27 +374,27 @@ Una pantalla de la tienda desde el menú inicial y desde Configuración, con lo 
 MistakesLife es para un jugador, sin internet. Si alguien edita su propia partida para tener más plata, **solo se hace trampa a sí mismo**: no vale la pena gastar mucho en eso. Lo que sí hay que proteger:
 
 1. **Las compras** (es plata real).
-2. **La nube** (que nadie lea o borre la partida de otro).
+2. **El respaldo** (que nadie lea o borre la vida de otro; lo cuida Google, porque queda en la cuenta de cada jugador).
 3. **Lo que algún día sea público** (logros, tablas, legado compartido).
 
 ### 9.2 Compras
 
 - **Verificar cada compra en el servidor:** el celular manda el recibo de Google al backend; el backend pregunta a Google (Google Play Developer API) si es real, lo anota y recién ahí se entrega. Así una compra falsa no sirve.
-- **Lo comprado vive en la cuenta**, no solo en el celular: "Restaurar compras" lo devuelve en un celular nuevo.
+- **Lo comprado vive en la cuenta** (Google Play y el registro en Supabase ligado al id de Play Games), no solo en el celular: "Restaurar compras" lo devuelve en un celular nuevo.
 - **Reembolsos:** Google avisa (notificaciones en tiempo real) cuando alguien pide su plata de vuelta; el backend quita lo comprado.
 - **Sin internet:** lo comprado se guarda en el celular firmado por el servidor, así funciona sin conexión pero no se puede inventar editando un archivo.
 - **Cargas de Volver al pasado:** cada carga comprada se anota en el servidor; la partida no puede tener más cargas que las compradas más las que da el juego.
 
 ### 9.3 La app
 
-- **Play Integrity API:** pregunta a Google si la app es la original de la tienda y corre en un celular real. Se usa al comprar y al subir a la nube, no para jugar.
+- **Play Integrity API:** pregunta a Google si la app es la original de la tienda y corre en un celular real. Se usa al comprar y al usar la prueba gratis, no para jugar.
 - **IL2CPP** (ya está): hace más difícil leer el código del juego.
 - **Partida con firma:** la partida guardada lleva una firma; si alguien la edita, el juego lo nota. Recomendación: no castigar (es su partida), pero **no subirla a lo público** (logros, tablas).
 - Nada de llaves secretas dentro de la app: lo secreto vive solo en el backend.
 
 ### 9.4 El backend y el repositorio
 
-- Cada jugador solo puede leer y escribir **su** partida (en Supabase, reglas por fila, "RLS").
+- Cada jugador solo puede leer **sus** compras en Supabase (reglas por fila, "RLS"). Las partidas no pasan por nuestro servidor: quedan en la cuenta de Google de cada jugador.
 - Límites de uso por jugador (que nadie suba 1.000 partidas por minuto).
 - Copias de seguridad diarias de la base de datos.
 - Alerta de costo en el backend, para no tener sorpresas.
@@ -360,23 +403,23 @@ MistakesLife es para un jugador, sin internet. Si alguien edita su propia partid
 
 ---
 
-## 10. Orden propuesto (serie P)
+## 10. Orden de trabajo (serie P)
 
 Cada paso es un PR, después de conversar y (si tiene pantalla) aprobar bocetos.
 
 | # | Tarea | Necesita antes |
 |---|---|---|
-| P0 | Este documento, conversado y aprobado | — |
-| P1 | Armado para la tienda: llave de firma fija como secreto, AAB además del APK, API objetivo 36, `versionCode` automático | Decisión 2 (id de la app) |
+| P0 | Este documento, conversado y con las 12 decisiones tomadas | — |
+| P1 | Armado para la tienda: llave de firma fija como secreto, AAB además del APK, API objetivo 36, `versionCode` automático | Nombre del estudio y del juego (decisión 2) para el id definitivo; lo demás se puede preparar antes |
 | P2 | Textos legales en GitHub Pages: privacidad, condiciones, borrar cuenta (español primero) | Decisiones 3, 10, 12 |
 | P3 | Configuración (bocetos y luego pantalla): idioma, letra, sonido, privacidad, acerca de | Bocetos aprobados |
-| P4 | Menú inicial nuevo y primera vez (edad, condiciones) | Bocetos aprobados |
+| P4 | Menú inicial nuevo (Al azar y Crear tu vida) y primera vez (edad, condiciones) | Bocetos aprobados |
 | P5 | Idiomas listos para crecer: elegir idioma, informe de claves que faltan, forma de género y plural, idioma de prueba estirado en las capturas | Decisión 5 |
 | P6 | Prueba cerrada en Play Console con 12 probadores por 14 días (lo hace Isaias, con una guía paso a paso) | P1, P2 |
-| P7 | Backend: cuenta con Google Play Games y guardado en la nube | Decisiones 10, 11 |
-| P8 | Compras con Unity IAP y verificación en el servidor; tienda | P7, decisión 8, bocetos de la tienda |
-| P9 | Anuncios con AdMob y su consentimiento | Decisiones 6, 7 |
+| P7 | Inicio automático de Google Play Games, respaldo en Partidas guardadas y Supabase para lo comprado | — |
+| P8 | Compras con Unity IAP y verificación en el servidor; tienda; reloj de arena y Segundo aliento (con su escena 3D) | P7, bocetos de la tienda, del reloj de arena y de Segundo aliento |
+| P9 | Anuncios con AdMob y su consentimiento: con premio en los momentos y de pantalla completa cada 20 minutos | Bocetos de las opciones con anuncio |
 | P10 | Expansiones descargables | D11 (arquitectura C), P8 |
-| P11 | Inglés (capa 1) y ficha de la tienda en inglés; después portugués | P5 |
+| P11 | Inglés y portugués, por capas (pantallas, vida, preguntas), con probadores nativos; ficha de la tienda en los tres idiomas | P5 |
 
 La prueba cerrada (P6) se puede hacer **sin compras ni anuncios**: conviene empezarla apenas estén P1 y P2, para que los 14 días corran mientras se programa lo demás.

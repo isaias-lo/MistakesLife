@@ -38,19 +38,19 @@ Cada tarea empieza con bocetos con opciones que Isaias aprueba; recién después
 | D10 | Trámites y leyes como edificios del mapa: juzgado, Registro Civil, papeles, delitos propios con minijuego, cárcel como mundo propio | Pendiente |
 | D11 | Arquitectura C: base de datos y página web de formularios que generan los paquetes; países y casas 3D como descargas | Pendiente |
 
-## Publicación en Google Play (borrador en `docs/publicacion.md`)
+## Publicación en Google Play (detalle en `docs/publicacion.md`)
 
 | # | Tarea | Estado |
 |---|---|---|
-| P0 | Documento de la otra parte del juego: requisitos de Google Play (prueba cerrada de 12 probadores por 14 días, API 36, AAB, clasificación, Data safety), idiomas, privacidad y condiciones, Configuración, menú inicial, anuncios y compras, nube y seguridad, con opciones para que Isaias elija | En revisión |
+| P0 | Documento de la otra parte del juego: requisitos de Google Play (prueba cerrada de 12 probadores por 14 días, API 36, AAB, clasificación, Data safety), idiomas, privacidad y condiciones, Configuración, menú inicial, anuncios y compras, respaldo y seguridad. Las 12 decisiones tomadas (cuenta personal, 18+, español/inglés/portugués desde el lanzamiento, AdMob con premio en los momentos y pantalla completa cada 20 min, Volver al pasado y Segundo aliento como compras con una prueba gratis, Chile y Argentina gratis, respaldo en Google Play Games, Supabase para contenido y compras, GitHub Pages) | Hecha (#151 y su PR de decisiones) |
 | P1 | Armado para la tienda: llave de firma fija, AAB, API objetivo 36, versionCode automático | Pendiente |
 | P2 | Textos legales en GitHub Pages (privacidad, condiciones, borrar cuenta) | Pendiente |
 | P3 | Configuración (bocetos y pantalla) | Pendiente |
-| P4 | Menú inicial nuevo y primera vez (edad, condiciones) | Pendiente |
+| P4 | Menú inicial nuevo (Al azar y Crear tu vida) y primera vez (edad, condiciones) | Pendiente |
 | P5 | Idiomas listos para crecer (elegir idioma, informe de claves, género y plural) | Pendiente |
 | P6 | Prueba cerrada en Play Console (12 probadores, 14 días) | Pendiente |
-| P7 | Backend: cuenta y guardado en la nube | Pendiente |
-| P8 | Compras con verificación en el servidor y tienda | Pendiente |
+| P7 | Inicio automático de Google Play Games, respaldo en Partidas guardadas, Supabase para lo comprado | Pendiente |
+| P8 | Compras con verificación en el servidor, tienda, reloj de arena y Segundo aliento | Pendiente |
 | P9 | Anuncios y su consentimiento | Pendiente |
 | P10 | Expansiones descargables | Pendiente |
 | P11 | Inglés y portugués | Pendiente |

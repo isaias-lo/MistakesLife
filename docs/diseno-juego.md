@@ -40,6 +40,8 @@ El núcleo sigue avanzando de a una semana por dentro; "Un mes" y "Un año" son 
 
 Es un **botón circular chico** al lado de los botones de avanzar, y **solo aparece si el jugador lo compró**. También sigue apareciendo frente al error que vuelve, como ya existe. Isaias vio 8 formas de ordenar los tres botones y eligió la 1: el círculo chico de Volver al pasado, "Seguir un mes" ancho y "Un año" al lado (boceto M1Ancho, y S1Filas con las barras). Mientras no exista la tienda, el círculo aparece si quedan cargas y un momento al que volver.
 
+**Cambio del 21-11-2026 (ver `docs/publicacion.md`, decisión 8):** el círculo es un **ícono de reloj de arena** sin texto. Al tocarlo se abre un cuadro "Volver al pasado" con los momentos a los que se puede volver y las cargas que quedan. Es una compra, con una sola prueba gratis en todo el juego (con un anuncio, en la primera muerte), junto con **Segundo aliento**, que te salva de una muerte con secuelas reales.
+
 ## Pantalla principal, barras, íconos y letras
 
 ### Pantalla principal (aprobada, boceto S1Filas)

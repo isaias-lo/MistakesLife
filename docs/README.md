@@ -11,5 +11,5 @@ En esta carpeta van los documentos que necesitan estar junto al código:
 - [`roadmap.md`](roadmap.md): fases y tareas, con su estado.
 - [`content-language.md`](content-language.md): cómo escribir eventos y semillas en los paquetes.
 - [`diseno-juego.md`](diseno-juego.md): **manda sobre cómo se juega y cómo se ve** (acuerdos del 16-11-2026: tiempo por mes, pantalla principal, los 9 grupos, cada módulo). Léelo antes de programar en `unity/`.
-- [`publicacion.md`](publicacion.md): borrador para conversar de todo lo que necesita el juego para salir en Google Play (idiomas, privacidad, Configuración, menú inicial, anuncios, compras, nube y seguridad).
+- [`publicacion.md`](publicacion.md): todo lo que necesita el juego para salir en Google Play (idiomas, privacidad, Configuración, menú inicial, anuncios, compras, respaldo y seguridad), con las 12 decisiones tomadas.
 - [`archivo/`](archivo/): documentos de diseño anteriores, reemplazados por `diseno-juego.md`. Solo historia.
