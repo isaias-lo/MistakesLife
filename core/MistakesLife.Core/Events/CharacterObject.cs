@@ -427,6 +427,15 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.ContributedMonths);
                 case "fondo_pension":
                     return Value.FromNumber((double)PayrollToday(_character.PensionFund, scope));
+                case "seguro_desempleo_saldo":
+                    return Value.FromNumber((double)PayrollToday(_character.UnemploymentFund, scope));
+                case "cobrando_seguro_desempleo":
+                    return Value.FromBool(_character.Job == null && _character.UnemploymentClaim is Economy.UnemploymentClaim claim
+                        && claim.HasRight && !claim.Finished);
+                case "pagos_seguro_desempleo":
+                    return Value.FromNumber(_character.UnemploymentClaim?.Payments.Count ?? 0);
+                case "ultimo_pago_seguro_desempleo":
+                    return Value.FromNumber((double)(_character.UnemploymentClaim?.Payments.LastOrDefault()?.Amount ?? 0));
                 case "pension_estimada":
                     return Value.FromNumber((double)PayrollToday(Economy.PensionSystem.EstimatedPension(_character, Pensions(scope)), scope));
                 case "jubilado":

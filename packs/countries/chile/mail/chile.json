@@ -1,4 +1,9 @@
 [
   { "id": "correo.chile.cartola_afp", "remitente": "remitente.afp", "tema": "banco", "cada": "cuatrimestre",
-    "condiciones": "jugador.pais == 'pais.chile' && jugador.meses_cotizados > 0" }
+    "condiciones": "jugador.pais == 'pais.chile' && jugador.meses_cotizados > 0" },
+  { "id": "correo.chile.afc.primer_pago", "remitente": "remitente.afc", "tema": "banco", "al_anotar": ["diario.chile.seguro_cesantia.primer_pago"] },
+  { "id": "correo.chile.afc.pago_mes", "remitente": "remitente.afc", "tema": "banco", "cada": "mes",
+    "condiciones": "jugador.pais == 'pais.chile' && jugador.cobrando_seguro_desempleo && jugador.pagos_seguro_desempleo >= 2" },
+  { "id": "correo.chile.afc.ultimo_pago", "remitente": "remitente.afc", "tema": "banco", "al_anotar": ["diario.chile.seguro_cesantia.ultimo_pago"] },
+  { "id": "correo.chile.afc.retiro", "remitente": "remitente.afc", "tema": "banco", "al_anotar": ["diario.chile.seguro_cesantia.retiro"] }
 ]

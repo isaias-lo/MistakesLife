@@ -118,6 +118,15 @@ namespace MistakesLife.Core.Saving
 
         public decimal LastPensionPayment { get; set; }
 
+        /// <summary>Saldo de la cuenta del seguro de desempleo (desde la versión 46 del formato).</summary>
+        public decimal UnemploymentFund { get; set; }
+
+        public int UnemploymentContributions { get; set; }
+
+        public decimal UnemploymentSalaryBase { get; set; }
+
+        public UnemploymentClaimData? UnemploymentClaim { get; set; }
+
         /// <summary>Contrato de arriendo, o null si no arrienda.</summary>
         public LeaseData? Lease { get; set; }
 

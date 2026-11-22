@@ -57,5 +57,18 @@
   "evento.operacion_renta.3": "Quedan pocos días para declarar la renta. La propuesta del SII sigue ahí, esperando que la revises.",
   "evento.operacion_renta.4": "Otro abril, otra Operación Renta. Juntas las boletas de honorarios del año y entras al sitio del SII a ver la propuesta.",
   "evento.operacion_renta.5": "Te llega el correo del SII: ya está disponible tu propuesta de declaración. Este año boleteaste más que el anterior.",
-  "evento.operacion_renta.6": "Es fin de abril y la declaración de renta sigue sin hacer. En las noticias recuerdan que el plazo vence en pocos días."
+  "evento.operacion_renta.6": "Es fin de abril y la declaración de renta sigue sin hacer. En las noticias recuerdan que el plazo vence en pocos días.",
+  "remitente.afc": "AFC Chile - Seguro de Cesantía",
+  "diario.chile.seguro_cesantia.primer_pago": "Me depositaron el primer pago del Seguro de Cesantía. No tuve que hacer nada: la AFC me va a pagar cada mes, cada vez un poco menos que el anterior.",
+  "diario.chile.seguro_cesantia.ultimo_pago": "Llegó el último pago del Seguro de Cesantía. Desde el próximo mes ya no cae nada en la cuenta.",
+  "diario.chile.seguro_cesantia.sin_derecho": "Quedé sin pega y no alcancé a juntar las 10 cotizaciones que pide el Seguro de Cesantía. Esta vez no me toca nada.",
+  "diario.chile.seguro_cesantia.retiro": "Al jubilarme retiré de una vez lo que me quedaba en la cuenta del Seguro de Cesantía.",
+  "correo.chile.afc.primer_pago.asunto": "Tu Seguro de Cesantía: depositamos tu primer pago",
+  "correo.chile.afc.primer_pago": "Recibimos el término de tu contrato y tienes derecho al Seguro de Cesantía. Ya depositamos tu primer pago, el 70 % de tu sueldo promedio de los últimos meses. Los próximos pagos llegarán cada mes y van bajando, mientras tengas saldo en tu Cuenta Individual de Cesantía. Si te despidieron por necesidades de la empresa y tu saldo no alcanza, el Fondo de Cesantía Solidario completa tus pagos: para eso debes estar inscrito en la Bolsa Nacional de Empleo.",
+  "correo.chile.afc.pago_mes.asunto": "Tu Seguro de Cesantía: pago del mes",
+  "correo.chile.afc.pago_mes": "Depositamos el pago de este mes de tu Seguro de Cesantía. Recuerda que cada pago es un poco menor que el anterior. Si encuentras trabajo, los pagos se detienen: cobrar el seguro trabajando es un delito.",
+  "correo.chile.afc.ultimo_pago.asunto": "Tu Seguro de Cesantía: último pago",
+  "correo.chile.afc.ultimo_pago": "Depositamos el último pago de tu Seguro de Cesantía. Tu cuenta volverá a crecer con las cotizaciones de tu próximo contrato.",
+  "correo.chile.afc.retiro.asunto": "Retiro de tu Cuenta Individual de Cesantía",
+  "correo.chile.afc.retiro": "Como te pensionaste, depositamos en un solo pago todo el saldo de tu Cuenta Individual de Cesantía."
 }

@@ -192,6 +192,7 @@ Los bocetos de minijuegos de R6e fueron rechazados por genéricos. Se rehacen co
 - **Deudas:** el juicio se lleva a fondo en Trámites y leyes, con aviso en Deudas, un correo y "lo que se dice de ti".
 - **Pagos automáticos sin avisos** para lo que se repite, con un resumen de gastos.
 - Para más adelante: una **mochila**, colección de las cosas de la vida.
+- **Seguro de Cesantía (acordado con Isaias el 22-11-2026):** se cobra solo al perder la pega, sin que el jugador haga nada, pero se tiene que notar. El núcleo ya lo paga (N13). Cuando se haga esta sección: el seguro como un plan visible en Dinero con su saldo, la notificación del banco cuando llega cada pago y la cartola con la descripción de cada movimiento. El correo de la AFC trae el documento como adjunto cuando existan los adjuntos (Correo).
 
 ### Dónde vives
 
@@ -293,6 +294,8 @@ Un **módulo grande con mundo propio**: reglas, gente y mecánicas propias. Mien
 3. La página **genera paquetes** (los mismos paquetes JSON que ya usa el núcleo).
 4. **El juego descarga** los paquetes y después **juega sin internet**.
 5. Países nuevos y casas 3D llegan **como descargas**, que también pueden ser expansiones pagadas.
+
+**Nombres propios de cada país (regla de Isaias, 22-11-2026):** lo que en Chile tiene un nombre conocido (Seguro de Cesantía, AFC, Fonasa, isapre, SII, DICOM) se llama así solo en el paquete de Chile. El núcleo usa un nombre general (por ejemplo, "seguro de desempleo") y cada país pone su nombre, su institución y sus reglas en su paquete y en sus textos, para que cambiarlos sea fácil al agregar un país.
 
 Cada país trae la misma forma con datos propios: 4 lugares (2 de clase baja, 1 media, 1 alta) y 9 viviendas en 3D; escala de notas, sistema de salud, puntaje bancario, 3 bancos y leyes; precios, salarios y datos reales con su fuente.
 

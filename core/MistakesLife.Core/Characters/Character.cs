@@ -310,6 +310,21 @@ namespace MistakesLife.Core.Characters
         public int ContributedMonths { get; set; }
 
         /// <summary>
+        /// Lo ahorrado en su cuenta del seguro de desempleo (la Cuenta Individual de
+        /// Cesantía en Chile), en dinero de los paquetes. Ver <see cref="Economy.UnemploymentInsuranceSystem"/>.
+        /// </summary>
+        public decimal UnemploymentFund { get; set; }
+
+        /// <summary>Cotizaciones al seguro de desempleo desde su último cobro (para tener derecho a cobrar).</summary>
+        public int UnemploymentContributions { get; set; }
+
+        /// <summary>Su sueldo bruto promedio de los últimos meses con contrato, en dinero de los paquetes: con él se calculan los pagos del seguro.</summary>
+        public decimal UnemploymentSalaryBase { get; set; }
+
+        /// <summary>El cobro del seguro de desempleo por el último trabajo que perdió, o null si trabaja o nunca perdió uno con contrato.</summary>
+        public Economy.UnemploymentClaim? UnemploymentClaim { get; set; }
+
+        /// <summary>
         /// En los países con jubilación de reparto: el sueldo bruto promedio de sus
         /// últimos años con aportes, en dinero de los paquetes. Con él se calcula
         /// la pensión. Se actualiza cada mes con aporte (promedio móvil).
