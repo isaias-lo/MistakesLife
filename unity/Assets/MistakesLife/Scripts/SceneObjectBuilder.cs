@@ -569,8 +569,8 @@ namespace MistakesLife.Unity
                     }
 
                     kit.Box("Puntaje del ensayo en rojo", new Vector3(-0.06f, 0.473f, 0.24f), new Vector3(0.05f, 0.002f, 0.025f), Palette.Alarm);
-                    GameObject pencil = kit.Shape(PrimitiveType.Cylinder, "Lápiz del ensayo", new Vector3(0.04f, 0.455f, 0.1f), new Vector3(0.012f, 0.08f, 0.012f), new Color(0.95f, 0.78f, 0.25f));
-                    pencil.transform.localRotation = Quaternion.Euler(0f, 30f, 90f);
+                    GameObject essayPencil = kit.Shape(PrimitiveType.Cylinder, "Lápiz del ensayo", new Vector3(0.04f, 0.455f, 0.1f), new Vector3(0.012f, 0.08f, 0.012f), new Color(0.95f, 0.78f, 0.25f));
+                    essayPencil.transform.localRotation = Quaternion.Euler(0f, 30f, 90f);
                     break;
                 case "escena.casa.resultados_paes":
                     // Diste la PAES (D5a5): la hoja de resultados impresa, pegada al muro con su tabla de puntajes.
