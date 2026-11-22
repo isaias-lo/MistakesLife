@@ -32,6 +32,7 @@ namespace MistakesLife.Unity
         private RectTransform? _layer;
         private TextMeshProUGUI _title = null!;
         private TextMeshProUGUI _freeTime = null!;
+        private LayoutElement _freeTimeSize = null!;
         private TextMeshProUGUI _hint = null!;
         private TextMeshProUGUI _backLabel = null!;
         private RectTransform _hole = null!;
@@ -187,6 +188,12 @@ namespace MistakesLife.Unity
             chipRow.childControlHeight = true;
             _freeTime = UiFactory.Label(chip, string.Empty, UiFactory.MinFontSize, UiFactory.AccentText, FontStyles.Bold);
             _freeTime.textWrappingMode = TextWrappingModes.NoWrap;
+            // Sin esto el fondo redondeado pide su propio tamaño y el aviso sale como un cuadro gigante.
+            _freeTimeSize = chip.gameObject.AddComponent<LayoutElement>();
+            _freeTimeSize.layoutPriority = 1;
+            _freeTimeSize.preferredHeight = 76;
+            _freeTimeSize.flexibleWidth = 0;
+            _freeTimeSize.flexibleHeight = 0;
 
             // El hueco: la escena se ve aquí; tocar sin arrastrar elige lo que está ahí, arrastrar gira.
             _hole = UiFactory.Child(_layer, "Hueco del lugar");
@@ -214,6 +221,8 @@ namespace MistakesLife.Unity
             // Los nombres van encima de la escena y la siguen cuando se gira.
             _tags = UiFactory.Child(_hole, "Nombres");
             UiFactory.Stretch(_tags);
+            // Los nombres solo se ven dentro del hueco: no se montan sobre la barra de arriba ni la hoja.
+            _tags.gameObject.AddComponent<RectMask2D>();
             _follow = _layer.gameObject.AddComponent<PlaceTags>();
             _follow.Home = _home;
 
@@ -235,6 +244,8 @@ namespace MistakesLife.Unity
             _hint.text = place.Hint;
             FreeTimeView? free = presenter.FreeTime();
             _freeTime.text = free?.Label ?? string.Empty;
+            _freeTimeSize.minWidth = _freeTime.GetPreferredValues(_freeTime.text).x + 48;
+            _freeTimeSize.preferredWidth = _freeTimeSize.minWidth;
             _freeTime.transform.parent.gameObject.SetActive(free != null);
             DrawTags(place);
 
