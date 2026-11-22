@@ -336,6 +336,10 @@ namespace MistakesLife.Core.Saving
             // las partidas viejas nadie ha estudiado con preguntas: el dominio que falta parte la
             // próxima semana desde la base de las clases, y ninguna prueba es recuperativa.
             [41] = save => { },
+
+            // 42 → 43: aparecen copiar en la prueba anunciada y las faltas a clases (la cimarra,
+            // D5a3). En las partidas viejas nadie copió ni faltó: los datos que faltan se leen así.
+            [42] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

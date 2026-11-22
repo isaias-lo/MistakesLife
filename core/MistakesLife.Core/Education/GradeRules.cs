@@ -54,6 +54,64 @@ namespace MistakesLife.Core.Education
         /// <summary>Semanas mínimas entre una prueba anunciada y la siguiente.</summary>
         public const int WeeksBetweenAnnouncedTests = 4;
 
+        /// <summary>
+        /// Lo que sube una prueba copiada sin que lo pillen, en la escala de 1 a 7 (D5a3). La
+        /// nota sube, pero el dominio no: no aprendió nada.
+        /// </summary>
+        public const double CheatBonus = 1.0;
+
+        /// <summary>La nota de una prueba copiada sin que lo pillen: la que habría sacado, más <see cref="CheatBonus"/>.</summary>
+        public static double Copied(double mark, GradeScaleDefinition scale) =>
+            Math.Min(scale.Max, Round(mark + (CheatBonus * (scale.Max - scale.Min) / 6.0), scale));
+
+        /// <summary>La probabilidad de que lo pillen copiando en una prueba (D5a3).</summary>
+        public const double CaughtChance = 0.3;
+
+        /// <summary>Días de clases en una semana del año escolar (para la asistencia).</summary>
+        public const int SchoolDaysPerWeek = 5;
+
+        /// <summary>Lo que baja el dominio de cada ramo por cada día de clases que faltó (se perdió la clase).</summary>
+        public const int MasteryLostPerAbsence = 1;
+
+        /// <summary>
+        /// La asistencia del año que va, de 0 a 1: los días de clases hasta hoy menos los que
+        /// faltó sin estar enfermo (la cimarra).
+        /// </summary>
+        public static double Attendance(CountryDefinition country, GameDate date, SchoolRecord record)
+        {
+            int days = Math.Max(1, StudyRules.SchoolWeeksSoFar(country, date) * SchoolDaysPerWeek);
+            return Math.Max(0, (days - record.Absences) / (double)days);
+        }
+
+        /// <summary>
+        /// Si con las faltas del año llega a la asistencia mínima de la etapa. Se mide sobre el
+        /// año completo, como en el reglamento de promoción.
+        /// </summary>
+        public static bool MeetsAttendance(EducationStageDefinition stage, CountryDefinition country, int absences)
+        {
+            if (!stage.MinAttendance.HasValue)
+            {
+                return true;
+            }
+
+            int days = Math.Max(1, country.SchoolWeeksPerYear() * SchoolDaysPerWeek);
+            return (days - absences) / (double)days >= stage.MinAttendance.Value;
+        }
+
+        /// <summary>
+        /// Falta a clases sin estar enfermo (la cimarra, D5a3): suma días a sus faltas del año y
+        /// pierde lo que se pasó en clases (el dominio de cada ramo baja un poco).
+        /// </summary>
+        public static void Skip(Character character, int days)
+        {
+            SchoolRecord record = character.SchoolRecord ??= new SchoolRecord();
+            record.Absences += days;
+            foreach (string subject in record.Mastery.Keys.ToList())
+            {
+                record.Mastery[subject] = Math.Max(0, record.Mastery[subject] - (MasteryLostPerAbsence * days));
+            }
+        }
+
         /// <summary>Los ramos que tiene hoy, según su etapa y su curso.</summary>
         public static IReadOnlyList<SubjectDefinition> Subjects(EducationStageDefinition stage, int level) =>
             stage.Subjects.Where(s => s.InLevel(level)).ToList();

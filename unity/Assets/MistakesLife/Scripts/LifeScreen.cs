@@ -418,7 +418,7 @@ namespace MistakesLife.Unity
             _money = new MoneyScreen(safe) { Changed = MailRead };
             _court = new CourtScreen(safe);
             _studies = new StudiesScreen(safe);
-            _study = new StudyScreen(safe) { Changed = ActionDone };
+            _study = new StudyScreen(safe) { Changed = ActionDone, Requested = MailRead };
             _team = new TeamScreen(safe) { Changed = MailRead };
             _actions = new ActionsScreen(safe) { Changed = ActionDone };
             _people = new PeopleScreen(safe) { Changed = ActionDone };

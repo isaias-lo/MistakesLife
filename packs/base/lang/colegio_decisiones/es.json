@@ -1,0 +1,49 @@
+{
+  "accion.colegio.copiar": "Copiar en la prueba que viene",
+  "evento.colegio.pedir_copiar": "La prueba es la próxima semana y no llevas mucho estudiado. {persona} se sienta al lado tuyo y siempre termina antes.",
+  "opcion.colegio.pedir_copiar.torpedo": "Hacer un torpedo chiquito y esconderlo en la manga",
+  "opcion.colegio.pedir_copiar.mirar": "Pedirle a {persona} que corra un poco su hoja",
+  "opcion.colegio.pedir_copiar.mejor_estudiar": "Mejor no: estudiar un rato esta tarde",
+
+  "accion.colegio.cimarra": "Hacer la cimarra",
+  "evento.colegio.pedir_cimarra": "A la entrada le dices a {persona} que hoy no tienes ganas de entrar. Te mira y se ríe: le pasa lo mismo.",
+  "opcion.colegio.pedir_cimarra.plaza": "Irse a la plaza hasta la hora de salida",
+  "opcion.colegio.pedir_cimarra.dos_dias": "Faltar hoy y mañana: total, nadie revisa",
+  "opcion.colegio.pedir_cimarra.entrar": "Al final entrar a clases",
+  "diario.colegio.pedir_cimarra": "Hice la cimarra. Pasamos la mañana en la plaza, mirando la hora para volver justo a la salida.",
+  "diario.colegio.pedir_cimarra.dos_dias": "Falté dos días seguidos al colegio. A la casa dije que había ido.",
+
+  "evento.colegio.torpedo_ofrecido": "En el recreo, {persona} te muestra un papelito doblado en ocho: el torpedo para la prueba de mañana. «Te hago una copia si quieres».",
+  "evento.colegio.torpedo_ofrecido.2": "{persona} saca la calculadora y te enseña que tiene las fórmulas guardadas. «Para la prueba. Te las paso por el celular».",
+  "evento.colegio.torpedo_ofrecido.3": "{persona} escribió los apuntes de la prueba con lápiz mina en la goma de borrar. Te ofrece otra igual.",
+  "opcion.colegio.torpedo_ofrecido.aceptar": "Aceptar el torpedo",
+  "opcion.colegio.torpedo_ofrecido.no": "Decirle que no, gracias",
+  "opcion.colegio.torpedo_ofrecido.estudiar_juntos": "Proponerle estudiar juntos esta tarde",
+
+  "evento.prueba.pillado_copiando": "En medio de la prueba, {persona} se para al lado de tu banco, estira la mano y se lleva el torpedo. Te quita la hoja y anota algo en el libro de clases.",
+  "evento.prueba.pillado_copiando.2": "{persona} te pide que te quedes después de la prueba. Sobre su escritorio está tu hoja, con las mismas respuestas que la de tu compañero, palabra por palabra.",
+  "opcion.prueba.pillado_copiando.reconocer": "Reconocerlo y pedir disculpas",
+  "opcion.prueba.pillado_copiando.negar": "Negarlo: no estabas copiando",
+  "opcion.prueba.pillado_copiando.pedir_otra": "Preguntar si puedes dar otra prueba",
+  "diario.prueba.pillado_copiando.reconocer": "Me pillaron copiando. Lo reconocí, pero igual me pusieron la nota mínima y una anotación. Van a citar a mi apoderado.",
+  "diario.prueba.pillado_copiando.negar": "Me pillaron copiando y lo negué. Me pusieron la nota mínima y una anotación, y ahora citan a mi apoderado.",
+
+  "evento.apoderados.pillado_copiando": "{persona} llega de la reunión con la libreta de comunicaciones en la mano. Te la deja abierta sobre la mesa: «Citación al apoderado. Motivo: copiar en prueba».",
+  "opcion.apoderados.pillado_copiando.contar": "Contarle la verdad, sin excusas",
+  "opcion.apoderados.pillado_copiando.culpar": "Decirle que la profe te tiene mala",
+  "opcion.apoderados.pillado_copiando.prometer": "Prometerle que vas a estudiar en serio",
+
+  "evento.colegio.cimarra_descubierta": "Suena el teléfono de la casa. Es el inspector del colegio: pregunta por qué no fuiste a clases. Te pasan el teléfono y en la casa todos te miran.",
+  "opcion.colegio.cimarra_descubierta.reconocer": "Reconocer que hiciste la cimarra",
+  "opcion.colegio.cimarra_descubierta.mentir": "Decir que te sentías mal y te devolviste",
+  "opcion.colegio.cimarra_descubierta.culpar": "Decir que te convencieron",
+  "diario.colegio.cimarra_descubierta": "Del colegio llamaron a la casa por la cimarra. Lo reconocí. Ahora tengo citación de apoderado.",
+
+  "evento.colegio.aviso_asistencia": "Al final de la clase, {persona} te llama a su escritorio. Te muestra el libro de clases: llevas muchas faltas. «Con menos de 85 % de asistencia se repite, aunque tengas buenas notas».",
+  "opcion.colegio.aviso_asistencia.prometer": "Prometer que no vas a faltar más",
+  "opcion.colegio.aviso_asistencia.excusa": "Inventar que tuviste fiebre",
+  "opcion.colegio.aviso_asistencia.callar": "No decir nada",
+
+  "diario.notas.pillado_copiando": "Me pillaron copiando en la prueba: me pusieron la nota mínima.",
+  "diario.notas.repitio_asistencia": "Repetí de curso por inasistencia: falté más del 15 % de los días, aunque mis notas alcanzaban para pasar."
+}
