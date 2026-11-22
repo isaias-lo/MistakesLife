@@ -13,7 +13,7 @@ namespace MistakesLife.Core.Content
         public string Id { get; set; } = string.Empty;
 
         /// <summary>
-        /// Cuánto cuesta al mes, en dinero del inicio del mundo. Es una expresión del
+        /// Cuánto cuesta al mes, en dinero de los paquetes. Es una expresión del
         /// lenguaje: "200000 + 90000 * jugador.hijos_menores" o "arriendo()".
         /// </summary>
         [JsonProperty("monto", Required = Required.Always)]
@@ -29,7 +29,7 @@ namespace MistakesLife.Core.Content
 
         /// <summary>
         /// Si el monto ya viene a precios de hoy (por ejemplo, "causa('causa.x').monto", que se
-        /// reajusta solo), y no hay que llevarlo de dinero del inicio del mundo a hoy.
+        /// reajusta solo), y no hay que llevarlo de dinero de los paquetes a hoy.
         /// </summary>
         [JsonProperty("a_precios_de_hoy")]
         public bool InTodayMoney { get; set; }

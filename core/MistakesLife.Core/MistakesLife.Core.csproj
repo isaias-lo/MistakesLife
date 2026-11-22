@@ -18,4 +18,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Las pruebas pueden poner los precios de un país en los de hoy (TestPrices). -->
+    <InternalsVisibleTo Include="MistakesLife.Core.Tests" />
+  </ItemGroup>
+
 </Project>

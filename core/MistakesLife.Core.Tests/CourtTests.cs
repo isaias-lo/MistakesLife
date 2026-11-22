@@ -248,7 +248,7 @@ namespace MistakesLife.Core.Tests
             CourtCase courtCase = Assert.Single(loaded.World.CourtCases);
             Assert.Equal(world.CourtCases[0].Rit, courtCase.Rit);
             Assert.Equal(world.Player.PartnerId, courtCase.OtherPartyId);
-            Assert.Equal(120000m, courtCase.Amount);
+            Assert.Equal(world.CourtCases[0].Amount, courtCase.Amount);
             Assert.Equal("union.chile.matrimonio", loaded.World.Player.UnionTypeId);
             Assert.Equal(session.SaveToText(), loaded.SaveToText());
         }

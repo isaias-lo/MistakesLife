@@ -7,7 +7,7 @@ namespace MistakesLife.Core.Saving
 
         public string CommuneId { get; set; } = string.Empty;
 
-        /// <summary>Arriendo en dinero del inicio del mundo; 0 si vino de un guardado viejo (toma el precio de la comuna).</summary>
+        /// <summary>Arriendo en dinero de los paquetes; 0 si vino de un guardado viejo (toma el precio de la comuna).</summary>
         public decimal BaseRent { get; set; }
 
         public double AdjustedPriceIndex { get; set; }

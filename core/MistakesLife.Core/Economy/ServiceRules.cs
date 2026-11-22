@@ -23,7 +23,7 @@ namespace MistakesLife.Core.Economy
         public static ServiceDefinition? ServiceOf(ContentDatabase content, Character character, string optionId) =>
             ServicesFor(content, character).FirstOrDefault(s => s.Option(optionId) != null);
 
-        /// <summary>Lo que cuesta al mes esa opción, en dinero del inicio del mundo.</summary>
+        /// <summary>Lo que cuesta al mes esa opción, en dinero de los paquetes.</summary>
         public static decimal Price(ContentDatabase content, Character character, string optionId, string where)
         {
             ServiceDefinition service = ServiceOf(content, character, optionId)

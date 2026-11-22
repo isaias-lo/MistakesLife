@@ -203,7 +203,7 @@ namespace MistakesLife.Core.Characters
         public Economy.Job? LastJob { get; internal set; }
 
         /// <summary>
-        /// Una herencia que todavía no puede usar, en dinero del inicio del mundo: en países
+        /// Una herencia que todavía no puede usar, en dinero de los paquetes: en países
         /// donde hay que tramitarla (la posesión efectiva de Chile), queda aquí hasta que un
         /// evento la entregue con jugador.recibir_herencia().
         /// </summary>
@@ -299,7 +299,7 @@ namespace MistakesLife.Core.Characters
 
         /// <summary>
         /// Lo ahorrado en su cuenta de pensión (por ejemplo en la AFP), en dinero
-        /// del inicio del mundo: así la inflación no lo achica.
+        /// de los paquetes: así la inflación no lo achica.
         /// </summary>
         public decimal PensionFund { get; set; }
 
@@ -311,12 +311,12 @@ namespace MistakesLife.Core.Characters
 
         /// <summary>
         /// En los países con jubilación de reparto: el sueldo bruto promedio de sus
-        /// últimos años con aportes, en dinero del inicio del mundo. Con él se calcula
+        /// últimos años con aportes, en dinero de los paquetes. Con él se calcula
         /// la pensión. Se actualiza cada mes con aporte (promedio móvil).
         /// </summary>
         public decimal PensionSalaryBase { get; set; }
 
-        /// <summary>Su pensión mensual, en dinero del inicio del mundo, o null si no se ha jubilado.</summary>
+        /// <summary>Su pensión mensual, en dinero de los paquetes, o null si no se ha jubilado.</summary>
         public decimal? Pension { get; set; }
 
         /// <summary>Si pidió la pensión del Estado para personas mayores (en Chile, la PGU).</summary>

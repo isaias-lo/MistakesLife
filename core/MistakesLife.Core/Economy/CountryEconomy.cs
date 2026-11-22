@@ -14,8 +14,14 @@ namespace MistakesLife.Core.Economy
 
         private readonly Queue<double> _indexHistory = new Queue<double>();
 
-        public CountryEconomy(string countryId, string regimeId, double annualInflation)
+        public CountryEconomy(string countryId, string regimeId, double annualInflation, double initialIndex = 1)
         {
+            if (initialIndex <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(initialIndex), "El índice de precios inicial debe ser mayor que 0.");
+            }
+
+            PriceIndex = initialIndex;
             CountryId = countryId ?? throw new ArgumentNullException(nameof(countryId));
             RegimeId = regimeId ?? throw new ArgumentNullException(nameof(regimeId));
             AnnualInflation = annualInflation;
@@ -34,9 +40,10 @@ namespace MistakesLife.Core.Economy
         public double AnnualInflation { get; internal set; }
 
         /// <summary>
-        /// Índice de precios: 1 cuando empieza el mundo. Si vale 2, todo cuesta el
-        /// doble que al principio. Los montos de los paquetes se escriben en dinero
-        /// del inicio y se multiplican por este índice (función precio()).
+        /// Índice de precios: 1 son los precios de los paquetes (los de hoy). Si vale 2,
+        /// todo cuesta el doble. Empieza en "indice_inicial" del país (por ejemplo 0.42,
+        /// para que vuelva a 1 cerca de los 25 años del jugador). Los montos de los
+        /// paquetes se multiplican por este índice (función precio()).
         /// </summary>
         public double PriceIndex { get; private set; } = 1;
 

@@ -50,7 +50,7 @@ namespace MistakesLife.Core.Courts
 
         /// <summary>
         /// Un monto que fija la causa (lo que se debe pagar, la pensión de alimentos), en
-        /// dinero del inicio del mundo: los eventos lo leen a precios de hoy, así que se
+        /// dinero de los paquetes: los eventos lo leen a precios de hoy, así que se
         /// reajusta solo cuando suben los precios. 0 si no hay.
         /// </summary>
         public decimal Amount { get; set; }

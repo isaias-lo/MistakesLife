@@ -27,7 +27,7 @@ namespace MistakesLife.Core.Content
         [JsonProperty("pago_minimo")]
         public double? MinimumPaymentRate { get; set; }
 
-        /// <summary>Con pago mínimo: lo menos que se cobra al mes, en dinero del inicio del mundo (o todo, si se debe menos).</summary>
+        /// <summary>Con pago mínimo: lo menos que se cobra al mes, en dinero de los paquetes (o todo, si se debe menos).</summary>
         [JsonProperty("pago_minimo_monto")]
         public decimal MinimumPaymentAmount { get; set; }
 
