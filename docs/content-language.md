@@ -326,6 +326,44 @@ El sistema de salud del país: una previsión **pública** con tramos según lo 
 
 - Con `completa_hasta: 0` y `sin_pension_desde: 1`, la pensión universal es solo para quien no tiene pensión propia (como la PUAM).
 
+#### Seguro de desempleo (`economia.seguro_desempleo`)
+
+El seguro que paga cuando alguien con contrato pierde su trabajo. El núcleo solo sabe que existe; **cómo se llama y sus reglas vienen del paquete de cada país** (en Chile es el Seguro de Cesantía de la AFC; en otro país tendrá otro nombre y otras reglas, en su propio paquete y en sus textos). El jugador no hace nada: se cobra solo (`sistema.seguro_desempleo`, después de las pensiones).
+
+```json
+"seguro_desempleo": {
+  "descuento": "descuento.chile.seguro_cesantia",
+  "aporte_empleador_cuenta": 0.016,
+  "cotizaciones_minimas": 10,
+  "meses_promedio": 10,
+  "pagos": [0.70, 0.60, 0.45, 0.40, 0.35, 0.30],
+  "fondo_solidario": {
+    "marcas": ["despedido_necesidades", "despedido_quiebra"],
+    "meses_seguidos_ultimo_empleador": 3,
+    "pagos": 5,
+    "minimo_primer_pago": 301201,
+    "maximo_primer_pago": 1004003
+  },
+  "diario_primer_pago": "diario.chile.seguro_cesantia.primer_pago",
+  "diario_ultimo_pago": "diario.chile.seguro_cesantia.ultimo_pago",
+  "diario_sin_derecho": "diario.chile.seguro_cesantia.sin_derecho",
+  "diario_retiro_al_jubilar": "diario.chile.seguro_cesantia.retiro"
+}
+```
+
+- Cada mes con sueldo con contrato se ahorra en la cuenta propia el `descuento` de la liquidación más el aporte del empleador (`aporte_empleador_cuenta`, sobre el mismo sueldo), en dinero de los paquetes. Suma una cotización y el sueldo entra al promedio de los últimos `meses_promedio` meses. A honorarios o sin contrato no hay seguro.
+- La semana después de quedar sin ese trabajo nace el **cobro**. Sin `cotizaciones_minimas` (contadas desde el último cobro) no hay pagos y el diario lo dice (`diario_sin_derecho`); la plata sigue en la cuenta.
+- Desde el mes siguiente, al empezar cada mes, se deposita `pagos[n]` del sueldo promedio. Lo paga la cuenta mientras alcance; después del último porcentaje sigue con el último mientras quede saldo.
+- `fondo_solidario` (opcional): si la cuenta no alcanza, el jugador tiene una de las `marcas` (despido sin culpa suya) y llevaba `meses_seguidos_ultimo_empleador`, el fondo completa los primeros `pagos` pagos, con un mínimo y un máximo (los del primer pago; los siguientes bajan en la misma proporción que su porcentaje).
+- Un trabajo nuevo termina el cobro; al jubilarse, lo que queda en la cuenta se retira de una vez (`diario_retiro_al_jubilar`). El primer y el último pago se anotan en el diario, para que los correos del país los escuchen (`al_anotar`).
+- Cada pago queda guardado con su fecha, su número y la parte que puso el fondo, para que el banco lo muestre como movimiento (serie D).
+
+| En el lenguaje | Qué es |
+|---|---|
+| `jugador.seguro_desempleo_saldo` | Lo que tiene en la cuenta del seguro, a precios de hoy |
+| `jugador.cobrando_seguro_desempleo` | Si está sin trabajo y todavía le quedan pagos por recibir |
+| `jugador.pagos_seguro_desempleo`, `jugador.ultimo_pago_seguro_desempleo` | Cuántos pagos lleva por el último trabajo que perdió, y cuánto fue el último |
+
 #### Ciclo económico (`economia.ciclo`)
 
 ```json

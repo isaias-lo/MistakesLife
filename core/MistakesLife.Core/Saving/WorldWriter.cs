@@ -211,6 +211,24 @@ namespace MistakesLife.Core.Saving
                 Pension = c.Pension,
                 ReceivesUniversalPension = c.ReceivesUniversalPension,
                 LastPensionPayment = c.LastPensionPayment,
+                UnemploymentFund = c.UnemploymentFund,
+                UnemploymentContributions = c.UnemploymentContributions,
+                UnemploymentSalaryBase = c.UnemploymentSalaryBase,
+                UnemploymentClaim = c.UnemploymentClaim == null ? null : new UnemploymentClaimData
+                {
+                    StartWeek = c.UnemploymentClaim.Start.TotalWeeks,
+                    HasRight = c.UnemploymentClaim.HasRight,
+                    Solidarity = c.UnemploymentClaim.Solidarity,
+                    SalaryBase = c.UnemploymentClaim.SalaryBase,
+                    Finished = c.UnemploymentClaim.Finished,
+                    Payments = c.UnemploymentClaim.Payments.Select(p => new UnemploymentPaymentData
+                    {
+                        Week = p.Date.TotalWeeks,
+                        Number = p.Number,
+                        Amount = p.Amount,
+                        FromSolidarityFund = p.FromSolidarityFund,
+                    }).ToList(),
+                },
                 Debts = c.Debts.Select(d => new DebtData
                 {
                     TypeId = d.TypeId,

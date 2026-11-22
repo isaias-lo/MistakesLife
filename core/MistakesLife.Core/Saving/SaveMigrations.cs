@@ -348,6 +348,11 @@ namespace MistakesLife.Core.Saving
             // 44 → 45: aparecen las entregas de los proyectos de la carrera (talleres, electivos
             // y seminario de tesis, D5a4). En las partidas viejas no hay entregas: se leen vacías.
             [44] = save => { },
+
+            // 45 → 46: aparece el seguro de desempleo (el Seguro de Cesantía en Chile): su cuenta,
+            // las cotizaciones desde el último cobro, el sueldo promedio y el cobro. En las partidas
+            // viejas la cuenta parte vacía y se llena desde el próximo sueldo con contrato.
+            [45] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

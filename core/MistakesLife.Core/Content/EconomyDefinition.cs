@@ -76,5 +76,9 @@ namespace MistakesLife.Core.Content
         /// <summary>Cómo le va a un negocio chico entre socios, o null si en el país no se puede armar uno.</summary>
         [JsonProperty("negocios")]
         public VenturesDefinition? Ventures { get; set; }
+
+        /// <summary>El seguro que paga al perder un trabajo con contrato (el Seguro de Cesantía en Chile), o null si el país no lo tiene cargado.</summary>
+        [JsonProperty("seguro_desempleo")]
+        public UnemploymentInsuranceDefinition? UnemploymentInsurance { get; set; }
     }
 }
