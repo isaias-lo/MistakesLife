@@ -15,5 +15,8 @@ namespace MistakesLife.Core.Saving
 
         /// <summary>Nombre del lazo en <see cref="Characters.RelationshipBond"/> ("None", "Friend"…).</summary>
         public string Bond { get; set; } = string.Empty;
+
+        /// <summary>La semana de la última vez que hicieron algo juntos (desde la versión 50); null si nunca.</summary>
+        public int? LastTogetherWeek { get; set; }
     }
 }

@@ -119,6 +119,51 @@ namespace MistakesLife.Core.Content
         [JsonProperty("aporta")]
         public string? Offers { get; set; }
 
+        /// <summary>
+        /// El lugar del mapa de tu barrio donde se hace (<see cref="MapPlaceDefinition"/>, D5c2): el
+        /// cine en el mall, el café. Las acciones con lugar no van en la lista del grupo ni en la
+        /// ficha: se eligen tocando el lugar, y ahí se elige con quién.
+        /// </summary>
+        [JsonProperty("lugar")]
+        public string? Place { get; set; }
+
+        /// <summary>Si dice con quién (<see cref="With"/>), si también se puede ir solo (ver una película, entrenar).</summary>
+        [JsonProperty("solo")]
+        public bool Alone { get; set; }
+
+        /// <summary>
+        /// Lo que cuesta tu parte, por país (id del país → monto en dinero de los paquetes; se lleva a
+        /// precios de hoy como <c>precio()</c>). Lo pagas desde los 18; antes lo paga tu casa.
+        /// Se cobra solo si se hace (si la persona dice que no, no fueron).
+        /// </summary>
+        [JsonProperty("precio")]
+        public Dictionary<string, int> Price { get; set; } = new Dictionary<string, int>();
+
+        /// <summary>
+        /// A quién le gusta especialmente (condición sobre la persona, con <c>persona</c>): sale como
+        /// motivo al sugerir con quién ir (<c>id.le_gusta</c>, "Le encanta el cine").
+        /// </summary>
+        [JsonProperty("le_gusta")]
+        public string Likes { get; set; } = string.Empty;
+
+        [JsonIgnore]
+        public Expression? CompiledLikes { get; set; }
+
+        /// <summary>El país del paquete de la acción; null si es de base (sale en todos).</summary>
+        [JsonIgnore]
+        public string? CountryId { get; set; }
+
+        /// <summary>La clave de lo que pasó si fue sin nadie (ver <see cref="Alone"/>).</summary>
+        [JsonIgnore]
+        public string AloneResultKey => Id + ".resultado.solo";
+
+        /// <summary>La clave del motivo "le gusta" (ver <see cref="Likes"/>).</summary>
+        [JsonIgnore]
+        public string LikesKey => Id + ".le_gusta";
+
+        /// <summary>Desde qué edad paga su parte el jugador (antes la paga su casa).</summary>
+        public const int PaysFromAge = 18;
+
         [JsonIgnore]
         public Expression? CompiledConditions { get; set; }
 

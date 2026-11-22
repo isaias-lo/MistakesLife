@@ -255,6 +255,7 @@ namespace MistakesLife.Core.Saving
                     Respect = r.Respect,
                     Resentment = r.Resentment,
                     Bond = r.Bond.ToString(),
+                    LastTogetherWeek = r.LastTogetherWeek,
                 }).ToList(),
                 EducationStageId = c.EducationStageId,
                 Flags = c.Flags.ToList(),

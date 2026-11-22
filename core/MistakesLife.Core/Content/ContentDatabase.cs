@@ -23,6 +23,7 @@ namespace MistakesLife.Core.Content
         private readonly SortedDictionary<string, SceneObjectDefinition> _sceneObjects = new SortedDictionary<string, SceneObjectDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, ActivityDefinition> _activities = new SortedDictionary<string, ActivityDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, ActionDefinition> _actions = new SortedDictionary<string, ActionDefinition>(StringComparer.Ordinal);
+        private readonly List<MapPlaceDefinition> _mapPlaces = new List<MapPlaceDefinition>();
         private readonly List<QuestionSetDefinition> _questionSets = new List<QuestionSetDefinition>();
         private readonly SortedDictionary<string, WishDefinition> _wishes = new SortedDictionary<string, WishDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, AppDefinition> _apps = new SortedDictionary<string, AppDefinition>(StringComparer.Ordinal);
@@ -96,6 +97,12 @@ namespace MistakesLife.Core.Content
             _questionSets.Find(q => q.StageId == stageId && q.Level == level && q.SubjectId == subjectId);
 
         public ActionDefinition? Action(string id) => _actions.TryGetValue(id, out ActionDefinition? action) ? action : null;
+
+        /// <summary>Los lugares del mapa de tu barrio (barrio/, D5c2), en el orden de los paquetes.</summary>
+        public IReadOnlyList<MapPlaceDefinition> MapPlaces => _mapPlaces;
+
+        /// <summary>El lugar del mapa con ese id; null si no existe.</summary>
+        public MapPlaceDefinition? MapPlace(string id) => _mapPlaces.Find(p => p.Id == id);
 
         /// <summary>Lo que un personaje puede querer en una etapa (carpeta deseos/), ordenado por id.</summary>
         public IEnumerable<WishDefinition> Wishes => _wishes.Values;
@@ -397,6 +404,22 @@ namespace MistakesLife.Core.Content
             }
         }
 
+        /// <summary>Agrega los lugares del mapa de tu barrio, de un archivo JSON de barrio/ (una lista).</summary>
+        public void AddMapPlacesJson(string packId, string sourceName, string json)
+        {
+            foreach (MapPlaceDefinition definition in Deserialize<MapPlaceDefinition>(sourceName, json))
+            {
+                definition.PackId = packId;
+                if (MapPlace(definition.Id) != null)
+                {
+                    _errors.Add(new ContentError($"{sourceName} [{definition.Id}]", "id de lugar del barrio repetido."));
+                    continue;
+                }
+
+                _mapPlaces.Add(definition);
+            }
+        }
+
         /// <summary>Agrega las preguntas de un ramo en un curso, de un archivo JSON de preguntas/ (un objeto).</summary>
         public void AddQuestionsJson(string packId, string sourceName, string json)
         {
@@ -646,6 +669,16 @@ namespace MistakesLife.Core.Content
                 ev.CountryId = countryOfPack.TryGetValue(ev.PackId, out string? countryId) ? countryId : null;
             }
 
+            foreach (ActionDefinition action in _actions.Values)
+            {
+                action.CountryId = countryOfPack.TryGetValue(action.PackId, out string? countryId) ? countryId : null;
+            }
+
+            foreach (MapPlaceDefinition place in _mapPlaces)
+            {
+                place.CountryId = countryOfPack.TryGetValue(place.PackId, out string? countryId) ? countryId : null;
+            }
+
             foreach (NewsDefinition news in _news.Values)
             {
                 news.CountryId = countryOfPack.TryGetValue(news.PackId, out string? countryId) ? countryId : null;
@@ -694,6 +727,7 @@ namespace MistakesLife.Core.Content
             ValidateChatOpeners();
             ValidateActivities();
             ValidateActions();
+            ValidateMapPlaces();
             ValidateQuestions();
             ValidateWishes();
 
@@ -2177,8 +2211,24 @@ namespace MistakesLife.Core.Content
                 yield return new KeyValuePair<string, string>(activity.Id, $"actividad {activity.Id}");
             }
 
+            foreach (MapPlaceDefinition place in _mapPlaces)
+            {
+                yield return new KeyValuePair<string, string>(place.Id, $"lugar del barrio {place.Id}");
+                yield return new KeyValuePair<string, string>(place.DescriptionKey, $"lugar del barrio {place.Id}");
+            }
+
             foreach (ActionDefinition action in _actions.Values)
             {
+                if (!string.IsNullOrWhiteSpace(action.Likes))
+                {
+                    yield return new KeyValuePair<string, string>(action.LikesKey, $"acción {action.Id}");
+                }
+
+                if (action.Alone)
+                {
+                    yield return new KeyValuePair<string, string>(action.AloneResultKey, $"acción {action.Id}");
+                }
+
                 yield return new KeyValuePair<string, string>(action.Id, $"acción {action.Id}");
                 yield return new KeyValuePair<string, string>(action.WhyKey, $"acción {action.Id}");
                 yield return new KeyValuePair<string, string>(action.ResultKey, $"acción {action.Id}");
@@ -3219,7 +3269,7 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, $"con '{action.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders.Concat(ActionDefinition.ExtraRoles))})."));
                 }
 
-                if (action.With != null && Array.IndexOf(ActionDefinition.ExtraRoles, action.With) >= 0 && !action.CardOnly)
+                if (action.With != null && Array.IndexOf(ActionDefinition.ExtraRoles, action.With) >= 0 && !action.CardOnly && action.Place == null)
                 {
                     _errors.Add(new ContentError(where, $"con '{action.With}' va solo en la ficha de cada persona: pon \"solo_en_ficha\": true."));
                 }
@@ -3289,6 +3339,98 @@ namespace MistakesLife.Core.Content
                 if (action.Change("preparar_prueba") != 0 && !action.Conditions.Contains("jugador.prueba_anunciada"))
                 {
                     _errors.Add(new ContentError(where, "cambia preparar_prueba necesita la condición jugador.prueba_anunciada."));
+                }
+
+                ValidateActionPlace(where, action);
+            }
+        }
+
+        /// <summary>Lo del mapa de tu barrio en una acción (D5c2): su lugar, si se puede ir solo, su precio y a quién le gusta.</summary>
+        private void ValidateActionPlace(string where, ActionDefinition action)
+        {
+            if (action.Place != null)
+            {
+                MapPlaceDefinition? place = MapPlace(action.Place);
+                if (place == null)
+                {
+                    _errors.Add(new ContentError(where, $"lugar '{action.Place}' no existe en barrio/."));
+                }
+                else if (place.Open != null)
+                {
+                    _errors.Add(new ContentError(where, $"lugar '{action.Place}' abre {place.Open}: ahí no van acciones."));
+                }
+
+                if (action.CardOnly)
+                {
+                    _errors.Add(new ContentError(where, "una acción con lugar se elige en el mapa: no lleva solo_en_ficha."));
+                }
+            }
+
+            if (action.Alone && action.With == null)
+            {
+                _errors.Add(new ContentError(where, "solo dice que también se puede ir sin nadie: necesita con quién (con)."));
+            }
+
+            foreach (KeyValuePair<string, int> price in action.Price)
+            {
+                if (!_countries.ContainsKey(price.Key))
+                {
+                    _errors.Add(new ContentError(where, $"precio en '{price.Key}': ese país no existe."));
+                }
+                else if (price.Value <= 0)
+                {
+                    _errors.Add(new ContentError(where, $"precio en '{price.Key}' tiene que ser mayor que 0."));
+                }
+            }
+
+            if (action.Price.Count > 0)
+            {
+                foreach (string country in _countries.Keys.Where(c => !action.Price.ContainsKey(c) && (action.CountryId == null || action.CountryId == c)))
+                {
+                    _errors.Add(new ContentError(where, $"precio: falta lo que cuesta en '{country}'."));
+                }
+            }
+
+            action.CompiledLikes = CompileCondition(where + " (le_gusta)", action.Likes);
+            if (action.CompiledLikes != null && action.With == null)
+            {
+                _errors.Add(new ContentError(where, "le_gusta habla de la persona: necesita con quién (con)."));
+            }
+        }
+
+        private void ValidateMapPlaces()
+        {
+            foreach (MapPlaceDefinition place in _mapPlaces)
+            {
+                string where = $"lugar del barrio {place.Id}";
+                CheckId(where, place.Id, "lugar.");
+                place.CompiledConditions = CompileCondition(where, place.Conditions);
+                if (place.MinAge > place.MaxAge)
+                {
+                    _errors.Add(new ContentError(where, "edad_minima no puede ser mayor que edad_maxima."));
+                }
+
+                if (string.IsNullOrWhiteSpace(place.Shape))
+                {
+                    _errors.Add(new ContentError(where, "forma no puede estar vacía."));
+                }
+
+                if (place.Open != null && Array.IndexOf(MapPlaceDefinition.Opens, place.Open) < 0)
+                {
+                    _errors.Add(new ContentError(where, $"abre '{place.Open}' no existe (usa {string.Join(", ", MapPlaceDefinition.Opens)})."));
+                }
+
+                foreach (string actionId in place.ActionIds)
+                {
+                    if (!_actions.ContainsKey(actionId))
+                    {
+                        _errors.Add(new ContentError(where, $"acciones: '{actionId}' no existe."));
+                    }
+                }
+
+                if (place.Open == null && place.ActionIds.Count == 0 && !_actions.Values.Any(a => a.Place == place.Id))
+                {
+                    _errors.Add(new ContentError(where, "un lugar sin abre necesita algo que hacer: una acción con \"lugar\" o \"acciones\"."));
                 }
             }
         }

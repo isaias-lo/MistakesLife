@@ -77,3 +77,12 @@ De la [Ley de Contrato de Trabajo 20.744 (InfoLEG)](https://servicios.infoleg.go
 
 - No hay todavía una encuesta argentina cargada: el juego usa las mismas proporciones de Chile (ganancia en salarios mínimos de la EME del INE y cierre de empresas nuevas de Chile). Por reemplazar con datos del INDEC o del Ministerio de Economía (dinámica empresarial).
 - Formal: la Sociedad por Acciones Simplificada (SAS, Ley 27.349) se inscribe y después se da de alta en ARCA (ex AFIP).
+
+## El mapa de tu barrio (D5c2)
+
+| Dato | Fuente | Uso |
+|---|---|---|
+| Entrada general 2D de cine en julio de 2026: entre $15.000 y $20.000 según el complejo (Fiesta del Cine: desde $4.000) | [Perfil](https://perfil.com/noticias/sociedad/vacaciones-de-invierno-estos-son-los-precios-para-ir-al-cine-en-julio-2026.phtml), [Canal 26](https://www.canal26.com/espectaculos/2026/02/18/fiesta-del-cine-2026-vuelve-la-semana-mas-esperada-con-entradas-a-4000/) | `accion.barrio.mall.cine` 16.000 |
+| El fútbol 5: canchas de pasto sintético que se alquilan por hora y se pagan entre los diez jugadores | Conocimiento general | `lugar.argentina.cancha_futbol5`; la parte de cada uno, $6.000 (estimado) |
+
+Estimaciones por revisar: patio de comidas $15.000, pase diario de gimnasio $8.000, café $6.000, un picnic $8.000 y tomar algo en un bar $18.000 por persona.

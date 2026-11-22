@@ -304,3 +304,12 @@ Estimaciones por revisar (no encontré la tabla oficial a mano):
 - El puntaje de cada prueba: 500 para quien sabe lo típico de cuarto medio y 13 puntos por cada punto de dominio sobre o bajo eso, más 40 por punto de preparación y ±40 del día. Con eso, en vidas simuladas cerca de un cuarto queda bajo 458 (en la Admisión 2026 quedaron habilitados para postular unos 231 mil, según el Mineduc).
 - Los cortes del juego son de una universidad típica del sistema, no de la Chile o la Católica (donde Psicología cortó en 864 en 2025, según [The Clinic](https://www.theclinic.cl/2025/01/21/a-que-postularon-las-carreras-con-mayor-demanda-y-con-puntajes-de-corte-mas-altos-en-la-universidad-de-chile-y-la-puc/)): Ingeniería Civil en Computación 700, Psicología 640, Contador Auditor 600. Las ponderaciones son típicas de esas carreras (ingeniería con mucha Matemática, Psicología con más Lectora), sin la prueba M2 ni la electiva de Ciencias o Historia, que el juego todavía no tiene.
 - El preuniversitario pagado a $95.000 al mes: no encontré precios publicados de los preuniversitarios grandes.
+
+## El mapa de tu barrio (D5c2)
+
+| Dato | Fuente | Uso |
+|---|---|---|
+| Entrada general 2D de cine: unos $6.000 (con promociones desde $2.000 el Día del Cine y $3.000 a $3.700 con programas de socios) | [Meganoticias](https://www.meganoticias.cl/dato-util/433891-precio-entradas-al-cine-chile-seo.html), [Meganoticias, promociones 2026](https://www.meganoticias.cl/dato-util/511717-cine-entradas-descuentos-promociones-09-01-2026.html), [CNN Chile](https://www.cnnchile.com/cultura/dia-del-cine-2026-chile-revisa-fechas-y-precio-de-entradas/) | `accion.barrio.mall.cine` 6.000 |
+| La fonda del 18: ramadas comunales en septiembre, por lo general de entrada liberada; se paga lo que se come | Conocimiento general | `lugar.chile.fonda` en septiembre; empanada y bebida a $6.000 (estimado) |
+
+Estimaciones por revisar (no encontré precios publicados a mano): patio de comidas $7.000, pase diario de gimnasio $5.000, café $4.000, un picnic $4.000 y tomar algo en un bar $10.000 por persona.

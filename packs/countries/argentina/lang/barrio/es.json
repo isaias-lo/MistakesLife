@@ -1,0 +1,8 @@
+{
+  "lugar.argentina.cancha_futbol5": "Cancha de fútbol 5",
+  "lugar.argentina.cancha_futbol5.descripcion": "Canchas de pasto sintético que se alquilan por hora. Se paga entre todos.",
+  "accion.argentina.cancha.picado": "Jugar un picado",
+  "accion.argentina.cancha.picado.por_que": "Una hora de fútbol 5; la cancha se divide entre los diez.",
+  "accion.argentina.cancha.picado.resultado": "Jugaste un picado con {persona} y la banda. Después se quedaron tomando algo al lado de la cancha.",
+  "accion.argentina.cancha.picado.le_gusta": "No se pierde un picado"
+}
