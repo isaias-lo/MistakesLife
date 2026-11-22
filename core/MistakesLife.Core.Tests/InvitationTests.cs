@@ -140,7 +140,14 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void EnUnaVidaEntera_CadaAmistadDelCursoOLaPega_NaceDeUnaInvitacionAceptada_SalvoLaDeLaInfancia()
         {
+            // La primera vida (desde la partida 5) en que alguien te invitó y aceptaste: en
+            // algunas vidas nadie llega a invitarte, y esas no sirven para revisar la regla.
             LifeSession session = Life(5, 35);
+            for (ulong seed = 6; seed < 12 && !session.World.EventHistory.Any(r => r.EventId.StartsWith("evento.invitacion.") && r.ChosenOption == 0); seed++)
+            {
+                session = Life(seed, 35);
+            }
+
             World world = session.World;
             int accepted = world.EventHistory.Count(r => r.EventId.StartsWith("evento.invitacion.") && r.ChosenOption == 0);
             int lines = world.Journal.Count(e => e.CharacterId == world.PlayerId && (e.TextKey == "diario.curso.amistad" || e.TextKey == "diario.pega.amistad"));

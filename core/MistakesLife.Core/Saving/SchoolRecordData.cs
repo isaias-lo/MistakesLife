@@ -32,6 +32,14 @@ namespace MistakesLife.Core.Saving
 
         public int Absences { get; set; }
 
+        public string? WorkshopId { get; set; }
+
+        public string? CouncilRole { get; set; }
+
+        public int CouncilVoteWeek { get; set; }
+
+        public string? CouncilResult { get; set; }
+
         public Dictionary<string, int>? Mastery { get; set; }
 
         public Dictionary<string, int>? LastMastery { get; set; }

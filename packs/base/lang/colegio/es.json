@@ -92,7 +92,7 @@
   "opcion.colegio.bano.preguntar": "Preguntarle qué le pasó",
   "opcion.colegio.bano.salir": "Hacer como que no viste y salir",
   "diario.colegio.centro_alumnos": "Fui en una lista para el centro de alumnos. Pasamos por todas las salas pidiendo votos.",
-  "evento.colegio.centro_alumnos": "{persona} se va a presentar al centro de alumnos y te pide que vayas en su lista, de secretario o tesorero.",
+  "evento.colegio.centro_alumnos": "{persona} se va a presentar al centro de alumnos y te pide que vayas en su lista, a cargo de la secretaría.",
   "opcion.colegio.centro_alumnos.si": "Entrar a la lista y hacer campaña sala por sala",
   "opcion.colegio.centro_alumnos.votar": "Decirle que no, pero que tiene tu voto",
   "opcion.colegio.centro_alumnos.no": "Decirle que la política del liceo no te interesa",

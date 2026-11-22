@@ -168,6 +168,11 @@ namespace MistakesLife.Core.Education
             record.TestMakeup = false;
             record.TestCheating = false;
             record.TestCaught = false;
+            // El taller y el centro de alumnos son de un año (D5a3b): el próximo se vuelve a elegir.
+            record.WorkshopId = null;
+            record.CouncilRole = null;
+            record.CouncilVoteWeek = 0;
+            record.CouncilResult = null;
             int absences = record.Absences;
             record.Absences = 0;
             if (!general.HasValue)

@@ -6,5 +6,13 @@
     "vence_anios": 1,
     "dormir_min_semanas": 1,
     "condiciones": "jugador.en_clases"
+  },
+  {
+    "id": "semilla.plata_centro",
+    "tipo": "negativa",
+    "fuerza": 30,
+    "vence_anios": 1,
+    "dormir_min_semanas": 4,
+    "condiciones": "jugador.en_clases"
   }
 ]

@@ -1,0 +1,547 @@
+[
+  {
+    "id": "evento.colegio.pedir_taller",
+    "con": "companero",
+    "lugar": "lugar.colegio",
+    "a_pedido": {
+      "texto": "accion.colegio.taller",
+      "por_ano": "0.15 + jugador.apertura / 400"
+    },
+    "condiciones": "jugador.en_clases && jugador.edad >= 8 && jugador.edad < 18 && jugador.taller == ''",
+    "opciones": [
+      {
+        "texto": "opcion.colegio.pedir_taller.actuacion",
+        "tendencia": "jugador.extraversion / 2 + jugador.apertura / 3",
+        "efectos": [
+          "jugador.inscribir_taller('actuacion')",
+          "persona.carino += 2",
+          "diario('diario.colegio.taller.actuacion')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_taller.musica",
+        "tendencia": "jugador.apertura / 2 + (100 - jugador.extraversion) / 5",
+        "efectos": [
+          "jugador.inscribir_taller('musica')",
+          "persona.carino += 2",
+          "diario('diario.colegio.taller.musica')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_taller.futbol",
+        "tendencia": "jugador.extraversion / 3 + jugador.salud / 3",
+        "efectos": [
+          "jugador.inscribir_taller('futbol')",
+          "persona.carino += 2",
+          "diario('diario.colegio.taller.futbol')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_taller.ninguno",
+        "tendencia": "(100 - jugador.apertura) / 4"
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.invitacion_taller_futbol",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 8 && jugador.edad < 18 && jugador.taller == ''",
+    "probabilidad_anual": 0.15,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.invitacion_taller.ir",
+        "tendencia": "jugador.extraversion / 2 + jugador.salud / 4",
+        "efectos": [
+          "jugador.inscribir_taller('futbol')",
+          "persona.carino += 4",
+          "diario('diario.colegio.taller.futbol')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.invitacion_taller.no",
+        "tendencia": "(100 - jugador.extraversion) / 2"
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.invitacion_taller_musica",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 10 && jugador.edad < 18 && jugador.taller == ''",
+    "probabilidad_anual": 0.12,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.invitacion_taller.ir",
+        "tendencia": "jugador.apertura / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.inscribir_taller('musica')",
+          "persona.carino += 4",
+          "diario('diario.colegio.taller.musica')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.invitacion_taller.no",
+        "tendencia": "(100 - jugador.apertura) / 2"
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.invitacion_taller_actuacion",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_clases && jugador.edad >= 10 && jugador.edad < 18 && jugador.taller == ''",
+    "probabilidad_anual": 0.1,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.invitacion_taller.ir",
+        "tendencia": "jugador.extraversion / 2 + jugador.apertura / 4",
+        "efectos": [
+          "jugador.inscribir_taller('actuacion')",
+          "persona.carino += 4",
+          "diario('diario.colegio.taller.actuacion')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.invitacion_taller.no",
+        "tendencia": "(100 - jugador.extraversion) / 2"
+      }
+    ]
+  },
+  {
+    "id": "evento.taller.muestra_actuacion",
+    "con": "companero",
+    "lugar": "lugar.colegio",
+    "actividad": "actividad.taller.actuacion",
+    "condiciones": "jugador.taller == 'actuacion' && mundo.mes >= 10 && mundo.mes <= 12",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 30,
+    "veces_maximas": 6,
+    "variantes": [
+      "evento.taller.muestra_actuacion.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.taller.muestra_actuacion.todo",
+        "tendencia": "jugador.extraversion / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.felicidad += 4",
+          "persona.carino += 3",
+          "jugador.marcar('le_gusta_actuar')",
+          "diario('diario.taller.muestra_actuacion')"
+        ]
+      },
+      {
+        "texto": "opcion.taller.muestra_actuacion.improvisar",
+        "tendencia": "jugador.apertura / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.felicidad += 3",
+          "persona.carino += 2",
+          "jugador.marcar('le_gusta_actuar')"
+        ]
+      },
+      {
+        "texto": "opcion.taller.muestra_actuacion.blanco",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.felicidad -= 3",
+          "persona.carino += 2",
+          "diario('diario.taller.muestra_actuacion.blanco')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.taller.concierto_musica",
+    "con": "companero",
+    "lugar": "lugar.colegio",
+    "actividad": "actividad.taller.musica",
+    "condiciones": "jugador.taller == 'musica' && mundo.mes >= 10 && mundo.mes <= 12",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 30,
+    "veces_maximas": 6,
+    "variantes": [
+      "evento.taller.concierto_musica.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.taller.concierto_musica.tocar",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.apertura / 4",
+        "efectos": [
+          "jugador.felicidad += 4",
+          "persona.carino += 3",
+          "jugador.marcar('le_gusta_musica')",
+          "diario('diario.taller.concierto_musica')"
+        ]
+      },
+      {
+        "texto": "opcion.taller.concierto_musica.solo",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "jugador.felicidad += 5",
+          "persona.carino -= 1",
+          "jugador.marcar('le_gusta_musica')"
+        ]
+      },
+      {
+        "texto": "opcion.taller.concierto_musica.equivocarse",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "persona.carino += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.taller.final_futbol",
+    "con": "companero",
+    "lugar": "lugar.cancha",
+    "actividad": "actividad.taller.futbol",
+    "condiciones": "jugador.taller == 'futbol' && mundo.mes >= 10 && mundo.mes <= 12",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 30,
+    "veces_maximas": 6,
+    "variantes": [
+      "evento.taller.final_futbol.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.taller.final_futbol.todo",
+        "tendencia": "jugador.extraversion / 3 + jugador.salud / 3",
+        "efectos": [
+          "jugador.felicidad += 3",
+          "jugador.salud += 1",
+          "persona.carino += 2",
+          "jugador.marcar('le_gusta_futbol')",
+          "diario('diario.taller.final_futbol')"
+        ]
+      },
+      {
+        "texto": "opcion.taller.final_futbol.pase",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.felicidad += 2",
+          "persona.carino += 5",
+          "jugador.marcar('le_gusta_futbol')"
+        ]
+      },
+      {
+        "texto": "opcion.taller.final_futbol.pelear",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "persona.carino -= 2",
+          "diario('diario.taller.final_futbol.roja')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.pedir_centro",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "a_pedido": {
+      "texto": "accion.colegio.centro_alumnos",
+      "por_ano": "jugador.extraversion / 200 + jugador.responsabilidad / 400"
+    },
+    "condiciones": "jugador.en_clases && jugador.edad >= 13 && jugador.edad < 18 && mundo.mes >= 3 && mundo.mes <= 5 && jugador.cargo_centro == ''",
+    "opciones": [
+      {
+        "texto": "opcion.colegio.pedir_centro.presidencia",
+        "tendencia": "jugador.extraversion / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.postular_centro('presidencia')",
+          "persona.carino += 3",
+          "diario('diario.centro.postulo')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_centro.tesoreria",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.postular_centro('tesoreria')",
+          "persona.carino += 3",
+          "diario('diario.centro.postulo')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_centro.secretaria",
+        "tendencia": "jugador.amabilidad / 3 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.postular_centro('secretaria')",
+          "persona.carino += 3",
+          "diario('diario.centro.postulo')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_centro.no",
+        "tendencia": "(100 - jugador.extraversion) / 3"
+      }
+    ]
+  },
+  {
+    "id": "evento.centro.campana",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.en_campana && jugador.en_clases",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 20,
+    "veces_maximas": 5,
+    "variantes": [
+      "evento.centro.campana.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.centro.campana.salas",
+        "tendencia": "jugador.extraversion / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.energia -= 5"
+        ]
+      },
+      {
+        "texto": "opcion.centro.campana.prometer",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "persona.carino += 1",
+          "persona.respeto -= 2",
+          "jugador.marcar('prometio_de_mas')"
+        ]
+      },
+      {
+        "texto": "opcion.centro.campana.debate",
+        "tendencia": "jugador.apertura / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "persona.respeto += 3",
+          "jugador.felicidad += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.centro.gano",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.resultado_centro == 'gano' && jugador.en_clases",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 30,
+    "veces_maximas": 5,
+    "opciones": [
+      {
+        "texto": "opcion.centro.gano.celebrar",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "jugador.felicidad += 5",
+          "persona.carino += 4"
+        ]
+      },
+      {
+        "texto": "opcion.centro.gano.agradecer",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.felicidad += 3",
+          "persona.carino += 2",
+          "persona.respeto += 3"
+        ]
+      },
+      {
+        "texto": "opcion.centro.gano.trabajar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.felicidad += 2",
+          "persona.respeto += 4"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.centro.gano.2"
+    ]
+  },
+  {
+    "id": "evento.centro.perdio",
+    "con": "companero",
+    "lugar": "lugar.patio",
+    "condiciones": "jugador.resultado_centro == 'perdio' && jugador.en_clases",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 30,
+    "veces_maximas": 5,
+    "opciones": [
+      {
+        "texto": "opcion.centro.perdio.felicitar",
+        "tendencia": "jugador.amabilidad / 2 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "persona.respeto += 3"
+        ]
+      },
+      {
+        "texto": "opcion.centro.perdio.trampa",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad -= 3",
+          "persona.respeto -= 3",
+          "persona.rencor += 2"
+        ]
+      },
+      {
+        "texto": "opcion.centro.perdio.callar",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.felicidad -= 4",
+          "persona.carino += 2"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.centro.perdio.2"
+    ]
+  },
+  {
+    "id": "evento.centro.direccion",
+    "con": "profe",
+    "lugar": "lugar.colegio",
+    "condiciones": "jugador.resultado_centro == 'gano' && jugador.en_clases && mundo.mes >= 5 && mundo.mes <= 8",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 30,
+    "veces_maximas": 5,
+    "opciones": [
+      {
+        "texto": "opcion.centro.direccion.banos",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.respeto += 3",
+          "jugador.felicidad += 1",
+          "diario('diario.centro.direccion.banos')"
+        ]
+      },
+      {
+        "texto": "opcion.centro.direccion.buzo",
+        "tendencia": "jugador.apertura / 2",
+        "efectos": [
+          "persona.respeto += 1",
+          "jugador.felicidad += 2",
+          "diario('diario.centro.direccion.buzo')"
+        ]
+      },
+      {
+        "texto": "opcion.centro.direccion.convivencia",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "persona.respeto += 4",
+          "persona.confianza += 2",
+          "jugador.marcar('defendio_companero')",
+          "diario('diario.centro.direccion.convivencia')"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.centro.direccion.2"
+    ]
+  },
+  {
+    "id": "evento.centro.aniversario",
+    "con": "companero",
+    "lugar": "lugar.colegio",
+    "condiciones": "jugador.resultado_centro == 'gano' && jugador.en_clases && mundo.mes >= 8 && mundo.mes <= 10",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 30,
+    "veces_maximas": 5,
+    "opciones": [
+      {
+        "texto": "opcion.centro.aniversario.todo",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.energia -= 10",
+          "jugador.felicidad += 4",
+          "persona.carino += 3",
+          "diario('diario.centro.aniversario')"
+        ]
+      },
+      {
+        "texto": "opcion.centro.aniversario.repartir",
+        "tendencia": "jugador.amabilidad / 3 + jugador.responsabilidad / 4",
+        "efectos": [
+          "jugador.felicidad += 3",
+          "persona.carino += 2",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.centro.aniversario.medias",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "persona.respeto -= 4",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ],
+    "variantes": [
+      "evento.centro.aniversario.2"
+    ]
+  },
+  {
+    "id": "evento.centro.plata_rifa",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.resultado_centro == 'gano' && jugador.cargo_centro == 'tesoreria' && jugador.en_clases && mundo.mes >= 6 && mundo.mes <= 11",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 30,
+    "veces_maximas": 5,
+    "opciones": [
+      {
+        "texto": "opcion.centro.plata_rifa.rendir",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.respeto += 2",
+          "persona.carino -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.centro.plata_rifa.sacar",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + (100 - jugador.amabilidad) / 5",
+        "efectos": [
+          "persona.carino += 3",
+          "jugador.felicidad += 1",
+          "jugador.marcar('saco_plata_centro')",
+          "plantar('semilla.plata_centro', persona)"
+        ]
+      },
+      {
+        "texto": "opcion.centro.plata_rifa.contar",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.carino -= 3",
+          "persona.rencor += 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.centro.plata_descubierta",
+    "lugar": "lugar.sala",
+    "semilla": "semilla.plata_centro",
+    "opciones": [
+      {
+        "texto": "opcion.centro.plata_descubierta.devolver",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.felicidad -= 3",
+          "diario('diario.centro.plata_descubierta.devolver')"
+        ]
+      },
+      {
+        "texto": "opcion.centro.plata_descubierta.negar",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.felicidad -= 4",
+          "jugador.marcar('citacion_apoderado')",
+          "diario('diario.centro.plata_descubierta.negar')"
+        ]
+      }
+    ]
+  }
+]

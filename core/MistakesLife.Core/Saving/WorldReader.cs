@@ -405,6 +405,10 @@ namespace MistakesLife.Core.Saving
                     TestCheating = d.SchoolRecord.TestCheating,
                     TestCaught = d.SchoolRecord.TestCaught,
                     Absences = d.SchoolRecord.Absences,
+                    WorkshopId = d.SchoolRecord.WorkshopId,
+                    CouncilRole = d.SchoolRecord.CouncilRole,
+                    CouncilVoteWeek = d.SchoolRecord.CouncilVoteWeek,
+                    CouncilResult = d.SchoolRecord.CouncilResult,
                     MasteryYear = d.SchoolRecord.MasteryYear,
                     StudySessions = d.SchoolRecord.StudySessions,
                 };

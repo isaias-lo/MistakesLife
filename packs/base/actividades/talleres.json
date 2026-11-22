@@ -1,0 +1,8 @@
+[
+  { "id": "actividad.taller.actuacion", "edad_minima": 8, "edad_maxima": 17, "franjas": ["tarde"], "condiciones": "jugador.taller == 'actuacion'",
+    "aporta": { "animo": 2, "mente": 1, "energia": -1 }, "tendencia": "jugador.extraversion / 2 + jugador.apertura / 3" },
+  { "id": "actividad.taller.musica", "edad_minima": 8, "edad_maxima": 17, "franjas": ["tarde"], "condiciones": "jugador.taller == 'musica'",
+    "aporta": { "animo": 2, "mente": 1 }, "tendencia": "jugador.apertura / 2" },
+  { "id": "actividad.taller.futbol", "edad_minima": 8, "edad_maxima": 17, "franjas": ["tarde"], "condiciones": "jugador.taller == 'futbol'",
+    "aporta": { "salud": 2, "animo": 1, "energia": -1, "apariencia": 1 }, "tendencia": "jugador.extraversion / 3 + jugador.salud / 3" }
+]
