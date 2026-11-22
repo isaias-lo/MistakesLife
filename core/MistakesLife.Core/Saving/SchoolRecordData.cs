@@ -26,6 +26,12 @@ namespace MistakesLife.Core.Saving
         // Desde la versión 42 (D5a): la recuperativa y el dominio de cada ramo.
         public bool TestMakeup { get; set; }
 
+        public bool TestCheating { get; set; }
+
+        public bool TestCaught { get; set; }
+
+        public int Absences { get; set; }
+
         public Dictionary<string, int>? Mastery { get; set; }
 
         public Dictionary<string, int>? LastMastery { get; set; }

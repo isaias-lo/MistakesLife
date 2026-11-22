@@ -99,6 +99,7 @@ namespace MistakesLife.Unity
             "escena.casa.afiche_lista" => "ancla.muro_lateral",
             "escena.casa.folletos_estudios" => "ancla.mesa",
             "escena.casa.prueba_refri" => "ancla.muro_lateral",
+            "escena.casa.citacion_apoderado" => "ancla.mesa",
             _ => null,
         };
 
@@ -525,6 +526,16 @@ namespace MistakesLife.Unity
                     kit.Box("Franja de la lista", new Vector3(0.037f, 0.72f, 0.3f), new Vector3(0.005f, 0.08f, 0.22f), new Color(0.20f, 0.55f, 0.35f));
                     kit.Box("Letras del afiche", new Vector3(0.037f, 0.58f, 0.3f), new Vector3(0.005f, 0.03f, 0.18f), new Color(0.15f, 0.15f, 0.20f));
                     kit.Box("Cinta del afiche", new Vector3(0.037f, 0.8f, 0.3f), new Vector3(0.005f, 0.03f, 0.08f), new Color(0.91f, 0.84f, 0.59f));
+                    break;
+                case "escena.casa.citacion_apoderado":
+                    // Te pillaron copiando o haciendo la cimarra (D5a3): la libreta de comunicaciones
+                    // abierta sobre la mesa, con la citación al apoderado escrita en rojo.
+                    GameObject booklet = kit.Box("Libreta de comunicaciones", new Vector3(0.18f, 0.446f, -0.12f), new Vector3(0.2f, 0.008f, 0.14f), new Color(0.22f, 0.36f, 0.62f));
+                    booklet.transform.localRotation = Quaternion.Euler(0f, 18f, 0f);
+                    GameObject page = kit.Box("Hoja de la citación", new Vector3(0.18f, 0.452f, -0.12f), new Vector3(0.17f, 0.004f, 0.12f), Palette.Paper);
+                    page.transform.localRotation = Quaternion.Euler(0f, 18f, 0f);
+                    GameObject note = kit.Box("Citación en rojo", new Vector3(0.18f, 0.455f, -0.1f), new Vector3(0.11f, 0.002f, 0.025f), Palette.Alarm);
+                    note.transform.localRotation = Quaternion.Euler(0f, 18f, 0f);
                     break;
                 case "escena.casa.prueba_refri":
                     // La prueba con buena nota que dejaste pegada para que la vieran: hoja blanca, nota en rojo y un imán.

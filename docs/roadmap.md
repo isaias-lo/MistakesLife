@@ -24,8 +24,9 @@ Cada tarea empieza con bocetos con opciones que Isaias aprueba; recién después
 | D5a | Estudiar de verdad (bocetos D5aRamosA, D5aTexto, D5aPregunta, D5aError, D5aConCompanera y D5aFin; elegida la lista A, filas con barra): en Estudios, tus ramos con una barra de dominio por ramo y por año (parte de lo que llevas del año anterior y de cómo rindes en clases, sube con tus aciertos y se olvida de a poco si no estudias); una tarde de estudio es un texto breve y 3 preguntas de alternativas del programa real del Mineduc (al acertar suena y sube la barra; al fallar te dice por qué y no baja). Se estudia sola, con una compañera real del curso que te quiere (responde las mismas preguntas y se suben el cariño) o con el profe jefe, que te explica lo que fallas (una vez al mes). La nota de la prueba sale del dominio más tu inteligencia y tu energía. Recuperativa real: si faltas el día de la prueba (más probable con mala salud), la das la semana siguiente. 1.280 preguntas: Lenguaje (Lengua y Literatura en 7º y 8º), Matemática, Historia y Ciencias Naturales de 1º a 8º básico, 40 por ramo y curso (`preguntas/`, `StudyRules`, guardado v42) | Hecha (#145) |
 | D5a2 | Estudiar de verdad en toda la media y en Inglés y Tecnología de básica: todos los ramos con prueba escrita de 1º a 4º medio (Lengua y Literatura, Matemática, Historia, Biología, Física, Química, Inglés y Tecnología en 1º y 2º; Lengua y Literatura, Matemática, Inglés, Educación Ciudadana, Filosofía y Ciencias para la Ciudadanía en 3º y 4º), Inglés de 5º a 8º básico y Tecnología de 1º a 8º básico. 40 preguntas por curso en los ramos principales y 20 en Tecnología, Filosofía, Educación Ciudadana y Ciencias para la Ciudadanía: 1.280 preguntas nuevas, sacadas de los programas del Mineduc. Solo contenido: no cambia el núcleo ni el guardado | Hecha (#146) |
 | D5a2b | Estudiar de verdad el primer año de las tres carreras en la universidad, el CFT y el instituto: los ramos del semestre que cursas aparecen en Estudios con su barra de dominio (parte de lo que llevabas en ese ramo el semestre anterior: Cálculo II arrastra Cálculo I), se estudian con preguntas reales con alguien de tu sección o con tu profe, y la nota de cada ramo al cerrar el semestre sale de cuánto lo dominas. 33 ramos-semestre de 1º y 2º semestre (Software en la u y el instituto; Contabilidad en la u, el instituto y el CFT; Psicología), 20 preguntas por semestre: 660 preguntas. Desde 3º semestre sigue "Repasar" hasta su PR. No cambia el guardado | Hecha (#147) |
-| D5a2c | Estudiar de verdad desde el 3º semestre de las tres carreras, en tres PR (uno por carrera), con 20 preguntas por ramo-semestre. Los ramos que se evalúan con proyectos (talleres, electivos, seminario de tesis) se marcan `"prueba_escrita": false` y quedan para D5a4. Software: 37 ramos-semestre nuevos (16 del instituto y 21 de la universidad), 740 preguntas. Contabilidad: 19 ramos-semestre (universidad, instituto y CFT), 380 preguntas. Psicología: 19 ramos-semestre, 380 preguntas | En revisión (Software #148 y Contabilidad #149 unidos; Psicología en su PR) |
-| D5a3 | Copiar, cimarra, centro de alumnos y talleres (actuación, música, fútbol) | Pendiente |
+| D5a2c | Estudiar de verdad desde el 3º semestre de las tres carreras, en tres PR (uno por carrera), con 20 preguntas por ramo-semestre. Los ramos que se evalúan con proyectos (talleres, electivos, seminario de tesis) se marcan `"prueba_escrita": false` y quedan para D5a4. Software: 37 ramos-semestre nuevos (16 del instituto y 21 de la universidad), 740 preguntas. Contabilidad: 19 ramos-semestre (universidad, instituto y CFT), 380 preguntas. Psicología: 19 ramos-semestre, 380 preguntas | Hecha (#148, #149, #150) |
+| D5a3a | Copiar y hacer la cimarra, como acordó Isaias ("mezcla": tú lo pides y también te tientan). En Estudios, "Lo que decides tú" trae dos botones: copiar en la prueba que viene (torpedo o mirar a alguien de tu curso) y hacer la cimarra con alguien de tu curso (un día, o dos desde los 15). Además, un compañero te puede ofrecer el torpedo antes de una prueba. Copiar tiene 30 % de que te pillen: la prueba queda con nota mínima, anotación y citación al apoderado (la profe y tu mamá o papá en momentos); si no te pillan la nota sube un punto, pero no aprendiste. La cimarra suma faltas: el dominio de cada ramo baja un poco, a veces llaman de inspectoría a la casa, la profe avisa si bajas del 90 % y con menos de 85 % de asistencia se repite aunque tengas las notas (reglamento chileno). En la mesa de la casa 3D aparece la libreta de comunicaciones con la citación. Guardado versión 43 | En revisión |
+| D5a3b | Centro de alumnos y talleres (actuación, música, fútbol) que abren caminos después, también a pedido y con momentos | Pendiente |
 | D5a4 | Talleres, electivos y seminario o tesis de la carrera, que se evalúan con proyectos y no con preguntas: taller con entregas y equipo de la sección, electivo que eliges (marca tu área), seminario o tesis con profe guía y defensa. Se conversa con opciones antes de programar | Pendiente |
 | D5b | La pega por dentro: misiones del mes y barra "cómo te ve tu jefa" | Pendiente |
 | D5c | Colegio, universidad y pega en 3D con su gente | Pendiente |
@@ -36,6 +37,23 @@ Cada tarea empieza con bocetos con opciones que Isaias aprueba; recién después
 | D9 | Celular: Instante, app de citas, tienda de apps; correo con archivar, filtros y adjuntos | Pendiente |
 | D10 | Trámites y leyes como edificios del mapa: juzgado, Registro Civil, papeles, delitos propios con minijuego, cárcel como mundo propio | Pendiente |
 | D11 | Arquitectura C: base de datos y página web de formularios que generan los paquetes; países y casas 3D como descargas | Pendiente |
+
+## Publicación en Google Play (borrador en `docs/publicacion.md`)
+
+| # | Tarea | Estado |
+|---|---|---|
+| P0 | Documento de la otra parte del juego: requisitos de Google Play (prueba cerrada de 12 probadores por 14 días, API 36, AAB, clasificación, Data safety), idiomas, privacidad y condiciones, Configuración, menú inicial, anuncios y compras, nube y seguridad, con opciones para que Isaias elija | En revisión |
+| P1 | Armado para la tienda: llave de firma fija, AAB, API objetivo 36, versionCode automático | Pendiente |
+| P2 | Textos legales en GitHub Pages (privacidad, condiciones, borrar cuenta) | Pendiente |
+| P3 | Configuración (bocetos y pantalla) | Pendiente |
+| P4 | Menú inicial nuevo y primera vez (edad, condiciones) | Pendiente |
+| P5 | Idiomas listos para crecer (elegir idioma, informe de claves, género y plural) | Pendiente |
+| P6 | Prueba cerrada en Play Console (12 probadores, 14 días) | Pendiente |
+| P7 | Backend: cuenta y guardado en la nube | Pendiente |
+| P8 | Compras con verificación en el servidor y tienda | Pendiente |
+| P9 | Anuncios y su consentimiento | Pendiente |
+| P10 | Expansiones descargables | Pendiente |
+| P11 | Inglés y portugués | Pendiente |
 
 ## Rediseño: volver al realismo (detalle en `docs/archivo/rediseno-vida.md`)
 

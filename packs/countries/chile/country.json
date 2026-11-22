@@ -56,7 +56,7 @@
         { "id": "ramo.chile.educacion_fisica", "prueba_escrita": false },
         { "id": "ramo.chile.tecnologia" }
       ],
-      "promocion": [{ "reprobados": 0 }, { "reprobados": 1, "promedio_minimo": 4.5 }, { "reprobados": 2, "promedio_minimo": 5.0 }] },
+      "promocion": [{ "reprobados": 0 }, { "reprobados": 1, "promedio_minimo": 4.5 }, { "reprobados": 2, "promedio_minimo": 5.0 }], "asistencia_minima": 0.85 },
     { "id": "etapa.chile.media", "edad_desde": 14, "edad_hasta": 18, "obligatoria": true, "curso": true,
       "ramos": [
         { "id": "ramo.chile.lengua_literatura" },
@@ -73,7 +73,7 @@
         { "id": "ramo.chile.filosofia", "desde": 3 },
         { "id": "ramo.chile.ciencias_ciudadania", "desde": 3 }
       ],
-      "promocion": [{ "reprobados": 0 }, { "reprobados": 1, "promedio_minimo": 4.5 }, { "reprobados": 2, "promedio_minimo": 5.0 }] }
+      "promocion": [{ "reprobados": 0 }, { "reprobados": 1, "promedio_minimo": 4.5 }, { "reprobados": 2, "promedio_minimo": 5.0 }], "asistencia_minima": 0.85 }
   ],
   "mortalidad": [
     { "edad": 0, "femenino": 0.0072, "masculino": 0.00813 },

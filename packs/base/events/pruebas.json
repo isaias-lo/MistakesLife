@@ -126,7 +126,7 @@
     "id": "evento.prueba.devuelta_roja",
     "con": "profe",
     "lugar": "lugar.sala",
-    "condiciones": "jugador.prueba_devuelta && !jugador.prueba_aprobada && jugador.edad >= 8",
+    "condiciones": "jugador.prueba_devuelta && !jugador.prueba_aprobada && !jugador.pillado_copiando && jugador.edad >= 8",
     "probabilidad_anual": 1,
     "veces_maximas": 2,
     "variantes": [

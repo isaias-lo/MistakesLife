@@ -56,7 +56,7 @@ namespace MistakesLife.Core.Education
 
             if (record != null && record.Marks.Count > 0 && (stage == null || country.IsSummerBreak(context.Date)))
             {
-                CloseYear(world, player, record, scale, stage ?? LastStage(country, player));
+                CloseYear(world, country, player, record, scale, stage ?? LastStage(country, player));
                 return;
             }
 
@@ -86,6 +86,24 @@ namespace MistakesLife.Core.Education
                 }
 
                 double mark = GradeRules.Mark(world, _content, player, scale, record.TestSubjectId!, record.TestPreparation, random);
+                if (record.TestCheating)
+                {
+                    // Copió (D5a3): si lo pillan se anula con la nota mínima; si no, la nota sube,
+                    // pero el dominio del ramo no, porque no aprendió.
+                    record.TestCheating = false;
+                    if (random.Chance(GradeRules.CaughtChance))
+                    {
+                        mark = scale.Min;
+                        record.TestCaught = true;
+                        player.SetFlag("pillado_copiando");
+                        world.WriteJournal(player.Id, "diario.notas.pillado_copiando");
+                    }
+                    else
+                    {
+                        mark = GradeRules.Copied(mark, scale);
+                    }
+                }
+
                 Add(record, record.TestSubjectId!, mark);
                 record.TestMark = mark;
                 record.TestReturnedWeek = week;
@@ -110,6 +128,8 @@ namespace MistakesLife.Core.Education
                 record.TestPreparation = 0;
                 record.TestMark = null;
                 record.TestMakeup = false;
+                record.TestCheating = false;
+                record.TestCaught = false;
             }
         }
 
@@ -131,7 +151,7 @@ namespace MistakesLife.Core.Education
             return id == null ? null : country.EducationStages.Find(s => s.Id == id);
         }
 
-        private static void CloseYear(World world, Character player, SchoolRecord record, GradeScaleDefinition scale, EducationStageDefinition? stage)
+        private static void CloseYear(World world, CountryDefinition country, Character player, SchoolRecord record, GradeScaleDefinition scale, EducationStageDefinition? stage)
         {
             SortedDictionary<string, double> finals = GradeRules.Finals(record, scale);
             double? general = GradeRules.General(finals, scale);
@@ -146,12 +166,26 @@ namespace MistakesLife.Core.Education
             record.TestMark = null;
             record.TestPreparation = 0;
             record.TestMakeup = false;
+            record.TestCheating = false;
+            record.TestCaught = false;
+            int absences = record.Absences;
+            record.Absences = 0;
             if (!general.HasValue)
             {
                 return;
             }
 
             record.YearAverages.Add(general.Value);
+            if (stage != null && !GradeRules.MeetsAttendance(stage, country, absences))
+            {
+                // Faltó más de lo que permite el reglamento (la cimarra): repite aunque tenga notas para pasar.
+                record.RepeatedYears++;
+                player.SchoolClass = null;
+                player.SetFlag("repitio_curso");
+                world.WriteJournal(player.Id, "diario.notas.repitio_asistencia");
+                return;
+            }
+
             if (stage != null && !GradeRules.Passes(stage, finals, scale))
             {
                 record.RepeatedYears++;

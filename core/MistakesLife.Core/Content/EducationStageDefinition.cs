@@ -41,5 +41,13 @@ namespace MistakesLife.Core.Content
         /// </summary>
         [JsonProperty("promocion")]
         public System.Collections.Generic.List<PromotionRuleDefinition> Promotion { get; set; } = new System.Collections.Generic.List<PromotionRuleDefinition>();
+
+        /// <summary>
+        /// La asistencia mínima para pasar de curso, de 0 a 1 ("asistencia_minima"; en Chile,
+        /// 0.85): quien falta más (la cimarra, D5a3) repite aunque tenga buenas notas. Sin ella,
+        /// la asistencia no cuenta.
+        /// </summary>
+        [JsonProperty("asistencia_minima")]
+        public double? MinAttendance { get; set; }
     }
 }

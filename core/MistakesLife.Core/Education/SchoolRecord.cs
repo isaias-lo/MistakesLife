@@ -64,6 +64,22 @@ namespace MistakesLife.Core.Education
         /// <summary>Cuántas tardes estudió con preguntas este año.</summary>
         public int StudySessions { get; internal set; }
 
+        /// <summary>
+        /// Si piensa copiar en la prueba anunciada (D5a3): con un torpedo o mirando a alguien.
+        /// Al rendirla, si no lo pillan la nota sube, pero no aprende nada; si lo pillan, la
+        /// prueba se anula con la nota mínima.
+        /// </summary>
+        public bool TestCheating { get; internal set; }
+
+        /// <summary>Si en la prueba anunciada que se devolvió lo pillaron copiando.</summary>
+        public bool TestCaught { get; internal set; }
+
+        /// <summary>
+        /// Los días de clases que faltó este año sin estar enfermo (la cimarra, D5a3). Cuentan
+        /// para la asistencia mínima con que se pasa de curso; se vuelven a 0 al cerrar el año.
+        /// </summary>
+        public int Absences { get; internal set; }
+
         /// <summary>Si la prueba anunciada todavía no se rinde.</summary>
         public bool TestPending => TestSubjectId != null && !TestMark.HasValue;
     }

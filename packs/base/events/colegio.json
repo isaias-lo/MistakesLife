@@ -352,7 +352,9 @@
         "efectos": [
           "persona.carino += 6",
           "jugador.felicidad += 3",
+          "jugador.faltar(1)",
           "jugador.marcar('hizo_cimarra')",
+          "plantar('semilla.cimarra_descubierta', persona)",
           "diario('diario.colegio.cimarra')"
         ]
       },
