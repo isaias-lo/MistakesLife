@@ -106,6 +106,7 @@ namespace MistakesLife.Unity
             "escena.casa.guitarra" => "ancla.sillon",
             "escena.casa.pelota_futbol" => "ancla.puerta",
             "escena.casa.libreto_teatro" => "ancla.mesa",
+            "escena.casa.vela_recuerdo" => "ancla.mesa",
             _ => null,
         };
 
@@ -414,6 +415,14 @@ namespace MistakesLife.Unity
                     GameObject envelope = kit.Box("Sobre del aporte", new Vector3(0.62f, 0.448f, -0.38f), new Vector3(0.22f, 0.01f, 0.11f), new Color(0.92f, 0.86f, 0.70f));
                     envelope.transform.localRotation = Quaternion.Euler(0f, 6f, 0f);
                     kit.Box("Billetes del aporte", new Vector3(0.6f, 0.456f, -0.36f), new Vector3(0.15f, 0.006f, 0.06f), new Color(0.55f, 0.75f, 0.55f));
+                    break;
+                case "escena.casa.vela_recuerdo":
+                    // Estás de duelo: una foto con una cinta negra en la esquina y una vela encendida al lado.
+                    GameObject mourningPhoto = kit.Box("Foto de quien murió", new Vector3(0.42f, 0.53f, -0.32f), new Vector3(0.12f, 0.16f, 0.015f), Palette.DarkWood);
+                    mourningPhoto.transform.localRotation = Quaternion.Euler(-10f, 20f, 0f);
+                    kit.Box("Cinta negra", new Vector3(0.38f, 0.59f, -0.33f), new Vector3(0.05f, 0.012f, 0.018f), new Color(0.08f, 0.08f, 0.08f));
+                    kit.Box("Vela", new Vector3(0.28f, 0.49f, -0.3f), new Vector3(0.035f, 0.09f, 0.035f), new Color(0.96f, 0.93f, 0.84f));
+                    kit.Box("Llama de la vela", new Vector3(0.28f, 0.548f, -0.3f), new Vector3(0.012f, 0.025f, 0.012f), new Color(1.00f, 0.75f, 0.30f));
                     break;
                 case "escena.casa.bono_y_receta":
                     // Fuiste al médico hace poco: el bono (o la boleta) y la receta sobre la mesa, con la caja del remedio.

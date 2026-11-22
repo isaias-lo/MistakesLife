@@ -353,6 +353,10 @@ namespace MistakesLife.Core.Saving
             // las cotizaciones desde el último cobro, el sueldo promedio y el cobro. En las partidas
             // viejas la cuenta parte vacía y se llena desde el próximo sueldo con contrato.
             [45] = save => { },
+
+            // 46 → 47: aparece el duelo por la gente de tu vida que muere. En las partidas viejas
+            // nadie está de duelo: los duelos se leen vacíos y nacen con la próxima muerte.
+            [46] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

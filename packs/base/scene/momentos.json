@@ -13,5 +13,6 @@
   { "id": "escena.casa.libreto_teatro", "lugar": "casa", "condiciones": "jugador.taller == 'actuacion'" },
   { "id": "escena.casa.folletos_estudios", "lugar": "casa", "condiciones": "jugador.tiene('pregunto_por_estudiar') && jugador.edad < 19" },
   { "id": "escena.casa.citacion_apoderado", "lugar": "casa", "condiciones": "jugador.tiene('citacion_apoderado') && jugador.en_clases" },
-  { "id": "escena.casa.prueba_refri", "lugar": "casa", "condiciones": "jugador.tiene('prueba_en_el_refri') && jugador.edad < 14" }
+  { "id": "escena.casa.prueba_refri", "lugar": "casa", "condiciones": "jugador.tiene('prueba_en_el_refri') && jugador.edad < 14" },
+  { "id": "escena.casa.vela_recuerdo", "lugar": "casa", "condiciones": "jugador.en_duelo" }
 ]

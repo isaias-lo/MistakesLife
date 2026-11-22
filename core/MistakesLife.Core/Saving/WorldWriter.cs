@@ -214,6 +214,14 @@ namespace MistakesLife.Core.Saving
                 UnemploymentFund = c.UnemploymentFund,
                 UnemploymentContributions = c.UnemploymentContributions,
                 UnemploymentSalaryBase = c.UnemploymentSalaryBase,
+                Griefs = c.Griefs.Count == 0 ? null : c.Griefs.Select(g => new GriefData
+                {
+                    PersonId = g.PersonId,
+                    SinceWeek = g.Since.TotalWeeks,
+                    Relation = g.Relation,
+                    Weight = g.Weight,
+                    ReliefWeeks = g.ReliefWeeks,
+                }).ToList(),
                 UnemploymentClaim = c.UnemploymentClaim == null ? null : new UnemploymentClaimData
                 {
                     StartWeek = c.UnemploymentClaim.Start.TotalWeeks,

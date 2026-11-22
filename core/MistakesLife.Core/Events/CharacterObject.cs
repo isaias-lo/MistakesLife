@@ -427,6 +427,16 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.ContributedMonths);
                 case "fondo_pension":
                     return Value.FromNumber((double)PayrollToday(_character.PensionFund, scope));
+                case "en_duelo":
+                    return Value.FromBool(GriefRules.CurrentPain(_character, ((EventScope)scope).World.Date) > 0);
+                case "pena":
+                    return Value.FromNumber(GriefRules.CurrentPain(_character, ((EventScope)scope).World.Date));
+                case "lazo":
+                    return Value.FromText(GriefRules.Of(Viewer(member), _character.Id)?.Relation ?? string.Empty);
+                case "peso_duelo":
+                    return Value.FromNumber(GriefRules.Of(Viewer(member), _character.Id)?.Weight ?? 0);
+                case "semanas_desde_muerte":
+                    return Value.FromNumber(_character.DeathDate.HasValue ? ((EventScope)scope).World.Date.WeeksSince(_character.DeathDate.Value) : -1);
                 case "seguro_desempleo_saldo":
                     return Value.FromNumber((double)PayrollToday(_character.UnemploymentFund, scope));
                 case "cobrando_seguro_desempleo":
@@ -872,6 +882,22 @@ namespace MistakesLife.Core.Events
         {
             switch (method)
             {
+                case "aliviar_duelo":
+                    {
+                        ((EventScope)scope).RequireWritable("persona.aliviar_duelo");
+                        Grief? grief = GriefRules.Of(Viewer(method + "()"), _character.Id);
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Number)
+                        {
+                            throw new ScriptException("persona.aliviar_duelo necesita las semanas que se acorta el duelo.");
+                        }
+
+                        if (grief != null)
+                        {
+                            grief.ReliefWeeks = Math.Max(0, grief.ReliefWeeks + (int)args[0].AsNumber("aliviar_duelo"));
+                        }
+
+                        return Value.Null;
+                    }
                 case "preparar_prueba":
                     {
                         ((EventScope)scope).RequireWritable("jugador.preparar_prueba");

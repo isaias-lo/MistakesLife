@@ -1,0 +1,151 @@
+[
+  {
+    "id": "evento.duelo.velorio",
+    "con": "fallecido",
+    "condiciones": "jugador.edad >= 10 && persona.semanas_desde_muerte <= 2 && persona.peso_duelo >= 30 && persona.lazo != 'colega' && persona.lazo != 'jefe' && persona.lazo != 'conocido' && persona.lazo != 'rival'",
+    "probabilidad_anual": 1,
+    "por_persona": true,
+    "veces_maximas": 1,
+    "dia_clave": true,
+    "variantes": ["evento.duelo.velorio.2", "evento.duelo.velorio.3"],
+    "opciones": [
+      {
+        "texto": "opcion.duelo.velorio.noche",
+        "tendencia": "20 + jugador.amabilidad / 2",
+        "efectos": [
+          "persona.aliviar_duelo(4)",
+          "jugador.energia -= 10",
+          "diario('diario.duelo.velorio_noche')"
+        ]
+      },
+      {
+        "texto": "opcion.duelo.velorio.palabras",
+        "condiciones": "jugador.edad >= 14",
+        "tendencia": "10 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.aliviar_duelo(6)",
+          "diario('diario.duelo.palabras')"
+        ]
+      },
+      {
+        "texto": "opcion.duelo.velorio.rato",
+        "tendencia": "30",
+        "efectos": [
+          "persona.aliviar_duelo(1)",
+          "diario('diario.duelo.velorio_rato')"
+        ]
+      },
+      {
+        "texto": "opcion.duelo.velorio.no_ir",
+        "condiciones": "persona.lazo != 'hijo' && persona.lazo != 'pareja'",
+        "tendencia": "jugador.neuroticismo / 5",
+        "efectos": [
+          "persona.aliviar_duelo(-4)",
+          "jugador.felicidad -= 4",
+          "diario('diario.duelo.no_fui')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.duelo.te_enteras",
+    "con": "fallecido",
+    "condiciones": "jugador.edad >= 10 && persona.semanas_desde_muerte >= 1 && persona.semanas_desde_muerte <= 26 && (persona.peso_duelo < 30 || persona.lazo == 'colega' || persona.lazo == 'jefe' || persona.lazo == 'conocido' || persona.lazo == 'rival')",
+    "probabilidad_anual": 0.9,
+    "por_persona": true,
+    "veces_maximas": 1,
+    "variantes": ["evento.duelo.te_enteras.2", "evento.duelo.te_enteras.3"],
+    "opciones": [
+      {
+        "texto": "opcion.duelo.te_enteras.escribir",
+        "tendencia": "20 + jugador.amabilidad / 2",
+        "efectos": [
+          "persona.aliviar_duelo(2)",
+          "diario('diario.duelo.condolencias')"
+        ]
+      },
+      {
+        "texto": "opcion.duelo.te_enteras.recordar",
+        "tendencia": "20 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.duelo.te_enteras.seguir",
+        "tendencia": "25",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.duelo.cuesta",
+    "con": "fallecido",
+    "condiciones": "jugador.edad >= 10 && persona.lazo != 'pareja' && persona.peso_duelo >= 40 && persona.semanas_desde_muerte >= 4 && persona.semanas_desde_muerte <= 12",
+    "probabilidad_anual": 0.99,
+    "por_persona": true,
+    "veces_maximas": 1,
+    "variantes": ["evento.duelo.cuesta.2"],
+    "opciones": [
+      {
+        "texto": "opcion.duelo.cuesta.hablar",
+        "condiciones": "jugador.amigos >= 1 || jugador.pareja != nada",
+        "tendencia": "20 + jugador.extraversion / 2",
+        "efectos": [
+          "persona.aliviar_duelo(6)",
+          "jugador.felicidad += 3"
+        ]
+      },
+      {
+        "texto": "opcion.duelo.cuesta.rutina",
+        "tendencia": "20 + jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.aliviar_duelo(2)"
+        ]
+      },
+      {
+        "texto": "opcion.duelo.cuesta.encerrarte",
+        "tendencia": "jugador.neuroticismo / 2",
+        "efectos": [
+          "persona.aliviar_duelo(-4)",
+          "jugador.energia -= 8"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.duelo.un_ano",
+    "con": "fallecido",
+    "condiciones": "jugador.edad >= 8 && persona.lazo != 'pareja' && persona.peso_duelo >= 40 && persona.semanas_desde_muerte >= 52 && persona.semanas_desde_muerte <= 56",
+    "probabilidad_anual": 1,
+    "por_persona": true,
+    "veces_maximas": 1,
+    "opciones": [
+      {
+        "texto": "opcion.duelo.un_ano.cementerio",
+        "tendencia": "30 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.felicidad += 2",
+          "diario('diario.duelo.un_ano')"
+        ]
+      },
+      {
+        "texto": "opcion.duelo.un_ano.en_casa",
+        "tendencia": "30",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "diario('diario.duelo.un_ano_casa')"
+        ]
+      },
+      {
+        "texto": "opcion.duelo.un_ano.pasar",
+        "tendencia": "(100 - jugador.neuroticismo) / 5",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  }
+]

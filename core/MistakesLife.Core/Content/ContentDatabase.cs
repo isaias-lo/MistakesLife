@@ -2836,7 +2836,7 @@ namespace MistakesLife.Core.Content
                     _errors.Add(new ContentError(where, $"con '{ev.With}' las condiciones no pueden usar persona: se revisan antes de conocerla."));
                 }
             }
-            else if (ev.With != null && Array.IndexOf(ChatDefinition.Senders, ev.With) < 0 && Array.IndexOf(ActionDefinition.ExtraRoles, ev.With) < 0)
+            else if (ev.With != null && ev.With != EventDefinition.DeceasedRole && Array.IndexOf(ChatDefinition.Senders, ev.With) < 0 && Array.IndexOf(ActionDefinition.ExtraRoles, ev.With) < 0)
             {
                 _errors.Add(new ContentError(where, $"con '{ev.With}' no existe (usa {string.Join(", ", ChatDefinition.Senders.Concat(ActionDefinition.ExtraRoles))}, {EventDefinition.NewPersonRole} o, en un evento de semilla, {EventDefinition.WitnessRole})."));
             }
