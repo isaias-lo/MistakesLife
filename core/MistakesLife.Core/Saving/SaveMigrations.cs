@@ -353,6 +353,10 @@ namespace MistakesLife.Core.Saving
             // las cotizaciones desde el último cobro, el sueldo promedio y el cobro. En las partidas
             // viejas la cuenta parte vacía y se llena desde el próximo sueldo con contrato.
             [45] = save => { },
+
+            // 46 → 47: aparecen los puntajes de la PAES (NEM, ranking y pruebas, D5a5). En las
+            // partidas viejas nadie la ha dado con puntaje: se leen en 0 y vacíos.
+            [46] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

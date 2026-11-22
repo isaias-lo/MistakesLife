@@ -102,6 +102,8 @@ namespace MistakesLife.Unity
             "escena.casa.citacion_apoderado" => "ancla.mesa",
             "escena.casa.post_its_proyecto" => "ancla.muro_lateral",
             "escena.casa.tesis_empastada" => "ancla.mesa",
+            "escena.casa.facsimiles_paes" => "ancla.mesa",
+            "escena.casa.resultados_paes" => "ancla.muro_lateral",
             "escena.casa.acta_centro" => "ancla.mesa",
             "escena.casa.guitarra" => "ancla.sillon",
             "escena.casa.pelota_futbol" => "ancla.puerta",
@@ -557,6 +559,28 @@ namespace MistakesLife.Unity
                     // Defendiste tu tesis (D5a4): el ejemplar empastado en tapa dura, con letras doradas, sobre la mesa.
                     kit.Box("Tesis empastada", new Vector3(-0.38f, 0.455f, -0.2f), new Vector3(0.16f, 0.025f, 0.22f), new Color(0.12f, 0.18f, 0.38f));
                     kit.Box("Letras doradas de la tesis", new Vector3(-0.38f, 0.469f, -0.17f), new Vector3(0.1f, 0.002f, 0.03f), new Color(0.85f, 0.70f, 0.30f));
+                    break;
+                case "escena.casa.facsimiles_paes":
+                    // Te preparas para dar la PAES otra vez (D5a5): la pila de facsímiles del preu, con un ensayo corregido encima y el lápiz.
+                    for (int i = 0; i < 4; i++)
+                    {
+                        GameObject sheet = kit.Box("Facsímil de la PAES", new Vector3(-0.1f, 0.446f + (i * 0.006f), 0.18f), new Vector3(0.17f, 0.005f, 0.23f), Palette.Paper);
+                        sheet.transform.localRotation = Quaternion.Euler(0f, -6f + (i * 4f), 0f);
+                    }
+
+                    kit.Box("Puntaje del ensayo en rojo", new Vector3(-0.06f, 0.473f, 0.24f), new Vector3(0.05f, 0.002f, 0.025f), Palette.Alarm);
+                    GameObject essayPencil = kit.Shape(PrimitiveType.Cylinder, "Lápiz del ensayo", new Vector3(0.04f, 0.455f, 0.1f), new Vector3(0.012f, 0.08f, 0.012f), new Color(0.95f, 0.78f, 0.25f));
+                    essayPencil.transform.localRotation = Quaternion.Euler(0f, 30f, 90f);
+                    break;
+                case "escena.casa.resultados_paes":
+                    // Diste la PAES (D5a5): la hoja de resultados impresa, pegada al muro con su tabla de puntajes.
+                    GameObject results = kit.Box("Hoja de resultados de la PAES", new Vector3(0.03f, 1.35f, 0.02f), new Vector3(0.01f, 0.26f, 0.19f), Palette.Paper);
+                    results.transform.localRotation = Quaternion.Euler(3f, 0f, 0f);
+                    for (int i = 0; i < 4; i++)
+                    {
+                        kit.Box("Línea de puntaje", new Vector3(0.037f, 1.42f - (i * 0.045f), 0.02f), new Vector3(0.002f, 0.012f, 0.13f), new Color(0.25f, 0.30f, 0.45f));
+                    }
+
                     break;
                 case "escena.casa.acta_centro":
                     // Ganaste el centro de alumnos (D5a3b): el libro de actas del centro, con su timbre al lado.

@@ -188,8 +188,9 @@
   {
     "id": "evento.futuro.dueno_descubre",
     "semilla": "semilla.subarriendo_sin_permiso",
+    "con": "testigo",
     "lugar": "lugar.casa",
-    "condiciones": "jugador.comparte_arriendo",
+    "condiciones": "jugador.comparte_arriendo && semilla('semilla.subarriendo_sin_permiso').testigo != nada",
     "opciones": [
       {
         "texto": "opcion.futuro.dueno_descubre.disculpas",
@@ -204,7 +205,7 @@
         "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.amabilidad) / 4",
         "efectos": [
           "jugador.dejar_de_compartir()",
-          "semilla('semilla.subarriendo_sin_permiso').testigo.carino -= 6",
+          "persona.carino -= 6",
           "diario('diario.futuro.dueno_descubre')"
         ]
       }

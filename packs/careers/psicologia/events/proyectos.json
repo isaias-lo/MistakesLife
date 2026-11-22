@@ -391,12 +391,23 @@
     "opciones": [
       {
         "texto": "opcion.tesis.datos.reconocer",
+        "condiciones": "jugador.estudia == 'carrera.psicologia'",
         "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
         "efectos": [
           "jugador.felicidad -= 4",
           "persona.respeto -= 2",
           "jugador.estudiar_semestre(-2)",
           "diario('diario.tesis.datos.reconocer')"
+        ]
+      },
+      {
+        "texto": "opcion.tesis.datos.reconocer",
+        "condiciones": "jugador.estudia != 'carrera.psicologia'",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.felicidad -= 6",
+          "persona.respeto -= 2",
+          "diario('diario.tesis.datos.reconocer_titulado')"
         ]
       },
       {

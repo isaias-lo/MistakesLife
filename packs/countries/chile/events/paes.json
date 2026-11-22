@@ -1,0 +1,75 @@
+[
+  {
+    "id": "evento.paes.otra_vez",
+    "fecha": "30-11",
+    "lugar": "lugar.local_paes",
+    "condiciones": "jugador.tiene('preparando_paes')",
+    "dia_clave": true,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.paes.otra_vez.rendir",
+        "tendencia": "60 + jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.rendir_paes(si(jugador.servicio('servicio.preu') == 'servicio.preu.pagado', 2, 1))",
+          "jugador.marcar('rindio_paes')",
+          "jugador.cancelar_servicio('servicio.preu')"
+        ]
+      },
+      {
+        "texto": "opcion.paes.otra_vez.no_ir",
+        "tendencia": "(100 - jugador.responsabilidad) / 6",
+        "efectos": [
+          "jugador.felicidad -= 2",
+          "jugador.cancelar_servicio('servicio.preu')"
+        ]
+      }
+    ],
+    "efectos": [
+      "jugador.desmarcar('preparando_paes')",
+      "jugador.marcar('termino_preu')"
+    ]
+  },
+  {
+    "id": "evento.paes.resultados_otra_vez",
+    "fecha": "05-01",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.tiene('termino_preu')",
+    "dia_clave": true,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.paes.resultados.postular",
+        "condiciones": "jugador.puntaje_paes >= 458",
+        "tendencia": "70 + (jugador.puntaje_paes - 458) / 4",
+        "efectos": [
+          "jugador.marcar('puede_universidad')",
+          "jugador.marcar('quiere_estudiar')",
+          "jugador.felicidad += 4",
+          "diario('diario.paes.otra_vez_alcanzo')"
+        ]
+      },
+      {
+        "texto": "opcion.paes.resultados.tecnica",
+        "condiciones": "jugador.puntaje_paes < 458",
+        "tendencia": "60",
+        "efectos": [
+          "jugador.marcar('quiere_estudiar')",
+          "diario('diario.paes.otra_vez_tecnica')"
+        ]
+      },
+      {
+        "texto": "opcion.paes.resultados.trabajar",
+        "tendencia": "20 + (50 - jugador.nivel_hogar) / 3",
+        "efectos": [
+          "jugador.marcar('buscando_trabajo')",
+          "diario('diario.paes.otra_vez_trabajar')"
+        ]
+      }
+    ],
+    "efectos": [
+      "jugador.desmarcar('termino_preu')",
+      "jugador.marcar('resultados_paes')"
+    ]
+  }
+]
