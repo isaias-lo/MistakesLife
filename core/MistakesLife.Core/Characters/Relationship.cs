@@ -47,6 +47,13 @@ namespace MistakesLife.Core.Characters
         /// <summary>Qué son: amigos, colegas, rivales, ex o nada especial.</summary>
         public RelationshipBond Bond { get; set; }
 
+        /// <summary>
+        /// La semana (<see cref="Time.GameDate.TotalWeeks"/>) de la última vez que hicieron algo
+        /// juntos con el tiempo parado (una salida, una junta, D5c2); null si nunca. Sirve para
+        /// sugerir con quién salir con un motivo real ("hace 3 meses que no se ven").
+        /// </summary>
+        public int? LastTogetherWeek { get; set; }
+
         /// <summary>Una copia con los mismos valores, para otra persona (por ejemplo, al crear un lazo en ambos sentidos).</summary>
         public Relationship CopyFor(int otherId) => new Relationship(otherId, Affection, Trust, Respect, Resentment, Bond);
 

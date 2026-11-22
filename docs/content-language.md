@@ -1098,6 +1098,29 @@ Cada archivo es una lista:
 | `tardes` | Cuántas tardes libres gasta, de 1 a 3 (por defecto 1) |
 | `veces_al_mes` | Cuántas veces se puede hacer al mes, con cada persona si lleva `con` (por defecto 1) |
 | `cambia` | Lo que cambia al hacerla, de -8 a 8: `felicidad`, `salud`, `inteligencia`, `apariencia`, `energia`, `carino` (lo que se sienten los dos con la persona; necesita `con`) y `preparar_prueba` (un nivel más de preparación para la prueba anunciada; necesita la condición `jugador.prueba_anunciada`). Es también lo que el jugador ve antes de elegirla |
+| `lugar` | El lugar del mapa de tu barrio donde se hace (`lugar.barrio.mall`, ver más abajo). Con lugar, la acción no va en la lista del grupo ni en la ficha: se elige tocando el lugar, y ahí se elige con quién (con `con: cualquiera` o `conocido` no hace falta `solo_en_ficha`, y no lo lleva) |
+| `solo` | Con `con`: si también se puede ir sin nadie (ver una película, entrenar). Sin persona no cambia el cariño, y lo que pasó se cuenta con `id.resultado.solo` |
+| `precio` | Lo que cuesta tu parte, por país (`{ "pais.chile": 6000, "pais.argentina": 8000 }`), en dinero de los paquetes: se lleva a precios de hoy como `precio()`. Tiene que estar en todos los países (o en el suyo, si la acción es del paquete de un país). Lo pagas desde los 18; antes "lo paga tu casa". Se cobra solo si fueron (si te dijo que no, no hubo cine), y si no te alcanza la plata no se puede |
+| `le_gusta` | Condición sobre la persona (`persona.apertura >= 60`): a quien la cumple le gusta especialmente, y sale como motivo al sugerir con quién ir (`id.le_gusta`, "Le encanta el cine") |
+
+**El mapa de tu barrio (barrio/, D5c2, Isaias aprobó "cada sección es un lugar que se toca" el 22-11-2026).** Tu gente abre un mapa chico de tu barrio. Cada archivo de `barrio/` es una lista de lugares, en el orden en que salen:
+
+```json
+{ "id": "lugar.barrio.mall", "forma": "mall" }
+{ "id": "lugar.chile.fonda", "forma": "fonda", "condiciones": "mundo.mes == 9" }
+```
+
+| Campo | Qué es |
+|---|---|
+| `id` | `lugar.barrio.<nombre>` en base y `lugar.<país>.<nombre>` en un país; es la clave de su nombre en `lang/` e `id.descripcion` la de una línea que lo cuenta |
+| `forma` | Su forma 3D en el mapa (Unity la dibuja: `plaza`, `mall`, `fonda`...) |
+| `edad_minima`, `edad_maxima`, `condiciones` | Cuándo está: el bar desde los 18, la fonda solo en septiembre |
+| `abre` | En vez de sus acciones, abre `casa` (vuelves a tu casa), `estudios` (tu sala, si vas a clases) o `trabajo` (tu oficina, si tienes equipo) |
+| `acciones` | Acciones que ya existen y también se hacen ahí (en la casa de tus amigos, `accion.juntarse_amigo`) |
+
+Los lugares de base salen en todos los países; **los del paquete de un país solo en ese país**, y el mapa dice "Solo en Chile" (regla de Isaias: se compra el país porque trae cosas que ningún otro tiene). Chile trae la fonda del barrio en septiembre (bailar cueca, comer empanadas en la ramada); Argentina, la cancha de fútbol 5 (jugar un picado, la cancha se paga entre todos). Las acciones del paquete de un país también son solo de ese país.
+
+Al elegir **con quién**: salen 3 sugeridos grandes, cada uno con un motivo real (le gusta lo que van a hacer según su forma de ser, o hace cuánto que no salen: cada relación recuerda la última vez que hicieron algo juntos, y también cuentan los momentos vividos con esa persona), y "Elegir a otra persona" con pestañas (pareja, familia, amigos, curso, pega, conocidos), primero los más cercanos.
 
 Con un momento esperando, primero se decide el momento: mientras tanto no se puede hacer nada.
 

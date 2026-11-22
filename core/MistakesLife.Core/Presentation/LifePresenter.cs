@@ -563,6 +563,290 @@ namespace MistakesLife.Core.Presentation
                 ? T("ui.relacion." + key)
                 : T(otherwiseKey + (person.Gender == Gender.Female ? ".f" : ".m"));
 
+        /// <summary>Cuántas personas cercanas salen abajo del mapa de tu barrio.</summary>
+        public const int MaxClosest = 4;
+
+        /// <summary>Cuántos sugeridos salen al elegir con quién ir (boceto BLugar).</summary>
+        public const int MaxSuggested = 3;
+
+        /// <summary>Desde cuántas semanas sin salir juntos es motivo para invitarlo ("Hace 2 meses que no salen").</summary>
+        public const int LongTimeWeeks = 8;
+
+        /// <summary>
+        /// El mapa chico de tu barrio (D5c2, boceto BMapa): los lugares que hay ahora para ti (los de
+        /// base y los del paquete de tu país, como la fonda en septiembre en Chile), tus tardes y tu
+        /// gente más cercana. Null si todavía no tienes horario (antes de los 6 años) o no vives en ninguna parte.
+        /// </summary>
+        public NeighborhoodView? Neighborhood()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            if (player.Routine == null || player.Residence == null || !player.IsAlive)
+            {
+                return null;
+            }
+
+            var places = new List<MapPlaceView>();
+            foreach (MapPlaceDefinition place in VisiblePlaces(player))
+            {
+                string name = T(place.Id);
+                if (place.Open == MapPlaceDefinition.OpensStudies && player.Studies != null && Education.UniversityRules.InSection(player))
+                {
+                    name = T(place.Id + ".u");
+                }
+
+                string? note = place.CountryId == null ? null : Text("ui.barrio.solo_en", T(place.CountryId));
+                places.Add(new MapPlaceView(place.Id, name, T(place.DescriptionKey), place.Shape, place.Open, note));
+            }
+
+            Dictionary<int, PersonRowView> rows = PeopleRows();
+            var closest = rows.Values
+                .Where(r => r.IsAlive)
+                .OrderByDescending(r => r.Closeness)
+                .ThenBy(r => r.Id)
+                .Take(MaxClosest)
+                .Select(r => Companion(world.GetCharacter(r.Id), r, null))
+                .ToList();
+            return new NeighborhoodView(Text("ui.barrio.titulo", T(player.Residence.CommuneId)), T("ui.barrio.toca"), T("ui.barrio.toca_gente"), FreeTime(), places, closest);
+        }
+
+        /// <summary>
+        /// Lo que puedes hacer ahora en ese lugar del barrio (D5c2, boceto BLugar): lo que cuesta y lo
+        /// que trae. Vacío si el lugar no está, si abre otra pantalla o si hay un momento esperando.
+        /// </summary>
+        public IReadOnlyList<PlaceActivityView> PlaceActivities(string placeId)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            var views = new List<PlaceActivityView>();
+            MapPlaceDefinition? place = VisiblePlaces(player).FirstOrDefault(p => p.Id == placeId);
+            if (place == null || place.Open != null && place.ActionIds.Count == 0 || Session.Pending != null)
+            {
+                return views;
+            }
+
+            IReadOnlyList<ActionOption> options = ActionRules.Available(world, Session.Content, player, null);
+            int left = FreeTimeRules.Left(world, Session.Content, player);
+            foreach (ActionDefinition action in ActionsAt(place))
+            {
+                List<ActionOption> mine = options.Where(o => o.Definition == action).ToList();
+                if (mine.Count == 0)
+                {
+                    continue;
+                }
+
+                var costs = new List<string> { action.Afternoons == 1 ? T("ui.tardes.costo_una") : Text("ui.tardes.costo", action.Afternoons) };
+                costs.AddRange(action.Effects.Where(e => e.Value < 0).Select(e => Change(e.Key, e.Value, null).Label));
+                decimal price = ActionRules.ListPrice(world, player, action);
+                if (price > 0)
+                {
+                    costs.Add(ActionRules.Price(world, player, action) > 0 ? MoneyLabel(price) : T("ui.barrio.costo.tu_casa"));
+                }
+                else
+                {
+                    costs.Add(T("ui.barrio.costo.gratis"));
+                }
+
+                var gives = action.Effects.Where(e => e.Value > 0)
+                    .Select(e => e.Key == "carino" ? T("ui.barrio.relacion") : Change(e.Key, e.Value, null).Label)
+                    .ToList();
+                bool canAfford = ActionRules.CanAfford(world, Session.Content, player, action);
+                string? blocked = canAfford ? null : left < action.Afternoons ? T("ui.barrio.no_alcanza.tardes") : T("ui.barrio.no_alcanza.plata");
+                bool alone = mine.Any(o => o.Person == null);
+                int people = mine.Count(o => o.Person != null);
+                views.Add(new PlaceActivityView(action.Id, WithPerson(T(action.Id), (string?)null), T(action.WhyKey), costs, gives, canAfford, blocked, alone, action.With != null, people));
+            }
+
+            return views;
+        }
+
+        /// <summary>
+        /// Con quién hacer algo de un lugar del barrio (D5c2, bocetos BLugar y BElegir): los
+        /// <see cref="MaxSuggested"/> sugeridos con un motivo real y, para elegir a otra persona,
+        /// todas por pestaña (pareja, familia, amigos, curso, pega, conocidos), primero los más cercanos.
+        /// </summary>
+        public CompanionsView Companions(string actionId)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            ActionDefinition action = Session.Content.Action(actionId)
+                ?? throw new InvalidOperationException($"No existe la acción '{actionId}'.");
+            var people = ActionRules.Available(world, Session.Content, player, null)
+                .Where(o => o.Definition == action && o.Person != null)
+                .Select(o => o.Person!)
+                .ToList();
+            bool alone = ActionRules.Available(world, Session.Content, player, null).Any(o => o.Definition == action && o.Person == null);
+            Dictionary<int, PersonRowView> rows = PeopleRows();
+            IReadOnlyDictionary<int, Events.EventRecord> lastMoments = LastMomentWith(world, player);
+            var family = new HashSet<int>(FamilyIds(player));
+            var all = new List<(CompanionView View, int Score)>();
+            foreach (Character person in people)
+            {
+                PersonRowView row = rows.TryGetValue(person.Id, out PersonRowView? known) ? known : Row(person, AcquaintanceRelation(person));
+                bool likes = action.CompiledLikes != null
+                    && action.CompiledLikes.Evaluate(new EventScope(world, Session.Content, player, null, true, person)).AsBool(action.Id);
+                int? weeks = WeeksSinceTogether(player, person, lastMoments);
+                string? reason = likes ? T(action.LikesKey)
+                    : weeks == null ? (family.Contains(person.Id) ? null : T("ui.barrio.motivo.nunca"))
+                    : weeks.Value < 4 ? T("ui.barrio.motivo.reciente")
+                    : weeks.Value < LongTimeWeeks ? Text("ui.barrio.motivo.semanas", weeks.Value)
+                    : Text("ui.barrio.motivo.meses", weeks.Value / 4);
+                int score = row.Closeness + (likes ? 15 : 0) + (weeks == null || weeks.Value >= LongTimeWeeks ? 8 : 0);
+                all.Add((Companion(person, row, reason, Tab(player, person, family)), score));
+            }
+
+            var suggested = all.OrderByDescending(c => c.Score).ThenBy(c => c.View.Id).Take(MaxSuggested).Select(c => c.View).ToList();
+            var tabs = new List<CompanionTabView>();
+            foreach (string tab in CompanionTabs)
+            {
+                var inTab = all.Select(c => c.View).Where(v => v.Tab == tab).OrderByDescending(v => v.Closeness).ThenBy(v => v.Id).ToList();
+                if (inTab.Count > 0)
+                {
+                    tabs.Add(new CompanionTabView(tab, T("ui.barrio.pestana." + tab), inTab));
+                }
+            }
+
+            string? aloneLabel = alone ? T(player.Gender == Gender.Female ? "ui.barrio.solo.f" : "ui.barrio.solo.m") : null;
+            return new CompanionsView(action.Id, T(action.Id), suggested, tabs, all.Count, Text("ui.barrio.elegir_otra", all.Count), aloneLabel);
+        }
+
+        /// <summary>Las pestañas al elegir con quién, en su orden.</summary>
+        public static readonly string[] CompanionTabs = { "pareja", "familia", "amigos", "curso", "pega", "conocidos" };
+
+        /// <summary>Los lugares del barrio que hay ahora para el jugador: su edad, sus condiciones y su país.</summary>
+        private IEnumerable<MapPlaceDefinition> VisiblePlaces(Character player)
+        {
+            World world = Session.World;
+            int age = player.AgeInYears(world.Date);
+            string? country = player.Residence?.CountryId;
+            var scope = new EventScope(world, Session.Content, player, null, readOnly: true);
+            foreach (MapPlaceDefinition place in Session.Content.MapPlaces)
+            {
+                if (age < place.MinAge || age > place.MaxAge || (place.CountryId != null && place.CountryId != country)
+                    || (place.CompiledConditions != null && !place.CompiledConditions.Evaluate(scope).AsBool(place.Id)))
+                {
+                    continue;
+                }
+
+                if ((place.Open == MapPlaceDefinition.OpensStudies && Place("estudios") == null)
+                    || (place.Open == MapPlaceDefinition.OpensWork && Place("trabajo") == null))
+                {
+                    continue;
+                }
+
+                yield return place;
+            }
+        }
+
+        /// <summary>Lo que se hace en un lugar: las acciones que dicen ese lugar y las que el lugar nombra.</summary>
+        private IEnumerable<ActionDefinition> ActionsAt(MapPlaceDefinition place)
+        {
+            foreach (ActionDefinition action in Session.Content.Actions.Where(a => a.Place == place.Id))
+            {
+                yield return action;
+            }
+
+            foreach (string id in place.ActionIds)
+            {
+                if (Session.Content.Action(id) is ActionDefinition named && named.Place != place.Id)
+                {
+                    yield return named;
+                }
+            }
+        }
+
+        /// <summary>Las filas de Tu gente (cercanos y conocidos), por id.</summary>
+        private Dictionary<int, PersonRowView> PeopleRows()
+        {
+            PeopleView people = People();
+            var rows = new Dictionary<int, PersonRowView>();
+            foreach (PersonRowView row in people.Close.Concat(people.Acquaintances))
+            {
+                if (!rows.ContainsKey(row.Id))
+                {
+                    rows.Add(row.Id, row);
+                }
+            }
+
+            return rows;
+        }
+
+        private CompanionView Companion(Character person, PersonRowView row, string? reason, string tab = "conocidos") =>
+            new CompanionView(person.Id, row.Name, row.Initials, row.Relation, row.Feeling, row.Level, row.Closeness, reason, tab);
+
+        /// <summary>
+        /// Semanas desde la última vez que hicieron algo juntos (una salida con el tiempo parado o un
+        /// momento vivido con esa persona); null si nunca.
+        /// </summary>
+        private int? WeeksSinceTogether(Character player, Character person, IReadOnlyDictionary<int, Events.EventRecord> lastMoments)
+        {
+            int now = Session.World.Date.TotalWeeks;
+            int? last = player.RelationshipWith(person.Id)?.LastTogetherWeek;
+            if (lastMoments.TryGetValue(person.Id, out Events.EventRecord? moment))
+            {
+                last = Math.Max(last ?? int.MinValue, moment.Date.TotalWeeks);
+            }
+
+            return last.HasValue ? Math.Max(0, now - last.Value) : (int?)null;
+        }
+
+        /// <summary>La familia del jugador: papás, hijos, hermanos y abuelos.</summary>
+        private IEnumerable<int> FamilyIds(Character player)
+        {
+            World world = Session.World;
+            foreach (int? id in new[] { player.MotherId, player.FatherId, player.SecondParentId })
+            {
+                if (Find(id) is Character parent)
+                {
+                    yield return parent.Id;
+                    foreach (int? grand in new[] { parent.MotherId, parent.FatherId, parent.SecondParentId })
+                    {
+                        if (grand.HasValue)
+                        {
+                            yield return grand.Value;
+                        }
+                    }
+                }
+            }
+
+            foreach (Character other in world.Characters.Where(c => c.Id != player.Id && RelationshipRules.IsFamily(world, player, c)))
+            {
+                yield return other.Id;
+            }
+        }
+
+        /// <summary>La pestaña de una persona al elegir con quién.</summary>
+        private string Tab(Character player, Character person, HashSet<int> family)
+        {
+            World world = Session.World;
+            if (player.PartnerId == person.Id)
+            {
+                return "pareja";
+            }
+
+            if (family.Contains(person.Id))
+            {
+                return "familia";
+            }
+
+            if (RelationshipRules.Feelings(world, player, person).Bond == RelationshipBond.Friend)
+            {
+                return "amigos";
+            }
+
+            if (player.SchoolClass != null && Education.SchoolRules.Classmates(world, player).Any(c => c.Id == person.Id))
+            {
+                return "curso";
+            }
+
+            if (Work.WorkRules.InTeam(player) && (Work.WorkRules.Boss(world, player)?.Id == person.Id || Work.WorkRules.Colleagues(world, player).Any(c => c.Id == person.Id)))
+            {
+                return "pega";
+            }
+
+            return "conocidos";
+        }
+
         /// <summary>Una tarea del mes como línea de la agenda.</summary>
         private WorkTaskView TaskRow(Work.WorkTask task)
         {
@@ -771,8 +1055,9 @@ namespace MistakesLife.Core.Presentation
                 return new List<DoableActionView>();
             }
 
+            // Lo que se hace en un lugar del barrio se elige tocando el lugar (D5c2), no en la lista.
             return Life.ActionRules.Available(world, Session.Content, player, group)
-                .Where(o => cardOnly || !o.Definition.CardOnly)
+                .Where(o => o.Definition.Place == null && (cardOnly || !o.Definition.CardOnly))
                 .Select(o => new DoableActionView(
                     o.Definition.Id,
                     o.Person?.Id,
@@ -795,7 +1080,7 @@ namespace MistakesLife.Core.Presentation
             return new ActionResultView(
                 Text("ui.fecha.dia", world.Date.DayOfMonth, T("ui.mes." + world.Date.Month)),
                 WithPerson(T(action.Id), person),
-                WithPerson(T(outcome.Accepted ? action.ResultKey : action.DeclinedKey), person),
+                WithPerson(T(person == null && action.Alone ? action.AloneResultKey : outcome.Accepted ? action.ResultKey : action.DeclinedKey), person),
                 outcome.Changes.Select(c => Change(c.Key, c.Delta, person)).ToList(),
                 FreeTime()!);
         }

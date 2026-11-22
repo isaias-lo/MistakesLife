@@ -1,0 +1,11 @@
+{
+  "lugar.chile.fonda": "Fonda del barrio",
+  "lugar.chile.fonda.descripcion": "Ramadas en el parque por Fiestas Patrias: cueca, empanadas y juegos típicos. Solo en septiembre.",
+  "accion.chile.fonda.cueca": "Bailar cueca",
+  "accion.chile.fonda.cueca.por_que": "Pañuelo en mano, en la pista de la ramada.",
+  "accion.chile.fonda.cueca.resultado": "Bailaste cueca con {persona}. Les aplaudieron al final del pie.",
+  "accion.chile.fonda.cueca.le_gusta": "Le encanta bailar",
+  "accion.chile.fonda.comer": "Comer empanadas en la ramada",
+  "accion.chile.fonda.comer.por_que": "Empanada de pino y algo para tomar.",
+  "accion.chile.fonda.comer.resultado": "Comieron empanadas con {persona} en la ramada, con la cueca de fondo."
+}

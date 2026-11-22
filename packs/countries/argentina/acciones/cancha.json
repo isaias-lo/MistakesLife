@@ -1,0 +1,13 @@
+[
+  {
+    "id": "accion.argentina.cancha.picado",
+    "grupo": "gente",
+    "lugar": "lugar.argentina.cancha_futbol5",
+    "con": "cualquiera",
+    "edad_minima": 10,
+    "veces_al_mes": 2,
+    "precio": { "pais.argentina": 6000 },
+    "le_gusta": "persona.extraversion >= 60",
+    "cambia": { "felicidad": 3, "salud": 3, "carino": 3, "energia": -3 }
+  }
+]

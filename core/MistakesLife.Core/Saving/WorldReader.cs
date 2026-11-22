@@ -309,7 +309,7 @@ namespace MistakesLife.Core.Saving
                     throw new SaveFormatException($"El guardado tiene un lazo que no existe: '{r.Bond}'.");
                 }
 
-                character.SetRelationship(new Relationship(r.OtherId, r.Affection, r.Trust, r.Respect, r.Resentment, bond));
+                character.SetRelationship(new Relationship(r.OtherId, r.Affection, r.Trust, r.Respect, r.Resentment, bond) { LastTogetherWeek = r.LastTogetherWeek });
             }
 
             foreach (KeyValuePair<string, string> service in d.Services ?? new Dictionary<string, string>())

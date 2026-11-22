@@ -1,0 +1,150 @@
+[
+  {
+    "id": "accion.barrio.plaza.vuelta",
+    "grupo": "gente",
+    "lugar": "lugar.barrio.plaza",
+    "con": "cualquiera",
+    "solo": true,
+    "edad_minima": 6,
+    "veces_al_mes": 2,
+    "cambia": {
+      "felicidad": 2,
+      "carino": 3
+    }
+  },
+  {
+    "id": "accion.barrio.plaza.pelota",
+    "grupo": "gente",
+    "lugar": "lugar.barrio.plaza",
+    "con": "cualquiera",
+    "edad_minima": 6,
+    "edad_maxima": 17,
+    "le_gusta": "persona.extraversion >= 60",
+    "cambia": {
+      "felicidad": 2,
+      "salud": 2,
+      "carino": 3,
+      "energia": -2
+    }
+  },
+  {
+    "id": "accion.barrio.mall.cine",
+    "grupo": "gente",
+    "lugar": "lugar.barrio.mall",
+    "con": "cualquiera",
+    "solo": true,
+    "edad_minima": 6,
+    "precio": {
+      "pais.chile": 6000,
+      "pais.argentina": 16000
+    },
+    "le_gusta": "persona.apertura >= 60",
+    "cambia": {
+      "felicidad": 4,
+      "carino": 4,
+      "energia": -1
+    }
+  },
+  {
+    "id": "accion.barrio.mall.comer",
+    "grupo": "gente",
+    "lugar": "lugar.barrio.mall",
+    "con": "cualquiera",
+    "edad_minima": 6,
+    "precio": {
+      "pais.chile": 7000,
+      "pais.argentina": 15000
+    },
+    "le_gusta": "persona.extraversion >= 60",
+    "cambia": {
+      "felicidad": 2,
+      "carino": 4
+    }
+  },
+  {
+    "id": "accion.barrio.gimnasio.entrenar",
+    "grupo": "gente",
+    "lugar": "lugar.barrio.gimnasio",
+    "con": "cualquiera",
+    "solo": true,
+    "edad_minima": 15,
+    "veces_al_mes": 2,
+    "precio": {
+      "pais.chile": 5000,
+      "pais.argentina": 8000
+    },
+    "le_gusta": "persona.responsabilidad >= 65",
+    "cambia": {
+      "salud": 4,
+      "apariencia": 1,
+      "carino": 2,
+      "energia": -3
+    }
+  },
+  {
+    "id": "accion.barrio.parque.trotar",
+    "grupo": "gente",
+    "lugar": "lugar.barrio.parque",
+    "con": "cualquiera",
+    "solo": true,
+    "edad_minima": 12,
+    "veces_al_mes": 2,
+    "le_gusta": "persona.responsabilidad >= 65",
+    "cambia": {
+      "salud": 3,
+      "carino": 2,
+      "energia": -2
+    }
+  },
+  {
+    "id": "accion.barrio.parque.picnic",
+    "grupo": "gente",
+    "lugar": "lugar.barrio.parque",
+    "con": "cualquiera",
+    "edad_minima": 6,
+    "precio": {
+      "pais.chile": 4000,
+      "pais.argentina": 8000
+    },
+    "le_gusta": "persona.amabilidad >= 65",
+    "cambia": {
+      "felicidad": 3,
+      "carino": 4,
+      "energia": 1
+    }
+  },
+  {
+    "id": "accion.barrio.cafe.conversar",
+    "grupo": "gente",
+    "lugar": "lugar.barrio.cafe",
+    "con": "cualquiera",
+    "edad_minima": 14,
+    "precio": {
+      "pais.chile": 4000,
+      "pais.argentina": 6000
+    },
+    "le_gusta": "persona.extraversion < 40",
+    "cambia": {
+      "felicidad": 2,
+      "carino": 5
+    }
+  },
+  {
+    "id": "accion.barrio.bar.tomar",
+    "grupo": "gente",
+    "lugar": "lugar.barrio.bar",
+    "con": "cualquiera",
+    "edad_minima": 18,
+    "precio": {
+      "pais.chile": 10000,
+      "pais.argentina": 18000
+    },
+    "le_gusta": "persona.extraversion >= 65",
+    "cambia": {
+      "felicidad": 4,
+      "carino": 4,
+      "salud": -1,
+      "energia": -3
+    }
+  }
+]

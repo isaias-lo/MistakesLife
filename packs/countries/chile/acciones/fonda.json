@@ -1,0 +1,20 @@
+[
+  {
+    "id": "accion.chile.fonda.cueca",
+    "grupo": "gente",
+    "lugar": "lugar.chile.fonda",
+    "con": "cualquiera",
+    "edad_minima": 6,
+    "le_gusta": "persona.extraversion >= 60",
+    "cambia": { "felicidad": 4, "carino": 4, "energia": -2 }
+  },
+  {
+    "id": "accion.chile.fonda.comer",
+    "grupo": "gente",
+    "lugar": "lugar.chile.fonda",
+    "con": "cualquiera",
+    "edad_minima": 6,
+    "precio": { "pais.chile": 6000 },
+    "cambia": { "felicidad": 3, "carino": 4 }
+  }
+]

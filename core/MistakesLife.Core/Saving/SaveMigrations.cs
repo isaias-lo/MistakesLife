@@ -365,6 +365,10 @@ namespace MistakesLife.Core.Saving
             // 48 → 49: aparecen las tareas del mes en la pega (D5b). En las partidas viejas el mes
             // que va no tiene tareas: las primeras llegan el mes que viene.
             [48] = save => { },
+
+            // 49 → 50: cada relación recuerda la última vez que hicieron algo juntos (D5c2, para
+            // sugerir con quién salir). En las partidas viejas nadie lo recuerda: se lee vacío.
+            [49] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>
