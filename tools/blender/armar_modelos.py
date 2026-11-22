@@ -24,7 +24,7 @@ DESTINO = os.path.join(RAIZ, "unity", "Assets", "MistakesLife", "Resources", "Mo
 
 
 def ids_disponibles():
-    return sorted(n[:-3] for n in os.listdir(CARPETA_MODELOS) if n.endswith(".py"))
+    return sorted(n[:-3] for n in os.listdir(CARPETA_MODELOS) if n.endswith(".py") and not n.startswith("_"))
 
 
 def cargar(id_modelo):
