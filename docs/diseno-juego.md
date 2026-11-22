@@ -225,6 +225,16 @@ Isaias aprobó todo lo recomendado, más sus agregados. Cada cosa gasta tiempo y
 - **Fertilidad:** examen de semen, congelar óvulos. También adopción y cambio de género, según las leyes de cada país.
 - **Enfermedades con aviso** y un sonido triste propio.
 
+### Licencias médicas (S2, se hace dentro de D8)
+
+Isaias lo pidió el 22-11-2026, después de ver la propuesta de S2 (le gustó, pero se hace junto con D8):
+
+- **Licencias que se noten.** Como el tiempo avanza por mes o por año, una licencia de 10 días no se sentiría. Las licencias del juego son largas y notorias: **un mes, dos o tres meses**, por un accidente grave o una enfermedad seria. Nacen siempre de algo que te pasó y de ir al médico, nunca de la nada.
+- **Mientras dura, toda la pantalla lo dice.** El menú muestra que estás con licencia, cambia el color de la pantalla principal y cambia la escena 3D de la casa, para que se entienda que tienes algo de salud peligroso. Es lo mismo que pasará con la cárcel: todo cambia mientras dura.
+- **Si avanzas un año, queda el registro.** Si el jugador aprieta "Un año", el tiempo solo para en lo importante, pero la licencia y su causa quedan anotadas: qué te pasó, qué accidente o enfermedad fue y qué secuelas te dejó.
+- **Enfermedad grave.** Con cáncer u otra enfermedad que no te deja volver a trabajar, existe la salida real de Chile: la **pensión de invalidez**, que decide la comisión médica. Hay que revisar la ley antes de programarla.
+- Sigue en pie lo de la propuesta: el subsidio por incapacidad laboral de Fonasa (COMPIN) o de la isapre en la liquidación, que la isapre te la pueda rechazar (llega un correo y puedes reclamar), no ir a la pega mientras dura, que tu jefa lo note, y el papel de la licencia en la casa 3D. A honorarios o sin contrato no hay licencia pagada.
+
 ## Celular, correos, noticias y capítulos
 
 ### Celular

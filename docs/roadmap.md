@@ -33,7 +33,7 @@ Cada tarea empieza con bocetos con opciones que Isaias aprueba; recién después
 | D5d | Minijuegos reales por carrera y oficio | Pendiente |
 | D6 | Dinero: presupuesto armado por el jugador, puntaje bancario 1-999 por país, tarjetas, 3 bancos por país | Pendiente |
 | D7 | Dónde vives y Compras: 4 comunas y 9 viviendas por país en 3D, roomies, subsidio, auto con licencia, lujo que se usa | Pendiente |
-| D8 | Salud según `docs/diseno-juego.md` (ficha médica, calidad por comuna, salud mental, fertilidad) | Pendiente |
+| D8 | Salud según `docs/diseno-juego.md` (ficha médica, calidad por comuna, salud mental, fertilidad), junto con las licencias médicas de S2: largas y notorias (uno a tres meses), con la pantalla y la escena 3D que cambian mientras duran, el registro de la causa y sus secuelas si avanzas un año, y la pensión de invalidez para enfermedades graves | Pendiente |
 | D9 | Celular: Instante, app de citas, tienda de apps; correo con archivar, filtros y adjuntos | Pendiente |
 | D10 | Trámites y leyes como edificios del mapa: juzgado, Registro Civil, papeles, delitos propios con minijuego, cárcel como mundo propio | Pendiente |
 | D11 | Arquitectura C: base de datos y página web de formularios que generan los paquetes; países y casas 3D como descargas | Pendiente |
@@ -248,8 +248,8 @@ Diagnóstico completo (2026-11-03): [Qué le falta al núcleo de MistakesLife](h
 
 | Tarea | Qué incluye | Estado |
 |---|---|---|
-| S1 | Previsión de salud en el núcleo (`economia.salud`, `jugador.prevision`, `.tramo_salud`, `afiliarse()`, `plan_salud()`, `copago()`, `atenderse()`, guardado versión 35): Fonasa con tramos A a D según lo que gana, isapres con precio base por la tabla de factores de la edad (la diferencia sobre el 7 % se descuenta en la liquidación, o se paga entera sin contrato), consultorio y SAPU gratis con Fonasa, bono de libre elección y copagos de clínica según el plan. Eventos de Chile: elegir dónde cotizar al firmar contrato, isapre sin contrato, alza por edad, oferta de una isapre, enfermarse y urgencias. Correos de Fonasa (tramo cada abril, bono) y de la isapre (contrato y carta de alza). 3D: bono y receta sobre la mesa, carpeta de la isapre | En revisión |
-| S2 | Licencias médicas: reposo con licencia, los 3 primeros días sin pago en las cortas, subsidio de incapacidad laboral de Fonasa o la isapre | Pendiente |
+| S1 | Previsión de salud en el núcleo (`economia.salud`, `jugador.prevision`, `.tramo_salud`, `afiliarse()`, `plan_salud()`, `copago()`, `atenderse()`, guardado versión 35): Fonasa con tramos A a D según lo que gana, isapres con precio base por la tabla de factores de la edad (la diferencia sobre el 7 % se descuenta en la liquidación, o se paga entera sin contrato), consultorio y SAPU gratis con Fonasa, bono de libre elección y copagos de clínica según el plan. Eventos de Chile: elegir dónde cotizar al firmar contrato, isapre sin contrato, alza por edad, oferta de una isapre, enfermarse y urgencias. Correos de Fonasa (tramo cada abril, bono) y de la isapre (contrato y carta de alza). 3D: bono y receta sobre la mesa, carpeta de la isapre | Hecha |
+| S2 | Licencias médicas: se hacen dentro de D8, como pidió Isaias el 22-11-2026 (ver "Licencias médicas" en `docs/diseno-juego.md`) | Pasa a D8 |
 | S3 | GES/AUGE: enfermedades con garantía (hipertensión, diabetes, cáncer...) con copago según tramo o plan y controles crónicos | Pendiente |
 | S4 | Listas de espera de la red pública para especialistas y cirugías | Pendiente |
 | S5 | Estilo de vida que enferma o protege (tabaco, alcohol, sedentarismo, comida) según las decisiones del jugador | Pendiente |
