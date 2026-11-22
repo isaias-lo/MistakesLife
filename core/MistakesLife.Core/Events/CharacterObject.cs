@@ -53,6 +53,8 @@ namespace MistakesLife.Core.Events
     /// Del jugador: copiando, pillado_copiando, faltas y asistencia (D5a3, ver Education.GradeRules).
     /// Del jugador: taller, cargo_centro, resultado_centro y en_campana (D5a3b, ver Education.WorkshopRules y StudentCouncilRules).
     /// Del jugador: entrega_pendiente, numero_entrega, entregas_del_ramo, semestre_carrera y electivo (D5a4, ver Education.ProjectRules).
+    /// Del jugador: puntaje_paes, puntaje_nem, puntaje_ranking y veces_paes; alcanza('nivel') y ponderado('nivel');
+    /// efecto rendir_paes(preparación de 0 a 3) (D5a5, ver Education.AdmissionRules).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género') (solo pruebas: crea una pareja de la nada),
@@ -264,6 +266,15 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.Studies == null ? 0 : _character.Studies.CompletedSemesters + 1);
                 case "electivo":
                     return Value.FromText(_character.Studies == null ? string.Empty : Education.ProjectRules.ElectiveArea(((EventScope)scope).Content, _character, _character.Studies.CareerId) ?? string.Empty);
+                case "puntaje_paes":
+                    return Value.FromNumber(_character.Residence != null && ((EventScope)scope).Content.GetCountry(_character.Residence.CountryId).Admission is Content.AdmissionDefinition admission
+                        ? Education.AdmissionRules.ApplicationAverage(_character, admission) : 0);
+                case "puntaje_nem":
+                    return Value.FromNumber(_character.SchoolRecord?.AdmissionNem ?? 0);
+                case "puntaje_ranking":
+                    return Value.FromNumber(_character.SchoolRecord?.AdmissionRanking ?? 0);
+                case "veces_paes":
+                    return Value.FromNumber(_character.SchoolRecord?.AdmissionAttempts ?? 0);
                 case "taller":
                     return Value.FromText(_character.SchoolRecord?.WorkshopId ?? string.Empty);
                 case "cargo_centro":
@@ -927,6 +938,23 @@ namespace MistakesLife.Core.Events
 
                         return Value.Null;
                     }
+                case "rendir_paes":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.rendir_paes");
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Number || args[0].AsNumber("rendir_paes") < 0
+                            || args[0].AsNumber("rendir_paes") > Education.AdmissionRules.MaxPreparation)
+                        {
+                            throw new ScriptException("jugador.rendir_paes necesita cuánto se preparó, de 0 (nada) a 3 (preuniversitario completo).");
+                        }
+
+                        if (_character.Residence == null || ((EventScope)scope).Content.GetCountry(_character.Residence.CountryId).Admission == null)
+                        {
+                            throw new ScriptException("jugador.rendir_paes solo sirve en un país con \"admision\" (revisa jugador.pais).");
+                        }
+
+                        Education.AdmissionRules.Take(((EventScope)scope).World, ((EventScope)scope).Content, _character, (int)args[0].AsNumber("rendir_paes"));
+                        return Value.Null;
+                    }
                 case "inscribir_taller":
                     {
                         ((EventScope)scope).RequireWritable("jugador.inscribir_taller");
@@ -1492,6 +1520,19 @@ namespace MistakesLife.Core.Events
                     return Value.Null;
                 case "hijos_en_casa_entre":
                     return Value.FromNumber(ChildrenAtHomeBetween((EventScope)scope, args));
+                case "alcanza":
+                case "ponderado":
+                    {
+                        string levelId = EventScope.SingleText("jugador." + method, args);
+                        if (!((EventScope)scope).Content.HasCareerLevel(levelId))
+                        {
+                            throw new ScriptException($"jugador.{method}('{levelId}'): ese nivel de carrera no existe.");
+                        }
+
+                        return method == "alcanza"
+                            ? Value.FromBool(Education.AdmissionRules.Reaches(((EventScope)scope).Content, _character, levelId))
+                            : Value.FromNumber(Education.AdmissionRules.Weighted(_character, ((EventScope)scope).Content.GetCareerLevel(levelId)));
+                    }
                 case "titulado_en":
                     string career = EventScope.SingleText("jugador." + method, args);
                     return Value.FromBool(_character.Degrees.Any(d => d == career || d.StartsWith(career + ".", StringComparison.Ordinal)));

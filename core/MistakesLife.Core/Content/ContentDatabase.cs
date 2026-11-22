@@ -1029,6 +1029,27 @@ namespace MistakesLife.Core.Content
                 }
             }
 
+            if (country.Admission != null)
+            {
+                AdmissionDefinition admission = country.Admission;
+                if (country.GradeScale == null || admission.Tests.Count == 0
+                    || admission.MinimumToApply < AdmissionDefinition.MinScore || admission.MinimumToApply > AdmissionDefinition.MaxScore
+                    || admission.SchoolAverage <= 1 || admission.SchoolAverage >= 7)
+                {
+                    _errors.Add(new ContentError(where, "admision: necesita escala_notas, al menos una prueba, minimo_postulacion de 100 a 1000 y promedio_colegio entre 1 y 7 (en la escala de 1 a 7)."));
+                }
+
+                foreach (AdmissionTestDefinition test in admission.Tests)
+                {
+                    if (string.IsNullOrWhiteSpace(test.Id) || test.Id == LevelAdmissionDefinition.Nem || test.Id == LevelAdmissionDefinition.Ranking
+                        || admission.Tests.Count(t => t.Id == test.Id) > 1
+                        || !country.EducationStages.Any(st => st.Subjects.Any(sub => sub.Id == test.SubjectId)))
+                    {
+                        _errors.Add(new ContentError($"{where}, admision {test.Id}", "cada prueba tiene un id propio (que no sea nem ni ranking) y un ramo de las etapas del país."));
+                    }
+                }
+            }
+
             if (country.GradeScale != null)
             {
                 GradeScaleDefinition scale = country.GradeScale;
@@ -1816,6 +1837,21 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError(levelWhere, "sueldo_relativo debe ser mayor que 0."));
                 }
+
+                if (level.Admission != null)
+                {
+                    LevelAdmissionDefinition admission = level.Admission;
+                    if (admission.Cutoff < AdmissionDefinition.MinScore || admission.Cutoff > AdmissionDefinition.MaxScore)
+                    {
+                        _errors.Add(new ContentError(levelWhere, $"admision.corte va de {AdmissionDefinition.MinScore} a {AdmissionDefinition.MaxScore}."));
+                    }
+
+                    if (admission.Weights.Count == 0 || admission.Weights.Values.Any(w => w < 0 || w > 1)
+                        || Math.Abs(admission.Weights.Values.Sum() - 1) > 0.001)
+                    {
+                        _errors.Add(new ContentError(levelWhere, "admision.ponderacion: cada peso va de 0 a 1 y todos suman 1."));
+                    }
+                }
             }
 
             ValidateAreas(where, career);
@@ -2087,6 +2123,11 @@ namespace MistakesLife.Core.Content
 
             foreach (CountryDefinition country in _countries.Values)
             {
+                foreach (AdmissionTestDefinition test in country.Admission?.Tests ?? new List<AdmissionTestDefinition>())
+                {
+                    yield return new KeyValuePair<string, string>(test.TextKey, $"país {country.Id}, admision");
+                }
+
                 foreach (EducationStageDefinition stage in country.EducationStages)
                 {
                     yield return new KeyValuePair<string, string>("diario." + stage.Id, $"país {country.Id}");

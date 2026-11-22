@@ -51,5 +51,16 @@ namespace MistakesLife.Core.Saving
         public List<string>? SeenQuestions { get; set; }
 
         public int StudySessions { get; set; }
+
+        // Desde la versión 46 (D5a5): los puntajes de la PAES.
+        public int AdmissionNem { get; set; }
+
+        public int AdmissionRanking { get; set; }
+
+        public Dictionary<string, int>? AdmissionTests { get; set; }
+
+        public Dictionary<string, int>? LastAdmissionTests { get; set; }
+
+        public int AdmissionAttempts { get; set; }
     }
 }

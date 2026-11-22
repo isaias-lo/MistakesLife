@@ -1,0 +1,19 @@
+{
+  "lugar.local_paes": "El local de rendición",
+  "admision.prueba.lectora": "Lectora",
+  "admision.prueba.matematica": "Matemática",
+  "opcion.futuro.preu": "Prepararte un año en un preuniversitario pagado y dar la PAES de nuevo.",
+  "opcion.futuro.preu_popular": "Prepararte un año en un preuniversitario popular (gratis, con voluntarios) y dar la PAES de nuevo.",
+  "servicio.preu.pagado": "Preuniversitario",
+  "servicio.preu.popular": "Preuniversitario popular",
+  "evento.paes.otra_vez": "Otra vez el día de la PAES. Un año entero de facsímiles y ensayos en el preu. Esta vez sabes cómo es la fila, el carnet y el silencio de la sala.",
+  "opcion.paes.otra_vez.rendir": "La das con todo lo que preparaste.",
+  "opcion.paes.otra_vez.no_ir": "No te presentas: sientes que todavía no estás para darla.",
+  "evento.paes.resultados_otra_vez": "Salen los resultados de tu segunda PAES: {puntajes}. Para postular vale el mejor puntaje de cada prueba entre las dos veces.",
+  "opcion.paes.resultados.postular": "Postular con estos puntajes: la universidad (según el corte de cada carrera), un instituto o un CFT.",
+  "opcion.paes.resultados.tecnica": "Seguir estudiando donde no piden puntaje: un instituto, un CFT o una universidad privada.",
+  "opcion.paes.resultados.trabajar": "Ponerte a trabajar.",
+  "diario.paes.otra_vez_alcanzo": "Di la PAES de nuevo y me alcanzó para postular a la universidad.",
+  "diario.paes.otra_vez_tecnica": "Después de la segunda PAES decidí ir a un instituto o un CFT.",
+  "diario.paes.otra_vez_trabajar": "Después de la segunda PAES me puse a trabajar."
+}

@@ -39,6 +39,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("sueldo_relativo")]
         public double SalaryRelative { get; set; } = 1;
 
+        /// <summary>
+        /// Qué puntaje pide para entrar (ponderaciones y corte, D5a5). Opcional: sin ella no hay
+        /// selección por puntaje. Se revisa en las condiciones con jugador.alcanza('id del nivel').
+        /// </summary>
+        [JsonProperty("admision")]
+        public LevelAdmissionDefinition? Admission { get; set; }
+
         [JsonIgnore]
         public string CareerId { get; internal set; } = string.Empty;
 

@@ -415,7 +415,20 @@ namespace MistakesLife.Core.Saving
                     CouncilResult = d.SchoolRecord.CouncilResult,
                     MasteryYear = d.SchoolRecord.MasteryYear,
                     StudySessions = d.SchoolRecord.StudySessions,
+                    AdmissionNem = d.SchoolRecord.AdmissionNem,
+                    AdmissionRanking = d.SchoolRecord.AdmissionRanking,
+                    AdmissionAttempts = d.SchoolRecord.AdmissionAttempts,
                 };
+                foreach (var pair in d.SchoolRecord.AdmissionTests ?? new Dictionary<string, int>())
+                {
+                    record.AdmissionTests[pair.Key] = pair.Value;
+                }
+
+                foreach (var pair in d.SchoolRecord.LastAdmissionTests ?? new Dictionary<string, int>())
+                {
+                    record.LastAdmissionTests[pair.Key] = pair.Value;
+                }
+
                 foreach (var pair in d.SchoolRecord.Mastery ?? new Dictionary<string, int>())
                 {
                     record.Mastery[pair.Key] = pair.Value;

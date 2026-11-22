@@ -1,3 +1,5 @@
 [
-  {"id": "escena.casa.comprobante_cae", "lugar": "casa", "condiciones": "jugador.tiene('usa_cae')"}
+  {"id": "escena.casa.comprobante_cae", "lugar": "casa", "condiciones": "jugador.tiene('usa_cae')"},
+  {"id": "escena.casa.facsimiles_paes", "lugar": "casa", "condiciones": "jugador.tiene('preparando_paes')"},
+  {"id": "escena.casa.resultados_paes", "lugar": "casa", "condiciones": "jugador.veces_paes > 0 && jugador.estudia == nada && !jugador.titulado && jugador.edad < 21"}
 ]
