@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.metodologia",
+  "etapa": "carrera.psicologia",
+  "curso": 3,
+  "fuente": "Programa de Metodología de la Investigación I de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.metodologia.3.metodo",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.3.metodo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.metodo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.metodo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.metodo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.metodo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.metodologia.3.disenos",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.3.disenos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.disenos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.disenos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.disenos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.disenos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.metodologia.3.muestras",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.3.muestras.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.muestras.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.muestras.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.muestras.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.muestras.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.metodologia.3.medicion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.3.medicion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.medicion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.medicion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.medicion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.3.medicion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

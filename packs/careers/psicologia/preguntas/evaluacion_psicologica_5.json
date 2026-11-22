@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.evaluacion_psicologica",
+  "etapa": "carrera.psicologia",
+  "curso": 5,
+  "fuente": "Programa de Evaluación Psicológica I de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.evaluacion_psicologica.5.proceso",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.proceso.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.proceso.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.proceso.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.proceso.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.proceso.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.evaluacion_psicologica.5.psicometria",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.psicometria.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.psicometria.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.psicometria.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.psicometria.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.psicometria.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.evaluacion_psicologica.5.inteligencia",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.inteligencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.inteligencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.inteligencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.inteligencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.inteligencia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.evaluacion_psicologica.5.entrevista",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.entrevista.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.entrevista.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.entrevista.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.entrevista.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.5.entrevista.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

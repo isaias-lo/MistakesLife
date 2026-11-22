@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.metodologia",
+  "etapa": "carrera.psicologia",
+  "curso": 4,
+  "fuente": "Programa de Metodología de la Investigación II (Cualitativa) de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.metodologia.4.cualitativa",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.4.cualitativa.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.cualitativa.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.cualitativa.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.cualitativa.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.cualitativa.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.metodologia.4.analisis",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.4.analisis.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.analisis.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.analisis.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.analisis.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.analisis.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.metodologia.4.rigor",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.4.rigor.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.rigor.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.rigor.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.rigor.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.rigor.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.metodologia.4.mixtos",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.4.mixtos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.mixtos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.mixtos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.mixtos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.4.mixtos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

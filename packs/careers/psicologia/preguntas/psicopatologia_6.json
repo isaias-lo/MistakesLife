@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicopatologia",
+  "etapa": "carrera.psicologia",
+  "curso": 6,
+  "fuente": "Programa de Psicopatología II de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicopatologia.6.psicosis",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.psicosis.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.psicosis.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.psicosis.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.psicosis.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.psicosis.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicopatologia.6.personalidad",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.personalidad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.personalidad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.personalidad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.personalidad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.personalidad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicopatologia.6.alimentacion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.alimentacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.alimentacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.alimentacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.alimentacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.alimentacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicopatologia.6.infancia",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.infancia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.infancia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.infancia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.infancia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.6.infancia.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

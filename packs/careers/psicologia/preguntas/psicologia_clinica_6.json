@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicologia_clinica",
+  "etapa": "carrera.psicologia",
+  "curso": 6,
+  "fuente": "Programa de Psicología Clínica I de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicologia_clinica.6.tcc",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.tcc.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.tcc.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.tcc.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.tcc.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.tcc.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_clinica.6.psicodinamica",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.psicodinamica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.psicodinamica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.psicodinamica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.psicodinamica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.psicodinamica.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_clinica.6.sistemica",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.sistemica.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.sistemica.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.sistemica.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.sistemica.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.sistemica.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_clinica.6.salud_mental_chile",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.salud_mental_chile.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.salud_mental_chile.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.salud_mental_chile.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.salud_mental_chile.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.6.salud_mental_chile.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

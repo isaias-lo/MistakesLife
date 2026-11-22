@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicopatologia",
+  "etapa": "carrera.psicologia",
+  "curso": 5,
+  "fuente": "Programa de Psicopatología I de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicopatologia.5.clasificacion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.clasificacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.clasificacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.clasificacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.clasificacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.clasificacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicopatologia.5.ansiedad",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.ansiedad.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.ansiedad.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.ansiedad.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.ansiedad.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.ansiedad.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicopatologia.5.animo",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.animo.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.animo.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.animo.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.animo.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.animo.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicopatologia.5.trauma",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.trauma.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.trauma.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.trauma.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.trauma.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicopatologia.5.trauma.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
