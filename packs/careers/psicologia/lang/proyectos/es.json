@@ -42,5 +42,6 @@
   "opcion.tesis.datos.reconocer": "Reconocer que inventaste parte de los datos",
   "opcion.tesis.datos.negar": "Decir que las personas respondieron parecido",
   "diario.tesis.datos.reconocer": "Mi profe guía descubrió que inventé parte de los datos de la tesis. Lo reconocí. Tengo que rehacer el trabajo de campo.",
+  "diario.tesis.datos.reconocer_titulado": "Mi profe guía descubrió que inventé parte de los datos de la tesis, cuando ya tenía el título. Lo reconocí. Ahora mi nombre en esa tesis me da vergüenza.",
   "diario.tesis.datos.negar": "Mi profe guía descubrió que inventé datos de la tesis. Lo negué y no me creyó."
 }
