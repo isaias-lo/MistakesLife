@@ -1,0 +1,34 @@
+{
+  "evento.duelo.velorio": "Es el velorio de {persona}. La casa está llena de gente que no veías hace años, alguien preparó café y nadie sabe muy bien qué decir.",
+  "evento.duelo.velorio.2": "Llegas al velorio de {persona}. Hay coronas de flores en la entrada y la familia recibe abrazos uno tras otro.",
+  "evento.duelo.velorio.3": "El velorio de {persona} es en la capilla del barrio. Mañana es el funeral.",
+  "opcion.duelo.velorio.noche": "Quedarte toda la noche acompañando a la familia",
+  "opcion.duelo.velorio.palabras": "Decir unas palabras en el funeral",
+  "opcion.duelo.velorio.rato": "Ir un rato, abrazar a la familia y volver a casa",
+  "opcion.duelo.velorio.no_ir": "No ir: no te sientes capaz",
+  "diario.duelo.velorio_noche": "Me quedé toda la noche en el velorio. Entre café y recuerdos, hasta nos reímos un poco.",
+  "diario.duelo.palabras": "En el funeral dije unas palabras. Me temblaba la voz, pero sentí que me despedí de verdad.",
+  "diario.duelo.velorio_rato": "Fui un rato al velorio, abracé a la familia y me vine a la casa.",
+  "diario.duelo.no_fui": "No fui al velorio ni al funeral. Todavía no sé si fue lo correcto.",
+
+  "evento.duelo.te_enteras": "Te enteras por un conocido: {persona} murió hace unas semanas. No alcanzaste a ir al funeral.",
+  "evento.duelo.te_enteras.2": "Ves en las redes una foto de {persona} con una cinta negra. Murió hace poco y nadie te había contado.",
+  "evento.duelo.te_enteras.3": "Alguien comenta al pasar que {persona} falleció. Te quedas en silencio un rato, pensando en la última vez que se vieron.",
+  "opcion.duelo.te_enteras.escribir": "Escribirle a su familia para darle el pésame",
+  "opcion.duelo.te_enteras.recordar": "Quedarte pensando en lo que vivieron",
+  "opcion.duelo.te_enteras.seguir": "Seguir con tu día",
+  "diario.duelo.condolencias": "Le escribí a la familia para darle el pésame. Me contestaron con un \"gracias, te quería mucho\".",
+
+  "evento.duelo.cuesta": "Ya pasó un mes desde que murió {persona} y todavía te cuesta. Hay días en que no quieres levantarte.",
+  "evento.duelo.cuesta.2": "Todavía te pasa que agarras el celular para escribirle a {persona} y te acuerdas de que ya no está.",
+  "opcion.duelo.cuesta.hablar": "Contarle a alguien de confianza cómo te sientes",
+  "opcion.duelo.cuesta.rutina": "Volver a tu rutina de a poco",
+  "opcion.duelo.cuesta.encerrarte": "Encerrarte y no hablar con nadie",
+
+  "evento.duelo.un_ano": "Hoy se cumple un año desde que murió {persona}.",
+  "opcion.duelo.un_ano.cementerio": "Ir al cementerio con la familia y llevarle flores",
+  "opcion.duelo.un_ano.en_casa": "Prender una vela en la casa y mirar sus fotos",
+  "opcion.duelo.un_ano.pasar": "Dejar pasar el día sin pensar mucho en eso",
+  "diario.duelo.un_ano": "Fuimos al cementerio a llevarle flores. Ya no duele como hace un año.",
+  "diario.duelo.un_ano_casa": "Prendí una vela y miré sus fotos. Lo extraño, pero ahora también me acuerdo de lo bueno."
+}

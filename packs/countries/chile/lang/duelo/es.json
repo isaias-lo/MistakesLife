@@ -1,0 +1,13 @@
+{
+  "evento.chile.duelo.funeral": "En la funeraria te muestran los planes para despedir a {persona}. Hay que decidir y pagar en estos días.",
+  "opcion.chile.duelo.funeral.cremacion": "Un servicio sencillo con cremación",
+  "opcion.chile.duelo.funeral.sepultura": "Velorio y sepultura en el cementerio",
+  "opcion.chile.duelo.funeral.familia": "Pagarlo entre la familia: te toca una parte",
+  "diario.chile.duelo.funeral_pagado": "Pagué el funeral. Cuando quien muere tenía ahorros en la AFP, la AFP le devuelve la cuota mortuoria (15 UF) a quien pagó.",
+  "diario.chile.duelo.funeral_familia": "El funeral lo pagamos entre la familia. Me tocó una parte.",
+
+  "evento.chile.duelo.permiso": "En tu pega saben lo de {persona}. La ley te da días de permiso pagado por duelo: 4 días hábiles por tu mamá, tu papá o un hermano, y 10 días corridos por un hijo.",
+  "opcion.chile.duelo.permiso.tomar": "Tomar los días de permiso y estar con tu familia",
+  "opcion.chile.duelo.permiso.trabajar": "Seguir trabajando para no pensar",
+  "diario.chile.duelo.permiso": "Tomé los días de permiso por duelo. Me sirvieron para estar con la familia y hacer los trámites."
+}

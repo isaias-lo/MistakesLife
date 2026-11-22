@@ -234,6 +234,8 @@ namespace MistakesLife.Core.Tests
         public void PedirAscenso_EsUnBotonDeLaPega_AntesDeLlegarACien()
         {
             LifeSession session = WorkingIn(Taxes, seed: 29);
+            // El equipo (y tu jefa, a quien se le pide) se arma la primera semana en la pega.
+            ToNextMonth(session);
             Character player = session.World.Player;
             player.Job!.MonthsInPosition = 40;
             player.Job.Performance = 90;

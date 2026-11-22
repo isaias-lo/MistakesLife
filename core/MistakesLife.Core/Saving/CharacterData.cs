@@ -127,6 +127,9 @@ namespace MistakesLife.Core.Saving
 
         public UnemploymentClaimData? UnemploymentClaim { get; set; }
 
+        /// <summary>Los duelos del jugador (desde la versión 47 del formato).</summary>
+        public List<GriefData>? Griefs { get; set; }
+
         /// <summary>Contrato de arriendo, o null si no arrienda.</summary>
         public LeaseData? Lease { get; set; }
 

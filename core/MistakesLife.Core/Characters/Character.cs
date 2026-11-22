@@ -324,6 +324,9 @@ namespace MistakesLife.Core.Characters
         /// <summary>El cobro del seguro de desempleo por el último trabajo que perdió, o null si trabaja o nunca perdió uno con contrato.</summary>
         public Economy.UnemploymentClaim? UnemploymentClaim { get; set; }
 
+        /// <summary>Sus duelos por gente de su vida que murió (solo del jugador). Ver <see cref="Life.GriefRules"/>.</summary>
+        public List<Grief> Griefs { get; } = new List<Grief>();
+
         /// <summary>
         /// En los países con jubilación de reparto: el sueldo bruto promedio de sus
         /// últimos años con aportes, en dinero de los paquetes. Con él se calcula

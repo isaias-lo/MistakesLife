@@ -51,7 +51,7 @@ namespace MistakesLife.Core.Saving
         /// <summary>Número de su empresa, o null (desde la versión 6).</summary>
         public int? CompanyId { get; set; }
 
-        /// <summary>Las tareas del mes en la pega (desde la versión 48, D5b).</summary>
+        /// <summary>Las tareas del mes en la pega (desde la versión 49, D5b).</summary>
         public System.Collections.Generic.List<WorkTaskData> Tasks { get; set; } = new System.Collections.Generic.List<WorkTaskData>();
     }
 }

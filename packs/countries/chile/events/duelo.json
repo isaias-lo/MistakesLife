@@ -1,0 +1,65 @@
+[
+  {
+    "id": "evento.chile.duelo.funeral",
+    "con": "fallecido",
+    "condiciones": "jugador.edad >= 18 && (persona.lazo == 'madre' || persona.lazo == 'padre' || persona.lazo == 'pareja' || persona.lazo == 'hijo') && persona.semanas_desde_muerte <= 3",
+    "probabilidad_anual": 1,
+    "por_persona": true,
+    "veces_maximas": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.duelo.funeral.cremacion",
+        "tendencia": "40",
+        "efectos": [
+          "jugador.dinero -= precio(2600000)",
+          "jugador.dinero += si(persona.meses_cotizados > 0, precio(590000), 0)",
+          "diario('diario.chile.duelo.funeral_pagado')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.duelo.funeral.sepultura",
+        "tendencia": "30 + jugador.amabilidad / 4",
+        "efectos": [
+          "jugador.dinero -= precio(2850000)",
+          "jugador.dinero += si(persona.meses_cotizados > 0, precio(590000), 0)",
+          "diario('diario.chile.duelo.funeral_pagado')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.duelo.funeral.familia",
+        "condiciones": "persona.lazo == 'madre' || persona.lazo == 'padre'",
+        "tendencia": "30",
+        "efectos": [
+          "jugador.dinero -= precio(1300000)",
+          "diario('diario.chile.duelo.funeral_familia')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.chile.duelo.permiso",
+    "con": "fallecido",
+    "condiciones": "jugador.trabaja && jugador.tipo_trabajo == 'dependiente' && (persona.lazo == 'madre' || persona.lazo == 'padre' || persona.lazo == 'hijo' || persona.lazo == 'hermano') && persona.semanas_desde_muerte <= 2",
+    "probabilidad_anual": 1,
+    "por_persona": true,
+    "veces_maximas": 1,
+    "opciones": [
+      {
+        "texto": "opcion.chile.duelo.permiso.tomar",
+        "tendencia": "60",
+        "efectos": [
+          "persona.aliviar_duelo(2)",
+          "diario('diario.chile.duelo.permiso')"
+        ]
+      },
+      {
+        "texto": "opcion.chile.duelo.permiso.trabajar",
+        "tendencia": "jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.aliviar_duelo(-2)",
+          "jugador.energia -= 5"
+        ]
+      }
+    ]
+  }
+]
