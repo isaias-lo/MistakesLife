@@ -147,6 +147,9 @@ namespace MistakesLife.Core.Saving
                 Pension = d.Pension,
                 ReceivesUniversalPension = d.ReceivesUniversalPension,
                 LastPensionPayment = d.LastPensionPayment,
+                UnemploymentFund = d.UnemploymentFund,
+                UnemploymentContributions = d.UnemploymentContributions,
+                UnemploymentSalaryBase = d.UnemploymentSalaryBase,
                 LastDebtPayment = d.LastDebtPayment,
                 Delinquent = d.Delinquent,
                 EducationStageId = d.EducationStageId,
@@ -162,6 +165,20 @@ namespace MistakesLife.Core.Saving
             character.LastJob = JobOf(d.LastJob);
             character.Job = JobOf(d.Job);
             character.PendingInheritance = d.PendingInheritance;
+
+            if (d.UnemploymentClaim != null)
+            {
+                var claim = new UnemploymentClaim(Date(d.UnemploymentClaim.StartWeek), d.UnemploymentClaim.HasRight, d.UnemploymentClaim.Solidarity, d.UnemploymentClaim.SalaryBase)
+                {
+                    Finished = d.UnemploymentClaim.Finished,
+                };
+                foreach (UnemploymentPaymentData payment in d.UnemploymentClaim.Payments)
+                {
+                    claim.Add(new UnemploymentPayment(Date(payment.Week), payment.Number, payment.Amount, payment.FromSolidarityFund));
+                }
+
+                character.UnemploymentClaim = claim;
+            }
 
             if (d.Venture != null)
             {

@@ -362,8 +362,9 @@ namespace MistakesLife.Core.Tests
             // cancha o la pega (quedan como conocidos) y las etapas de cada pareja: unos 234 KB. Con la vida
             // de pareja (D4d2) quedó en unos 224 KB, y la gente interesante de tu horario (D4b2: un par de
             // personas que mandan en cada pega y alguien que hace clases en tu carrera, con su pega) cambia
-            // la vida y la deja en unos 245 KB. El tope deja margen para el contenido nuevo sin dejar que se dispare.
-            Assert.True(bytes < 250_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
+            // la vida y la deja en unos 245 KB. El Seguro de Cesantía (N13: la cuenta, las cotizaciones, el sueldo
+            // promedio y los pagos de quienes tienen o tuvieron contrato) suma unos 3,6 KB y la deja en unos 255 KB. El tope deja margen para el contenido nuevo sin dejar que se dispare.
+            Assert.True(bytes < 265_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }
 
         [Fact]

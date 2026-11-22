@@ -1148,6 +1148,11 @@ namespace MistakesLife.Core.Content
                 {
                     ValidateVacations($"{where}, economia.vacaciones", country.Economy.Vacations);
                 }
+
+                if (country.Economy.UnemploymentInsurance != null)
+                {
+                    ValidateUnemploymentInsurance($"{where}, economia.seguro_desempleo", country.Economy);
+                }
             }
 
             FamilyRatesDefinition? family = country.NonPlayedFamily;
@@ -1204,6 +1209,32 @@ namespace MistakesLife.Core.Content
             if (work.Jobs.Sum(j => j.Share) > 1)
             {
                 _errors.Add(new ContentError(where + ".pegas", "las partes de las pegas suman más que todos los ocupados."));
+            }
+        }
+
+        private void ValidateUnemploymentInsurance(string where, EconomyDefinition economy)
+        {
+            UnemploymentInsuranceDefinition insurance = economy.UnemploymentInsurance!;
+            if (!economy.Payroll.Employee.Any(d => d.Id == insurance.Deduction))
+            {
+                _errors.Add(new ContentError(where, $"el descuento '{insurance.Deduction}' no está en liquidacion.dependiente."));
+            }
+
+            if (insurance.EmployerRate < 0 || insurance.EmployerRate > 1 || insurance.MinimumContributions < 1 || insurance.AverageMonths < 1)
+            {
+                _errors.Add(new ContentError(where, "aporte_empleador_cuenta de 0 a 1; cotizaciones_minimas y meses_promedio desde 1."));
+            }
+
+            if (insurance.Payments.Count == 0 || insurance.Payments.Any(p => p <= 0 || p > 1))
+            {
+                _errors.Add(new ContentError(where, "pagos necesita al menos un porcentaje, cada uno mayor que 0 y hasta 1."));
+            }
+
+            SolidarityFundDefinition? fund = insurance.SolidarityFund;
+            if (fund != null && (fund.Flags.Count == 0 || fund.Payments < 1 || fund.Payments > insurance.Payments.Count
+                || fund.MonthsWithLastEmployer < 0 || fund.FirstMinimum < 0 || fund.FirstMaximum < fund.FirstMinimum))
+            {
+                _errors.Add(new ContentError($"{where}.fondo_solidario", "necesita marcas, entre 1 y tantos pagos como la lista pagos, y un mínimo no mayor que el máximo."));
             }
         }
 
@@ -2259,6 +2290,14 @@ namespace MistakesLife.Core.Content
                 if (country.Economy != null)
                 {
                     foreach (string key in Work.RaiseRules.Journals.Concat(Work.ReferralRules.Journals).Concat(Work.VentureRules.Journals))
+                    {
+                        yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
+                    }
+                }
+
+                if (country.Economy?.UnemploymentInsurance is UnemploymentInsuranceDefinition insurance)
+                {
+                    foreach (string key in new[] { insurance.FirstPaymentJournal, insurance.LastPaymentJournal, insurance.NoRightJournal, insurance.RetirementJournal })
                     {
                         yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
                     }

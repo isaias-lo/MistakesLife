@@ -298,6 +298,24 @@
       },
       "pension_universal": { "monto": 224004, "completa_hasta": 789139, "sin_pension_desde": 1252602 }
     },
+    "seguro_desempleo": {
+      "descuento": "descuento.chile.seguro_cesantia",
+      "aporte_empleador_cuenta": 0.016,
+      "cotizaciones_minimas": 10,
+      "meses_promedio": 10,
+      "pagos": [0.70, 0.60, 0.45, 0.40, 0.35, 0.30],
+      "fondo_solidario": {
+        "marcas": ["despedido_necesidades", "despedido_quiebra"],
+        "meses_seguidos_ultimo_empleador": 3,
+        "pagos": 5,
+        "minimo_primer_pago": 301201,
+        "maximo_primer_pago": 1004003
+      },
+      "diario_primer_pago": "diario.chile.seguro_cesantia.primer_pago",
+      "diario_ultimo_pago": "diario.chile.seguro_cesantia.ultimo_pago",
+      "diario_sin_derecho": "diario.chile.seguro_cesantia.sin_derecho",
+      "diario_retiro_al_jubilar": "diario.chile.seguro_cesantia.retiro"
+    },
     "deudas": {
       "meses_para_moroso": 3,
       "meses_prescripcion": 60,
