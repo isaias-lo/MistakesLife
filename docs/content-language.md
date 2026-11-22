@@ -116,8 +116,9 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 "economia": {
   "inflacion": {
     "regimen_inicial": "economia.inflacion.estable",
+    "indice_inicial": 0.41,
     "regimenes": [
-      { "id": "economia.inflacion.estable", "anual_min": 0.02, "anual_max": 0.045, "variacion_mensual": 0.003,
+      { "id": "economia.inflacion.estable", "anual_min": 0.02, "anual_max": 0.04, "variacion_mensual": 0.003,
         "cambio_anual": { "economia.inflacion.alta": 0.08 } },
       { "id": "economia.inflacion.alta", "anual_min": 0.06, "anual_max": 0.13, "variacion_mensual": 0.006,
         "cambio_anual": { "economia.inflacion.estable": 0.55 } }
@@ -131,7 +132,8 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 - `cambio_anual`: probabilidad al año de pasar a otro régimen. 0.08 es, en promedio, un episodio cada 12 años; 0.55 es que dura cerca de un año y medio. A un régimen que no aparece en ningún `cambio_anual` solo se llega con un evento (`cambiar_inflacion`).
 - El año tiene 12 meses (de 4 o 5 semanas). Al empezar cada mes suben los precios y se tiran los dados de cambio de régimen.
 - Cuando el país del jugador cambia de régimen, se escribe en su diario `diario.<id del régimen>` (por ejemplo `diario.economia.inflacion.alta`). Ese texto es obligatorio.
-- **Montos en los paquetes:** se escriben en dinero de cuando empieza el mundo, y `precio(monto)` los lleva a precios de hoy. Así un evento escrito una vez sirve en cualquier generación.
+- **Montos en los paquetes ("dinero de los paquetes"):** se escriben con los precios reales de hoy, y `precio(monto)` los lleva a los precios del momento de la partida (multiplicando por el índice de precios). Así un evento escrito una vez sirve en cualquier generación.
+- `indice_inicial` (opcional, mayor que 0 y hasta 1): el índice de precios cuando nace el jugador. Con la inflación del país, el índice vuelve a 1 (los precios de hoy) cerca de los 25 años, cuando el jugador empieza a pagar sus cosas: así lo que paga de adulto se parece a lo que cuesta hoy, y de niño las cosas costaban menos, como en la vida real. Se calcula como 1 dividido por cuánto suben los precios en 25 años (en Chile, con cerca de 3,6 % al año, 2,45 veces: 0,41). Si falta, 1.
 - Si falta el campo, los precios nunca cambian (útil en pruebas).
 
 #### Sueldos y liquidación (`economia.sueldos` y `economia.liquidacion`)
@@ -147,7 +149,7 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 }
 ```
 
-- Todos los montos son **mensuales, brutos y en dinero del inicio del mundo**. El núcleo los lleva a precios de hoy con el índice de precios (como hacen la UF y la UTM en Chile).
+- Todos los montos son **mensuales, brutos y en dinero de los paquetes**. El núcleo los lleva a precios de hoy con el índice de precios (como hacen la UF y la UTM en Chile).
 - `minimo` y `tipico` (la mediana): sueldos de referencia del país. `relativo_sin_titulo`: cuánto gana alguien sin título frente al típico.
 - `reajuste_meses`: cada cuánto se reajustan los sueldos según la inflación. Entre reajustes el sueldo pierde poder de compra (con inflación alta se nota mucho, como en Argentina).
 - `dependiente` y `honorarios`: descuentos de la liquidación según el tipo de trabajo. Cada uno con `id` (empieza con `descuento.`, y es la clave de su nombre en `lang/`), `tasa`, `tope` opcional (el tope imponible) y `rebaja_impuesto` (si se resta antes de calcular el impuesto).
@@ -171,13 +173,13 @@ Cada país trae cómo funciona su dinero. El juego tiene su propio calendario, a
 ```
 
 - Al empezar cada mes, después del sueldo, el jugador paga cada gasto cuyas `condiciones` se cumplan (desde `edad_desde`; antes los pagan sus padres). Por ahora solo el jugador lleva sus cuentas.
-- `monto` es una **expresión** del lenguaje que da el monto mensual en dinero del inicio del mundo: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o una función como `arriendo('vivienda.pieza')`. El arriendo y la comida **no** son gastos: salen del contrato que firmó el jugador (ver Vivienda) y de la compra que eligió (ver Supermercado).
+- `monto` es una **expresión** del lenguaje que da el monto mensual en dinero de los paquetes: un número (`"100000"`), una cuenta (`"160000 + 80000 * jugador.hijos_menores"`) o una función como `arriendo('vivienda.pieza')`. El arriendo y la comida **no** son gastos: salen del contrato que firmó el jugador (ver Vivienda) y de la compra que eligió (ver Supermercado).
 - `compartido`: se divide en dos si tiene pareja.
 - `a_precios_de_hoy` (opcional): el `monto` ya viene en dinero de hoy y no se reajusta otra vez (por ejemplo `"causa('causa.chile.alimentos_demandado').monto"`, que ya se reajusta solo).
 - `ingreso` (opcional): es plata que el jugador **recibe** cada mes en vez de pagarla (la pensión de alimentos que le paga el otro papá). Suma al dinero, queda en la cartola del mes con monto negativo (Tu dinero la muestra como plata que entró) y no cuenta en `jugador.gastos`.
 - El `id` empieza con `gasto.` y es la clave de su nombre en `lang/`.
 - Cada mes en que los gastos son más que el dinero suma uno a `jugador.meses_en_rojo` y resta `felicidad_en_rojo` (estrés financiero). Al alcanzar de nuevo, vuelve a 0.
-- `deuda_por_deficit` (opcional): la deuda de `economia.deudas` que cubre lo que falta, como la línea de crédito del banco. El dinero queda en 0 y lo que faltó pasa a esa deuda, con su interés (diario `diario.gastos.linea_credito` la primera vez). `cupo_deficit` (en dinero del inicio del mundo) es hasta cuánto llega: lo que pasa del cupo no se paga, son cuentas atrasadas. Sin `deuda_por_deficit`, el dinero queda en negativo.
+- `deuda_por_deficit` (opcional): la deuda de `economia.deudas` que cubre lo que falta, como la línea de crédito del banco. El dinero queda en 0 y lo que faltó pasa a esa deuda, con su interés (diario `diario.gastos.linea_credito` la primera vez). `cupo_deficit` (en dinero de los paquetes) es hasta cuánto llega: lo que pasa del cupo no se paga, son cuentas atrasadas. Sin `deuda_por_deficit`, el dinero queda en negativo.
 
 #### Vivienda (`economia.vivienda`)
 
@@ -191,7 +193,7 @@ Nada se cobra si el jugador no lo eligió: el arriendo sale de un **contrato** q
 ] }
 ```
 
-y en cada comuna, el arriendo típico de cada tipo (en dinero del inicio del mundo):
+y en cada comuna, el arriendo típico de cada tipo (en dinero de los paquetes):
 
 ```json
 { "id": "comuna.puente_alto", "arriendos": { "vivienda.pieza": 250000, "vivienda.departamento": 420000, "vivienda.casa": 650000 } }
@@ -216,7 +218,7 @@ La comida tampoco es un monto fijo: el jugador **elige su compra** en un evento 
 ] }
 ```
 
-- `costo_persona`: lo que cuesta esa compra al mes para una persona, en dinero del inicio del mundo. Sale de la canasta básica oficial del país (ver `SOURCES.md`).
+- `costo_persona`: lo que cuesta esa compra al mes para una persona, en dinero de los paquetes. Sale de la canasta básica oficial del país (ver `SOURCES.md`).
 - Cada mes paga `costo_persona × (1 + pareja + hijos menores × factor_hijo)`, la mitad si tiene pareja, como una línea de sus gastos con el id de la compra (que es también su clave en `lang/`).
 - `factor_hijo`: cuánto come un hijo menor comparado con un adulto (1 = lo mismo; en Argentina la canasta se mide por "adulto equivalente" y un niño come menos).
 - Solo se cobra mientras vive por su cuenta (`vive_independiente`); en la casa de su familia, la comida va en el aporte a la casa. Si todavía no elige, no se cobra: el evento `evento.armar_compra` le pregunta apenas se va a vivir solo, y `evento.revisar_compra` le pregunta de vez en cuando si sigue igual.
@@ -236,7 +238,7 @@ Lo que se paga cada mes porque el jugador lo **contrató** (el plan del celular;
 ]
 ```
 
-- `precio`: lo que cuesta al mes, en dinero del inicio del mundo (con fuente en `SOURCES.md`). Cada mes es una línea de los gastos con el id de la opción, que es también su clave en `lang/`.
+- `precio`: lo que cuesta al mes, en dinero de los paquetes (con fuente en `SOURCES.md`). Cada mes es una línea de los gastos con el id de la opción, que es también su clave en `lang/`.
 - El id del servicio empieza con `servicio.` y el de cada opción, con el id de su servicio (`servicio.celular.plan`).
 - `condiciones` (opcional): cuándo se cobra lo contratado. En el celular, el prepago solo se paga si tiene celular (si se lo robaron, no carga), pero un plan sigue llegando en la boleta.
 - `compartido` (opcional): se divide en dos si tiene pareja.
@@ -273,7 +275,7 @@ El sistema de salud del país: una previsión **pública** con tramos según lo 
 - `tramos`: de menor a mayor; cada uno llega `hasta_sueldos_minimos` veces el sueldo mínimo de ingreso (el sueldo de un trabajo con contrato u honorarios, o la pensión). El último no lleva tope.
 - `descuento`: la cotización de salud de `economia.liquidacion.dependiente`. Con un plan privado más caro que esa cotización, el empleador descuenta también la diferencia en la línea `descuento_adicional`, que rebaja el impuesto solo hasta la tasa de salud sobre el tope imponible.
 - `cotizacion_honorarios`: la parte de lo boleteado que ya va a salud con la retención. Quien trabaja a honorarios con un plan privado paga aparte, en los gastos del mes, solo lo que falta; sin trabajo o informal, el plan entero (con el id del plan como línea).
-- `planes`: los planes privados, con su `precio_base` al mes (dinero del inicio del mundo) y la `cobertura` de cada atención (0,9 = paga el 90 %). El precio del plan es el precio base por el factor de la edad (`factores_edad`, desde esa edad).
+- `planes`: los planes privados, con su `precio_base` al mes (dinero de los paquetes) y la `cobertura` de cada atención (0,9 = paga el 90 %). El precio del plan es el precio base por el factor de la edad (`factores_edad`, desde esa edad).
 - `atenciones`: lo que cuesta cada una sin cobertura (`precio`). Con un plan privado se paga el precio menos lo que cubre el plan; en la pública con ingresos se paga el `bono_publico` (si falta, el precio); en el tramo sin ingresos no se compran bonos y se paga el precio. `solo_publico`: solo la usa quien está en la pública (el consultorio). Ids `atencion.<país>.<nombre>`.
 - Todos los ids (previsión, tramos, planes, atenciones y `descuento_adicional`) necesitan su texto en `lang/`.
 
@@ -310,11 +312,11 @@ El sistema de salud del país: una previsión **pública** con tramos según lo 
 
 - Las dos partes son opcionales: cada país arma su sistema con las que tenga.
 - `cuenta_individual` (capitalización, como las AFP): cada mes, quien recibe sueldo con contrato ahorra en su fondo la `parte_a_la_cuenta` del `descuento` de su liquidación (el resto es comisión y seguro). Quien trabaja a honorarios ahorra al declarar: `tasa_honorarios` sobre la base de cotización de `declaracion_anual`. El fondo gana `rentabilidad_real_anual` (por sobre la inflación) cada mes.
-- El fondo y la pensión se guardan en dinero del inicio del mundo (como la UF): la inflación no los achica.
+- El fondo y la pensión se guardan en dinero de los paquetes (como la UF): la inflación no los achica.
 - Al jubilarse (`jugador.jubilarse()` en un evento), el fondo se convierte en una pensión fija mensual que dura `anos_de_pension` ganando la misma rentabilidad (como una renta vitalicia). Desde el mes siguiente se paga cada mes.
-- `pension_universal` (como la PGU): quien la pidió (`jugador.recibir_pension_universal()`) recibe el `monto` completo si su pensión propia llega hasta `completa_hasta`; desde ahí baja en línea recta hasta 0 en `sin_pension_desde`. Montos mensuales en dinero del inicio del mundo.
+- `pension_universal` (como la PGU): quien la pidió (`jugador.recibir_pension_universal()`) recibe el `monto` completo si su pensión propia llega hasta `completa_hasta`; desde ahí baja en línea recta hasta 0 en `sin_pension_desde`. Montos mensuales en dinero de los paquetes.
 - El descuento de `cuenta_individual` debe estar en `liquidacion.dependiente`.
-- `reparto` (como la ANSES de Argentina), en vez de `cuenta_individual` (un país tiene uno de los dos): el `descuento` no se ahorra en una cuenta. Cada mes con sueldo con contrato suma un mes de aportes y actualiza el sueldo promedio de los últimos `anos_promedio` años (en dinero del inicio del mundo). Al jubilarse, sin `anos_minimos` de aportes no hay pensión propia; con ellos, la pensión es `base_universal` + `porcentaje_por_ano` × años × sueldo promedio, y al menos la `minima`. Quien trabaja a honorarios (monotributo) todavía no suma años.
+- `reparto` (como la ANSES de Argentina), en vez de `cuenta_individual` (un país tiene uno de los dos): el `descuento` no se ahorra en una cuenta. Cada mes con sueldo con contrato suma un mes de aportes y actualiza el sueldo promedio de los últimos `anos_promedio` años (en dinero de los paquetes). Al jubilarse, sin `anos_minimos` de aportes no hay pensión propia; con ellos, la pensión es `base_universal` + `porcentaje_por_ano` × años × sueldo promedio, y al menos la `minima`. Quien trabaja a honorarios (monotributo) todavía no suma años.
 
 ```json
 "reparto": { "descuento": "descuento.argentina.jubilacion", "anos_minimos": 30, "porcentaje_por_ano": 0.015,
@@ -361,14 +363,14 @@ El sistema de salud del país: una previsión **pública** con tramos según lo 
 }
 ```
 
-- Un evento endeuda con `jugador.endeudarse('tipo', monto)` (monto en dinero del inicio del mundo). Si ya tiene una deuda de ese tipo, se suma a ella y vuelve a tener todas las `cuotas`.
+- Un evento endeuda con `jugador.endeudarse('tipo', monto)` (monto en dinero de los paquetes). Si ya tiene una deuda de ese tipo, se suma a ella y vuelve a tener todas las `cuotas`.
 - `entrega_dinero` (por defecto `true`): el monto llega a su saldo. El crédito universitario paga directo a la institución (`false`).
 - Al empezar cada mes, después de los gastos: si es `reajustable`, la deuda sube con la inflación (como lo que está en UF); si no, la inflación la achica. Luego suma su interés (`tasa_anual`; si es reajustable, es por sobre la inflación).
 - Si se cumple `condicion_pago` (o si no la tiene), se cobra la cuota fija que paga la deuda en las cuotas que quedan. Sin dinero suficiente, la cuota queda impaga.
 - Con `meses_para_moroso` meses seguidos sin pagar alguna cuota, queda en el registro de morosos (`jugador.moroso`); sale al ponerse al día con todas. Con `meses_prescripcion` (opcional) meses seguidos sin pagar, la deuda prescribe y se borra (diario `diario.deudas.prescrita`).
 - El `id` empieza con `deuda.` y es la clave de su nombre en `lang/`. Todo país debe tener los tipos que usan los eventos.
 - `se_paga_con_el_saldo: true` (línea de crédito, sobregiro): cada mes se lleva todo el dinero que haya, hasta lo que se debe. Si no alcanza al pago mínimo, igual queda atrasada.
-- Deudas rotativas (tarjetas): con `pago_minimo` (por ejemplo `0.05`), cada mes se cobra esa parte de lo que se debe, al menos `pago_minimo_monto` (en dinero del inicio del mundo), en vez de cuotas fijas.
+- Deudas rotativas (tarjetas): con `pago_minimo` (por ejemplo `0.05`), cada mes se cobra esa parte de lo que se debe, al menos `pago_minimo_monto` (en dinero de los paquetes), en vez de cuotas fijas.
 - Con `cuotas_repactacion`, una deuda atrasada se puede repactar con `jugador.repactar()`: queda al día en esas cuotas nuevas y, al mes siguiente, sale del registro de morosos. `jugador.puede_repactar` dice si tiene alguna. Con `repactar_con_trabajo: true` (en `deudas`), solo se puede repactar teniendo trabajo: el banco pide liquidaciones o boletas.
 - Con `meses_para_castigo` (opcional, por tipo), tras esos meses seguidos sin pagar el banco castiga la deuda: la da por perdida y deja de sumarle intereses y reajustes (diario `diario.deudas.castigada`). Se sigue debiendo, sigue en el registro de morosos y puede prescribir. Si es la deuda que cubre lo que falta a fin de mes (la línea de crédito), el banco la cierra: lo que falte queda sin pagar. Si se vuelve a pagar una cuota o se repacta, vuelve a sumar intereses.
 - Textos obligatorios del diario: `diario.deudas.pagada`, `diario.deudas.moroso`, `diario.deudas.fuera_registro`, `diario.deudas.prescrita` y `diario.deudas.castigada`.
@@ -1075,7 +1077,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 
 **Hijos después de separarse (cuidado personal):** mientras sus papás son pareja, los hijos viven con los dos. Si se separan, cada hijo menor queda **por acordar** (`jugador.hijos_por_acordar`) hasta que un evento decida: `jugador.quedarse_con_hijos()` (viven con el jugador), `jugador.hijos_con_el_otro()` (con su otro papá o mamá) o `jugador.cuidado_compartido()` (con los dos). `jugador.coprogenitor` es la otra parte (el otro papá vivo del hijo menor más chico de papás separados; si ya no hay papás separados, el otro papá de su hijo menor más chico, para que una decisión pendiente no quede sin persona). La compra del supermercado, la casa de la escena y los gastos por `jugador.hijos_en_casa` solo cuentan a los hijos que viven con el jugador. Si muere el papá con quien vivía un hijo, vuelve a vivir con el otro.
 
-**Montos que se reajustan:** `causa('causa.x').monto` se escribe y se lee en dinero de hoy, pero se guarda en dinero del inicio del mundo: si suben los precios, el monto sube con ellos (como una pensión de alimentos reajustada por el IPC). Un gasto mensual que lo cobra usa `"a_precios_de_hoy": true`.
+**Montos que se reajustan:** `causa('causa.x').monto` se escribe y se lee en dinero de hoy, pero se guarda en dinero de los paquetes: si suben los precios, el monto sube con ellos (como una pensión de alimentos reajustada por el IPC). Un gasto mensual que lo cobra usa `"a_precios_de_hoy": true`.
 
 ## El lenguaje de condiciones y efectos
 
@@ -1140,12 +1142,12 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.marcar('x')`, `jugador.desmarcar('x')` | Pone o quita una marca (solo efectos) |
 | `mundo.anio`, `mundo.mes`, `mundo.semana`, `mundo.semanas_totales` | Fecha del juego (mes de 1 a 12) |
 | `jugador.dinero` | Su saldo, en la moneda del país donde vive. Se puede cambiar (`jugador.dinero += precio(20000)`) y puede quedar negativo |
-| `precio(monto)` | Lleva un monto escrito en dinero del inicio del mundo a precios de hoy, en el país del jugador: `precio(15000)` |
+| `precio(monto)` | Lleva un monto escrito en dinero de los paquetes a precios de hoy, en el país del jugador: `precio(15000)` |
 | `mundo.inflacion` | Cuánto subieron los precios en los últimos 12 meses en el país del jugador, en porcentaje (`3.4` es 3,4 %) |
 | `mundo.regimen_inflacion` | Régimen de inflación actual del país del jugador, por ejemplo `'economia.inflacion.alta'` |
 | `mundo.ciclo`, `cambiar_ciclo('id')` | Fase del ciclo económico del país del jugador (`'economia.ciclo.crisis'`), y provocar otra (solo efectos) |
 | `mundo.indice_precios` | Cuántas veces más cuesta todo que al empezar el mundo (1 al principio) |
-| `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')`, `jugador.trabajar(sueldo, 'informal')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero del inicio del mundo; sin tipo es `'dependiente'` (con contrato). `'informal'` es sin contrato: recibe todo el sueldo, pero no cotiza ni paga impuesto, y esos meses no suman a su pensión (lagunas). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
+| `jugador.trabajar(sueldo)`, `jugador.trabajar(sueldo, 'honorarios')`, `jugador.trabajar(sueldo, 'informal')` | Empieza un trabajo con ese sueldo bruto mensual, en dinero de los paquetes; sin tipo es `'dependiente'` (con contrato). `'informal'` es sin contrato: recibe todo el sueldo, pero no cotiza ni paga impuesto, y esos meses no suman a su pensión (lagunas). Reemplaza el trabajo anterior (solo efectos). Ejemplo: `jugador.trabajar(sueldo_titulo() * 1.1)` |
 | `jugador.hijos_menores` | Cuántos hijos vivos menores de 18 tiene |
 | `jugador.hijos_en_casa`, `jugador.hijos_con_otro` | Hijos menores que viven con el jugador (también los de cuidado compartido) o con su otro papá o mamá |
 | `jugador.hijos_en_casa_entre(desde, hasta)` | Cuántos hijos menores que viven con el jugador tienen entre esas edades (años cumplidos, las dos incluidas) |
@@ -1153,19 +1155,19 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.coprogenitor` | El otro papá o mamá de sus hijos menores: de preferencia el de una pareja anterior (vivo); si no hay, el de su hijo menor más chico (o de su hijo más chico). `nada` si no tiene hijos con otra persona |
 | `jugador.quedarse_con_hijos()`, `jugador.hijos_con_el_otro()`, `jugador.cuidado_compartido()` | Deciden con quién viven los hijos menores de papás separados (solo efectos) |
 | `jugador.gastos`, `jugador.meses_en_rojo` | Lo que pagó en gastos el último mes, y cuántos meses seguidos terminó con el dinero en negativo |
-| `arriendo('vivienda.pieza')` | Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5`) |
-| `compra('compra.basica')` | Lo que le tocaría pagar al mes por esa compra, para los de su casa y a medias si tiene pareja, en dinero del inicio del mundo (para comparar: `jugador.sueldo_liquido > precio(compra('compra.con_antojos')) * 5`) |
+| `arriendo('vivienda.pieza')` | Arriendo típico de un contrato nuevo de ese tipo en la comuna donde vive, en dinero de los paquetes (para comparar: `jugador.sueldo_liquido > precio(arriendo('vivienda.departamento')) * 2.5`) |
+| `compra('compra.basica')` | Lo que le tocaría pagar al mes por esa compra, para los de su casa y a medias si tiene pareja, en dinero de los paquetes (para comparar: `jugador.sueldo_liquido > precio(compra('compra.con_antojos')) * 5`) |
 | `jugador.elegir_compra('compra')` | Desde ahora hace esa compra de comida cada mes (solo efectos) |
-| `tarifa('servicio.celular.plan')` | Lo que cuesta al mes esa opción de un servicio, en dinero del inicio del mundo |
+| `tarifa('servicio.celular.plan')` | Lo que cuesta al mes esa opción de un servicio, en dinero de los paquetes |
 | `jugador.contratar('opción')`, `jugador.cancelar_servicio('servicio')` | Contrata esa opción (cambia la que tenía del mismo servicio) o deja de pagar el servicio (solo efectos) |
 | `jugador.servicio('servicio.celular')` | La opción que tiene contratada de ese servicio, o `nada` |
 | `jugador.compra` | La compra de comida que eligió, o `nada` si todavía no decide |
 | `jugador.prevision`, `jugador.prevision_privada` | Su previsión de salud (`'prevision.chile.fonasa'` o el id del plan privado), o `nada` si su país no tiene `economia.salud`; y si tiene un plan privado |
 | `jugador.tramo_salud` | El tramo de la previsión pública que le toca por lo que gana (`'prevision.chile.fonasa.tramo_b'`), aunque tenga un plan privado |
 | `jugador.precio_plan_salud` | Lo que cuesta al mes su plan privado a su edad, a precios de hoy (0 en la pública) |
-| `plan_salud('prevision.x')` | Lo que costaría al mes ese plan a su edad, en dinero del inicio del mundo (para comparar: `jugador.sueldo * 0.07 >= precio(plan_salud('prevision.chile.isapre.preferente'))`) |
+| `plan_salud('prevision.x')` | Lo que costaría al mes ese plan a su edad, en dinero de los paquetes (para comparar: `jugador.sueldo * 0.07 >= precio(plan_salud('prevision.chile.isapre.preferente'))`) |
 | `jugador.afiliarse('prevision.x')` | Se cambia a ese plan privado o vuelve a la pública con su id (solo efectos) |
-| `copago('atencion.x')`, `jugador.puede_atenderse('atencion.x')` | Lo que pagaría por esa atención con su previsión (dinero del inicio del mundo), y si su previsión le deja atenderse ahí |
+| `copago('atencion.x')`, `jugador.puede_atenderse('atencion.x')` | Lo que pagaría por esa atención con su previsión (dinero de los paquetes), y si su previsión le deja atenderse ahí |
 | `jugador.atenderse('atencion.x')` | Se atiende: paga el copago (queda en la cartola del mes) y se anota la fecha. Es un error si no puede atenderse ahí (solo efectos) |
 | `jugador.semanas_desde_atencion` | Semanas desde su última atención (9999 si nunca) |
 | `jugador.arrendar('tipo')` | Firma un contrato de ese tipo de vivienda en su comuna: deja la garantía (y recupera la del contrato anterior, si tenía) y vive por su cuenta (solo efectos) |
@@ -1178,7 +1180,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.pension_universal` | Si pidió la pensión del Estado (PGU) |
 | `jugador.jubilarse()` | Convierte su fondo en una pensión mensual para siempre; solo una vez (solo efectos) |
 | `jugador.recibir_pension_universal()` | Empieza a recibir la pensión del Estado de su país (solo efectos) |
-| `jugador.endeudarse('tipo', monto)` | Pide prestado ese monto (en dinero del inicio del mundo) con un tipo de deuda de su país (solo efectos) |
+| `jugador.endeudarse('tipo', monto)` | Pide prestado ese monto (en dinero de los paquetes) con un tipo de deuda de su país (solo efectos) |
 | `jugador.deuda`, `jugador.deuda_de('tipo')` | Lo que debe hoy en total, o de un tipo de deuda |
 | `jugador.repactar()`, `jugador.puede_repactar` | Repacta las deudas atrasadas que se pueden repactar (solo efectos), y si tiene alguna |
 | `jugador.cuotas_deudas`, `jugador.moroso` | Lo que pagó en cuotas el último mes, y si está en el registro de morosos |
@@ -1231,7 +1233,7 @@ Una **causa judicial** es un proceso que dura meses: tiene un RIT (por ejemplo `
 | `jugador.dejar_de_buscar()` | Borra la búsqueda (solo efectos). También se borra sola al quitar la marca `buscando_trabajo` |
 | `jugador.meses_cotizados` | Meses en que cotizó para su pensión (con contrato). Los meses sin trabajo o informales no suman |
 | `jugador.sueldo`, `jugador.sueldo_liquido` | Sueldo bruto de hoy y líquido de la última liquidación (0 si no trabaja) |
-| `sueldo_minimo()`, `sueldo_tipico()` | Sueldos de referencia del país del jugador, en dinero del inicio del mundo (para usar en `trabajar`) |
+| `sueldo_minimo()`, `sueldo_tipico()` | Sueldos de referencia del país del jugador, en dinero de los paquetes (para usar en `trabajar`) |
 | `sueldo_titulo()` | Lo que paga el mercado según su mejor título: el típico por el `sueldo_relativo` del nivel (o por `relativo_sin_titulo`), nunca menos que el mínimo |
 | `cambiar_inflacion('economia.inflacion.x')` | Pasa el país del jugador a ese régimen (por ejemplo, en una crisis). Todo país debe definir los regímenes que usan los eventos (solo efectos) |
 | `semilla('id').activa`, `.despierta`, `.fuerza`, `.testigos` | La semilla abierta de ese tipo; `fuerza` se puede cambiar |

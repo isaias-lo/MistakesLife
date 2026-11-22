@@ -121,8 +121,9 @@
   "economia": {
     "inflacion": {
       "regimen_inicial": "economia.inflacion.estable",
+      "indice_inicial": 0.41,
       "regimenes": [
-        { "id": "economia.inflacion.estable", "anual_min": 0.02, "anual_max": 0.045, "variacion_mensual": 0.003,
+        { "id": "economia.inflacion.estable", "anual_min": 0.02, "anual_max": 0.04, "variacion_mensual": 0.003,
           "cambio_anual": { "economia.inflacion.alta": 0.08 } },
         { "id": "economia.inflacion.alta", "anual_min": 0.06, "anual_max": 0.13, "variacion_mensual": 0.006,
           "cambio_anual": { "economia.inflacion.estable": 0.55 } },

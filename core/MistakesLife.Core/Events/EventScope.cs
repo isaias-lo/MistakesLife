@@ -53,10 +53,10 @@ namespace MistakesLife.Core.Events
 
         public const string FeeFunction = "tarifa";
 
-        /// <summary>plan_salud('prevision.x'): lo que costaría al mes ese plan privado a su edad, en dinero del inicio del mundo.</summary>
+        /// <summary>plan_salud('prevision.x'): lo que costaría al mes ese plan privado a su edad, en dinero de los paquetes.</summary>
         public const string HealthPlanFunction = "plan_salud";
 
-        /// <summary>copago('atencion.x'): lo que pagaría por esa atención con su previsión, en dinero del inicio del mundo.</summary>
+        /// <summary>copago('atencion.x'): lo que pagaría por esa atención con su previsión, en dinero de los paquetes.</summary>
         public const string CopayFunction = "copago";
 
         /// <summary>Funciones que leen los sueldos del país: todo país debe tener "economia.sueldos" si un evento las usa.</summary>
@@ -188,7 +188,7 @@ namespace MistakesLife.Core.Events
                         throw new ScriptException("precio() necesita un monto: precio(15000).");
                     }
 
-                    // El monto está en dinero del inicio del mundo; se lleva a precios de hoy.
+                    // El monto está en dinero de los paquetes; se lleva a precios de hoy.
                     double amount = args[0].AsNumber(name + "()");
                     double index = Subject.Residence == null ? 1 : World.EconomyOf(Subject.Residence.CountryId)?.PriceIndex ?? 1;
                     return Value.FromNumber(Math.Round(amount * index, MidpointRounding.AwayFromZero));
@@ -388,7 +388,7 @@ namespace MistakesLife.Core.Events
         /// <summary>
         /// Sueldo de mercado del personaje según su mejor título: el sueldo típico del
         /// país por el "sueldo_relativo" del nivel (o por "relativo_sin_titulo" si no
-        /// tiene título). Nunca menos que el sueldo mínimo. En dinero del inicio del mundo.
+        /// tiene título). Nunca menos que el sueldo mínimo. En dinero de los paquetes.
         /// </summary>
         private double DegreeSalary() => DegreeSalaryOf(Subject);
 

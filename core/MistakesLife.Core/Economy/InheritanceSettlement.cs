@@ -70,7 +70,7 @@ namespace MistakesLife.Core.Economy
                 decimal share = Math.Round(estate * (decimal)(heir.Value / totalShares), MidpointRounding.AwayFromZero);
                 if (share > 0 && inheritance.NeedsProceedings)
                 {
-                    // Queda pendiente (en dinero del inicio, así no pierde valor) hasta el trámite.
+                    // Queda pendiente (en dinero de los paquetes, así no pierde valor) hasta el trámite.
                     heir.Key.PendingInheritance += share / (decimal)(priceIndex > 0 ? priceIndex : 1);
                     world.WriteJournal(heir.Key.Id, PendingJournal);
                     continue;

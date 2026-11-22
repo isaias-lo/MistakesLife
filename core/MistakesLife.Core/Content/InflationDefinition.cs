@@ -15,6 +15,15 @@ namespace MistakesLife.Core.Content
         [JsonProperty("regimen_inicial", Required = Required.Always)]
         public string InitialRegime { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Índice de precios con que empieza el mundo (cuando nace el jugador). Los
+        /// montos de los paquetes están a precios de hoy (índice 1); con 0.42, al nacer
+        /// todo cuesta el 42 % de eso y, con la inflación del país, vuelve a precios de
+        /// hoy cerca de los 25 años. Si falta, 1: el mundo empieza con los precios de los paquetes.
+        /// </summary>
+        [JsonProperty("indice_inicial")]
+        public double InitialIndex { get; set; } = 1;
+
         [JsonProperty("regimenes", Required = Required.Always)]
         public List<InflationRegimeDefinition> Regimes { get; set; } = new List<InflationRegimeDefinition>();
 

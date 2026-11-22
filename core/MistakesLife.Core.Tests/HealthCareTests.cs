@@ -32,8 +32,8 @@ namespace MistakesLife.Core.Tests
         private static string Text(World world, string expression) => Eval(world, expression).AsText(expression);
 
         /// <summary>
-        /// Una vida en Chile con esa edad. Solo pasa el calendario (sin sistemas), así
-        /// los precios siguen en 1 y los montos se pueden comparar exactos.
+        /// Una vida en Chile con esa edad. Solo pasa el calendario (sin sistemas) y deja
+        /// los precios en los de hoy (índice 1), así los montos se pueden comparar exactos.
         /// </summary>
         private static LifeSession AdultInChile(int age)
         {
@@ -43,6 +43,7 @@ namespace MistakesLife.Core.Tests
                 if (session.World.Player.Residence!.CountryId == "pais.chile")
                 {
                     new WeekCycle().AdvanceWeeks(session.World, (age * GameDate.WeeksPerYear) + 2);
+                    TestPrices.SetToday(session.World);
                     return session;
                 }
             }

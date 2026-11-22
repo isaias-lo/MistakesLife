@@ -4,7 +4,7 @@ namespace MistakesLife.Core.Economy
 {
     /// <summary>
     /// El trabajo de un personaje: tipo y sueldo bruto mensual. El sueldo se
-    /// guarda en dinero del inicio del mundo y se lleva a precios del último
+    /// guarda en dinero de los paquetes y se lleva a precios del último
     /// reajuste: entre reajustes, la inflación se come parte del sueldo.
     /// Si es un trabajo de su carrera, también tiene área, cargo y desempeño.
     /// </summary>
@@ -116,7 +116,7 @@ namespace MistakesLife.Core.Economy
 
         public JobKind Kind { get; }
 
-        /// <summary>Sueldo bruto mensual en dinero del inicio del mundo.</summary>
+        /// <summary>Sueldo bruto mensual en dinero de los paquetes.</summary>
         public decimal BaseSalary { get; internal set; }
 
         /// <summary>Índice de precios del último reajuste (o de cuando empezó).</summary>

@@ -49,7 +49,7 @@ namespace MistakesLife.Core.Economy
                 InflationDefinition inflation = country.Economy!.Inflation;
                 InflationRegimeDefinition regime = inflation.Regime(inflation.InitialRegime)!;
                 double rate = DrawRate(regime, world.Random.Fork("economia.inicio." + country.Id));
-                world.AddEconomy(new CountryEconomy(country.Id, regime.Id, rate) { PhaseId = country.Economy.Cycle?.InitialPhase });
+                world.AddEconomy(new CountryEconomy(country.Id, regime.Id, rate, inflation.InitialIndex) { PhaseId = country.Economy.Cycle?.InitialPhase });
             }
         }
 

@@ -121,7 +121,7 @@ namespace MistakesLife.Core.Analysis
         public double AverageContributionDensity { get; internal set; }
 
         /// <summary>
-        /// Mediana del sueldo bruto de quienes trabajan al final, en dinero del inicio
+        /// Mediana del sueldo bruto de quienes trabajan al final, en dinero de los paquetes
         /// del mundo (sin inflación), para compararla con los sueldos reales del país.
         /// </summary>
         public double MedianRealSalary { get; internal set; }
@@ -147,7 +147,7 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Vidas que siguen al final con el dinero en negativo (al morir, el dinero pasa a la herencia).</summary>
         public int InRed { get; internal set; }
 
-        /// <summary>Mediana del dinero al final de quienes siguen vivos, en dinero del inicio del mundo (sin inflación).</summary>
+        /// <summary>Mediana del dinero al final de quienes siguen vivos, en dinero de los paquetes (sin inflación).</summary>
         public double MedianRealMoney { get; internal set; }
 
         /// <summary>Vidas que terminan jubiladas (con pensión propia, aunque sea 0).</summary>
@@ -155,7 +155,7 @@ namespace MistakesLife.Core.Analysis
 
         /// <summary>
         /// Mediana de lo que reciben al mes de pensiones (propia + del Estado) quienes
-        /// terminan jubilados, en dinero del inicio del mundo.
+        /// terminan jubilados, en dinero de los paquetes.
         /// </summary>
         public double MedianRealPension { get; internal set; }
 
@@ -186,7 +186,7 @@ namespace MistakesLife.Core.Analysis
         /// <summary>Vidas que siguen al final en el registro de morosos (DICOM).</summary>
         public int Delinquent { get; internal set; }
 
-        /// <summary>Mediana de lo que deben quienes terminan con deudas, en dinero del inicio del mundo.</summary>
+        /// <summary>Mediana de lo que deben quienes terminan con deudas, en dinero de los paquetes.</summary>
         public double MedianRealDebt { get; internal set; }
 
         /// <summary>Inflación anual promedio del país del jugador durante las vidas.</summary>
@@ -232,7 +232,7 @@ namespace MistakesLife.Core.Analysis
             sb.AppendLine($"- Muertes antes de los {FinalAge}: {Deaths}");
             sb.AppendLine($"- Siguen vivos al final: {Alive}; los porcentajes de trabajo, estudio, búsqueda y jubilación son sobre ellos");
             sb.AppendLine($"- Estudian al final: {PercentOfAlive(Studying).ToString("0.0", ci)} %");
-            sb.AppendLine($"- Trabajan al final: {PercentOfAlive(Working).ToString("0.0", ci)} % (informales: {PercentOfAlive(WorkingInformal).ToString("0.0", ci)} %); sueldo bruto mediano (en dinero del inicio): {MedianRealSalary.ToString("N0", ci)}");
+            sb.AppendLine($"- Trabajan al final: {PercentOfAlive(Working).ToString("0.0", ci)} % (informales: {PercentOfAlive(WorkingInformal).ToString("0.0", ci)} %); sueldo bruto mediano (en dinero de los paquetes): {MedianRealSalary.ToString("N0", ci)}");
             sb.AppendLine($"- Buscan trabajo al final: {PercentOfAlive(Unemployed).ToString("0.0", ci)} %; desempleo (buscan / trabajan + buscan): {(Working + Unemployed == 0 ? 0 : 100.0 * Unemployed / (Working + Unemployed)).ToString("0.0", ci)} %");
             sb.AppendLine($"- Trabajos encontrados buscando: {JobSearchHires} ({(Lives == 0 ? 0 : (double)JobSearchHires / Lives).ToString("0.00", ci)} por vida); semanas buscando hasta aceptar (promedio): {AverageSearchWeeks.ToString("0.0", ci)}; entrevistas por trabajo: {AverageInterviewsPerHire.ToString("0.0", ci)}");
             if (AverageContributionDensity > 0)
@@ -240,11 +240,11 @@ namespace MistakesLife.Core.Analysis
                 sb.AppendLine($"- Meses con cotización para la pensión, de los 18 a los 65 (promedio): {(AverageContributionDensity * 100).ToString("0", ci)} %");
             }
 
-            sb.AppendLine($"- Siguen vivos con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano de los vivos (en dinero del inicio): {MedianRealMoney.ToString("N0", ci)}");
-            sb.AppendLine($"- Terminan jubilados: {PercentOfAlive(Retired).ToString("0.0", ci)} %; pensión mediana al mes, propia + del Estado (en dinero del inicio): {MedianRealPension.ToString("N0", ci)}");
+            sb.AppendLine($"- Siguen vivos con el dinero en negativo: {Percent(InRed).ToString("0.0", ci)} %; dinero mediano de los vivos (en dinero de los paquetes): {MedianRealMoney.ToString("N0", ci)}");
+            sb.AppendLine($"- Terminan jubilados: {PercentOfAlive(Retired).ToString("0.0", ci)} %; pensión mediana al mes, propia + del Estado (en dinero de los paquetes): {MedianRealPension.ToString("N0", ci)}");
             sb.AppendLine($"- Terminan con celular: {Percent(WithPhone).ToString("0.0", ci)} %; con correo: {Percent(WithMail).ToString("0.0", ci)} % (correos en la bandeja, promedio: {(WithMail == 0 ? 0 : (double)MailsReceived / WithMail).ToString("0.0", ci)}); cayeron en una estafa por correo: {Percent(ScamVictims).ToString("0.0", ci)} %");
             sb.AppendLine($"- Mensajito: {Percent(WithChats).ToString("0.0", ci)} % lo tiene; mensajes recibidos guardados, promedio: {(WithChats == 0 ? 0 : (double)ChatMessages / WithChats).ToString("0.0", ci)}, de {(WithChats == 0 ? 0 : (double)ChatPeople / WithChats).ToString("0.0", ci)} personas (contestan 3 de cada 4)");
-            sb.AppendLine($"- Terminan con deudas: {Percent(WithDebt).ToString("0.0", ci)} %; deuda mediana (en dinero del inicio): {MedianRealDebt.ToString("N0", ci)}; morosos: {Percent(Delinquent).ToString("0.0", ci)} %");
+            sb.AppendLine($"- Terminan con deudas: {Percent(WithDebt).ToString("0.0", ci)} %; deuda mediana (en dinero de los paquetes): {MedianRealDebt.ToString("N0", ci)}; morosos: {Percent(Delinquent).ToString("0.0", ci)} %");
             sb.AppendLine($"- Terminan con amigos: {Percent(WithFriends).ToString("0.0", ci)} % (promedio {AverageFriends.ToString("0.0", ci)}); con un rival: {Percent(WithRival).ToString("0.0", ci)} %; tuvieron una expareja: {Percent(WithEx).ToString("0.0", ci)} %");
             sb.AppendLine($"- Cariño de la madre (si vive) / rencor de la pareja (si hay), promedio al final: {AverageMotherAffection.ToString("0", ci)} / {AveragePartnerResentment.ToString("0", ci)}");
             sb.AppendLine($"- Trabajan en un cargo de su carrera: {FinalPositions.Values.Sum()} vidas; ascensos en promedio (altura del cargo final): {AveragePromotions.ToString("0.0", ci)}; llegaron a la cima: {Percent(ReachedTop).ToString("0.0", ci)} %");

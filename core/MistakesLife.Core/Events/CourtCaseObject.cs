@@ -43,7 +43,7 @@ namespace MistakesLife.Core.Events
                 case "resultado":
                     return courtCase?.Outcome == null ? Value.Null : Value.FromText(courtCase.Outcome);
                 case "monto":
-                    // Se guarda en dinero del inicio del mundo: así se reajusta solo con los precios (como una pensión de alimentos).
+                    // Se guarda en dinero de los paquetes: así se reajusta solo con los precios (como una pensión de alimentos).
                     return Value.FromNumber((double)Economy.PayrollCalculator.ToToday(courtCase?.Amount ?? 0, PriceIndex()));
                 case "rit":
                     return courtCase == null ? Value.Null : Value.FromText(courtCase.Rit);
@@ -109,7 +109,7 @@ namespace MistakesLife.Core.Events
         internal bool IsReady(CourtCase courtCase) =>
             courtCase.IsOpen && _scope.World.Date.WeeksSince(courtCase.StageStarted) >= _definition.Stages[courtCase.StageIndex].Weeks;
 
-        /// <summary>El índice de precios del país donde vive el dueño de la causa (1 al inicio del mundo).</summary>
+        /// <summary>El índice de precios del país donde vive el dueño de la causa (1 = precios de los paquetes).</summary>
         private double PriceIndex()
         {
             string? country = _scope.Subject.Residence?.CountryId;
