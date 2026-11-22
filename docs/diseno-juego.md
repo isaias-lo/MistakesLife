@@ -56,6 +56,17 @@ De arriba hacia abajo:
 
 Al entrar al colegio, la universidad o el trabajo, la escena muestra el lugar con su gente.
 
+### La escena sigue lo que te pasa (regla de Isaias, 22-11-2026)
+
+La escena 3D **sigue el momento, la decisión o lo que le está pasando al jugador**: una cita, algo en la pega, un tema en la casa. No sigue el calendario. "Eso es el realismo que buscamos: que el usuario vea y sienta lo que pasa y decide." Como se juega por mes o por año, si la escena solo cambiara con la etapa no se sentiría el cambio. Por eso:
+
+1. **Cuando un momento detiene el tiempo,** la escena va al lugar donde ocurre, con esa persona destacada. La tarea del IVA con tu jefa muestra la oficina; la prueba, el aula con tu profe; la once con tu mamá, la casa.
+2. **Al terminar un mes o un año,** la escena queda en el lugar de lo más importante que pasó, junto al resumen: la oficina nueva si te ascendieron, la ceremonia si te titulaste.
+3. **Sin nada especial,** se ve el lugar principal de tu etapa (la sala, el aula, la pega). Con un botón chico vuelves a la casa.
+4. **Los lugares cambian con tu vida** aunque no los mires seguido: los compañeros nuevos de cada año, el colega que renunció ya no está, el que entró aparece, tu escritorio mejora al ascender.
+
+Todo momento nuevo dice dónde pasa y con quién, para que la escena lo pueda mostrar. Es la forma de la regla de siempre: toda decisión que se pueda ver, se ve en 3D.
+
 ### Barras de la vida
 
 | Barra | Ícono propio | Nota |
