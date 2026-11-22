@@ -56,6 +56,9 @@ namespace MistakesLife.Unity
         /// <summary>Se llama después de estudiar, para que la pantalla principal muestre las barras y las tardes nuevas.</summary>
         public System.Action? Changed { get; set; }
 
+        /// <summary>Se llama al pedir un momento desde "Lo que decides tú", para que la pantalla principal lo muestre.</summary>
+        public System.Action? Requested { get; set; }
+
         public bool IsOpen => _layer != null && _layer.gameObject.activeSelf;
 
         /// <summary>
@@ -150,6 +153,7 @@ namespace MistakesLife.Unity
             }
 
             UiFactory.Label(_body, presenter.Text("ui.estudio.explica_barra"), UiFactory.MinFontSize, UiFactory.MutedInk);
+            DrawDecisions(presenter);
             if (bell != null && bell != _bellFor)
             {
                 _bellFor = bell;
@@ -178,6 +182,34 @@ namespace MistakesLife.Unity
                 Close();
             });
             close.GetComponent<LayoutElement>().minHeight = 156;
+        }
+
+        /// <summary>
+        /// Lo que decides tú en el colegio (D5a3): copiar en la prueba que viene, hacer la
+        /// cimarra... Al apretar uno pasa ahí mismo como momento, y se cierra Estudios para verlo.
+        /// </summary>
+        private void DrawDecisions(LifePresenter presenter)
+        {
+            var actions = presenter.StudyActions();
+            if (actions.Count == 0)
+            {
+                return;
+            }
+
+            Section(presenter.Text("ui.estudio.decides_tu"));
+            foreach (ActionView action in actions)
+            {
+                string eventId = action.EventId;
+                UiFactory.MakeButton(_body, action.Label, UiFactory.Option, UiFactory.Ink, () =>
+                {
+                    Sounds.Play(Sound.PencilTap);
+                    if (presenter.Session.Request(eventId))
+                    {
+                        Close();
+                        Requested?.Invoke();
+                    }
+                });
+            }
         }
 
         /// <summary>Un ramo: nombre y promedio, lo que se pasa ahora, la barra con su palabra y la prueba que viene.</summary>

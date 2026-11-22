@@ -42,7 +42,7 @@ namespace MistakesLife.Core.Tests
         {
             Gender felt = Gender.Female;
             string name = string.Empty;
-            // Hasta los 50: contarlo (salir del clóset, 15 % al año) puede tardar muchos años.
+            // Hasta los 50: el cambio registral llega con la ley.
             LifeSession session = Play(p => { felt = Other(p.Gender); p.GenderIdentity = felt; name = p.FirstName; }, 50);
             Character player = session.World.Player;
 
@@ -51,7 +51,11 @@ namespace MistakesLife.Core.Tests
             Assert.Equal(felt, player.Gender);
             Assert.NotEqual(name, player.FirstName);
             Assert.Contains(session.World.Journal, e => e.CharacterId == player.Id && e.TextKey == "diario.cambio_registral");
-            Assert.True(player.HasFlag("fuera_del_closet"));
+            // Contarlo depende de un 15 % al año: no se exige que haya pasado, sino que vivir tu
+            // identidad deje abierto salir del clóset (ya pasó, o todavía puede pasar).
+            EventDefinition comingOut = session.Content.Events.Single(e => e.Id == "evento.salir_del_closet");
+            Assert.True(player.HasFlag("fuera_del_closet")
+                || Expression.Parse(comingOut.Conditions!).IsTrue(new EventScope(session.World, session.Content, player, null, readOnly: true)));
         }
 
         [Fact]

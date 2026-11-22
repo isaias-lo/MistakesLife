@@ -1,0 +1,262 @@
+[
+  {
+    "id": "evento.colegio.pedir_copiar",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "a_pedido": {
+      "texto": "accion.colegio.copiar",
+      "por_ano": "0.3 + (100 - jugador.responsabilidad) / 150"
+    },
+    "condiciones": "jugador.en_clases && jugador.prueba_anunciada && !jugador.copiando && jugador.edad >= 10 && jugador.edad < 19",
+    "opciones": [
+      {
+        "texto": "opcion.colegio.pedir_copiar.torpedo",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.copiar_en_prueba()"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_copiar.mirar",
+        "tendencia": "jugador.extraversion / 3 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.copiar_en_prueba()",
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_copiar.mejor_estudiar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.preparar_prueba(1)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.pedir_cimarra",
+    "con": "companero",
+    "lugar": "lugar.colegio",
+    "a_pedido": {
+      "texto": "accion.colegio.cimarra",
+      "por_ano": "(100 - jugador.responsabilidad) / 60 + jugador.apertura / 200"
+    },
+    "condiciones": "jugador.en_clases && jugador.edad >= 13 && jugador.edad < 19",
+    "enfriamiento_semanas": 3,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.pedir_cimarra.plaza",
+        "tendencia": "jugador.apertura / 3 + (100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "jugador.faltar(1)",
+          "persona.carino += 4",
+          "jugador.felicidad += 2",
+          "jugador.marcar('hizo_cimarra')",
+          "plantar('semilla.cimarra_descubierta', persona)",
+          "diario('diario.colegio.pedir_cimarra')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_cimarra.dos_dias",
+        "condiciones": "jugador.edad >= 15",
+        "tendencia": "(100 - jugador.responsabilidad) / 2 + jugador.extraversion / 5",
+        "efectos": [
+          "jugador.faltar(2)",
+          "persona.carino += 6",
+          "jugador.felicidad += 3",
+          "jugador.marcar('hizo_cimarra')",
+          "plantar('semilla.cimarra_descubierta', persona)",
+          "diario('diario.colegio.pedir_cimarra.dos_dias')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.pedir_cimarra.entrar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.torpedo_ofrecido",
+    "con": "companero",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.prueba_anunciada && !jugador.copiando && jugador.edad >= 12 && jugador.edad < 19",
+    "probabilidad_anual": 0.6,
+    "veces_maximas": 3,
+    "enfriamiento_semanas": 26,
+    "variantes": [
+      "evento.colegio.torpedo_ofrecido.2",
+      "evento.colegio.torpedo_ofrecido.3"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.colegio.torpedo_ofrecido.aceptar",
+        "tendencia": "(100 - jugador.responsabilidad) / 2 + jugador.amabilidad / 5",
+        "efectos": [
+          "jugador.copiar_en_prueba()",
+          "persona.carino += 3"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.torpedo_ofrecido.no",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.carino -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.torpedo_ofrecido.estudiar_juntos",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.preparar_prueba(1)",
+          "persona.carino += 2",
+          "persona.respeto += 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.prueba.pillado_copiando",
+    "con": "profe",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.pillado_copiando",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 8,
+    "variantes": [
+      "evento.prueba.pillado_copiando.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.prueba.pillado_copiando.reconocer",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.amabilidad / 4",
+        "efectos": [
+          "persona.respeto += 2",
+          "jugador.felicidad -= 3",
+          "jugador.marcar('citacion_apoderado')",
+          "diario('diario.prueba.pillado_copiando.reconocer')"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.pillado_copiando.negar",
+        "tendencia": "(100 - jugador.responsabilidad) / 2 + jugador.neuroticismo / 5",
+        "efectos": [
+          "persona.respeto -= 4",
+          "persona.confianza -= 4",
+          "jugador.felicidad -= 3",
+          "jugador.marcar('citacion_apoderado')",
+          "diario('diario.prueba.pillado_copiando.negar')"
+        ]
+      },
+      {
+        "texto": "opcion.prueba.pillado_copiando.pedir_otra",
+        "tendencia": "jugador.extraversion / 3 + jugador.responsabilidad / 4",
+        "efectos": [
+          "persona.respeto += 1",
+          "jugador.felicidad -= 2",
+          "jugador.marcar('citacion_apoderado')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.apoderados.pillado_copiando",
+    "con": "apoderado",
+    "lugar": "lugar.casa",
+    "condiciones": "jugador.en_clases && jugador.tiene('pillado_copiando')",
+    "probabilidad_anual": 1,
+    "unico": true,
+    "opciones": [
+      {
+        "texto": "opcion.apoderados.pillado_copiando.contar",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.amabilidad / 3",
+        "efectos": [
+          "persona.confianza += 2",
+          "jugador.felicidad -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.pillado_copiando.culpar",
+        "tendencia": "(100 - jugador.amabilidad) / 3 + jugador.neuroticismo / 4",
+        "efectos": [
+          "persona.confianza -= 5",
+          "persona.rencor += 2"
+        ]
+      },
+      {
+        "texto": "opcion.apoderados.pillado_copiando.prometer",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.confianza += 1",
+          "jugador.marcar('prometio_estudiar')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.cimarra_descubierta",
+    "lugar": "lugar.casa",
+    "semilla": "semilla.cimarra_descubierta",
+    "opciones": [
+      {
+        "texto": "opcion.colegio.cimarra_descubierta.reconocer",
+        "tendencia": "jugador.responsabilidad / 3 + jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.felicidad -= 1",
+          "jugador.felicidad -= 2",
+          "jugador.marcar('citacion_apoderado')",
+          "diario('diario.colegio.cimarra_descubierta')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.cimarra_descubierta.mentir",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.felicidad -= 3",
+          "jugador.marcar('citacion_apoderado')"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.cimarra_descubierta.culpar",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "jugador.felicidad -= 1",
+          "jugador.marcar('citacion_apoderado')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.colegio.aviso_asistencia",
+    "con": "profe",
+    "lugar": "lugar.sala",
+    "condiciones": "jugador.en_clases && jugador.asistencia < 90",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 26,
+    "veces_maximas": 4,
+    "opciones": [
+      {
+        "texto": "opcion.colegio.aviso_asistencia.prometer",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "persona.respeto += 1"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.aviso_asistencia.excusa",
+        "tendencia": "(100 - jugador.responsabilidad) / 3",
+        "efectos": [
+          "persona.confianza -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.colegio.aviso_asistencia.callar",
+        "tendencia": "(100 - jugador.extraversion) / 2",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  }
+]

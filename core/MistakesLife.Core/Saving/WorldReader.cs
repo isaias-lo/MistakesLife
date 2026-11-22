@@ -402,6 +402,9 @@ namespace MistakesLife.Core.Saving
                     TestMark = d.SchoolRecord.TestMark,
                     TestReturnedWeek = d.SchoolRecord.TestReturnedWeek,
                     TestMakeup = d.SchoolRecord.TestMakeup,
+                    TestCheating = d.SchoolRecord.TestCheating,
+                    TestCaught = d.SchoolRecord.TestCaught,
+                    Absences = d.SchoolRecord.Absences,
                     MasteryYear = d.SchoolRecord.MasteryYear,
                     StudySessions = d.SchoolRecord.StudySessions,
                 };

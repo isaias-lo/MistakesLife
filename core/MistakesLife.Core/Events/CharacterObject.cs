@@ -50,6 +50,7 @@ namespace MistakesLife.Core.Events
     /// sabe_de_lo_tuyo (trabaja en la carrera u oficio en que ese alguien trabaja o estudia; D4b2).
     /// Del jugador: gente_interesante_conocida (cuántas personas interesantes de su horario ya conoce).
     /// Del jugador: ramos_con_preguntas, prueba_con_preguntas, recuperativa y tardes_de_estudio (D5a, ver Education.StudyRules).
+    /// Del jugador: copiando, pillado_copiando, faltas y asistencia (D5a3, ver Education.GradeRules).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género') (solo pruebas: crea una pareja de la nada),
@@ -241,6 +242,16 @@ namespace MistakesLife.Core.Events
                         && Education.StudyRules.Set(((EventScope)scope).World, ((EventScope)scope).Content, _character, withTest.TestSubjectId!) != null);
                 case "tardes_de_estudio":
                     return Value.FromNumber(_character.SchoolRecord?.StudySessions ?? 0);
+                case "copiando":
+                    return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord cheating && cheating.TestPending && cheating.TestCheating);
+                case "pillado_copiando":
+                    return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord caught && caught.TestCaught && caught.TestMark.HasValue);
+                case "faltas":
+                    return Value.FromNumber(_character.SchoolRecord?.Absences ?? 0);
+                case "asistencia":
+                    return Value.FromNumber(_character.SchoolRecord is Education.SchoolRecord attending && _character.Residence != null
+                        ? Math.Round(100 * Education.GradeRules.Attendance(((EventScope)scope).Content.GetCountry(_character.Residence.CountryId), date, attending))
+                        : 100);
                 case "recuperativa":
                     return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord makeup && makeup.TestPending && makeup.TestMakeup);
                 case "prueba_devuelta":
@@ -841,6 +852,29 @@ namespace MistakesLife.Core.Events
                         }
 
                         record.TestPreparation = Math.Max(record.TestPreparation, Math.Max(0, Math.Min(Education.GradeRules.MaxPreparation, (int)args[0].AsNumber("preparar_prueba"))));
+                        return Value.Null;
+                    }
+                case "copiar_en_prueba":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.copiar_en_prueba");
+                        Education.SchoolRecord? record = _character.SchoolRecord;
+                        if (record == null || !record.TestPending)
+                        {
+                            throw new ScriptException("jugador.copiar_en_prueba solo sirve con una prueba anunciada (revisa jugador.prueba_anunciada).");
+                        }
+
+                        record.TestCheating = true;
+                        return Value.Null;
+                    }
+                case "faltar":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.faltar");
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Number || args[0].AsNumber("faltar") < 1 || args[0].AsNumber("faltar") > 5)
+                        {
+                            throw new ScriptException("jugador.faltar necesita cuántos días de clases (de 1 a 5).");
+                        }
+
+                        Education.GradeRules.Skip(_character, (int)args[0].AsNumber("faltar"));
                         return Value.Null;
                     }
                 case "estudiar_semestre":

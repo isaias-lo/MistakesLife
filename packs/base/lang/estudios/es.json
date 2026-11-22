@@ -23,6 +23,7 @@
   "ui.estudio.explica_barra": "La barra es cuánto dominas el ramo este año. Si pasan semanas sin estudiar, baja de a poco.",
   "ui.estudio.ver_libreta": "Ver libreta, curso y notas",
   "ui.estudio.otras": "Otras cosas que puedes hacer",
+  "ui.estudio.decides_tu": "Lo que decides tú",
   "ui.estudio.promedio": "Promedio {0}",
   "ui.estudio.ahora": "Ahora: {0}",
   "ui.estudio.dominio": "{0}% · {1}",

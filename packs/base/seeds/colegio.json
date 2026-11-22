@@ -1,0 +1,10 @@
+[
+  {
+    "id": "semilla.cimarra_descubierta",
+    "tipo": "negativa",
+    "fuerza": 15,
+    "vence_anios": 1,
+    "dormir_min_semanas": 1,
+    "condiciones": "jugador.en_clases"
+  }
+]

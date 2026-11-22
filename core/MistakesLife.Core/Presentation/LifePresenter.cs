@@ -466,7 +466,7 @@ namespace MistakesLife.Core.Presentation
         /// </summary>
         public IReadOnlyList<ActionView> PersonActions(int personId) =>
             Session.RequestableWith(personId)
-                .Where(e => e.Place != WorkplacePlace)
+                .Where(e => e.Place != WorkplacePlace && !IsStudyPlace(e.Place))
                 .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey)))
                 .ToList();
 
@@ -486,6 +486,22 @@ namespace MistakesLife.Core.Presentation
 
         /// <summary>El lugar de las decisiones de plata: sus botones van en Tu dinero.</summary>
         public const string WalletPlace = "lugar.dinero";
+
+        /// <summary>
+        /// Lo que puedes hacer en el colegio o la u por tu cuenta (copiar en la prueba que
+        /// viene, hacer la cimarra...): los botones de Estudios, en "Lo que decides tú" (D5a3).
+        /// Son los momentos a pedido que pasan en la sala o el colegio.
+        /// </summary>
+        public IReadOnlyList<ActionView> StudyActions() =>
+            Session.Requestable()
+                .Where(e => IsStudyPlace(e.Place))
+                .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey)))
+                .ToList();
+
+        /// <summary>Los lugares de los momentos del colegio y la u: sus botones van en Estudios.</summary>
+        public static readonly string[] StudyPlaces = { "lugar.sala", "lugar.colegio", "lugar.sala_u" };
+
+        private static bool IsStudyPlace(string? place) => place != null && Array.IndexOf(StudyPlaces, place) >= 0;
 
         /// <summary>"Te vas en 3 semanas" si renunciaste con aviso; si no, los días de vacaciones ganados.</summary>
         private string? ContractStatus(Character player)
