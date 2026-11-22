@@ -37,6 +37,23 @@ Cada tarea empieza con bocetos con opciones que Isaias aprueba; recién después
 | D10 | Trámites y leyes como edificios del mapa: juzgado, Registro Civil, papeles, delitos propios con minijuego, cárcel como mundo propio | Pendiente |
 | D11 | Arquitectura C: base de datos y página web de formularios que generan los paquetes; países y casas 3D como descargas | Pendiente |
 
+## Publicación en Google Play (borrador en `docs/publicacion.md`)
+
+| # | Tarea | Estado |
+|---|---|---|
+| P0 | Documento de la otra parte del juego: requisitos de Google Play (prueba cerrada de 12 probadores por 14 días, API 36, AAB, clasificación, Data safety), idiomas, privacidad y condiciones, Configuración, menú inicial, anuncios y compras, nube y seguridad, con opciones para que Isaias elija | En revisión |
+| P1 | Armado para la tienda: llave de firma fija, AAB, API objetivo 36, versionCode automático | Pendiente |
+| P2 | Textos legales en GitHub Pages (privacidad, condiciones, borrar cuenta) | Pendiente |
+| P3 | Configuración (bocetos y pantalla) | Pendiente |
+| P4 | Menú inicial nuevo y primera vez (edad, condiciones) | Pendiente |
+| P5 | Idiomas listos para crecer (elegir idioma, informe de claves, género y plural) | Pendiente |
+| P6 | Prueba cerrada en Play Console (12 probadores, 14 días) | Pendiente |
+| P7 | Backend: cuenta y guardado en la nube | Pendiente |
+| P8 | Compras con verificación en el servidor y tienda | Pendiente |
+| P9 | Anuncios y su consentimiento | Pendiente |
+| P10 | Expansiones descargables | Pendiente |
+| P11 | Inglés y portugués | Pendiente |
+
 ## Rediseño: volver al realismo (detalle en `docs/archivo/rediseno-vida.md`)
 
 Etapas anteriores a los acuerdos del 16-11-2026. Lo que ya está hecho sigue valiendo.
