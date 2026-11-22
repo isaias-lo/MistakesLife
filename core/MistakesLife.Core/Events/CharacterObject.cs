@@ -51,6 +51,7 @@ namespace MistakesLife.Core.Events
     /// Del jugador: gente_interesante_conocida (cuántas personas interesantes de su horario ya conoce).
     /// Del jugador: ramos_con_preguntas, prueba_con_preguntas, recuperativa y tardes_de_estudio (D5a, ver Education.StudyRules).
     /// Del jugador: copiando, pillado_copiando, faltas y asistencia (D5a3, ver Education.GradeRules).
+    /// Del jugador: taller, cargo_centro, resultado_centro y en_campana (D5a3b, ver Education.WorkshopRules y StudentCouncilRules).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género') (solo pruebas: crea una pareja de la nada),
@@ -246,6 +247,14 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord cheating && cheating.TestPending && cheating.TestCheating);
                 case "pillado_copiando":
                     return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord caught && caught.TestCaught && caught.TestMark.HasValue);
+                case "taller":
+                    return Value.FromText(_character.SchoolRecord?.WorkshopId ?? string.Empty);
+                case "cargo_centro":
+                    return Value.FromText(_character.SchoolRecord?.CouncilRole ?? string.Empty);
+                case "resultado_centro":
+                    return Value.FromText(_character.SchoolRecord?.CouncilResult ?? string.Empty);
+                case "en_campana":
+                    return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord campaign && campaign.CouncilRole != null && campaign.CouncilResult == null);
                 case "faltas":
                     return Value.FromNumber(_character.SchoolRecord?.Absences ?? 0);
                 case "asistencia":
@@ -864,6 +873,44 @@ namespace MistakesLife.Core.Events
                         }
 
                         record.TestCheating = true;
+                        return Value.Null;
+                    }
+                case "inscribir_taller":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.inscribir_taller");
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Text)
+                        {
+                            throw new ScriptException("jugador.inscribir_taller necesita el taller ('actuacion', 'musica' o 'futbol').");
+                        }
+
+                        try
+                        {
+                            Education.WorkshopRules.Enroll(((EventScope)scope).World, ((EventScope)scope).Content, _character, args[0].AsText("jugador.inscribir_taller"));
+                        }
+                        catch (ArgumentException error)
+                        {
+                            throw new ScriptException("jugador.inscribir_taller: " + error.Message);
+                        }
+
+                        return Value.Null;
+                    }
+                case "postular_centro":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.postular_centro");
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Text)
+                        {
+                            throw new ScriptException("jugador.postular_centro necesita el cargo ('presidencia', 'tesoreria' o 'secretaria').");
+                        }
+
+                        try
+                        {
+                            Education.StudentCouncilRules.Run(((EventScope)scope).World, _character, args[0].AsText("jugador.postular_centro"));
+                        }
+                        catch (ArgumentException error)
+                        {
+                            throw new ScriptException("jugador.postular_centro: " + error.Message);
+                        }
+
                         return Value.Null;
                     }
                 case "faltar":

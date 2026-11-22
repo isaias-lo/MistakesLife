@@ -100,6 +100,10 @@ namespace MistakesLife.Unity
             "escena.casa.folletos_estudios" => "ancla.mesa",
             "escena.casa.prueba_refri" => "ancla.muro_lateral",
             "escena.casa.citacion_apoderado" => "ancla.mesa",
+            "escena.casa.acta_centro" => "ancla.mesa",
+            "escena.casa.guitarra" => "ancla.sillon",
+            "escena.casa.pelota_futbol" => "ancla.puerta",
+            "escena.casa.libreto_teatro" => "ancla.mesa",
             _ => null,
         };
 
@@ -536,6 +540,32 @@ namespace MistakesLife.Unity
                     page.transform.localRotation = Quaternion.Euler(0f, 18f, 0f);
                     GameObject note = kit.Box("Citación en rojo", new Vector3(0.18f, 0.455f, -0.1f), new Vector3(0.11f, 0.002f, 0.025f), Palette.Alarm);
                     note.transform.localRotation = Quaternion.Euler(0f, 18f, 0f);
+                    break;
+                case "escena.casa.acta_centro":
+                    // Ganaste el centro de alumnos (D5a3b): el libro de actas del centro, con su timbre al lado.
+                    kit.Box("Libro de actas del centro", new Vector3(0.32f, 0.448f, 0.2f), new Vector3(0.16f, 0.012f, 0.22f), new Color(0.18f, 0.40f, 0.30f));
+                    kit.Box("Etiqueta del libro de actas", new Vector3(0.32f, 0.455f, 0.22f), new Vector3(0.1f, 0.002f, 0.05f), Palette.Paper);
+                    kit.Shape(PrimitiveType.Cylinder, "Timbre del centro", new Vector3(0.45f, 0.47f, 0.12f), new Vector3(0.05f, 0.025f, 0.05f), Palette.DarkWood);
+                    break;
+                case "escena.casa.guitarra":
+                    // Vas al taller de música (D5a3b): la guitarra apoyada al lado del sillón.
+                    GameObject guitarBody = kit.Box("Caja de la guitarra", new Vector3(0.65f, 0.25f, -0.95f), new Vector3(0.32f, 0.42f, 0.1f), new Color(0.62f, 0.38f, 0.20f));
+                    guitarBody.transform.localRotation = Quaternion.Euler(0f, 0f, -8f);
+                    kit.Ball("Boca de la guitarra", new Vector3(0.66f, 0.3f, -1.005f), 0.08f, new Color(0.15f, 0.10f, 0.08f));
+                    GameObject neck = kit.Box("Mástil de la guitarra", new Vector3(0.6f, 0.68f, -0.95f), new Vector3(0.06f, 0.5f, 0.04f), Palette.DarkWood);
+                    neck.transform.localRotation = Quaternion.Euler(0f, 0f, -8f);
+                    break;
+                case "escena.casa.pelota_futbol":
+                    // Vas al taller de fútbol (D5a3b): la pelota en el suelo junto a la puerta, lista para el martes.
+                    kit.Ball("Pelota de fútbol", new Vector3(0.25f, 0.11f, 0.35f), 0.22f, Color.white);
+                    kit.Ball("Parche de la pelota", new Vector3(0.25f, 0.2f, 0.33f), 0.07f, new Color(0.12f, 0.12f, 0.14f));
+                    break;
+                case "escena.casa.libreto_teatro":
+                    // Vas al taller de teatro (D5a3b): el libreto de la obra, corcheteado y con tu parte subrayada.
+                    GameObject script = kit.Box("Libreto de la obra", new Vector3(-0.32f, 0.447f, 0.26f), new Vector3(0.15f, 0.01f, 0.21f), Palette.Paper);
+                    script.transform.localRotation = Quaternion.Euler(0f, 10f, 0f);
+                    GameObject marked = kit.Box("Tu parte subrayada", new Vector3(-0.32f, 0.453f, 0.24f), new Vector3(0.1f, 0.002f, 0.02f), new Color(0.98f, 0.85f, 0.30f));
+                    marked.transform.localRotation = Quaternion.Euler(0f, 10f, 0f);
                     break;
                 case "escena.casa.prueba_refri":
                     // La prueba con buena nota que dejaste pegada para que la vieran: hoja blanca, nota en rojo y un imán.

@@ -46,19 +46,19 @@ Fuentes de verdad (léelas antes de decisiones de diseño):
 
 - Todo cambio en `core/` trae sus pruebas en `core/MistakesLife.Core.Tests/`.
 - Nombres de pruebas que describan el comportamiento: `Semilla_ConTestigoEnEmpresa_DespiertaEnEntrevista`.
-- Para verificar antes de proponer un cambio:
+- Para verificar antes de proponer un cambio (todas menos las de muchas vidas, que corren en GitHub):
 
 ```bash
-dotnet test MistakesLife.sln
+dotnet test MistakesLife.sln --filter "Tipo!=MuchasVidas"
 ```
 
-- Mientras trabajas, las rápidas bastan: `dotnet test MistakesLife.sln --filter "Tipo!=MuchasVidas"`. Las de muchas vidas (marcadas con `[Trait(TestKinds.Name, TestKinds.ManyLives)]`) juegan cientos de vidas para revisar el equilibrio; córrelas antes de dar el PR por listo (`--filter "Tipo=MuchasVidas"`). En GitHub van en su propia fila, "Pruebas de muchas vidas". Una prueba nueva que juegue cientos de vidas lleva esa marca.
+- Mientras trabajas, las rápidas bastan: `dotnet test MistakesLife.sln --filter "Tipo!=MuchasVidas"`. Las de muchas vidas (marcadas con `[Trait(TestKinds.Name, TestKinds.ManyLives)]`) juegan cientos de vidas para revisar el equilibrio y tardan más de 20 minutos: **no las corras en el computador** (acuerdo con Isaias del 22-11-2026). Corren solas en GitHub en su propia fila, "Pruebas de muchas vidas"; revisa esa fila en el PR y, si falla, arréglala antes de que se una. Una prueba nueva que juegue cientos de vidas lleva esa marca.
 
 - Todo JSON en `packs/` debe ser válido (la integración continua lo revisa).
 - Para armar una partida usa siempre `LifeSession` (núcleo): registra los sistemas en el orden correcto. No armes el `WeekCycle` a mano en herramientas ni en Unity.
 - Después de cambiar `core/` o `packs/`, actualiza Unity: `dotnet run --project tools/MistakesLife.UnityExport` (copia el núcleo y el archivo de paquetes a `unity/`; la integración continua revisa que el archivo de paquetes esté al día).
 - Para probar el juego a mano: `dotnet run --project tools/MistakesLife.Console -- <número de partida>`.
-- Después de cambiar contenido, revisa el equilibrio: `dotnet run --project tools/MistakesLife.Simulator -- 1000 25` (ningún evento debe faltar ni repetirse sin parar).
+- Después de cambiar contenido, revisa el equilibrio: `dotnet run --project tools/MistakesLife.Simulator -- 200 25` (ningún evento debe faltar ni repetirse sin parar; 200 vidas tardan cerca de un minuto. Un evento muy raro puede no salir en 200 vidas: antes de arreglarlo, revisa si sale con más vidas).
 
 ## Cómo entregar el trabajo
 

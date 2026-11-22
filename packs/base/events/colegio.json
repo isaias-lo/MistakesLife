@@ -715,7 +715,7 @@
     "id": "evento.colegio.centro_alumnos",
     "con": "companero",
     "lugar": "lugar.sala",
-    "condiciones": "jugador.en_clases && jugador.edad >= 14 && jugador.edad < 18",
+    "condiciones": "jugador.en_clases && jugador.edad >= 14 && jugador.edad < 18 && mundo.mes >= 3 && mundo.mes <= 5 && jugador.cargo_centro == ''",
     "probabilidad_anual": 0.5,
     "unico": true,
     "opciones": [
@@ -725,7 +725,7 @@
         "efectos": [
           "persona.carino += 6",
           "persona.respeto += 4",
-          "jugador.marcar('lista_centro_alumnos')",
+          "jugador.postular_centro('secretaria')",
           "diario('diario.colegio.centro_alumnos')"
         ]
       },

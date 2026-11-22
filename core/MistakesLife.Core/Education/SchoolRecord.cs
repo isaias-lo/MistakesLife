@@ -80,6 +80,25 @@ namespace MistakesLife.Core.Education
         /// </summary>
         public int Absences { get; internal set; }
 
+        /// <summary>
+        /// El taller del colegio en que está inscrito este año (D5a3b): "actuacion", "musica" o
+        /// "futbol"; null si no está en ninguno. Se hace en su horario con
+        /// <c>actividad.taller.&lt;id&gt;</c> y se vuelve a null al cerrar el año.
+        /// </summary>
+        public string? WorkshopId { get; internal set; }
+
+        /// <summary>
+        /// El cargo al que postuló este año en la lista del centro de alumnos (D5a3b):
+        /// "presidencia", "tesoreria" o "secretaria"; null si no postuló.
+        /// </summary>
+        public string? CouncilRole { get; internal set; }
+
+        /// <summary>La semana (desde el inicio de la partida) en que vota el curso; 0 si no postuló.</summary>
+        public int CouncilVoteWeek { get; internal set; }
+
+        /// <summary>Cómo le fue en la votación del centro de alumnos este año: "gano", "perdio" o null si todavía no votan.</summary>
+        public string? CouncilResult { get; internal set; }
+
         /// <summary>Si la prueba anunciada todavía no se rinde.</summary>
         public bool TestPending => TestSubjectId != null && !TestMark.HasValue;
     }

@@ -129,6 +129,14 @@
         ]
       },
       {
+        "texto": "opcion.busqueda.entrevista.colegio",
+        "condiciones": "jugador.edad < 30 && (jugador.tiene('fue_centro_alumnos') || jugador.tiene('le_gusta_actuar') || jugador.tiene('le_gusta_musica') || jugador.tiene('le_gusta_futbol'))",
+        "tendencia": "15 + jugador.extraversion / 3",
+        "efectos": [
+          "jugador.dar_entrevista(6)"
+        ]
+      },
+      {
         "texto": "opcion.busqueda.entrevista.inflar",
         "tendencia": "(100 - jugador.amabilidad) / 7 + (100 - jugador.responsabilidad) / 10",
         "efectos": [

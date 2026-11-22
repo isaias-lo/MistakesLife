@@ -254,7 +254,25 @@ namespace MistakesLife.Core.Tests
             Assert.True(Eval(session, "persona.manda_en_tu_area", person).AsBool("manda"));
             Assert.Contains(T(session, "aporta.recomendacion_ascenso"), presenter.PersonCard(person.Id)!.Offers);
             string before = player.Job!.Position!.PositionId;
-            Weeks(session, 5);
+            // Cinco semanas para que la acción quede disponible. Si en ese tiempo llega sola una
+            // oferta de ascenso, se rechaza: esta prueba mira el ascenso por recomendación.
+            for (int week = 0; week < 5; week++)
+            {
+                while (session.Pending != null)
+                {
+                    PendingEvent pending = session.Pending;
+                    EventDefinition ev = Content.Events.Single(e => e.Id == pending.EventId);
+                    int option = pending.AvailableOptions[0];
+                    if (ev.Id == "evento.oferta_ascenso")
+                    {
+                        option = pending.AvailableOptions.Single(i => ev.Options[i].TextKey == "opcion.oferta_ascenso.rechazar");
+                    }
+
+                    session.Choose(option);
+                }
+
+                session.Advance(1);
+            }
 
             presenter.DoAction("accion.recomendacion_ascenso", person.Id);
             for (int week = 0; week < GameDate.WeeksPerYear && player.Job!.Position!.PositionId == before; week++)

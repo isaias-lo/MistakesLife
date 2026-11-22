@@ -20,6 +20,7 @@
   "evento.busqueda.entrevista.4": "Te llaman de {empresa} para una entrevista por videollamada. Tienes dos días.",
   "opcion.busqueda.entrevista.preparar": "Investigas la empresa, ensayas respuestas y planchas la ropa la noche anterior.",
   "opcion.busqueda.entrevista.natural": "Vas tal cual. Mejor que te conozcan como eres.",
+  "opcion.busqueda.entrevista.colegio": "Contar lo que hiciste en el colegio: el centro de alumnos o el taller.",
   "opcion.busqueda.entrevista.inflar": "Le pones al currículum cosas que no hiciste del todo. Todos lo hacen, ¿no?",
   "evento.busqueda.oferta": "Te llaman de vuelta de {empresa}: quedaste. Te ofrecen el puesto.",
   "evento.busqueda.oferta.2": "Llega el correo de {empresa} que esperabas: te quieren contratar.",

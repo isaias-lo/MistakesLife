@@ -340,6 +340,10 @@ namespace MistakesLife.Core.Saving
             // 42 → 43: aparecen copiar en la prueba anunciada y las faltas a clases (la cimarra,
             // D5a3). En las partidas viejas nadie copió ni faltó: los datos que faltan se leen así.
             [42] = save => { },
+
+            // 43 → 44: aparecen el taller del colegio y la lista del centro de alumnos (D5a3b).
+            // En las partidas viejas nadie está en un taller ni postuló: se leen vacíos.
+            [43] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>
