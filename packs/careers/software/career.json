@@ -36,7 +36,15 @@
       "semestres": 11,
       "tendencia": "si(jugador.tiene('le_gusta_programar'), 60, 15) + jugador.apertura / 4 + jugador.inteligencia / 5",
       "condiciones": "jugador.pais == 'pais.chile' && (jugador.alcanza('carrera.software.nivel.ingenieria_civil_computacion') || (jugador.tiene('puede_universidad') && jugador.veces_paes == 0))",
-      "admision": { "corte": 700, "ponderacion": { "nem": 0.1, "ranking": 0.25, "lectora": 0.1, "matematica": 0.55 } }
+      "admision": {
+        "corte": 700,
+        "ponderacion": {
+          "nem": 0.1,
+          "ranking": 0.25,
+          "lectora": 0.1,
+          "matematica": 0.55
+        }
+      }
     }
   ],
   "areas": [
@@ -127,6 +135,43 @@
       "desempeno_minimo": 65,
       "requisitos": "jugador.titulado_en('carrera.software.nivel.ingenieria_civil_computacion') || jugador.tiene('magister')",
       "siguientes": []
+    }
+  ],
+  "tareas": [
+    {
+      "id": "tarea.software.bug_produccion",
+      "condiciones": "(jugador.area == 'carrera.software.area.desarrollo' || jugador.area == 'carrera.software.area.soporte' || jugador.area == 'carrera.software.area.qa')"
+    },
+    {
+      "id": "tarea.software.revision_codigo",
+      "condiciones": "(jugador.area == 'carrera.software.area.desarrollo' || jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.datos')"
+    },
+    {
+      "id": "tarea.software.reunion_avance"
+    },
+    {
+      "id": "tarea.software.estimacion",
+      "condiciones": "(jugador.area == 'carrera.software.area.desarrollo' || jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.datos')"
+    },
+    {
+      "id": "tarea.software.ticket_cliente",
+      "condiciones": "jugador.area == 'carrera.software.area.soporte'"
+    },
+    {
+      "id": "tarea.software.parche_seguridad",
+      "condiciones": "(jugador.area == 'carrera.software.area.ciberseguridad' || jugador.area == 'carrera.software.area.desarrollo')"
+    },
+    {
+      "id": "tarea.software.revision_accesos",
+      "condiciones": "jugador.area == 'carrera.software.area.ciberseguridad'"
+    },
+    {
+      "id": "tarea.software.informe_datos",
+      "condiciones": "jugador.area == 'carrera.software.area.datos'"
+    },
+    {
+      "id": "tarea.software.pruebas_version",
+      "condiciones": "(jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.desarrollo')"
     }
   ],
   "ramos": [

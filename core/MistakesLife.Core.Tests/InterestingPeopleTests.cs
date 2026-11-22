@@ -45,6 +45,13 @@ namespace MistakesLife.Core.Tests
 
                 session.Advance(1);
             }
+
+            // Lo que quedó en pantalla al final (una tarea de la pega, D5b) se contesta también,
+            // para que la prueba pueda hacer lo suyo con el tiempo parado.
+            while (session.Pending != null)
+            {
+                session.Choose(session.Pending.AvailableOptions[0]);
+            }
         }
 
         /// <summary>

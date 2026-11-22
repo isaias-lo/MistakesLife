@@ -432,6 +432,7 @@ namespace MistakesLife.Core.Saving
             VacationDays = job.VacationDays,
             LeavingWeek = job.LeavingWeek,
             CompanyId = job.CompanyId,
+            Tasks = job.Tasks.Select(t => new WorkTaskData { Id = t.Id, DueWeek = t.DueWeek, Postponed = t.Postponed, Result = t.Result }).ToList(),
         };
     }
 }

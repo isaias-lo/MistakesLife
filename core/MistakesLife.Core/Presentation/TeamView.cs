@@ -11,7 +11,16 @@ namespace MistakesLife.Core.Presentation
         }
 
         public TeamView(ClassmateView? boss, IReadOnlyList<ClassmateView> colleagues, IReadOnlyList<ClassmateView> left, IReadOnlyList<ActionView> actions, string? status)
+            : this(boss, colleagues, left, actions, status, null, null, null, new WorkTaskView[0])
         {
+        }
+
+        public TeamView(ClassmateView? boss, IReadOnlyList<ClassmateView> colleagues, IReadOnlyList<ClassmateView> left, IReadOnlyList<ActionView> actions, string? status, int? bossView, string? bossTitle, string? bossPhrase, IReadOnlyList<WorkTaskView> tasks)
+        {
+            BossTitle = bossTitle;
+            BossView = bossView;
+            BossPhrase = bossPhrase;
+            Tasks = tasks;
             Actions = actions;
             Status = status;
             Boss = boss;
@@ -36,5 +45,17 @@ namespace MistakesLife.Core.Presentation
         /// semanas"), o null si no trabajas con contrato.
         /// </summary>
         public string? Status { get; }
+
+        /// <summary>Cómo te ve tu jefa, de 0 a 100 (D5b); null si no tienes un cargo.</summary>
+        public int? BossView { get; }
+
+        /// <summary>El nombre de la barra ("Cómo te ve tu jefa"); null sin cargo.</summary>
+        public string? BossTitle { get; }
+
+        /// <summary>La frase que explica la barra ("Confía en ti para lo difícil"); null sin cargo.</summary>
+        public string? BossPhrase { get; }
+
+        /// <summary>Las tareas de este mes, por plazo (D5b); vacía si tu pega no trae tareas.</summary>
+        public IReadOnlyList<WorkTaskView> Tasks { get; }
     }
 }

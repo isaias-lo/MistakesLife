@@ -2,7 +2,7 @@
   {
     "id": "evento.oferta_ascenso",
     "con": "jefe",
-    "condiciones": "jugador.puede_ascender && jugador.caminos_ascenso == 1 && mundo.ciclo != 'economia.ciclo.crisis'",
+    "condiciones": "!jugador.con_tareas && jugador.puede_ascender && jugador.caminos_ascenso == 1 && mundo.ciclo != 'economia.ciclo.crisis'",
     "probabilidad_anual": 0.4,
     "enfriamiento_semanas": 26,
     "opciones": [

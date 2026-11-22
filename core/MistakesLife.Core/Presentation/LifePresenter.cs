@@ -39,6 +39,9 @@ namespace MistakesLife.Core.Presentation
             "ui.momento.con", "ui.momento.madre", "ui.momento.padre", "ui.regla.siempre",
             "ui.momento.profe.f", "ui.momento.profe.m", "ui.momento.jefe.f", "ui.momento.jefe.m", "ui.curso.titulo", "ui.curso.profe_jefe",
             "ui.paes.puntajes", "ui.paes.prueba",
+            "ui.jefa.vista.0", "ui.jefa.vista.1", "ui.jefa.vista.2", "ui.jefa.vista.3", "ui.jefa.vista.4", "ui.jefa.vista.5",
+            "ui.tarea.estado.pendiente", "ui.tarea.estado.atrasada", "ui.tarea.estado.hecha", "ui.tarea.estado.con_ayuda", "ui.tarea.estado.mal", "ui.tarea.esta_semana",
+            "ui.tarea.titulo", "ui.jefa.titulo.f", "ui.jefa.titulo.m",
             "ui.notas.titulo", "ui.notas.promedio", "ui.notas.sin_notas", "ui.notas.fin_ano",
             "ui.deseo.titulo", "ui.deseo.cumplido", "ui.deseo.perdido", "ui.deseo.paso",
             "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
@@ -458,7 +461,33 @@ namespace MistakesLife.Core.Presentation
                 .Where(e => e.Place == WorkplacePlace)
                 .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey)))
                 .ToList();
-            return new TeamView(boss == null ? null : Person(boss, bossTag), colleagues, left, actions, ContractStatus(player));
+            int? bossView = player.Job?.Position == null ? (int?)null : player.Job.Performance;
+            string? bossPhrase = bossView == null ? null : T(Work.WorkTaskRules.PhraseKey(bossView.Value));
+            string? bossTitle = bossView == null ? null : T(boss?.Gender == Gender.Male ? "ui.jefa.titulo.m" : "ui.jefa.titulo.f");
+            var tasks = (player.Job?.Tasks ?? new List<Work.WorkTask>()).Select(TaskRow).ToList();
+            return new TeamView(boss == null ? null : Person(boss, bossTag), colleagues, left, actions, ContractStatus(player), bossView, bossTitle, bossPhrase, tasks);
+        }
+
+        /// <summary>Una tarea del mes como línea de la agenda.</summary>
+        private WorkTaskView TaskRow(Work.WorkTask task)
+        {
+            string state = task.Result switch
+            {
+                null when task.Postponed => T("ui.tarea.estado.atrasada"),
+                null => T("ui.tarea.estado.pendiente"),
+                int r when r < 0 => T("ui.tarea.estado.mal"),
+                int r when r < Work.WorkTaskRules.Calm => T("ui.tarea.estado.con_ayuda"),
+                _ => T("ui.tarea.estado.hecha"),
+            };
+            return new WorkTaskView(task.Id, T(task.Id), TaskDue(task), state, task.Done, task.Postponed && !task.Done);
+        }
+
+        /// <summary>"viernes 14": el plazo de una tarea (el viernes de su semana).</summary>
+        private string TaskDue(Work.WorkTask task)
+        {
+            const int friday = 4;
+            int dayOfYear = new GameDate(task.DueWeek).DayOfYear + friday;
+            return T("ui.horario.dia." + friday) + " " + GameDate.DayOfMonthOf(dayOfYear).ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -1866,6 +1895,9 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Marca de los textos que se cambia por la nota de esa prueba ("5,8").</summary>
         public const string MarkMark = "{nota}";
 
+        /// <summary>Marca de los textos de las tareas de la pega que se cambia por su plazo ("viernes 14", D5b).</summary>
+        public const string DueMark = "{plazo}";
+
         /// <summary>Marca de los textos que se cambia por los puntajes de la última PAES ("NEM 612 · Ranking 680 · ...").</summary>
         public const string AdmissionMark = "{puntajes}";
 
@@ -1896,6 +1928,13 @@ namespace MistakesLife.Core.Presentation
         /// <summary>Cambia {ramo} y {nota} por los de la prueba del jugador (la anunciada o la que se devolvió).</summary>
         private string WithTest(string text)
         {
+            if (text.Contains(DueMark))
+            {
+                Work.WorkTask? task = Work.WorkTaskRules.Pending(Session.World.Player, Session.World.Date.TotalWeeks)
+                    ?? Session.World.Player.Job?.Tasks.Where(t => !t.Done).OrderBy(t => t.DueWeek).FirstOrDefault();
+                text = text.Replace(DueMark, task == null ? T("ui.tarea.esta_semana") : TaskDue(task));
+            }
+
             if (text.Contains(AdmissionMark))
             {
                 text = text.Replace(AdmissionMark, AdmissionScores());

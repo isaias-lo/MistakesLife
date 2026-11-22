@@ -659,6 +659,32 @@ Reglas del núcleo, iguales para toda carrera:
 
 Los eventos de ascenso comunes a toda carrera (oferta de ascenso, mala racha, bajar de cargo, despido, cima) están en el paquete del país (`events/ascensos.json`); los de cada área, en su paquete de carrera (`events/areas.json`).
 
+### Tareas del mes (`tareas` de career.json, D5b)
+
+La pega por dentro: cada mes le tocan al jugador 2 o 3 tareas reales de su cargo (el cierre de mes, el IVA, un bug en producción), sin repetir las del mes pasado si alcanzan. Una carrera con tareas trae al menos 3:
+
+```json
+"tareas": [
+  { "id": "tarea.contabilidad.iva", "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.impuestos')", "dia": 20 },
+  { "id": "tarea.contabilidad.renta", "condiciones": "mundo.mes == 4" }
+]
+```
+
+| Campo | Qué es | Si falta |
+|---|---|---|
+| `id` | `tarea.<carrera>.<nombre>`; también es la clave de su nombre en la agenda ("Declarar el IVA (F29)") | obligatorio |
+| `condiciones` | A quién le puede tocar (su área, el mes del año) | a cualquiera con cargo en la carrera |
+| `dia` | El día del mes en que vence de verdad (1 a 28): la tarea vence la semana de ese día | se reparten en las semanas del mes |
+
+Cada tarea se vive en un momento de `events/tareas.json` de la carrera, con `"condiciones": "jugador.tarea_pendiente == 'tarea.contabilidad.iva'"` y `"probabilidad_anual": 1` (pasa la semana en que vence). El texto lleva `{plazo}` ("viernes 20"), así cada mes se lee como otra entrega y no cuenta como repetición. Sus opciones dicen cómo la haces, con `jugador.hacer_tarea('forma')`:
+
+- `calma`: sale bien (+2 en cómo te ve tu jefa); el momento suele restar energía.
+- `rapido`: si te la puedes, sale bien (+2); si no, con errores (-3, `diario.tarea.rapido_mal`). La probabilidad es 0,3 más la mitad de tu inteligencia.
+- `ayuda`: con un colega (`jugador.colega != nada`) sale bien, pero tu jefa nota que no fue solo tuyo (+1).
+- `dejar`: pasa a la semana siguiente (-1, con `!jugador.tarea_postergada`). Dejarla otra vez es no entregarla (-4, `diario.tarea.no_entregada`), y lo mismo si el mes termina sin hacerla. Una tarea que nunca alcanzó a ser momento no cuenta.
+
+**Cómo te ve tu jefa** es el desempeño (`jugador.desempeno`, de 0 a 100), que se muestra en la pantalla del equipo como barra con una frase (`ui.jefa.vista.0` a `.5`). Con 100, tu jefa te ofrece el ascenso (`evento.pega.jefa_ofrece_ascenso`, si ya se puede); antes lo puedes pedir con el botón "Pedir un ascenso" (`jugador.pedir_ascenso()` o `pedir_ascenso('cargo')` con dos caminos): dice que sí desde un 15 % con el desempeño justo del cargo hasta un 85 % cerca de 100, más si te respeta. En el cargo nuevo la barra vuelve a 60. Las carreras sin tareas (los oficios) siguen con la oferta de ascenso de siempre. En la casa 3D, la agenda de la pega (`escena.casa.agenda_pega`) está en la mesa mientras haya tareas.
+
 ### Oficios (bloque `oficio` de career.json, rediseño R6b)
 
 Un **oficio** es una carrera que se trabaja sin título: vendedor de tienda, garzón, maestro de la construcción (`packs/oficios/`). Su id empieza con `oficio.` (no `carrera.`), no tiene `niveles` y cualquiera que cumpla los `requisitos` del área puede entrar (normalmente `jugador.edad >= 18`). Tiene áreas y cargos como cualquier carrera y, además:
@@ -1337,6 +1363,9 @@ Cada persona siente algo por cada otra: **cariño, confianza, respeto y rencor**
 | `jugador.copiar_en_prueba()` | Va a copiar en la prueba anunciada (solo efectos, con `jugador.prueba_anunciada`). Al rendirla, 30 % de que lo pillen: la prueba queda con la nota mínima, la marca `pillado_copiando` y `diario.notas.pillado_copiando`. Si no, la nota sube 1 punto (en la escala de 1 a 7), pero el dominio del ramo no: no aprendió |
 | `jugador.entrega_pendiente`, `jugador.numero_entrega`, `jugador.entregas_del_ramo` | El ramo con proyecto cuya entrega ya toca (`''` si ninguna), qué número de entrega es (1 en adelante, 0 si no toca) y cuántas tiene ese ramo en el semestre (D5a4) |
 | `jugador.entregar(esfuerzo)` | Hace la entrega que toca, con un esfuerzo de -1 a 2 (solo efectos, con `jugador.entrega_pendiente`) |
+| `jugador.con_tareas`, `jugador.tarea_pendiente`, `jugador.tarea_postergada`, `jugador.tareas_del_mes` | Si su cargo es de una carrera con tareas, la tarea que ya venció y no ha hecho (`''` si ninguna), si esa tarea ya la dejó para después una vez y cuántas tareas tiene este mes (D5b) |
+| `jugador.hacer_tarea('forma')` | Hace la tarea que toca: `'calma'`, `'rapido'`, `'ayuda'` o `'dejar'` (solo efectos, con `jugador.tarea_pendiente`) |
+| `jugador.pedir_ascenso()`, `jugador.pedir_ascenso('cargo')` | Pide el ascenso: tu jefa dice que sí según cómo te ve y cuánto te respeta, y si dice que sí asciendes ahí mismo; devuelve si dijo que sí (solo efectos, con `jugador.puede_ascender`) |
 | `jugador.cursa('ramo')`, `jugador.semestre_carrera` | Si ese ramo está en la malla del semestre que cursa, y qué semestre del plan cursa (0 si no estudia) |
 | `jugador.electivo`, `jugador.elegir_electivo('área')` | El área de su electivo de especialidad (`''` si no eligió) y elegirla (solo efectos; un área de su carrera, una sola vez) |
 | `jugador.puntaje_paes`, `jugador.puntaje_nem`, `jugador.puntaje_ranking`, `jugador.veces_paes` | El promedio de sus mejores puntajes en las pruebas obligatorias (lo que se compara con el mínimo para postular, 0 si nunca la dio), su NEM, su ranking y cuántas veces dio la PAES (D5a5) |

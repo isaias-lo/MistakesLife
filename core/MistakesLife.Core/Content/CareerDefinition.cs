@@ -55,6 +55,13 @@ namespace MistakesLife.Core.Content
         /// Cómo se ve el lugar donde trabaja quien tiene este título (uno de
         /// <see cref="WorkplaceKinds"/>). Opcional: sin él se dibuja una oficina común.
         /// </summary>
+        /// <summary>
+        /// Las tareas reales de la pega (D5b): cada mes le tocan dos o tres al jugador que tiene un
+        /// cargo en esta carrera. Opcional: sin tareas, el desempeño solo lo mueven los eventos.
+        /// </summary>
+        [JsonProperty("tareas")]
+        public List<CareerTaskDefinition> Tasks { get; set; } = new List<CareerTaskDefinition>();
+
         [JsonProperty("lugar_de_trabajo")]
         public string? WorkplaceKind { get; set; }
 

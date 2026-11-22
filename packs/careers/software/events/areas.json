@@ -308,8 +308,8 @@
   },
   {
     "id": "evento.software.senior_dos_caminos",
-    "condiciones": "jugador.cargo == 'carrera.software.cargo.senior' && jugador.caminos_ascenso >= 2 && mundo.ciclo != 'economia.ciclo.crisis'",
-    "probabilidad_anual": 0.6,
+    "condiciones": "jugador.cargo == 'carrera.software.cargo.senior' && jugador.caminos_ascenso >= 2 && jugador.desempeno >= 100 && mundo.ciclo != 'economia.ciclo.crisis'",
+    "probabilidad_anual": 1,
     "enfriamiento_semanas": 26,
     "opciones": [
       {
@@ -432,6 +432,42 @@
         "texto": "opcion.software.cambiar_area.quedarse",
         "tendencia": "40 + jugador.responsabilidad / 3",
         "efectos": []
+      }
+    ]
+  },
+  {
+    "id": "evento.software.pedir_dos_caminos",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "a_pedido": {
+      "texto": "accion.pega.pedir_ascenso",
+      "por_ano": "0.1 + (jugador.desempeno - 50) / 150 + jugador.extraversion / 400"
+    },
+    "condiciones": "jugador.cargo == 'carrera.software.cargo.senior' && jugador.caminos_ascenso >= 2 && jugador.desempeno < 100 && !jugador.renuncio",
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.software.pedir_dos_caminos.tecnico",
+        "condiciones": "jugador.puede_ascender_a('carrera.software.cargo.lider_tecnico')",
+        "tendencia": "jugador.apertura / 2 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.pedir_ascenso('carrera.software.cargo.lider_tecnico')"
+        ]
+      },
+      {
+        "texto": "opcion.software.pedir_dos_caminos.gestion",
+        "condiciones": "jugador.puede_ascender_a('carrera.software.cargo.jefe_de_equipo')",
+        "tendencia": "jugador.extraversion / 2 + 10",
+        "efectos": [
+          "jugador.pedir_ascenso('carrera.software.cargo.jefe_de_equipo')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.pedir_ascenso.esperar",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.desempeno) / 3",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
       }
     ]
   }

@@ -20,7 +20,15 @@
       "semestres": 10,
       "tendencia": "jugador.amabilidad / 2 + jugador.apertura / 4",
       "condiciones": "jugador.pais == 'pais.chile' && (jugador.alcanza('carrera.psicologia.nivel.psicologo') || (jugador.tiene('puede_universidad') && jugador.veces_paes == 0))",
-      "admision": { "corte": 640, "ponderacion": { "nem": 0.2, "ranking": 0.25, "lectora": 0.35, "matematica": 0.2 } }
+      "admision": {
+        "corte": 640,
+        "ponderacion": {
+          "nem": 0.2,
+          "ranking": 0.25,
+          "lectora": 0.35,
+          "matematica": 0.2
+        }
+      }
     },
     {
       "id": "carrera.psicologia.nivel.psicologo_privada",
@@ -104,6 +112,43 @@
       "sueldo_relativo": 2.6,
       "meses_minimos": 72,
       "desempeno_minimo": 65
+    }
+  ],
+  "tareas": [
+    {
+      "id": "tarea.psicologia.informe_paciente",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'"
+    },
+    {
+      "id": "tarea.psicologia.supervision",
+      "condiciones": "(jugador.area == 'carrera.psicologia.area.clinica' || jugador.area == 'carrera.psicologia.area.forense')"
+    },
+    {
+      "id": "tarea.psicologia.paciente_nuevo",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'"
+    },
+    {
+      "id": "tarea.psicologia.evaluacion_alumno",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+    },
+    {
+      "id": "tarea.psicologia.taller_apoderados",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+    },
+    {
+      "id": "tarea.psicologia.seleccion",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'"
+    },
+    {
+      "id": "tarea.psicologia.clima_laboral",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'"
+    },
+    {
+      "id": "tarea.psicologia.peritaje",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.forense'"
+    },
+    {
+      "id": "tarea.psicologia.reunion_clinica"
     }
   ],
   "ramos": [

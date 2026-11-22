@@ -48,6 +48,7 @@ namespace MistakesLife.Unity
             "escena.casa.maleta" => "ancla.ropero",
             "escena.casa.comprobante_cae" => "ancla.mesa",
             "escena.casa.notebook" => "ancla.mesa",
+            "escena.casa.agenda_pega" => "ancla.mesa",
             "escena.casa.avisos_trabajo" => "ancla.mesa",
             "escena.casa.cuentas" => "ancla.mesa",
             "escena.casa.remedios" => "ancla.mesa",
@@ -559,6 +560,20 @@ namespace MistakesLife.Unity
                     // Defendiste tu tesis (D5a4): el ejemplar empastado en tapa dura, con letras doradas, sobre la mesa.
                     kit.Box("Tesis empastada", new Vector3(-0.38f, 0.455f, -0.2f), new Vector3(0.16f, 0.025f, 0.22f), new Color(0.12f, 0.18f, 0.38f));
                     kit.Box("Letras doradas de la tesis", new Vector3(-0.38f, 0.469f, -0.17f), new Vector3(0.1f, 0.002f, 0.03f), new Color(0.85f, 0.70f, 0.30f));
+                    break;
+                case "escena.casa.agenda_pega":
+                    // Las tareas del mes en la pega (D5b): la agenda de tapa oscura abierta en la semana, con
+                    // los post-it de lo que falta pegados en el borde y un lápiz encima.
+                    kit.Box("Tapa de la agenda de la pega", new Vector3(0.42f, 0.448f, -0.22f), new Vector3(0.36f, 0.012f, 0.24f), new Color(0.16f, 0.20f, 0.28f));
+                    kit.Box("Hoja de la semana", new Vector3(0.42f, 0.456f, -0.22f), new Vector3(0.33f, 0.006f, 0.21f), Palette.Paper);
+                    kit.Box("Lomo de la agenda", new Vector3(0.42f, 0.459f, -0.22f), new Vector3(0.008f, 0.004f, 0.21f), new Color(0.16f, 0.20f, 0.28f));
+                    for (int i = 0; i < 3; i++)
+                    {
+                        kit.Box("Post-it de una tarea", new Vector3(0.6f, 0.46f, -0.3f + (i * 0.07f)), new Vector3(0.05f, 0.003f, 0.05f), new Color(0.96f, 0.84f, 0.32f));
+                    }
+
+                    GameObject planPencil = kit.Shape(PrimitiveType.Cylinder, "Lápiz de la agenda", new Vector3(0.5f, 0.468f, -0.2f), new Vector3(0.012f, 0.08f, 0.012f), Palette.DarkWood);
+                    planPencil.transform.localRotation = Quaternion.Euler(0f, 30f, 90f);
                     break;
                 case "escena.casa.facsimiles_paes":
                     // Te preparas para dar la PAES otra vez (D5a5): la pila de facsímiles del preu, con un ensayo corregido encima y el lápiz.

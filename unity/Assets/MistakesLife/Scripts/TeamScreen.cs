@@ -92,6 +92,46 @@ namespace MistakesLife.Unity
             _closeLabel = close.GetComponentInChildren<TextMeshProUGUI>();
         }
 
+        /// <summary>La barra "cómo te ve tu jefa" con su frase (D5b), en grande arriba de todo.</summary>
+        private void DrawBossView(TeamView team)
+        {
+            if (team.BossView == null)
+            {
+                return;
+            }
+
+            RectTransform card = UiFactory.Column(_body, "Cómo te ve tu jefa", 28, 8, UiFactory.Paper);
+            UiFactory.Label(card, team.BossTitle ?? string.Empty, UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold)
+                .margin = new Vector4(16f, 0f, 16f, 0f);
+            RectTransform fill = UiFactory.Bar(card, "Barra de la jefa", team.BossView >= 70 ? UiFactory.Good : team.BossView < 45 ? UiFactory.Bad : UiFactory.Accent, out TextMeshProUGUI label);
+            label.text = team.BossView + " %";
+            label.color = UiFactory.PaperInk;
+            UiFactory.SetBar(fill, team.BossView.Value);
+            UiFactory.Label(card, team.BossPhrase ?? string.Empty, 40, UiFactory.PaperInk, FontStyles.Bold)
+                .margin = new Vector4(16f, 8f, 16f, 0f);
+        }
+
+        /// <summary>La agenda del mes (D5b): cada tarea con su plazo y cómo va; lo hecho, tachado.</summary>
+        private void DrawTasks(LifePresenter presenter, TeamView team)
+        {
+            if (team.Tasks.Count == 0)
+            {
+                return;
+            }
+
+            RectTransform agenda = UiFactory.Column(_body, "Tareas del mes", 28, 0, UiFactory.Paper);
+            UiFactory.Label(agenda, presenter.Text("ui.tarea.titulo"), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold)
+                .margin = new Vector4(16f, 0f, 16f, 8f);
+            foreach (WorkTaskView task in team.Tasks)
+            {
+                StudiesScreen.Line(agenda);
+                TextMeshProUGUI name = UiFactory.Label(agenda, task.Text, 40, task.Done ? UiFactory.PaperMutedInk : UiFactory.PaperInk, task.Done ? FontStyles.Bold | FontStyles.Strikethrough : FontStyles.Bold);
+                name.margin = new Vector4(16f, 16f, 16f, 0f);
+                UiFactory.Label(agenda, task.Due + " · " + task.State, UiFactory.MinFontSize, task.Late ? UiFactory.KeyInk : UiFactory.PaperMutedInk)
+                    .margin = new Vector4(16f, 4f, 16f, 16f);
+            }
+        }
+
         private void Draw(LifePresenter presenter, TeamView? team)
         {
             _closeLabel.text = presenter.Text("ui.boton.cerrar");
@@ -104,6 +144,8 @@ namespace MistakesLife.Unity
                 return;
             }
 
+            DrawBossView(team);
+            DrawTasks(presenter, team);
             RectTransform sheet = UiFactory.Column(_body, "Hoja del equipo", 28, 0, UiFactory.Paper);
             if (team.Boss != null)
             {

@@ -357,6 +357,10 @@ namespace MistakesLife.Core.Saving
             // 46 → 47: aparecen los puntajes de la PAES (NEM, ranking y pruebas, D5a5). En las
             // partidas viejas nadie la ha dado con puntaje: se leen en 0 y vacíos.
             [46] = save => { },
+
+            // 47 → 48: aparecen las tareas del mes en la pega (D5b). En las partidas viejas el mes
+            // que va no tiene tareas: las primeras llegan el mes que viene.
+            [47] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

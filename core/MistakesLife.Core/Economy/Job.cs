@@ -114,6 +114,12 @@ namespace MistakesLife.Core.Economy
         /// </summary>
         public int? LeavingWeek { get; internal set; }
 
+        /// <summary>
+        /// Las tareas de este mes (D5b, ver <see cref="Work.WorkTaskRules"/>): dos o tres de su
+        /// carrera, con su plazo. Se renuevan al empezar cada mes. Vacía si su carrera no trae tareas.
+        /// </summary>
+        public System.Collections.Generic.List<Work.WorkTask> Tasks { get; } = new System.Collections.Generic.List<Work.WorkTask>();
+
         public JobKind Kind { get; }
 
         /// <summary>Sueldo bruto mensual en dinero de los paquetes.</summary>
