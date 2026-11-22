@@ -248,12 +248,15 @@ namespace MistakesLife.Core.Tests
 
         /// <summary>
         /// Vidas que trabajan muy bien y ascienden cada vez que pueden, hasta llegar a lo más
-        /// alto de la carrera (en vidas al azar, pocas llegan): para el evento de la cima.
+        /// alto de la carrera (en vidas al azar, pocas llegan): para el evento de la cima. Con
+        /// <paramref name="careerId"/>, en esa carrera (por defecto, la primera). Si el cargo
+        /// siguiente tiene dos caminos, no asciende sola: deja que llegue el momento de elegir
+        /// (como "dos caminos" en Software, que pide la barra de tu jefa en 100).
         /// </summary>
-        public static HashSet<string> TopOfCareerEvents(ContentDatabase content, int lives, int startAge = 28, int finalAge = 60)
+        public static HashSet<string> TopOfCareerEvents(ContentDatabase content, int lives, int startAge = 28, int finalAge = 60, string? careerId = null)
         {
             var seen = new HashSet<string>();
-            CareerDefinition career = content.Careers.First(c => !c.IsOccupation);
+            CareerDefinition career = careerId == null ? content.Careers.First(c => !c.IsOccupation) : content.GetCareer(careerId);
             CareerLevelDefinition best = career.Levels.OrderByDescending(l => l.SalaryRelative).First();
             string shortName = career.Id.Substring("carrera.".Length);
             CareerAreaDefinition area = career.Areas.First();
@@ -282,6 +285,7 @@ namespace MistakesLife.Core.Tests
                 Apply(session, effects);
 
                 int before = session.World.EventHistory.Count;
+                string? waitedAt = null;
                 for (int year = startAge + 1; year < finalAge && session.World.Player.IsAlive && session.World.Player.Job?.Position != null; year++)
                 {
                     // Con la barra de tu jefa en 100 (D5b), ella misma ofrece el ascenso cuando se puede.
@@ -291,9 +295,19 @@ namespace MistakesLife.Core.Tests
                     if (session.World.Player.IsAlive && session.World.Player.Job?.Position != null
                         && Expression.Parse("jugador.puede_ascender").Evaluate(check).AsBool("prueba"))
                     {
-                        // Con dos caminos (por ejemplo, jefatura o especialista) toma el primero.
+                        // Con un solo camino asciende; con dos (jefatura o especialista), espera un
+                        // año: parte con la barra en 100 y llega el momento de elegir, si la carrera
+                        // lo tiene. Si no llegó, toma el primero.
                         var paths = Economy.CareerLadder.EligiblePromotions(content, session.World.Player.Job!, check);
-                        Apply(session, new[] { $"jugador.ascender('{paths[0].Id}')" });
+                        string here = session.World.Player.Job!.Position!.PositionId;
+                        if (paths.Count == 1 || waitedAt == here)
+                        {
+                            Apply(session, new[] { $"jugador.ascender('{paths[0].Id}')" });
+                        }
+                        else
+                        {
+                            waitedAt = here;
+                        }
                     }
 
                     if (session.World.Player.IsAlive && Expression.Parse("jugador.en_la_cima").Evaluate(check).AsBool("prueba"))
