@@ -175,6 +175,8 @@ namespace MistakesLife.Unity
             SceneView.Neighborhood => _block,
             SceneView.Work => _work,
             SceneView.Place => _place,
+            SceneView.Map => _place,
+            SceneView.Outing => _place,
             _ => _room,
         };
 
@@ -186,7 +188,8 @@ namespace MistakesLife.Unity
             name.StartsWith("escena.", System.StringComparison.Ordinal)
             || name.StartsWith("mueble.", System.StringComparison.Ordinal)
             || name.StartsWith(PlaceBuilder.PersonPrefix, System.StringComparison.Ordinal)
-            || name.StartsWith("lugar.cosa.", System.StringComparison.Ordinal);
+            || name.StartsWith("lugar.cosa.", System.StringComparison.Ordinal)
+            || name.StartsWith(MapBuilder.PlacePrefix, System.StringComparison.Ordinal);
 
         /// <summary>
         /// Dónde está, dentro de la ventana 3D, lo más alto de un objeto del lugar (la cabeza de
@@ -260,6 +263,42 @@ namespace MistakesLife.Unity
             ShapeKit.ClearChildren(_place);
             _kit.Parent = _place;
             PlaceBuilder.Build(_kit, place);
+            _kit.Parent = _room;
+            HideWallsInFront();
+        }
+
+        /// <summary>
+        /// Dibuja el mapa de tu barrio con sus lugares (D5c2); si nada cambió, no hace nada.
+        /// Se ve con <see cref="SceneView.Map"/>.
+        /// </summary>
+        public void ShowMap(NeighborhoodView map, HomeMemberView? player)
+        {
+            string signature = "mapa|" + map.Signature + "|" + (player?.AgeInYears ?? 0);
+            if (signature == _placeShown)
+            {
+                return;
+            }
+
+            _placeShown = signature;
+            ShapeKit.ClearChildren(_place);
+            _kit.Parent = _place;
+            MapBuilder.Build(_kit, map, player);
+            _kit.Parent = _room;
+        }
+
+        /// <summary>Dibuja una salida del barrio: el lugar con el jugador y con quien fue. Se ve con <see cref="SceneView.Outing"/>.</summary>
+        public void ShowOuting(OutingView outing)
+        {
+            string signature = "salida|" + outing.Signature;
+            if (signature == _placeShown)
+            {
+                return;
+            }
+
+            _placeShown = signature;
+            ShapeKit.ClearChildren(_place);
+            _kit.Parent = _place;
+            OutingBuilder.Build(_kit, outing);
             _kit.Parent = _room;
             HideWallsInFront();
         }
@@ -445,7 +484,7 @@ namespace MistakesLife.Unity
             _room.gameObject.SetActive(_view == SceneView.Room);
             _block.gameObject.SetActive(_view == SceneView.Neighborhood);
             _work.gameObject.SetActive(_view == SceneView.Work);
-            _place.gameObject.SetActive(_view == SceneView.Place);
+            _place.gameObject.SetActive(_view == SceneView.Place || _view == SceneView.Map || _view == SceneView.Outing);
             (Vector3 eye, Vector3 center) = _view switch
             {
                 // Más alta y más lejos: se ve la cuadra entera y el colegio no tapa las casas.
@@ -453,6 +492,10 @@ namespace MistakesLife.Unity
                 SceneView.Work => (new Vector3(4.4f, 6.4f, -7.6f), new Vector3(-0.2f, 0.5f, 0.4f)),
                 // El lugar de una sección se mira un poco más de arriba, para ver a todos en sus puestos.
                 SceneView.Place => (new Vector3(4.6f, 7.4f, -7.4f), new Vector3(-0.2f, 0.4f, 0.4f)),
+                // El mapa del barrio, desde bien arriba para ver todos sus lugares.
+                SceneView.Map => (new Vector3(0f, 17f, -13f), new Vector3(0f, 0f, 0.6f)),
+                // Una salida, de cerca: el lugar y las dos figuras.
+                SceneView.Outing => (new Vector3(3.6f, 4.6f, -5.6f), new Vector3(0f, 0.6f, 0.4f)),
                 _ => (new Vector3(3.6f, 5.4f, -6.4f), new Vector3(-0.2f, 0.5f, 0.5f)),
             };
 

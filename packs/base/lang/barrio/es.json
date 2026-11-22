@@ -20,7 +20,6 @@
   "lugar.barrio.pega.descripcion": "Tu oficina y tu equipo.",
   "lugar.barrio.bar": "Bar",
   "lugar.barrio.bar.descripcion": "Un bar del barrio, para mayores de 18.",
-
   "accion.barrio.plaza.vuelta": "Dar una vuelta y conversar",
   "accion.barrio.plaza.vuelta.por_que": "Caminar sin apuro, gratis.",
   "accion.barrio.plaza.vuelta.resultado": "Dieron vueltas por la plaza con {persona} hasta que oscureció. Conversaron de todo.",
@@ -61,7 +60,6 @@
   "accion.barrio.bar.tomar.por_que": "Unos tragos y conversar hasta tarde.",
   "accion.barrio.bar.tomar.resultado": "Fueron a tomar algo con {persona}. Llegaste tarde a tu casa y con sueño.",
   "accion.barrio.bar.tomar.le_gusta": "Le encanta salir de noche",
-
   "ui.barrio.titulo": "Tu gente · {0}",
   "ui.barrio.toca": "Toca un lugar para ir",
   "ui.barrio.toca_gente": "Toca a alguien para hablarle, o toca un lugar del mapa para salir con alguien.",
@@ -86,5 +84,25 @@
   "ui.barrio.pestana.amigos": "Amigos",
   "ui.barrio.pestana.curso": "Curso",
   "ui.barrio.pestana.pega": "Pega",
-  "ui.barrio.pestana.conocidos": "Conocidos"
+  "ui.barrio.pestana.conocidos": "Conocidos",
+  "ui.barrio.con": "con {0}",
+  "ui.barrio.nada": "Ya hiciste todo lo de aquí este mes.",
+  "ui.barrio.que_haces": "1 · QUÉ HACES",
+  "ui.barrio.con_quien": "2 · CON QUIÉN",
+  "ui.barrio.con_quien_sugeridos": "2 · CON QUIÉN · SUGERIDOS",
+  "ui.barrio.ir": "Ir",
+  "ui.barrio.ir_solo": "{0} sin nadie",
+  "ui.barrio.elige_algo": "Elige qué hacer",
+  "ui.barrio.elige_a_alguien": "Elige con quién",
+  "ui.barrio.buscar": "BUSCAR POR NOMBRE",
+  "ui.barrio.buscar_ayuda": "Escribe un nombre",
+  "ui.barrio.mas_cercanos": "PRIMERO LOS MÁS CERCANOS",
+  "ui.barrio.nadie": "Nadie con ese nombre.",
+  "ui.barrio.volver_mapa": "Volver al mapa",
+  "ui.barrio.ir_casa": "Volver a tu casa",
+  "ui.barrio.abrir_estudios": "Entrar a tu sala",
+  "ui.barrio.abrir_trabajo": "Entrar a tu pega",
+  "ui.barrio.ver_gente": "Ver a toda tu gente",
+  "ui.barrio.tu_gente": "TU GENTE",
+  "ui.barrio.lugar": "LUGAR DEL BARRIO"
 }

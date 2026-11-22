@@ -710,6 +710,34 @@ namespace MistakesLife.Core.Presentation
             return new CompanionsView(action.Id, T(action.Id), suggested, tabs, all.Count, Text("ui.barrio.elegir_otra", all.Count), aloneLabel);
         }
 
+        /// <summary>
+        /// La salida en la escena (D5c2, boceto BSalida): el lugar del barrio donde se hace esa acción,
+        /// el jugador y con quien va (null: sin nadie). Null si la acción no es de un lugar del barrio.
+        /// </summary>
+        public OutingView? Outing(string actionId, int? personId)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            ActionDefinition? action = Session.Content.Action(actionId);
+            if (action == null)
+            {
+                return null;
+            }
+
+            MapPlaceDefinition? place = action.Place != null ? Session.Content.MapPlace(action.Place)
+                : Session.Content.MapPlaces.FirstOrDefault(p => p.ActionIds.Contains(actionId));
+            if (place == null)
+            {
+                return null;
+            }
+
+            Character? person = personId.HasValue && world.TryGetCharacter(personId.Value, out Character? found) ? found : null;
+            string name = T(place.Id);
+            string title = person == null ? name : name + " · " + Text("ui.barrio.con", person.FirstName);
+            HomeMemberView? companion = person == null ? null : Member(person, PeopleRows().TryGetValue(person.Id, out PersonRowView? row) ? row.Relation : string.Empty, false);
+            return new OutingView(place.Id, place.Shape, title, Member(player, string.Empty, true), companion);
+        }
+
         /// <summary>Las pestañas al elegir con quién, en su orden.</summary>
         public static readonly string[] CompanionTabs = { "pareja", "familia", "amigos", "curso", "pega", "conocidos" };
 

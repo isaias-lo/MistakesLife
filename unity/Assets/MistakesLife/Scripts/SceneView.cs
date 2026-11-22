@@ -17,5 +17,11 @@ namespace MistakesLife.Unity
         /// real y sus nombres. Lo abre <see cref="PlaceScreen"/>.
         /// </summary>
         Place,
+
+        /// <summary>El mapa chico de tu barrio al abrir Tu gente (D5c2): sus lugares se tocan. Lo abre <see cref="MapScreen"/>.</summary>
+        Map,
+
+        /// <summary>Una salida del barrio (D5c2): el lugar donde fuiste, contigo y con quien fuiste.</summary>
+        Outing,
     }
 }

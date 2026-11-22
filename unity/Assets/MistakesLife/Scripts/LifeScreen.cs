@@ -94,6 +94,7 @@ namespace MistakesLife.Unity
         private ActionsScreen _actions = null!;
         private PeopleScreen _people = null!;
         private PlaceScreen _place = null!;
+        private MapScreen _map = null!;
         private RectTransform _freeTime = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
@@ -270,6 +271,22 @@ namespace MistakesLife.Unity
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Abre el mapa de tu barrio (D5c2), para las capturas: solo, tocando un lugar, eligiendo
+        /// con quién ir o ya en la salida. False si la vida no tiene mapa o ese lugar.
+        /// </summary>
+        public bool OpenMapForCapture(string? placeId, bool choose, bool go)
+        {
+            LifePresenter presenter = _presenter!;
+            if (!MapScreen.Has(presenter))
+            {
+                return false;
+            }
+
+            _map.Show(presenter);
+            return placeId == null || _map.PrepareForCapture(placeId, choose, go);
         }
 
         /// <summary>Abre Tu dinero encima de la vida, para las capturas.</summary>
@@ -453,6 +470,14 @@ namespace MistakesLife.Unity
                 OpenAgenda = () => _team.Show(_presenter!),
                 OpenOthers = group => OpenActions(_presenter!, group),
                 OpenCard = id => _people.Show(_presenter!, id),
+            };
+            _map = new MapScreen(safe, _home)
+            {
+                Changed = ActionDone,
+                Toggled = open => _page.gameObject.SetActive(!open),
+                OpenPeople = () => _people.Show(_presenter!),
+                OpenCard = id => _people.Show(_presenter!, id),
+                OpenSection = group => _place.Show(_presenter!, group),
             };
 
             // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
@@ -1115,6 +1140,13 @@ namespace MistakesLife.Unity
         /// </summary>
         private void OpenGroup(LifePresenter presenter, string group)
         {
+            // Tu gente abre el mapa de tu barrio (D5c2): tocas un lugar, eliges qué hacer y con quién.
+            if (group == "gente" && MapScreen.Has(presenter))
+            {
+                _map.Show(presenter);
+                return;
+            }
+
             // Cada sección es un lugar que se toca (D5c): tu sala, tu aula o tu pega con su gente.
             if ((group == "estudios" || group == "trabajo") && PlaceScreen.Has(presenter, group))
             {
