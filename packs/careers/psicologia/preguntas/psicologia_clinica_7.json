@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicologia_clinica",
+  "etapa": "carrera.psicologia",
+  "curso": 7,
+  "fuente": "Programa de Psicología Clínica II de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicologia_clinica.7.alianza",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.alianza.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.alianza.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.alianza.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.alianza.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.alianza.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_clinica.7.crisis",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.crisis.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.crisis.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.crisis.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.crisis.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.crisis.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_clinica.7.infantojuvenil",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.infantojuvenil.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.infantojuvenil.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.infantojuvenil.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.infantojuvenil.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.infantojuvenil.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_clinica.7.farmacos",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.farmacos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.farmacos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.farmacos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.farmacos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_clinica.7.farmacos.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

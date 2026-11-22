@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.metodologia",
+  "etapa": "carrera.psicologia",
+  "curso": 5,
+  "fuente": "Programa de Metodología de la Investigación III (Proyecto de Investigación) de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.metodologia.5.proyecto",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.5.proyecto.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.proyecto.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.proyecto.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.proyecto.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.proyecto.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.metodologia.5.etica_investigacion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.5.etica_investigacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.etica_investigacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.etica_investigacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.etica_investigacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.etica_investigacion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.metodologia.5.revision",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.5.revision.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.revision.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.revision.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.revision.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.revision.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.metodologia.5.replicacion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.metodologia.5.replicacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.replicacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.replicacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.replicacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.metodologia.5.replicacion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.evaluacion_psicologica",
+  "etapa": "carrera.psicologia",
+  "curso": 6,
+  "fuente": "Programa de Evaluación Psicológica II de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.evaluacion_psicologica.6.personalidad_tests",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.personalidad_tests.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.personalidad_tests.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.personalidad_tests.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.personalidad_tests.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.personalidad_tests.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.evaluacion_psicologica.6.proyectivas",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.proyectivas.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.proyectivas.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.proyectivas.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.proyectivas.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.proyectivas.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.evaluacion_psicologica.6.neuro",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.neuro.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.neuro.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.neuro.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.neuro.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.neuro.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.evaluacion_psicologica.6.informe",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.informe.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.informe.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.informe.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.informe.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.evaluacion_psicologica.6.informe.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

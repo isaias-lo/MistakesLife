@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.personalidad",
+  "etapa": "carrera.psicologia",
+  "curso": 4,
+  "fuente": "Programa de Teorías de la Personalidad de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.personalidad.4.psicoanalisis",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.personalidad.4.psicoanalisis.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.psicoanalisis.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.psicoanalisis.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.psicoanalisis.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.psicoanalisis.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.personalidad.4.humanista",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.personalidad.4.humanista.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.humanista.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.humanista.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.humanista.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.humanista.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.personalidad.4.rasgos",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.personalidad.4.rasgos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.rasgos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.rasgos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.rasgos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.rasgos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.personalidad.4.social_cognitiva",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.personalidad.4.social_cognitiva.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.social_cognitiva.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.social_cognitiva.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.social_cognitiva.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.personalidad.4.social_cognitiva.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

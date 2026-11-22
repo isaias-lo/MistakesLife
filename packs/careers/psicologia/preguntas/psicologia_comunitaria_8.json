@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicologia_comunitaria",
+  "etapa": "carrera.psicologia",
+  "curso": 8,
+  "fuente": "Programa de Psicología Comunitaria de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicologia_comunitaria.8.fundamentos",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.fundamentos.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.fundamentos.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.fundamentos.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.fundamentos.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.fundamentos.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_comunitaria.8.redes",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.redes.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.redes.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.redes.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.redes.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.redes.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_comunitaria.8.intervencion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.intervencion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.intervencion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.intervencion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.intervencion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.intervencion.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_comunitaria.8.prevencion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.prevencion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.prevencion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.prevencion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.prevencion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_comunitaria.8.prevencion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}

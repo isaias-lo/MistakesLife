@@ -1,0 +1,108 @@
+{
+  "ramo": "ramo.psicologia.psicologia_educacional",
+  "etapa": "carrera.psicologia",
+  "curso": 7,
+  "fuente": "Programa de Psicología Educacional de Psicología (contenidos comunes de las universidades chilenas)",
+  "unidades": [
+    {
+      "id": "tema.psicologia.psicologia_educacional.7.aprendizaje",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.aprendizaje.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.aprendizaje.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.aprendizaje.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.aprendizaje.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.aprendizaje.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_educacional.7.nee",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.nee.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.nee.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.nee.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.nee.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.nee.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_educacional.7.convivencia",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.convivencia.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.convivencia.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.convivencia.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.convivencia.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.convivencia.5",
+          "correcta": "b"
+        }
+      ]
+    },
+    {
+      "id": "tema.psicologia.psicologia_educacional.7.orientacion",
+      "preguntas": [
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.orientacion.1",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.orientacion.2",
+          "correcta": "b"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.orientacion.3",
+          "correcta": "c"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.orientacion.4",
+          "correcta": "a"
+        },
+        {
+          "id": "pregunta.psicologia.psicologia_educacional.7.orientacion.5",
+          "correcta": "b"
+        }
+      ]
+    }
+  ]
+}
