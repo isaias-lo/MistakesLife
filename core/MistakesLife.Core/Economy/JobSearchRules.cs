@@ -98,6 +98,12 @@ namespace MistakesLife.Core.Economy
                 chance *= rules.DegreeFactor;
             }
 
+            if (search.TargetsArea && character.HasFlag(Education.ProjectRules.ElectiveFlag(search.Target)))
+            {
+                // Hizo su electivo de especialidad en esa área: tiene algo concreto que mostrar.
+                chance *= rules.ElectiveFactor;
+            }
+
             if (rules.HardAge.HasValue && character.AgeInYears(world.Date) >= rules.HardAge.Value)
             {
                 chance *= rules.AgeFactor;

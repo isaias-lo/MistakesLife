@@ -28,5 +28,7 @@ namespace MistakesLife.Core.Saving
         public System.Collections.Generic.SortedDictionary<string, double> LastMarks { get; set; } = new System.Collections.Generic.SortedDictionary<string, double>();
 
         public System.Collections.Generic.List<double> SemesterAverages { get; set; } = new System.Collections.Generic.List<double>();
+
+        public System.Collections.Generic.SortedDictionary<string, System.Collections.Generic.List<int>> ProjectDeliveries { get; set; } = new System.Collections.Generic.SortedDictionary<string, System.Collections.Generic.List<int>>();
     }
 }

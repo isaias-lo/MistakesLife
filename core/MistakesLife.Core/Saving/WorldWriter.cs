@@ -253,6 +253,7 @@ namespace MistakesLife.Core.Saving
                     SemestersTaken = c.Studies.SemestersTaken,
                     LastMarks = new SortedDictionary<string, double>(c.Studies.LastMarks),
                     SemesterAverages = c.Studies.SemesterAverages.ToList(),
+                    ProjectDeliveries = new SortedDictionary<string, List<int>>(c.Studies.ProjectDeliveries.ToDictionary(p => p.Key, p => p.Value.ToList()), System.StringComparer.Ordinal),
                 },
                 Routine = c.Routine == null ? null : new RoutineData
                 {

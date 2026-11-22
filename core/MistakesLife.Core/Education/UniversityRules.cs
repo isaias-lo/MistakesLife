@@ -135,6 +135,13 @@ namespace MistakesLife.Core.Education
             int preparation = Math.Max(-MaxPreparation, Math.Min(MaxPreparation, player.Studies!.Preparation));
             foreach (CourseDefinition course in Courses(content, player.Studies, semester))
             {
+                if (course.Deliveries > 0)
+                {
+                    // Un ramo con proyecto (D5a4): la nota sale de sus entregas, no de certámenes.
+                    marks[course.Id] = ProjectRules.Mark(world, player, course, scale);
+                    continue;
+                }
+
                 // Mark solo sabe de preparación positiva; un semestre de carrete (negativa) baja la nota igual.
                 // Con preguntas en ese ramo (D5a2b), la nota sale de cuánto lo domina; si no, como antes.
                 double mark = GradeRules.Mark(world, content, player, scale, course.Id, Math.Max(0, preparation), random);

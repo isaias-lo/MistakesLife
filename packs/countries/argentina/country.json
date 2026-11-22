@@ -272,6 +272,7 @@
       "factor_por_ano_experiencia": 0.05,
       "tope_experiencia": 1.5,
       "factor_titulo": 1.2,
+      "factor_electivo": 1.25,
       "edad_dificil": 55,
       "factor_edad": 0.8,
       "semanas_cesantia_larga": 52,

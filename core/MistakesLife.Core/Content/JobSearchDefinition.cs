@@ -31,6 +31,13 @@ namespace MistakesLife.Core.Content
         [JsonProperty("factor_titulo")]
         public double DegreeFactor { get; set; } = 1;
 
+        /// <summary>
+        /// Cuánto más lo llaman al postular en el área de su electivo de especialidad (D5a4):
+        /// 1.25 = 25 % más. Si falta, 1.
+        /// </summary>
+        [JsonProperty("factor_electivo")]
+        public double ElectiveFactor { get; set; } = 1;
+
         /// <summary>Desde qué edad cuesta más que lo llamen (discriminación por edad). Si falta, nunca.</summary>
         [JsonProperty("edad_dificil")]
         public int? HardAge { get; set; }

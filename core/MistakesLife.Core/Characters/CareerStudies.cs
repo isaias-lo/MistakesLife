@@ -68,6 +68,12 @@ namespace MistakesLife.Core.Characters
         /// <summary>El semestre del plan al que son las <see cref="LastMarks"/> (0 si todavía no hay notas).</summary>
         public int LastMarksSemester { get; internal set; }
 
+        /// <summary>
+        /// Las entregas de los proyectos de este semestre (D5a4): ramo → calidad de cada entrega,
+        /// de 0 a 100, en orden. Se vacía al poner las notas del semestre.
+        /// </summary>
+        public SortedDictionary<string, List<int>> ProjectDeliveries { get; } = new SortedDictionary<string, List<int>>(StringComparer.Ordinal);
+
         /// <summary>Promedios de cada semestre con notas, en orden.</summary>
         public List<double> SemesterAverages { get; } = new List<double>();
 
