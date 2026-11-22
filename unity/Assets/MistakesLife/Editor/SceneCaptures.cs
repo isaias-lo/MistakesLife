@@ -390,6 +390,9 @@ namespace MistakesLife.Unity.Editor
             {
                 count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-libreta.png"), studies: 0);
                 count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-curso.png"), studies: 1);
+                // D5c: tu sala que se toca, sola y tocando a un compañero.
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-lugar-sala.png"), place: "estudios");
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-lugar-sala-persona.png"), place: "estudios", placePerson: true);
             }
 
             if (LiveUntil(life, content, "carrera.software.", 20) && life.Phase == LifePhase.Living && life.StudyPlan() != null)
@@ -397,6 +400,7 @@ namespace MistakesLife.Unity.Editor
                 count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-libreta-u.png"), studies: 0);
                 count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-seccion.png"), studies: 1);
                 count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-malla.png"), studies: 2);
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-lugar-aula.png"), place: "estudios");
             }
             else
             {
@@ -421,7 +425,11 @@ namespace MistakesLife.Unity.Editor
 
                     if (life.Team() != null)
                     {
-                        return CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-equipo.png"), team: true);
+                        int count = CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-equipo.png"), team: true);
+                        // D5c: tu pega que se toca, sola y tocando a un colega.
+                        count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-lugar-pega.png"), place: "trabajo");
+                        count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-lugar-pega-persona.png"), place: "trabajo", placePerson: true);
+                        return count;
                     }
                 }
             }
@@ -513,7 +521,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1, string? place = null, bool placePerson = false)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -553,6 +561,11 @@ namespace MistakesLife.Unity.Editor
                 if (people >= 0)
                 {
                     screen.OpenPeopleForCapture(people == 1);
+                }
+
+                if (place != null && !screen.OpenPlaceForCapture(place, placePerson))
+                {
+                    Debug.LogWarning($"Capturas: la vida no tiene lugar de '{place}'; {Path.GetFileName(file)} sale sin él.");
                 }
 
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));

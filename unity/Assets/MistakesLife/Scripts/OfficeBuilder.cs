@@ -1,6 +1,7 @@
 #nullable enable
 
 using System.Collections.Generic;
+using System.Linq;
 using MistakesLife.Core.Presentation;
 using UnityEngine;
 
@@ -47,6 +48,14 @@ namespace MistakesLife.Unity
                 ["ancla.ventana"] = new Vector3(1.4f, 0f, Depth / 2f),
                 ["ancla.planta"] = new Vector3(3.5f, 0f, 1.5f),
                 ["ancla.letrero"] = new Vector3(-2.3f, 2.0f, (Depth / 2f) - 0.03f),
+                // D5c: tu jefa o jefe, de pie adelante a la derecha, y los colegas que no tienen
+                // puesto en este lugar, de pie adelante a la izquierda.
+                ["ancla.jefe"] = new Vector3(3.0f, 0f, -2.2f),
+                ["ancla.de_pie_1"] = new Vector3(-3.0f, 0f, -2.4f),
+                ["ancla.de_pie_2"] = new Vector3(-1.8f, 0f, -2.5f),
+                ["ancla.de_pie_3"] = new Vector3(-0.6f, 0f, -2.6f),
+                ["ancla.de_pie_4"] = new Vector3(0.6f, 0f, -2.6f),
+                ["ancla.de_pie_5"] = new Vector3(1.8f, 0f, -2.5f),
             };
 
             switch (place)
@@ -133,7 +142,14 @@ namespace MistakesLife.Unity
             return anchors;
         }
 
-        public static void Build(ShapeKit kit, WorkplaceView work)
+        public static void Build(ShapeKit kit, WorkplaceView work) => Build(kit, work, null);
+
+        /// <summary>
+        /// Arma el lugar de trabajo. Con <paramref name="section"/> (D5c, tu pega que se toca), los
+        /// colegas son tu equipo de verdad, cada uno con su id para tocarlo, y tu jefa o jefe
+        /// está de pie en su ancla (ancla.jefe).
+        /// </summary>
+        public static void Build(ShapeKit kit, WorkplaceView work, PlaceView? section)
         {
             string place = PlaceOf(work);
             Anchors anchors = Anchors.Create(kit.Parent, place, DefaultAnchors(place));
@@ -143,28 +159,28 @@ namespace MistakesLife.Unity
             switch (place)
             {
                 case "oficina_abierta":
-                    OpenOffice(kit, anchors, work);
+                    OpenOffice(kit, anchors, work, section);
                     break;
                 case "oficina_cubiculos":
-                    Cubicles(kit, anchors, work);
+                    Cubicles(kit, anchors, work, section);
                     break;
                 case "consulta":
-                    Practice(kit, anchors, work);
+                    Practice(kit, anchors, work, section);
                     break;
                 case "local":
-                    Counter(kit, anchors, work);
+                    Counter(kit, anchors, work, section);
                     break;
                 case "tienda":
-                    Shop(kit, anchors, work);
+                    Shop(kit, anchors, work, section);
                     break;
                 case "restoran":
-                    Restaurant(kit, anchors, work);
+                    Restaurant(kit, anchors, work, section);
                     break;
                 case "obra":
-                    Site(kit, anchors, work);
+                    Site(kit, anchors, work, section);
                     break;
                 default:
-                    PlainOffice(kit, anchors, work);
+                    PlainOffice(kit, anchors, work, section);
                     break;
             }
 
@@ -218,7 +234,7 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>Ingeniería de software y parecidas: mesas largas compartidas, pantallas y una pizarra.</summary>
-        private static void OpenOffice(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        private static void OpenOffice(ShapeKit kit, Anchors anchors, WorkplaceView work, PlaceView? place)
         {
             // En una microempresa basta una mesa: 6 puestos para 2 personas se ve como oficina vacía.
             int rows = IsMicro(work) ? 1 : 2;
@@ -241,7 +257,7 @@ namespace MistakesLife.Unity
             Models.Place(kit, anchors["ancla.puf"], "oficina_abierta.puf", k =>
                 k.Ball("Puf", new Vector3(0f, 0.3f, 0f), 0.7f, new Color(0.90f, 0.55f, 0.30f)));
 
-            Player(kit, anchors, work);
+            Player(kit, anchors, work, place);
             SecondScreen(kit, anchors, work.Rank);
             if (work.Rank >= 3)
             {
@@ -253,11 +269,11 @@ namespace MistakesLife.Unity
                 });
             }
 
-            Colleagues(kit, anchors, work, 3);
+            Colleagues(kit, anchors, work, 3, place);
         }
 
         /// <summary>Contabilidad y parecidas: cubículos con paneles, papeles y archivadores.</summary>
-        private static void Cubicles(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        private static void Cubicles(ShapeKit kit, Anchors anchors, WorkplaceView work, PlaceView? place)
         {
             Color panel = new Color(0.55f, 0.62f, 0.70f);
             int cubicles = IsMicro(work) ? 2 : 4;
@@ -281,7 +297,7 @@ namespace MistakesLife.Unity
                 }
             });
 
-            Player(kit, anchors, work);
+            Player(kit, anchors, work, place);
             SecondScreen(kit, anchors, work.Rank);
             if (work.Rank >= 3)
             {
@@ -294,11 +310,11 @@ namespace MistakesLife.Unity
                 });
             }
 
-            Colleagues(kit, anchors, work, 2);
+            Colleagues(kit, anchors, work, 2, place);
         }
 
         /// <summary>Psicología y parecidas: dos sillones frente a frente, diván, libros y el título en la pared.</summary>
-        private static void Practice(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        private static void Practice(ShapeKit kit, Anchors anchors, WorkplaceView work, PlaceView? place)
         {
             Color armchair = new Color(0.45f, 0.35f, 0.50f);
             Models.Place(kit, anchors["ancla.alfombra"], "consulta.alfombra", k =>
@@ -326,12 +342,12 @@ namespace MistakesLife.Unity
             Models.Place(kit, anchors["ancla.titulo"], "consulta.titulo", k =>
                 k.Box("Titulo enmarcado", Vector3.zero, new Vector3(0.6f, 0.45f, 0.04f), new Color(0.95f, 0.90f, 0.75f)));
 
-            Player(kit, anchors, work);
-            Colleagues(kit, anchors, work, 1);
+            Player(kit, anchors, work, place);
+            Colleagues(kit, anchors, work, 1, place);
         }
 
         /// <summary>Con título pero sin tipo de lugar en su paquete: un escritorio y un archivador.</summary>
-        private static void PlainOffice(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        private static void PlainOffice(ShapeKit kit, Anchors anchors, WorkplaceView work, PlaceView? place)
         {
             Models.Place(kit, anchors["ancla.escritorio"], "oficina.escritorio", k =>
             {
@@ -341,7 +357,7 @@ namespace MistakesLife.Unity
             });
             Models.Place(kit, anchors["ancla.archivador"], "trabajo.archivador", k =>
                 k.Box("Archivador", new Vector3(0f, 0.6f, 0f), new Vector3(0.5f, 1.2f, 0.6f), Cabinet));
-            Player(kit, anchors, work);
+            Player(kit, anchors, work, place);
             SecondScreen(kit, anchors, work.Rank);
             if (work.Rank >= 3)
             {
@@ -354,11 +370,11 @@ namespace MistakesLife.Unity
                 });
             }
 
-            Colleagues(kit, anchors, work, 1);
+            Colleagues(kit, anchors, work, 1, place);
         }
 
         /// <summary>Sin título: un local de atención con mostrador, estantes y caja.</summary>
-        private static void Counter(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        private static void Counter(ShapeKit kit, Anchors anchors, WorkplaceView work, PlaceView? place)
         {
             Models.Place(kit, anchors["ancla.mostrador"], "local.mostrador", k =>
             {
@@ -380,12 +396,12 @@ namespace MistakesLife.Unity
                 }
             });
 
-            Player(kit, anchors, work);
-            Colleagues(kit, anchors, work, 1);
+            Player(kit, anchors, work, place);
+            Colleagues(kit, anchors, work, 1, place);
         }
 
         /// <summary>Vendedor: una tienda del mall con vitrina, percheros con ropa y la caja.</summary>
-        private static void Shop(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        private static void Shop(ShapeKit kit, Anchors anchors, WorkplaceView work, PlaceView? place)
         {
             Models.Place(kit, anchors["ancla.vitrina"], "tienda.vitrina", k =>
             {
@@ -418,12 +434,12 @@ namespace MistakesLife.Unity
                 k.Box("Bolsas", new Vector3(-0.45f, 1.1f, 0f), new Vector3(0.35f, 0.2f, 0.25f), new Color(0.95f, 0.95f, 0.93f));
             });
 
-            Player(kit, anchors, work);
-            Colleagues(kit, anchors, work, 3);
+            Player(kit, anchors, work, place);
+            Colleagues(kit, anchors, work, 3, place);
         }
 
         /// <summary>Garzón: un salón con barra, mesas puestas y la ventanilla de la cocina.</summary>
-        private static void Restaurant(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        private static void Restaurant(ShapeKit kit, Anchors anchors, WorkplaceView work, PlaceView? place)
         {
             Color wood = new Color(0.52f, 0.36f, 0.24f);
             Color cloth = new Color(0.95f, 0.94f, 0.90f);
@@ -451,12 +467,12 @@ namespace MistakesLife.Unity
                 });
             }
 
-            Player(kit, anchors, work);
-            Colleagues(kit, anchors, work, 3);
+            Player(kit, anchors, work, place);
+            Colleagues(kit, anchors, work, 3, place);
         }
 
         /// <summary>Maestro: una obra con andamio, betonera, ladrillos y cascos.</summary>
-        private static void Site(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        private static void Site(ShapeKit kit, Anchors anchors, WorkplaceView work, PlaceView? place)
         {
             Color steel = new Color(0.45f, 0.47f, 0.50f);
             Models.Place(kit, anchors["ancla.andamio"], "obra.andamio", k =>
@@ -487,8 +503,8 @@ namespace MistakesLife.Unity
                 k.Box("Carretilla", new Vector3(0.9f, 0.3f, 0.9f), new Vector3(0.6f, 0.3f, 0.9f), new Color(0.25f, 0.40f, 0.60f));
             });
 
-            Player(kit, anchors, work);
-            Colleagues(kit, anchors, work, 3);
+            Player(kit, anchors, work, place);
+            Colleagues(kit, anchors, work, 3, place);
         }
 
         /// <summary>
@@ -514,9 +530,38 @@ namespace MistakesLife.Unity
             kit.Box("Marco", top, frame, new Color(0.30f, 0.32f, 0.36f));
         }
 
-        /// <summary>Los colegas que haya, cada uno en su ancla (ancla.colega_1, ancla.colega_2...).</summary>
-        private static void Colleagues(ShapeKit kit, Anchors anchors, WorkplaceView work, int count)
+        /// <summary>
+        /// Los colegas que haya, cada uno en su ancla (ancla.colega_1, ancla.colega_2...). En tu
+        /// pega que se toca (<paramref name="place"/>) son tu equipo real: los primeros en los
+        /// puestos del lugar, el resto de pie adelante, y tu jefa o jefe en ancla.jefe.
+        /// </summary>
+        private static void Colleagues(ShapeKit kit, Anchors anchors, WorkplaceView work, int count, PlaceView? place)
         {
+            if (place != null)
+            {
+                for (int i = 0; i < place.People.Count; i++)
+                {
+                    PlacePersonView mate = place.People[i];
+                    string spot = i < count ? $"ancla.colega_{i + 1}" : $"ancla.de_pie_{i - count + 1}";
+                    if (i - count + 1 > StandingSpots)
+                    {
+                        break;
+                    }
+
+                    Vector3 feet = anchors[spot].localPosition;
+                    PlaceBuilder.Named(kit, PlaceBuilder.PersonPrefix + mate.Id, k => RoomBuilder.Person(k, mate.Figure, feet, i + 1));
+                }
+
+                if (place.Lead != null)
+                {
+                    PlacePersonView boss = place.Lead;
+                    Vector3 feet = anchors["ancla.jefe"].localPosition;
+                    PlaceBuilder.Named(kit, PlaceBuilder.PersonPrefix + boss.Id, k => RoomBuilder.Person(k, boss.Figure, feet, 0));
+                }
+
+                return;
+            }
+
             for (int index = 1; index <= count; index++)
             {
                 Colleague(kit, work, anchors[$"ancla.colega_{index}"].localPosition, index);
@@ -527,9 +572,16 @@ namespace MistakesLife.Unity
         /// El jugador. En el trabajo solo lleva la bolita sobre la cabeza: el círculo del piso
         /// queda bajo los muebles y se asomaba lejos de él, entre paneles.
         /// </summary>
-        private static void Player(ShapeKit kit, Anchors anchors, WorkplaceView work)
+        private static void Player(ShapeKit kit, Anchors anchors, WorkplaceView work, PlaceView? place)
         {
-            RoomBuilder.Person(kit, work.Player, anchors["ancla.jugador"].localPosition, 0, markerSize: 0f);
+            Vector3 feet = anchors["ancla.jugador"].localPosition;
+            RoomBuilder.Person(kit, work.Player, feet, 0, markerSize: 0f);
+            if (place != null && place.Things.Any(t => t.Id == PlaceView.Agenda))
+            {
+                // Tu agenda azul, a la altura de la mesa frente a ti: se toca para ver las tareas del mes.
+                PlaceBuilder.Named(kit, PlaceView.Agenda, k =>
+                    k.Box("Agenda", feet + new Vector3(0.45f, 0.78f, 0.45f), new Vector3(0.34f, 0.05f, 0.26f), new Color(0.17f, 0.29f, 0.48f)));
+            }
         }
 
         /// <summary>
@@ -549,6 +601,9 @@ namespace MistakesLife.Unity
             var person = new HomeMemberView(-index, string.Empty, string.Empty, 35, LifeStage.Adult, index % 2 == 0, false);
             RoomBuilder.Person(kit, person, feet, index);
         }
+
+        /// <summary>Cuántos colegas caben de pie adelante (ancla.de_pie_1 a ancla.de_pie_5).</summary>
+        private const int StandingSpots = 5;
 
         private static bool IsMicro(WorkplaceView work) => work.CompanySizeId == "empresa.tamano.micro";
 

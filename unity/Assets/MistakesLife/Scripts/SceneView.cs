@@ -11,5 +11,11 @@ namespace MistakesLife.Unity
 
         /// <summary>El lugar de trabajo (solo si el jugador trabaja).</summary>
         Work,
+
+        /// <summary>
+        /// El lugar de una sección que se toca (D5c): tu sala, tu aula o tu pega con su gente
+        /// real y sus nombres. Lo abre <see cref="PlaceScreen"/>.
+        /// </summary>
+        Place,
     }
 }

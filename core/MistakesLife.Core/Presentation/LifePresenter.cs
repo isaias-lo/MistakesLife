@@ -469,6 +469,100 @@ namespace MistakesLife.Core.Presentation
             return new TeamView(boss == null ? null : Person(boss, bossTag), colleagues, left, actions, ContractStatus(player), bossView, bossTitle, bossPhrase, tasks);
         }
 
+        /// <summary>Cuánta gente cabe en tu sala o tu aula además de ti (los puestos que se dibujan).</summary>
+        public const int MaxPlacePeople = 11;
+
+        /// <summary>
+        /// El lugar de una sección (D5c, "cada sección es un lugar que se toca"): para
+        /// "estudios", tu sala del colegio o tu aula de la u con tu curso y tu profe; para
+        /// "trabajo", tu pega con tu equipo y tu jefa. Trae solo gente real y solo las cosas que
+        /// tienen algo que ver (tu libreta si hay notas, la pizarra si viene una prueba, tu agenda
+        /// si tu pega trae tareas). Null si no tienes ese lugar.
+        /// </summary>
+        public PlaceView? Place(string group)
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            HomeMemberView me = Member(player, string.Empty, isPlayer: true);
+            if (group == "estudios")
+            {
+                SchoolClassView? cls = SchoolClass();
+                if (cls == null)
+                {
+                    return null;
+                }
+
+                Character? teacher = Education.SchoolRules.Teacher(world, player);
+                PlacePersonView? lead = teacher == null ? null : new PlacePersonView(
+                    Member(teacher, string.Empty, isPlayer: false),
+                    Text(teacher.Gender == Gender.Female ? "ui.lugar.profe.f" : "ui.lugar.profe.m", teacher.FirstName),
+                    T(cls.Section ? (teacher.Gender == Gender.Female ? "ui.lugar.rol.profesora" : "ui.lugar.rol.profesor") : (teacher.Gender == Gender.Female ? "ui.lugar.rol.profe_jefe.f" : "ui.lugar.rol.profe_jefe.m")),
+                    true);
+                string mateRole = cls.Section ? "ui.lugar.rol.seccion" : "ui.lugar.rol.curso";
+                var people = cls.Classmates
+                    .Take(MaxPlacePeople)
+                    .Select(c => world.GetCharacter(c.Id))
+                    .Select(c => new PlacePersonView(Member(c, string.Empty, isPlayer: false), c.FirstName, PlaceRole(c, mateRole), false))
+                    .ToList();
+                var things = new List<PlaceThingView>();
+                if (ReportCard() != null)
+                {
+                    things.Add(new PlaceThingView(PlaceView.Notebook, T("ui.lugar.libreta")));
+                }
+
+                StudySubjectView? test = StudySubjects().FirstOrDefault(s => s.Upcoming != null);
+                if (test != null)
+                {
+                    things.Add(new PlaceThingView(PlaceView.Board, Text("ui.lugar.pizarra", test.Name, test.Upcoming!)));
+                }
+
+                string id = cls.Section ? "lugar.sala_u" : "lugar.sala";
+                string title = Text(cls.Section ? "ui.lugar.titulo.aula" : "ui.lugar.titulo.sala", cls.Name);
+                return new PlaceView(id, title, T(cls.Section ? "ui.lugar.toca.aula" : "ui.lugar.toca.sala"), me, lead, people, things, new List<ActionView>(), null);
+            }
+
+            if (group == "trabajo")
+            {
+                TeamView? team = Team();
+                WorkplaceView? workplace = Workplace(player);
+                if (team == null || workplace == null)
+                {
+                    return null;
+                }
+
+                Character? boss = Work.WorkRules.Boss(world, player);
+                PlacePersonView? lead = boss == null || team.Boss == null ? null : new PlacePersonView(
+                    Member(boss, string.Empty, isPlayer: false),
+                    Text("ui.lugar.jefe", boss.FirstName, (team.Boss.Bond ?? string.Empty).ToLowerInvariant()),
+                    team.Boss.Bond ?? string.Empty,
+                    true);
+                const string mateRole = "ui.lugar.rol.colega";
+                var people = team.Colleagues
+                    .Select(c => world.GetCharacter(c.Id))
+                    .Select(c => new PlacePersonView(Member(c, string.Empty, isPlayer: false), c.FirstName, PlaceRole(c, mateRole), false))
+                    .ToList();
+                var things = new List<PlaceThingView>();
+                if (team.Tasks.Count > 0)
+                {
+                    int pending = team.Tasks.Count(t => !t.Done);
+                    things.Add(new PlaceThingView(PlaceView.Agenda, pending == 0 ? T("ui.lugar.agenda.al_dia")
+                        : pending == 1 ? T("ui.lugar.agenda.una") : Text("ui.lugar.agenda.varias", pending)));
+                }
+
+                return new PlaceView(WorkplacePlace, T("ui.lugar.titulo.pega"), T("ui.lugar.toca.pega"), me, lead, people, things, team.Actions, workplace);
+            }
+
+            return null;
+        }
+
+        /// <summary>Qué es tuyo alguien de tu sala o tu pega: el lazo si lo hay ("Amistad", "Rival"); si no, compañera o compañero, o colega.</summary>
+        private string PlaceRole(Character person, string otherwiseKey) =>
+            RelationshipRules.Feelings(Session.World, Session.World.Player, person).Bond is RelationshipBond bond
+                && bond != RelationshipBond.Colleague
+                && RelationshipRules.BondKey(bond) is string key
+                ? T("ui.relacion." + key)
+                : T(otherwiseKey + (person.Gender == Gender.Female ? ".f" : ".m"));
+
         /// <summary>Una tarea del mes como línea de la agenda.</summary>
         private WorkTaskView TaskRow(Work.WorkTask task)
         {

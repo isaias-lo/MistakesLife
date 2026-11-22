@@ -27,6 +27,8 @@ namespace MistakesLife.Unity
         private Transform _room = null!;
         private Transform _block = null!;
         private Transform _work = null!;
+        private Transform _place = null!;
+        private string? _placeShown;
         private ShapeKit _kit = null!;
         private SceneView _view = SceneView.Room;
         private RectTransform? _viewport;
@@ -106,6 +108,8 @@ namespace MistakesLife.Unity
             _block.SetParent(transform, false);
             _work = new GameObject("Trabajo").transform;
             _work.SetParent(transform, false);
+            _place = new GameObject("Lugar").transform;
+            _place.SetParent(transform, false);
             _kit = new ShapeKit(_room);
             ApplyMode();
         }
@@ -143,18 +147,12 @@ namespace MistakesLife.Unity
         /// </summary>
         public string? Pick(Vector2 screenPoint)
         {
-            Transform root = _view switch
-            {
-                SceneView.Neighborhood => _block,
-                SceneView.Work => _work,
-                _ => _room,
-            };
-
+            Transform root = ActiveRoot;
             string? best = null;
             float bestArea = float.MaxValue;
             foreach (Transform item in root.GetComponentsInChildren<Transform>())
             {
-                if (!item.name.StartsWith("escena.", System.StringComparison.Ordinal) && !item.name.StartsWith("mueble.", System.StringComparison.Ordinal))
+                if (!IsTouchable(item.name))
                 {
                     continue;
                 }
@@ -169,6 +167,101 @@ namespace MistakesLife.Unity
             }
 
             return best;
+        }
+
+        /// <summary>Lo que se ve ahora: la pieza, el barrio, el trabajo o el lugar de una sección.</summary>
+        private Transform ActiveRoot => _view switch
+        {
+            SceneView.Neighborhood => _block,
+            SceneView.Work => _work,
+            SceneView.Place => _place,
+            _ => _room,
+        };
+
+        /// <summary>
+        /// Lo que se puede tocar tiene un id: los objetos de la casa ("escena.", "mueble.") y, en
+        /// el lugar de una sección, la gente ("persona.&lt;id&gt;") y sus cosas ("lugar.cosa.").
+        /// </summary>
+        private static bool IsTouchable(string name) =>
+            name.StartsWith("escena.", System.StringComparison.Ordinal)
+            || name.StartsWith("mueble.", System.StringComparison.Ordinal)
+            || name.StartsWith(PlaceBuilder.PersonPrefix, System.StringComparison.Ordinal)
+            || name.StartsWith("lugar.cosa.", System.StringComparison.Ordinal);
+
+        /// <summary>
+        /// Dónde está, dentro de la ventana 3D, lo más alto de un objeto del lugar (la cabeza de
+        /// una persona, el borde de la pizarra): de 0 a 1 de izquierda a derecha y de abajo arriba.
+        /// Sirve para poner su nombre encima. False si no está o queda detrás de la cámara.
+        /// </summary>
+        public bool TopOf(string id, out Vector2 point)
+        {
+            point = default;
+            Transform? item = FindIn(_place, id);
+            if (item == null || !item.gameObject.activeInHierarchy)
+            {
+                return false;
+            }
+
+            bool any = false;
+            Bounds bounds = default;
+            foreach (Renderer shape in item.GetComponentsInChildren<Renderer>())
+            {
+                if (!any)
+                {
+                    bounds = shape.bounds;
+                    any = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(shape.bounds);
+                }
+            }
+
+            if (!any)
+            {
+                return false;
+            }
+
+            Vector3 viewport = _camera.WorldToViewportPoint(new Vector3(bounds.center.x, bounds.max.y, bounds.center.z));
+            if (viewport.z <= 0f)
+            {
+                return false;
+            }
+
+            point = new Vector2(viewport.x, viewport.y);
+            return true;
+        }
+
+        private static Transform? FindIn(Transform root, string name)
+        {
+            foreach (Transform item in root.GetComponentsInChildren<Transform>())
+            {
+                if (item.name == name)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Dibuja el lugar de una sección (tu sala, tu aula o tu pega) con su gente; si nada
+        /// cambió desde la última vez, no hace nada. Se ve con <see cref="SceneView.Place"/>.
+        /// </summary>
+        public void ShowPlace(PlaceView place)
+        {
+            if (place.Signature == _placeShown)
+            {
+                return;
+            }
+
+            _placeShown = place.Signature;
+            ShapeKit.ClearChildren(_place);
+            _kit.Parent = _place;
+            PlaceBuilder.Build(_kit, place);
+            _kit.Parent = _room;
+            HideWallsInFront();
         }
 
         /// <summary>El rectángulo de la pantalla que ocupa un objeto (todas sus formas visibles).</summary>
@@ -337,6 +430,8 @@ namespace MistakesLife.Unity
             ShapeKit.ClearChildren(_room);
             ShapeKit.ClearChildren(_block);
             ShapeKit.ClearChildren(_work);
+            ShapeKit.ClearChildren(_place);
+            _placeShown = null;
             _kit.ReleaseMaterials();
         }
 
@@ -350,11 +445,14 @@ namespace MistakesLife.Unity
             _room.gameObject.SetActive(_view == SceneView.Room);
             _block.gameObject.SetActive(_view == SceneView.Neighborhood);
             _work.gameObject.SetActive(_view == SceneView.Work);
+            _place.gameObject.SetActive(_view == SceneView.Place);
             (Vector3 eye, Vector3 center) = _view switch
             {
                 // Más alta y más lejos: se ve la cuadra entera y el colegio no tapa las casas.
                 SceneView.Neighborhood => (new Vector3(-1f, 34f, -26f), new Vector3(-1f, 0f, 2.5f)),
                 SceneView.Work => (new Vector3(4.4f, 6.4f, -7.6f), new Vector3(-0.2f, 0.5f, 0.4f)),
+                // El lugar de una sección se mira un poco más de arriba, para ver a todos en sus puestos.
+                SceneView.Place => (new Vector3(4.6f, 7.4f, -7.4f), new Vector3(-0.2f, 0.4f, 0.4f)),
                 _ => (new Vector3(3.6f, 5.4f, -6.4f), new Vector3(-0.2f, 0.5f, 0.5f)),
             };
 
@@ -372,7 +470,7 @@ namespace MistakesLife.Unity
         {
             Vector3 toCamera = _camera.transform.position;
             toCamera.y = 0f;
-            foreach (Transform root in new[] { _room, _work })
+            foreach (Transform root in new[] { _room, _work, _place })
             {
                 foreach (Renderer shape in root.GetComponentsInChildren<Renderer>(true))
                 {
