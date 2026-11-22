@@ -67,6 +67,15 @@ La escena 3D **sigue el momento, la decisión o lo que le está pasando al jugad
 
 Todo momento nuevo dice dónde pasa y con quién, para que la escena lo pueda mostrar. Es la forma de la regla de siempre: toda decisión que se pueda ver, se ve en 3D.
 
+### Todo el 3D se hace con Blender (regla de Isaias, 22-11-2026)
+
+Isaias aprobó la prueba de la mesa y el cuaderno hechos con Blender ("es para donde apuntamos: busco ese realismo, esa figura familiar"). Desde ahora **todo lo 3D nuevo se hace con Blender**, por scripts de Python en `tools/blender/` (sin abrir Blender a mano; ver `tools/blender/README.md`). Las formas simples hechas con cajas en código quedan solo como reserva mientras un objeto no tenga su modelo.
+
+1. **Estilo: realismo suave.** Objetos reales y reconocibles (madera con veta, papel con cuadro, un cuaderno universitario de espiral), con medidas reales, sin llegar a fotorrealismo: tiene que ser posible hacer cientos de objetos y correr bien en un celular.
+2. **La gente con forma de persona**, no figuras de madera. El jugador elige la cara de su personaje (piel, peinado y color de pelo, cejas, barba, lentes; después forma de cara, ojos y nariz). No tan real que sea imposible de hacer. Isaias eligió el 22-11-2026 la **opción B: proporción real con la cabeza un poco más grande**, para que la cara se distinga en la pantalla del celular sin verse de muñeco.
+3. **Orden:** primero los objetos (los muebles y cosas de la casa, empezando por lo que más se ve), después los lugares (sala, aula, oficina) y después la ciudad. Las ciudades serán de distintos países y con barrios de clase alta, media y baja: todo con Blender.
+4. **Un modelo por id.** Cada modelo es `tools/blender/modelos/<id>.py` y se exporta a `unity/Assets/MistakesLife/Resources/Modelos/<id>.fbx`; el juego lo usa en vez de la forma simple (`Models.cs`). Las texturas van aparte en `Modelos/Texturas/`.
+
 ### Barras de la vida
 
 | Barra | Ícono propio | Nota |
