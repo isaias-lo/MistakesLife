@@ -533,6 +533,11 @@ namespace MistakesLife.Core.Events
                     return TextOrNull(Work.WorkTaskRules.Pending(_character, ((EventScope)scope).World.Date.TotalWeeks)?.Id);
                 case "tarea_postergada":
                     return Value.FromBool(Work.WorkTaskRules.Pending(_character, ((EventScope)scope).World.Date.TotalWeeks)?.Postponed ?? false);
+                case "tarea_con_preguntas":
+                    {
+                        Work.WorkTask? pending = Work.WorkTaskRules.Pending(_character, ((EventScope)scope).World.Date.TotalWeeks);
+                        return Value.FromBool(pending != null && ((EventScope)scope).Content.GetCareerTask(pending.Id).Units.Count > 0);
+                    }
                 case "tareas_del_mes":
                     return Value.FromNumber(_character.Job?.Tasks.Count ?? 0);
                 case "oficio":

@@ -57,6 +57,13 @@ namespace MistakesLife.Core.Presentation
         public bool AllowsRule { get; internal set; }
 
         /// <summary>
+        /// La posición de la opción que se resuelve respondiendo tres preguntas (D5b2: una tarea
+        /// de la pega "con lo que sabes"). Al tocarla se abren las preguntas
+        /// (<see cref="LifePresenter.StartTaskQuiz"/>) en vez de elegirla al tiro. Null si no hay.
+        /// </summary>
+        public int? QuizOption { get; internal set; }
+
+        /// <summary>
         /// "Esto viene de acá": si lo que pasa ahora es un error que vuelve, el día en que
         /// empezó (fecha, lugar, persona, qué elegiste). Null si no viene de ningún momento.
         /// </summary>

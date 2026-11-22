@@ -135,69 +135,129 @@
     {
       "id": "tarea.contabilidad.cierre_mes",
       "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.auditoria')",
-      "dia": 8
+      "dia": 8,
+      "temas": [
+        "tema.contabilidad.contabilidad.2.ajustes",
+        "tema.contabilidad.contabilidad.3.provisiones"
+      ]
     },
     {
       "id": "tarea.contabilidad.iva",
       "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.impuestos')",
-      "dia": 20
+      "dia": 20,
+      "temas": [
+        "tema.contabilidad.legislacion_tributaria.4.iva",
+        "tema.contabilidad.legislacion_tributaria.4.f29"
+      ]
     },
     {
       "id": "tarea.contabilidad.conciliacion",
-      "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.auditoria')"
+      "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.auditoria')",
+      "temas": [
+        "tema.contabilidad.contabilidad.1.libros",
+        "tema.contabilidad.sistemas_informacion.5.control"
+      ]
     },
     {
       "id": "tarea.contabilidad.renta",
-      "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.impuestos') && mundo.mes == 4"
+      "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.impuestos') && mundo.mes == 4",
+      "temas": [
+        "tema.contabilidad.legislacion_tributaria.5.personas",
+        "tema.contabilidad.legislacion_tributaria.5.primera"
+      ]
     },
     {
       "id": "tarea.contabilidad.fiscalizacion",
-      "condiciones": "jugador.area == 'carrera.contabilidad.area.impuestos'"
+      "condiciones": "jugador.area == 'carrera.contabilidad.area.impuestos'",
+      "temas": [
+        "tema.contabilidad.planificacion_tributaria.8.fiscalizacion",
+        "tema.contabilidad.auditoria_tributaria.9.procedimientos"
+      ]
     },
     {
       "id": "tarea.contabilidad.liquidaciones",
       "condiciones": "jugador.area == 'carrera.contabilidad.area.remuneraciones'",
-      "dia": 25
+      "dia": 25,
+      "temas": [
+        "tema.contabilidad.remuneraciones.5.liquidacion",
+        "tema.contabilidad.remuneraciones.5.impuesto"
+      ]
     },
     {
       "id": "tarea.contabilidad.previred",
       "condiciones": "jugador.area == 'carrera.contabilidad.area.remuneraciones'",
-      "dia": 13
+      "dia": 13,
+      "temas": [
+        "tema.contabilidad.remuneraciones.5.cotizaciones"
+      ]
     },
     {
       "id": "tarea.contabilidad.finiquito",
-      "condiciones": "jugador.area == 'carrera.contabilidad.area.remuneraciones'"
+      "condiciones": "jugador.area == 'carrera.contabilidad.area.remuneraciones'",
+      "temas": [
+        "tema.contabilidad.legislacion_laboral.3.termino"
+      ]
     },
     {
       "id": "tarea.contabilidad.muestra_auditoria",
-      "condiciones": "jugador.area == 'carrera.contabilidad.area.auditoria'"
+      "condiciones": "jugador.area == 'carrera.contabilidad.area.auditoria'",
+      "temas": [
+        "tema.contabilidad.auditoria.6.evidencia",
+        "tema.contabilidad.auditoria.6.riesgo"
+      ]
     },
     {
-      "id": "tarea.contabilidad.reunion_cliente"
+      "id": "tarea.contabilidad.reunion_cliente",
+      "temas": [
+        "tema.contabilidad.contabilidad.4.liquidez",
+        "tema.contabilidad.contabilidad.4.rentabilidad"
+      ]
     },
     {
       "id": "tarea.contabilidad.rendiciones",
-      "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.auditoria' || jugador.area == 'carrera.contabilidad.area.remuneraciones')"
+      "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.auditoria' || jugador.area == 'carrera.contabilidad.area.remuneraciones')",
+      "temas": [
+        "tema.contabilidad.contabilidad.2.documentos"
+      ]
     },
     {
       "id": "tarea.contabilidad.activo_fijo",
-      "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.auditoria')"
+      "condiciones": "(jugador.area == 'carrera.contabilidad.area.general' || jugador.area == 'carrera.contabilidad.area.auditoria')",
+      "temas": [
+        "tema.contabilidad.contabilidad.3.activo_fijo",
+        "tema.contabilidad.normas_ifrs.8.activos"
+      ]
     },
     {
       "id": "tarea.contabilidad.inicio_actividades",
-      "condiciones": "(jugador.area == 'carrera.contabilidad.area.impuestos' || jugador.area == 'carrera.contabilidad.area.general')"
+      "condiciones": "(jugador.area == 'carrera.contabilidad.area.impuestos' || jugador.area == 'carrera.contabilidad.area.general')",
+      "temas": [
+        "tema.contabilidad.legislacion_tributaria.4.sistema",
+        "tema.contabilidad.legislacion_tributaria.4.documentos"
+      ]
     },
     {
       "id": "tarea.contabilidad.regimen",
-      "condiciones": "jugador.area == 'carrera.contabilidad.area.impuestos'"
+      "condiciones": "jugador.area == 'carrera.contabilidad.area.impuestos'",
+      "temas": [
+        "tema.contabilidad.legislacion_tributaria.5.regimenes",
+        "tema.contabilidad.planificacion_tributaria.8.herramientas"
+      ]
     },
     {
       "id": "tarea.contabilidad.rectificar",
-      "condiciones": "jugador.area == 'carrera.contabilidad.area.impuestos'"
+      "condiciones": "jugador.area == 'carrera.contabilidad.area.impuestos'",
+      "temas": [
+        "tema.contabilidad.legislacion_tributaria.4.f29"
+      ]
     },
     {
       "id": "tarea.contabilidad.contratos",
-      "condiciones": "jugador.area == 'carrera.contabilidad.area.remuneraciones'"
+      "condiciones": "jugador.area == 'carrera.contabilidad.area.remuneraciones'",
+      "temas": [
+        "tema.contabilidad.legislacion_laboral.3.contrato",
+        "tema.contabilidad.legislacion_laboral.3.jornada"
+      ]
     }
   ],
   "ramos": [

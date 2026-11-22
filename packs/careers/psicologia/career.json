@@ -117,66 +117,123 @@
   "tareas": [
     {
       "id": "tarea.psicologia.informe_paciente",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'",
+      "temas": [
+        "tema.psicologia.evaluacion_psicologica.6.informe",
+        "tema.psicologia.etica.8.confidencialidad"
+      ]
     },
     {
       "id": "tarea.psicologia.supervision",
-      "condiciones": "(jugador.area == 'carrera.psicologia.area.clinica' || jugador.area == 'carrera.psicologia.area.forense')"
+      "condiciones": "(jugador.area == 'carrera.psicologia.area.clinica' || jugador.area == 'carrera.psicologia.area.forense')",
+      "temas": [
+        "tema.psicologia.psicologia_clinica.7.alianza",
+        "tema.psicologia.etica.8.dilemas"
+      ]
     },
     {
       "id": "tarea.psicologia.paciente_nuevo",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'",
+      "temas": [
+        "tema.psicologia.psicopatologia.5.ansiedad",
+        "tema.psicologia.psicologia_clinica.6.tcc",
+        "tema.psicologia.psicologia_clinica.7.crisis"
+      ]
     },
     {
       "id": "tarea.psicologia.evaluacion_alumno",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'",
+      "temas": [
+        "tema.psicologia.evaluacion_psicologica.5.inteligencia",
+        "tema.psicologia.psicopatologia.6.infancia"
+      ]
     },
     {
       "id": "tarea.psicologia.taller_apoderados",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'",
+      "temas": [
+        "tema.psicologia.psicologia_desarrollo.4.adolescencia"
+      ]
     },
     {
       "id": "tarea.psicologia.seleccion",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'",
+      "temas": [
+        "tema.psicologia.psicologia_organizacional.7.seleccion",
+        "tema.psicologia.evaluacion_psicologica.6.personalidad_tests"
+      ]
     },
     {
       "id": "tarea.psicologia.clima_laboral",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'",
+      "temas": [
+        "tema.psicologia.psicologia_organizacional.7.clima",
+        "tema.psicologia.estadistica.2.tendencia"
+      ]
     },
     {
       "id": "tarea.psicologia.peritaje",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.forense'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.forense'",
+      "temas": [
+        "tema.psicologia.evaluacion_psicologica.6.informe",
+        "tema.psicologia.etica.8.relaciones_duales"
+      ]
     },
     {
       "id": "tarea.psicologia.reunion_clinica"
     },
     {
       "id": "tarea.psicologia.derivacion",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'",
+      "temas": [
+        "tema.psicologia.psicologia_clinica.7.farmacos",
+        "tema.psicologia.psicopatologia.5.animo"
+      ]
     },
     {
       "id": "tarea.psicologia.fichas",
-      "condiciones": "(jugador.area == 'carrera.psicologia.area.clinica' || jugador.area == 'carrera.psicologia.area.forense')"
+      "condiciones": "(jugador.area == 'carrera.psicologia.area.clinica' || jugador.area == 'carrera.psicologia.area.forense')",
+      "temas": [
+        "tema.psicologia.etica.8.confidencialidad"
+      ]
     },
     {
       "id": "tarea.psicologia.declarar_juicio",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.forense'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.forense'",
+      "temas": [
+        "tema.psicologia.etica.8.codigo"
+      ]
     },
     {
       "id": "tarea.psicologia.entrevista_victima",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.forense'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.forense'",
+      "temas": [
+        "tema.psicologia.psicopatologia.5.trauma",
+        "tema.psicologia.evaluacion_psicologica.5.entrevista"
+      ]
     },
     {
       "id": "tarea.psicologia.convivencia",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'",
+      "temas": [
+        "tema.psicologia.psicologia_educacional.7.convivencia"
+      ]
     },
     {
       "id": "tarea.psicologia.consejo_profesores",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'",
+      "temas": [
+        "tema.psicologia.psicologia_educacional.7.aprendizaje",
+        "tema.psicologia.psicologia_educacional.7.nee"
+      ]
     },
     {
       "id": "tarea.psicologia.pie",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'",
+      "temas": [
+        "tema.psicologia.psicologia_educacional.7.nee",
+        "tema.psicologia.evaluacion_psicologica.5.psicometria"
+      ]
     },
     {
       "id": "tarea.psicologia.induccion",
@@ -184,11 +241,18 @@
     },
     {
       "id": "tarea.psicologia.desempeno",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'",
+      "temas": [
+        "tema.psicologia.psicologia_organizacional.7.motivacion"
+      ]
     },
     {
       "id": "tarea.psicologia.conflicto_equipo",
-      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'"
+      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'",
+      "temas": [
+        "tema.psicologia.psicologia_social.4.grupos",
+        "tema.psicologia.psicologia_organizacional.7.liderazgo"
+      ]
     }
   ],
   "ramos": [

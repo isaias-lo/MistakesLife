@@ -30,6 +30,14 @@ namespace MistakesLife.Core.Content
         [JsonProperty("dia")]
         public int? Day { get; set; }
 
+        /// <summary>
+        /// Los temas de los ramos de la carrera que se usan en esta tarea (D5b2: el IVA pregunta del
+        /// tema del IVA de Legislación Tributaria). Opcional: con temas, la tarea se puede resolver
+        /// respondiendo tres de sus preguntas (<c>jugador.hacer_tarea('saber')</c>).
+        /// </summary>
+        [JsonProperty("temas")]
+        public System.Collections.Generic.List<string> Units { get; set; } = new System.Collections.Generic.List<string>();
+
         [JsonIgnore]
         public string CareerId { get; internal set; } = string.Empty;
 

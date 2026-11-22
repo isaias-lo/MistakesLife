@@ -140,42 +140,79 @@
   "tareas": [
     {
       "id": "tarea.software.bug_produccion",
-      "condiciones": "(jugador.area == 'carrera.software.area.desarrollo' || jugador.area == 'carrera.software.area.soporte' || jugador.area == 'carrera.software.area.qa')"
+      "condiciones": "(jugador.area == 'carrera.software.area.desarrollo' || jugador.area == 'carrera.software.area.soporte' || jugador.area == 'carrera.software.area.qa')",
+      "temas": [
+        "tema.software.ingenieria_software.7.pruebas",
+        "tema.software.ingenieria_software.7.mantencion"
+      ]
     },
     {
       "id": "tarea.software.revision_codigo",
-      "condiciones": "(jugador.area == 'carrera.software.area.desarrollo' || jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.datos')"
+      "condiciones": "(jugador.area == 'carrera.software.area.desarrollo' || jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.datos')",
+      "temas": [
+        "tema.software.programacion_objetos.3.encapsulamiento",
+        "tema.software.programacion_objetos.3.herencia",
+        "tema.software.ingenieria_software.6.versionamiento"
+      ]
     },
     {
       "id": "tarea.software.reunion_avance"
     },
     {
       "id": "tarea.software.estimacion",
-      "condiciones": "(jugador.area == 'carrera.software.area.desarrollo' || jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.datos')"
+      "condiciones": "(jugador.area == 'carrera.software.area.desarrollo' || jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.datos')",
+      "temas": [
+        "tema.software.gestion_proyectos_ti.6.estimacion",
+        "tema.software.gestion_proyectos_ti.6.agil"
+      ]
     },
     {
       "id": "tarea.software.ticket_cliente",
-      "condiciones": "jugador.area == 'carrera.software.area.soporte'"
+      "condiciones": "jugador.area == 'carrera.software.area.soporte'",
+      "temas": [
+        "tema.software.desarrollo_web.4.http",
+        "tema.software.base_datos.4.sql"
+      ]
     },
     {
       "id": "tarea.software.parche_seguridad",
-      "condiciones": "(jugador.area == 'carrera.software.area.ciberseguridad' || jugador.area == 'carrera.software.area.desarrollo')"
+      "condiciones": "(jugador.area == 'carrera.software.area.ciberseguridad' || jugador.area == 'carrera.software.area.desarrollo')",
+      "temas": [
+        "tema.software.seguridad_informatica.8.web",
+        "tema.software.ciberseguridad.7.defensa"
+      ]
     },
     {
       "id": "tarea.software.revision_accesos",
-      "condiciones": "jugador.area == 'carrera.software.area.ciberseguridad'"
+      "condiciones": "jugador.area == 'carrera.software.area.ciberseguridad'",
+      "temas": [
+        "tema.software.ciberseguridad.7.cia",
+        "tema.software.seguridad_informatica.8.gestion"
+      ]
     },
     {
       "id": "tarea.software.informe_datos",
-      "condiciones": "jugador.area == 'carrera.software.area.datos'"
+      "condiciones": "jugador.area == 'carrera.software.area.datos'",
+      "temas": [
+        "tema.software.estadistica.3.descriptiva",
+        "tema.software.inteligencia_negocios.7.visualizacion"
+      ]
     },
     {
       "id": "tarea.software.pruebas_version",
-      "condiciones": "(jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.desarrollo')"
+      "condiciones": "(jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.desarrollo')",
+      "temas": [
+        "tema.software.ingenieria_software.7.pruebas",
+        "tema.software.ingenieria_software.7.calidad"
+      ]
     },
     {
       "id": "tarea.software.guardia",
-      "condiciones": "(jugador.area == 'carrera.software.area.soporte' || jugador.area == 'carrera.software.area.ciberseguridad')"
+      "condiciones": "(jugador.area == 'carrera.software.area.soporte' || jugador.area == 'carrera.software.area.ciberseguridad')",
+      "temas": [
+        "tema.software.sistemas_distribuidos.8.nube",
+        "tema.software.sistemas_operativos.6.procesos"
+      ]
     },
     {
       "id": "tarea.software.documentar",
@@ -187,15 +224,28 @@
     },
     {
       "id": "tarea.software.phishing",
-      "condiciones": "(jugador.area == 'carrera.software.area.ciberseguridad' || jugador.area == 'carrera.software.area.soporte')"
+      "condiciones": "(jugador.area == 'carrera.software.area.ciberseguridad' || jugador.area == 'carrera.software.area.soporte')",
+      "temas": [
+        "tema.software.ciberseguridad.7.ataques",
+        "tema.software.ciberseguridad.7.incidentes"
+      ]
     },
     {
       "id": "tarea.software.alertas",
-      "condiciones": "jugador.area == 'carrera.software.area.ciberseguridad'"
+      "condiciones": "jugador.area == 'carrera.software.area.ciberseguridad'",
+      "temas": [
+        "tema.software.redes.7.ip",
+        "tema.software.ciberseguridad.7.incidentes"
+      ]
     },
     {
       "id": "tarea.software.migracion_datos",
-      "condiciones": "(jugador.area == 'carrera.software.area.datos' || jugador.area == 'carrera.software.area.qa')"
+      "condiciones": "(jugador.area == 'carrera.software.area.datos' || jugador.area == 'carrera.software.area.qa')",
+      "temas": [
+        "tema.software.base_datos.4.sql",
+        "tema.software.base_datos.4.transacciones",
+        "tema.software.inteligencia_negocios.7.etl"
+      ]
     }
   ],
   "ramos": [

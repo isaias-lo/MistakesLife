@@ -65,7 +65,7 @@ namespace MistakesLife.Core.Tests
             var simulator = new LifeSimulator(RepoPacks.Content);
             SimulationReport young = null!, old = null!;
             HashSet<string> careers = null!, sick = null!, struggling = null!, careerSeeds = null!, separated = null!,
-                inheritance = null!, top = null!, freelance = null!, roommates = null!, drift = null!, partner = null!, borrowed = null!, promoted = null!;
+                inheritance = null!, top = null!, topSoftware = null!, freelance = null!, roommates = null!, drift = null!, partner = null!, borrowed = null!, promoted = null!;
             Parallel.Invoke(
                 () => young = simulator.Run(lives: 1000, finalAge: 25),
                 // 300 hasta los 85: algunos eventos de adultos le pasan a cerca del 1 % de las vidas
@@ -86,6 +86,9 @@ namespace MistakesLife.Core.Tests
                 () => inheritance = CareerAreaLives.InheritanceEvents(RepoPacks.Content, lives: 12),
                 // Y vidas que ascienden cada vez que pueden, para llegar a lo más alto de la carrera.
                 () => top = CareerAreaLives.TopOfCareerEvents(RepoPacks.Content, lives: 6),
+                // Y vidas en Software que llegan a senior con la barra de tu jefa en 100, para el
+                // momento de elegir entre los dos caminos (en vidas al azar, casi nadie llega a 100).
+                () => topSoftware = CareerAreaLives.TopOfCareerEvents(RepoPacks.Content, lives: 3, careerId: "carrera.software"),
                 // Y vidas que trabajan por su cuenta, sin jefe ni colegas (casi nadie en una vida al azar).
                 () => freelance = CareerAreaLives.FreelanceWorkerEvents(RepoPacks.Content, lives: 4),
                 // Y vidas que viven con un amigo, para lo que pasa al compartir el arriendo.
@@ -103,7 +106,7 @@ namespace MistakesLife.Core.Tests
                 // acciones de la gente interesante, D4b2), para el ascenso que llega por esa recomendación.
                 () => promoted = CareerAreaLives.RecommendedPromotionEvents(RepoPacks.Content, lives: 40));
 
-            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(freelance).Except(roommates).Except(drift).Except(partner).Except(borrowed).Except(promoted).ToArray();
+            string[] never = young.NeverSeenEvents.Intersect(old.NeverSeenEvents).Except(careers).Except(sick).Except(struggling).Except(careerSeeds).Except(separated).Except(inheritance).Except(top).Except(topSoftware).Except(freelance).Except(roommates).Except(drift).Except(partner).Except(borrowed).Except(promoted).ToArray();
 
             Assert.Empty(never);
         }

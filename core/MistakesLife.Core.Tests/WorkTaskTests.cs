@@ -184,6 +184,116 @@ namespace MistakesLife.Core.Tests
             Assert.All(team.Tasks, t => Assert.StartsWith("viernes ", t.Due));
         }
 
+        /// <summary>Deja como única tarea del mes la del IVA (con temas) y avanza hasta su momento.</summary>
+        private static LifeSession AtIvaMoment()
+        {
+            LifeSession session = WorkingIn(Taxes);
+            ToNextMonth(session);
+            Character player = session.World.Player;
+            player.Job!.Tasks.Clear();
+            player.Job.Tasks.Add(new WorkTask("tarea.contabilidad.iva", session.World.Date.TotalWeeks + 1));
+            player.Job.Performance = 50;
+            for (int week = 0; week < 6 && session.Pending?.EventId != "evento.contabilidad.tarea.iva"; week++)
+            {
+                while (session.Pending != null && session.Pending.EventId != "evento.contabilidad.tarea.iva")
+                {
+                    session.Choose(session.Pending.AvailableOptions[0]);
+                }
+
+                if (session.Pending == null)
+                {
+                    session.Advance(1);
+                }
+            }
+
+            Assert.Equal("evento.contabilidad.tarea.iva", session.Pending?.EventId);
+            return session;
+        }
+
+        [Fact]
+        public void TareasConTemas_TienenPreguntasReales_DeSuCarrera()
+        {
+            List<CareerTaskDefinition> withUnits = Content.Careers.SelectMany(c => c.Tasks).Where(t => t.Units.Count > 0).ToList();
+            Assert.True(withUnits.Count >= 30, $"Solo {withUnits.Count} tareas traen preguntas.");
+            foreach (CareerTaskDefinition task in withUnits)
+            {
+                int questions = task.Units.Sum(u => Content.QuestionUnit(u)!.Questions.Count);
+                Assert.True(questions >= WorkTaskRules.QuizQuestions, $"{task.Id} tiene {questions} preguntas.");
+            }
+        }
+
+        [Fact]
+        public void ConLoQueSabes_TresBuenas_TeLuces_YElMomentoQuedaRespondido()
+        {
+            LifeSession session = AtIvaMoment();
+            var presenter = new LifePresenter(session);
+            Character player = session.World.Player;
+            int? quizOption = presenter.Snapshot().PendingEvent!.QuizOption;
+            Assert.NotNull(quizOption);
+
+            StudyQuestionView first = presenter.StartTaskQuiz();
+            Assert.Contains(Content.Text("tarea.contabilidad.iva"), first.Caption);
+            // Las preguntas son de los temas del IVA de Legislación Tributaria.
+            Assert.All(session.TaskQuiz!.Questions, q => Assert.StartsWith("pregunta.contabilidad.legislacion_tributaria.4.", q.Definition.Id));
+            while (session.TaskQuiz!.Current != null)
+            {
+                Assert.True(presenter.AnswerTaskQuiz(session.TaskQuiz.Current.CorrectPosition).Correct);
+            }
+
+            TaskQuizResultView result = presenter.FinishTaskQuiz();
+            Assert.Equal(WorkTaskRules.KnowAll, result.Change);
+            Assert.Equal(50 + WorkTaskRules.KnowAll, player.Job!.Performance);
+            Assert.Contains("3 de 3", result.Score);
+            Assert.Null(session.TaskQuiz);
+            Assert.NotEqual("evento.contabilidad.tarea.iva", session.Pending?.EventId);
+            Assert.True(player.Job.Tasks.Single(t => t.Id == "tarea.contabilidad.iva").Done);
+        }
+
+        [Fact]
+        public void ConLoQueSabes_NingunaBuena_SaleMal_YQuedaEnElDiario()
+        {
+            LifeSession session = AtIvaMoment();
+            var presenter = new LifePresenter(session);
+            presenter.StartTaskQuiz();
+            while (session.TaskQuiz!.Current != null)
+            {
+                int wrong = session.TaskQuiz.Current.CorrectPosition == 0 ? 1 : 0;
+                Assert.False(presenter.AnswerTaskQuiz(wrong).Correct);
+            }
+
+            TaskQuizResultView result = presenter.FinishTaskQuiz();
+            Assert.Equal(WorkTaskRules.KnowNone, result.Change);
+            Assert.Contains(session.World.Journal, j => j.TextKey == WorkTaskRules.KnowBadJournal);
+        }
+
+        [Fact]
+        public void ConLoQueSabes_SinResponder_AciertaSegunSuInteligencia()
+        {
+            // El simulador elige la opción sin responder: igual sale, según su inteligencia.
+            LifeSession session = AtIvaMoment();
+            EventDefinition ev = Content.GetEvent(session.Pending!.EventId);
+            int option = session.Pending.AvailableOptions.Single(i => ev.Options[i].TextKey == WorkTaskRules.KnowOptionKey);
+            session.Choose(option);
+            WorkTask task = session.World.Player.Job!.Tasks.Single(t => t.Id == "tarea.contabilidad.iva");
+            Assert.True(task.Done);
+            Assert.Contains(task.Result!.Value, new[] { WorkTaskRules.KnowAll, WorkTaskRules.KnowMost, WorkTaskRules.KnowSome, WorkTaskRules.KnowNone });
+            Assert.Equal(WorkTaskRules.KnowMost, WorkTaskRules.KnowResult(2));
+            Assert.Equal(WorkTaskRules.KnowSome, WorkTaskRules.KnowResult(1));
+        }
+
+        [Fact]
+        public void TareaSinTemas_NoOfreceResolverlaConPreguntas()
+        {
+            LifeSession session = WorkingIn(Development);
+            ToNextMonth(session);
+            Character player = session.World.Player;
+            player.Job!.Tasks.Clear();
+            player.Job.Tasks.Add(new WorkTask("tarea.software.reunion_avance", session.World.Date.TotalWeeks));
+            var scope = new EventScope(session.World, Content, player, null, readOnly: true);
+            Assert.False(Expression.Parse("jugador.tarea_con_preguntas").IsTrue(scope));
+            Assert.Throws<System.InvalidOperationException>(() => session.StartTaskQuiz());
+        }
+
         [Fact]
         public void PedirAscenso_EsMasProbableConLaBarraAlta_YConRespeto()
         {
