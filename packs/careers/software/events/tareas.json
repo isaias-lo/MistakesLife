@@ -42,6 +42,15 @@
         ]
       },
       {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
+        ]
+      },
+      {
         "texto": "opcion.tarea.no_entregar",
         "condiciones": "jugador.tarea_postergada",
         "tendencia": "(100 - jugador.responsabilidad) / 4",
@@ -92,6 +101,15 @@
           "jugador.hacer_tarea('dejar')",
           "jugador.energia += 3",
           "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
         ]
       },
       {
@@ -201,6 +219,15 @@
         ]
       },
       {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
+        ]
+      },
+      {
         "texto": "opcion.tarea.no_entregar",
         "condiciones": "jugador.tarea_postergada",
         "tendencia": "(100 - jugador.responsabilidad) / 4",
@@ -251,6 +278,15 @@
           "jugador.hacer_tarea('dejar')",
           "jugador.energia += 3",
           "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
         ]
       },
       {
@@ -307,6 +343,15 @@
         ]
       },
       {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
+        ]
+      },
+      {
         "texto": "opcion.tarea.no_entregar",
         "condiciones": "jugador.tarea_postergada",
         "tendencia": "(100 - jugador.responsabilidad) / 4",
@@ -357,6 +402,15 @@
           "jugador.hacer_tarea('dejar')",
           "jugador.energia += 3",
           "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
         ]
       },
       {
@@ -413,6 +467,15 @@
         ]
       },
       {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
+        ]
+      },
+      {
         "texto": "opcion.tarea.no_entregar",
         "condiciones": "jugador.tarea_postergada",
         "tendencia": "(100 - jugador.responsabilidad) / 4",
@@ -466,6 +529,15 @@
         ]
       },
       {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
+        ]
+      },
+      {
         "texto": "opcion.tarea.no_entregar",
         "condiciones": "jugador.tarea_postergada",
         "tendencia": "(100 - jugador.responsabilidad) / 4",
@@ -516,6 +588,15 @@
           "jugador.hacer_tarea('dejar')",
           "jugador.energia += 3",
           "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
         ]
       },
       {
@@ -678,6 +759,15 @@
         ]
       },
       {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
+        ]
+      },
+      {
         "texto": "opcion.tarea.no_entregar",
         "condiciones": "jugador.tarea_postergada",
         "tendencia": "(100 - jugador.responsabilidad) / 4",
@@ -731,6 +821,15 @@
         ]
       },
       {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
+        ]
+      },
+      {
         "texto": "opcion.tarea.no_entregar",
         "condiciones": "jugador.tarea_postergada",
         "tendencia": "(100 - jugador.responsabilidad) / 4",
@@ -781,6 +880,15 @@
           "jugador.hacer_tarea('dejar')",
           "jugador.energia += 3",
           "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.saber",
+        "condiciones": "jugador.tarea_con_preguntas",
+        "tendencia": "jugador.inteligencia / 3 + jugador.responsabilidad / 5",
+        "efectos": [
+          "jugador.hacer_tarea('saber')",
+          "jugador.energia -= 4"
         ]
       },
       {

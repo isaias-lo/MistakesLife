@@ -688,13 +688,15 @@ La pega por dentro: cada mes le toca al jugador una tarea real de su cargo (el c
 |---|---|---|
 | `id` | `tarea.<carrera>.<nombre>`; también es la clave de su nombre en la agenda ("Declarar el IVA (F29)") | obligatorio |
 | `condiciones` | A quién le puede tocar (su área, el mes del año) | a cualquiera con cargo en la carrera |
-| `dia` | El día del mes en que vence de verdad (1 a 28): la tarea vence la semana de ese día | se reparten en las semanas del mes |
+| `dia` | El día del mes en que vence de verdad (1 a 28): la tarea vence la semana de ese día | vence un viernes cualquiera del mes |
+| `temas` | Los temas de los ramos de la misma carrera (`tema.contabilidad.legislacion_tributaria.4.iva`) cuyas preguntas sirven para resolverla con lo que sabes (D5b2). Entre todos, al menos 3 preguntas | no se puede resolver con preguntas |
 
 Cada tarea se vive en un momento de `events/tareas.json` de la carrera, con `"condiciones": "jugador.tarea_pendiente == 'tarea.contabilidad.iva'"` y `"probabilidad_anual": 1` (pasa la semana en que vence). El texto lleva `{plazo}` ("viernes 20"), así cada mes se lee como otra entrega y no cuenta como repetición. Sus opciones dicen cómo la haces, con `jugador.hacer_tarea('forma')`:
 
 - `calma`: sale bien (+2 en cómo te ve tu jefa); el momento suele restar energía.
 - `rapido`: si te la puedes, sale bien (+2); si no, con errores (-3, `diario.tarea.rapido_mal`). La probabilidad es 0,3 más la mitad de tu inteligencia.
 - `ayuda`: con un colega (`jugador.colega != nada`) sale bien, pero tu jefa nota que no fue solo tuyo (+1).
+- `saber` (D5b2, solo tareas con `temas`; la opción lleva el texto `opcion.tarea.saber` y `"condiciones": "jugador.tarea_con_preguntas"`): la resuelves tú respondiendo 3 preguntas al azar de sus temas, como en una tarde de estudio. En Unity, esa opción abre las preguntas en vez de elegirse al tiro. Tres buenas: +4 (mejor que con calma); dos: +2; una: -1; ninguna: -3 (`diario.tarea.saber_mal`). Si se elige sin responder (el simulador, una regla propia), acierta cada una con 0,35 más un tercio de su inteligencia.
 - `dejar`: pasa a la semana siguiente (-1, con `!jugador.tarea_postergada`). Dejarla otra vez es no entregarla (-4, `diario.tarea.no_entregada`), y lo mismo si el mes termina sin hacerla. Una tarea que nunca alcanzó a ser momento no cuenta.
 
 **Cómo te ve tu jefa** es el desempeño (`jugador.desempeno`, de 0 a 100), que se muestra en la pantalla del equipo como barra con una frase (`ui.jefa.vista.0` a `.5`). Con 100, tu jefa te ofrece el ascenso (`evento.pega.jefa_ofrece_ascenso`, si ya se puede); antes lo puedes pedir con el botón "Pedir un ascenso" (`jugador.pedir_ascenso()` o `pedir_ascenso('cargo')` con dos caminos): dice que sí desde un 15 % con el desempeño justo del cargo hasta un 85 % cerca de 100, más si te respeta. En el cargo nuevo la barra vuelve a 60. Las carreras sin tareas (los oficios) siguen con la oferta de ascenso de siempre. En la casa 3D, la agenda de la pega (`escena.casa.agenda_pega`) está en la mesa mientras haya tareas.
@@ -1381,7 +1383,8 @@ Cada persona siente algo por cada otra: **cariño, confianza, respeto y rencor**
 | `jugador.entrega_pendiente`, `jugador.numero_entrega`, `jugador.entregas_del_ramo` | El ramo con proyecto cuya entrega ya toca (`''` si ninguna), qué número de entrega es (1 en adelante, 0 si no toca) y cuántas tiene ese ramo en el semestre (D5a4) |
 | `jugador.entregar(esfuerzo)` | Hace la entrega que toca, con un esfuerzo de -1 a 2 (solo efectos, con `jugador.entrega_pendiente`) |
 | `jugador.con_tareas`, `jugador.tarea_pendiente`, `jugador.tarea_postergada`, `jugador.tareas_del_mes` | Si su cargo es de una carrera con tareas, la tarea que ya venció y no ha hecho (`''` si ninguna), si esa tarea ya la dejó para después una vez y cuántas tareas tiene este mes (D5b) |
-| `jugador.hacer_tarea('forma')` | Hace la tarea que toca: `'calma'`, `'rapido'`, `'ayuda'` o `'dejar'` (solo efectos, con `jugador.tarea_pendiente`) |
+| `jugador.hacer_tarea('forma')` | Hace la tarea que toca: `'calma'`, `'rapido'`, `'ayuda'`, `'dejar'` o `'saber'` (solo efectos, con `jugador.tarea_pendiente`) |
+| `jugador.tarea_con_preguntas` | Si la tarea que toca trae `temas`, para ofrecer resolverla con lo que sabes (D5b2) |
 | `jugador.pedir_ascenso()`, `jugador.pedir_ascenso('cargo')` | Pide el ascenso: tu jefa dice que sí según cómo te ve y cuánto te respeta, y si dice que sí asciendes ahí mismo; devuelve si dijo que sí (solo efectos, con `jugador.puede_ascender`) |
 | `jugador.cursa('ramo')`, `jugador.semestre_carrera` | Si ese ramo está en la malla del semestre que cursa, y qué semestre del plan cursa (0 si no estudia) |
 | `jugador.electivo`, `jugador.elegir_electivo('área')` | El área de su electivo de especialidad (`''` si no eligió) y elegirla (solo efectos; un área de su carrera, una sola vez) |

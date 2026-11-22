@@ -88,6 +88,10 @@ namespace MistakesLife.Core.Content
         public IEnumerable<QuestionSetDefinition> QuestionSets => _questionSets;
 
         /// <summary>Las preguntas de ese ramo en ese curso de la etapa; null si no hay.</summary>
+        /// <summary>El tema de preguntas con ese id (de cualquier ramo); null si no existe.</summary>
+        public QuestionUnitDefinition? QuestionUnit(string unitId) =>
+            _questionSets.SelectMany(s => s.Units).FirstOrDefault(u => u.Id == unitId);
+
         public QuestionSetDefinition? QuestionSet(string stageId, int level, string subjectId) =>
             _questionSets.Find(q => q.StageId == stageId && q.Level == level && q.SubjectId == subjectId);
 
@@ -614,6 +618,15 @@ namespace MistakesLife.Core.Content
             foreach (CareerTaskDefinition task in _careerTasks.Values)
             {
                 task.CompiledConditions = CompileCondition($"carrera {task.CareerId}, {task.Id}", task.Conditions);
+                foreach (string unitId in task.Units)
+                {
+                    // Los temas de una tarea son de los ramos de su misma carrera, con preguntas.
+                    if (!_questionSets.Any(s => s.StageId == task.CareerId && s.Units.Any(u => u.Id == unitId)))
+                    {
+                        _errors.Add(new ContentError($"carrera {task.CareerId}, {task.Id}", $"el tema '{unitId}' no está en las preguntas de la carrera."));
+                    }
+                }
+
                 // Una tarea se vive en un momento: algún evento tiene que preguntar por ella.
                 if (!_events.Values.Any(e => e.Conditions != null && e.Conditions.Contains("'" + task.Id + "'")))
                 {

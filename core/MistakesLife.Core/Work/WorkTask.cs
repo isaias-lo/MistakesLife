@@ -29,5 +29,11 @@ namespace MistakesLife.Core.Work
 
         /// <summary>Si ya la hizo (bien o mal).</summary>
         public bool Done => Result.HasValue;
+
+        /// <summary>
+        /// Cuántas de las tres preguntas acertó al resolverla con lo que sabe (D5b2), justo antes de
+        /// elegir esa forma. No se guarda: se usa al tiro en <see cref="WorkTaskRules.Do"/>.
+        /// </summary>
+        public int? QuizCorrect { get; internal set; }
     }
 }

@@ -42,6 +42,7 @@ namespace MistakesLife.Core.Presentation
             "ui.jefa.vista.0", "ui.jefa.vista.1", "ui.jefa.vista.2", "ui.jefa.vista.3", "ui.jefa.vista.4", "ui.jefa.vista.5",
             "ui.tarea.estado.pendiente", "ui.tarea.estado.atrasada", "ui.tarea.estado.hecha", "ui.tarea.estado.con_ayuda", "ui.tarea.estado.mal", "ui.tarea.esta_semana",
             "ui.tarea.titulo", "ui.jefa.titulo.f", "ui.jefa.titulo.m",
+            "ui.tarea.saber.puntaje", "ui.tarea.saber.todas", "ui.tarea.saber.mayoria", "ui.tarea.saber.alguna", "ui.tarea.saber.ninguna", "ui.tarea.saber.preguntas", "ui.tarea.saber.titulo",
             "ui.notas.titulo", "ui.notas.promedio", "ui.notas.sin_notas", "ui.notas.fin_ano",
             "ui.deseo.titulo", "ui.deseo.cumplido", "ui.deseo.perdido", "ui.deseo.paso",
             "ui.mes.1", "ui.mes.2", "ui.mes.3", "ui.mes.4", "ui.mes.5", "ui.mes.6", "ui.mes.7", "ui.mes.8", "ui.mes.9", "ui.mes.10", "ui.mes.11", "ui.mes.12",
@@ -860,6 +861,81 @@ namespace MistakesLife.Core.Presentation
                 LifeBarView.LevelOf(mastery),
                 answer.MasteryGain,
                 study.Current != null);
+        }
+
+        /// <summary>
+        /// Resuelve con lo que sabes la tarea del momento pendiente (D5b2, la opción en
+        /// <see cref="EventView.QuizOption"/>): devuelve la primera de sus tres preguntas.
+        /// </summary>
+        public StudyQuestionView StartTaskQuiz()
+        {
+            Session.StartTaskQuiz();
+            return TaskQuizQuestion()!;
+        }
+
+        /// <summary>La pregunta que toca de la tarea que está resolviendo; null si ya respondió todas o no está resolviendo una.</summary>
+        public StudyQuestionView? TaskQuizQuestion()
+        {
+            Work.WorkQuiz? quiz = Session.TaskQuiz;
+            Education.StudyQuestion? question = quiz?.Current;
+            if (quiz == null || question == null)
+            {
+                return null;
+            }
+
+            int number = quiz.Answers.Count + 1;
+            int performance = Session.World.Player.Job?.Performance ?? 0;
+            return new StudyQuestionView(
+                number,
+                quiz.Questions.Count,
+                Text("ui.estudio.pregunta_de", number, quiz.Questions.Count) + " · " + T(quiz.TaskId),
+                T(question.Definition.Id),
+                question.Order.Select(i => T(question.Definition.OptionKey(i))).ToList(),
+                performance,
+                LifeBarView.LevelOf(performance));
+        }
+
+        /// <summary>Responde la pregunta que va de la tarea y cuenta si acertó y por qué.</summary>
+        public StudyAnswerView AnswerTaskQuiz(int position)
+        {
+            Work.WorkQuiz quiz = Session.TaskQuiz ?? throw new InvalidOperationException("No está resolviendo una tarea.");
+            Education.StudyQuestion question = quiz.Current ?? throw new InvalidOperationException("Ya respondió las tres preguntas.");
+            Education.StudyAnswer answer = Session.AnswerTaskQuiz(position);
+            int performance = Session.World.Player.Job?.Performance ?? 0;
+            return new StudyAnswerView(
+                answer.Correct,
+                answer.Chosen,
+                answer.CorrectPosition,
+                T(answer.Correct ? "ui.estudio.bien" : "ui.estudio.casi"),
+                T(question.Definition.WhyKey),
+                null,
+                performance,
+                LifeBarView.LevelOf(performance),
+                0,
+                quiz.Current != null);
+        }
+
+        /// <summary>Termina las preguntas de la tarea: la tarea sale según los aciertos y el momento queda respondido.</summary>
+        public TaskQuizResultView FinishTaskQuiz()
+        {
+            Work.WorkQuiz quiz = Session.TaskQuiz ?? throw new InvalidOperationException("No está resolviendo una tarea.");
+            int correct = quiz.Answers.Count(a => a.Correct);
+            string title = T(quiz.TaskId);
+            Character player = Session.World.Player;
+            Character? boss = Work.WorkRules.Boss(Session.World, player);
+            int change = Session.FinishTaskQuiz();
+            int performance = player.Job?.Performance ?? 0;
+            string verdict = correct >= Work.WorkTaskRules.QuizQuestions ? "ui.tarea.saber.todas"
+                : correct == Work.WorkTaskRules.QuizQuestions - 1 ? "ui.tarea.saber.mayoria"
+                : correct > 0 ? "ui.tarea.saber.alguna" : "ui.tarea.saber.ninguna";
+            return new TaskQuizResultView(
+                title,
+                Text("ui.tarea.saber.puntaje", correct, quiz.Questions.Count),
+                T(verdict),
+                change,
+                performance,
+                T(boss?.Gender == Gender.Male ? "ui.jefa.titulo.m" : "ui.jefa.titulo.f"),
+                T(Work.WorkTaskRules.PhraseKey(performance)));
         }
 
         /// <summary>Termina la tarde de estudio: cuánto subió el ramo, cómo te podría ir en la prueba y lo demás que cambió (boceto D5aFin).</summary>
@@ -1783,7 +1859,22 @@ namespace MistakesLife.Core.Presentation
                 Place = definition.Place == null ? null : T(definition.Place),
                 AllowsRule = definition.AllowsOwnRule,
                 Origin = seed == null ? null : OriginOf(seed),
+                QuizOption = QuizPosition(pending, definition),
             };
+        }
+
+        /// <summary>La posición de la opción que resuelve la tarea con preguntas (D5b2); null si el momento no la tiene.</summary>
+        private static int? QuizPosition(PendingEvent pending, EventDefinition definition)
+        {
+            for (int i = 0; i < pending.AvailableOptions.Count; i++)
+            {
+                if (definition.Options[pending.AvailableOptions[i]].TextKey == Work.WorkTaskRules.KnowOptionKey)
+                {
+                    return i;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>

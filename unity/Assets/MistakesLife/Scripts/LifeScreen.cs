@@ -1469,7 +1469,14 @@ namespace MistakesLife.Unity
                     text += $"\n<size=80%><i>{noticed}</i></size>";
                 }
 
-                Button button = UiFactory.MakeButton(card, text, intuition ? UiFactory.Accent : UiFactory.PaperOption, intuition ? UiFactory.AccentText : UiFactory.PaperInk, () => Choose(option));
+                // D5b2: resolver la tarea con lo que sabes abre tres preguntas de tus ramos.
+                bool quiz = pending.QuizOption == i;
+                if (quiz)
+                {
+                    text += $"\n<size=80%><i>{presenter.Text("ui.tarea.saber.preguntas")}</i></size>";
+                }
+
+                Button button = UiFactory.MakeButton(card, text, intuition ? UiFactory.Accent : UiFactory.PaperOption, intuition ? UiFactory.AccentText : UiFactory.PaperInk, quiz ? (UnityEngine.Events.UnityAction)(() => OpenTaskQuiz()) : () => Choose(option));
                 TextMeshProUGUI label = button.GetComponentInChildren<TextMeshProUGUI>();
                 label.alignment = TextAlignmentOptions.Left;
                 label.richText = true;
@@ -1694,6 +1701,19 @@ namespace MistakesLife.Unity
             studiesBefore.PlayChange(StudyMark.Of(_presenter));
             Refresh();
             Save();
+        }
+
+        /// <summary>Abre las tres preguntas de la tarea (D5b2); al terminar, el momento queda respondido.</summary>
+        private void OpenTaskQuiz()
+        {
+            Sounds.Play(Sound.PageTurn);
+            LifeSnapshot before = _presenter!.Snapshot();
+            _study.ShowTaskQuiz(_presenter, () =>
+            {
+                RememberStep(before, 0);
+                Refresh();
+                Save();
+            });
         }
 
         private void Choose(int option)

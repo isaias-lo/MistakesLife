@@ -471,6 +471,69 @@ namespace MistakesLife.Core.Game
             return outcome;
         }
 
+        /// <summary>Las preguntas de la tarea de la pega que está resolviendo con lo que sabe (D5b2); null si no.</summary>
+        public Work.WorkQuiz? TaskQuiz { get; private set; }
+
+        /// <summary>
+        /// Elige resolver con lo que sabe la tarea del momento pendiente (la opción
+        /// <see cref="Work.WorkTaskRules.KnowOptionKey"/>): el tiempo sigue parado y le tocan tres
+        /// preguntas (<see cref="AnswerTaskQuiz"/>) hasta <see cref="FinishTaskQuiz"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Si el momento pendiente no ofrece resolverla con lo que sabe.</exception>
+        public Work.WorkQuiz StartTaskQuiz()
+        {
+            if (KnowOption() == null)
+            {
+                throw new InvalidOperationException("El momento pendiente no se resuelve con preguntas.");
+            }
+
+            TaskQuiz = Work.WorkTaskRules.StartQuiz(World, Content, World.Player);
+            return TaskQuiz;
+        }
+
+        /// <summary>Responde la pregunta que va de la tarea (la posición entre las alternativas que ve).</summary>
+        public Education.StudyAnswer AnswerTaskQuiz(int position)
+        {
+            Work.WorkQuiz quiz = TaskQuiz ?? throw new InvalidOperationException("No está resolviendo una tarea.");
+            return Work.WorkTaskRules.Answer(quiz, position);
+        }
+
+        /// <summary>
+        /// Termina las preguntas (las que no respondió cuentan como malas) y responde el momento
+        /// con esa opción: la tarea sale según los aciertos. Devuelve cuánto cambió cómo lo ve su jefa.
+        /// </summary>
+        public int FinishTaskQuiz()
+        {
+            Work.WorkQuiz quiz = TaskQuiz ?? throw new InvalidOperationException("No está resolviendo una tarea.");
+            int option = KnowOption() ?? throw new InvalidOperationException("El momento pendiente ya no se resuelve con preguntas.");
+            Work.WorkTaskRules.FinishQuiz(World.Player, quiz, World.Date.TotalWeeks);
+            TaskQuiz = null;
+            int before = World.Player.Job?.Performance ?? 0;
+            Choose(option);
+            return (World.Player.Job?.Performance ?? 0) - before;
+        }
+
+        /// <summary>La opción del momento pendiente que resuelve la tarea con preguntas; null si no hay.</summary>
+        private int? KnowOption()
+        {
+            PendingEvent? pending = Pending;
+            if (pending == null)
+            {
+                return null;
+            }
+
+            EventDefinition definition = Content.GetEvent(pending.EventId);
+            foreach (int index in pending.AvailableOptions)
+            {
+                if (definition.Options[index].TextKey == Work.WorkTaskRules.KnowOptionKey)
+                {
+                    return index;
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>El jugador abre su conversación de Mensajito con esa persona: ve todos sus mensajes.</summary>
         public void ReadChat(int otherId)
         {

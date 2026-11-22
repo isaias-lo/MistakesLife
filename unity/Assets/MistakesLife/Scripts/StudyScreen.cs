@@ -45,6 +45,12 @@ namespace MistakesLife.Unity
         private System.Action? _openReport;
         private System.Action? _openOthers;
 
+        /// <summary>Si está resolviendo una tarea de la pega con preguntas (D5b2) y no estudiando un ramo.</summary>
+        private bool _taskQuiz;
+
+        /// <summary>Lo que se hace al terminar las preguntas de la tarea.</summary>
+        private System.Action? _taskDone;
+
         /// <summary>La última prueba por la que sonó la campanita (suena una sola vez por prueba).</summary>
         private static string? _bellFor;
 
@@ -67,6 +73,7 @@ namespace MistakesLife.Unity
         /// </summary>
         public void Show(LifePresenter presenter, System.Action openReport, System.Action? openOthers)
         {
+            _taskQuiz = false;
             _presenter = presenter;
             _openReport = openReport;
             _openOthers = openOthers;
@@ -74,6 +81,22 @@ namespace MistakesLife.Unity
             _layer!.gameObject.SetActive(true);
             _layer.SetAsLastSibling();
             DrawList();
+        }
+
+        /// <summary>
+        /// Resolver una tarea de la pega con lo que sabes (D5b2): las mismas preguntas de una tarde
+        /// de estudio, pero de los temas de la tarea, y al final cómo salió y cómo te ve tu jefa.
+        /// </summary>
+        public void ShowTaskQuiz(LifePresenter presenter, System.Action done)
+        {
+            _presenter = presenter;
+            _taskQuiz = true;
+            _taskDone = done;
+            Ensure();
+            _layer!.gameObject.SetActive(true);
+            _layer.SetAsLastSibling();
+            StudyQuestionView first = presenter.StartTaskQuiz();
+            DrawQuestion(presenter.Text("ui.tarea.saber.titulo"), first);
         }
 
         public void Close()
@@ -334,7 +357,11 @@ namespace MistakesLife.Unity
             LifePresenter presenter = _presenter;
             Begin(subjectName, question.Caption);
             Steps(question.Number - 1, question.Total);
-            MasteryBar(_body, question.Mastery, question.Level, question.Mastery + "%", UiFactory.BarBack, UiFactory.Ink, 30, presenter.Text("ui.estudio.dominio_corto"));
+            if (!_taskQuiz)
+            {
+                MasteryBar(_body, question.Mastery, question.Level, question.Mastery + "%", UiFactory.BarBack, UiFactory.Ink, 30, presenter.Text("ui.estudio.dominio_corto"));
+            }
+
             UiFactory.Label(_body, question.Text, 54, UiFactory.Ink, FontStyles.Normal, Face.Title).lineSpacing = 6f;
 
             var buttons = new List<Button>();
@@ -348,7 +375,7 @@ namespace MistakesLife.Unity
                         b.interactable = false;
                     }
 
-                    StudyAnswerView answer = presenter.AnswerStudy(position);
+                    StudyAnswerView answer = _taskQuiz ? presenter.AnswerTaskQuiz(position) : presenter.AnswerStudy(position);
                     Sounds.Play(answer.Correct ? Sound.Correct : Sound.RedMark);
                     ShowAnswer(subjectName, question, answer, buttons);
                     Changed?.Invoke();
@@ -410,7 +437,7 @@ namespace MistakesLife.Unity
                 UiFactory.Label(partner, answer.PartnerLine, 40, UiFactory.PaperInk);
             }
 
-            if (!answer.Correct)
+            if (!answer.Correct && !_taskQuiz)
             {
                 UiFactory.Label(_body, presenter.Text("ui.estudio.error_no_baja"), UiFactory.MinFontSize, UiFactory.MutedInk);
             }
@@ -419,10 +446,19 @@ namespace MistakesLife.Unity
             string next = presenter.Text(answer.HasNext ? "ui.estudio.siguiente" : "ui.estudio.terminar");
             UiFactory.MakeButton(_footer, next, UiFactory.Accent, UiFactory.AccentText, () =>
             {
-                if (answer.HasNext && presenter.StudyQuestion() is StudyQuestionView following)
+                StudyQuestionView? following = !answer.HasNext ? null : _taskQuiz ? presenter.TaskQuizQuestion() : presenter.StudyQuestion();
+                if (following != null)
                 {
                     Sounds.Play(Sound.PageTurn);
                     DrawQuestion(subjectName, following);
+                    return;
+                }
+
+                if (_taskQuiz)
+                {
+                    TaskQuizResultView outcome = presenter.FinishTaskQuiz();
+                    Sounds.Play(outcome.Change > 0 ? Sound.Approved : Sound.RedMark);
+                    DrawTaskResult(outcome);
                     return;
                 }
 
@@ -472,6 +508,28 @@ namespace MistakesLife.Unity
             {
                 Sounds.Play(Sound.WoodKnock);
                 DrawList();
+            }).GetComponent<LayoutElement>().minHeight = 156;
+        }
+
+        /// <summary>Cómo salió la tarea resuelta con lo que sabes: aciertos, la frase y la barra de tu jefa.</summary>
+        private void DrawTaskResult(TaskQuizResultView result)
+        {
+            LifePresenter presenter = _presenter;
+            Begin(result.Title, string.Empty);
+            RectTransform card = UiFactory.Column(_body, "Resultado", 0, 16, Reading);
+            card.GetComponent<VerticalLayoutGroup>().padding = new RectOffset(40, 40, 36, 40);
+            UiFactory.Label(card, result.Score, 44, UiFactory.PaperInk, FontStyles.Bold);
+            UiFactory.Label(card, result.Verdict, 40, result.Change > 0 ? RightInk : WrongInk);
+            MasteryBar(card, result.Performance, LifeBarView.LevelOf(result.Performance), result.Performance + "%", BarBackPaper, UiFactory.PaperInk, 34, result.BarTitle);
+            UiFactory.Label(card, result.Phrase, 38, UiFactory.PaperMutedInk, FontStyles.Bold);
+
+            UiFactory.MakeButton(_footer, presenter.Text("ui.estudio.listo"), UiFactory.Accent, UiFactory.AccentText, () =>
+            {
+                Sounds.Play(Sound.WoodKnock);
+                _taskQuiz = false;
+                Close();
+                _taskDone?.Invoke();
+                _taskDone = null;
             }).GetComponent<LayoutElement>().minHeight = 156;
         }
 
