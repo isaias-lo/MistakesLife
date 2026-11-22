@@ -1,0 +1,12 @@
+{
+  "opcion.proyecto.entrega.repartir": "Repartirse el trabajo en partes iguales",
+  "opcion.proyecto.entrega.todo": "Hacerlo todo tú para que quede bien",
+  "opcion.proyecto.entrega.ultimo": "Dejarlo para la noche antes",
+  "opcion.proyecto.flojo.hacer": "Hacer su parte tú, sin decirle nada",
+  "opcion.proyecto.flojo.hablar": "Decirle de frente que se ponga al día",
+  "opcion.proyecto.flojo.sacar": "Sacar su nombre del informe",
+  "diario.proyecto.saco_nombre": "Saqué del informe del taller el nombre de quien no hizo nada. Se enojó, pero era lo justo.",
+  "opcion.electivo.entrega.preparar": "Preparar bien la presentación",
+  "opcion.electivo.entrega.natural": "Presentar con lo que tienes",
+  "opcion.electivo.entrega.medias": "Entregar algo a medias"
+}

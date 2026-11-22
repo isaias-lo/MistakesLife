@@ -1,0 +1,245 @@
+[
+  {
+    "id": "evento.software.taller.entrega_1",
+    "con": "companero",
+    "lugar": "lugar.sala_u",
+    "condiciones": "jugador.entrega_pendiente == 'ramo.software.taller_desarrollo' && jugador.numero_entrega == 1",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 4,
+    "variantes": [
+      "evento.software.taller.entrega_1.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.proyecto.entrega.repartir",
+        "tendencia": "jugador.amabilidad / 3 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.entregar(1)",
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.proyecto.entrega.todo",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.entregar(2)",
+          "jugador.energia -= 10",
+          "persona.carino -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.proyecto.entrega.ultimo",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.entregar(-1)",
+          "jugador.felicidad += 1",
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.taller.entrega_2",
+    "con": "companero",
+    "lugar": "lugar.sala_u",
+    "condiciones": "jugador.entrega_pendiente == 'ramo.software.taller_desarrollo' && jugador.numero_entrega == 2",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 4,
+    "variantes": [
+      "evento.software.taller.entrega_2.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.proyecto.entrega.repartir",
+        "tendencia": "jugador.amabilidad / 3 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.entregar(1)",
+          "persona.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.proyecto.entrega.todo",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.entregar(2)",
+          "jugador.energia -= 10",
+          "persona.carino -= 1"
+        ]
+      },
+      {
+        "texto": "opcion.proyecto.entrega.ultimo",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.entregar(-1)",
+          "jugador.felicidad += 1",
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.taller.entrega_3",
+    "con": "companero",
+    "lugar": "lugar.sala_u",
+    "condiciones": "jugador.entrega_pendiente == 'ramo.software.taller_desarrollo' && jugador.numero_entrega == 3",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 4,
+    "variantes": [
+      "evento.software.taller.entrega_3.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.proyecto.entrega.repartir",
+        "tendencia": "jugador.amabilidad / 3 + jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.entregar(1)",
+          "persona.carino += 2",
+          "diario('diario.software.taller.entrega_final')"
+        ]
+      },
+      {
+        "texto": "opcion.proyecto.entrega.todo",
+        "tendencia": "jugador.responsabilidad / 2 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.entregar(2)",
+          "jugador.energia -= 10",
+          "persona.carino -= 1",
+          "diario('diario.software.taller.entrega_final')"
+        ]
+      },
+      {
+        "texto": "opcion.proyecto.entrega.ultimo",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.entregar(-1)",
+          "jugador.felicidad += 1",
+          "persona.carino -= 2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.taller.flojo",
+    "con": "companero",
+    "lugar": "lugar.biblioteca",
+    "condiciones": "jugador.cursa('ramo.software.taller_desarrollo') && jugador.en_la_u",
+    "probabilidad_anual": 0.8,
+    "enfriamiento_semanas": 26,
+    "veces_maximas": 2,
+    "variantes": [
+      "evento.software.taller.flojo.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.proyecto.flojo.hacer",
+        "tendencia": "jugador.amabilidad / 2",
+        "efectos": [
+          "jugador.energia -= 5",
+          "persona.carino += 1"
+        ]
+      },
+      {
+        "texto": "opcion.proyecto.flojo.hablar",
+        "tendencia": "jugador.extraversion / 3 + jugador.responsabilidad / 3",
+        "efectos": [
+          "persona.carino -= 1",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.proyecto.flojo.sacar",
+        "tendencia": "(100 - jugador.amabilidad) / 3",
+        "efectos": [
+          "persona.carino -= 5",
+          "persona.rencor += 3",
+          "diario('diario.proyecto.saco_nombre')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.electivo.elegir",
+    "lugar": "lugar.campus",
+    "condiciones": "jugador.cursa('ramo.software.electivo') && jugador.electivo == ''",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.electivo.desarrollo",
+        "tendencia": "si(jugador.tiene('le_gusta_programar'), 40, 15) + jugador.apertura / 4",
+        "efectos": [
+          "jugador.elegir_electivo('carrera.software.area.desarrollo')",
+          "diario('diario.electivo.desarrollo')"
+        ]
+      },
+      {
+        "texto": "opcion.electivo.soporte",
+        "tendencia": "jugador.amabilidad / 3",
+        "efectos": [
+          "jugador.elegir_electivo('carrera.software.area.soporte')",
+          "diario('diario.electivo.soporte')"
+        ]
+      },
+      {
+        "texto": "opcion.electivo.qa",
+        "tendencia": "jugador.responsabilidad / 3",
+        "efectos": [
+          "jugador.elegir_electivo('carrera.software.area.qa')",
+          "diario('diario.electivo.qa')"
+        ]
+      },
+      {
+        "texto": "opcion.electivo.ciberseguridad",
+        "tendencia": "jugador.inteligencia / 4 + (100 - jugador.amabilidad) / 6",
+        "efectos": [
+          "jugador.elegir_electivo('carrera.software.area.ciberseguridad')",
+          "diario('diario.electivo.ciberseguridad')"
+        ]
+      },
+      {
+        "texto": "opcion.electivo.datos",
+        "tendencia": "jugador.inteligencia / 3 + jugador.apertura / 5",
+        "efectos": [
+          "jugador.elegir_electivo('carrera.software.area.datos')",
+          "diario('diario.electivo.datos')"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.software.electivo.entrega",
+    "con": "profe",
+    "lugar": "lugar.sala_u",
+    "condiciones": "jugador.entrega_pendiente == 'ramo.software.electivo'",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 4,
+    "variantes": [
+      "evento.software.electivo.entrega.2"
+    ],
+    "opciones": [
+      {
+        "texto": "opcion.electivo.entrega.preparar",
+        "tendencia": "jugador.responsabilidad / 2",
+        "efectos": [
+          "jugador.entregar(1)",
+          "jugador.energia -= 5",
+          "persona.respeto += 2"
+        ]
+      },
+      {
+        "texto": "opcion.electivo.entrega.natural",
+        "tendencia": "jugador.extraversion / 2",
+        "efectos": [
+          "jugador.entregar(0)"
+        ]
+      },
+      {
+        "texto": "opcion.electivo.entrega.medias",
+        "tendencia": "(100 - jugador.responsabilidad) / 2",
+        "efectos": [
+          "jugador.entregar(-1)",
+          "persona.respeto -= 2"
+        ]
+      }
+    ]
+  }
+]

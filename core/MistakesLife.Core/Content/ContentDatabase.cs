@@ -1749,6 +1749,16 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError($"{where}, {course.Id}", "desde va de 1 en adelante y hasta no puede ser menor que desde."));
                 }
+
+                if (course.Deliveries < 0 || course.Deliveries > 4 || (course.Deliveries > 0 && (course.WrittenTests || course.Last)))
+                {
+                    _errors.Add(new ContentError($"{where}, {course.Id}", "entregas va de 0 a 4 y solo en un ramo con \"prueba_escrita\": false que no sea el de título (D5a4)."));
+                }
+
+                if (course.ChoosesArea && (course.Deliveries == 0 || career.Areas.Count == 0))
+                {
+                    _errors.Add(new ContentError($"{where}, {course.Id}", "elige_area necesita entregas y que la carrera tenga áreas."));
+                }
             }
 
             // Si la carrera tiene ramos, cada semestre de cada nivel tiene al menos uno.

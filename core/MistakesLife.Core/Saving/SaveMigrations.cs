@@ -344,6 +344,10 @@ namespace MistakesLife.Core.Saving
             // 43 → 44: aparecen el taller del colegio y la lista del centro de alumnos (D5a3b).
             // En las partidas viejas nadie está en un taller ni postuló: se leen vacíos.
             [43] = save => { },
+
+            // 44 → 45: aparecen las entregas de los proyectos de la carrera (talleres, electivos
+            // y seminario de tesis, D5a4). En las partidas viejas no hay entregas: se leen vacías.
+            [44] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

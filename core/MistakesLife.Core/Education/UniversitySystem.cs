@@ -118,6 +118,7 @@ namespace MistakesLife.Core.Education
 
             studies.GradedSemesters = studies.CompletedSemesters;
             studies.Preparation = 0;
+            studies.ProjectDeliveries.Clear();
             foreach (string line in UniversityRules.Advance(world, _content, player, random))
             {
                 world.WriteJournal(player.Id, line);

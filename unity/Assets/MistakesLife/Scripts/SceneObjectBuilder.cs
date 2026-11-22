@@ -100,6 +100,8 @@ namespace MistakesLife.Unity
             "escena.casa.folletos_estudios" => "ancla.mesa",
             "escena.casa.prueba_refri" => "ancla.muro_lateral",
             "escena.casa.citacion_apoderado" => "ancla.mesa",
+            "escena.casa.post_its_proyecto" => "ancla.muro_lateral",
+            "escena.casa.tesis_empastada" => "ancla.mesa",
             "escena.casa.acta_centro" => "ancla.mesa",
             "escena.casa.guitarra" => "ancla.sillon",
             "escena.casa.pelota_futbol" => "ancla.puerta",
@@ -540,6 +542,21 @@ namespace MistakesLife.Unity
                     page.transform.localRotation = Quaternion.Euler(0f, 18f, 0f);
                     GameObject note = kit.Box("Citación en rojo", new Vector3(0.18f, 0.455f, -0.1f), new Vector3(0.11f, 0.002f, 0.025f), Palette.Alarm);
                     note.transform.localRotation = Quaternion.Euler(0f, 18f, 0f);
+                    break;
+                case "escena.casa.post_its_proyecto":
+                    // Estás en un taller de la carrera (D5a4): las tareas del proyecto en post-its pegados al muro, por colores.
+                    Color[] notes = { new Color(0.98f, 0.88f, 0.35f), new Color(0.55f, 0.82f, 0.95f), new Color(0.95f, 0.60f, 0.70f), new Color(0.65f, 0.90f, 0.55f) };
+                    for (int i = 0; i < 6; i++)
+                    {
+                        GameObject postIt = kit.Box("Post-it del proyecto", new Vector3(0.03f, 1.05f + ((i / 3) * 0.12f), -0.35f + ((i % 3) * 0.12f)), new Vector3(0.006f, 0.09f, 0.09f), notes[i % notes.Length]);
+                        postIt.transform.localRotation = Quaternion.Euler(-4f + (i * 3f), 0f, 0f);
+                    }
+
+                    break;
+                case "escena.casa.tesis_empastada":
+                    // Defendiste tu tesis (D5a4): el ejemplar empastado en tapa dura, con letras doradas, sobre la mesa.
+                    kit.Box("Tesis empastada", new Vector3(-0.38f, 0.455f, -0.2f), new Vector3(0.16f, 0.025f, 0.22f), new Color(0.12f, 0.18f, 0.38f));
+                    kit.Box("Letras doradas de la tesis", new Vector3(-0.38f, 0.469f, -0.17f), new Vector3(0.1f, 0.002f, 0.03f), new Color(0.85f, 0.70f, 0.30f));
                     break;
                 case "escena.casa.acta_centro":
                     // Ganaste el centro de alumnos (D5a3b): el libro de actas del centro, con su timbre al lado.

@@ -13,5 +13,12 @@
     "fuerza": 45,
     "vence_anios": 15,
     "dormir_min_semanas": 52
+  },
+  {
+    "id": "semilla.psicologia.datos_tesis_inventados",
+    "tipo": "negativa",
+    "fuerza": 60,
+    "vence_anios": 3,
+    "dormir_min_semanas": 8
   }
 ]

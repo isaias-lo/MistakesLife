@@ -52,6 +52,7 @@ namespace MistakesLife.Core.Events
     /// Del jugador: ramos_con_preguntas, prueba_con_preguntas, recuperativa y tardes_de_estudio (D5a, ver Education.StudyRules).
     /// Del jugador: copiando, pillado_copiando, faltas y asistencia (D5a3, ver Education.GradeRules).
     /// Del jugador: taller, cargo_centro, resultado_centro y en_campana (D5a3b, ver Education.WorkshopRules y StudentCouncilRules).
+    /// Del jugador: entrega_pendiente, numero_entrega, entregas_del_ramo, semestre_carrera y electivo (D5a4, ver Education.ProjectRules).
     /// Métodos: tiene('marca'), marcar('marca'), desmarcar('marca'),
     /// titulado_en('carrera o nivel'), titularse(), desertar(),
     /// formar_pareja() o formar_pareja('género') (solo pruebas: crea una pareja de la nada),
@@ -247,6 +248,22 @@ namespace MistakesLife.Core.Events
                     return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord cheating && cheating.TestPending && cheating.TestCheating);
                 case "pillado_copiando":
                     return Value.FromBool(_character.SchoolRecord is Education.SchoolRecord caught && caught.TestCaught && caught.TestMark.HasValue);
+                case "entrega_pendiente":
+                    return Value.FromText(_character.Studies == null ? string.Empty : Education.ProjectRules.Pending(((EventScope)scope).Content, _character.Studies)?.Id ?? string.Empty);
+                case "numero_entrega":
+                    {
+                        Content.CourseDefinition? due = _character.Studies == null ? null : Education.ProjectRules.Pending(((EventScope)scope).Content, _character.Studies);
+                        return Value.FromNumber(due == null ? 0 : Education.ProjectRules.Done(_character.Studies!, due.Id) + 1);
+                    }
+                case "entregas_del_ramo":
+                    {
+                        Content.CourseDefinition? due = _character.Studies == null ? null : Education.ProjectRules.Pending(((EventScope)scope).Content, _character.Studies);
+                        return Value.FromNumber(due?.Deliveries ?? 0);
+                    }
+                case "semestre_carrera":
+                    return Value.FromNumber(_character.Studies == null ? 0 : _character.Studies.CompletedSemesters + 1);
+                case "electivo":
+                    return Value.FromText(_character.Studies == null ? string.Empty : Education.ProjectRules.ElectiveArea(((EventScope)scope).Content, _character, _character.Studies.CareerId) ?? string.Empty);
                 case "taller":
                     return Value.FromText(_character.SchoolRecord?.WorkshopId ?? string.Empty);
                 case "cargo_centro":
@@ -875,6 +892,41 @@ namespace MistakesLife.Core.Events
                         record.TestCheating = true;
                         return Value.Null;
                     }
+                case "entregar":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.entregar");
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Number || args[0].AsNumber("entregar") < -1 || args[0].AsNumber("entregar") > 2)
+                        {
+                            throw new ScriptException("jugador.entregar necesita el esfuerzo, de -1 (a último minuto) a 2 (hacerlo todo tú).");
+                        }
+
+                        if (_character.Studies == null || Education.ProjectRules.Pending(((EventScope)scope).Content, _character.Studies) == null)
+                        {
+                            throw new ScriptException("jugador.entregar solo sirve cuando toca una entrega (revisa jugador.entrega_pendiente).");
+                        }
+
+                        Education.ProjectRules.Deliver(((EventScope)scope).World, ((EventScope)scope).Content, _character, (int)args[0].AsNumber("entregar"));
+                        return Value.Null;
+                    }
+                case "elegir_electivo":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.elegir_electivo");
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Text || _character.Studies == null)
+                        {
+                            throw new ScriptException("jugador.elegir_electivo necesita el área de su carrera ('carrera.software.area.datos') y que esté estudiando.");
+                        }
+
+                        try
+                        {
+                            Education.ProjectRules.ChooseElective(((EventScope)scope).Content, _character, args[0].AsText("jugador.elegir_electivo"));
+                        }
+                        catch (ArgumentException error)
+                        {
+                            throw new ScriptException("jugador.elegir_electivo: " + error.Message);
+                        }
+
+                        return Value.Null;
+                    }
                 case "inscribir_taller":
                     {
                         ((EventScope)scope).RequireWritable("jugador.inscribir_taller");
@@ -1450,6 +1502,10 @@ namespace MistakesLife.Core.Events
             {
                 case "tiene":
                     return Value.FromBool(_character.HasFlag(flag));
+                case "cursa":
+                    // Si ese ramo está en la malla del semestre que cursa (D5a4).
+                    return Value.FromBool(_character.Studies is CareerStudies taking
+                        && Education.UniversityRules.Courses(((EventScope)scope).Content, taking, taking.CompletedSemesters + 1).Any(c => c.Id == flag));
                 case "marcar":
                     ((EventScope)scope).RequireWritable("jugador.marcar");
                     _character.SetFlag(flag);

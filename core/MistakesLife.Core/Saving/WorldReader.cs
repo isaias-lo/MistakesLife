@@ -327,6 +327,10 @@ namespace MistakesLife.Core.Saving
                 }
 
                 character.Studies.SemesterAverages.AddRange(s.SemesterAverages);
+                foreach (KeyValuePair<string, List<int>> project in s.ProjectDeliveries ?? new SortedDictionary<string, List<int>>())
+                {
+                    character.Studies.ProjectDeliveries[project.Key] = new List<int>(project.Value);
+                }
             }
 
             foreach (string degree in d.Degrees)

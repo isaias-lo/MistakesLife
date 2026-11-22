@@ -42,6 +42,23 @@ namespace MistakesLife.Core.Content
         [JsonProperty("prueba_escrita")]
         public bool WrittenTests { get; set; } = true;
 
+        /// <summary>
+        /// Cuántas entregas tiene su proyecto en cada semestre (D5a4), solo en los ramos sin
+        /// pruebas escritas: 3 en un taller (avances y entrega final), 1 en un electivo, 2 por
+        /// semestre en un seminario de tesis. Con 0 la nota sale como antes. Ver
+        /// <see cref="Education.ProjectRules"/>.
+        /// </summary>
+        [JsonProperty("entregas")]
+        public int Deliveries { get; set; }
+
+        /// <summary>
+        /// Si en este ramo se elige el área de la carrera (el electivo de especialidad, D5a4):
+        /// la elección queda en la marca <c>electivo_&lt;área&gt;</c> y ayuda a que te llamen
+        /// a entrevistas de esa área.
+        /// </summary>
+        [JsonProperty("elige_area")]
+        public bool ChoosesArea { get; set; }
+
         /// <summary>Último semestre en que se tiene.</summary>
         public int LastSemester => ToSemester ?? FromSemester;
 
