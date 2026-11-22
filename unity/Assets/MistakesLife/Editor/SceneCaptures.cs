@@ -485,6 +485,11 @@ namespace MistakesLife.Unity.Editor
 
             int count = CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-gente.png"), people: 0);
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-gente-ficha.png"), people: 1);
+            // D5c2: el mapa de tu barrio, el mall con el cine elegido, elegir con quién y la salida (esta va al final: hace la salida).
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-barrio.png"), map: true);
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-barrio-lugar.png"), map: true, mapPlace: "lugar.barrio.mall");
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-barrio-elegir.png"), map: true, mapPlace: "lugar.barrio.mall", mapChoose: true);
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-barrio-salida.png"), map: true, mapPlace: "lugar.barrio.mall", mapGo: true);
             return count;
         }
 
@@ -521,7 +526,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1, string? place = null, bool placePerson = false)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1, string? place = null, bool placePerson = false, bool map = false, string? mapPlace = null, bool mapChoose = false, bool mapGo = false)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -566,6 +571,11 @@ namespace MistakesLife.Unity.Editor
                 if (place != null && !screen.OpenPlaceForCapture(place, placePerson))
                 {
                     Debug.LogWarning($"Capturas: la vida no tiene lugar de '{place}'; {Path.GetFileName(file)} sale sin él.");
+                }
+
+                if (map && !screen.OpenMapForCapture(mapPlace, mapChoose, mapGo))
+                {
+                    Debug.LogWarning($"Capturas: la vida no tiene mapa del barrio (o '{mapPlace}'); {Path.GetFileName(file)} sale sin él.");
                 }
 
                 File.WriteAllBytes(file, RenderInterface(1080, 1920));

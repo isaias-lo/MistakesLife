@@ -205,5 +205,24 @@ namespace MistakesLife.Core.Tests
 
             Assert.Equal(session.World.Date.TotalWeeks, loaded.World.Player.RelationshipWith(first.Id)!.LastTogetherWeek);
         }
-    }
+    
+        [Fact]
+        public void Salida_SeVeEnSuLugarConQuienFuiste()
+        {
+            var presenter = new LifePresenter(SessionAt(15));
+            CompanionView someone = presenter.Companions("accion.barrio.mall.cine").Suggested.First();
+
+            OutingView with = presenter.Outing("accion.barrio.mall.cine", someone.Id)!;
+            OutingView alone = presenter.Outing("accion.barrio.mall.cine", null)!;
+
+            Assert.Equal("mall", with.Shape);
+            Assert.Equal(someone.Id, with.Companion!.Id);
+            Assert.StartsWith("Mall y cine · con ", with.Title);
+            Assert.True(with.Player.IsPlayer);
+            Assert.Null(alone.Companion);
+            Assert.Equal("Mall y cine", alone.Title);
+            Assert.Equal("casa_amigos", presenter.Outing("accion.juntarse_amigo", null)!.Shape);
+            Assert.Null(presenter.Outing("accion.conversar", null));
+        }
+}
 }
