@@ -2107,6 +2107,17 @@ namespace MistakesLife.Core.Presentation
                 }
             }
 
+            // Las amistades, rivales y ex que murieron siguen en su gente, al final, como "falleció".
+            foreach (Relationship relationship in player.Relationships)
+            {
+                RelationshipBond bond = relationship.Bond;
+                if ((bond == RelationshipBond.Friend || bond == RelationshipBond.Rival || bond == RelationshipBond.Ex)
+                    && Find(relationship.OtherId) is Character departed && !departed.IsAlive)
+                {
+                    AddClose(departed, T("ui.relacion." + RelationshipRules.BondKey(bond)));
+                }
+            }
+
             // Los conocidos: todos los demás con quienes tiene relación, vivos.
             var acquaintances = new List<PersonRowView>();
             foreach (Relationship relationship in player.Relationships)

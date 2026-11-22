@@ -496,6 +496,11 @@ namespace MistakesLife.Core.Events
                 return Array.Empty<Character>();
             }
 
+            if (role == EventDefinition.DeceasedRole)
+            {
+                return GriefRules.Departed(world, player);
+            }
+
             return Array.IndexOf(ActionDefinition.ExtraRoles, role) >= 0
                 ? ActionRules.People(world, Content, player, role)
                 : ChatSystem.PeopleAs(world, player, role, minAge: 0);

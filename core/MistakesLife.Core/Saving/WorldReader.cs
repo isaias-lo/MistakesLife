@@ -166,6 +166,11 @@ namespace MistakesLife.Core.Saving
             character.Job = JobOf(d.Job);
             character.PendingInheritance = d.PendingInheritance;
 
+            foreach (GriefData grief in d.Griefs ?? new List<GriefData>())
+            {
+                character.Griefs.Add(new Grief(grief.PersonId, Date(grief.SinceWeek), grief.Relation, grief.Weight) { ReliefWeeks = grief.ReliefWeeks });
+            }
+
             if (d.UnemploymentClaim != null)
             {
                 var claim = new UnemploymentClaim(Date(d.UnemploymentClaim.StartWeek), d.UnemploymentClaim.HasRight, d.UnemploymentClaim.Solidarity, d.UnemploymentClaim.SalaryBase)

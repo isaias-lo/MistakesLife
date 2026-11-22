@@ -128,6 +128,13 @@ namespace MistakesLife.Core.Content
         /// </summary>
         public const string NewPersonOfPartnerRole = "alguien_nuevo_de_tu_pareja";
 
+        /// <summary>
+        /// El "con" de los momentos del duelo: alguien de tu vida que murió y que todavía recuerdas
+        /// (ver Life.GriefRules), el más reciente primero. En las condiciones, persona.lazo,
+        /// persona.peso_duelo y persona.semanas_desde_muerte.
+        /// </summary>
+        public const string DeceasedRole = "fallecido";
+
         /// <summary>Si el "con" crea a una persona nueva al pasar.</summary>
         public static bool IsNewPersonRole(string? role) => role == NewPersonRole || role == NewPersonOfPartnerRole;
 

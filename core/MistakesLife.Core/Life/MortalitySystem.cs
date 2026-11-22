@@ -64,6 +64,7 @@ namespace MistakesLife.Core.Life
                         FamilyFactory.EndPartnership(world, character, breakUp: false);
                     }
 
+                    GriefRules.Register(world, world.Player, character, context.Date, playerPartnerId);
                     Announce(world, context, character, playerPartnerId);
                 }
             }

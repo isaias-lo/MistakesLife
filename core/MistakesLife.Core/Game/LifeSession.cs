@@ -92,6 +92,7 @@ namespace MistakesLife.Core.Game
                 .Register(new EnergySystem(content))
                 .Register(new LooksSystem(content))
                 .Register(new MortalitySystem(content))
+                .Register(new GriefSystem())
                 .Register(new RelativesFamilySystem(content))
                 .Register(new PeopleWorkSystem(content))
                 .Register(new InterestingPeopleSystem(content))
