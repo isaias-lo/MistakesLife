@@ -93,6 +93,7 @@ namespace MistakesLife.Unity
         private TeamScreen _team = null!;
         private ActionsScreen _actions = null!;
         private PeopleScreen _people = null!;
+        private PlaceScreen _place = null!;
         private RectTransform _freeTime = null!;
         private RectTransform _safe = null!;
         private RectTransform _page = null!;
@@ -250,6 +251,25 @@ namespace MistakesLife.Unity
             PeopleView people = presenter.People();
             int? id = card && people.Close.Count > 0 ? people.Close[0].Id : (int?)null;
             _people.Show(presenter, id);
+        }
+
+        /// <summary>Abre el lugar de una sección que se toca ("estudios" o "trabajo"), para las capturas; con <paramref name="person"/>, tocando a la primera persona.</summary>
+        public bool OpenPlaceForCapture(string group, bool person)
+        {
+            LifePresenter presenter = _presenter!;
+            PlaceView? place = presenter.Place(group);
+            if (place == null)
+            {
+                return false;
+            }
+
+            _place.Show(presenter, group);
+            if (person && (place.People.Count > 0 || place.Lead != null))
+            {
+                _place.SelectForCapture(place.People.Count > 0 ? place.People[0].Id : place.Lead!.Id);
+            }
+
+            return true;
         }
 
         /// <summary>Abre Tu dinero encima de la vida, para las capturas.</summary>
@@ -422,6 +442,18 @@ namespace MistakesLife.Unity
             _team = new TeamScreen(safe) { Changed = MailRead };
             _actions = new ActionsScreen(safe) { Changed = ActionDone };
             _people = new PeopleScreen(safe) { Changed = ActionDone };
+            _place = new PlaceScreen(safe, _home)
+            {
+                Changed = ActionDone,
+                Requested = MailRead,
+                Toggled = open => _page.gameObject.SetActive(!open),
+                OpenList = group => GroupScreen(_presenter!, group)?.Invoke(),
+                OpenNotebook = () => _studies.Show(_presenter!, 0),
+                OpenStudy = () => OpenStudy(_presenter!),
+                OpenAgenda = () => _team.Show(_presenter!),
+                OpenOthers = group => OpenActions(_presenter!, group),
+                OpenCard = id => _people.Show(_presenter!, id),
+            };
 
             // La carta se mueve justo antes de dibujar, después de que Unity ordena la pantalla:
             // si se moviera antes, el orden la devolvería a su lugar y se vería dos veces.
@@ -524,6 +556,7 @@ namespace MistakesLife.Unity
             DrawSheet(presenter, life);
             DrawGroups(presenter);
             FitSheet();
+            _place.Redraw();
         }
 
         /// <summary>
@@ -1082,13 +1115,17 @@ namespace MistakesLife.Unity
         /// </summary>
         private void OpenGroup(LifePresenter presenter, string group)
         {
+            // Cada sección es un lugar que se toca (D5c): tu sala, tu aula o tu pega con su gente.
+            if ((group == "estudios" || group == "trabajo") && PlaceScreen.Has(presenter, group))
+            {
+                _place.Show(presenter, group);
+                return;
+            }
+
             // Estudios con preguntas reales (D5a): primero tus ramos con su barra de dominio.
             if (group == "estudios" && presenter.StudySubjects().Count > 0)
             {
-                System.Action? others = presenter.FreeTime() != null && presenter.Actions(group).Count > 0
-                    ? () => OpenActions(presenter, group)
-                    : (System.Action?)null;
-                _study.Show(presenter, () => _studies.Show(presenter), others);
+                OpenStudy(presenter);
                 return;
             }
 
@@ -1099,6 +1136,15 @@ namespace MistakesLife.Unity
             }
 
             GroupScreen(presenter, group)?.Invoke();
+        }
+
+        /// <summary>Tus ramos con preguntas (D5a), con botones a la libreta y a lo demás que puedes hacer en Estudios.</summary>
+        private void OpenStudy(LifePresenter presenter)
+        {
+            System.Action? others = presenter.FreeTime() != null && presenter.Actions("estudios").Count > 0
+                ? () => OpenActions(presenter, "estudios")
+                : (System.Action?)null;
+            _study.Show(presenter, () => _studies.Show(presenter), others);
         }
 
         /// <summary>Abre lo que puedes hacer en un grupo, con el botón a su pantalla de siempre si tiene.</summary>
