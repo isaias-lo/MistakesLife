@@ -1805,9 +1805,9 @@ namespace MistakesLife.Core.Content
                 }
             }
 
-            if (career.Tasks.Count > 0 && career.Tasks.Count < Work.WorkTaskRules.MaxPerMonth)
+            if (career.Tasks.Count > 0 && career.Tasks.Count < Work.WorkTaskRules.MinPerCareer)
             {
-                _errors.Add(new ContentError(where + ", tareas", $"con tareas, hacen falta al menos {Work.WorkTaskRules.MaxPerMonth} para llenar un mes."));
+                _errors.Add(new ContentError(where + ", tareas", $"con tareas, hacen falta al menos {Work.WorkTaskRules.MinPerCareer} para turnarlas mes a mes."));
             }
             if (career.Occupation != null)
             {

@@ -93,7 +93,7 @@ namespace MistakesLife.Core.Tests
             ToNextMonth(session);
 
             Character player = session.World.Player;
-            Assert.InRange(player.Job!.Tasks.Count, WorkTaskRules.MinPerMonth, WorkTaskRules.MaxPerMonth);
+            Assert.Single(player.Job!.Tasks);
             Assert.All(player.Job.Tasks, t => Assert.StartsWith("tarea.contabilidad.", t.Id));
             // En Impuestos no le toca cuadrar sueldos ni auditar.
             Assert.DoesNotContain(player.Job.Tasks, t => t.Id == "tarea.contabilidad.liquidaciones" || t.Id == "tarea.contabilidad.muestra_auditoria");

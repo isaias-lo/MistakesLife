@@ -149,6 +149,46 @@
     },
     {
       "id": "tarea.psicologia.reunion_clinica"
+    },
+    {
+      "id": "tarea.psicologia.derivacion",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.clinica'"
+    },
+    {
+      "id": "tarea.psicologia.fichas",
+      "condiciones": "(jugador.area == 'carrera.psicologia.area.clinica' || jugador.area == 'carrera.psicologia.area.forense')"
+    },
+    {
+      "id": "tarea.psicologia.declarar_juicio",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.forense'"
+    },
+    {
+      "id": "tarea.psicologia.entrevista_victima",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.forense'"
+    },
+    {
+      "id": "tarea.psicologia.convivencia",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+    },
+    {
+      "id": "tarea.psicologia.consejo_profesores",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+    },
+    {
+      "id": "tarea.psicologia.pie",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.educacional'"
+    },
+    {
+      "id": "tarea.psicologia.induccion",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'"
+    },
+    {
+      "id": "tarea.psicologia.desempeno",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'"
+    },
+    {
+      "id": "tarea.psicologia.conflicto_equipo",
+      "condiciones": "jugador.area == 'carrera.psicologia.area.organizacional'"
     }
   ],
   "ramos": [

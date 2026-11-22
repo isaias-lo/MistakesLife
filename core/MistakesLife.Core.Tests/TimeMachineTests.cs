@@ -364,7 +364,7 @@ namespace MistakesLife.Core.Tests
             // personas que mandan en cada pega y alguien que hace clases en tu carrera, con su pega) cambia
             // la vida y la deja en unos 245 KB. El Seguro de Cesantía (N13: la cuenta, las cotizaciones, el sueldo
             // promedio y los pagos de quienes tienen o tuvieron contrato) suma unos 3,6 KB y la deja en unos 255 KB. Con el duelo (N14) quedó en unos 253 KB, y las tareas
-            // del mes en la pega (D5b: 2 o 3 tareas por mes en cada foto, y unos 30 momentos más por año de trabajo
+            // del mes en la pega (D5b: una tarea por mes en cada foto, y unos 12 momentos más por año de trabajo
             // en el historial) la llevan a unos 267 KB. El tope deja margen para el contenido nuevo sin dejar que se dispare.
             Assert.True(bytes < 280_000, $"El guardado pesa {bytes} bytes con {session.TimeMachine.Snapshots.Count} fotos.");
         }

@@ -5,7 +5,7 @@ namespace MistakesLife.Core.Content
 {
     /// <summary>
     /// Una tarea real de la pega de una carrera (D5b): el cierre de mes, declarar el IVA, un bug
-    /// en producción. Cada mes le tocan dos o tres al jugador; cada una es un momento de los
+    /// en producción. Cada mes le toca una al jugador; es un momento de los
     /// eventos de la carrera (<c>jugador.tarea_pendiente == 'tarea.software.bug_produccion'</c>)
     /// donde elige cómo hacerla (<c>jugador.hacer_tarea('calma')</c>). Su id es también la clave
     /// de su nombre en la agenda ("Bug en producción").

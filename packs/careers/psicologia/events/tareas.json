@@ -475,5 +475,535 @@
         ]
       }
     ]
+  },
+  {
+    "id": "evento.psicologia.tarea.derivacion",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.derivacion'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.derivacion.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.derivacion.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.derivacion.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.derivacion.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.tarea.fichas",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.fichas'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.fichas.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.fichas.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.fichas.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.fichas.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.tarea.declarar_juicio",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.declarar_juicio'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.declarar_juicio.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.declarar_juicio.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.declarar_juicio.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.declarar_juicio.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.tarea.entrevista_victima",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.entrevista_victima'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.entrevista_victima.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.entrevista_victima.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.entrevista_victima.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.entrevista_victima.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.tarea.convivencia",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.convivencia'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.convivencia.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.convivencia.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.convivencia.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.convivencia.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.tarea.consejo_profesores",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.consejo_profesores'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.consejo_profesores.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.consejo_profesores.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.consejo_profesores.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.consejo_profesores.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.tarea.pie",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.pie'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.pie.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.pie.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.pie.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.pie.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.tarea.induccion",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.induccion'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.induccion.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.induccion.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.induccion.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.induccion.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.tarea.desempeno",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.desempeno'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.desempeno.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.desempeno.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.desempeno.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.desempeno.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.psicologia.tarea.conflicto_equipo",
+    "con": "jefe",
+    "condiciones": "jugador.tarea_pendiente == 'tarea.psicologia.conflicto_equipo'",
+    "probabilidad_anual": 1,
+    "opciones": [
+      {
+        "texto": "opcion.psicologia.tarea.conflicto_equipo.calma",
+        "tendencia": "jugador.responsabilidad / 2 + 10",
+        "efectos": [
+          "jugador.hacer_tarea('calma')",
+          "jugador.energia -= 8"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.conflicto_equipo.rapido",
+        "tendencia": "(100 - jugador.responsabilidad) / 3 + jugador.inteligencia / 4",
+        "efectos": [
+          "jugador.hacer_tarea('rapido')",
+          "jugador.energia -= 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.conflicto_equipo.ayuda",
+        "condiciones": "jugador.colega != nada",
+        "tendencia": "jugador.amabilidad / 3 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.hacer_tarea('ayuda')",
+          "jugador.energia -= 4",
+          "jugador.colega.carino += 2"
+        ]
+      },
+      {
+        "texto": "opcion.psicologia.tarea.conflicto_equipo.dejar",
+        "condiciones": "!jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4 + jugador.neuroticismo / 5",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.energia += 3",
+          "jugador.felicidad += 1"
+        ]
+      },
+      {
+        "texto": "opcion.tarea.no_entregar",
+        "condiciones": "jugador.tarea_postergada",
+        "tendencia": "(100 - jugador.responsabilidad) / 4",
+        "efectos": [
+          "jugador.hacer_tarea('dejar')",
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
   }
 ]

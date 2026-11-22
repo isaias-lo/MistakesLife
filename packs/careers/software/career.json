@@ -172,6 +172,30 @@
     {
       "id": "tarea.software.pruebas_version",
       "condiciones": "(jugador.area == 'carrera.software.area.qa' || jugador.area == 'carrera.software.area.desarrollo')"
+    },
+    {
+      "id": "tarea.software.guardia",
+      "condiciones": "(jugador.area == 'carrera.software.area.soporte' || jugador.area == 'carrera.software.area.ciberseguridad')"
+    },
+    {
+      "id": "tarea.software.documentar",
+      "condiciones": "(jugador.area == 'carrera.software.area.soporte' || jugador.area == 'carrera.software.area.qa')"
+    },
+    {
+      "id": "tarea.software.capacitar_cliente",
+      "condiciones": "(jugador.area == 'carrera.software.area.soporte' || jugador.area == 'carrera.software.area.datos')"
+    },
+    {
+      "id": "tarea.software.phishing",
+      "condiciones": "(jugador.area == 'carrera.software.area.ciberseguridad' || jugador.area == 'carrera.software.area.soporte')"
+    },
+    {
+      "id": "tarea.software.alertas",
+      "condiciones": "jugador.area == 'carrera.software.area.ciberseguridad'"
+    },
+    {
+      "id": "tarea.software.migracion_datos",
+      "condiciones": "(jugador.area == 'carrera.software.area.datos' || jugador.area == 'carrera.software.area.qa')"
     }
   ],
   "ramos": [

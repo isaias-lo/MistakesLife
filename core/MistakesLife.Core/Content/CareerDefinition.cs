@@ -56,7 +56,7 @@ namespace MistakesLife.Core.Content
         /// <see cref="WorkplaceKinds"/>). Opcional: sin él se dibuja una oficina común.
         /// </summary>
         /// <summary>
-        /// Las tareas reales de la pega (D5b): cada mes le tocan dos o tres al jugador que tiene un
+        /// Las tareas reales de la pega (D5b): cada mes le toca una al jugador que tiene un
         /// cargo en esta carrera. Opcional: sin tareas, el desempeño solo lo mueven los eventos.
         /// </summary>
         [JsonProperty("tareas")]

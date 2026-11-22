@@ -265,6 +265,7 @@ namespace MistakesLife.Core.Tests
             // oferta de ascenso, se rechaza: esta prueba mira el ascenso por recomendación.
             for (int week = 0; week < 5; week++)
             {
+                session.Advance(1);
                 while (session.Pending != null)
                 {
                     PendingEvent pending = session.Pending;
@@ -277,8 +278,6 @@ namespace MistakesLife.Core.Tests
 
                     session.Choose(option);
                 }
-
-                session.Advance(1);
             }
 
             presenter.DoAction("accion.recomendacion_ascenso", person.Id);

@@ -675,7 +675,7 @@ Los eventos de ascenso comunes a toda carrera (oferta de ascenso, mala racha, ba
 
 ### Tareas del mes (`tareas` de career.json, D5b)
 
-La pega por dentro: cada mes le tocan al jugador 2 o 3 tareas reales de su cargo (el cierre de mes, el IVA, un bug en producción), sin repetir las del mes pasado si alcanzan. Una carrera con tareas trae al menos 3:
+La pega por dentro: cada mes le toca al jugador una tarea real de su cargo (el cierre de mes, el IVA, un bug en producción), sin repetir la del mes pasado. Una sola, para que la pega no se coma los momentos del resto de la vida. Una carrera con tareas trae al menos 3 (y conviene que cada área tenga 6 o más, para que una tarea no vuelva cada dos meses):
 
 ```json
 "tareas": [

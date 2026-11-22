@@ -13,8 +13,9 @@ namespace MistakesLife.Core.Work
 {
     /// <summary>
     /// La pega por dentro (D5b, Isaias eligió "mezcla" y "las dos cosas" el 22-11-2026). Cada mes
-    /// le tocan al jugador dos o tres tareas reales de su cargo (las del paquete de su carrera),
-    /// cada una con su plazo: un viernes del mes, o la semana de su día real (el IVA, el 20).
+    /// le toca al jugador una tarea real de su cargo (de las del paquete de su carrera), con su
+    /// plazo: un viernes del mes, o la semana de su día real (el IVA, el 20). Una sola, para que la
+    /// pega no se coma los momentos del resto de la vida (con dos o tres eran unos 30 al año).
     /// Cuando vence, es un momento donde elige cómo hacerla
     /// (<c>jugador.hacer_tarea('calma')</c>), y eso mueve cómo lo ve su jefa: el desempeño de
     /// <see cref="Job.Performance"/>, de 0 a 100, que se muestra como barra con una frase.
@@ -31,11 +32,11 @@ namespace MistakesLife.Core.Work
     /// </summary>
     public static class WorkTaskRules
     {
-        /// <summary>Tareas que le tocan como mínimo en un mes.</summary>
-        public const int MinPerMonth = 2;
+        /// <summary>Tareas que le tocan en un mes.</summary>
+        public const int PerMonth = 1;
 
-        /// <summary>Tareas que le tocan como máximo en un mes (la mitad de los meses).</summary>
-        public const int MaxPerMonth = 3;
+        /// <summary>Tareas que trae como mínimo una carrera con tareas (para turnarlas mes a mes).</summary>
+        public const int MinPerCareer = 3;
 
         /// <summary>Puntos de cómo te ve tu jefa con una tarea hecha con calma.</summary>
         public const int Calm = 2;
@@ -112,7 +113,7 @@ namespace MistakesLife.Core.Work
 
         /// <summary>
         /// Empieza el mes: lo que dejó para después y no entregó le baja la barra, y le tocan las
-        /// tareas nuevas (sin repetir las del mes pasado si alcanzan). Solo el jugador tiene tareas.
+        /// tarea nueva (sin repetir la del mes pasado). Solo el jugador tiene tareas.
         /// </summary>
         public static void StartMonth(World world, ContentDatabase content, Character character, GameDate date)
         {
@@ -141,7 +142,8 @@ namespace MistakesLife.Core.Work
                 .Where(t => t.CompiledConditions == null || t.CompiledConditions.IsTrue(scope))
                 .ToList();
             List<CareerTaskDefinition> fresh = eligible.Where(t => !previous.Contains(t.Id)).ToList();
-            List<CareerTaskDefinition> pool = fresh.Count >= MinPerMonth ? fresh : eligible;
+            // Una tarea no vuelve el mes siguiente (solo si no hay otra de su área).
+            List<CareerTaskDefinition> pool = fresh.Count > 0 ? fresh : eligible;
             if (pool.Count == 0)
             {
                 return;
@@ -156,13 +158,12 @@ namespace MistakesLife.Core.Work
                 pool[j] = swap;
             }
 
-            int count = Math.Min(pool.Count, random.NextDouble() < 0.5 ? MaxPerMonth : MinPerMonth);
             int weeks = date.WeeksToNextMonth;
-            List<CareerTaskDefinition> chosen = pool.Take(count).ToList();
-            int spread = 0;
+            List<CareerTaskDefinition> chosen = pool.Take(PerMonth).ToList();
             foreach (CareerTaskDefinition task in chosen)
             {
-                int offset = task.Day.HasValue ? WeekOfDay(date, weeks, task.Day.Value) : spread++ * weeks / count;
+                // Sin día real, vence un viernes cualquiera del mes.
+                int offset = task.Day.HasValue ? WeekOfDay(date, weeks, task.Day.Value) : random.NextInt(weeks);
                 job.Tasks.Add(new WorkTask(task.Id, date.TotalWeeks + offset));
             }
 
