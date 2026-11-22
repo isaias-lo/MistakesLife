@@ -45,6 +45,13 @@ namespace MistakesLife.Core.Tests
 
                 session.Advance(1);
             }
+
+            // Lo que quedó en pantalla al final (una tarea de la pega, D5b) se contesta también,
+            // para que la prueba pueda hacer lo suyo con el tiempo parado.
+            while (session.Pending != null)
+            {
+                session.Choose(session.Pending.AvailableOptions[0]);
+            }
         }
 
         /// <summary>
@@ -258,6 +265,7 @@ namespace MistakesLife.Core.Tests
             // oferta de ascenso, se rechaza: esta prueba mira el ascenso por recomendación.
             for (int week = 0; week < 5; week++)
             {
+                session.Advance(1);
                 while (session.Pending != null)
                 {
                     PendingEvent pending = session.Pending;
@@ -270,8 +278,6 @@ namespace MistakesLife.Core.Tests
 
                     session.Choose(option);
                 }
-
-                session.Advance(1);
             }
 
             presenter.DoAction("accion.recomendacion_ascenso", person.Id);

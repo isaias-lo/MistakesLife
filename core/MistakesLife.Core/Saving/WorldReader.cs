@@ -585,6 +585,11 @@ namespace MistakesLife.Core.Saving
             job.VacationDays = data.VacationDays;
             job.LeavingWeek = data.LeavingWeek;
             job.CompanyId = data.CompanyId;
+            foreach (WorkTaskData task in data.Tasks ?? new System.Collections.Generic.List<WorkTaskData>())
+            {
+                job.Tasks.Add(new Work.WorkTask(task.Id, task.DueWeek) { Postponed = task.Postponed, Result = task.Result });
+            }
+
             return job;
         }
     }

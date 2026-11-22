@@ -74,5 +74,8 @@
   "evento.software.caso_absurdo.3": "Una usuaria llama porque \"se borró todo\": tenía la pantalla minimizada.",
   "evento.software.pruebas_eternas.2": "Sale una versión nueva el lunes y te pasan la lista de pruebas el viernes a las seis de la tarde.",
   "evento.software.pruebas_eternas.3": "Encuentras un error grave el día del lanzamiento. Nadie quiere escuchar que hay que atrasarlo.",
-  "evento.software.cambiar_area.3": "En la empresa abren un puesto en otra área y tu nombre sale en la reunión. Sería empezar un cargo más abajo, aprendiendo de nuevo."
+  "evento.software.cambiar_area.3": "En la empresa abren un puesto en otra área y tu nombre sale en la reunión. Sería empezar un cargo más abajo, aprendiendo de nuevo.",
+  "evento.software.pedir_dos_caminos": "Pediste unos minutos con {persona}. Llevas tiempo de senior y quieres dar el paso siguiente, pero hay dos caminos.",
+  "opcion.software.pedir_dos_caminos.tecnico": "Pedir pasar a líder técnico",
+  "opcion.software.pedir_dos_caminos.gestion": "Pedir pasar a jefe de equipo"
 }

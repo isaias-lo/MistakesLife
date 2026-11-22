@@ -57,6 +57,40 @@ namespace MistakesLife.Core.Tests
             return session.Pending?.EventId == eventId;
         }
 
+        /// <summary>
+        /// Una vida de 13 años con química con alguien de su curso que todavía no es su amistad,
+        /// hasta que esa persona la invita. Se busca con la química puesta cada semana, por si otro
+        /// momento la movió. Como la invitación tiene un tope por persona y depende del azar de la
+        /// vida, se prueba con algunas partidas hasta la primera en que llega en un año.
+        /// </summary>
+        private static (LifeSession Session, Character Mate) Invited()
+        {
+            for (ulong seed = 4; seed < 20; seed++)
+            {
+                LifeSession session = Life(seed, 13);
+                World world = session.World;
+                Character? mate = SchoolRules.Classmates(world, world.Player)
+                    .FirstOrDefault(m => RelationshipRules.Feelings(world, world.Player, m).Bond == RelationshipBond.None
+                        && world.TimesHappened("evento.invitacion.colegio", world.Player.Id, m.Id) == 0);
+                if (mate == null)
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < 52; i++)
+                {
+                    Chemistry(world, mate);
+                    if (UntilEvent(session, "evento.invitacion.colegio", 1) && session.Pending!.PersonId == mate.Id)
+                    {
+                        return (session, mate);
+                    }
+                }
+            }
+
+            Assert.Fail("No llegó ninguna invitación en un año en ninguna partida.");
+            return default;
+        }
+
         /// <summary>Hace que el jugador y alguien de su curso se quieran de verdad (química de ida y vuelta).</summary>
         private static Character Chemistry(World world, Character person)
         {
@@ -86,20 +120,8 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void ConQuimicaEnElCurso_TeInvitan_YSiVasNaceLaAmistad()
         {
-            LifeSession session = Life(4, 13);
+            (LifeSession session, Character mate) = Invited();
             World world = session.World;
-            Character mate = SchoolRules.Classmates(world, world.Player).First(m => RelationshipRules.Feelings(world, world.Player, m).Bond == RelationshipBond.None);
-            Chemistry(world, mate);
-
-            // Se busca con la química puesta cada semana, por si otro momento la movió.
-            bool invited = false;
-            for (int i = 0; i < 52 && !invited; i++)
-            {
-                Chemistry(world, mate);
-                invited = UntilEvent(session, "evento.invitacion.colegio", 1) && session.Pending!.PersonId == mate.Id;
-            }
-
-            Assert.True(invited);
             session.Choose(0);
             Assert.Equal(RelationshipBond.Friend, RelationshipRules.Feelings(world, world.Player, mate).Bond);
         }
@@ -107,18 +129,8 @@ namespace MistakesLife.Core.Tests
         [Fact]
         public void SiNoVas_NoNaceLaAmistad()
         {
-            LifeSession session = Life(4, 13);
+            (LifeSession session, Character mate) = Invited();
             World world = session.World;
-            Character mate = SchoolRules.Classmates(world, world.Player).First(m => RelationshipRules.Feelings(world, world.Player, m).Bond == RelationshipBond.None);
-
-            bool invited = false;
-            for (int i = 0; i < 52 && !invited; i++)
-            {
-                Chemistry(world, mate);
-                invited = UntilEvent(session, "evento.invitacion.colegio", 1) && session.Pending!.PersonId == mate.Id;
-            }
-
-            Assert.True(invited);
             session.Choose(1);
             Assert.NotEqual(RelationshipBond.Friend, RelationshipRules.Feelings(world, world.Player, mate).Bond);
         }

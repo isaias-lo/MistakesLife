@@ -361,6 +361,10 @@ namespace MistakesLife.Core.Saving
             // 47 → 48: aparece el duelo por la gente de tu vida que muere (N14). En las partidas viejas
             // nadie está de duelo: los duelos se leen vacíos y nacen con la próxima muerte.
             [47] = save => { },
+
+            // 48 → 49: aparecen las tareas del mes en la pega (D5b). En las partidas viejas el mes
+            // que va no tiene tareas: las primeras llegan el mes que viene.
+            [48] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

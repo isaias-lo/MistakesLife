@@ -499,7 +499,7 @@ namespace MistakesLife.Unity
             {
                 _studies.Show(presenter);
             }
-            else if (id == "escena.casa.credencial_pega" && presenter.Team() != null)
+            else if ((id == "escena.casa.credencial_pega" || id == "escena.casa.agenda_pega") && presenter.Team() != null)
             {
                 _team.Show(presenter);
             }

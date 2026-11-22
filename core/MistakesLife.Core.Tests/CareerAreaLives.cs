@@ -284,7 +284,8 @@ namespace MistakesLife.Core.Tests
                 int before = session.World.EventHistory.Count;
                 for (int year = startAge + 1; year < finalAge && session.World.Player.IsAlive && session.World.Player.Job?.Position != null; year++)
                 {
-                    Apply(session, new[] { "jugador.desempeno = 95" });
+                    // Con la barra de tu jefa en 100 (D5b), ella misma ofrece el ascenso cuando se puede.
+                    Apply(session, new[] { "jugador.desempeno = 100" });
                     Play(session, year);
                     var check = new EventScope(session.World, content, session.World.Player, null, readOnly: true);
                     if (session.World.Player.IsAlive && session.World.Player.Job?.Position != null

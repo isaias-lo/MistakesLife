@@ -23,3 +23,10 @@
 - Las áreas, sus requisitos y la escalera de cargos siguen el documento de diseño (sección de la carrera y "Reglas para todas las carreras").
 - `sueldo_relativo` de áreas y cargos, `meses_minimos` y `desempeno_minimo` son **estimaciones de diseño**, calibradas con el simulador (`dotnet run --project tools/MistakesLife.Simulator -- 300 45` y `-- 300 65`) para que ascender lleve años y llegar a la cima sea raro. Falta contrastarlos con encuestas de sueldos por cargo en Chile.
 - Los eventos de cada área (típicos y dilemas) están inspirados en situaciones reales de la profesión, sin copiar casos con nombre.
+
+## Tareas del mes (D5b)
+
+- **IVA (formulario 29):** vence el 12 de cada mes, o el 20 para quienes facturan electrónicamente y declaran por internet (hoy casi todas las empresas). SII, "Plazos para declarar el F29". Por eso la tarea vence la semana del 20.
+- **Cotizaciones en Previred:** se pagan hasta el día 10 del mes siguiente, o hasta el 13 si se pagan por internet (Previred, "Plazos de pago"). La tarea vence la semana del 13.
+- **Operación Renta (formulario 22):** se declara en abril (SII, calendario de la Operación Renta). La tarea solo sale en abril.
+- **Liquidaciones de sueldo** a fin de mes y **cierre contable** en los primeros días del mes siguiente: práctica habitual en las empresas chilenas (estimación, no hay una fecha legal).

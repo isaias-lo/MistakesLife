@@ -96,6 +96,7 @@ namespace MistakesLife.Core.Economy
             if (previous?.Position != null && previous.Position.AreaId == area.Id)
             {
                 job.Performance = previous.Performance;
+                job.Tasks.AddRange(previous.Tasks);
                 if (previous.Position.PositionId == position.Id)
                 {
                     job.MonthsInPosition = previous.MonthsInPosition;

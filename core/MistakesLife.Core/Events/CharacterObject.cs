@@ -527,6 +527,14 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber(_character.Job?.Position == null ? 0 : _character.Job.MonthsInPosition);
                 case "desempeno":
                     return Value.FromNumber(_character.Job == null ? 0 : _character.Job.Performance);
+                case "con_tareas":
+                    return Value.FromBool(Work.WorkTaskRules.CareerWithTasks(((EventScope)scope).Content, _character.Job) != null);
+                case "tarea_pendiente":
+                    return TextOrNull(Work.WorkTaskRules.Pending(_character, ((EventScope)scope).World.Date.TotalWeeks)?.Id);
+                case "tarea_postergada":
+                    return Value.FromBool(Work.WorkTaskRules.Pending(_character, ((EventScope)scope).World.Date.TotalWeeks)?.Postponed ?? false);
+                case "tareas_del_mes":
+                    return Value.FromNumber(_character.Job?.Tasks.Count ?? 0);
                 case "oficio":
                     return TextOrNull(Work.OccupationRules.CareerOf(((EventScope)scope).Content, _character.Job)?.Id);
                 case "meta":
@@ -938,6 +946,25 @@ namespace MistakesLife.Core.Events
                         record.TestCheating = true;
                         return Value.Null;
                     }
+                case "hacer_tarea":
+                    {
+                        ((EventScope)scope).RequireWritable("jugador.hacer_tarea");
+                        if (args.Length != 1 || args[0].Kind != ValueKind.Text || !Work.WorkTaskRules.Approaches.Contains(args[0].AsText("hacer_tarea")))
+                        {
+                            throw new ScriptException("jugador.hacer_tarea necesita la forma: " + string.Join(", ", Work.WorkTaskRules.Approaches.Select(a => "'" + a + "'")) + ".");
+                        }
+
+                        if (Work.WorkTaskRules.Pending(_character, ((EventScope)scope).World.Date.TotalWeeks) == null)
+                        {
+                            throw new ScriptException("jugador.hacer_tarea solo sirve cuando toca una tarea (revisa jugador.tarea_pendiente).");
+                        }
+
+                        Work.WorkTaskRules.Do(((EventScope)scope).World, _character, args[0].AsText("hacer_tarea"));
+                        return Value.Null;
+                    }
+                case "pedir_ascenso":
+                    ((EventScope)scope).RequireWritable("jugador.pedir_ascenso");
+                    return Value.FromBool(AskPromotion((EventScope)scope, args));
                 case "entregar":
                     {
                         ((EventScope)scope).RequireWritable("jugador.entregar");
@@ -1925,6 +1952,40 @@ namespace MistakesLife.Core.Events
 
             Economy.Job job = _character.Job!;
             Place(scope, job.Kind, scope.Content.GetCareerArea(job.Position!.AreaId), target);
+            if (Work.WorkTaskRules.CareerWithTasks(scope.Content, _character.Job) != null)
+            {
+                // En el cargo nuevo hay que volver a mostrarse (D5b).
+                _character.Job!.Performance = Work.WorkTaskRules.AfterPromotion;
+            }
+        }
+
+        /// <summary>
+        /// pedir_ascenso() o pedir_ascenso('cargo') (D5b): la jefa dice que sí según cómo te ve y
+        /// cuánto te respeta (<see cref="Work.WorkTaskRules.AskPromotionChance"/>). Si dice que sí,
+        /// asciende ahí mismo. Devuelve si le dijo que sí.
+        /// </summary>
+        private bool AskPromotion(EventScope scope, Value[] args)
+        {
+            System.Collections.Generic.IReadOnlyList<Content.CareerPositionDefinition> options = Promotions(scope);
+            Content.CareerPositionDefinition? target = args.Length == 0
+                ? (options.Count == 1 ? options[0] : null)
+                : options.FirstOrDefault(p => p.Id == EventScope.SingleText("jugador.pedir_ascenso", args));
+            if (target == null)
+            {
+                throw new ScriptException("jugador.pedir_ascenso(): no hay un cargo que se pueda pedir (revisa jugador.puede_ascender, y con dos caminos nombra el cargo).");
+            }
+
+            Character? boss = Work.WorkRules.Boss(scope.World, _character);
+            int respect = boss == null ? Work.RaiseRules.NeutralRespect : RelationshipRules.Feelings(scope.World, boss, _character).Respect;
+            double chance = Work.WorkTaskRules.AskPromotionChance(_character.Job!.Performance, target.MinPerformance, respect);
+            bool yes = scope.World.Random.Fork("ascenso_pedido." + _character.Id + "." + scope.World.Date.TotalWeeks).NextDouble() < chance;
+            if (yes)
+            {
+                Promote(scope, new[] { Value.FromText(target.Id) });
+            }
+
+            scope.World.WriteJournal(_character.Id, yes ? Work.WorkTaskRules.PromotionYesJournal : Work.WorkTaskRules.PromotionNoJournal);
+            return yes;
         }
 
         private void Demote(EventScope scope)

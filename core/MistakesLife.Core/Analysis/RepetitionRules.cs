@@ -30,7 +30,8 @@ namespace MistakesLife.Core.Analysis
                     continue;
                 }
 
-                if (content.Text(definition.ResolvedTextKey).Contains(Presentation.LifePresenter.CompanyMark))
+                string text = content.Text(definition.ResolvedTextKey);
+                if (text.Contains(Presentation.LifePresenter.CompanyMark) || text.Contains(Presentation.LifePresenter.DueMark))
                 {
                     continue;
                 }

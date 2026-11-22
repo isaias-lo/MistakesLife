@@ -38,6 +38,7 @@ namespace MistakesLife.Core.Content
         private readonly Dictionary<string, CareerLevelDefinition> _careerLevels = new Dictionary<string, CareerLevelDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, CareerAreaDefinition> _careerAreas = new Dictionary<string, CareerAreaDefinition>(StringComparer.Ordinal);
         private readonly Dictionary<string, CareerPositionDefinition> _careerPositions = new Dictionary<string, CareerPositionDefinition>(StringComparer.Ordinal);
+        private readonly Dictionary<string, CareerTaskDefinition> _careerTasks = new Dictionary<string, CareerTaskDefinition>(StringComparer.Ordinal);
         private readonly SortedDictionary<string, Dictionary<string, string>> _texts = new SortedDictionary<string, Dictionary<string, string>>(StringComparer.Ordinal);
         private readonly List<ContentError> _errors = new List<ContentError>();
         private bool _built;
@@ -157,6 +158,10 @@ namespace MistakesLife.Core.Content
 
         public CareerPositionDefinition GetCareerPosition(string id) =>
             _careerPositions.TryGetValue(id, out CareerPositionDefinition? position) ? position : throw new KeyNotFoundException($"No existe el cargo '{id}'.");
+
+        /// <summary>Una tarea de la pega de una carrera (D5b).</summary>
+        public CareerTaskDefinition GetCareerTask(string id) =>
+            _careerTasks.TryGetValue(id, out CareerTaskDefinition? task) ? task : throw new KeyNotFoundException($"No existe la tarea '{id}'.");
 
         /// <summary>Idioma base: todo texto debe existir en este idioma.</summary>
         public const string BaseLanguage = "es";
@@ -604,6 +609,16 @@ namespace MistakesLife.Core.Content
             foreach (CareerPositionDefinition position in _careerPositions.Values)
             {
                 position.CompiledRequirements = CompileCondition($"carrera {position.CareerId}, {position.Id}", position.Requirements);
+            }
+
+            foreach (CareerTaskDefinition task in _careerTasks.Values)
+            {
+                task.CompiledConditions = CompileCondition($"carrera {task.CareerId}, {task.Id}", task.Conditions);
+                // Una tarea se vive en un momento: algún evento tiene que preguntar por ella.
+                if (!_events.Values.Any(e => e.Conditions != null && e.Conditions.Contains("'" + task.Id + "'")))
+                {
+                    _errors.Add(new ContentError($"carrera {task.CareerId}, {task.Id}", "ningún evento la vive: falta uno con \"jugador.tarea_pendiente == '" + task.Id + "'\"."));
+                }
             }
 
             foreach (EventDefinition ev in _events.Values.Where(e => e.CareerOptions))
@@ -1770,6 +1785,30 @@ namespace MistakesLife.Core.Content
         {
             string where = $"carrera {career.Id}";
             CheckId(where, career.Id, career.IsOccupation ? "oficio." : "carrera.");
+            string taskPrefix = "tarea." + career.Id.Substring(career.Id.IndexOf('.') + 1) + ".";
+            foreach (CareerTaskDefinition task in career.Tasks)
+            {
+                task.CareerId = career.Id;
+                CheckId(where + ", tareas", task.Id, taskPrefix);
+                if (!_careerTasks.ContainsKey(task.Id))
+                {
+                    _careerTasks.Add(task.Id, task);
+                }
+                else
+                {
+                    _errors.Add(new ContentError($"{where}, {task.Id}", "id de tarea repetido."));
+                }
+
+                if (task.Day.HasValue && (task.Day < 1 || task.Day > 28))
+                {
+                    _errors.Add(new ContentError($"{where}, {task.Id}", "dia debe estar entre 1 y 28 (todos los meses lo tienen)."));
+                }
+            }
+
+            if (career.Tasks.Count > 0 && career.Tasks.Count < Work.WorkTaskRules.MinPerCareer)
+            {
+                _errors.Add(new ContentError(where + ", tareas", $"con tareas, hacen falta al menos {Work.WorkTaskRules.MinPerCareer} para turnarlas mes a mes."));
+            }
             if (career.Occupation != null)
             {
                 OccupationDefinition job = career.Occupation;
@@ -2289,7 +2328,7 @@ namespace MistakesLife.Core.Content
 
                 if (country.Economy != null)
                 {
-                    foreach (string key in Work.RaiseRules.Journals.Concat(Work.ReferralRules.Journals).Concat(Work.VentureRules.Journals))
+                    foreach (string key in Work.RaiseRules.Journals.Concat(Work.ReferralRules.Journals).Concat(Work.VentureRules.Journals).Concat(Work.WorkTaskRules.Journals))
                     {
                         yield return new KeyValuePair<string, string>(key, $"país {country.Id}");
                     }
@@ -2321,6 +2360,11 @@ namespace MistakesLife.Core.Content
             foreach (CareerDefinition career in _careers.Values)
             {
                 yield return new KeyValuePair<string, string>(career.Id, $"carrera {career.Id}");
+                foreach (CareerTaskDefinition task in career.Tasks)
+                {
+                    yield return new KeyValuePair<string, string>(task.Id, $"carrera {career.Id}, tareas");
+                }
+
                 foreach (CareerLevelDefinition level in career.Levels)
                 {
                     yield return new KeyValuePair<string, string>(level.Id, $"carrera {career.Id}");

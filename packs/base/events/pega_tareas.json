@@ -1,0 +1,56 @@
+[
+  {
+    "id": "evento.pega.jefa_ofrece_ascenso",
+    "con": "jefe",
+    "condiciones": "jugador.con_tareas && jugador.desempeno >= 100 && jugador.puede_ascender && jugador.caminos_ascenso == 1 && !jugador.renuncio && mundo.ciclo != 'economia.ciclo.crisis'",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.pega.jefa_ofrece_ascenso.aceptar",
+        "tendencia": "60 + jugador.extraversion / 4",
+        "efectos": [
+          "jugador.ascender()",
+          "jugador.felicidad += 8",
+          "persona.respeto += 2",
+          "diario('diario.pega.ascenso_ganado')"
+        ]
+      },
+      {
+        "texto": "opcion.pega.jefa_ofrece_ascenso.rechazar",
+        "tendencia": "5 + jugador.neuroticismo / 4",
+        "efectos": [
+          "jugador.felicidad += 1",
+          "persona.respeto -= 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evento.pega.pedir_ascenso",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "a_pedido": {
+      "texto": "accion.pega.pedir_ascenso",
+      "por_ano": "0.1 + (jugador.desempeno - 50) / 150 + jugador.extraversion / 400"
+    },
+    "condiciones": "jugador.con_tareas && jugador.puede_ascender && jugador.caminos_ascenso == 1 && jugador.desempeno < 100 && !jugador.renuncio",
+    "enfriamiento_semanas": 26,
+    "opciones": [
+      {
+        "texto": "opcion.pega.pedir_ascenso.pedir",
+        "tendencia": "jugador.extraversion / 2 + jugador.desempeno / 4",
+        "efectos": [
+          "jugador.pedir_ascenso()"
+        ]
+      },
+      {
+        "texto": "opcion.pega.pedir_ascenso.esperar",
+        "tendencia": "jugador.neuroticismo / 3 + (100 - jugador.desempeno) / 3",
+        "efectos": [
+          "jugador.felicidad -= 1"
+        ]
+      }
+    ]
+  }
+]

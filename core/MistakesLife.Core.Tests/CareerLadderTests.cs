@@ -148,7 +148,8 @@ namespace MistakesLife.Core.Tests
             Job job = world.Player.Job!;
             Assert.Equal(SemiSenior, job.Position!.PositionId);
             Assert.Equal(0, job.MonthsInPosition);
-            Assert.Equal(80, job.Performance);
+            // En una carrera con tareas del mes (D5b), en el cargo nuevo hay que volver a mostrarse.
+            Assert.Equal(MistakesLife.Core.Work.WorkTaskRules.AfterPromotion, job.Performance);
             double ratio = Content.GetCareerPosition(SemiSenior).SalaryRelative / Content.GetCareerPosition(Junior).SalaryRelative;
             Assert.Equal((double)before * ratio, (double)job.BaseSalary, 0);
             Assert.Equal(Junior, Eval(world, "jugador.cargo_anterior").AsText("prueba"));
