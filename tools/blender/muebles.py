@@ -49,3 +49,22 @@ def cama(centro_x, ancho, frazada, almohadas, cabecera_madera=True, semilla=3):
         x = centro_x - ancho / 2 + paso * (i + 0.5)
         alm = c.caja("Almohada", (x, ALTO_COLCHON + 0.05, largo / 2 - 0.22), (min(0.62, paso - 0.08), 0.12, 0.34), funda, bisel=0.05, segmentos=4)
         c.girar_y(alm, 0)
+
+
+def gancho(z, y=1.35):
+    """Gancho de madera atornillado al muro de la puerta (el muro mira hacia +x)."""
+    madera = c.material("gancho", (0.36, 0.25, 0.16), aspereza=0.5)
+    c.caja("Placa del gancho", (0.008, y, z), (0.016, 0.07, 0.04), madera, bisel=0.003)
+    c.cilindro("Gancho", (0.035, y, z), 0.006, 0.05, madera, eje="x", lados=8)
+
+
+def colgada(nombre, z, y_hombro, alto, ancho, color, mangas=True, semilla=81):
+    """Prenda colgada de un gancho en el muro de la puerta: cuerpo y mangas cortas, de tela."""
+    tela = c.material("tela_" + nombre, (1, 1, 1), aspereza=0.95, textura=c.textura_tela("tela_" + nombre, color, semilla=semilla))
+    cuerpo = c.caja(nombre, (0.05, y_hombro - alto / 2, z), (0.02, alto, ancho), tela, bisel=0.008, segmentos=2)
+    c.uv_cubo(cuerpo, escala=0.5)
+    if mangas:
+        for lado in (-1, 1):
+            m = c.caja("Manga", (0.05, y_hombro - 0.07, z + lado * (ancho / 2 + 0.035)), (0.018, 0.12, 0.09), tela, bisel=0.006)
+            c.girar_x(m, lado * 25)
+    return tela
