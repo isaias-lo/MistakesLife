@@ -22,13 +22,15 @@ namespace MistakesLife.Unity
         /// <summary>
         /// Pone el objeto <paramref name="id"/> en el ancla. Si no hay modelo, <paramref name="fallback"/>
         /// dibuja la forma simple con <paramref name="kit"/>, en posiciones medidas desde el ancla.
+        /// <paramref name="modelId"/> sirve cuando el objeto se toca con un id común (la pizarra)
+        /// pero se ve distinto según el lugar ("sala.pizarra" o "aula.pizarra").
         /// </summary>
-        public static GameObject Place(ShapeKit kit, Transform anchor, string id, Action<ShapeKit> fallback)
+        public static GameObject Place(ShapeKit kit, Transform anchor, string id, Action<ShapeKit> fallback, string? modelId = null)
         {
             var holder = new GameObject(id);
             holder.transform.SetParent(anchor, false);
 
-            GameObject? model = Find(id);
+            GameObject? model = Find(modelId ?? id);
             if (model != null)
             {
                 GameObject copy = Object.Instantiate(model, holder.transform, false);

@@ -114,7 +114,7 @@ namespace MistakesLife.Unity
             {
                 k.Box("Marco de la pizarra", new Vector3(0.02f, 1.55f, 0f), new Vector3(0.05f, 1.25f, 3.1f), Palette.DarkWood);
                 k.Box("Pizarra", new Vector3(0.05f, 1.55f, 0f), new Vector3(0.03f, 1.1f, 2.9f), board);
-            });
+            }, name + ".pizarra");
 
             Models.Place(kit, anchors["ancla.escritorio_profe"], name + ".escritorio_profe", k =>
             {
