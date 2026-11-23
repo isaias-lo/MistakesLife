@@ -317,6 +317,9 @@ namespace MistakesLife.Unity.Editor
             // Tu dinero: el papel del cajero con los movimientos del último mes.
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-dinero.png"), money: true);
 
+            // Tu ficha (D6-1a): se abre al tocar tu nombre en la cabecera.
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-ficha.png"), profile: true);
+
             // La carpeta del juzgado, con un juicio por deudas que ya avanzó unas semanas.
             count += CourtFolder(content, folder);
 
@@ -604,7 +607,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1, string? place = null, bool placePerson = false, bool map = false, string? mapPlace = null, bool mapChoose = false, bool mapGo = false, int monthWeeks = 0)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1, string? place = null, bool placePerson = false, bool map = false, string? mapPlace = null, bool mapChoose = false, bool mapGo = false, int monthWeeks = 0, bool profile = false)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -619,6 +622,11 @@ namespace MistakesLife.Unity.Editor
                 if (money)
                 {
                     screen.OpenMoneyForCapture();
+                }
+
+                if (profile)
+                {
+                    screen.OpenProfileForCapture();
                 }
 
                 if (court)

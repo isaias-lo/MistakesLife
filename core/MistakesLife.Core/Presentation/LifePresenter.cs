@@ -1125,7 +1125,175 @@ namespace MistakesLife.Core.Presentation
             month = month.Length > 0 ? char.ToUpperInvariant(month[0]) + month.Substring(1) : month;
             string day = Text("ui.cabecera.dia", date.DayOfMonth);
             string commune = player.Residence == null ? string.Empty : T(player.Residence.CommuneId);
-            return new HeaderView(month, day, RoleLabel(player), commune);
+            string shortDate = Text("ui.cabecera.fecha", date.DayOfMonth, T("ui.mes." + date.Month));
+            string year = Text("ui.cabecera.ano", date.Year);
+            bool belowZero = player.Money < 0;
+            string money = belowZero ? "-" + MoneyLabel(-player.Money) : MoneyLabel(player.Money);
+            return new HeaderView(month, day, RoleLabel(player), commune, shortDate, year, money, belowZero, IsCash(player), Income().TotalLabel);
+        }
+
+        /// <summary>Hasta los 18, sin pega, la plata es efectivo (monedas); después vive en una cuenta.</summary>
+        public const int CashUntilAge = 18;
+
+        /// <summary>
+        /// Si tu plata es efectivo y no está en una cuenta (D6-1a: de niño, monedas; de grande, la
+        /// cuenta). Mientras no existan las cuentas del banco (D6-1b), cuenta como efectivo hasta los
+        /// 18 si no tienes pega.
+        /// </summary>
+        private bool IsCash(Character player) =>
+            player.AgeInYears(Session.World.Date) < CashUntilAge && player.Job == null;
+
+        /// <summary>
+        /// Lo que te entró el último mes (D6-1a), línea por línea: sueldo líquido, propinas,
+        /// pensión, Seguro de Cesantía, pensión de alimentos y lo que te dejó tu negocio. Solo lo
+        /// que de verdad llegó: lo que ya terminó (un seguro que se acabó, una pega que dejaste) no
+        /// se cuenta.
+        /// </summary>
+        public IncomeView Income()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            var lines = new List<(string Id, decimal Amount)>();
+            if (player.Job != null && player.LastPayslip != null && player.LastPayslip.Net > 0)
+            {
+                lines.Add(("ui.dinero.sueldo", player.LastPayslip.Net));
+            }
+
+            if (player.Job != null && player.Job.Tips > 0)
+            {
+                lines.Add(("ui.dinero.propinas", player.Job.Tips));
+            }
+
+            if ((player.Pension.HasValue || player.ReceivesUniversalPension) && player.LastPensionPayment > 0)
+            {
+                lines.Add(("ui.dinero.pension", player.LastPensionPayment));
+            }
+
+            UnemploymentClaim? claim = player.UnemploymentClaim;
+            if (claim != null && !claim.Finished && claim.Payments.Count > 0
+                && world.Date.WeeksSince(claim.Payments[claim.Payments.Count - 1].Date) < IncomeWeeks)
+            {
+                lines.Add(("ui.dinero.seguro_cesantia", claim.Payments[claim.Payments.Count - 1].Amount));
+            }
+
+            foreach (PayslipLine line in player.LastExpenses.Where(l => l.Amount < 0))
+            {
+                // Plata que te pagan otros cada mes (la pensión de alimentos).
+                lines.Add((line.Id, -line.Amount));
+            }
+
+            if (player.Venture != null && player.Venture.LastShare > 0)
+            {
+                lines.Add(("ui.dinero.negocio", player.Venture.LastShare));
+            }
+
+            decimal total = lines.Sum(l => l.Amount);
+            IReadOnlyList<MoneyLineView> views = lines
+                .OrderByDescending(l => l.Amount)
+                .Select(l => new MoneyLineView(l.Id, T(l.Id), "+" + MoneyLabel(l.Amount), true, string.Empty))
+                .ToList();
+            return new IncomeView(total, total > 0 ? "+" + MoneyLabel(total) : string.Empty, views);
+        }
+
+        /// <summary>Un pago que llegó hace menos de estas semanas cuenta como ingreso del mes.</summary>
+        private const int IncomeWeeks = 6;
+
+        /// <summary>
+        /// Tu ficha (D6-1a): tu nombre completo, tu edad y cumpleaños, y lo que eres hoy. Solo van
+        /// las filas que existen en tu vida: de niño tu curso y con quién vives; de grande tus
+        /// estudios, tu pega, dónde vives, tu pareja, tus hijos y tu previsión de salud.
+        /// </summary>
+        public ProfileView Profile()
+        {
+            World world = Session.World;
+            Character player = world.Player;
+            int age = player.AgeInYears(world.Date);
+            string ageLine = Text("ui.ficha.edad", AgeLabel(player, world.Date),
+                Text("ui.cabecera.fecha", player.BirthDate.DayOfMonth, T("ui.mes." + player.BirthDate.Month)));
+            var rows = new List<ProfileRowView>();
+
+            SchoolClassView? cls = player.Studies == null ? SchoolClass() : null;
+            if (cls != null)
+            {
+                rows.Add(Row("colegio", cls.Name, string.Empty));
+            }
+
+            if (player.Studies != null)
+            {
+                CareerStudies studies = player.Studies;
+                string semester = Text("ui.ficha.semestre", Math.Min(studies.CompletedSemesters + 1, studies.RequiredSemesters));
+                rows.Add(Row("estudios", T(studies.CareerId), T("ui.ficha.institucion." + studies.Institution) + " · " + semester));
+            }
+            else if (player.Degrees.Count > 0)
+            {
+                string best = player.Degrees
+                    .OrderByDescending(d => Session.Content.GetCareerLevel(d).SalaryRelative)
+                    .First();
+                rows.Add(Row("estudios", T(best + ".titulo"), T("ui.ficha.titulado")));
+            }
+
+            if (player.Job != null)
+            {
+                string title = player.Job.Position != null ? T(player.Job.Position.PositionId) : T("ui.ficha.trabajas");
+                WorkplaceView? work = Workplace(player);
+                string time = Duration(player.Job.MonthsInJob);
+                string detail = string.IsNullOrEmpty(work?.Caption) ? time : work!.Caption + " · " + time;
+                rows.Add(Row("trabajo", title, detail));
+            }
+            else if (age >= CashUntilAge && player.Studies == null)
+            {
+                rows.Add(Row("trabajo", T("ui.ficha.sin_pega"), string.Empty));
+            }
+
+            if (player.Residence != null)
+            {
+                string how = player.Lease != null ? T("ui.ficha.arriendas")
+                    : player.Flags.Contains(IndependentFlag) ? string.Empty
+                    : T("ui.ficha.con_tu_familia");
+                rows.Add(Row("vive", T(player.Residence.CommuneId), how));
+            }
+
+            Character? partner = Find(player.PartnerId);
+            if (partner != null && partner.IsAlive)
+            {
+                rows.Add(Row("pareja", FullName(partner), CoupleLine(player)));
+            }
+
+            IReadOnlyList<Character> children = world.ChildrenOf(player.Id).Where(c => c.IsAlive).ToList();
+            if (children.Count > 0)
+            {
+                string names = string.Join(", ", children.Select(c => c.FirstName + " (" + c.AgeInYears(world.Date) + ")"));
+                rows.Add(Row("hijos", children.Count == 1 ? T("ui.ficha.un_hijo") : Text("ui.ficha.hijos_n", children.Count), names));
+            }
+            else if (age >= CashUntilAge)
+            {
+                rows.Add(Row("hijos", T("ui.ficha.sin_hijos"), string.Empty));
+            }
+
+            if (player.HealthPlanId != null)
+            {
+                rows.Add(Row("salud", T(player.HealthPlanId), string.Empty));
+            }
+
+            return new ProfileView(FullName(player), ageLine, rows);
+        }
+
+        /// <summary>La marca de quien ya vive por su cuenta (no con su familia).</summary>
+        private const string IndependentFlag = "vive_independiente";
+
+        private ProfileRowView Row(string id, string value, string detail) =>
+            new ProfileRowView(id, T("ui.ficha." + id), value, detail);
+
+        /// <summary>"3 meses", "un año", "4 años".</summary>
+        private string Duration(int months)
+        {
+            if (months < 12)
+            {
+                return months <= 1 ? T("ui.ficha.un_mes") : Text("ui.ficha.meses", months);
+            }
+
+            int years = months / 12;
+            return years == 1 ? T("ui.ficha.un_ano") : Text("ui.ficha.anos", years);
         }
 
         /// <summary>

@@ -56,6 +56,12 @@ namespace MistakesLife.Unity
         /// <summary>Menú del juego: tres rayas.</summary>
         public const string Menu = "menu";
 
+        /// <summary>Tu plata en una cuenta (D6-1a): un billete.</summary>
+        public const string Bill = "billete";
+
+        /// <summary>Tu plata de niño, en efectivo (D6-1a): una moneda.</summary>
+        public const string Coin = "moneda";
+
         /// <summary>Un círculo lleno, para el fondo de los íconos de las barras.</summary>
         public const string Disc = "disco";
 
@@ -97,6 +103,11 @@ namespace MistakesLife.Unity
                     return new VectorIcon().Stroke("M5 7h14").Stroke("M5 12h14").Stroke("M5 17h14");
                 case Disc:
                     return new VectorIcon().FillCircle(12f, 12f, 12f);
+                case Bill:
+                    return new VectorIcon().StrokeRect(2f, 6f, 20f, 12f, 1.8f).StrokeCircle(12f, 12f, 3f)
+                        .FillCircle(5.5f, 9.5f, 1f).FillCircle(18.5f, 14.5f, 1f);
+                case Coin:
+                    return new VectorIcon().StrokeCircle(12f, 12f, 8.5f).StrokeCircle(12f, 12f, 5.5f);
 
                 // Barras de la vida: dibujo blanco que va sobre el círculo de color (boceto S1Filas).
                 case "barra.felicidad":

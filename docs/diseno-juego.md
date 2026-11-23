@@ -48,6 +48,7 @@ Es un **botón circular chico** al lado de los botones de avanzar, y **solo apar
 
 De arriba hacia abajo:
 
+0. **La cabecera (idea de Isaias, 22-11-2026, boceto aprobado):** a la izquierda la cara de tu personaje, tu nombre, tu apellido y tu edad, nada más; al tocarlos se abre **tu ficha** con todo lo tuyo (colegio o estudios, trabajo, dónde vives, pareja, hijos, salud). En la esquina derecha, **tu plata** en grande con un billete (monedas de niño, que es efectivo; en rojo bajo cero) y debajo lo que ganas al mes; al tocarla se abre Tu dinero. Debajo, una **tira de papel a todo el ancho con la fecha corta y el año del mundo** ("18 de marzo · Año 27"): sin día de la semana, porque lo que importa es la fecha (cada país tiene sus fechas importantes para eventos especiales), y el año sigue creciendo con las generaciones (Año 110, Año 300). El curso, la pega y la comuna ya no van en la cabecera: están en tu ficha.
 1. **La escena 3D** del lugar donde estás, ocupando menos espacio que hoy.
 2. **Lo que pasa:** el momento o la noticia del mes, con letra grande y legible.
 3. **Cinco barras grandes** con ícono propio y porcentaje.
