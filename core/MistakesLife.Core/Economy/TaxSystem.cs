@@ -72,7 +72,7 @@ namespace MistakesLife.Core.Economy
         {
             TaxReturn pending = character.PendingTaxReturn ?? throw new InvalidOperationException($"{character} no tiene una declaración pendiente.");
             character.PendingTaxReturn = null;
-            character.Money += pending.Balance;
+            character.Move(world.Date, pending.Balance >= 0 ? "movimiento.devolucion_impuestos" : "movimiento.pago_impuestos", pending.Balance);
             if (pending.Balance > 0)
             {
                 world.WriteJournal(character.Id, RefundJournal);
@@ -107,7 +107,7 @@ namespace MistakesLife.Core.Economy
             if (pending.Balance < 0)
             {
                 decimal owed = -pending.Balance;
-                character.Money -= Math.Round(owed * (1 + (decimal)rules.LatePenalty), MidpointRounding.AwayFromZero);
+                character.Move(world.Date, "movimiento.multa_impuestos", -Math.Round(owed * (1 + (decimal)rules.LatePenalty), MidpointRounding.AwayFromZero));
                 world.WriteJournal(character.Id, PenaltyJournal);
             }
             else if (pending.Balance > 0)

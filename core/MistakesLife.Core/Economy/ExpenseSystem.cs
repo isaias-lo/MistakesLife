@@ -74,7 +74,7 @@ namespace MistakesLife.Core.Economy
                 if (rent > 0)
                 {
                     lines.Add(new PayslipLine(player.Lease.TypeId, rent));
-                    player.Money -= rent;
+                    player.Move(context.Date, player.Lease.TypeId, -rent);
                 }
             }
 
@@ -85,7 +85,7 @@ namespace MistakesLife.Core.Economy
                 if (food > 0)
                 {
                     lines.Add(new PayslipLine(player.GroceryBasketId, food));
-                    player.Money -= food;
+                    player.Move(context.Date, player.GroceryBasketId, -food);
                 }
             }
 
@@ -115,7 +115,7 @@ namespace MistakesLife.Core.Economy
                 if (fee > 0)
                 {
                     lines.Add(new PayslipLine(optionId, fee));
-                    player.Money -= fee;
+                    player.Move(context.Date, optionId, -fee);
                 }
             }
 
@@ -127,8 +127,16 @@ namespace MistakesLife.Core.Economy
                 if (plan > 0)
                 {
                     lines.Add(new PayslipLine(player.HealthPlanId, plan));
-                    player.Money -= plan;
+                    player.Move(context.Date, player.HealthPlanId, -plan);
                 }
+            }
+
+            decimal bankFee = BankRules.MonthlyFee(_content, player, economy.PriceIndex);
+            if (bankFee > 0)
+            {
+                // La mantención de la cuenta: el banco la cobra sola cada mes.
+                lines.Add(new PayslipLine(BankRules.MonthlyFeeMovement, bankFee));
+                player.Move(context.Date, BankRules.MonthlyFeeMovement, -bankFee, player.Account!.BankId);
             }
 
             foreach (ExpenseDefinition expense in rules.Categories)
@@ -152,12 +160,12 @@ namespace MistakesLife.Core.Economy
                     // Lo que le pagan (la pensión de alimentos que recibe): entra, no es un gasto.
                     // Queda en la cartola del mes con monto negativo, para que se vea de dónde vino.
                     lines.Add(new PayslipLine(expense.Id, -today));
-                    player.Money += today;
+                    player.Move(context.Date, expense.Id, today);
                 }
                 else if (today > 0)
                 {
                     lines.Add(new PayslipLine(expense.Id, today));
-                    player.Money -= today;
+                    player.Move(context.Date, expense.Id, -today);
                 }
             }
 
@@ -197,14 +205,19 @@ namespace MistakesLife.Core.Economy
                 covered = Math.Max(0, Math.Min(covered, room));
             }
 
+            if (covered > 0)
+            {
+                // La línea de crédito pone lo que falta: queda en la cartola como un préstamo.
+                DebtSystem.Borrow(world.Date, player, type, covered, economy.PriceIndex);
+            }
+
+            // Lo que pasa del cupo son cuentas que quedaron sin pagar.
             player.Money = 0;
             if (covered <= 0)
             {
                 return;
             }
 
-            DebtSystem.Borrow(player, type, covered, economy.PriceIndex);
-            player.Money = 0;
             if (current == null)
             {
                 world.WriteJournal(player.Id, DeficitJournal);

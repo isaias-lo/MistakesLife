@@ -140,7 +140,7 @@ namespace MistakesLife.Core.Economy
             if (paid > 0)
             {
                 // Queda en la cartola del mes, para que se vea en qué se fue la plata.
-                character.Money -= paid;
+                character.Move(world.Date, service.Id, -paid);
                 character.LastExpenses = character.LastExpenses.Concat(new[] { new PayslipLine(service.Id, paid) }).ToList();
             }
         }

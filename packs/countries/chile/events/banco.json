@@ -1,0 +1,63 @@
+[
+  {
+    "id": "evento.banco.abrir_cuenta",
+    "lugar": "lugar.dinero",
+    "a_pedido": {
+      "texto": "accion.dinero.abrir_cuenta",
+      "por_ano": "0.5 + jugador.responsabilidad / 100"
+    },
+    "condiciones": "jugador.edad >= 18 && !jugador.tiene_cuenta",
+    "enfriamiento_semanas": 4,
+    "opciones": [
+      {
+        "texto": "opcion.banco.nacional",
+        "tendencia": "40 + jugador.responsabilidad / 4",
+        "efectos": ["jugador.abrir_cuenta('banco.chile.nacional')"]
+      },
+      {
+        "texto": "opcion.banco.pacifico",
+        "tendencia": "si(jugador.puede_abrir_cuenta('banco.chile.pacifico'), 30 + jugador.extraversion / 4, 3)",
+        "efectos": ["jugador.abrir_cuenta('banco.chile.pacifico')"]
+      },
+      {
+        "texto": "opcion.banco.tapp",
+        "tendencia": "15 + jugador.apertura / 3",
+        "efectos": ["jugador.abrir_cuenta('banco.chile.tapp')"]
+      },
+      {
+        "texto": "opcion.banco.despues",
+        "tendencia": "(100 - jugador.responsabilidad) / 4"
+      }
+    ]
+  },
+  {
+    "id": "evento.banco.cuenta_sueldo",
+    "con": "jefe",
+    "lugar": "lugar.trabajo",
+    "condiciones": "jugador.tipo_trabajo == 'dependiente' && jugador.meses_en_trabajo <= 3 && !jugador.tiene_cuenta",
+    "probabilidad_anual": 1,
+    "enfriamiento_semanas": 8,
+    "veces_maximas": 3,
+    "opciones": [
+      {
+        "texto": "opcion.banco.sueldo.nacional",
+        "tendencia": "45 + jugador.responsabilidad / 4",
+        "efectos": ["jugador.abrir_cuenta('banco.chile.nacional')"]
+      },
+      {
+        "texto": "opcion.banco.sueldo.pacifico",
+        "tendencia": "si(jugador.puede_abrir_cuenta('banco.chile.pacifico'), 30 + jugador.extraversion / 4, 3)",
+        "efectos": ["jugador.abrir_cuenta('banco.chile.pacifico')"]
+      },
+      {
+        "texto": "opcion.banco.sueldo.tapp",
+        "tendencia": "15 + jugador.apertura / 3",
+        "efectos": ["jugador.abrir_cuenta('banco.chile.tapp')"]
+      },
+      {
+        "texto": "opcion.banco.sueldo.vale_vista",
+        "tendencia": "(100 - jugador.responsabilidad) / 5"
+      }
+    ]
+  }
+]

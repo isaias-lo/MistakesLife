@@ -1215,6 +1215,11 @@ namespace MistakesLife.Core.Content
                 {
                     ValidateUnemploymentInsurance($"{where}, economia.seguro_desempleo", country.Economy);
                 }
+
+                if (country.Economy.Banks != null)
+                {
+                    ValidateBanks($"{where}, economia.bancos", country.Economy.Banks);
+                }
             }
 
             FamilyRatesDefinition? family = country.NonPlayedFamily;
@@ -1735,6 +1740,32 @@ namespace MistakesLife.Core.Content
             if (inflation.Regime(inflation.InitialRegime) == null)
             {
                 _errors.Add(new ContentError(where, $"regimen_inicial '{inflation.InitialRegime}' no es uno de sus regímenes."));
+            }
+        }
+
+        private void ValidateBanks(string where, BanksDefinition banks)
+        {
+            if (banks.Banks.Count == 0 || banks.MinAge < 14)
+            {
+                _errors.Add(new ContentError(where, "debe haber al menos un banco y la edad mínima es de 14 años o más."));
+            }
+
+            if (banks.Banks.Select(b => b.Id).Distinct().Count() != banks.Banks.Count)
+            {
+                _errors.Add(new ContentError(where, "hay bancos con el mismo id."));
+            }
+
+            foreach (BankDefinition bank in banks.Banks)
+            {
+                if (bank.MonthlyFee < 0 || bank.MinIncome < 0 || !bank.Id.StartsWith("banco.", StringComparison.Ordinal))
+                {
+                    _errors.Add(new ContentError($"{where}, {bank.Id}", "el id parte con 'banco.' y la mantención y la renta mínima no son negativas."));
+                }
+
+                if (bank.Kind != "estatal" && bank.Kind != "grande" && bank.Kind != "digital")
+                {
+                    _errors.Add(new ContentError($"{where}, {bank.Id}", $"el tipo '{bank.Kind}' no existe (estatal, grande o digital)."));
+                }
             }
         }
 
@@ -2729,6 +2760,14 @@ namespace MistakesLife.Core.Content
                     foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Groceries?.Basket(reference.Argument) == null))
                     {
                         _errors.Add(new ContentError(where, $"{name}('{reference.Argument}'): el país {country.Id} no tiene esa compra. Todo país debe definir en economia.supermercado las compras que usan los eventos."));
+                    }
+                }
+
+                if (reference.Function == "." + CharacterObject.OpenAccountMethod || reference.Function == "." + CharacterObject.CanOpenAccountMethod)
+                {
+                    foreach (CountryDefinition country in CheckedCountries().Where(c => c.Economy?.Banks?.Bank(reference.Argument) == null))
+                    {
+                        _errors.Add(new ContentError(where, $"{reference.Function.Substring(1)}('{reference.Argument}'): el país {country.Id} no tiene ese banco en economia.bancos."));
                     }
                 }
 

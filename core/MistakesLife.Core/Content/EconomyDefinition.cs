@@ -80,5 +80,9 @@ namespace MistakesLife.Core.Content
         /// <summary>El seguro que paga al perder un trabajo con contrato (el Seguro de Cesantía en Chile), o null si el país no lo tiene cargado.</summary>
         [JsonProperty("seguro_desempleo")]
         public UnemploymentInsuranceDefinition? UnemploymentInsurance { get; set; }
+
+        /// <summary>Los bancos donde se abre una cuenta, o null si el país no los tiene cargados (se maneja solo efectivo).</summary>
+        [JsonProperty("bancos")]
+        public BanksDefinition? Banks { get; set; }
     }
 }

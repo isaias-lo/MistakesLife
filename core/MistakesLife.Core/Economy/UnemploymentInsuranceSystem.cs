@@ -158,7 +158,7 @@ namespace MistakesLife.Core.Economy
                 return;
             }
 
-            character.Money += paid;
+            character.Move(world.Date, "movimiento.seguro_cesantia", paid);
             character.UnemploymentFund = fromAccount >= inAccount ? 0 : character.UnemploymentFund - (fromAccount / (decimal)priceIndex);
             claim.Add(new UnemploymentPayment(context.Date, index + 1, paid, fromFund));
             if (index == 0)
@@ -191,7 +191,7 @@ namespace MistakesLife.Core.Economy
                 return;
             }
 
-            character.Money += PayrollCalculator.ToToday(character.UnemploymentFund, priceIndex);
+            character.Move(world.Date, "movimiento.retiro_seguro_cesantia", PayrollCalculator.ToToday(character.UnemploymentFund, priceIndex));
             character.UnemploymentFund = 0;
             if (player)
             {

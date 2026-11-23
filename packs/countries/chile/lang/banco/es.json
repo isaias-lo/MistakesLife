@@ -1,0 +1,20 @@
+{
+  "banco.chile.nacional": "Banco Nacional",
+  "banco.chile.pacifico": "Banco Pacífico",
+  "banco.chile.tapp": "Tapp",
+  "accion.dinero.abrir_cuenta": "Abrir tu cuenta en el banco",
+  "evento.banco.abrir_cuenta": "Hasta ahora todo ha sido efectivo: billetes en la billetera y monedas en el bolsillo. Ya tienes edad para tener tu propia cuenta. ¿Dónde la abres?",
+  "opcion.banco.nacional": "En el Banco Nacional. Te piden solo el carnet y te dan una cuenta vista sin costo de mantención.",
+  "opcion.banco.pacifico": "En el Banco Pacífico. Una cuenta corriente con chequera y línea de crédito, pero piden contrato y un sueldo alto, y cobran mantención todos los meses.",
+  "opcion.banco.tapp": "En Tapp, desde el celular. Te sacas una selfie con el carnet y en diez minutos tienes cuenta y tarjeta digital, sin costo.",
+  "opcion.banco.despues": "Todavía no. Por ahora te las arreglas con efectivo.",
+  "evento.banco.cuenta_sueldo": "Para depositarte el sueldo, {persona} te pide los datos de tu cuenta. Sin cuenta, te lo pagan con un vale vista que tienes que ir a cobrar al banco cada mes.",
+  "opcion.banco.sueldo.nacional": "Vas al Banco Nacional a la hora de almuerzo y abres una cuenta vista con tu carnet. Le mandas el número esa misma tarde.",
+  "opcion.banco.sueldo.pacifico": "Pides una cuenta corriente en el Banco Pacífico, con tu contrato bajo el brazo. Ahí te ofrecen chequera y línea de crédito.",
+  "opcion.banco.sueldo.tapp": "Abres una cuenta en Tapp desde el celular, ahí mismo, y le pasas los datos.",
+  "opcion.banco.sueldo.vale_vista": "Le dices que por ahora te lo paguen con vale vista. Ya verás.",
+  "diario.chile.banco.cuenta_abierta": "Abriste tu cuenta en el banco. Desde hoy, cada peso que entra o sale queda anotado en tu cartola.",
+  "diario.chile.banco.rechazo_contrato": "El banco te dijo que no: para esa cuenta piden un contrato de trabajo. Sin contrato, no te la abren.",
+  "diario.chile.banco.rechazo_renta": "El banco te dijo que no: tu sueldo no llega a lo que piden para esa cuenta.",
+  "diario.chile.banco.rechazo_edad": "El banco te dijo que no: todavía no tienes edad para abrir una cuenta a tu nombre."
+}

@@ -387,7 +387,7 @@ namespace MistakesLife.Core.Tests
             string[] character =
             {
                 "Id", "FirstName", "LastName", "Sex", "Gender", "GenderIdentity", "Orientation", "BirthDate", "Personality", "Stats",
-                "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "SpouseId", "Team", "UnionTypeId", "LivesWithId", "InheritedLooks", "InterestingPeople", "SharedCustody", "Residence", "HouseholdLevel", "Money", "Job", "Venture",
+                "MotherId", "FatherId", "SecondParentId", "Adopted", "PartnerId", "SpouseId", "Team", "UnionTypeId", "LivesWithId", "InheritedLooks", "InterestingPeople", "SharedCustody", "Residence", "HouseholdLevel", "Money", "Account", "Job", "Venture",
                 "LastPayslip", "LastExpenses", "MonthsInRed", "Lease", "GroceryBasketId", "Services", "HealthPlanId", "LastHealthCareDate", "PendingTaxReturn", "PensionFund", "Pension", "ReceivesUniversalPension",
                 "LastPensionPayment", "ContributedMonths", "PensionSalaryBase", "UnemploymentFund", "UnemploymentContributions", "UnemploymentSalaryBase", "UnemploymentClaim", "Griefs", "Debts", "LastDebtPayment", "Delinquent", "EducationStageId", "Flags", "Studies", "WorkStatus", "CoupleStage", "CoupleSince", "LatePartnerId", "Routine", "FreeTime", "OwnRules", "Wishes", "SchoolClass", "SchoolRecord", "Degrees",
                 "Relationships", "LastPosition", "LastJob", "PendingInheritance", "JobSearch", "Phone", "Mail", "Chats",

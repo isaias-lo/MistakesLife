@@ -81,6 +81,9 @@ namespace MistakesLife.Core.Tests
             Assert.Equal(698000m + 44000m, income.Total);
             Assert.Equal(new[] { "ui.dinero.sueldo", "ui.dinero.pension" }, income.Lines.Select(l => l.Id));
             Assert.Equal("+$742.000", presenter.Header().Income);
+            // Sin cuenta en el banco, la plata sigue siendo efectivo aunque tenga pega (D6-1b).
+            Assert.True(presenter.Header().Cash);
+            player.Account = new BankAccount("banco.chile.nacional", presenter.Session.World.Date);
             Assert.False(presenter.Header().Cash);
         }
 

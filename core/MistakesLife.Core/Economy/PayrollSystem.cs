@@ -57,7 +57,7 @@ namespace MistakesLife.Core.Economy
                 decimal planPrice = plan == null ? 0 : PayrollCalculator.ToToday(HealthCareRules.PlanPrice(health!, plan, character.AgeInYears(context.Date)), economy.PriceIndex);
                 Payslip payslip = PayrollCalculator.Compute(context.Date, job.Kind, job.Salary + job.VariablePay, rules.Payroll, economy.PriceIndex,
                     health?.DeductionId, health?.ExtraDeductionId, planPrice);
-                character.Money += payslip.Net;
+                character.Move(context.Date, "movimiento.remuneracion", payslip.Net, world.CompanyById(job.CompanyId)?.NameId ?? "");
                 character.LastPayslip = payslip;
                 character.AddIncome(context.Date.Year, payslip);
             }

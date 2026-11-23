@@ -76,7 +76,7 @@ namespace MistakesLife.Core.Economy
                     continue;
                 }
 
-                heir.Key.Money += share;
+                heir.Key.Move(world.Date, "movimiento.herencia", share);
                 world.WriteJournal(heir.Key.Id, share >= 0 ? ReceivedJournal : DebtsJournal);
             }
         }

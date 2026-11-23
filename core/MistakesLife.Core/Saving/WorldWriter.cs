@@ -237,6 +237,18 @@ namespace MistakesLife.Core.Saving
                         FromSolidarityFund = p.FromSolidarityFund,
                     }).ToList(),
                 },
+                Account = c.Account == null ? null : new BankAccountData
+                {
+                    BankId = c.Account.BankId,
+                    OpenedWeek = c.Account.Opened.TotalWeeks,
+                    Movements = c.Account.Movements.Select(m => new BankMovementData
+                    {
+                        Week = m.Date.TotalWeeks,
+                        Id = m.Id,
+                        Amount = m.Amount,
+                        Detail = m.Detail,
+                    }).ToList(),
+                },
                 Debts = c.Debts.Select(d => new DebtData
                 {
                     TypeId = d.TypeId,

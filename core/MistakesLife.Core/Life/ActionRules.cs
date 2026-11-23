@@ -125,7 +125,7 @@ namespace MistakesLife.Core.Life
             if (accepted)
             {
                 // Se paga solo si fueron (si te dijo que no, no hubo cine).
-                character.Money -= Price(world, character, action);
+                character.Move(world.Date, action.Id, -Price(world, character, action));
                 if (option.Person != null)
                 {
                     int week = world.Date.TotalWeeks;
