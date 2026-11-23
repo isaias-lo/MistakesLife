@@ -1,6 +1,7 @@
 #nullable enable
 
 using System.Collections.Generic;
+using System.Linq;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Game;
 using MistakesLife.Core.Presentation;
@@ -137,10 +138,14 @@ namespace MistakesLife.Unity
 
         private TextMeshProUGUI _name = null!;
         private TextMeshProUGUI _details = null!;
-        private TextMeshProUGUI _initial = null!;
+        private TextMeshProUGUI _moneyLabel = null!;
+        private TextMeshProUGUI _incomeLabel = null!;
+        private Image _moneyIcon = null!;
+        private TextMeshProUGUI _dateLabel = null!;
+        private TextMeshProUGUI _yearLabel = null!;
+        private PlayerPortrait _portrait = null!;
+        private ProfileScreen _profile = null!;
         private RectTransform _summary = null!;
-        private TextMeshProUGUI _monthLabel = null!;
-        private TextMeshProUGUI _dayLabel = null!;
         private RectTransform _bars = null!;
         private RectTransform _groups = null!;
 
@@ -603,58 +608,140 @@ namespace MistakesLife.Unity
         }
 
         /// <summary>
-        /// Arriba, siempre a la vista: el retrato con anillo amarillo (lo tuyo) y tus iniciales,
-        /// tu nombre y edad, tu curso o pega y tu comuna, y a la derecha el mes en grande y el día.
+        /// Arriba, siempre a la vista (D6-1a, idea de Isaias del 22-11-2026): a la izquierda tu
+        /// cara, tu nombre y tu edad (al tocarlos se abre tu ficha); en la esquina derecha tu plata
+        /// en grande con su billete (o monedas de niño) y lo que ganas al mes (al tocarla se abre
+        /// Tu dinero). Debajo, la tira con la fecha corta y el año del mundo.
         /// </summary>
         private void BuildTopBar(RectTransform page)
         {
             RectTransform top = UiFactory.Child(page, "Arriba");
             Backdrop(top, Translucent(UiFactory.Background, 0.92f), Beyond, 0f);
             HorizontalLayoutGroup row = top.gameObject.AddComponent<HorizontalLayoutGroup>();
-            row.padding = new RectOffset(44, 44, 30, 26);
-            row.spacing = 28;
+            row.padding = new RectOffset(40, 40, 28, 24);
+            row.spacing = 24;
             row.childAlignment = TextAnchor.MiddleLeft;
             row.childControlWidth = true;
             row.childControlHeight = true;
             row.childForceExpandWidth = false;
             row.childForceExpandHeight = false;
 
-            RectTransform ring = UiFactory.Child(top, "Retrato");
-            Image ringImage = ring.gameObject.AddComponent<Image>();
-            ringImage.sprite = Icons.Get(Icons.Disc);
-            ringImage.color = UiFactory.Accent;
-            LayoutElement size = ring.gameObject.AddComponent<LayoutElement>();
-            size.minWidth = size.preferredWidth = 112;
-            size.minHeight = size.preferredHeight = 112;
-            RectTransform face = UiFactory.Child(ring, "Cara");
-            UiFactory.Stretch(face);
-            face.offsetMin = new Vector2(6f, 6f);
-            face.offsetMax = new Vector2(-6f, -6f);
-            Image faceImage = face.gameObject.AddComponent<Image>();
-            faceImage.sprite = Icons.Get(Icons.Disc);
-            faceImage.color = UiFactory.Hex(0xE8C3A0);
-            _initial = UiFactory.Label(face, string.Empty, 40, UiFactory.Hex(0x3B2A22), FontStyles.Bold);
-            UiFactory.Stretch(_initial.rectTransform);
-            _initial.alignment = TextAlignmentOptions.Center;
-
-            RectTransform who = UiFactory.Column(top, "Quien", 0, 2);
+            // Tu cara, tu nombre y tu edad: un solo botón que abre tu ficha.
+            RectTransform who = UiFactory.Child(top, "Quien");
+            HorizontalLayoutGroup whoRow = who.gameObject.AddComponent<HorizontalLayoutGroup>();
+            whoRow.spacing = 22;
+            whoRow.childAlignment = TextAnchor.MiddleLeft;
+            whoRow.childControlWidth = true;
+            whoRow.childControlHeight = true;
+            whoRow.childForceExpandWidth = false;
+            whoRow.childForceExpandHeight = false;
             who.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
-            _name = UiFactory.Label(who, string.Empty, 46, UiFactory.Ink, FontStyles.Bold);
+            Image whoTouch = who.gameObject.AddComponent<Image>();
+            whoTouch.color = Color.clear;
+            Button whoButton = who.gameObject.AddComponent<Button>();
+            whoButton.transition = Selectable.Transition.None;
+            whoButton.onClick.AddListener(OpenProfile);
+
+            _portrait = new PlayerPortrait(transform);
+            _profile = new ProfileScreen(_safe, _portrait);
+            ProfileScreen.PortraitImage(who, _portrait.Texture, 112);
+            RectTransform names = UiFactory.Column(who, "Nombre y edad", 0, 2);
+            names.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+            _name = UiFactory.Label(names, string.Empty, 44, UiFactory.Ink, FontStyles.Bold);
             _name.overflowMode = TextOverflowModes.Ellipsis;
             _name.textWrappingMode = TextWrappingModes.NoWrap;
-            _details = UiFactory.Label(who, string.Empty, 37, UiFactory.MutedInk, FontStyles.Bold);
+            _details = UiFactory.Label(names, string.Empty, 36, UiFactory.MutedInk, FontStyles.Bold);
             _details.overflowMode = TextOverflowModes.Ellipsis;
             _details.textWrappingMode = TextWrappingModes.NoWrap;
 
-            RectTransform when = UiFactory.Column(top, "Cuando", 0, 2);
-            when.GetComponent<VerticalLayoutGroup>().childAlignment = TextAnchor.MiddleRight;
-            _monthLabel = UiFactory.Label(when, string.Empty, 55, UiFactory.Ink, FontStyles.Normal, Face.Title);
-            _monthLabel.alignment = TextAlignmentOptions.Right;
-            _monthLabel.textWrappingMode = TextWrappingModes.NoWrap;
-            _dayLabel = UiFactory.Label(when, string.Empty, 36, UiFactory.MutedInk, FontStyles.Bold);
-            _dayLabel.alignment = TextAlignmentOptions.Right;
-            _dayLabel.textWrappingMode = TextWrappingModes.NoWrap;
+            // Tu plata en la esquina: lo que más se ve de la cabecera.
+            RectTransform money = UiFactory.Column(top, "Tu plata", 0, 0);
+            money.GetComponent<VerticalLayoutGroup>().childAlignment = TextAnchor.MiddleRight;
+            Image moneyTouch = money.gameObject.AddComponent<Image>();
+            moneyTouch.color = Color.clear;
+            Button moneyButton = money.gameObject.AddComponent<Button>();
+            moneyButton.transition = Selectable.Transition.None;
+            moneyButton.onClick.AddListener(() =>
+            {
+                if (_presenter != null && _presenter.Phase == LifePhase.Living)
+                {
+                    Sounds.Play(Sound.Register);
+                    _money.Show(_presenter);
+                }
+            });
+            RectTransform amountRow = UiFactory.Child(money, "Monto");
+            HorizontalLayoutGroup amountLayout = amountRow.gameObject.AddComponent<HorizontalLayoutGroup>();
+            amountLayout.spacing = 14;
+            amountLayout.childAlignment = TextAnchor.MiddleRight;
+            amountLayout.childControlWidth = true;
+            amountLayout.childControlHeight = true;
+            amountLayout.childForceExpandWidth = false;
+            amountLayout.childForceExpandHeight = false;
+            _moneyIcon = Icons.Place(amountRow, Icons.Bill, 62, MoneyGreen);
+            _moneyLabel = UiFactory.Label(amountRow, string.Empty, 60, UiFactory.Ink, FontStyles.Bold, Face.Title);
+            _moneyLabel.alignment = TextAlignmentOptions.Right;
+            _moneyLabel.textWrappingMode = TextWrappingModes.NoWrap;
+            _incomeLabel = UiFactory.Label(money, string.Empty, UiFactory.MinFontSize, UiFactory.Good, FontStyles.Bold);
+            _incomeLabel.alignment = TextAlignmentOptions.Right;
+            _incomeLabel.textWrappingMode = TextWrappingModes.NoWrap;
+            _incomeLabel.richText = true;
+
+            BuildDateStrip(page);
         }
+
+        /// <summary>Verde de billete para el ícono de la plata.</summary>
+        private static readonly Color MoneyGreen = UiFactory.Hex(0x5FD39A);
+
+        /// <summary>Dorado de moneda, para la plata de niño (efectivo).</summary>
+        private static readonly Color CoinGold = UiFactory.Hex(0xE2B84A);
+
+        /// <summary>
+        /// La tira de la fecha (Isaias, 22-11-2026): a todo el ancho, de papel para que no se
+        /// confunda con lo demás, con la fecha corta sin el día de la semana ("18 de marzo") y el
+        /// año del mundo ("Año 27"), que sigue creciendo con las generaciones.
+        /// </summary>
+        private void BuildDateStrip(RectTransform page)
+        {
+            RectTransform strip = UiFactory.Child(page, "Tira de la fecha");
+            Backdrop(strip, UiFactory.Paper, 0f, 0f);
+            HorizontalLayoutGroup row = strip.gameObject.AddComponent<HorizontalLayoutGroup>();
+            row.padding = new RectOffset(44, 44, 12, 12);
+            row.childAlignment = TextAnchor.MiddleLeft;
+            row.childControlWidth = true;
+            row.childControlHeight = true;
+            row.childForceExpandWidth = true;
+            row.childForceExpandHeight = false;
+            _dateLabel = UiFactory.Label(strip, string.Empty, 42, UiFactory.PaperInk, FontStyles.Bold);
+            _dateLabel.textWrappingMode = TextWrappingModes.NoWrap;
+            _yearLabel = UiFactory.Label(strip, string.Empty, 42, UiFactory.KeyInk, FontStyles.Bold, Face.Title);
+            _yearLabel.alignment = TextAlignmentOptions.Right;
+            _yearLabel.textWrappingMode = TextWrappingModes.NoWrap;
+        }
+
+        /// <summary>Abre tu ficha (al tocar tu cara o tu nombre).</summary>
+        private void OpenProfile()
+        {
+            if (_presenter == null || !_presenter.Session.World.Player.IsAlive)
+            {
+                return;
+            }
+
+            Sounds.Play(Sound.PageTurn);
+            _profile.Show(_presenter);
+        }
+
+        /// <summary>
+        /// El nombre y el primer apellido ("Vicente Flores Rivera" → "Vicente Flores"): en la
+        /// cabecera va nombre, apellido y edad; el nombre completo está en tu ficha.
+        /// </summary>
+        private static string ShortName(string fullName)
+        {
+            string[] parts = fullName.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length > 2 ? parts[0] + " " + parts[1] : fullName;
+        }
+
+        /// <summary>Abre tu ficha, para las capturas.</summary>
+        public void OpenProfileForCapture() => _profile.Show(_presenter!);
 
         /// <summary>
         /// Abajo de todo: la barra de grupos (Tu gente, Estudios, Dinero, Celular y Más), con su
@@ -932,22 +1019,24 @@ namespace MistakesLife.Unity
 
             LifeSnapshot life = presenter.Snapshot();
             HeaderView header = presenter.Header();
-            _name.text = $"{ShortName(life.PlayerName)} · {life.AgeLabel}";
-            var details = new List<string>();
-            if (header.Role.Length > 0)
+            _name.text = ShortName(life.PlayerName);
+            _details.text = life.AgeLabel;
+            HomeMemberView? me = life.Home.Members.FirstOrDefault(m => m.IsPlayer);
+            if (me != null)
             {
-                details.Add(header.Role);
+                _portrait.Show(me);
             }
 
-            if (header.Commune.Length > 0)
-            {
-                details.Add(header.Commune);
-            }
-
-            _details.text = string.Join(" · ", details);
-            _initial.text = Initials(life.PlayerName);
-            _monthLabel.text = header.Month;
-            _dayLabel.text = header.Day;
+            _moneyLabel.text = header.Money;
+            _moneyLabel.color = header.BelowZero ? UiFactory.Bad : UiFactory.Ink;
+            _moneyIcon.sprite = Icons.Get(header.Cash ? Icons.Coin : Icons.Bill);
+            _moneyIcon.color = header.BelowZero ? UiFactory.Bad : header.Cash ? CoinGold : MoneyGreen;
+            _incomeLabel.text = header.Income.Length > 0
+                ? $"{header.Income} <color=#{ColorUtility.ToHtmlStringRGB(UiFactory.MutedInk)}>{presenter.Text("ui.cabecera.al_mes")}</color>"
+                : header.Cash ? $"<color=#{ColorUtility.ToHtmlStringRGB(UiFactory.MutedInk)}>{presenter.Text("ui.cabecera.efectivo")}</color>" : string.Empty;
+            _incomeLabel.gameObject.SetActive(_incomeLabel.text.Length > 0);
+            _dateLabel.text = header.Date;
+            _yearLabel.text = header.Year;
 
             _home.Show(life.Home, life.DailyPlace, life.Workplace);
             _home.SetMood(life.Happiness);
@@ -1442,29 +1531,6 @@ namespace MistakesLife.Unity
             });
             Icons.Place(row, icon, 72f, UiFactory.Ink);
             UiFactory.Label(row, label, 44, UiFactory.Ink, FontStyles.Bold).gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
-        }
-
-        /// <summary>
-        /// El nombre y el primer apellido ("Vicente Flores Rivera" → "Vicente Flores"), como en el
-        /// boceto: así la edad cabe al lado aunque el mes sea largo.
-        /// </summary>
-        private static string ShortName(string fullName)
-        {
-            string[] parts = fullName.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
-            return parts.Length > 2 ? parts[0] + " " + parts[1] : fullName;
-        }
-
-        /// <summary>Las iniciales del nombre y el primer apellido ("Valentina Rojas Pérez" → "VR").</summary>
-        private static string Initials(string fullName)
-        {
-            string[] parts = fullName.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length == 0)
-            {
-                return string.Empty;
-            }
-
-            string first = parts[0].Substring(0, 1);
-            return parts.Length > 1 ? first + parts[1].Substring(0, 1) : first;
         }
 
         /// <summary>Una fila de cosas del mismo ancho.</summary>
