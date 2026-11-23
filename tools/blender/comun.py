@@ -99,6 +99,20 @@ def textura_madera(nombre, claro, oscuro, semilla=7, tamano=512, vertical=False)
     return imagen(nombre, pix[::-1])
 
 
+def textura_tela(nombre, color, semilla=11, tamano=256, rayas=None):
+    """Tela tejida: trama fina y manchas suaves; `rayas` = (color, cada_cuantos_pixeles) opcional."""
+    alto = ancho = tamano
+    trama = (np.indices((alto, ancho)).sum(axis=0) % 2) * 0.04
+    manchas = _ruido(alto, ancho, 32, semilla) * 0.10 + _ruido(alto, ancho, 3, semilla + 1) * 0.06
+    base = np.array(color)[None, None, :] * (0.92 + trama[..., None] + manchas[..., None] - 0.08)
+    if rayas is not None:
+        color_raya, cada = rayas
+        en_raya = ((np.arange(alto) // 6) % (cada // 6) == 0)[:, None, None]
+        base = np.where(en_raya, np.array(color_raya)[None, None, :] * (0.95 + manchas[..., None]), base)
+    pix = np.concatenate([np.clip(base, 0, 1), np.ones((alto, ancho, 1))], axis=2)
+    return imagen(nombre, pix)
+
+
 # ---------------------------------------------------------------- formas
 
 def _objeto(nombre, malla, mat):
