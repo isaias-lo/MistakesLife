@@ -1,12 +1,12 @@
 [
-  { "id": "lugar.barrio.casa", "forma": "casa", "abre": "casa", "acciones": ["accion.tarde_hijo"] },
-  { "id": "lugar.barrio.plaza", "forma": "plaza" },
+  { "id": "lugar.barrio.casa", "forma": "casa", "abre": "casa", "acciones": ["accion.tarde_hijo"], "momentos": ["lugar.casa", "lugar.pieza"] },
+  { "id": "lugar.barrio.plaza", "forma": "plaza", "momentos": ["lugar.plaza"] },
   { "id": "lugar.barrio.mall", "forma": "mall" },
   { "id": "lugar.barrio.gimnasio", "forma": "gimnasio", "edad_minima": 15 },
   { "id": "lugar.barrio.parque", "forma": "parque" },
   { "id": "lugar.barrio.cafe", "forma": "cafe", "edad_minima": 14 },
-  { "id": "lugar.barrio.casa_amigos", "forma": "casa_amigos", "condiciones": "jugador.amigos > 0", "acciones": ["accion.juntarse_amigo"] },
-  { "id": "lugar.barrio.estudios", "forma": "colegio", "abre": "estudios", "condiciones": "jugador.en_clases" },
-  { "id": "lugar.barrio.pega", "forma": "oficina", "abre": "trabajo", "condiciones": "jugador.trabaja" },
+  { "id": "lugar.barrio.casa_amigos", "forma": "casa_amigos", "condiciones": "jugador.amigos > 0", "acciones": ["accion.juntarse_amigo"], "momentos": ["lugar.casa_amigo", "lugar.carrete"] },
+  { "id": "lugar.barrio.estudios", "forma": "colegio", "abre": "estudios", "condiciones": "jugador.en_clases", "momentos": ["lugar.sala", "lugar.patio", "lugar.colegio", "lugar.campus", "lugar.biblioteca", "lugar.sala_u"] },
+  { "id": "lugar.barrio.pega", "forma": "oficina", "abre": "trabajo", "condiciones": "jugador.trabaja", "momentos": ["lugar.trabajo"] },
   { "id": "lugar.barrio.bar", "forma": "bar", "edad_minima": 18 }
 ]

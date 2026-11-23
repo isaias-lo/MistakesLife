@@ -3432,8 +3432,29 @@ namespace MistakesLife.Core.Content
                 {
                     _errors.Add(new ContentError(where, "un lugar sin abre necesita algo que hacer: una acción con \"lugar\" o \"acciones\"."));
                 }
+
+                foreach (string moment in place.MomentPlaces)
+                {
+                    if (string.IsNullOrWhiteSpace(moment) || !moment.StartsWith("lugar.", StringComparison.Ordinal))
+                    {
+                        _errors.Add(new ContentError(where, $"momentos: '{moment}' debe ser un lugar de momentos (lugar.<nombre>)."));
+                    }
+
+                    MapPlaceDefinition? other = _mapPlaces.FirstOrDefault(p => p != place && (p.Id == moment || p.MomentPlaces.Contains(moment)));
+                    if (other != null)
+                    {
+                        _errors.Add(new ContentError(where, $"momentos: '{moment}' ya es de {other.Id}; un momento pasa en un solo lugar."));
+                    }
+                }
             }
         }
+
+        /// <summary>
+        /// El lugar del barrio donde pasa un momento con ese <c>"lugar"</c> (D5c3): el que lo nombra
+        /// en <see cref="MapPlaceDefinition.MomentPlaces"/>, o el que tiene ese id. Null si ninguno.
+        /// </summary>
+        public MapPlaceDefinition? MapPlaceOfMoment(string momentPlace) =>
+            _mapPlaces.FirstOrDefault(p => p.Id == momentPlace) ?? _mapPlaces.FirstOrDefault(p => p.MomentPlaces.Contains(momentPlace));
 
         private void ValidateChatOpeners()
         {

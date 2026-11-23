@@ -29,6 +29,10 @@ namespace MistakesLife.Unity
         private Transform _work = null!;
         private Transform _place = null!;
         private string? _placeShown;
+        private GameObject? _highlight;
+
+        /// <summary>El color de la marca de la persona del momento: el mismo coral cálido de "Momento clave".</summary>
+        private static readonly Color MomentMark = new Color(0.93f, 0.48f, 0.34f);
         private ShapeKit _kit = null!;
         private SceneView _view = SceneView.Room;
         private RectTransform? _viewport;
@@ -301,6 +305,73 @@ namespace MistakesLife.Unity
             OutingBuilder.Build(_kit, outing);
             _kit.Parent = _room;
             HideWallsInFront();
+        }
+
+        /// <summary>
+        /// Destaca a la persona de un momento (D5c3) en lo que se ve ahora: un anillo a sus pies y
+        /// una flecha suave sobre su cabeza, del color de los momentos. Con null se quita. Si esa
+        /// persona no está en la escena (no es de tu curso, no vive contigo), no se marca a nadie.
+        /// </summary>
+        public void Highlight(int? personId)
+        {
+            if (_highlight != null)
+            {
+                if (Application.isPlaying)
+                {
+                    Destroy(_highlight);
+                }
+                else
+                {
+                    DestroyImmediate(_highlight);
+                }
+
+                _highlight = null;
+            }
+
+            if (personId == null)
+            {
+                return;
+            }
+
+            string id = personId.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            Transform root = ActiveRoot;
+            Transform? person = FindIn(root, PlaceBuilder.PersonPrefix + id) ?? FindIn(root, RoomBuilder.FamilyPrefix + id);
+            if (person == null)
+            {
+                return;
+            }
+
+            Bounds bounds = default;
+            bool any = false;
+            foreach (Renderer shape in person.GetComponentsInChildren<Renderer>())
+            {
+                if (any)
+                {
+                    bounds.Encapsulate(shape.bounds);
+                }
+                else
+                {
+                    bounds = shape.bounds;
+                    any = true;
+                }
+            }
+
+            if (!any)
+            {
+                return;
+            }
+
+            _highlight = new GameObject("Marca del momento");
+            _highlight.transform.SetParent(root, false);
+            Transform previous = _kit.Parent;
+            _kit.Parent = _highlight.transform;
+            Vector3 feet = root.InverseTransformPoint(new Vector3(bounds.center.x, bounds.min.y, bounds.center.z));
+            Vector3 head = root.InverseTransformPoint(new Vector3(bounds.center.x, bounds.max.y, bounds.center.z));
+            float width = Mathf.Max(bounds.size.x, bounds.size.z) * 1.6f;
+            _kit.Shape(PrimitiveType.Cylinder, "Anillo del momento", feet + new Vector3(0f, 0.015f, 0f), new Vector3(width, 0.01f, width), MomentMark);
+            GameObject arrow = _kit.Shape(PrimitiveType.Cube, "Flecha del momento", head + new Vector3(0f, 0.28f, 0f), new Vector3(0.16f, 0.16f, 0.16f), MomentMark);
+            arrow.transform.localRotation = Quaternion.Euler(45f, 45f, 0f);
+            _kit.Parent = previous;
         }
 
         /// <summary>El rectángulo de la pantalla que ocupa un objeto (todas sus formas visibles).</summary>

@@ -738,6 +738,94 @@ namespace MistakesLife.Core.Presentation
             return new OutingView(place.Id, place.Shape, title, Member(player, string.Empty, true), companion);
         }
 
+        /// <summary>
+        /// Adónde va la escena mientras un momento detiene el tiempo (D5c3, docs/diseno-juego.md,
+        /// "La escena sigue lo que te pasa"): el lugar del barrio que nombra el <c>"lugar"</c> del
+        /// momento (barrio/, <c>momentos</c>), con la persona del momento. Tu casa, tu colegio y tu
+        /// pega se ven con su gente; los demás lugares, de cerca, contigo y esa persona. Null si no
+        /// hay momento, si el momento no dice dónde pasa o si ese lugar todavía no tiene escena
+        /// (tu banco, un casino).
+        /// </summary>
+        public MomentSceneView? MomentScene()
+        {
+            PendingEvent? pending = Session.Pending;
+            if (pending == null || !Session.Content.TryGetEvent(pending.EventId, out EventDefinition? definition)
+                || definition?.Place == null)
+            {
+                return null;
+            }
+
+            return SceneOf(definition.Place, EventSystem.PersonOf(Session.World, pending), null);
+        }
+
+        /// <summary>
+        /// Al cerrar un mes o un año (D5c3, "la escena sigue lo que te pasa", punto 2): el lugar del
+        /// momento más importante que viviste en esas <paramref name="weeks"/> semanas, con su persona,
+        /// para que la escena quede ahí junto al resumen. Pesa más un día clave; entre iguales, el más
+        /// nuevo. Null si no pasó nada con lugar (la escena se queda donde estaba).
+        /// </summary>
+        public MomentSceneView? MonthScene(int weeks)
+        {
+            if (weeks <= 0)
+            {
+                return null;
+            }
+
+            World world = Session.World;
+            int from = world.Date.TotalWeeks - weeks;
+            var lived = world.EventHistory
+                .Where(r => r.CharacterId == world.PlayerId && r.Date.TotalWeeks > from)
+                .Select(r => (Record: r, Definition: Session.Content.TryGetEvent(r.EventId, out EventDefinition? d) ? d : null))
+                .Where(x => x.Definition?.Place != null && Session.Content.MapPlaceOfMoment(x.Definition.Place) != null)
+                .OrderByDescending(x => x.Definition!.KeyDay)
+                .ThenByDescending(x => x.Record.Date.TotalWeeks)
+                .ToList();
+            foreach (var (record, definition) in lived)
+            {
+                Character? person = record.PersonId.HasValue && world.TryGetCharacter(record.PersonId.Value, out Character? found) ? found : null;
+                MomentSceneView? scene = SceneOf(definition!.Place!, person, "ui.escena.lo_que_marco");
+                if (scene != null)
+                {
+                    return scene;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>La escena de un lugar de momento con esa persona; null si ese lugar no tiene escena ahora.</summary>
+        private MomentSceneView? SceneOf(string momentPlace, Character? person, string? captionKey)
+        {
+            MapPlaceDefinition? place = Session.Content.MapPlaceOfMoment(momentPlace);
+            if (place == null)
+            {
+                return null;
+            }
+
+            World world = Session.World;
+            if (person != null && (person.Id == world.PlayerId || !person.IsAlive))
+            {
+                person = null;
+            }
+
+            string where = person == null ? T(momentPlace) : T(momentPlace) + " · " + Text("ui.barrio.con", person.FirstName);
+            string caption = captionKey == null ? where : Text(captionKey, where);
+            switch (place.Open)
+            {
+                case MapPlaceDefinition.OpensHome:
+                    return new MomentSceneView(MomentSceneView.Home, null, null, person?.Id, caption);
+                case MapPlaceDefinition.OpensStudies:
+                case MapPlaceDefinition.OpensWork:
+                    PlaceView? section = Place(place.Open);
+                    return section == null ? null : new MomentSceneView(MomentSceneView.Section, section, null, person?.Id, caption);
+                default:
+                    HomeMemberView? companion = person == null ? null
+                        : Member(person, PeopleRows().TryGetValue(person.Id, out PersonRowView? row) ? row.Relation : string.Empty, false);
+                    var outing = new OutingView(place.Id, place.Shape, where, Member(world.Player, string.Empty, true), companion);
+                    return new MomentSceneView(MomentSceneView.Out, null, outing, person?.Id, caption);
+            }
+        }
+
         /// <summary>Las pestañas al elegir con quién, en su orden.</summary>
         public static readonly string[] CompanionTabs = { "pareja", "familia", "amigos", "curso", "pega", "conocidos" };
 

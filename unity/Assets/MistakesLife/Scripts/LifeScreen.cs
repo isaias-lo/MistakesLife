@@ -106,6 +106,16 @@ namespace MistakesLife.Unity
         private float _slideStart = -1f;
         private EventView? _shownEvent;
 
+        /// <summary>La vista que tenías antes de que un momento llevara la escena a su lugar (D5c3).</summary>
+        private SceneView? _viewBeforeMoment;
+
+        /// <summary>Dónde y con quién, mientras la escena sigue un momento o el cierre del mes.</summary>
+        private string? _followCaption;
+
+        /// <summary>Si en el próximo dibujo hay que mirar el cierre del paso (D5c3) y cuántas semanas pasaron.</summary>
+        private bool _checkMonth;
+        private int _monthWeeks;
+
         /// <summary>
         /// Transparencia de la hoja mientras la carta sube: parte invisible, así nunca se ve
         /// la carta un instante en su lugar final antes de empezar a subir (el "doble toque").
@@ -271,6 +281,14 @@ namespace MistakesLife.Unity
             }
 
             return true;
+        }
+
+        /// <summary>Para las capturas: la escena como queda al cerrar un paso de esas semanas (D5c3).</summary>
+        public void ShowMonthForCapture(int weeks)
+        {
+            _checkMonth = true;
+            _monthWeeks = weeks;
+            Refresh();
         }
 
         /// <summary>
@@ -697,9 +715,9 @@ namespace MistakesLife.Unity
             column.childControlHeight = true;
             column.childForceExpandWidth = true;
             column.childForceExpandHeight = true;
-            _roomButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(SceneView.Room), UiFactory.MinFontSize, 0, 12);
-            _blockButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(SceneView.Neighborhood), UiFactory.MinFontSize, 0, 12);
-            _workButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => SetView(SceneView.Work), UiFactory.MinFontSize, 0, 12);
+            _roomButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => PickView(SceneView.Room), UiFactory.MinFontSize, 0, 12);
+            _blockButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => PickView(SceneView.Neighborhood), UiFactory.MinFontSize, 0, 12);
+            _workButton = UiFactory.MakeButton(buttons, string.Empty, UiFactory.Option, UiFactory.Ink, () => PickView(SceneView.Work), UiFactory.MinFontSize, 0, 12);
             SizeViewSwitch(3);
 
             RectTransform place = UiFactory.Child(window, "Lugar");
@@ -775,6 +793,88 @@ namespace MistakesLife.Unity
         {
             color.a = alpha;
             return color;
+        }
+
+        /// <summary>
+        /// La escena sigue lo que te pasa (D5c3). Mientras un momento detiene el tiempo, se ve el
+        /// lugar donde pasa (tu casa, tu sala, tu pega o un lugar del barrio de cerca) con esa
+        /// persona destacada, y abajo dice dónde y con quién. Al cerrar un mes o un año, la escena
+        /// queda en el lugar de lo que más marcó, junto al resumen. Al decidir un momento, o si el
+        /// mes no trajo nada con lugar, vuelve la vista que tenías. Si tocas Casa, Barrio o Trabajo,
+        /// manda lo que elegiste.
+        /// </summary>
+        private void FollowMoment(LifePresenter presenter, LifeSnapshot life)
+        {
+            MomentSceneView? scene;
+            if (life.Phase == LifePhase.Choosing)
+            {
+                scene = presenter.MomentScene();
+            }
+            else if (_checkMonth)
+            {
+                scene = life.Phase == LifePhase.Living ? presenter.MonthScene(_monthWeeks) : null;
+            }
+            else
+            {
+                // Nada nuevo: la escena se queda como está (y con su texto, si sigue a algo).
+                if (_followCaption != null)
+                {
+                    _placeLabel.text = _followCaption;
+                }
+
+                return;
+            }
+
+            _checkMonth = false;
+            if (scene == null)
+            {
+                if (_viewBeforeMoment.HasValue)
+                {
+                    SceneView back = _viewBeforeMoment.Value;
+                    _viewBeforeMoment = null;
+                    SetView(back == SceneView.Work && life.Workplace == null ? SceneView.Room : back);
+                }
+
+                _followCaption = null;
+                _home.Highlight(null);
+                ShowCaption();
+                return;
+            }
+
+            if (!_viewBeforeMoment.HasValue)
+            {
+                _viewBeforeMoment = _home.View == SceneView.Place || _home.View == SceneView.Outing || _home.View == SceneView.Map ? SceneView.Room : _home.View;
+            }
+
+            SceneView view = SceneView.Room;
+            if (scene.Scene == MomentSceneView.Section && scene.Place != null)
+            {
+                _home.ShowPlace(scene.Place);
+                view = SceneView.Place;
+            }
+            else if (scene.Scene == MomentSceneView.Out && scene.Outing != null)
+            {
+                _home.ShowOuting(scene.Outing);
+                view = SceneView.Outing;
+            }
+
+            if (_home.View != view)
+            {
+                SetView(view);
+            }
+
+            _home.Highlight(scene.PersonId);
+            _followCaption = scene.Caption;
+            _placeLabel.text = scene.Caption;
+        }
+
+        /// <summary>Tocaste Casa, Barrio o Trabajo: la escena deja de seguir el momento y va donde elegiste.</summary>
+        private void PickView(SceneView view)
+        {
+            _viewBeforeMoment = null;
+            _followCaption = null;
+            _home.Highlight(null);
+            SetView(view);
         }
 
         private void SetView(SceneView view)
@@ -867,6 +967,7 @@ namespace MistakesLife.Unity
             _placeCaption = life.DailyPlaceLabel;
             _workCaption = life.Workplace?.Caption;
             ShowCaption();
+            FollowMoment(presenter, life);
             DrawLastStep(presenter);
             DrawSheet(presenter, life);
             DrawFreeTime(presenter, life);
@@ -1776,6 +1877,8 @@ namespace MistakesLife.Unity
             int weeks = year ? _presenter.AdvanceYear() : _presenter.AdvanceMonth();
             _chapter = _presenter.TakeClosedChapter() ?? _chapter;
             RememberStep(before, weeks);
+            _checkMonth = true;
+            _monthWeeks = weeks;
             studiesBefore.PlayChange(StudyMark.Of(_presenter));
             Refresh();
             Save();
@@ -1789,6 +1892,8 @@ namespace MistakesLife.Unity
             _study.ShowTaskQuiz(_presenter, () =>
             {
                 RememberStep(before, 0);
+                _checkMonth = true;
+                _monthWeeks = 0;
                 Refresh();
                 Save();
             });
@@ -1799,6 +1904,8 @@ namespace MistakesLife.Unity
             LifeSnapshot before = _presenter!.Snapshot();
             _presenter.Choose(option);
             RememberStep(before, 0);
+            _checkMonth = true;
+            _monthWeeks = 0;
             Refresh();
             Save();
         }
@@ -1820,6 +1927,8 @@ namespace MistakesLife.Unity
         {
             _presenter!.GoBack(moment);
             _pickingMoment = false;
+            _checkMonth = true;
+            _monthWeeks = 0;
             _chapter = null;
             _lastStep = null;
             ReloadJournal();
@@ -1830,6 +1939,8 @@ namespace MistakesLife.Unity
         private void ContinueWith(int heir)
         {
             _presenter!.ContinueWith(heir);
+            _checkMonth = true;
+            _monthWeeks = 0;
             _lastStep = null;
             Refresh();
             Save();
