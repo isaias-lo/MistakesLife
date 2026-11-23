@@ -104,5 +104,6 @@
   "ui.barrio.abrir_trabajo": "Entrar a tu pega",
   "ui.barrio.ver_gente": "Ver a toda tu gente",
   "ui.barrio.tu_gente": "TU GENTE",
-  "ui.barrio.lugar": "LUGAR DEL BARRIO"
+  "ui.barrio.lugar": "LUGAR DEL BARRIO",
+  "ui.escena.lo_que_marco": "Lo que más marcó: {0}"
 }

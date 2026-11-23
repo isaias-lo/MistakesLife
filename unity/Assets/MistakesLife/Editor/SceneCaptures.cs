@@ -391,6 +391,34 @@ namespace MistakesLife.Unity.Editor
                 Debug.LogWarning("Capturas: no apareció un momento para " + file + ".");
             }
 
+            // El cierre de un mes: la escena queda en el lugar de lo que más marcó, junto al resumen.
+            var month = new LifePresenter(new LifeSession(content, 1));
+            for (int step = 0; step < 400 && month.Phase != LifePhase.Over && month.Session.PlayerAgeInYears < 40; step++)
+            {
+                if (month.Phase == LifePhase.Choosing)
+                {
+                    month.Choose(0);
+                    continue;
+                }
+
+                int start = month.Session.World.Date.TotalWeeks;
+                month.AdvanceMonth();
+                while (month.Phase == LifePhase.Choosing)
+                {
+                    month.Choose(0);
+                }
+
+                int weeks = month.Session.World.Date.TotalWeeks - start;
+                MomentSceneView? scene = month.MonthScene(weeks);
+                if (scene != null && scene.PersonId != null && scene.Scene != MomentSceneView.Home)
+                {
+                    count += CaptureScreen(content, month, false, Path.Combine(folder, "pantalla-mes-escena.png"), monthWeeks: weeks);
+                    return count;
+                }
+            }
+
+            Debug.LogWarning("Capturas: ningún mes dejó la escena en un lugar para pantalla-mes-escena.png.");
+
             return count;
         }
 
@@ -576,7 +604,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1, string? place = null, bool placePerson = false, bool map = false, string? mapPlace = null, bool mapChoose = false, bool mapGo = false)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1, string? place = null, bool placePerson = false, bool map = false, string? mapPlace = null, bool mapChoose = false, bool mapGo = false, int monthWeeks = 0)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -621,6 +649,11 @@ namespace MistakesLife.Unity.Editor
                 if (place != null && !screen.OpenPlaceForCapture(place, placePerson))
                 {
                     Debug.LogWarning($"Capturas: la vida no tiene lugar de '{place}'; {Path.GetFileName(file)} sale sin él.");
+                }
+
+                if (monthWeeks > 0)
+                {
+                    screen.ShowMonthForCapture(monthWeeks);
                 }
 
                 if (map && !screen.OpenMapForCapture(mapPlace, mapChoose, mapGo))

@@ -755,20 +755,61 @@ namespace MistakesLife.Core.Presentation
                 return null;
             }
 
-            MapPlaceDefinition? place = Session.Content.MapPlaceOfMoment(definition.Place);
+            return SceneOf(definition.Place, EventSystem.PersonOf(Session.World, pending), null);
+        }
+
+        /// <summary>
+        /// Al cerrar un mes o un año (D5c3, "la escena sigue lo que te pasa", punto 2): el lugar del
+        /// momento más importante que viviste en esas <paramref name="weeks"/> semanas, con su persona,
+        /// para que la escena quede ahí junto al resumen. Pesa más un día clave; entre iguales, el más
+        /// nuevo. Null si no pasó nada con lugar (la escena se queda donde estaba).
+        /// </summary>
+        public MomentSceneView? MonthScene(int weeks)
+        {
+            if (weeks <= 0)
+            {
+                return null;
+            }
+
+            World world = Session.World;
+            int from = world.Date.TotalWeeks - weeks;
+            var lived = world.EventHistory
+                .Where(r => r.CharacterId == world.PlayerId && r.Date.TotalWeeks > from)
+                .Select(r => (Record: r, Definition: Session.Content.TryGetEvent(r.EventId, out EventDefinition? d) ? d : null))
+                .Where(x => x.Definition?.Place != null && Session.Content.MapPlaceOfMoment(x.Definition.Place) != null)
+                .OrderByDescending(x => x.Definition!.KeyDay)
+                .ThenByDescending(x => x.Record.Date.TotalWeeks)
+                .ToList();
+            foreach (var (record, definition) in lived)
+            {
+                Character? person = record.PersonId.HasValue && world.TryGetCharacter(record.PersonId.Value, out Character? found) ? found : null;
+                MomentSceneView? scene = SceneOf(definition!.Place!, person, "ui.escena.lo_que_marco");
+                if (scene != null)
+                {
+                    return scene;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>La escena de un lugar de momento con esa persona; null si ese lugar no tiene escena ahora.</summary>
+        private MomentSceneView? SceneOf(string momentPlace, Character? person, string? captionKey)
+        {
+            MapPlaceDefinition? place = Session.Content.MapPlaceOfMoment(momentPlace);
             if (place == null)
             {
                 return null;
             }
 
             World world = Session.World;
-            Character? person = EventSystem.PersonOf(world, pending);
-            if (person != null && person.Id == world.PlayerId)
+            if (person != null && (person.Id == world.PlayerId || !person.IsAlive))
             {
                 person = null;
             }
 
-            string caption = person == null ? T(definition.Place) : T(definition.Place) + " · " + Text("ui.barrio.con", person.FirstName);
+            string where = person == null ? T(momentPlace) : T(momentPlace) + " · " + Text("ui.barrio.con", person.FirstName);
+            string caption = captionKey == null ? where : Text(captionKey, where);
             switch (place.Open)
             {
                 case MapPlaceDefinition.OpensHome:
@@ -780,7 +821,7 @@ namespace MistakesLife.Core.Presentation
                 default:
                     HomeMemberView? companion = person == null ? null
                         : Member(person, PeopleRows().TryGetValue(person.Id, out PersonRowView? row) ? row.Relation : string.Empty, false);
-                    var outing = new OutingView(place.Id, place.Shape, caption, Member(world.Player, string.Empty, true), companion);
+                    var outing = new OutingView(place.Id, place.Shape, where, Member(world.Player, string.Empty, true), companion);
                     return new MomentSceneView(MomentSceneView.Out, null, outing, person?.Id, caption);
             }
         }

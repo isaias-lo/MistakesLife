@@ -101,6 +101,55 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void CierreDelMes_LaEscenaQuedaEnElLugarDeLoQueMasMarco()
+        {
+            var session = new LifeSession(Content, 11, "pais.chile");
+            session.TimeMachine.Enabled = false;
+            var presenter = new LifePresenter(session);
+            int checkedMonths = 0;
+            for (int month = 0; month < 12 * 20 && checkedMonths < 5 && session.World.Player.IsAlive; month++)
+            {
+                int start = session.World.Date.TotalWeeks;
+                session.Advance(4);
+                while (session.Pending != null)
+                {
+                    session.Choose(session.Pending.AvailableOptions[0]);
+                }
+
+                int weeks = session.World.Date.TotalWeeks - start;
+                var lived = session.World.EventHistory
+                    .Where(r => r.CharacterId == session.World.PlayerId && r.Date.TotalWeeks > start)
+                    .Select(r => Content.GetEvent(r.EventId))
+                    .Where(d => d.Place != null && Content.MapPlaceOfMoment(d.Place) != null)
+                    .ToList();
+                MomentSceneView? scene = presenter.MonthScene(weeks);
+                if (lived.Count == 0)
+                {
+                    Assert.Null(scene);
+                    continue;
+                }
+
+                if (scene == null)
+                {
+                    continue; // el lugar no tiene escena ahora (por ejemplo, ya no vas a clases)
+                }
+
+                checkedMonths++;
+                Assert.StartsWith("Lo que más marcó: ", scene.Caption);
+                Assert.Contains(lived, d => scene.Caption.Contains(presenter.Text(d.Place!)));
+            }
+
+            Assert.True(checkedMonths > 0, "En 20 años ningún mes dejó la escena en el lugar de un momento.");
+        }
+
+        [Fact]
+        public void CierreSinTiempo_NoCambiaLaEscena()
+        {
+            var session = new LifeSession(Content, 4, "pais.chile");
+            Assert.Null(new LifePresenter(session).MonthScene(0));
+        }
+
+        [Fact]
         public void SinMomento_LaEscenaNoCambia()
         {
             var session = new LifeSession(Content, 4, "pais.chile");
