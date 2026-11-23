@@ -738,6 +738,53 @@ namespace MistakesLife.Core.Presentation
             return new OutingView(place.Id, place.Shape, title, Member(player, string.Empty, true), companion);
         }
 
+        /// <summary>
+        /// Adónde va la escena mientras un momento detiene el tiempo (D5c3, docs/diseno-juego.md,
+        /// "La escena sigue lo que te pasa"): el lugar del barrio que nombra el <c>"lugar"</c> del
+        /// momento (barrio/, <c>momentos</c>), con la persona del momento. Tu casa, tu colegio y tu
+        /// pega se ven con su gente; los demás lugares, de cerca, contigo y esa persona. Null si no
+        /// hay momento, si el momento no dice dónde pasa o si ese lugar todavía no tiene escena
+        /// (tu banco, un casino).
+        /// </summary>
+        public MomentSceneView? MomentScene()
+        {
+            PendingEvent? pending = Session.Pending;
+            if (pending == null || !Session.Content.TryGetEvent(pending.EventId, out EventDefinition? definition)
+                || definition?.Place == null)
+            {
+                return null;
+            }
+
+            MapPlaceDefinition? place = Session.Content.MapPlaceOfMoment(definition.Place);
+            if (place == null)
+            {
+                return null;
+            }
+
+            World world = Session.World;
+            Character? person = EventSystem.PersonOf(world, pending);
+            if (person != null && person.Id == world.PlayerId)
+            {
+                person = null;
+            }
+
+            string caption = person == null ? T(definition.Place) : T(definition.Place) + " · " + Text("ui.barrio.con", person.FirstName);
+            switch (place.Open)
+            {
+                case MapPlaceDefinition.OpensHome:
+                    return new MomentSceneView(MomentSceneView.Home, null, null, person?.Id, caption);
+                case MapPlaceDefinition.OpensStudies:
+                case MapPlaceDefinition.OpensWork:
+                    PlaceView? section = Place(place.Open);
+                    return section == null ? null : new MomentSceneView(MomentSceneView.Section, section, null, person?.Id, caption);
+                default:
+                    HomeMemberView? companion = person == null ? null
+                        : Member(person, PeopleRows().TryGetValue(person.Id, out PersonRowView? row) ? row.Relation : string.Empty, false);
+                    var outing = new OutingView(place.Id, place.Shape, caption, Member(world.Player, string.Empty, true), companion);
+                    return new MomentSceneView(MomentSceneView.Out, null, outing, person?.Id, caption);
+            }
+        }
+
         /// <summary>Las pestañas al elegir con quién, en su orden.</summary>
         public static readonly string[] CompanionTabs = { "pareja", "familia", "amigos", "curso", "pega", "conocidos" };
 

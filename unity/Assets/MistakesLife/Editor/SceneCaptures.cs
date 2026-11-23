@@ -341,6 +341,56 @@ namespace MistakesLife.Unity.Editor
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-vida.png"));
             count += CaptureScreen(content, life, true, Path.Combine(folder, "pantalla-menu.png"));
             count += WitnessCard(content, folder);
+            count += MomentScenes(content, folder);
+            return count;
+        }
+
+        /// <summary>
+        /// La escena sigue lo que te pasa (D5c3): la primera carta que pasa en tu casa con alguien,
+        /// la primera en tu sala o tu pega, y la primera en un lugar del barrio, cada una con la
+        /// escena en ese lugar y la persona del momento destacada.
+        /// </summary>
+        private static int MomentScenes(ContentDatabase content, string folder)
+        {
+            var files = new Dictionary<string, string>
+            {
+                [MomentSceneView.Home] = "pantalla-momento-casa.png",
+                [MomentSceneView.Section] = "pantalla-momento-lugar.png",
+                [MomentSceneView.Out] = "pantalla-momento-salida.png",
+            };
+            int count = 0;
+            foreach (ulong seed in new ulong[] { 1, 2, 3 })
+            {
+                var life = new LifePresenter(new LifeSession(content, seed));
+                for (int step = 0; step < 600 && files.Count > 0 && life.Phase != LifePhase.Over && life.Session.PlayerAgeInYears < 40; step++)
+                {
+                    if (life.Phase == LifePhase.Living)
+                    {
+                        life.AdvanceUntilSomething();
+                        continue;
+                    }
+
+                    if (life.Phase != LifePhase.Choosing)
+                    {
+                        break;
+                    }
+
+                    MomentSceneView? scene = life.MomentScene();
+                    if (scene != null && scene.PersonId != null && files.TryGetValue(scene.Scene, out string? file))
+                    {
+                        count += CaptureScreen(content, life, false, Path.Combine(folder, file));
+                        files.Remove(scene.Scene);
+                    }
+
+                    life.Choose(0);
+                }
+            }
+
+            foreach (string file in files.Values)
+            {
+                Debug.LogWarning("Capturas: no apareció un momento para " + file + ".");
+            }
+
             return count;
         }
 

@@ -223,9 +223,26 @@ namespace MistakesLife.Unity
                 HomeMemberView member = members[i];
                 float z = i % 2 == 0 ? -0.9f : 0.0f;
                 Vector3 position = new Vector3(start + (i * spacing), 0f, z);
-                Person(kit, member, position, i);
+
+                // Cada persona de la casa va dentro de "familia.<id>", para que la escena pueda
+                // destacarla cuando un momento pasa con ella (D5c3). No se toca: la casa se toca por sus cosas.
+                var holder = new GameObject(FamilyPrefix + member.Id);
+                holder.transform.SetParent(kit.Parent, false);
+                Transform previous = kit.Parent;
+                kit.Parent = holder.transform;
+                try
+                {
+                    Person(kit, member, position, i);
+                }
+                finally
+                {
+                    kit.Parent = previous;
+                }
             }
         }
+
+        /// <summary>Cómo empieza el nombre del objeto de una persona de la casa: "familia.1234".</summary>
+        public const string FamilyPrefix = "familia.";
 
         /// <summary>
         /// Una figura estilo juguete de madera (docs/archivo/diseno-app.md, sección 4): cuerpo de una

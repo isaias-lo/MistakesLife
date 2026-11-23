@@ -106,6 +106,9 @@ namespace MistakesLife.Unity
         private float _slideStart = -1f;
         private EventView? _shownEvent;
 
+        /// <summary>La vista que tenías antes de que un momento llevara la escena a su lugar (D5c3).</summary>
+        private SceneView? _viewBeforeMoment;
+
         /// <summary>
         /// Transparencia de la hoja mientras la carta sube: parte invisible, así nunca se ve
         /// la carta un instante en su lugar final antes de empezar a subir (el "doble toque").
@@ -777,6 +780,53 @@ namespace MistakesLife.Unity
             return color;
         }
 
+        /// <summary>
+        /// La escena sigue lo que te pasa (D5c3): mientras un momento detiene el tiempo, se ve el
+        /// lugar donde pasa (tu casa, tu sala, tu pega o un lugar del barrio de cerca) con esa
+        /// persona destacada, y abajo dice dónde y con quién. Al decidir, vuelve la vista que tenías.
+        /// </summary>
+        private void FollowMoment(LifePresenter presenter, LifeSnapshot life)
+        {
+            MomentSceneView? scene = life.Phase == LifePhase.Choosing ? presenter.MomentScene() : null;
+            if (scene == null)
+            {
+                if (_viewBeforeMoment.HasValue)
+                {
+                    SceneView back = _viewBeforeMoment.Value;
+                    _viewBeforeMoment = null;
+                    SetView(back == SceneView.Work && life.Workplace == null ? SceneView.Room : back);
+                }
+
+                _home.Highlight(null);
+                return;
+            }
+
+            if (!_viewBeforeMoment.HasValue)
+            {
+                _viewBeforeMoment = _home.View == SceneView.Place || _home.View == SceneView.Outing || _home.View == SceneView.Map ? SceneView.Room : _home.View;
+            }
+
+            SceneView view = SceneView.Room;
+            if (scene.Scene == MomentSceneView.Section && scene.Place != null)
+            {
+                _home.ShowPlace(scene.Place);
+                view = SceneView.Place;
+            }
+            else if (scene.Scene == MomentSceneView.Out && scene.Outing != null)
+            {
+                _home.ShowOuting(scene.Outing);
+                view = SceneView.Outing;
+            }
+
+            if (_home.View != view)
+            {
+                SetView(view);
+            }
+
+            _home.Highlight(scene.PersonId);
+            _placeLabel.text = scene.Caption;
+        }
+
         private void SetView(SceneView view)
         {
             _home.View = view;
@@ -867,6 +917,7 @@ namespace MistakesLife.Unity
             _placeCaption = life.DailyPlaceLabel;
             _workCaption = life.Workplace?.Caption;
             ShowCaption();
+            FollowMoment(presenter, life);
             DrawLastStep(presenter);
             DrawSheet(presenter, life);
             DrawFreeTime(presenter, life);

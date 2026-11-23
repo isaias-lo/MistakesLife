@@ -49,6 +49,15 @@ namespace MistakesLife.Core.Content
         [JsonProperty("acciones")]
         public List<string> ActionIds { get; set; } = new List<string>();
 
+        /// <summary>
+        /// Los lugares de los momentos (el <c>"lugar"</c> de un evento) que pasan aquí: la plaza del
+        /// barrio es <c>lugar.plaza</c>; tu colegio, <c>lugar.sala</c> y <c>lugar.patio</c>. Así,
+        /// cuando un momento detiene el tiempo, la escena va a este lugar (D5c3). El id del propio
+        /// lugar también cuenta (la fonda es <c>lugar.chile.fonda</c> en el mapa y en sus momentos).
+        /// </summary>
+        [JsonProperty("momentos")]
+        public List<string> MomentPlaces { get; set; } = new List<string>();
+
         [JsonIgnore]
         public Expression? CompiledConditions { get; set; }
 
