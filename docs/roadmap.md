@@ -39,7 +39,7 @@ Cada tarea empieza con bocetos con opciones que Isaias aprueba; recién después
 | D9 | Celular: Instante, app de citas, tienda de apps; correo con archivar, filtros y adjuntos (entre ellos el documento del Seguro de Cesantía en el correo de la AFC) | Pendiente |
 | D10 | Trámites y leyes como edificios del mapa: juzgado, Registro Civil, papeles, delitos propios con minijuego, cárcel como mundo propio | Pendiente |
 | D11 | Arquitectura C: base de datos y página web de formularios que generan los paquetes; países y casas 3D como descargas | Pendiente |
-| B1 | El 3D con Blender (regla de Isaias del 22-11-2026): modelos por scripts en `tools/blender/`, exportados a `Resources/Modelos/<id>.fbx`. Prueba aprobada: la mesa del comedor y el cuaderno de apuntes (#165). Las tres camas (de niño, de adulto y de dos plazas), el sillón de tres cuerpos y la tele plana en el muro (B2). Siguen los demás objetos de la casa, después los lugares, la gente con forma de persona y cara elegible (con bocetos antes) y las ciudades por país y clase | En curso |
+| B1 | El 3D con Blender (regla de Isaias del 22-11-2026): modelos por scripts en `tools/blender/`, exportados a `Resources/Modelos/<id>.fbx`. Prueba aprobada: la mesa del comedor y el cuaderno de apuntes (#165). Las tres camas (de niño, de adulto y de dos plazas), el sillón de tres cuerpos y la tele plana en el muro (B2, #168). Ropero, escritorio, cocina americana, puerta, ventana, planta, alfombra y cuna (B3). Siguen los objetos de escena sobre la mesa y los muros, después los lugares, la gente con forma de persona y cara elegible (con bocetos antes) y las ciudades por país y clase | En curso |
 
 ## Publicación en Google Play (detalle en `docs/publicacion.md`)
 
