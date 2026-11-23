@@ -382,6 +382,11 @@ def colegio():
     c.caja("Losa", (0, 3.25, 0), (9.2, 0.1, 5.2), _mat("losa", (0.66, 0.66, 0.64), 0.9))
     for x in (-3.6, -2.4, -1.2, 1.2, 2.4, 3.6):
         _ventana(x, 1.35, 2.5, 0.9, 1.1, frente=1, rejas=True)
+    # Atrás (lo que se ve desde la casa): las ventanas de las salas, la franja y la puerta de servicio.
+    for x in (-3.6, -2.4, -1.2, 0.0, 1.2, 2.4):
+        _ventana(x, 1.35, -2.5, 0.9, 1.1, frente=-1, rejas=True)
+    c.caja("Franja trasera", (0, 2.6, -2.52), (9.0, 0.5, 0.06), azul)
+    _puerta(3.7, -2.5, color=(0.25, 0.40, 0.65))
     # Puerta doble al medio con su marquesina y el letrero (renglones, sin letras reales).
     puerta = _mat("puerta_colegio", (0.25, 0.40, 0.65), 0.55)
     for dx in (-0.4, 0.4):
@@ -404,14 +409,14 @@ def colegio():
     o = c.caja("Patio", (0, 0.02, 3.6), (9.0, 0.04, 2.2), c.material("patio_colegio", (1, 1, 1), 0.9, textura=p.imagen("patio_colegio", lineas)))
     c.uv_plano_arriba(o)
     # Mástil con la bandera de Chile, en la esquina del patio.
-    c.cilindro("Mastil", (-4.2, 2.0, 3.0), 0.03, 4.0, _mat("fierro_blanco", (0.86, 0.86, 0.84), 0.5), lados=8)
+    c.cilindro("Mastil", (-4.2, 1.6, 2.8), 0.03, 3.2, _mat("fierro_blanco", (0.86, 0.86, 0.84), 0.5), lados=8)
     bandera = np.ones((60, 90, 4))
     bandera[:30, :, :3] = (0.96, 0.96, 0.95)
     bandera[30:, :, :3] = (0.80, 0.12, 0.15)
     bandera[:30, :30, :3] = (0.10, 0.22, 0.55)
     yy, xx = np.indices((30, 30))
     bandera[:30, :30][np.hypot(yy - 15, xx - 15) < 5, :3] = (0.96, 0.96, 0.95)
-    o = c.caja("Bandera", (-3.75, 3.6, 3.0), (0.9, 0.6, 0.01), c.material("bandera", (1, 1, 1), 0.7, textura=_textura("bandera", bandera)))
+    o = c.caja("Bandera", (-3.75, 2.85, 2.8), (0.9, 0.6, 0.01), c.material("bandera", (1, 1, 1), 0.7, textura=_textura("bandera", bandera)))
     c.uv_plano_frente(o)
 
 
@@ -453,6 +458,11 @@ def almacen():
         for bx in (-0.08, 0.08):
             for bz in (-0.12, 0.0, 0.12):
                 c.cilindro("Botella", (dx + bx, dy + 0.2, 2.35 + bz), 0.035, 0.16, _mat("botella", (0.25, 0.12, 0.08), 0.2), lados=8)
+    # Atrás: la puerta de la casa del almacenero, una ventana y el estanque de agua.
+    _puerta(0.9, -2.0, color=(0.40, 0.42, 0.45))
+    _ventana(-0.8, 1.4, -2.0, 1.0, 0.8, frente=-1, rejas=True)
+    c.caja("Medidor de luz", (1.6, 1.6, -2.08), (0.3, 0.4, 0.14), _mat("medidor", (0.75, 0.76, 0.74), 0.5), bisel=0.01)
+    c.cilindro("Estanque", (-1.2, 2.95, -1.2), 0.38, 0.7, _mat("estanque", (0.18, 0.20, 0.22), 0.6), lados=16)
     c.caja("Vereda del local", (0, 0.02, 2.5), (4.0, 0.04, 1.0), c.material("radier", (1, 1, 1), 0.95, textura=textura_cemento("radier", juntas=64)))
 
 
