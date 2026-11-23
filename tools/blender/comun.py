@@ -175,6 +175,34 @@ def girar_y(obj, grados):
     obj.rotation_euler.z -= math.radians(grados)
 
 
+def girar_x(obj, grados):
+    """Gira como Quaternion.Euler(grados, 0, 0) en Unity. Usa un solo giro por objeto."""
+    obj.rotation_euler.x += math.radians(grados)
+
+
+def girar_z(obj, grados):
+    """Gira como Quaternion.Euler(0, 0, grados) en Unity. Usa un solo giro por objeto."""
+    obj.rotation_euler.y += math.radians(grados)
+
+
+def esfera(nombre, centro, radio, mat, escala=(1.0, 1.0, 1.0), lados=24):
+    """Esfera medida en Unity; `escala` estira en los ejes de Unity (x, y, z)."""
+    bm = bmesh.new()
+    bmesh.ops.create_uvsphere(bm, u_segments=lados, v_segments=max(8, lados // 2), radius=radio)
+    sx, sy, sz = escala
+    for v in bm.verts:
+        v.co.x *= sx
+        v.co.y *= sz
+        v.co.z *= sy
+    malla = bpy.data.meshes.new(nombre)
+    bm.to_mesh(malla)
+    bm.free()
+    obj = _objeto(nombre, malla, mat)
+    obj.location = unity(*centro)
+    obj.data.shade_smooth()
+    return obj
+
+
 def uv_cubo(obj, escala=1.0):
     """Proyección de cubo para que la textura caiga pareja en todas las caras."""
     bpy.context.view_layer.objects.active = obj
@@ -200,6 +228,22 @@ def uv_plano_arriba(obj):
         for i in poligono.loop_indices:
             v = malla.vertices[malla.loops[i].vertex_index].co
             capa[i].uv = ((v.x - x0) / (x1 - x0 or 1), (v.y - y0) / (y1 - y0 or 1))
+
+
+def uv_plano_frente(obj):
+    """UV de 0 a 1 mirando de frente (para láminas colgadas en el muro del fondo)."""
+    malla = obj.data
+    if not malla.uv_layers:
+        malla.uv_layers.new()
+    capa = malla.uv_layers.active.data
+    xs = [v.co.x for v in malla.vertices]
+    zs = [v.co.z for v in malla.vertices]
+    x0, x1, z0, z1 = min(xs), max(xs), min(zs), max(zs)
+    for poligono in malla.polygons:
+        for i in poligono.loop_indices:
+            v = malla.vertices[malla.loops[i].vertex_index].co
+            # En Blender el muro del fondo se ve desde -y: x de Unity va al revés.
+            capa[i].uv = ((x1 - v.x) / (x1 - x0 or 1), (v.z - z0) / (z1 - z0 or 1))
 
 
 # ---------------------------------------------------------------- exportar
