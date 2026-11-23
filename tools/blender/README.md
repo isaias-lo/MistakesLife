@@ -29,6 +29,12 @@ python tools/blender/vista_previa.py foto.png mueble.mesa escena.casa.cuaderno_a
 revisar el modelo sin Unity. La prueba de verdad es la fila "Capturas 3D" del PR, que saca
 fotos dentro del juego.
 
+## Piezas comunes
+
+`barrio.py` tiene lo que se repite entre los lugares del mapa del barrio (`mapa.<forma>`) y de
+las salidas: vereda, árboles, techos de dos aguas, ventanas, bancas, faroles, rejas y autos. Así
+todos los lugares se ven del mismo barrio.
+
 ## Reglas
 
 - Las mismas del juego: medidas y objetos reales (un cuaderno universitario de espiral, una mesa
