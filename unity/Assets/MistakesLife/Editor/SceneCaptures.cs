@@ -320,6 +320,9 @@ namespace MistakesLife.Unity.Editor
             // Tu ficha (D6-1a): se abre al tocar tu nombre en la cabecera.
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-ficha.png"), profile: true);
 
+            // Tu banco (D6-1c): elegir dónde abrir la cuenta, la respuesta, la cuenta, la cartola y el aviso.
+            count += Bank(content, folder);
+
             // La carpeta del juzgado, con un juicio por deudas que ya avanzó unas semanas.
             count += CourtFolder(content, folder);
 
@@ -491,6 +494,65 @@ namespace MistakesLife.Unity.Editor
             return count;
         }
 
+        /// <summary>
+        /// Tu banco (D6-1c), en una vida de Chile: a los 18, sin cuenta, los bancos para elegir y la
+        /// respuesta del primero que te abre; a los 25, la cuenta, la cartola y el aviso de lo que llegó.
+        /// </summary>
+        private static int Bank(ContentDatabase content, string folder)
+        {
+            var life = new LifePresenter(new LifeSession(content, 1, "pais.chile"));
+            if (!LiveUntil(life, content, "carrera.software.", 18) || life.Phase != LifePhase.Living)
+            {
+                Debug.LogWarning("Capturas: la vida no llegó a los 18; no salen las pantallas del banco.");
+                return 0;
+            }
+
+            int count = 0;
+            if (life.Bank() == null)
+            {
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-banco-elegir.png"), bank: BankCapture.Choose);
+                count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-banco-respuesta.png"), bank: BankCapture.Answer);
+            }
+            else
+            {
+                Debug.LogWarning("Capturas: a los 18 la vida ya tenía cuenta; no salen pantalla-banco-elegir.png ni pantalla-banco-respuesta.png.");
+            }
+
+            if (!LiveUntil(life, content, "carrera.software.", 25) || life.Phase != LifePhase.Living || life.Bank() == null)
+            {
+                Debug.LogWarning("Capturas: a los 25 la vida no tiene cuenta; no salen la cuenta, la cartola ni el aviso del banco.");
+                return count;
+            }
+
+            // Lo que llegue desde aquí es lo que avisa el banco.
+            life.TakeBankNotices();
+            for (int week = 0; week < 5; week++)
+            {
+                if (life.Phase == LifePhase.Choosing)
+                {
+                    life.Choose(Pick(life, content, "carrera.software."));
+                }
+
+                life.Session.Advance(1);
+            }
+
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-banco.png"), bank: BankCapture.Account);
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-cartola.png"), bank: BankCapture.Statement);
+            count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-aviso-banco.png"), bank: BankCapture.Notice);
+            return count;
+        }
+
+        /// <summary>Qué parte del banco se abre encima de la vida en una captura.</summary>
+        private enum BankCapture
+        {
+            None,
+            Choose,
+            Answer,
+            Account,
+            Statement,
+            Notice,
+        }
+
         /// <summary>Tu equipo del trabajo: la primera vida en Chile que a los 25 a 35 trabaja con equipo.</summary>
         private static int Team(ContentDatabase content, string folder)
         {
@@ -607,7 +669,7 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>Saca una captura de la pantalla de la vida (con el menú o el celular encima si se pide) y la borra.</summary>
-        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1, string? place = null, bool placePerson = false, bool map = false, string? mapPlace = null, bool mapChoose = false, bool mapGo = false, int monthWeeks = 0, bool profile = false)
+        private static int CaptureScreen(ContentDatabase content, LifePresenter life, bool menu, string file, PhoneCapture phone = PhoneCapture.None, bool money = false, bool court = false, int studies = -1, bool team = false, string? actions = null, int people = -1, string? place = null, bool placePerson = false, bool map = false, string? mapPlace = null, bool mapChoose = false, bool mapGo = false, int monthWeeks = 0, bool profile = false, BankCapture bank = BankCapture.None)
         {
             var root = new GameObject("Captura de pantalla");
             try
@@ -627,6 +689,15 @@ namespace MistakesLife.Unity.Editor
                 if (profile)
                 {
                     screen.OpenProfileForCapture();
+                }
+
+                if (bank == BankCapture.Notice)
+                {
+                    screen.ShowBankNoticeForCapture();
+                }
+                else if (bank != BankCapture.None)
+                {
+                    screen.OpenBankForCapture(bank == BankCapture.Statement, bank == BankCapture.Answer);
                 }
 
                 if (court)
