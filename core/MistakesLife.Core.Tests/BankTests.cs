@@ -204,6 +204,30 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void AvisosDelBanco_PreguntandoCadaSemana_TraenElSueldo()
+        {
+            // Así los pide el juego: una vez por semana, después de avanzar.
+            LifeSession session = At24();
+            World world = session.World;
+            world.Player.Money = 100000;
+            Run(world, "jugador.abrir_cuenta('banco.chile.nacional')");
+            var presenter = new LifePresenter(session);
+            presenter.TakeBankNotices();
+            Run(world, "jugador.trabajar(900000)");
+
+            var seen = new System.Collections.Generic.List<MoneyLineView>();
+            for (int week = 0; week < 9; week++)
+            {
+                Play(session, 1);
+                seen.AddRange(presenter.TakeBankNotices());
+            }
+
+            Assert.Contains(seen, n => n.Id == "movimiento.remuneracion");
+            int paid = world.Player.Account!.Movements.Count(m => m.Id == "movimiento.remuneracion");
+            Assert.Equal(paid, seen.Count(n => n.Id == "movimiento.remuneracion"));
+        }
+
+        [Fact]
         public void GuardarYCargar_ConservaLaCuentaYLaCartola()
         {
             LifeSession session = At24();

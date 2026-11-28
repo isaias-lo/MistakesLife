@@ -2096,26 +2096,64 @@ namespace MistakesLife.Core.Presentation
         /// <summary>
         /// Los avisos del banco que todavía no viste (D6-1b): lo que te llegó a la cuenta desde la
         /// última vez que preguntaste (el sueldo, la pensión, el Seguro de Cesantía). La primera
-        /// vez solo cuenta lo de esta semana. No se guarda: es solo para la pantalla.
+        /// vez solo cuenta lo de la última semana. No se guarda: es solo para la pantalla.
+        /// Se recuerda el último movimiento visto (no la fecha): el sueldo de una semana se anota
+        /// con la fecha en que empezó esa semana, que ya es "antes" cuando el juego pregunta.
         /// </summary>
         public IReadOnlyList<MoneyLineView> TakeBankNotices()
         {
             Economy.BankAccount? account = Session.World.Player.Account;
-            int now = Session.World.Date.TotalWeeks;
-            int since = _bankNoticesSeen ?? now - 1;
-            _bankNoticesSeen = now;
             if (account == null)
             {
+                _lastBankMovementSeen = null;
                 return new List<MoneyLineView>();
             }
 
-            return account.Movements
-                .Where(m => m.Amount > 0 && m.Date.TotalWeeks > since && m.Id != Economy.BankRules.OpeningDeposit)
-                .Select(MovementLine)
-                .ToList();
+            IReadOnlyList<Economy.BankMovement> movements = account.Movements;
+            int first = 0;
+            int seen = _lastBankMovementSeen == null ? -1 : IndexOf(movements, _lastBankMovementSeen);
+            if (seen >= 0)
+            {
+                first = seen + 1;
+            }
+            else
+            {
+                // Primera vez (o el visto ya se borró de la cartola): lo de la última semana.
+                int since = Session.World.Date.TotalWeeks - 1;
+                while (first < movements.Count && movements[first].Date.TotalWeeks < since)
+                {
+                    first++;
+                }
+            }
+
+            _lastBankMovementSeen = movements.Count > 0 ? movements[movements.Count - 1] : null;
+            var notices = new List<MoneyLineView>();
+            for (int i = first; i < movements.Count; i++)
+            {
+                Economy.BankMovement movement = movements[i];
+                if (movement.Amount > 0 && movement.Id != Economy.BankRules.OpeningDeposit)
+                {
+                    notices.Add(MovementLine(movement));
+                }
+            }
+
+            return notices;
         }
 
-        private int? _bankNoticesSeen;
+        private static int IndexOf(IReadOnlyList<Economy.BankMovement> movements, Economy.BankMovement movement)
+        {
+            for (int i = movements.Count - 1; i >= 0; i--)
+            {
+                if (ReferenceEquals(movements[i], movement))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        private Economy.BankMovement? _lastBankMovementSeen;
 
         /// <summary>Una línea de la cartola: qué fue, de quién, cuánto y su fecha.</summary>
         private MoneyLineView MovementLine(Economy.BankMovement movement)

@@ -112,6 +112,20 @@ namespace MistakesLife.Unity.Editor
         }
 
         /// <summary>
+        /// Resuelve los momentos que la vida dejó esperando (eligiendo como <see cref="Pick"/>),
+        /// para que la captura muestre la vida tranquila. Devuelve si la vida sigue viva.
+        /// </summary>
+        private static bool Settle(LifePresenter presenter, ContentDatabase content, string? career)
+        {
+            for (int moment = 0; moment < 20 && presenter.Phase == LifePhase.Choosing; moment++)
+            {
+                presenter.Choose(Pick(presenter, content, career));
+            }
+
+            return presenter.Phase == LifePhase.Living;
+        }
+
+        /// <summary>
         /// Qué opción elige la vida de prueba: la primera de su carrera si está disponible;
         /// si no, la primera que no sea estudiar una carrera (así la vida sin carrera no estudia).
         /// </summary>
@@ -501,7 +515,7 @@ namespace MistakesLife.Unity.Editor
         private static int Bank(ContentDatabase content, string folder)
         {
             var life = new LifePresenter(new LifeSession(content, 1, "pais.chile"));
-            if (!LiveUntil(life, content, "carrera.software.", 18) || life.Phase != LifePhase.Living)
+            if (!LiveUntil(life, content, "carrera.software.", 18) || !Settle(life, content, "carrera.software."))
             {
                 Debug.LogWarning("Capturas: la vida no llegó a los 18; no salen las pantallas del banco.");
                 return 0;
@@ -518,7 +532,8 @@ namespace MistakesLife.Unity.Editor
                 Debug.LogWarning("Capturas: a los 18 la vida ya tenía cuenta; no salen pantalla-banco-elegir.png ni pantalla-banco-respuesta.png.");
             }
 
-            if (!LiveUntil(life, content, "carrera.software.", 25) || life.Phase != LifePhase.Living || life.Bank() == null)
+            // Al cumplir los 25 la vida puede quedar en un momento: se elige antes de mirar el banco.
+            if (!LiveUntil(life, content, "carrera.software.", 25) || !Settle(life, content, "carrera.software.") || life.Bank() == null)
             {
                 Debug.LogWarning("Capturas: a los 25 la vida no tiene cuenta; no salen la cuenta, la cartola ni el aviso del banco.");
                 return count;
@@ -536,6 +551,7 @@ namespace MistakesLife.Unity.Editor
                 life.Session.Advance(1);
             }
 
+            Settle(life, content, "carrera.software.");
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-banco.png"), bank: BankCapture.Account);
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-cartola.png"), bank: BankCapture.Statement);
             count += CaptureScreen(content, life, false, Path.Combine(folder, "pantalla-aviso-banco.png"), bank: BankCapture.Notice);
