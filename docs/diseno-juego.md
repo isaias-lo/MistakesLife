@@ -77,6 +77,15 @@ Isaias aprobó la prueba de la mesa y el cuaderno hechos con Blender ("es para d
 3. **Orden:** primero los objetos (los muebles y cosas de la casa, empezando por lo que más se ve), después los lugares (sala, aula, oficina) y después la ciudad. Las ciudades serán de distintos países y con barrios de clase alta, media y baja: todo con Blender.
 4. **Un modelo por id.** Cada modelo es `tools/blender/modelos/<id>.py` y se exporta a `unity/Assets/MistakesLife/Resources/Modelos/<id>.fbx`; el juego lo usa en vez de la forma simple (`Models.cs`). Las texturas van aparte en `Modelos/Texturas/`.
 
+### La gente y su cara (acuerdo con Isaias, 28-11-2026)
+
+Bocetos: https://claude.ai/artifact/PuJhYhmY4D8ZYbTmacKJfi. Isaias decidió:
+
+1. **Rasgos marcados** (estilo A de los bocetos): nariz, pómulos y mandíbula con relieve, "siempre y cuando sea bueno y no ocupe mucho espacio". Todas las personas comparten una cabeza base; cada cara es una lista de números (ancho, mentón, nariz, labios, pómulos) más colores. Toda la gente pesa cerca de 1,6 MB en los archivos del juego.
+2. **Tres formas de empezar una vida:** una vida al azar que trae a la persona ya armada y se juega altiro (como en BitLife), armar la cara pieza por pieza (piel, pelo, ojos, nariz, boca, barba, lentes), o un botón "Al azar" dentro del editor para armar una cara y después cambiar lo que se quiera.
+3. **La cara se hereda** ("realismo puro, me encanta"): tu cara sale de la de tus padres, y tus hijos sacan rasgos de ti y de tu pareja (piel, ojos, pelo, forma de la nariz y de la cara). Cuando juegas con un hijo su cara ya viene armada; solo cambias peinado, barba y lentes.
+4. **Las piezas** viven en `tools/blender/gente.py` (ids `gente.*`): cabeza con llaves de forma, ojos, cejas, lentes, cuatro peinados, tres barbas y cuerpos de hombre, mujer y niño. Los colores los pone Unity (materiales piel, pelo, iris, polera, pantalon y zapatos).
+
 ### Barras de la vida
 
 | Barra | Ícono propio | Nota |
