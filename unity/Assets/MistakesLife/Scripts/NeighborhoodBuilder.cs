@@ -196,7 +196,8 @@ namespace MistakesLife.Unity
                 float x = slots[(Pick(seed, 60, slots.Length) + (c * 3)) % slots.Length];
                 float z = c % 2 == 0 ? StreetZ + 1.6f : StreetZ - 1.6f;
                 Color color = paint[Pick(seed, 70 + c, paint.Length)];
-                Models.Place(kit, Spot(kit, "Lugar del auto", new Vector3(x, 0f, z)), "barrio.auto", k => Car(k, color));
+                GameObject car = Models.Place(kit, Spot(kit, "Lugar del auto", new Vector3(x, 0f, z)), "barrio.auto", k => Car(k, color));
+                Models.Paint(car, color);
             }
         }
 
@@ -272,7 +273,7 @@ namespace MistakesLife.Unity
             const float depth = 4f;
             string id = level < 35 ? "barrio.casa_humilde" : level < 60 ? "barrio.casa_media" : "barrio.casa_acomodada";
 
-            Models.Place(kit, anchor, id, k =>
+            GameObject house = Models.Place(kit, anchor, id, k =>
             {
                 k.Box("Casa", new Vector3(0f, height / 2f, 0f), new Vector3(width, height, depth), wall);
                 k.Box("Puerta", new Vector3(-0.8f, 1.0f, (-depth / 2f) - 0.02f), new Vector3(0.8f, 2.0f, 0.06f), Palette.DarkWood);
@@ -297,6 +298,7 @@ namespace MistakesLife.Unity
                     k.Box("Antejardin", new Vector3(0f, 0.02f, (-depth / 2f) - 0.8f), new Vector3(width + 1.0f, 0.04f, 1.4f), new Color(0.45f, 0.65f, 0.40f));
                 }
             });
+            Models.Paint(house, wall);
 
             if (isPlayer)
             {

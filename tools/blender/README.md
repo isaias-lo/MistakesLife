@@ -35,6 +35,12 @@ fotos dentro del juego.
 las salidas: vereda, árboles, techos de dos aguas, ventanas, bancas, faroles, rejas y autos. Así
 todos los lugares se ven del mismo barrio.
 
+`calle.py` arma la calle del barrio que se ve detrás de la casa (`NeighborhoodBuilder.cs`): las
+casas por nivel del hogar (`barrio.casa_humilde`, `barrio.casa_media`, `barrio.casa_acomodada`),
+el colegio, el almacén, la plaza, el paradero, el árbol, el auto y los escombros del terremoto.
+El muro de las casas y la carrocería del auto usan materiales que se llaman `pintura_...`: Unity
+les pone el color de cada casa o de cada auto con `Models.Paint`, así un modelo sirve para todos.
+
 ## Reglas
 
 - Las mismas del juego: medidas y objetos reales (un cuaderno universitario de espiral, una mesa

@@ -22,13 +22,15 @@ namespace MistakesLife.Unity
         /// <summary>
         /// Pone el objeto <paramref name="id"/> en el ancla. Si no hay modelo, <paramref name="fallback"/>
         /// dibuja la forma simple con <paramref name="kit"/>, en posiciones medidas desde el ancla.
+        /// <paramref name="modelId"/> sirve cuando el objeto se toca con un id común (la pizarra)
+        /// pero se ve distinto según el lugar ("sala.pizarra" o "aula.pizarra").
         /// </summary>
-        public static GameObject Place(ShapeKit kit, Transform anchor, string id, Action<ShapeKit> fallback)
+        public static GameObject Place(ShapeKit kit, Transform anchor, string id, Action<ShapeKit> fallback, string? modelId = null)
         {
             var holder = new GameObject(id);
             holder.transform.SetParent(anchor, false);
 
-            GameObject? model = Find(id);
+            GameObject? model = Find(modelId ?? id);
             if (model != null)
             {
                 GameObject copy = Object.Instantiate(model, holder.transform, false);
@@ -48,6 +50,25 @@ namespace MistakesLife.Unity
             }
 
             return holder;
+        }
+
+        /// <summary>
+        /// Pinta un modelo ya puesto: los materiales que se llaman "pintura_..." (el muro de una casa,
+        /// la carrocería de un auto) toman <paramref name="color"/>. Así un solo modelo de Blender sirve
+        /// para casas y autos de distintos colores. Si se dibujó la forma simple, no cambia nada.
+        /// </summary>
+        public static void Paint(GameObject placed, Color color)
+        {
+            foreach (Renderer renderer in placed.GetComponentsInChildren<Renderer>())
+            {
+                foreach (Material material in renderer.materials)
+                {
+                    if (material.name.StartsWith("pintura", StringComparison.OrdinalIgnoreCase))
+                    {
+                        material.color = color;
+                    }
+                }
+            }
         }
 
         /// <summary>El modelo del id, o null si nadie lo ha hecho todavía.</summary>
