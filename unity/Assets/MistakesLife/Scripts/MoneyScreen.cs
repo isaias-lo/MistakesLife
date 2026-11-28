@@ -31,6 +31,9 @@ namespace MistakesLife.Unity
             _parent = parent;
         }
 
+        /// <summary>Abre tu banco (la cuenta o, si no tienes, los bancos para elegir).</summary>
+        public System.Action<LifePresenter>? OpenBank { get; set; }
+
         /// <summary>Se llama cuando pediste algo, para que la vida se vuelva a dibujar con la carta.</summary>
         public System.Action? Changed { get; set; }
 
@@ -80,8 +83,19 @@ namespace MistakesLife.Unity
             _body.anchoredPosition = Vector2.zero;
 
             UiFactory.Label(_body, presenter.Text("ui.dinero.titulo"), 52, UiFactory.PaperInk, FontStyles.Normal, Face.Title);
-            UiFactory.Label(_body, presenter.Text("ui.dinero.tienes"), UiFactory.MinFontSize, UiFactory.PaperMutedInk);
+            UiFactory.Label(_body, presenter.Text(presenter.Header().Cash ? "ui.dinero.tienes_efectivo" : "ui.dinero.tienes"), UiFactory.MinFontSize, UiFactory.PaperMutedInk);
             UiFactory.Label(_body, money.BalanceLabel, 72, UiFactory.PaperInk, FontStyles.Bold, Face.Mono);
+            if (presenter.Bank() != null && OpenBank != null)
+            {
+                // Con cuenta: tu banco por dentro (lo que entra en el mes y el año, la cartola, el seguro).
+                UiFactory.MakeButton(_body, presenter.Text("ui.dinero.tu_banco"), UiFactory.PaperOption, UiFactory.PaperInk, () =>
+                {
+                    Sounds.Play(Sound.PageTurn);
+                    Close();
+                    OpenBank(presenter);
+                });
+            }
+
             Cut();
 
             UiFactory.Label(_body, presenter.Text("ui.dinero.movimientos").ToUpperInvariant(), UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Bold, Face.Mono);
@@ -133,9 +147,18 @@ namespace MistakesLife.Unity
             foreach (ActionView action in actions)
             {
                 string eventId = action.EventId;
+                bool opensBank = action.OpensBank && OpenBank != null;
                 UiFactory.MakeButton(_body, action.Label, UiFactory.PaperOption, UiFactory.PaperInk, () =>
                 {
                     Sounds.Play(Sound.PencilTap);
+                    if (opensBank)
+                    {
+                        // Abrir tu cuenta: en vez de la carta, los bancos en sus tarjetas para elegir.
+                        Close();
+                        OpenBank!(presenter);
+                        return;
+                    }
+
                     if (presenter.Session.Request(eventId))
                     {
                         Close();

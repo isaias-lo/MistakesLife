@@ -28,6 +28,10 @@ namespace MistakesLife.Core.Content
         [JsonProperty("renta_minima")]
         public decimal MinIncome { get; set; }
 
+        /// <summary>Las claves de lo bueno y lo malo del banco, una por línea, para la tarjeta donde se elige.</summary>
+        [JsonProperty("lineas")]
+        public System.Collections.Generic.List<string> Lines { get; set; } = new System.Collections.Generic.List<string>();
+
         /// <summary>Si pide un trabajo con contrato para abrirla.</summary>
         [JsonProperty("pide_contrato")]
         public bool NeedsContract { get; set; }

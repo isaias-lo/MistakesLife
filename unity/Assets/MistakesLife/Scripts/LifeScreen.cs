@@ -88,6 +88,11 @@ namespace MistakesLife.Unity
         private Tutorial? _tutorial;
         private PhoneScreen _phone = null!;
         private MoneyScreen _money = null!;
+        private BankScreen _bank = null!;
+        private BankNotice _bankNotice = null!;
+
+        /// <summary>Si la pantalla se armó para una captura: ahí el aviso del banco solo sale cuando se pide.</summary>
+        private bool _capturing;
         private CourtScreen _court = null!;
         private StudiesScreen _studies = null!;
         private StudyScreen _study = null!;
@@ -212,6 +217,7 @@ namespace MistakesLife.Unity
         public void ShowForCapture(ContentDatabase content, LifePresenter life, bool withMenu)
         {
             _animate = false;
+            _capturing = true;
             Build();
             _content = content;
             _menu = new StartMenu(_safe, content)
@@ -316,6 +322,22 @@ namespace MistakesLife.Unity
         public void OpenMoneyForCapture()
         {
             _money.Show(_presenter!);
+        }
+
+        /// <summary>Abre tu banco encima de la vida, para las capturas: la cuenta, la cartola, o los bancos para elegir (y con <paramref name="answer"/>, la respuesta del primero que te abre).</summary>
+        public void OpenBankForCapture(bool statement, bool answer)
+        {
+            _bank.Show(_presenter!, statement);
+            if (answer)
+            {
+                _bank.OpenFirstForCapture();
+            }
+        }
+
+        /// <summary>Muestra el aviso del banco con lo que llegó, para las capturas.</summary>
+        public void ShowBankNoticeForCapture()
+        {
+            _bankNotice.Show(_presenter!);
         }
 
         /// <summary>Gira la maqueta, para las capturas (la vista desde otro lado).</summary>
@@ -475,7 +497,9 @@ namespace MistakesLife.Unity
             BuildHistory(safe);
             BuildMore(safe);
             _phone = new PhoneScreen(safe) { Changed = MailRead };
-            _money = new MoneyScreen(safe) { Changed = MailRead };
+            _bank = new BankScreen(safe) { Changed = BankChanged };
+            _bankNotice = new BankNotice(safe, this);
+            _money = new MoneyScreen(safe) { Changed = MailRead, OpenBank = presenter => _bank.Show(presenter) };
             _court = new CourtScreen(safe);
             _studies = new StudiesScreen(safe);
             _study = new StudyScreen(safe) { Changed = ActionDone, Requested = MailRead };
@@ -589,7 +613,7 @@ namespace MistakesLife.Unity
         private static readonly HashSet<string> MoneyThings = new HashSet<string>
         {
             "mueble.mesa", "escena.casa.cuentas", "escena.casa.contrato_arriendo", "escena.casa.bolsas_super",
-            "escena.casa.bebidas", "escena.casa.tarjeta_transporte",
+            "escena.casa.bebidas", "escena.casa.tarjeta_transporte", "escena.casa.billetera_tarjeta",
         };
 
         /// <summary>
@@ -1068,6 +1092,19 @@ namespace MistakesLife.Unity
             {
                 DrawHistory(presenter, life);
             }
+
+            // Si te llegó plata a la cuenta en este paso, baja el aviso del banco.
+            if (!_capturing)
+            {
+                _bankNotice.Show(presenter);
+            }
+        }
+
+        /// <summary>Abriste tu cuenta: la cabecera deja el efectivo y la vida se guarda.</summary>
+        private void BankChanged()
+        {
+            Refresh();
+            Save();
         }
 
         /// <summary>La hoja de abajo crece con lo que tiene, hasta un máximo; si es más, tiene scroll.</summary>

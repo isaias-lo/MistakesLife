@@ -396,7 +396,8 @@ Los bancos donde el jugador abre su cuenta. Sin cuenta maneja efectivo (la cabec
 }
 ```
 
-- `tipo`: `estatal`, `grande` o `digital`. `cuenta`: la clave del tipo de cuenta que da. El nombre del banco va en la tabla de idioma con su id.
+- `tipo`: `estatal`, `grande` o `digital` (el color de su logo). `cuenta`: la clave del tipo de cuenta que da. El nombre del banco va en la tabla de idioma con su id. `lineas` (opcional): las claves de lo bueno y lo malo del banco, una frase por línea, para su tarjeta en la pantalla donde se elige.
+- En Unity, el momento a pedido que abre una cuenta (sus opciones usan `jugador.abrir_cuenta`) no saca la carta: abre la pantalla del banco con las tarjetas de cada banco (`LifePresenter.BankOffers()`, y al elegir `OpenAccount(id)`), donde el banco que no te abre dice por qué.
 - `mantencion` y `renta_minima` van en dinero de los paquetes (suben con la inflación). La mantención se cobra sola cada mes junto a los gastos (`movimiento.mantencion`) y sale en Tu dinero.
 - Si el jugador no cumple (edad, contrato o sueldo líquido de su última liquidación), el banco dice que no y queda en el diario con el motivo.
 - Al abrir la cuenta, la plata que tenía en efectivo queda como primer movimiento (`movimiento.deposito_inicial`). La cartola guarda los últimos dos años.
@@ -939,7 +940,7 @@ Los objetos de la salud (paquete de Chile): `escena.casa.bono_y_receta` (se aten
 
 Los objetos que vienen de las noticias (paquete de Chile): `escena.casa.mochila_emergencia` (armó la mochila), `escena.casa.grietas` (dejó la casa sin reparar después del terremoto), `escena.casa.velas` (temporal de las últimas 2 semanas) y `escena.barrio.escombros` (terremoto de los últimos 3 meses).
 
-Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cartas de rechazo (desde 2 entrevistas sin quedar), ropa de entrevista (con una entrevista u oferta pendiente), celular (si tiene) y su aviso encendido (`escena.casa.celular_avisos`, con correos sin leer), cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo, mecedora y una vela con la foto de quien murió (`escena.casa.vela_recuerdo`, mientras hay duelo). Además, Unity nubla el cielo cuando la felicidad baja.
+Los objetos de la casa del paquete base: libros, mochila, diploma, notebook, avisos de trabajo, cartas de rechazo (desde 2 entrevistas sin quedar), ropa de entrevista (con una entrevista u oferta pendiente), celular (si tiene) y su aviso encendido (`escena.casa.celular_avisos`, con correos sin leer), la billetera con la tarjeta de débito (`escena.casa.billetera_tarjeta`, desde que abres tu cuenta en el banco), cuentas impagas, remedios, flores, desorden, juguetes, foto con la pareja, foto del recuerdo, mecedora y una vela con la foto de quien murió (`escena.casa.vela_recuerdo`, mientras hay duelo). Además, Unity nubla el cielo cuando la felicidad baja.
 
 ## Celular y correo (apps/ y mail/)
 

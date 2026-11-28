@@ -8,8 +8,13 @@ namespace MistakesLife.Core.Presentation
     /// </summary>
     public sealed class BankView
     {
-        public BankView(string bankName, string accountLabel, string openedLabel, string balanceLabel, IReadOnlyList<BankMonthView> months, string unemploymentFundLabel)
+        public BankView(string kind, string initials, string bankName, string accountLabel, string openedLabel, string balanceLabel, IReadOnlyList<BankMonthView> months, string unemploymentFundLabel,
+            IReadOnlyList<MoneyLineView> yearIncome, string yearIncomeLabel)
         {
+            Kind = kind;
+            Initials = initials;
+            YearIncome = yearIncome;
+            YearIncomeLabel = yearIncomeLabel;
             BankName = bankName;
             AccountLabel = accountLabel;
             OpenedLabel = openedLabel;
@@ -17,6 +22,18 @@ namespace MistakesLife.Core.Presentation
             Months = months;
             UnemploymentFundLabel = unemploymentFundLabel;
         }
+
+        /// <summary>"estatal", "grande" o "digital" (para el color de su logo).</summary>
+        public string Kind { get; }
+
+        /// <summary>"BN": las iniciales para su logo.</summary>
+        public string Initials { get; }
+
+        /// <summary>Lo que te entró los últimos 12 meses, por causa, de lo más grande a lo más chico (sin préstamos ni el efectivo del principio).</summary>
+        public IReadOnlyList<MoneyLineView> YearIncome { get; }
+
+        /// <summary>El total del año ("+$8.904.000"); vacío si no entró nada.</summary>
+        public string YearIncomeLabel { get; }
 
         /// <summary>"Banco Nacional".</summary>
         public string BankName { get; }
