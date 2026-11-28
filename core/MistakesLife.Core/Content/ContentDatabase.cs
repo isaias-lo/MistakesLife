@@ -1172,6 +1172,17 @@ namespace MistakesLife.Core.Content
                 CheckWeights($"{where}, diversidad.identidades", country.Diversity.Identities, DiversityDefinition.IdentityKeys);
             }
 
+            if (country.Faces != null)
+            {
+                CheckFaceWeights($"{where}, rostros.piel", country.Faces.Skin, Life.FaceRules.SkinBands);
+                CheckFaceWeights($"{where}, rostros.ojos", country.Faces.Eyes, 4);
+                CheckFaceWeights($"{where}, rostros.pelo", country.Faces.Hair, 5);
+                if (country.Faces.MyopiaPerThousand < 0 || country.Faces.MyopiaPerThousand > 1000)
+                {
+                    _errors.Add(new ContentError($"{where}, rostros.miopes_por_mil", "debe estar entre 0 y 1000."));
+                }
+            }
+
             if (country.Economy != null)
             {
                 ValidateInflation($"{where}, economia.inflacion", country.Economy.Inflation);
@@ -3543,6 +3554,14 @@ namespace MistakesLife.Core.Content
             if (weights.Values.Any(w => w < 0) || (weights.Count > 0 && weights.Values.Sum() <= 0))
             {
                 _errors.Add(new ContentError(where, "los pesos no pueden ser negativos y deben sumar más que 0."));
+            }
+        }
+
+        private void CheckFaceWeights(string where, List<int> weights, int count)
+        {
+            if (weights.Count != count || weights.Any(w => w < 0) || weights.Sum() <= 0)
+            {
+                _errors.Add(new ContentError(where, $"deben ser {count} pesos, ninguno negativo, que sumen más que 0."));
             }
         }
 

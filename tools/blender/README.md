@@ -41,6 +41,10 @@ el colegio, el almacén, la plaza, el paradero, el árbol, el auto y los escombr
 El muro de las casas y la carrocería del auto usan materiales que se llaman `pintura_...`: Unity
 les pone el color de cada casa o de cada auto con `Models.Paint`, así un modelo sirve para todos.
 
+`gente.py` tiene las piezas para armar personas (`gente.*`): una cabeza base con llaves de forma
+(blend shapes: ancha, angosta, menton, nariz_grande, nariz_chica, labios_gruesos, pomulos), ojos,
+cejas, lentes, peinados, barbas y cuerpos. El pelo y la barba tienen las mismas llaves que la cabeza.
+
 ## Reglas
 
 - Las mismas del juego: medidas y objetos reales (un cuaderno universitario de espiral, una mesa

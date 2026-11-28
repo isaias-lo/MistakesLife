@@ -1,0 +1,7 @@
+"""gente.barba_bigote: pieza para armar personas. Todo está en tools/blender/gente.py."""
+
+import gente
+
+
+def armar():
+    gente.barba("bigote")

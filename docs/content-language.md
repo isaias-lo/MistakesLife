@@ -599,6 +599,20 @@ En qué proporción nace cada orientación sexual e identidad de género en el p
 - Los padres del primer jugador son heterosexuales o bisexuales, y las parejas nuevas tienen una orientación que calza con la persona.
 - Si falta el campo, todos nacen heterosexuales y con el género de su sexo.
 
+### Caras de la gente (campo `rostros` de country.json)
+
+Cómo son las caras de la gente del país, por cada cien personas. Solo se usa para quienes no tienen papás en el juego: todos los demás heredan su cara de sus papás (ver "La gente y su cara" en `docs/diseno-juego.md`).
+
+```json
+"rostros": { "piel": [10, 30, 35, 20, 4, 1], "ojos": [60, 25, 8, 7], "pelo": [40, 40, 13, 6, 1], "miopes_por_mil": 250 }
+```
+
+- `piel`: seis tonos, de muy claro a muy oscuro (los de la pieza de piel de Blender).
+- `ojos`: café oscuro, café claro, verdes y azules. Es lo que **se ve**. El núcleo calcula cuántos traen cada color escondido, para que al heredar salgan esos porcentajes.
+- `pelo`: negro, castaño oscuro, castaño, rubio y colorín.
+- `miopes_por_mil`: cuántos adultos de cada mil usan lentes desde chicos o jóvenes. Con papás miopes es más común.
+- Si falta el campo, todo sale parejo.
+
 ## Legado
 
 Cuando el jugador muere, puede seguir con uno de sus hijos vivos, en el mismo mundo:

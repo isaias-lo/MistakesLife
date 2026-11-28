@@ -93,6 +93,7 @@ namespace MistakesLife.Core.Saving
                 Energy = c.Stats.Energy,
                 Looks = c.Stats.Looks,
                 InheritedLooks = c.InheritedLooks,
+                Face = FaceOf(c.Face),
                 MotherId = c.MotherId,
                 FatherId = c.FatherId,
                 SecondParentId = c.SecondParentId,
@@ -431,6 +432,29 @@ namespace MistakesLife.Core.Saving
 
             return data;
         }
+
+        /// <summary>La cara como lista de números (ver <see cref="CharacterData.Face"/>).</summary>
+        internal static List<int>? FaceOf(Face? f) => f == null ? null : new List<int>
+        {
+            f.SkinTone,
+            (int)f.EyesFromMother,
+            (int)f.EyesFromFather,
+            (int)f.HairFromMother,
+            (int)f.HairFromFather,
+            f.Width,
+            f.Chin,
+            f.Nose,
+            f.Lips,
+            f.Cheekbones,
+            f.EyeSize,
+            f.ThickBrows ? 1 : 0,
+            f.GrayFromAge,
+            f.GlassesFromAge ?? -1,
+            (int)f.HairStyle,
+            (int)f.Beard,
+            f.GlassesChoice.HasValue ? (f.GlassesChoice.Value ? 1 : 0) : -1,
+            f.Chosen ? 1 : 0,
+        };
 
         private static JobData? JobOf(Job? job) => job == null ? null : new JobData
         {
