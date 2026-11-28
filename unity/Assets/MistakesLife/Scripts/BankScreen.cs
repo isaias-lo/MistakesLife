@@ -395,6 +395,10 @@ namespace MistakesLife.Unity
             name.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
             TextMeshProUGUI amount = UiFactory.Label(row, line.AmountLabel, 36, amountColor, FontStyles.Bold, Face.Mono);
             amount.alignment = TextAlignmentOptions.TopRight;
+            // El monto nunca se corta en dos líneas: el nombre es el que se acomoda.
+            amount.textWrappingMode = TextWrappingModes.NoWrap;
+            LayoutElement amountSize = amount.gameObject.AddComponent<LayoutElement>();
+            amountSize.minWidth = amount.GetPreferredValues(line.AmountLabel).x;
             if (line.Note.Length > 0)
             {
                 UiFactory.Label(block, line.Note, UiFactory.MinFontSize, UiFactory.PaperMutedInk, FontStyles.Italic);
