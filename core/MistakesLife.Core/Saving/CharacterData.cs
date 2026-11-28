@@ -38,6 +38,15 @@ namespace MistakesLife.Core.Saving
 
         public int? InheritedLooks { get; set; }
 
+        /// <summary>
+        /// La cara, como lista de números (desde la versión 52; null si no se había calculado).
+        /// Orden: piel, ojos de la mamá, ojos del papá, pelo de la mamá, pelo del papá, ancho,
+        /// mentón, nariz, labios, pómulos, tamaño de ojos, cejas gruesas (0/1), edad de las canas,
+        /// edad de los lentes (-1 nunca), peinado, barba, lentes elegidos (-1 según la vista, 0 no,
+        /// 1 sí) y si el jugador la armó (0/1). Ver <see cref="WorldWriter.FaceOf"/>.
+        /// </summary>
+        public List<int>? Face { get; set; }
+
         public int? MotherId { get; set; }
 
         public int? FatherId { get; set; }

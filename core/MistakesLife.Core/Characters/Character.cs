@@ -116,6 +116,12 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public int? InheritedLooks { get; set; }
 
+        /// <summary>
+        /// Su cara: lo heredado de sus papás y lo que eligió (peinado, barba, lentes). Null
+        /// mientras no se ha calculado (ver <see cref="Life.FaceRules.Ensure"/>).
+        /// </summary>
+        public Face? Face { get; set; }
+
         /// <summary>Si sus papás separados acordaron el cuidado compartido: vive con los dos.</summary>
         public bool SharedCustody { get; set; }
 

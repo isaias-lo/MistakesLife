@@ -415,6 +415,7 @@
       { "carrera": "carrera.psicologia", "parte": 0.0050 }
     ]
   },
+  "rostros": { "piel": [10, 30, 35, 20, 4, 1], "ojos": [60, 25, 8, 7], "pelo": [40, 40, 13, 6, 1], "miopes_por_mil": 250 },
   "diversidad": {
     "orientaciones": { "heterosexual": 910, "homosexual": 30, "bisexual": 50, "asexual": 10 },
     "identidades": { "cis": 970, "trans": 10, "no_binario": 20 }

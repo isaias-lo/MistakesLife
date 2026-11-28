@@ -373,6 +373,10 @@ namespace MistakesLife.Core.Saving
             // 50 → 51: aparece la cuenta del banco con su cartola (D6-1b). En las partidas viejas
             // nadie tiene cuenta: se maneja efectivo hasta que el jugador abre una.
             [50] = save => { },
+
+            // 51 → 52: cada persona tiene su cara (B8 P2). En las partidas viejas nadie la tiene
+            // guardada: se arma la primera vez que se pide, de sus papás y de la semilla de la partida.
+            [51] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

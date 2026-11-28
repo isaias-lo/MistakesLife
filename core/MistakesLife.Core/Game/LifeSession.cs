@@ -92,6 +92,7 @@ namespace MistakesLife.Core.Game
                 .Register(new AgingSystem())
                 .Register(new EnergySystem(content))
                 .Register(new LooksSystem(content))
+                .Register(new FaceSystem(content))
                 .Register(new MortalitySystem(content))
                 .Register(new GriefSystem())
                 .Register(new RelativesFamilySystem(content))
@@ -381,6 +382,25 @@ namespace MistakesLife.Core.Game
 
         /// <summary>Borra una regla propia: la próxima vez se vuelve a preguntar.</summary>
         public void RemoveRule(string key) => World.Player.OwnRules.RemoveAll(r => r.Key == key);
+
+        /// <summary>
+        /// La cara de una persona para dibujarla (se arma la primera vez que se pide, siempre
+        /// igual: sale de sus papás y del azar de la partida). Ver <see cref="FaceRules"/>.
+        /// </summary>
+        public Face FaceOf(Character person) => FaceRules.Ensure(World, Content, person);
+
+        /// <summary>Si el jugador puede armar su cara pieza por pieza (primera vida, recién empieza).</summary>
+        public bool CanChooseFace => FaceRules.CanChooseFeatures(World);
+
+        /// <summary>El jugador arma su cara pieza por pieza; sus papás y hermanos se arman para calzar.</summary>
+        public void ChooseFace(Face face) => FaceRules.ChooseFeatures(World, Content, face);
+
+        /// <summary>El jugador elige peinado, barba y lentes (null: los lentes según su vista).</summary>
+        public void ChooseFaceStyle(HairStyle hair, BeardStyle beard, bool? glasses) =>
+            FaceRules.ChooseStyle(World, Content, hair, beard, glasses);
+
+        /// <summary>Una cara al azar para el botón "Al azar" del editor (cada <paramref name="roll"/>, otra).</summary>
+        public Face RandomFace(int roll) => FaceRules.RandomFace(World, Content, roll);
 
         /// <summary>Marca (o desmarca) con destacador algo que quiere: lo persigue.</summary>
         public void HighlightWish(int index, bool highlighted)

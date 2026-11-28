@@ -86,3 +86,7 @@ De la [Ley de Contrato de Trabajo 20.744 (InfoLEG)](https://servicios.infoleg.go
 | El fútbol 5: canchas de pasto sintético que se alquilan por hora y se pagan entre los diez jugadores | Conocimiento general | `lugar.argentina.cancha_futbol5`; la parte de cada uno, $6.000 (estimado) |
 
 Estimaciones por revisar: patio de comidas $15.000, pase diario de gimnasio $8.000, café $6.000, un picnic $8.000 y tomar algo en un bar $18.000 por persona.
+
+## Caras de la gente (country.json: rostros, B8)
+
+Cuántas personas de cada cien tienen cada tono de piel (seis, de muy claro a muy oscuro), color de ojos (café oscuro, café claro, verdes, azules) y color de pelo (negro, castaño oscuro, castaño, rubio, colorín). Son estimaciones: no encontramos una encuesta argentina de color de ojos o de pelo. Tienen más piel clara, ojos claros y pelo claro que Chile porque en el país hay más ascendencia europea, sobre todo en Buenos Aires. Conviene revisarlas. Miopía: 250 de cada mil adultos, también estimada. Las reglas de herencia son las mismas que en Chile (ver `packs/countries/chile/SOURCES.md`).

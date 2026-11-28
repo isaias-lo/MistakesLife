@@ -129,6 +129,7 @@ namespace MistakesLife.Core.Saving
                 UnionTypeId = d.UnionTypeId,
                 LivesWithId = d.LivesWithId,
                 InheritedLooks = d.InheritedLooks,
+                Face = FaceOf(d.Face),
                 SharedCustody = d.SharedCustody,
                 HouseholdLevel = d.HouseholdLevel,
                 Money = d.Money,
@@ -571,6 +572,37 @@ namespace MistakesLife.Core.Saving
             }
 
             return value;
+        }
+
+        /// <summary>La cara desde su lista de números (ver <see cref="CharacterData.Face"/>).</summary>
+        private static Face? FaceOf(List<int>? f)
+        {
+            if (f == null || f.Count < 18)
+            {
+                return null;
+            }
+
+            return new Face
+            {
+                SkinTone = f[0],
+                EyesFromMother = (EyeColor)f[1],
+                EyesFromFather = (EyeColor)f[2],
+                HairFromMother = (HairColor)f[3],
+                HairFromFather = (HairColor)f[4],
+                Width = f[5],
+                Chin = f[6],
+                Nose = f[7],
+                Lips = f[8],
+                Cheekbones = f[9],
+                EyeSize = f[10],
+                ThickBrows = f[11] == 1,
+                GrayFromAge = f[12],
+                GlassesFromAge = f[13] < 0 ? (int?)null : f[13],
+                HairStyle = (HairStyle)f[14],
+                Beard = (BeardStyle)f[15],
+                GlassesChoice = f[16] < 0 ? (bool?)null : f[16] == 1,
+                Chosen = f[17] == 1,
+            };
         }
 
         private static Job? JobOf(JobData? data)

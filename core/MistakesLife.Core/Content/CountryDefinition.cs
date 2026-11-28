@@ -167,6 +167,13 @@ namespace MistakesLife.Core.Content
         public DiversityDefinition? Diversity { get; set; }
 
         /// <summary>
+        /// Cómo son las caras de la gente del país, para quienes no tienen papás en el mundo
+        /// (ver <see cref="FacePopulationDefinition"/>). Si falta, todo sale parejo.
+        /// </summary>
+        [JsonProperty("rostros")]
+        public FacePopulationDefinition? Faces { get; set; }
+
+        /// <summary>
         /// Cómo funciona el dinero en el país (ver <see cref="EconomyDefinition"/>).
         /// Si falta, los precios nunca cambian.
         /// </summary>
