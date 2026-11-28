@@ -109,7 +109,7 @@ namespace MistakesLife.Core.Work
             job.CloseGoal(percent, tips ? 0 : variable, tips ? variable : 0);
             if (tips)
             {
-                character.Money += variable;
+                character.Move(date, "movimiento.propinas", variable);
             }
 
             if (job.Challenge != null)

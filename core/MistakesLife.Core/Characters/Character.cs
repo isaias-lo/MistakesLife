@@ -164,6 +164,26 @@ namespace MistakesLife.Core.Characters
         /// </summary>
         public decimal Money { get; set; }
 
+        /// <summary>Su cuenta en el banco, o null si todavía maneja efectivo.</summary>
+        public Economy.BankAccount? Account { get; set; }
+
+        /// <summary>
+        /// Mueve plata de su saldo: positivo si entra, negativo si sale. Si tiene cuenta,
+        /// queda anotado en la cartola con su causa (<paramref name="id"/>, una clave de idioma)
+        /// y de quién o de qué (<paramref name="detail"/>, un id de contenido).
+        /// Todo cambio de dinero pasa por aquí, para que la cartola cuadre con el saldo.
+        /// </summary>
+        public void Move(Time.GameDate date, string id, decimal amount, string detail = "")
+        {
+            if (amount == 0)
+            {
+                return;
+            }
+
+            Money += amount;
+            Account?.Add(new Economy.BankMovement(date, id, amount, detail));
+        }
+
         private Economy.Job? _job;
 
         /// <summary>

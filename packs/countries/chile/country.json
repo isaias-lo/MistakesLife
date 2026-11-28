@@ -316,6 +316,18 @@
       "diario_sin_derecho": "diario.chile.seguro_cesantia.sin_derecho",
       "diario_retiro_al_jubilar": "diario.chile.seguro_cesantia.retiro"
     },
+    "bancos": {
+      "edad_minima": 18,
+      "lista": [
+        { "id": "banco.chile.nacional", "tipo": "estatal", "cuenta": "cuenta.vista", "mantencion": 0 },
+        { "id": "banco.chile.pacifico", "tipo": "grande", "cuenta": "cuenta.corriente", "mantencion": 7900, "renta_minima": 600000, "pide_contrato": true },
+        { "id": "banco.chile.tapp", "tipo": "digital", "cuenta": "cuenta.vista", "mantencion": 0 }
+      ],
+      "diario_cuenta_abierta": "diario.chile.banco.cuenta_abierta",
+      "diario_rechazo_contrato": "diario.chile.banco.rechazo_contrato",
+      "diario_rechazo_renta": "diario.chile.banco.rechazo_renta",
+      "diario_rechazo_edad": "diario.chile.banco.rechazo_edad"
+    },
     "deudas": {
       "meses_para_moroso": 3,
       "meses_prescripcion": 60,

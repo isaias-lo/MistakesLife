@@ -313,3 +313,13 @@ Estimaciones por revisar (no encontré la tabla oficial a mano):
 | La fonda del 18: ramadas comunales en septiembre, por lo general de entrada liberada; se paga lo que se come | Conocimiento general | `lugar.chile.fonda` en septiembre; empanada y bebida a $6.000 (estimado) |
 
 Estimaciones por revisar (no encontré precios publicados a mano): patio de comidas $7.000, pase diario de gimnasio $5.000, café $4.000, un picnic $4.000 y tomar algo en un bar $10.000 por persona.
+
+## El banco y tu cuenta (D6-1b, `economia.bancos`)
+
+Los tres bancos son nombres propios del juego que se inspiran en tipos reales de banco en Chile, sin copiar a ninguno.
+
+| Dato | Fuente | Valor en el juego |
+|---|---|---|
+| La cuenta vista del banco estatal se abre con la cédula, desde los 18, sin pedir renta ni cobrar mantención (cobra por algunos giros y transferencias) | Conocimiento general (CuentaRUT de BancoEstado) | `banco.chile.nacional`: cuenta vista, mantención 0, sin requisitos. No se cobran comisiones por giro |
+| Una cuenta corriente de banco grande pide contrato y una renta mínima, y cobra un plan mensual | Conocimiento general (planes de cuenta corriente de bancos grandes) | `banco.chile.pacifico`: renta líquida mínima $600.000 y mantención $7.900 al mes (estimados, **por verificar** con planes publicados) |
+| Las cuentas digitales se abren desde el celular, desde los 18, sin costo de mantención | Conocimiento general (cuentas de bancos y billeteras digitales) | `banco.chile.tapp`: cuenta vista, mantención 0 |

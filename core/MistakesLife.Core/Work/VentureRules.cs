@@ -66,7 +66,7 @@ namespace MistakesLife.Core.Work
                 throw new InvalidOperationException("Ya tiene un negocio.");
             }
 
-            player.Money -= contributionToday;
+            player.Move(world.Date, "movimiento.aporte_negocio", -contributionToday);
             GameRandom random = world.Random.Fork("negocio." + player.Id + "." + world.Date.TotalWeeks);
             player.Venture = new Venture(partner.Id, formal, Math.Round(contributionToday / (decimal)priceIndex, 2, MidpointRounding.AwayFromZero), LogNormal(random, rules.Spread));
             world.WriteJournal(player.Id, OpenedJournal);

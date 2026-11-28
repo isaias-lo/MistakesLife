@@ -378,6 +378,37 @@ El seguro que paga cuando alguien con contrato pierde su trabajo. El núcleo sol
 | `jugador.cobrando_seguro_desempleo` | Si está sin trabajo y todavía le quedan pagos por recibir |
 | `jugador.pagos_seguro_desempleo`, `jugador.ultimo_pago_seguro_desempleo` | Cuántos pagos lleva por el último trabajo que perdió, y cuánto fue el último |
 
+#### Bancos y tu cuenta (`economia.bancos`, D6-1b)
+
+Los bancos donde el jugador abre su cuenta. Sin cuenta maneja efectivo (la cabecera muestra monedas); con cuenta, **cada peso que entra o sale queda anotado en la cartola** con su fecha, su causa y de quién o de qué. Un país sin `bancos` funciona como antes: efectivo de niño, cuenta de grande, sin cartola.
+
+```json
+"bancos": {
+  "edad_minima": 18,
+  "lista": [
+    { "id": "banco.chile.nacional", "tipo": "estatal", "cuenta": "cuenta.vista", "mantencion": 0 },
+    { "id": "banco.chile.pacifico", "tipo": "grande", "cuenta": "cuenta.corriente", "mantencion": 7900, "renta_minima": 600000, "pide_contrato": true }
+  ],
+  "diario_cuenta_abierta": "diario.chile.banco.cuenta_abierta",
+  "diario_rechazo_contrato": "diario.chile.banco.rechazo_contrato",
+  "diario_rechazo_renta": "diario.chile.banco.rechazo_renta",
+  "diario_rechazo_edad": "diario.chile.banco.rechazo_edad"
+}
+```
+
+- `tipo`: `estatal`, `grande` o `digital`. `cuenta`: la clave del tipo de cuenta que da. El nombre del banco va en la tabla de idioma con su id.
+- `mantencion` y `renta_minima` van en dinero de los paquetes (suben con la inflación). La mantención se cobra sola cada mes junto a los gastos (`movimiento.mantencion`) y sale en Tu dinero.
+- Si el jugador no cumple (edad, contrato o sueldo líquido de su última liquidación), el banco dice que no y queda en el diario con el motivo.
+- Al abrir la cuenta, la plata que tenía en efectivo queda como primer movimiento (`movimiento.deposito_inicial`). La cartola guarda los últimos dos años.
+- En el código, todo cambio de plata pasa por `Character.Move(fecha, causa, monto, detalle)`: la causa es una clave de idioma (`movimiento.remuneracion`, el id del gasto, el id de la acción o el texto de la opción que eligió el jugador) y el detalle un id de contenido (la empresa, la deuda, el banco). No cambies `Money` directo en la simulación.
+
+| En el lenguaje | Qué es |
+|---|---|
+| `jugador.tiene_cuenta` | Si ya tiene su cuenta en el banco |
+| `jugador.banco` | El id del banco de su cuenta, o `nada` |
+| `jugador.abrir_cuenta('banco.chile.nacional')` | Pide abrir su cuenta en ese banco (efecto). Si no cumple, no se abre y queda el rechazo en el diario |
+| `jugador.puede_abrir_cuenta('banco.chile.pacifico')` | Si ese banco le abriría la cuenta hoy |
+
 #### Ciclo económico (`economia.ciclo`)
 
 ```json

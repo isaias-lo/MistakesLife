@@ -1136,12 +1136,11 @@ namespace MistakesLife.Core.Presentation
         public const int CashUntilAge = 18;
 
         /// <summary>
-        /// Si tu plata es efectivo y no está en una cuenta (D6-1a: de niño, monedas; de grande, la
-        /// cuenta). Mientras no existan las cuentas del banco (D6-1b), cuenta como efectivo hasta los
-        /// 18 si no tienes pega.
+        /// Si tu plata es efectivo y no está en una cuenta (D6-1b: hasta que abres tu cuenta en el
+        /// banco). En un país sin bancos cargados, cuenta como efectivo hasta los 18 si no tienes pega.
         /// </summary>
         private bool IsCash(Character player) =>
-            player.AgeInYears(Session.World.Date) < CashUntilAge && player.Job == null;
+            Economy.BankRules.UsesCash(Session.Content, player, Session.World.Date);
 
         /// <summary>
         /// Lo que te entró el último mes (D6-1a), línea por línea: sueldo líquido, propinas,
@@ -1947,6 +1946,98 @@ namespace MistakesLife.Core.Presentation
                 spent > 0 && perDay > 0 ? Text("ui.dinero.mes_en_dias", DaysOf(spent, perDay)) : string.Empty,
                 debts);
         }
+
+        /// <summary>
+        /// Tu banco (D6-1b): la cuenta, la cartola mes a mes (del más nuevo al más viejo) y lo que
+        /// tienes en el Seguro de Cesantía. Null si todavía manejas efectivo.
+        /// </summary>
+        public BankView? Bank()
+        {
+            Character player = Session.World.Player;
+            Economy.BankAccount? account = player.Account;
+            if (account == null)
+            {
+                return null;
+            }
+
+            Content.BankDefinition? bank = Economy.BankRules.BankOf(Session.Content, player);
+            var months = new List<BankMonthView>();
+            foreach (IGrouping<int, Economy.BankMovement> month in account.Movements
+                .Reverse()
+                .GroupBy(m => (m.Date.Year * 100) + m.Date.Month))
+            {
+                Economy.BankMovement first = month.First();
+                decimal income = month.Where(m => m.Amount > 0).Sum(m => m.Amount);
+                decimal outgoing = -month.Where(m => m.Amount < 0).Sum(m => m.Amount);
+                months.Add(new BankMonthView(
+                    Capitalized(T("ui.mes." + first.Date.Month)) + " · " + Text("ui.cabecera.ano", first.Date.Year),
+                    income > 0 ? "+" + MoneyLabel(income) : string.Empty,
+                    outgoing > 0 ? "-" + MoneyLabel(outgoing) : string.Empty,
+                    month.Select(MovementLine).ToList()));
+            }
+
+            double index = Session.World.EconomyOf(player.Residence?.CountryId ?? string.Empty)?.PriceIndex ?? 1;
+            decimal fund = PayrollCalculator.ToToday(player.UnemploymentFund, index);
+            return new BankView(
+                T(account.BankId),
+                bank == null ? string.Empty : T(bank.AccountKind),
+                Text("ui.banco.abierta", account.Opened.DayOfMonth, T("ui.mes." + account.Opened.Month), account.Opened.Year),
+                Signed(player.Money),
+                months,
+                fund > 0 ? MoneyLabel(fund) : string.Empty);
+        }
+
+        /// <summary>
+        /// Los avisos del banco que todavía no viste (D6-1b): lo que te llegó a la cuenta desde la
+        /// última vez que preguntaste (el sueldo, la pensión, el Seguro de Cesantía). La primera
+        /// vez solo cuenta lo de esta semana. No se guarda: es solo para la pantalla.
+        /// </summary>
+        public IReadOnlyList<MoneyLineView> TakeBankNotices()
+        {
+            Economy.BankAccount? account = Session.World.Player.Account;
+            int now = Session.World.Date.TotalWeeks;
+            int since = _bankNoticesSeen ?? now - 1;
+            _bankNoticesSeen = now;
+            if (account == null)
+            {
+                return new List<MoneyLineView>();
+            }
+
+            return account.Movements
+                .Where(m => m.Amount > 0 && m.Date.TotalWeeks > since && m.Id != Economy.BankRules.OpeningDeposit)
+                .Select(MovementLine)
+                .ToList();
+        }
+
+        private int? _bankNoticesSeen;
+
+        /// <summary>Una línea de la cartola: qué fue, de quién, cuánto y su fecha.</summary>
+        private MoneyLineView MovementLine(Economy.BankMovement movement)
+        {
+            string label = T(movement.Id);
+            if (movement.Id.StartsWith("opcion.", StringComparison.Ordinal))
+            {
+                // Lo que elegiste en un momento: basta su primera frase ("Le pides plata a tu mamá").
+                int end = label.IndexOf(". ", StringComparison.Ordinal);
+                label = end > 0 ? label.Substring(0, end) : label.TrimEnd('.');
+            }
+
+            if (movement.Detail.Length > 0 && !movement.Detail.StartsWith("evento.", StringComparison.Ordinal))
+            {
+                label += " · " + T(movement.Detail);
+            }
+
+            return new MoneyLineView(
+                movement.Id,
+                label,
+                Signed(movement.Amount),
+                movement.Amount > 0,
+                Text("ui.cabecera.fecha", movement.Date.DayOfMonth, T("ui.mes." + movement.Date.Month)));
+        }
+
+        /// <summary>"+$742.000", "-$86.400" o "$0".</summary>
+        private string Signed(decimal amount) =>
+            amount > 0 ? "+" + MoneyLabel(amount) : amount < 0 ? "-" + MoneyLabel(-amount) : MoneyLabel(0);
 
         private MoneyLineView Outgoing(string id, string label, decimal amount, decimal perDay) =>
             new MoneyLineView(id, label, "-" + MoneyLabel(amount), false, perDay > 0 ? DaysLabel(amount, perDay) : string.Empty);

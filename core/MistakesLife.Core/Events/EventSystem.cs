@@ -378,7 +378,18 @@ namespace MistakesLife.Core.Events
             Character subject = world.GetCharacter(pending.CharacterId);
             Seed? seed = pending.SeedId.HasValue ? world.Seeds.Get(pending.SeedId.Value) : null;
             world.RemovePendingEvent(pending);
-            ApplyOption(world, definition, subject, seed, PersonOf(world, pending), optionIndex);
+            Character? person = PersonOf(world, pending);
+            var condition = definition.Options[optionIndex].CompiledConditions;
+            if (condition != null && !condition.IsTrue(new EventScope(world, Content, subject, seed, readOnly: true, person)))
+            {
+                // Entre que apareció el momento y se eligió, algo de la misma semana cambió (otro
+                // sistema, otra decisión) y la opción ya no se puede: se anota sin sus efectos, en
+                // vez de aplicar algo que ya no corresponde.
+                Finish(world, definition, subject, seed, optionIndex, person?.Id);
+                return;
+            }
+
+            ApplyOption(world, definition, subject, seed, person, optionIndex);
         }
 
         private void ApplyOption(World world, EventDefinition definition, Character subject, Seed? seed, Character? person, int optionIndex)

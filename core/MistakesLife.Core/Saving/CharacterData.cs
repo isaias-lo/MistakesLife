@@ -127,6 +127,9 @@ namespace MistakesLife.Core.Saving
 
         public UnemploymentClaimData? UnemploymentClaim { get; set; }
 
+        /// <summary>La cuenta del banco, o null si maneja efectivo (desde la versión 51 del formato).</summary>
+        public BankAccountData? Account { get; set; }
+
         /// <summary>Los duelos del jugador (desde la versión 47 del formato).</summary>
         public List<GriefData>? Griefs { get; set; }
 

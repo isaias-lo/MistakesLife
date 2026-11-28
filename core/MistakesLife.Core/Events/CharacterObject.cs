@@ -89,6 +89,12 @@ namespace MistakesLife.Core.Events
 
         public const string ChooseGroceriesMethod = "elegir_compra";
 
+        /// <summary>abrir_cuenta('banco.chile.nacional'): pide abrir su cuenta en ese banco (si no cumple, el banco dice que no y queda en el diario).</summary>
+        public const string OpenAccountMethod = "abrir_cuenta";
+
+        /// <summary>puede_abrir_cuenta('banco.chile.pacifico'): si ese banco le abriría la cuenta hoy.</summary>
+        public const string CanOpenAccountMethod = "puede_abrir_cuenta";
+
         public const string ContractMethod = "contratar";
 
         public const string ServiceMethod = "servicio";
@@ -362,6 +368,10 @@ namespace MistakesLife.Core.Events
                     return Value.FromNumber((double)_character.Money);
                 case "trabaja":
                     return Value.FromBool(_character.Job != null);
+                case "tiene_cuenta":
+                    return Value.FromBool(_character.Account != null);
+                case "banco":
+                    return TextOrNull(_character.Account?.BankId);
                 case "en_que_anda":
                     return TextOrNull(WorkStatusKey(_character.WorkStatus));
                 case "cumple_esta_semana":
@@ -816,7 +826,11 @@ namespace MistakesLife.Core.Events
             if (member == "dinero")
             {
                 // Se guarda en unidades enteras de la moneda (sin centavos).
-                _character.Money = Math.Round((decimal)value.AsNumber("jugador.dinero"), MidpointRounding.AwayFromZero);
+                // Queda en la cartola con la opción que lo causó (lo que eligió el jugador).
+                EventScope events = (EventScope)scope;
+                decimal target = Math.Round((decimal)value.AsNumber("jugador.dinero"), MidpointRounding.AwayFromZero);
+                Seeds.SeedOrigin? origin = events.Origin;
+                _character.Move(events.World.Date, origin?.OptionTextKey ?? origin?.EventId ?? "movimiento.otro", target - _character.Money, origin?.EventId ?? "");
                 return;
             }
 
@@ -1172,7 +1186,7 @@ namespace MistakesLife.Core.Events
                 case "recibir_herencia":
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.recibir_herencia");
-                    _character.Money += PayrollToday(_character.PendingInheritance, scope);
+                    _character.Move(((EventScope)scope).World.Date, "movimiento.herencia", PayrollToday(_character.PendingInheritance, scope));
                     _character.PendingInheritance = 0;
                     ((EventScope)scope).World.WriteJournal(_character.Id, Economy.InheritanceSettlement.ReceivedJournal);
                     return Value.Null;
@@ -1289,6 +1303,17 @@ namespace MistakesLife.Core.Events
                     ((EventScope)scope).RequireWritable("jugador." + method);
                     Economy.HealthCareRules.Attend(((EventScope)scope).World, ((EventScope)scope).Content, _character, attention);
                     return Value.Null;
+                case OpenAccountMethod:
+                    string bankId = EventScope.SingleText("jugador." + method, args);
+                    ((EventScope)scope).RequireWritable("jugador." + method);
+                    Economy.BankRules.Open(((EventScope)scope).World, ((EventScope)scope).Content, _character, bankId);
+                    return Value.Null;
+                case CanOpenAccountMethod:
+                    string askedBank = EventScope.SingleText("jugador." + method, args);
+                    Content.BanksDefinition? banks = Economy.BankRules.BanksFor(((EventScope)scope).Content, _character);
+                    Content.BankDefinition? asked = banks?.Bank(askedBank);
+                    return Value.FromBool(_character.Account == null && banks != null && asked != null
+                        && Economy.BankRules.Check(((EventScope)scope).World, banks, asked, _character) == Economy.BankRules.Refusal.None);
                 case ChooseGroceriesMethod:
                     string basket = EventScope.SingleText("jugador." + method, args);
                     ((EventScope)scope).RequireWritable("jugador." + method);
@@ -1303,7 +1328,7 @@ namespace MistakesLife.Core.Events
                 case "dejar_arriendo":
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.dejar_arriendo");
-                    Economy.HousingRules.Leave(_character);
+                    Economy.HousingRules.Leave(((EventScope)scope).World.Date, _character);
                     return Value.Null;
                 case BorrowMethod:
                     ((EventScope)scope).RequireWritable("jugador." + BorrowMethod);
@@ -1499,7 +1524,7 @@ namespace MistakesLife.Core.Events
                     NoArguments(method, args);
                     ((EventScope)scope).RequireWritable("jugador.cobrar_vacaciones");
                     Economy.Job? paidJob = _character.Job ?? _character.LastJob;
-                    _character.Money += VacationPay((EventScope)scope);
+                    _character.Move(((EventScope)scope).World.Date, "movimiento.vacaciones", VacationPay((EventScope)scope));
                     if (paidJob != null)
                     {
                         paidJob.VacationDays = 0;
@@ -1666,7 +1691,7 @@ namespace MistakesLife.Core.Events
             Content.DebtTypeDefinition type = (country == null ? null : scope.Content.GetCountry(country).Economy?.Debts?.Type(typeId))
                 ?? throw new ScriptException($"jugador.endeudarse('{typeId}'): esa deuda no existe en el país donde vive.");
             double priceIndex = scope.World.EconomyOf(country!)?.PriceIndex ?? 1;
-            Economy.DebtSystem.Borrow(_character, type, Economy.PayrollCalculator.ToToday((decimal)amount, priceIndex), priceIndex);
+            Economy.DebtSystem.Borrow(scope.World.Date, _character, type, Economy.PayrollCalculator.ToToday((decimal)amount, priceIndex), priceIndex);
         }
 
         /// <summary>Clave del tipo de trabajo en el lenguaje: 'dependiente', 'honorarios' o 'informal'.</summary>

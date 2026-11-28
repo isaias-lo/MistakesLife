@@ -60,7 +60,7 @@ namespace MistakesLife.Core.Work
             decimal share = profit;
             venture.LastShare = share;
             venture.TotalShare += share;
-            player.Money += share;
+            player.Move(world.Date, "movimiento.negocio", share);
         }
     }
 }

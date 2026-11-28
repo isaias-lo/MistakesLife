@@ -5,6 +5,7 @@ using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Events;
 using MistakesLife.Core.Simulation;
+using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
 
 namespace MistakesLife.Core.Economy
@@ -66,7 +67,7 @@ namespace MistakesLife.Core.Economy
                 foreach (Debt debt in character.Debts.ToList())
                 {
                     DebtTypeDefinition type = rules.Type(debt.TypeId) ?? throw new InvalidOperationException($"{character.Residence.CountryId} no tiene la deuda {debt.TypeId}.");
-                    paid += Advance(debt, type, character, scope, economy.PriceIndex);
+                    paid += Advance(world.Date, debt, type, character, scope, economy.PriceIndex);
                     if (debt.Balance > 0 && debt.MonthsLate == type.WriteOffMonths)
                     {
                         world.WriteJournal(character.Id, WrittenOffJournal);
@@ -100,7 +101,7 @@ namespace MistakesLife.Core.Economy
         }
 
         /// <summary>Un mes de una deuda. Devuelve lo que se pagó.</summary>
-        private static decimal Advance(Debt debt, DebtTypeDefinition type, Character character, EventScope scope, double priceIndex)
+        private static decimal Advance(GameDate date, Debt debt, DebtTypeDefinition type, Character character, EventScope scope, double priceIndex)
         {
             if (!IsWrittenOff(debt, type))
             {
@@ -125,7 +126,7 @@ namespace MistakesLife.Core.Economy
             {
                 // El banco se lleva todo lo que haya, aunque no alcance al mínimo.
                 decimal swept = Math.Min(character.Money, debt.Balance);
-                character.Money -= swept;
+                character.Move(date, "movimiento.pago_deuda", -swept, debt.TypeId);
                 debt.Balance -= swept;
                 debt.MonthsLate = swept < installment ? debt.MonthsLate + 1 : 0;
                 return swept;
@@ -137,7 +138,7 @@ namespace MistakesLife.Core.Economy
                 return 0;
             }
 
-            character.Money -= installment;
+            character.Move(date, "movimiento.pago_deuda", -installment, debt.TypeId);
             debt.Balance -= installment;
             debt.RemainingInstallments = Math.Max(1, debt.RemainingInstallments - 1);
             debt.MonthsLate = 0;
@@ -224,7 +225,7 @@ namespace MistakesLife.Core.Economy
         /// Endeudarse: suma el monto (a precios de hoy) a la deuda de ese tipo, o
         /// abre una nueva, con todas sus cuotas. Si el tipo entrega dinero, llega a su saldo.
         /// </summary>
-        public static void Borrow(Character character, DebtTypeDefinition type, decimal amount, double priceIndex)
+        public static void Borrow(GameDate date, Character character, DebtTypeDefinition type, decimal amount, double priceIndex)
         {
             Debt? debt = character.Debts.FirstOrDefault(d => d.TypeId == type.Id);
             if (debt == null)
@@ -239,7 +240,7 @@ namespace MistakesLife.Core.Economy
 
             if (type.GivesMoney)
             {
-                character.Money += amount;
+                character.Move(date, "movimiento.prestamo", amount, type.Id);
             }
         }
 

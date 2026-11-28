@@ -2,6 +2,7 @@ using System.Linq;
 using MistakesLife.Core.Characters;
 using MistakesLife.Core.Content;
 using MistakesLife.Core.Scripting;
+using MistakesLife.Core.Time;
 using MistakesLife.Core.Worlds;
 
 namespace MistakesLife.Core.Economy
@@ -51,9 +52,9 @@ namespace MistakesLife.Core.Economy
 
             decimal baseRent = MarketRent(content, character, typeId);
             double priceIndex = world.EconomyOf(character.Residence!.CountryId)?.PriceIndex ?? 1;
-            Leave(character);
+            Leave(world.Date, character);
             decimal deposit = PayrollCalculator.ToToday(baseRent, priceIndex) * rules.DepositMonths;
-            character.Money -= deposit;
+            character.Move(world.Date, "movimiento.garantia", -deposit, typeId);
             character.Lease = new Lease(typeId, character.Residence.CommuneId, baseRent, priceIndex, rules.TermMonths, deposit);
             character.SetFlag(LivesOnOwnFlag);
             return character.Lease;
@@ -86,14 +87,14 @@ namespace MistakesLife.Core.Economy
         }
 
         /// <summary>Deja el arriendo: recupera la garantía y ya no vive por su cuenta.</summary>
-        public static void Leave(Character character)
+        public static void Leave(GameDate date, Character character)
         {
             if (character.Lease == null)
             {
                 return;
             }
 
-            character.Money += character.Lease.Deposit;
+            character.Move(date, "movimiento.devolucion_garantia", character.Lease.Deposit, character.Lease.TypeId);
             character.Lease = null;
             character.ClearFlag(LivesOnOwnFlag);
         }

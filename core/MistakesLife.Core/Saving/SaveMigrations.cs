@@ -369,6 +369,10 @@ namespace MistakesLife.Core.Saving
             // 49 → 50: cada relación recuerda la última vez que hicieron algo juntos (D5c2, para
             // sugerir con quién salir). En las partidas viejas nadie lo recuerda: se lee vacío.
             [49] = save => { },
+
+            // 50 → 51: aparece la cuenta del banco con su cartola (D6-1b). En las partidas viejas
+            // nadie tiene cuenta: se maneja efectivo hasta que el jugador abre una.
+            [50] = save => { },
         };
 
         /// <summary>Lleva un guardado de cualquier versión anterior a la actual.</summary>

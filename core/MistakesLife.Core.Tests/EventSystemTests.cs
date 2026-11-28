@@ -93,6 +93,28 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void OpcionQueDejoDeCumplirse_AntesDeElegirla_SeAnotaSinSusEfectos()
+        {
+            var (world, cycle, events) = Setup(Content(events: @"[
+              { ""id"": ""evento.a"", ""opciones"": [
+                { ""texto"": ""opcion.si_tiene"", ""condiciones"": ""jugador.tiene('llave')"", ""efectos"": [""jugador.marcar('abrio')""] },
+                { ""texto"": ""opcion.otra"" } ] }
+            ]", seeds: "[]"));
+            world.Player.SetFlag("llave");
+            cycle.AdvanceWeeks(world, 1);
+            PendingEvent pending = world.PendingEvents.Single();
+            Assert.Contains(0, pending.AvailableOptions);
+
+            // Algo de la misma semana cambió antes de elegir.
+            world.Player.ClearFlag("llave");
+            events.Choose(world, pending, 0);
+
+            Assert.False(world.Player.HasFlag("abrio"));
+            Assert.Empty(world.PendingEvents);
+            Assert.Equal(0, world.EventHistory.Single().ChosenOption);
+        }
+
+        [Fact]
         public void EventoUnico_NoSeRepite()
         {
             var (world, cycle, events) = Setup(Content());

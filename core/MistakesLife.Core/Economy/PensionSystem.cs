@@ -88,7 +88,7 @@ namespace MistakesLife.Core.Economy
                     paid += PayrollCalculator.ToToday(universal, economy.PriceIndex);
                 }
 
-                character.Money += paid;
+                character.Move(context.Date, "movimiento.pension", paid);
                 character.LastPensionPayment = paid;
             }
         }

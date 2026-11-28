@@ -185,6 +185,17 @@ namespace MistakesLife.Core.Saving
                 character.UnemploymentClaim = claim;
             }
 
+            if (d.Account != null)
+            {
+                var account = new BankAccount(d.Account.BankId, Date(d.Account.OpenedWeek));
+                foreach (BankMovementData movement in d.Account.Movements)
+                {
+                    account.Add(new BankMovement(Date(movement.Week), movement.Id, movement.Amount, movement.Detail));
+                }
+
+                character.Account = account;
+            }
+
             if (d.Venture != null)
             {
                 character.Venture = new Venture(d.Venture.PartnerId, d.Venture.Formal, d.Venture.Contribution, d.Venture.Luck)
