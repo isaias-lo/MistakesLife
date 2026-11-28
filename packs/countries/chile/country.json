@@ -319,9 +319,9 @@
     "bancos": {
       "edad_minima": 18,
       "lista": [
-        { "id": "banco.chile.nacional", "tipo": "estatal", "cuenta": "cuenta.vista", "mantencion": 0 },
-        { "id": "banco.chile.pacifico", "tipo": "grande", "cuenta": "cuenta.corriente", "mantencion": 7900, "renta_minima": 600000, "pide_contrato": true },
-        { "id": "banco.chile.tapp", "tipo": "digital", "cuenta": "cuenta.vista", "mantencion": 0 }
+        { "id": "banco.chile.nacional", "lineas": ["banco.chile.nacional.linea.1", "banco.chile.nacional.linea.2", "banco.chile.nacional.linea.3"], "tipo": "estatal", "cuenta": "cuenta.vista", "mantencion": 0 },
+        { "id": "banco.chile.pacifico", "lineas": ["banco.chile.pacifico.linea.1", "banco.chile.pacifico.linea.2", "banco.chile.pacifico.linea.3"], "tipo": "grande", "cuenta": "cuenta.corriente", "mantencion": 7900, "renta_minima": 600000, "pide_contrato": true },
+        { "id": "banco.chile.tapp", "lineas": ["banco.chile.tapp.linea.1", "banco.chile.tapp.linea.2", "banco.chile.tapp.linea.3"], "tipo": "digital", "cuenta": "cuenta.vista", "mantencion": 0 }
       ],
       "diario_cuenta_abierta": "diario.chile.banco.cuenta_abierta",
       "diario_rechazo_contrato": "diario.chile.banco.rechazo_contrato",

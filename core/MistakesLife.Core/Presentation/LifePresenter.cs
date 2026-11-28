@@ -1006,8 +1006,11 @@ namespace MistakesLife.Core.Presentation
         public IReadOnlyList<ActionView> MoneyActions() =>
             Session.Requestable()
                 .Where(e => e.Place == WalletPlace)
-                .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey)))
+                .Select(e => new ActionView(e.Id, T(e.OnRequest!.TextKey), OpensBank(e)))
                 .ToList();
+
+        private static bool OpensBank(EventDefinition definition) =>
+            definition.Options.Any(o => o.Effects.Any(e => e.Contains("." + CharacterObject.OpenAccountMethod + "(")));
 
         /// <summary>El lugar de las decisiones de plata: sus botones van en Tu dinero.</summary>
         public const string WalletPlace = "lugar.dinero";
@@ -1976,40 +1979,181 @@ namespace MistakesLife.Core.Presentation
                     month.Select(MovementLine).ToList()));
             }
 
+            // Lo que te entró en el año: cada causa con su total, de la más grande a la más chica.
+            int yearAgo = Session.World.Date.TotalWeeks - GameDate.WeeksPerYear;
+            var year = account.Movements
+                .Where(m => m.Amount > 0 && m.Date.TotalWeeks > yearAgo && !NotIncome.Contains(m.Id))
+                .GroupBy(m => MovementLine(m).Label)
+                .Select(g => (Label: g.Key, Id: g.First().Id, Total: g.Sum(m => m.Amount)))
+                .OrderByDescending(g => g.Total)
+                .ToList();
+            decimal yearTotal = year.Sum(g => g.Total);
+
             double index = Session.World.EconomyOf(player.Residence?.CountryId ?? string.Empty)?.PriceIndex ?? 1;
             decimal fund = PayrollCalculator.ToToday(player.UnemploymentFund, index);
             return new BankView(
+                bank?.Kind ?? string.Empty,
+                BankInitials(T(account.BankId)),
                 T(account.BankId),
                 bank == null ? string.Empty : T(bank.AccountKind),
                 Text("ui.banco.abierta", account.Opened.DayOfMonth, T("ui.mes." + account.Opened.Month), account.Opened.Year),
                 Signed(player.Money),
                 months,
-                fund > 0 ? MoneyLabel(fund) : string.Empty);
+                fund > 0 ? MoneyLabel(fund) : string.Empty,
+                year.Select(g => new MoneyLineView(g.Id, g.Label, "+" + MoneyLabel(g.Total), true, string.Empty)).ToList(),
+                yearTotal > 0 ? "+" + MoneyLabel(yearTotal) : string.Empty);
         }
+
+        /// <summary>Lo que entra a la cuenta sin ser un ingreso: el efectivo que ya tenías y la plata prestada.</summary>
+        private static readonly string[] NotIncome = { Economy.BankRules.OpeningDeposit, "movimiento.prestamo", "movimiento.devolucion_garantia" };
+
+        /// <summary>
+        /// Los bancos de tu país donde puedes abrir tu cuenta (D6-1c), en su orden, con lo bueno y
+        /// lo malo de cada uno y, si no cumples, por qué. Vacío si ya tienes cuenta o si en tu país
+        /// no hay bancos.
+        /// </summary>
+        public IReadOnlyList<BankOfferView> BankOffers()
+        {
+            Character player = Session.World.Player;
+            BanksDefinition? banks = Economy.BankRules.BanksFor(Session.Content, player);
+            var offers = new List<BankOfferView>();
+            if (banks == null || player.Account != null)
+            {
+                return offers;
+            }
+
+            foreach (BankDefinition bank in banks.Banks)
+            {
+                Economy.BankRules.Refusal refusal = Economy.BankRules.Check(Session.World, banks, bank, player);
+                string name = T(bank.Id);
+                offers.Add(new BankOfferView(
+                    bank.Id,
+                    bank.Kind,
+                    name,
+                    BankInitials(name),
+                    T("ui.banco.tipo." + bank.Kind),
+                    T(bank.AccountKind),
+                    bank.Lines.Select(T).ToList(),
+                    refusal == Economy.BankRules.Refusal.None,
+                    RefusalLabel(banks, bank, player, refusal)));
+            }
+
+            return offers;
+        }
+
+        /// <summary>
+        /// Pides tu cuenta en ese banco (D6-1c). El banco contesta al tiro: si quedó lista, dónde
+        /// quedó tu efectivo, cuánto cobra y qué te llega; si no, por qué.
+        /// </summary>
+        public BankAnswerView OpenAccount(string bankId)
+        {
+            Character player = Session.World.Player;
+            BanksDefinition banks = Economy.BankRules.BanksFor(Session.Content, player)
+                ?? throw new InvalidOperationException("En el país donde vive no hay bancos.");
+            BankDefinition bank = banks.Bank(bankId) ?? throw new ArgumentException($"El banco {bankId} no existe en su país.", nameof(bankId));
+            decimal cash = player.Money;
+            Economy.BankRules.Refusal refusal = Session.OpenAccount(bankId);
+            if (refusal != Economy.BankRules.Refusal.None)
+            {
+                return new BankAnswerView(false, T("ui.banco.no"), RefusalLabel(banks, bank, player, refusal));
+            }
+
+            double index = Session.World.EconomyOf(player.Residence!.CountryId)?.PriceIndex ?? 1;
+            decimal fee = Economy.BankRules.MonthlyFee(Session.Content, player, index);
+            string account = T(bank.AccountKind);
+            var message = new List<string>();
+            if (cash > 0)
+            {
+                message.Add(Text("ui.banco.deposito", MoneyLabel(cash)));
+            }
+
+            message.Add(fee > 0 ? Text("ui.banco.mantencion", MoneyLabel(fee)) : T("ui.banco.sin_mantencion"));
+            message.Add(T("ui.banco.tarjeta_debito"));
+            return new BankAnswerView(true, Text("ui.banco.lista", account.Length == 0 ? account : char.ToLowerInvariant(account[0]) + account.Substring(1)), string.Join(" ", message));
+        }
+
+        private string RefusalLabel(BanksDefinition banks, BankDefinition bank, Character player, Economy.BankRules.Refusal refusal)
+        {
+            switch (refusal)
+            {
+                case Economy.BankRules.Refusal.Age:
+                    return Text("ui.banco.pide_edad", banks.MinAge);
+                case Economy.BankRules.Refusal.Contract:
+                    return T("ui.banco.pide_contrato");
+                case Economy.BankRules.Refusal.Income:
+                    double index = Session.World.EconomyOf(player.Residence!.CountryId)?.PriceIndex ?? 1;
+                    decimal net = player.Job != null ? player.LastPayslip?.Net ?? 0 : 0;
+                    return Text("ui.banco.pide_renta", MoneyLabel(PayrollCalculator.ToToday(bank.MinIncome, index)), MoneyLabel(net));
+                default:
+                    return string.Empty;
+            }
+        }
+
+        /// <summary>"Banco Pacífico" → "BP"; "Tapp" → "T".</summary>
+        private static string BankInitials(string name) =>
+            string.Concat(name.Split(' ').Where(w => w.Length > 0).Take(2).Select(w => char.ToUpperInvariant(w[0])));
 
         /// <summary>
         /// Los avisos del banco que todavía no viste (D6-1b): lo que te llegó a la cuenta desde la
         /// última vez que preguntaste (el sueldo, la pensión, el Seguro de Cesantía). La primera
-        /// vez solo cuenta lo de esta semana. No se guarda: es solo para la pantalla.
+        /// vez solo cuenta lo de la última semana. No se guarda: es solo para la pantalla.
+        /// Se recuerda el último movimiento visto (no la fecha): el sueldo de una semana se anota
+        /// con la fecha en que empezó esa semana, que ya es "antes" cuando el juego pregunta.
         /// </summary>
         public IReadOnlyList<MoneyLineView> TakeBankNotices()
         {
             Economy.BankAccount? account = Session.World.Player.Account;
-            int now = Session.World.Date.TotalWeeks;
-            int since = _bankNoticesSeen ?? now - 1;
-            _bankNoticesSeen = now;
             if (account == null)
             {
+                _lastBankMovementSeen = null;
                 return new List<MoneyLineView>();
             }
 
-            return account.Movements
-                .Where(m => m.Amount > 0 && m.Date.TotalWeeks > since && m.Id != Economy.BankRules.OpeningDeposit)
-                .Select(MovementLine)
-                .ToList();
+            IReadOnlyList<Economy.BankMovement> movements = account.Movements;
+            int first = 0;
+            int seen = _lastBankMovementSeen == null ? -1 : IndexOf(movements, _lastBankMovementSeen);
+            if (seen >= 0)
+            {
+                first = seen + 1;
+            }
+            else
+            {
+                // Primera vez (o el visto ya se borró de la cartola): lo de la última semana.
+                int since = Session.World.Date.TotalWeeks - 1;
+                while (first < movements.Count && movements[first].Date.TotalWeeks < since)
+                {
+                    first++;
+                }
+            }
+
+            _lastBankMovementSeen = movements.Count > 0 ? movements[movements.Count - 1] : null;
+            var notices = new List<MoneyLineView>();
+            for (int i = first; i < movements.Count; i++)
+            {
+                Economy.BankMovement movement = movements[i];
+                if (movement.Amount > 0 && movement.Id != Economy.BankRules.OpeningDeposit)
+                {
+                    notices.Add(MovementLine(movement));
+                }
+            }
+
+            return notices;
         }
 
-        private int? _bankNoticesSeen;
+        private static int IndexOf(IReadOnlyList<Economy.BankMovement> movements, Economy.BankMovement movement)
+        {
+            for (int i = movements.Count - 1; i >= 0; i--)
+            {
+                if (ReferenceEquals(movements[i], movement))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        private Economy.BankMovement? _lastBankMovementSeen;
 
         /// <summary>Una línea de la cartola: qué fue, de quién, cuánto y su fecha.</summary>
         private MoneyLineView MovementLine(Economy.BankMovement movement)

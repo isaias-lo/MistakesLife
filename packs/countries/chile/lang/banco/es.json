@@ -16,5 +16,14 @@
   "diario.chile.banco.cuenta_abierta": "Abriste tu cuenta en el banco. Desde hoy, cada peso que entra o sale queda anotado en tu cartola.",
   "diario.chile.banco.rechazo_contrato": "El banco te dijo que no: para esa cuenta piden un contrato de trabajo. Sin contrato, no te la abren.",
   "diario.chile.banco.rechazo_renta": "El banco te dijo que no: tu sueldo no llega a lo que piden para esa cuenta.",
-  "diario.chile.banco.rechazo_edad": "El banco te dijo que no: todavía no tienes edad para abrir una cuenta a tu nombre."
+  "diario.chile.banco.rechazo_edad": "El banco te dijo que no: todavía no tienes edad para abrir una cuenta a tu nombre.",
+  "banco.chile.nacional.linea.1": "Cuenta vista con tu carnet, sin requisitos",
+  "banco.chile.nacional.linea.2": "Sin costo de mantención",
+  "banco.chile.nacional.linea.3": "Una sucursal en cada comuna",
+  "banco.chile.pacifico.linea.1": "Cuenta corriente con chequera",
+  "banco.chile.pacifico.linea.2": "Pide contrato y un sueldo alto",
+  "banco.chile.pacifico.linea.3": "Cobra mantención todos los meses",
+  "banco.chile.tapp.linea.1": "Todo desde el celular, sin sucursal",
+  "banco.chile.tapp.linea.2": "Sin costo de mantención",
+  "banco.chile.tapp.linea.3": "Te abren la cuenta en minutos"
 }

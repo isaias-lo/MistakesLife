@@ -58,6 +58,7 @@ namespace MistakesLife.Unity
             "escena.casa.velas" => "ancla.mesa",
             "escena.casa.celular" => "ancla.mesa",
             "escena.casa.celular_avisos" => "ancla.mesa",
+            "escena.casa.billetera_tarjeta" => "ancla.mesa",
             "escena.casa.ropa_entrevista" => "ancla.ropero",
             "escena.casa.mochila_emergencia" => "ancla.puerta",
             "escena.casa.tarjeta_transporte" => "ancla.puerta",
@@ -252,6 +253,11 @@ namespace MistakesLife.Unity
                     phone.transform.localRotation = Quaternion.Euler(0f, 12f, 0f);
                     GameObject off = kit.Box("Pantalla del celular", new Vector3(0f, 0.4555f, 0.36f), new Vector3(0.078f, 0.002f, 0.15f), Palette.Screen);
                     off.transform.localRotation = Quaternion.Euler(0f, 12f, 0f);
+                    break;
+                case "escena.casa.billetera_tarjeta":
+                    // Abriste tu cuenta: la billetera con la tarjeta de débito encima (reserva mínima; el modelo es de Blender).
+                    kit.Box("Billetera", new Vector3(0.17f, 0.449f, 0.39f), new Vector3(0.11f, 0.018f, 0.09f), new Color(0.30f, 0.18f, 0.11f));
+                    kit.Box("Tarjeta de débito", new Vector3(0.2f, 0.4605f, 0.38f), new Vector3(0.086f, 0.002f, 0.054f), new Color(0.12f, 0.20f, 0.36f));
                     break;
                 case "escena.casa.celular_avisos":
                     // Llegaron correos sin leer: la pantalla del celular se ilumina y aparece el punto rojo.

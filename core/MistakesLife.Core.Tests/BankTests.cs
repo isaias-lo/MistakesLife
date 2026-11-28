@@ -204,6 +204,30 @@ namespace MistakesLife.Core.Tests
         }
 
         [Fact]
+        public void AvisosDelBanco_PreguntandoCadaSemana_TraenElSueldo()
+        {
+            // Así los pide el juego: una vez por semana, después de avanzar.
+            LifeSession session = At24();
+            World world = session.World;
+            world.Player.Money = 100000;
+            Run(world, "jugador.abrir_cuenta('banco.chile.nacional')");
+            var presenter = new LifePresenter(session);
+            presenter.TakeBankNotices();
+            Run(world, "jugador.trabajar(900000)");
+
+            var seen = new System.Collections.Generic.List<MoneyLineView>();
+            for (int week = 0; week < 9; week++)
+            {
+                Play(session, 1);
+                seen.AddRange(presenter.TakeBankNotices());
+            }
+
+            Assert.Contains(seen, n => n.Id == "movimiento.remuneracion");
+            int paid = world.Player.Account!.Movements.Count(m => m.Id == "movimiento.remuneracion");
+            Assert.Equal(paid, seen.Count(n => n.Id == "movimiento.remuneracion"));
+        }
+
+        [Fact]
         public void GuardarYCargar_ConservaLaCuentaYLaCartola()
         {
             LifeSession session = At24();
@@ -226,6 +250,73 @@ namespace MistakesLife.Core.Tests
             account.Add(new BankMovement(GameDate.Start.AddWeeks(BankAccount.KeptWeeks + 1), "movimiento.otro", 2, ""));
 
             Assert.Equal(2, Assert.Single(account.Movements).Amount);
+        }
+
+        [Fact]
+        public void PantallaDelBanco_MuestraLosTresBancos_YDiceConPalabrasPorQueUnoNoTeAbre()
+        {
+            LifeSession session = At24();
+            var presenter = new LifePresenter(session);
+
+            var offers = presenter.BankOffers();
+
+            Assert.Equal(new[] { "Banco Nacional", "Banco Pacífico", "Tapp" }, offers.Select(o => o.Name));
+            Assert.Equal(new[] { "BN", "BP", "T" }, offers.Select(o => o.Initials));
+            Assert.All(offers, o => Assert.Equal(3, o.Lines.Count));
+            BankOfferView pacific = offers[1];
+            Assert.Equal("Grande", pacific.KindLabel);
+            Assert.False(pacific.CanOpen);
+            Assert.Equal("Pide un trabajo con contrato", pacific.Reason);
+            Assert.True(offers[0].CanOpen);
+            Assert.Equal(string.Empty, offers[0].Reason);
+            Assert.True(Assert.Single(presenter.MoneyActions(), a => a.EventId == "evento.banco.abrir_cuenta").OpensBank);
+        }
+
+        [Fact]
+        public void AbrirDesdeLaPantalla_ElBancoContestaAlTiroConLoQueCambia()
+        {
+            LifeSession session = At24();
+            session.World.Player.Money = 38000;
+            var presenter = new LifePresenter(session);
+
+            BankAnswerView answer = presenter.OpenAccount("banco.chile.nacional");
+
+            Assert.True(answer.Opened);
+            Assert.Equal("Tu cuenta vista está lista", answer.Title);
+            Assert.Equal("Se depositaron tus $38.000 en efectivo. No cobra mantención. Te llega la tarjeta de débito.", answer.Message);
+            Assert.Empty(presenter.BankOffers());
+            Assert.NotNull(presenter.Bank());
+        }
+
+        [Fact]
+        public void AbrirDesdeLaPantalla_SinCumplir_ElBancoDiceQueNoYPorQue()
+        {
+            LifeSession session = At24();
+            var presenter = new LifePresenter(session);
+
+            BankAnswerView answer = presenter.OpenAccount("banco.chile.pacifico");
+
+            Assert.False(answer.Opened);
+            Assert.Equal("El banco te dijo que no", answer.Title);
+            Assert.Equal("Pide un trabajo con contrato", answer.Message);
+            Assert.Null(session.World.Player.Account);
+        }
+
+        [Fact]
+        public void LoQueTeEntraEnElAno_SumaElSueldo_SinElEfectivoDelPrincipio()
+        {
+            LifeSession session = At24();
+            World world = session.World;
+            world.Player.Money = 2_000_000;
+            Run(world, "jugador.abrir_cuenta('banco.chile.nacional')");
+            Run(world, "jugador.trabajar(900000)");
+            Play(session, 14);
+
+            BankView bank = new LifePresenter(session).Bank()!;
+
+            Assert.Contains(bank.YearIncome, l => l.Id == "movimiento.remuneracion");
+            Assert.DoesNotContain(bank.YearIncome, l => l.Id == BankRules.OpeningDeposit);
+            Assert.StartsWith("+$", bank.YearIncomeLabel);
         }
     }
 }

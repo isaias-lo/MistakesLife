@@ -407,6 +407,26 @@ namespace MistakesLife.Core.Game
         public bool Request(string eventId, int personId) => Events.Request(World, eventId, personId);
 
         /// <summary>
+        /// El jugador pide abrir su cuenta en ese banco desde la pantalla del banco (D6-1c): si
+        /// cumple, se abre al tiro; si no, el banco dice que no y queda en el diario. Devuelve el
+        /// motivo del rechazo (o <see cref="Economy.BankRules.Refusal.None"/> si se abrió).
+        /// </summary>
+        public Economy.BankRules.Refusal OpenAccount(string bankId)
+        {
+            if (Pending != null)
+            {
+                throw new InvalidOperationException("Hay un evento pendiente: primero se elige su opción.");
+            }
+
+            Content.BanksDefinition banks = Economy.BankRules.BanksFor(Content, World.Player)
+                ?? throw new InvalidOperationException("En el país donde vive no hay bancos.");
+            Content.BankDefinition bank = banks.Bank(bankId) ?? throw new ArgumentException($"El banco {bankId} no existe en su país.", nameof(bankId));
+            Economy.BankRules.Refusal refusal = Economy.BankRules.Check(World, banks, bank, World.Player);
+            Economy.BankRules.Open(World, Content, World.Player, bankId);
+            return refusal;
+        }
+
+        /// <summary>
         /// El jugador abre un correo de su bandeja (la posición en
         /// <see cref="MailAccount.Messages"/>): queda leído. Leer no cambia la vida;
         /// lo que importa del correo ya pasó o lo pregunta un evento.
